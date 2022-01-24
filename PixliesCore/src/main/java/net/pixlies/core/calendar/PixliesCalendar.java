@@ -5,14 +5,16 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import net.pixlies.core.Main;
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
 import org.bukkit.World;
-import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@EqualsAndHashCode(callSuper = false)
+/**
+ * @author MickMMars
+ * This is the class + runner for the Pixlies in-game calendar.
+ */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class PixliesCalendar extends Thread {
 
@@ -45,6 +47,14 @@ public class PixliesCalendar extends Thread {
         return Bukkit.getWorld("world");
     }
 
+    /**
+     * This code gets executed once a day is passed.
+     *
+     * It first increments the number of the days, if necessary, increments the number
+     * of the month. If necessary it increments the number of the year.
+     *
+     * If it encounters an event from calendar.yml, it executes the event runner.
+     */
     public void dayPassed() {
         this.day++;
         if (this.day > daysInMonth) {
