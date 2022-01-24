@@ -27,6 +27,11 @@
             <artifactId>lombok</artifactId>
             <version>1.18.22</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.stefvanschie.inventoryframework</groupId>
+            <artifactId>IF</artifactId>
+            <version>0.10.4</version>
+        </dependency>
     </dependencies>
 
     <pluginRepositories>
@@ -73,6 +78,12 @@
                                     </excludes>
                                 </filter>
                             </filters>
+                            <relocations>
+                                <relocation>
+                                    <pattern>com.github.stefvanschie.inventoryframework</pattern>
+                                    <shadedPattern>net.pixlies.inventoryframework</shadedPattern>
+                                </relocation>
+                            </relocations>
                         </configuration>
                     </execution>
                 </executions>

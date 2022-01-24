@@ -2,5 +2,6 @@
   "name": "NationModule",
   "authors": ["TAMaurice", "MickMMars"],
   "version": "1.0.0",
-  "main": "net.pixlies.nations.Nations"
+  "main": "net.pixlies.nations.Nations",
+  "icon": "campfire"
 }
