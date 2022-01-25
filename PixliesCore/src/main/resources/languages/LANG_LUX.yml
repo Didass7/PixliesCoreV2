@@ -1,0 +1,15 @@
+BAN_MESSAGE: |- §7Du guefs vun §bPixlies§fNet§7 gebannt!.
+  
+  §7Grond: §c%REASON%
+  §7Durée: §b%DURATION%
+  
+  §7Ban-ID: §f%BAN_ID%
+BANNED_PLAYER_TRIED_TO_JOIN: '§6%PLAYER% §7huet versicht sech ze verbannen, mee ass gebannt!'
+PLAYER_PERMANENTLY_BANNED: '§6%PLAYER% §7guef vum §6%EXECUTOR% $7gebannt wéngst §c"%REASON%"'
+PLAYER_TEMPORARILY_BANNED: '§6%PLAYER% §7guef vum §6%EXECUTOR% §7gebannt wéngst §c"%REASON%" §7fir §c%TIME%'
+PLAYER_PERMANENTLY_MUTED: '§6%PLAYER% §7guef vum §6%EXECUTOR% §7gemuted wéngst §c"%REASON%"'
+PLAYER_TEMPORARILY_MUTED: '§6%PLAYER% §7guef vum §6%EXECUTOR% §7gemuted wéngst §c"%REASON%" §7fir §c%TIME%'
+MUTE_MESSAGE: "§cDu bass gemute an daarfs net schwätzen."
+MUTED_PLAYER_TRIED_TO_TALK: '§6%PLAYER% §7huet versicht ze schwätzen, mee ass gemute!'
+
+PLAYER_DOESNT_EXIST: "§cDësse Spiller gëtt et net."
