@@ -1,6 +1,7 @@
 package net.pixlies.core.modules;
 
 import lombok.Data;
+import org.bukkit.Material;
 
 @Data
 public class ModuleDescription {
@@ -9,13 +10,15 @@ public class ModuleDescription {
     private final String[] authors;
     private final String version;
     private final String main;
+    private final Material icon;
     private boolean activated;
 
-    public ModuleDescription(String name, String[] authors, String version, String main) {
+    public ModuleDescription(String name, String[] authors, String version, String main, String icon) {
         this.name = name;
         this.authors = authors;
         this.version = version;
         this.main = main;
+        this.icon = Material.getMaterial(icon.toUpperCase());
         activated = true;
     }
 

@@ -1,5 +1,7 @@
 package net.pixlies.core.entity;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import net.pixlies.core.Main;
@@ -24,12 +26,15 @@ public class User {
 
     private static final Main instance = Main.getInstance();
 
+    private static final Gson gson = new Gson();
+
     private UUID uuid;
     private long joined;
     private String discordId;
     private Map<String, Wallet> wallets;
     private List<String> knownUsernames;
     private List<UUID> blockedUsers;
+    private JsonObject stats;
     private Map<String, Punishment> currentPunishments;
     private String lang;
 
@@ -112,10 +117,11 @@ public class User {
         if (found == null) {
             profile.append("joined", System.currentTimeMillis());
             profile.append("discordId", "NONE");
-            profile.append("wallets", Wallet.getDefaultWallets());
+            profile.append("wallets", Wallet.mapAllForMongo(Wallet.getDefaultWallets()));
             profile.append("knownUsernames", new ArrayList<>());
             profile.append("blockedUsers", new ArrayList<>());
-            profile.append("currentPunishments", new HashMap<>());
+            profile.append("stats", gson.toJson(new JsonObject()));
+            profile.append("currentPunishments", Punishment.mapAllForMongo(new HashMap<>()));
             profile.append("lang", "ENG");
 
             instance.getDatabase().getUserCollection().insertOne(profile);
@@ -127,6 +133,7 @@ public class User {
                     Wallet.getDefaultWallets(),
                     new ArrayList<>(),
                     new ArrayList<>(),
+                    new JsonObject(),
                     new HashMap<>(),
                     "ENG"
             );
@@ -140,6 +147,7 @@ public class User {
                     Wallet.getFromMongo((Map<String, Map<String, Object>>) found.get("wallets", Map.class)),
                     found.getList("knownUsernames", String.class),
                     found.getList("blockedUsers", String.class).stream().map(UUID::fromString).collect(Collectors.toList()),
+                    gson.fromJson(found.getString("stats"), JsonObject.class),
                     Punishment.getFromMongo((Map<String, Map<String, Object>>) found.get("currentPunishments")),
                     found.getString("lang")
             );
@@ -159,6 +167,7 @@ public class User {
                 .map(UUID::toString)
                 .collect(Collectors.toList())
         );
+        profile.append("stats", gson.toJson(stats));
         profile.append("currentPunishments", Punishment.mapAllForMongo(currentPunishments));
         profile.append("lang", lang);
         instance.getDatabase().getUserCollection().replaceOne(found, profile);
