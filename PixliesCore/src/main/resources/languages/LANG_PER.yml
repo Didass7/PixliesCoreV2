@@ -1,0 +1,17 @@
+BAN_MESSAGE: |-
+  §7شما از §bPixliesNet بلکلیست شدین!
+
+  §7دلیل: §c%REASON%
+  §7زمان: §b%DURATION%
+
+  §7Ban-ID: §f%BAN_ID%
+
+BANNED_PLAYER_TRIED_TO_JOIN: '§6%PLAYER% §7میخاست بازی کنه ولی بلکلیست شده!'
+PLAYER_PERMANENTLY_BANNED: '§6%PLAYER% §7wurde von §6%EXECUTOR% $7gebannt wegen §c"%REASON%"'
+PLAYER_TEMPORARILY_BANNED: '§6%PLAYER% §7wurde von §6%EXECUTOR% §7gebannt wegen §c"%REASON%" §7für §c%TIME%'
+PLAYER_PERMANENTLY_MUTED: '§6%PLAYER% §7wurde von §6%EXECUTOR% §7gemuted wegen §c"%REASON%"'
+PLAYER_TEMPORARILY_MUTED: '§6%PLAYER% §7wurde von §6%EXECUTOR% §7gemuted wegen §c"%REASON%" §7für §c%TIME%'
+MUTE_MESSAGE: "§cDu bist gemuted und kannst den Chat nicht nutzen."
+MUTED_PLAYER_TRIED_TO_TALK: '§6%PLAYER% §7versuchte zu sprechen, ist aber gemuted!'
+
+PLAYER_DOESNT_EXIST: "§cDieser Spieler existiert nicht."
