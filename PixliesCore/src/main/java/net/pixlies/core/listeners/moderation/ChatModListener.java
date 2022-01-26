@@ -30,13 +30,21 @@ public class ChatModListener implements Listener {
         }
 
         if (!instance.isSwearFilter() && !player.hasPermission("pixlies.moderation.bypass.swearfilter")) {
-            List<String> swearWords = config.getStringList("swearwords");
+            List<String> swearWords = config.getStringList("swearWords");
             for (String s : swearWords) {
                 if (message.toLowerCase().contains(s)) {
                     event.setCancelled(true);
                     Lang.PLAYER_TRIED_TO_SWEAR.send(player);
                     return;
                 }
+            }
+        }
+
+        List<String> blockedWords = instance.getConfig().getStringList("blockedWords");
+        for (String s : blockedWords) {
+            if (message.contains(s) && !player.hasPermission("pixlies.moderation.bypass.blockedwords")) {
+                Lang.PLAYER_TRIED_BLOCKED_WORD.send(player);
+                event.setCancelled(true);
             }
         }
 

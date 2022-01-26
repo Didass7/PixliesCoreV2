@@ -34,6 +34,10 @@ public enum Lang {
     SWEAR_FILTER_OFF(Lang.EARTH, new HashMap<>()),
     PLAYER_TRIED_TO_SWEAR(Lang.EARTH, new HashMap<>()),
 
+    ADDED_BLOCKED_WORD(Lang.EARTH, new HashMap<>()),
+    REMOVED_BLOCKED_WORD(Lang.EARTH, new HashMap<>()),
+    PLAYER_TRIED_BLOCKED_WORD(Lang.EARTH, new HashMap<>()),
+
     PLAYER_DOESNT_EXIST(Lang.EARTH, new HashMap<>());
 
     private final String PREFIX;
