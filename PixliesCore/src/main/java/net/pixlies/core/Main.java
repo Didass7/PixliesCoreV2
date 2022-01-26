@@ -14,13 +14,14 @@ import java.io.File;
 
 public class Main extends JavaPlugin {
 
-    private static @Getter Main instance;
+    @Getter private static Main instance;
 
     @Getter private MongoDB database;
     @Getter private ModuleManager moduleManager;
     @Getter private CommandManager commandManager;
     @Getter private PixliesCalendar calendar;
 
+    @Getter private Config config;
     @Getter private Config calendarConfig;
 
     @Getter @Setter
@@ -36,6 +37,7 @@ public class Main extends JavaPlugin {
         chatMuted = false;
         swearFilter = false;
 
+        config = new Config(new File(getDataFolder().getAbsolutePath() + "/config.yml"), "config.yml");
         calendarConfig = new Config(new File(getDataFolder().getAbsolutePath() + "/calendar.yml"), "calendar.yml");
 
         String[] date = calendarConfig.getString("date", "0/0/0").split("/");

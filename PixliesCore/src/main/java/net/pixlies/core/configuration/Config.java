@@ -62,7 +62,6 @@ public class Config extends YamlConfiguration {
 
 
     public void createIfNotExists() {
-
         if (file.exists()) {
             reload();
             return;
@@ -79,7 +78,6 @@ public class Config extends YamlConfiguration {
             e.printStackTrace();
             instance.getLogger().warning("Failed to create " + file.getName() + ".");
         }
-
     }
 
 }
