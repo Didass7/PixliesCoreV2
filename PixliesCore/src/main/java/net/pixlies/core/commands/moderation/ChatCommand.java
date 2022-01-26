@@ -4,6 +4,7 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import net.pixlies.core.Main;
+import net.pixlies.core.handlers.impl.ChatHandler;
 import net.pixlies.core.localization.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -17,29 +18,30 @@ import java.util.List;
 public class ChatCommand extends BaseCommand {
 
     private static final Main instance = Main.getInstance();
+    private final ChatHandler chatHandler = instance.getHandlerManager().getHandler(ChatHandler.class);
 
     @Default
     @Description("Chat moderation")
-    public static void onChat(CommandSender sender, @Optional String option, @Optional String word) {
+    public void onChat(CommandSender sender, @Optional String option, @Optional String word) {
         switch (option) {
             case "togglemute":
-                boolean chatMuted = instance.isChatMuted();
+                boolean chatMuted = chatHandler.isMuted();
                 if (chatMuted) {
                     Lang.CHAT_UNMUTED.broadcast("%PLAYER%;" + sender.getName());
                 } else {
                     Lang.CHAT_MUTED.broadcast("%PLAYER%;" + sender.getName());
                 }
-                instance.setChatMuted(!chatMuted);
+                chatHandler.setMuted(!chatMuted);
                 break;
 
             case "toggleswearing":
-                boolean swearFilter = instance.isSwearFilter();
+                boolean swearFilter = chatHandler.isSwearFilterEnabled();
                 if (swearFilter) {
                     Lang.SWEAR_FILTER_OFF.broadcast("%PLAYER%;" + sender.getName());
                 } else {
                     Lang.SWEAR_FILTER_ON.broadcast("%PLAYER%;" + sender.getName());
                 }
-                instance.setChatMuted(!swearFilter);
+                chatHandler.setSwearFilterEnabled(!swearFilter);
                 break;
 
             case "clear":
