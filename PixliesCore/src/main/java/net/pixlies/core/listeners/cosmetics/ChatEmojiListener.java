@@ -11,8 +11,9 @@ public class ChatEmojiListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onChat(AsyncChatEvent event) {
-        if (event.isCancelled()) return;
-        event.message(Component.text(Emojis.replaceEmojis(event.message().toString())));
+        if (!event.isCancelled()) {
+            event.message(Component.text(Emojis.replaceEmojis(event.message().toString())));
+        }
     }
 
 }

@@ -2,7 +2,7 @@ package net.pixlies.nations.nations.ranks;
 
 public enum Permission {
     INVITE,
-    MODERATE,
+    KICK,
 
     CLAIM,
     UNCLAIM,
@@ -20,11 +20,10 @@ public enum Permission {
 
     FOREIGN_PERMS,
 
-    DESCRIPTION,
-    NAME,
+    CHANGE_DESCRIPTION,
+    CHANGE_NAME,
     CHANGE_LEADERSHIP,
 
-    SET_FLAG,
     EDIT_FLAGS,
 
     DECLARE_WAR,
@@ -38,6 +37,5 @@ public enum Permission {
     CHUNK_MENU,
 
     MANAGE_ELECTIONS,
-    MANAGE_TAX
-    ;
+    MANAGE_TAX;
 }

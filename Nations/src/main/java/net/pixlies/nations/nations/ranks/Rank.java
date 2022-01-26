@@ -19,7 +19,10 @@ public class Rank {
 
     @SuppressWarnings("unchecked")
     public static Rank get(Map<String, Object> map) {
-        return new Rank((String) map.get("name"), (String) map.get("prefix"), (Short) map.get("priority"), (List<String>) map.get("permissions"));
+        return new Rank((String) map.get("name"),
+                (String) map.get("prefix"),
+                (Short) map.get("priority"),
+                (List<String>) map.get("permissions"));
     }
 
     public Map<String, Object> toMap() {
@@ -51,7 +54,7 @@ public class Rank {
     public static Rank ADMIN() {
         List<String> perms = new ArrayList<>(MEMBER().permissions);
         perms.add(Permission.INVITE.name());
-        perms.add(Permission.MODERATE.name());
+        perms.add(Permission.KICK.name());
         perms.add(Permission.MANAGE_SETTLEMENTS.name());
         perms.add(Permission.CLAIM.name());
         perms.add(Permission.UNCLAIM.name());
