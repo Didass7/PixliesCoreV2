@@ -47,21 +47,12 @@
             <artifactId>prettytime</artifactId>
             <version>5.0.2.Final</version>
         </dependency>
-        <dependency>
-            <groupId>org.incendo.interfaces</groupId>
-            <artifactId>interfaces-paper</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-        </dependency>
     </dependencies>
 
     <repositories>
         <repository>
             <id>purpur</id>
             <url>https://repo.purpurmc.org/snapshots</url>
-        </repository>
-        <repository>
-            <id>interfaces</id>
-            <url>https://repo.incendo.org/content/repositories/snapshots/</url>
         </repository>
     </repositories>
 
