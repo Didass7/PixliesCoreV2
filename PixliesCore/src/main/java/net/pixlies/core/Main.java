@@ -52,7 +52,6 @@ public class Main extends JavaPlugin {
         // LISTENERS & COMMANDS
         ListenerManager.registerAllListeners();
         commandManager = new CommandManager();
-        commandManager.registerAllCommands();
 
         // MODULES
         moduleManager = new ModuleManager();
