@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import net.pixlies.core.Main;
+import net.pixlies.core.configuration.Config;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
@@ -108,7 +109,17 @@ public class PixliesCalendar extends Thread {
     }
 
     static {
-        // Populate events
+        Config calconf = Main.getInstance().getCalendarConfig();
+
+        for (String s : calconf.getConfigurationSection("events").getKeys(false)) {
+            events.put(Integer.parseInt(s), () -> {
+                if (calconf.contains("events." + s + ".todo")) {
+                    for (String todo : calconf.getStringList("events." + s + ".todo")) {
+                        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), todo);
+                    }
+                }
+            });
+        }
     }
 
     public enum PixliesSeasons {
