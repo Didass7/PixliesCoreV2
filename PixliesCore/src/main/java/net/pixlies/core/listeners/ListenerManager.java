@@ -21,8 +21,6 @@ public class ListenerManager {
         add(new ChatModListener());
     }};
 
-    private ListenerManager() {}
-
     public static void registerAllListeners() {
         for (Listener listener : listeners) {
             Bukkit.getPluginManager().registerEvents(listener, instance);
