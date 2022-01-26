@@ -2,7 +2,7 @@ name: PixliesCore
 version: 1.0.0
 description: The brain behind the PixliesNet plugins
 api-version: 1.18
-authors: [MickMMars]
+authors: [MickMMars, TAMaurice, vPrototype_, Dynmie]
 website: www.pixlies.net
 main: net.pixlies.core.Main
 prefix: Core
@@ -23,7 +23,5 @@ commands:
         description: TempBan command
     tempmute:
         description: TempMute command
-    clearchat:
-        description: ClearChat command
-    mutechat:
-        description: MuteChat command
+    chat:
+        description: Chat command

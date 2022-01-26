@@ -28,8 +28,7 @@ public class CommandManager {
         register(new TempBanCommand());
         register(new MuteCommand());
         register(new TempMuteCommand());
-        register(new ClearChatCommand());
-        register(new MuteChatCommand());
+        register(new ChatCommand());
 
         // DEBUG
         register(new ModulesCommand());

@@ -20,13 +20,6 @@ public class MuteListener implements Listener {
     public void onChat(AsyncChatEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-
-        if (instance.isChatMuted() && !player.hasPermission("pixlies.moderation.bypass.mutechat")) {
-            event.setCancelled(true);
-            Lang.MUTE_MESSAGE.send(player);
-            return;
-        }
-
         if (user.getMute() != null || !player.hasPermission("pixlies.moderation.bypass.mute")) {
             Punishment mute = user.getMute();
             if (mute.isExpired()) {

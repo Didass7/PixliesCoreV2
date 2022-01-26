@@ -26,11 +26,15 @@ public class Main extends JavaPlugin {
     @Getter @Setter
     private boolean chatMuted;
 
+    @Getter @Setter
+    private boolean swearFilter;
+
     @Override
     public void onEnable() {
         instance = this;
 
         chatMuted = false;
+        swearFilter = false;
 
         calendarConfig = new Config(new File(getDataFolder().getAbsolutePath() + "/calendar.yml"), "calendar.yml");
 

@@ -30,6 +30,10 @@ public enum Lang {
     CHAT_MUTED(Lang.EARTH, new HashMap<>()),
     CHAT_UNMUTED(Lang.EARTH, new HashMap<>()),
 
+    SWEAR_FILTER_ON(Lang.EARTH, new HashMap<>()),
+    SWEAR_FILTER_OFF(Lang.EARTH, new HashMap<>()),
+    PLAYER_TRIED_TO_SWEAR(Lang.EARTH, new HashMap<>()),
+
     PLAYER_DOESNT_EXIST(Lang.EARTH, new HashMap<>());
 
     private final String PREFIX;
