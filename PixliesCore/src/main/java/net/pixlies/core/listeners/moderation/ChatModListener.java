@@ -1,9 +1,13 @@
 package net.pixlies.core.listeners.moderation;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.pixlies.core.Main;
 import net.pixlies.core.configuration.Config;
 import net.pixlies.core.localization.Lang;
+import net.pixlies.core.utils.Emojis;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -24,22 +28,32 @@ public class ChatModListener implements Listener {
         String message = String.valueOf(event.message());
 
         if (instance.isChatMuted() && !player.hasPermission("pixlies.moderation.bypass.mutechat")) {
-            event.setCancelled(true);
             Lang.MUTE_MESSAGE.send(player);
+            event.setCancelled(true);
             return;
         }
 
         if (!instance.isSwearFilter() && !player.hasPermission("pixlies.moderation.bypass.swearfilter")) {
-            List<String> swearWords = config.getStringList("swearwords");
+            List<String> swearWords = config.getStringList("swearWords");
             for (String s : swearWords) {
                 if (message.toLowerCase().contains(s)) {
-                    event.setCancelled(true);
                     Lang.PLAYER_TRIED_TO_SWEAR.send(player);
+                    event.setCancelled(true);
                     return;
                 }
             }
         }
 
+        List<String> blockedWords = instance.getConfig().getStringList("blockedWords");
+        for (String s : blockedWords) {
+            if (message.contains(s) && !player.hasPermission("pixlies.moderation.bypass.blockedwords")) {
+                Lang.PLAYER_TRIED_BLOCKED_WORD.send(player);
+                event.setCancelled(true);
+                return;
+            }
+        }
+
+        event.message(Component.text(Emojis.replaceEmojis(String.valueOf(event.message()))));
     }
 
 }

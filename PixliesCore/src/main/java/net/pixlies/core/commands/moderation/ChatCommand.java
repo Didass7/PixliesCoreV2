@@ -9,6 +9,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @CommandAlias("chat")
 @CommandPermission("pixlies.moderation.chat")
 public class ChatCommand extends BaseCommand {
@@ -50,16 +53,32 @@ public class ChatCommand extends BaseCommand {
                 Lang.CHAT_CLEARED.broadcast("%PLAYER%;" + sender.getName());
                 break;
 
-            case "wordblock":
-                // TODO
-                break;
+            case "toggleword":
+                if (word == null) {
+                    sender.sendMessage(Lang.EARTH + "You have to enter the word you want to block/unblock.");
+                    return;
+                }
 
-            case "wordallow":
-                // TODO
+                List<String> blockedWords = new ArrayList<>(instance.getConfig().getStringList("blockedWords"));
+                String lcWord = word.toLowerCase();
+
+                if (blockedWords.contains(lcWord)) {
+                    blockedWords.remove(lcWord);
+                    instance.getConfig().set("blockedWords", blockedWords);
+                    Lang.REMOVED_BLOCKED_WORD.send(sender);
+                } else {
+                    blockedWords.add(lcWord);
+                    instance.getConfig().set("blockedWords", blockedWords);
+                    Lang.ADDED_BLOCKED_WORD.send(sender);
+                }
+
+                instance.getConfig().save();
+                instance.getConfig().reload();
                 break;
 
             default:
-
+                // TODO
+                break;
         }
     }
 

@@ -60,7 +60,6 @@ public class Config extends YamlConfiguration {
         }
     }
 
-
     public void createIfNotExists() {
         if (file.exists()) {
             reload();
