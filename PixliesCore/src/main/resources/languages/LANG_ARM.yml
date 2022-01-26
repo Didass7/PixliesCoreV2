@@ -1,0 +1,16 @@
+BAN_MESSAGE: |-
+  §3Pixlies§fNet§7-ի մուտքդ արգիլուած է։
+  
+  §7Պատճառ՝ §c%REASON%
+  §7Ժամանակ՝ §b%DURATION%
+  
+  §7Արգիլումի թիւ՝ §f%BAN_ID%
+
+BANNED_PLAYER_TRIED_TO_JOIN: '§6%PLAYER%§7 փորցեց մեզ միանալ, բայց իր մուտքը արգիլուա՛ծ է հոս։'
+PLAYER_PERMANENTLY_BANNED: '§6%PLAYER%§7-ին մուտքը արգիլուեցաւ §6%EXECUTOR%§7-ին կողմէ §c"%REASON%"§7 պատճառին համար։'
+PLAYER_TEMPORARILY_BANNED: '§6%PLAYER%§7-ին մուտքը արգիլուեցաւ §6%EXECUTOR%§7-ին կողմէ §c"%REASON%"§7 պատճառին համար §c%TIME%§7-ի համար։'
+PLAYER_PERMANENTLY_MUTED: '§6%PLAYER%§7-ին ձայնը կտրուեցաւ §6%EXECUTOR%§7-ին կողմէ §c"%REASON%"§7 պատճառին համար։'
+PLAYER_TEMPORARILY_MUTED: '§6%PLAYER%§7-ին ձայնը կտրուեցաւ §6%EXECUTOR%§7-ին կողմէ §c"%REASON%"§7 պատճառին համար §c%TIME%§7-ի համար։'
+MUTE_MESSAGE: "§cՉես կրնար խօսիլ, որովհետեւ անձայն ես։"
+
+PLAYER_DOESNT_EXIST: "§cԱյս խաղցողը գոյութիւն չունի։"
