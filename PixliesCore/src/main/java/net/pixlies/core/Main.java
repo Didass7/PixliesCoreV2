@@ -6,6 +6,7 @@ import net.pixlies.core.calendar.PixliesCalendar;
 import net.pixlies.core.commands.CommandManager;
 import net.pixlies.core.configuration.Config;
 import net.pixlies.core.database.MongoDB;
+import net.pixlies.core.handlers.HandlerManager;
 import net.pixlies.core.modules.ModuleManager;
 import net.pixlies.core.listeners.ListenerManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -17,6 +18,7 @@ public class Main extends JavaPlugin {
     @Getter private static Main instance;
 
     @Getter private MongoDB database;
+    @Getter private HandlerManager handlerManager;
     @Getter private ModuleManager moduleManager;
     @Getter private CommandManager commandManager;
     @Getter private PixliesCalendar calendar;
@@ -32,10 +34,13 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
+
         instance = this;
 
         chatMuted = false;
         swearFilter = false;
+
+        handlerManager = new HandlerManager();
 
         config = new Config(new File(getDataFolder().getAbsolutePath() + "/config.yml"), "config.yml");
         calendarConfig = new Config(new File(getDataFolder().getAbsolutePath() + "/calendar.yml"), "calendar.yml");
@@ -45,12 +50,14 @@ public class Main extends JavaPlugin {
         calendar.startRunner();
 
         database = new MongoDB().init();
-        moduleManager = new ModuleManager();
-        moduleManager.loadModules();
 
         ListenerManager.registerAllListeners();
         commandManager = new CommandManager();
         commandManager.registerAllCommands();
+
+        moduleManager = new ModuleManager();
+        moduleManager.loadModules();
+
     }
 
     @Override
