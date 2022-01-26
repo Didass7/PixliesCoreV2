@@ -1,6 +1,7 @@
 package net.pixlies.core;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.pixlies.core.calendar.PixliesCalendar;
 import net.pixlies.core.commands.CommandManager;
 import net.pixlies.core.configuration.Config;
@@ -22,9 +23,14 @@ public class Main extends JavaPlugin {
 
     @Getter private Config calendarConfig;
 
+    @Getter @Setter
+    private boolean chatMuted;
+
     @Override
     public void onEnable() {
         instance = this;
+
+        chatMuted = false;
 
         calendarConfig = new Config(new File(getDataFolder().getAbsolutePath() + "/calendar.yml"), "calendar.yml");
 

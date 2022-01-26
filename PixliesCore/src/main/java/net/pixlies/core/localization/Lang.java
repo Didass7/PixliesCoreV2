@@ -14,6 +14,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("SpellCheckingInspection")
 public enum Lang {
 
     BAN_MESSAGE("", new HashMap<>()),
@@ -25,10 +26,11 @@ public enum Lang {
     MUTE_MESSAGE("", new HashMap<>()),
     MUTED_PLAYER_TRIED_TO_TALK(Lang.EARTH, new HashMap<>()),
 
+    CHAT_CLEARED(Lang.EARTH, new HashMap<>()),
+    CHAT_MUTED(Lang.EARTH, new HashMap<>()),
+    CHAT_UNMUTED(Lang.EARTH, new HashMap<>()),
 
-    PLAYER_DOESNT_EXIST(Lang.EARTH, new HashMap<>())
-
-    ;
+    PLAYER_DOESNT_EXIST(Lang.EARTH, new HashMap<>());
 
     private final String PREFIX;
     private @Getter Map<String, String> languages;

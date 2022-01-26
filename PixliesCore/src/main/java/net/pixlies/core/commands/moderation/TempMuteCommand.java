@@ -39,7 +39,7 @@ public class TempMuteCommand extends BaseCommand {
     }
 
     @HelpCommand
-    public static void onHelp(CommandSender sender, CommandHelp help) {
+    public void onHelp(CommandSender sender, CommandHelp help) {
         help.showHelp();
     }
 

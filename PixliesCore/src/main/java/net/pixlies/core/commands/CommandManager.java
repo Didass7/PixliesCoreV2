@@ -5,10 +5,7 @@ import co.aikar.commands.PaperCommandManager;
 import lombok.Getter;
 import net.pixlies.core.Main;
 import net.pixlies.core.commands.debug.ModulesCommand;
-import net.pixlies.core.commands.moderation.BanCommand;
-import net.pixlies.core.commands.moderation.MuteCommand;
-import net.pixlies.core.commands.moderation.TempBanCommand;
-import net.pixlies.core.commands.moderation.TempMuteCommand;
+import net.pixlies.core.commands.moderation.*;
 
 public class CommandManager {
 
@@ -31,6 +28,8 @@ public class CommandManager {
         register(new TempBanCommand());
         register(new MuteCommand());
         register(new TempMuteCommand());
+        register(new ClearChatCommand());
+        register(new MuteChatCommand());
 
         // DEBUG
         register(new ModulesCommand());

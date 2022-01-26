@@ -23,3 +23,7 @@ commands:
         description: TempBan command
     tempmute:
         description: TempMute command
+    clearchat:
+        description: ClearChat command
+    mutechat:
+        description: MuteChat command
