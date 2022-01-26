@@ -7,8 +7,6 @@ database:
 moderation:
     defaultReason: "No reason given."
 
-swearWords: ["fuck", "bitch", "ass", "nigg", "tit",
-             "dick", "piss", "wanker", "shit", "cunt",
-             "bastard", "twat", "cock", "pussy", "nigger"]
+swearWords: ["funniwordsgohere"]
 
 blockedWords:
