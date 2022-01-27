@@ -16,7 +16,7 @@ public class EnderChestCommand extends BaseCommand {
     }
 
     @Private
-    @CommandPermission("pixlies.cosmetics.heal.others")
+    @CommandPermission("pixlies.cosmetics.enderchest.others")
     @CommandCompletion("@players")
     public void onEnderChest(Player player, Player target) {
         player.openInventory(target.getEnderChest());

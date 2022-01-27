@@ -55,7 +55,10 @@ public enum Lang {
     COSMETICS_HEALED_OTHERS(Lang.EARTH, new HashMap<>()),
 
     COSMETICS_FEED_SELF(Lang.EARTH, new HashMap<>()),
-    COSMETICS_FEED_OTHERS(Lang.EARTH, new HashMap<>())
+    COSMETICS_FEED_OTHERS(Lang.EARTH, new HashMap<>()),
+
+    COSMETICS_NIGHTVISION_ON(Lang.EARTH, new HashMap<>()),
+    COSMETICS_NIGHTVISION_OFF(Lang.EARTH, new HashMap<>())
 
     ;
 
