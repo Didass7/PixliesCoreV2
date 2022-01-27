@@ -1,0 +1,30 @@
+package net.pixlies.core.commands.cosmetics;
+
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.CommandHelp;
+import co.aikar.commands.annotation.*;
+import org.bukkit.entity.Player;
+
+@CommandAlias("enderchest|ec")
+@CommandPermission("pixlies.cosmetics.enderchest")
+public class EnderChestCommand extends BaseCommand {
+
+    @Default
+    @CommandCompletion("@empty")
+    public void onHeal(Player player) {
+        player.openInventory(player.getEnderChest());
+    }
+
+    @Private
+    @CommandPermission("pixlies.cosmetics.heal.others")
+    @CommandCompletion("@players")
+    public void onHeal(Player player, Player target) {
+        player.openInventory(target.getEnderChest());
+    }
+
+    @HelpCommand
+    public void onHelp(CommandHelp help) {
+        help.showHelp();
+    }
+
+}

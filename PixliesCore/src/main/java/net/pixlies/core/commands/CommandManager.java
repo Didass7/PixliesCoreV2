@@ -4,6 +4,7 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.PaperCommandManager;
 import lombok.Getter;
 import net.pixlies.core.Main;
+import net.pixlies.core.commands.cosmetics.EnderChestCommand;
 import net.pixlies.core.commands.cosmetics.HealCommand;
 import net.pixlies.core.commands.debug.ModulesCommand;
 import net.pixlies.core.commands.moderation.*;
@@ -39,6 +40,7 @@ public class CommandManager {
 
         // COSMETICS
         register(new HealCommand());
+        register(new EnderChestCommand());
 
     }
 
