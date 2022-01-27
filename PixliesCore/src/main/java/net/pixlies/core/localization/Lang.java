@@ -47,7 +47,10 @@ public enum Lang {
     MODERATION_INVSEE_DISALLOW_SELF(Lang.EARTH, new HashMap<>()),
 
     COSMETICS_HEALED_SELF(Lang.EARTH, new HashMap<>()),
-    COSMETICS_HEALED_OTHER(Lang.EARTH, new HashMap<>())
+    COSMETICS_HEALED_OTHERS(Lang.EARTH, new HashMap<>()),
+
+    COSMETICS_FEED_SELF(Lang.EARTH, new HashMap<>()),
+    COSMETICS_FEED_OTHERS(Lang.EARTH, new HashMap<>())
 
     ;
 

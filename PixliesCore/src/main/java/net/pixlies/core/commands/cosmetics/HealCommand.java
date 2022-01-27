@@ -26,7 +26,7 @@ public class HealCommand extends BaseCommand {
     @CommandCompletion("@players")
     public void onHeal(CommandSender sender, Player player) {
         healPlayer(player);
-        Lang.COSMETICS_HEALED_OTHER.send(sender, "%PLAYER%;" + player.getName());
+        Lang.COSMETICS_HEALED_OTHERS.send(sender, "%PLAYER%;" + player.getName());
     }
 
     @HelpCommand
