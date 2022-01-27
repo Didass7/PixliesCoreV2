@@ -44,26 +44,26 @@ public class StaffSettingsCommand extends BaseCommand {
         close.setAction(event -> player.closeInventory());
         infoAndClose.addItem(close, 0, 2);
 
+        // Settings pane
+        StaticPane settings = new StaticPane(1, 1, 7, 1);
+
+        /* TODO
+           in the settings pane, we need 4 buttons:
+             - Banspy (show "banned player tried to join")
+             - Mutespy (show "muted player tried to talk")
+             - Commandspy (show player executed commands)
+             - Bypass clear chat
+           eventually, we'll implement them as actual settings
+           as of right now we need the buttons
+         */
+
         // Add panes
         gui.addPane(background);
         gui.addPane(infoAndClose);
+        gui.addPane(settings);
 
         // Show GUI
         gui.show(player);
-
-        // create the GUI
-        // show the GUI
-        // make listener to check for clicks, update/toggle
-        // stats as booleans!
-
-        /* TODO
-
-        Show "banned player tried to join"
-        Show "muted player tried to talk"
-        Don't clear chat for me
-        Show player executed commands (commandspy)
-
-        */
     }
 
     @HelpCommand
