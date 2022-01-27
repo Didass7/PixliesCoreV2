@@ -58,9 +58,9 @@ public enum Lang {
     COSMETICS_FEED_OTHERS(Lang.EARTH, new HashMap<>()),
 
     COSMETICS_NIGHTVISION_ON(Lang.EARTH, new HashMap<>()),
-    COSMETICS_NIGHTVISION_OFF(Lang.EARTH, new HashMap<>())
-
-    ;
+    COSMETICS_NIGHTVISION_OFF(Lang.EARTH, new HashMap<>()),
+    COSMETICS_NIGHTVISION_ON_OTHER(Lang.EARTH, new HashMap<>()),
+    COSMETICS_NIGHTVISION_OFF_OTHER(Lang.EARTH, new HashMap<>());
 
     private final String PREFIX;
     private @Getter Map<String, String> languages;

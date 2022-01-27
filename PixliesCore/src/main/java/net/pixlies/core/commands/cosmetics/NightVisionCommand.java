@@ -28,10 +28,10 @@ public class NightVisionCommand extends BaseCommand {
     public void onNightVision(Player sender, Player target) {
         if (target.hasPotionEffect(PotionEffectType.NIGHT_VISION)) {
             target.removePotionEffect(PotionEffectType.NIGHT_VISION);
-            Lang.COSMETICS_NIGHTVISION_OFF.send(sender);
+            Lang.COSMETICS_NIGHTVISION_OFF_OTHER.send(sender);
         } else {
             target.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 1));
-            Lang.COSMETICS_NIGHTVISION_ON.send(sender);
+            Lang.COSMETICS_NIGHTVISION_ON_OTHER.send(sender);
         }
     }
 
