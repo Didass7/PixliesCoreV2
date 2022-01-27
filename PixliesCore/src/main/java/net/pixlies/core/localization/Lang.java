@@ -44,7 +44,12 @@ public enum Lang {
     MODERATION_GOD_ON(Lang.EARTH, new HashMap<>()),
     MODERATION_GOD_OFF(Lang.EARTH, new HashMap<>()),
 
-    MODERATION_INVSEE_DISALLOW_SELF(Lang.EARTH, new HashMap<>());
+    MODERATION_INVSEE_DISALLOW_SELF(Lang.EARTH, new HashMap<>()),
+
+    COSMETICS_HEALED_SELF(Lang.EARTH, new HashMap<>()),
+    COSMETICS_HEALED_OTHER(Lang.EARTH, new HashMap<>())
+
+    ;
 
     private final String PREFIX;
     private @Getter Map<String, String> languages;
