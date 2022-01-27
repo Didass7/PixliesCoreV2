@@ -1,4 +1,4 @@
-package net.pixlies.core.commands.moderation;
+package net.pixlies.core.commands.staff;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;

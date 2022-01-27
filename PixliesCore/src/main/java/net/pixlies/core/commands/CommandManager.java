@@ -4,8 +4,13 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.PaperCommandManager;
 import lombok.Getter;
 import net.pixlies.core.Main;
+import net.pixlies.core.commands.cosmetics.EnderChestCommand;
+import net.pixlies.core.commands.cosmetics.FeedCommand;
+import net.pixlies.core.commands.cosmetics.HealCommand;
 import net.pixlies.core.commands.debug.ModulesCommand;
 import net.pixlies.core.commands.moderation.*;
+import net.pixlies.core.commands.staff.GodCommand;
+import net.pixlies.core.commands.staff.StaffSettingsCommand;
 
 public class CommandManager {
 
@@ -31,9 +36,16 @@ public class CommandManager {
         register(new ChatCommand());
         register(new GodCommand());
         register(new StaffSettingsCommand());
+        register(new InventorySeeCommand());
 
         // DEBUG
         register(new ModulesCommand());
+
+        // COSMETICS
+        register(new HealCommand());
+        register(new EnderChestCommand());
+        register(new FeedCommand());
+
     }
 
     public void register(BaseCommand command) {
