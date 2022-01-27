@@ -30,6 +30,7 @@ public class CommandManager {
         register(new TempMuteCommand());
         register(new ChatCommand());
         register(new GodCommand());
+        register(new StaffSettingsCommand());
 
         // DEBUG
         register(new ModulesCommand());

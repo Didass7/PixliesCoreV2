@@ -25,3 +25,5 @@ commands:
         description: TempMute command
     chat:
         description: Chat command
+    staffsettings:
+        description: Staff settings command
