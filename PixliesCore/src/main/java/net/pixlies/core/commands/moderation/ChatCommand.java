@@ -20,7 +20,7 @@ public class ChatCommand extends BaseCommand {
     private static final Main instance = Main.getInstance();
     private final ChatHandler chatHandler = instance.getHandlerManager().getHandler(ChatHandler.class);
 
-    @Subcommand("togglemute")
+    @Subcommand("mute")
     @Description("Toggle the chat being muted")
     public void onToggleMute(CommandSender sender) {
         boolean chatMuted = chatHandler.isMuted();
@@ -32,8 +32,8 @@ public class ChatCommand extends BaseCommand {
         chatHandler.setMuted(!chatMuted);
     }
 
-    @Subcommand("toggleswearing")
-    @Description("Toggle people being able to swear in chat")
+    @Subcommand("swearfilter")
+    @Description("Toggle the chat filter")
     public void onToggleSwear(CommandSender sender) {
         boolean swearFilter = chatHandler.isSwearFilterEnabled();
         if (swearFilter) {
@@ -49,15 +49,15 @@ public class ChatCommand extends BaseCommand {
     public void onClearChat(CommandSender sender) {
         for (Player p : Bukkit.getServer().getOnlinePlayers()) {
             if (!p.hasPermission("pixlies.moderation.bypass.clearchat")) {
-                for (int i = 0; i < 300; i++) {
-                    p.sendMessage(" ");
+                for (int i = 0; i < 100; i++) {
+                    p.sendMessage("");
                 }
             }
         }
         Lang.CHAT_CLEARED.broadcast("%PLAYER%;" + sender.getName());
     }
 
-    @Subcommand("toggleword")
+    @Subcommand("word")
     @Description("Toggle the usage of a certain word in chat")
     public void onToggleWord(CommandSender sender, String word) {
         if (word == null) {
@@ -85,10 +85,8 @@ public class ChatCommand extends BaseCommand {
     @Default
     @HelpCommand
     @Description("Chat moderation")
-    public void onHelp(CommandSender sender, CommandHelp help) {
+    public void onHelp(CommandHelp help) {
         help.showHelp();
     }
-
-    public ChatCommand() {}
 
 }
