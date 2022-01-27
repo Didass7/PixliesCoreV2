@@ -11,6 +11,7 @@ import net.pixlies.core.commands.debug.ModulesCommand;
 import net.pixlies.core.commands.moderation.*;
 import net.pixlies.core.commands.staff.GodCommand;
 import net.pixlies.core.commands.staff.StaffSettingsCommand;
+import net.pixlies.core.commands.staff.WorldCommand;
 
 public class CommandManager {
 
@@ -34,9 +35,12 @@ public class CommandManager {
         register(new MuteCommand());
         register(new TempMuteCommand());
         register(new ChatCommand());
+        register(new InventorySeeCommand());
+
+        // STAFF
         register(new GodCommand());
         register(new StaffSettingsCommand());
-        register(new InventorySeeCommand());
+        register(new WorldCommand());
 
         // DEBUG
         register(new ModulesCommand());

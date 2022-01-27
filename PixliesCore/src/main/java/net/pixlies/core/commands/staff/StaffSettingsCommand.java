@@ -17,7 +17,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.Collections;
 
 @CommandAlias("staffsettings")
-@CommandPermission("pixlies.moderation.staffsettings")
+@CommandPermission("pixlies.staff.staffsettings")
 public class StaffSettingsCommand extends BaseCommand {
 
     @Default

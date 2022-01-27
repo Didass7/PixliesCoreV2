@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandAlias("god")
-@CommandPermission("pixlies.moderation.god")
+@CommandPermission("pixlies.staff.god")
 public class GodCommand extends BaseCommand {
 
     @Default
@@ -23,7 +23,7 @@ public class GodCommand extends BaseCommand {
     }
 
     @CommandCompletion("@players")
-    @CommandPermission("pixlies.moderation.god.others")
+    @CommandPermission("pixlies.staff.god.others")
     public void onGod(CommandSender sender, Player player) {
         player.setInvulnerable(!player.isInvulnerable());
         if (player.isInvulnerable()) {
