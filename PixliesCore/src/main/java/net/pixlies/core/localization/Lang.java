@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @SuppressWarnings("SpellCheckingInspection")
 public enum Lang {
@@ -38,7 +39,10 @@ public enum Lang {
     REMOVED_BLOCKED_WORD(Lang.EARTH, new HashMap<>()),
     PLAYER_TRIED_BLOCKED_WORD(Lang.EARTH, new HashMap<>()),
 
-    PLAYER_DOESNT_EXIST(Lang.EARTH, new HashMap<>());
+    PLAYER_DOESNT_EXIST(Lang.EARTH, new HashMap<>()),
+
+    MODERATION_GOD_ON(Lang.EARTH, new HashMap<>()),
+    MODERATION_GOD_OFF(Lang.EARTH, new HashMap<>());
 
     private final String PREFIX;
     private @Getter Map<String, String> languages;
@@ -58,8 +62,7 @@ public enum Lang {
     public String get(CommandSender sender) {
         if (languages == null) return "";
         try {
-            if (sender instanceof Player) {
-                Player player = (Player) sender;
+            if (sender instanceof Player player) {
                 User user = User.get(player.getUniqueId());
                 return languages.containsKey(user.getLang()) ? PREFIX + ChatColor.translateAlternateColorCodes('&', languages.get(user.getLang())) : PREFIX + ChatColor.translateAlternateColorCodes('&', languages.get("ENG"));
             }
@@ -145,7 +148,7 @@ public enum Lang {
             System.out.println("Couldn't load languages. Folder doesn't exist.");
             return;
         }
-        for (File file : folder.listFiles()) {
+        for (File file : Objects.requireNonNull(folder.listFiles())) {
             if (!file.getName().endsWith(".yml"))
                 continue;
             YamlConfiguration cfg = YamlConfiguration.loadConfiguration(file);
