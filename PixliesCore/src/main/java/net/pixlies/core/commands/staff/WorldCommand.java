@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 public class WorldCommand extends BaseCommand {
 
     @Default
+    @Private
     @CommandCompletion("@worlds")
     @Syntax("<world>")
     public void onWorld(Player player, World world) {
@@ -20,9 +21,8 @@ public class WorldCommand extends BaseCommand {
         Lang.STAFF_WORLD_TELEPORT.send(player);
     }
 
-    @Private
     @CommandPermission("pixlies.staff.world.others")
-    @CommandCompletion("@players")
+    @CommandCompletion("@players @worlds")
     public void onWorld(CommandSender sender, Player target, World world) {
         target.teleport(world.getSpawnLocation());
         Lang.STAFF_WORLD_TELEPORT.send(sender);
