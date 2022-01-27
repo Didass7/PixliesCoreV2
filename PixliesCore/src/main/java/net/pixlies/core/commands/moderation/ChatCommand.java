@@ -32,7 +32,7 @@ public class ChatCommand extends BaseCommand {
         chatHandler.setMuted(!chatMuted);
     }
 
-    @Subcommand("swearfilter")
+    @Subcommand("filter")
     @Description("Toggle the chat filter")
     public void onToggleSwear(CommandSender sender) {
         boolean swearFilter = chatHandler.isSwearFilterEnabled();
