@@ -16,7 +16,7 @@ public class GodCommand extends BaseCommand {
     public void onGod(Player player) {
         player.setInvulnerable(!player.isInvulnerable());
         if (player.isInvulnerable()) {
-            Lang.MODERATION_GOD_ON.send(player);
+            Lang.STAFF_GOD_ON.send(player);
         } else {
             Lang.MODERATION_GOD_OFF.send(player);
         }
@@ -27,7 +27,7 @@ public class GodCommand extends BaseCommand {
     public void onGod(CommandSender sender, Player player) {
         player.setInvulnerable(!player.isInvulnerable());
         if (player.isInvulnerable()) {
-            Lang.MODERATION_GOD_ON.send(sender);
+            Lang.STAFF_GOD_ON.send(sender);
         } else {
             Lang.MODERATION_GOD_OFF.send(sender);
         }

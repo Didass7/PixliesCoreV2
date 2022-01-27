@@ -13,7 +13,7 @@ public class FeedCommand extends BaseCommand {
 
     @Default
     @CommandCompletion("@empty")
-    public void onHeal(Player player) {
+    public void onFeed(Player player) {
         player.setFoodLevel(20);
         Lang.COSMETICS_FEED_SELF.send(player);
     }
@@ -21,7 +21,7 @@ public class FeedCommand extends BaseCommand {
     @Private
     @CommandPermission("pixlies.cosmetics.feed.others")
     @CommandCompletion("@players")
-    public void onHeal(CommandSender sender, Player target) {
+    public void onFeed(CommandSender sender, Player target) {
         target.setFoodLevel(20);
         Lang.COSMETICS_HEALED_OTHERS.send(sender, "%PLAYER%;" + target.getName());
     }

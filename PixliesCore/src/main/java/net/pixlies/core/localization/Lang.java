@@ -41,11 +41,16 @@ public enum Lang {
 
     PLAYER_DOESNT_EXIST(Lang.EARTH, new HashMap<>()),
 
-    MODERATION_GOD_ON(Lang.EARTH, new HashMap<>()),
-    MODERATION_GOD_OFF(Lang.EARTH, new HashMap<>()),
+    // STAFF
+    STAFF_GOD_ON(Lang.EARTH, new HashMap<>()),
+    STAFF_GOD_OFF(Lang.EARTH, new HashMap<>()),
 
+    STAFF_WORLD_TELEPORT(Lang.EARTH, new HashMap<>()),
+
+    // MODERATION
     MODERATION_INVSEE_DISALLOW_SELF(Lang.EARTH, new HashMap<>()),
 
+    // COSMETICS
     COSMETICS_HEALED_SELF(Lang.EARTH, new HashMap<>()),
     COSMETICS_HEALED_OTHERS(Lang.EARTH, new HashMap<>()),
 
