@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.pixlies.core.calendar.PixliesCalendar;
 import net.pixlies.core.commands.CommandManager;
 import net.pixlies.core.configuration.Config;
-import net.pixlies.core.database.MongoDB;
+import net.pixlies.core.database.MongoManager;
 import net.pixlies.core.handlers.HandlerManager;
 import net.pixlies.core.handlers.RegisterHandlerManager;
 import net.pixlies.core.modules.ModuleManager;
@@ -18,7 +18,7 @@ public class Main extends JavaPlugin {
 
     @Getter private static Main instance;
 
-    @Getter private MongoDB database;
+    @Getter private MongoManager database;
     @Getter private HandlerManager handlerManager;
     @Getter private ModuleManager moduleManager;
     @Getter private CommandManager commandManager;
@@ -29,7 +29,6 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-
         instance = this;
 
         // HANDLERS
@@ -41,7 +40,7 @@ public class Main extends JavaPlugin {
         calendarConfig = new Config(new File(getDataFolder().getAbsolutePath() + "/calendar.yml"), "calendar.yml");
 
         // DATABASE
-        database = new MongoDB().init();
+        database = new MongoManager().init();
 
         // PIXLIES CALENDAR
         String[] date = calendarConfig.getString("date", "0/0/0").split("/");

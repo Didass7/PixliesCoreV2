@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Getter
-public class MongoDB {
+public class MongoManager {
 
     private static final Main instance = Main.getInstance();
 
@@ -25,7 +25,7 @@ public class MongoDB {
     private MongoCollection<Document> userCollection;
     private final Map<UUID, User> userCache = new HashMap<>();
 
-    public MongoDB init() {
+    public MongoManager init() {
         String uri = instance.getConfig().getString("database.uri");
         if (uri == null) {
             instance.getLogger().warning("Plugin can't start because MongoDB URI is missing.");
@@ -34,11 +34,10 @@ public class MongoDB {
         }
         MongoClientURI clientURI = new MongoClientURI(uri);
         client = new MongoClient(clientURI);
-
         database = client.getDatabase(instance.getConfig().getString("database.database", "admin"));
-
         userCollection = database.getCollection(instance.getConfig().getString("database.users-collection", "users"));
 
+        instance.getLogger().info("Connected to MongoDB database.");
         return this;
     }
 
