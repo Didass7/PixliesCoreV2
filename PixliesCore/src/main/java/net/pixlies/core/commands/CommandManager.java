@@ -31,6 +31,7 @@ public class CommandManager {
         register(new ChatCommand());
         register(new GodCommand());
         register(new StaffSettingsCommand());
+        register(new InventorySeeCommand());
 
         // DEBUG
         register(new ModulesCommand());
