@@ -5,11 +5,9 @@ import co.aikar.commands.PaperCommandManager;
 import lombok.Getter;
 import net.pixlies.core.Main;
 import net.pixlies.core.commands.cosmetics.*;
-import net.pixlies.core.commands.debug.ModulesCommand;
+import net.pixlies.core.commands.debug.*;
 import net.pixlies.core.commands.moderation.*;
-import net.pixlies.core.commands.staff.GodCommand;
-import net.pixlies.core.commands.staff.StaffSettingsCommand;
-import net.pixlies.core.commands.staff.WorldCommand;
+import net.pixlies.core.commands.staff.*;
 
 public class CommandManager {
 
@@ -49,7 +47,6 @@ public class CommandManager {
         register(new FeedCommand());
         register(new NightVisionCommand());
         register(new RepairCommand());
-
     }
 
     public void register(BaseCommand command) {

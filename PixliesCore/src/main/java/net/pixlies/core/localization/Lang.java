@@ -33,7 +33,6 @@ public enum Lang {
 
     SWEAR_FILTER_ON(Lang.EARTH, new HashMap<>()),
     SWEAR_FILTER_OFF(Lang.EARTH, new HashMap<>()),
-    PLAYER_TRIED_TO_SWEAR(Lang.EARTH, new HashMap<>()),
 
     ADDED_BLOCKED_WORD(Lang.EARTH, new HashMap<>()),
     REMOVED_BLOCKED_WORD(Lang.EARTH, new HashMap<>()),
@@ -51,6 +50,9 @@ public enum Lang {
     MODERATION_INVSEE_DISALLOW_SELF(Lang.EARTH, new HashMap<>()),
 
     // COSMETICS
+    MODERATION_GOD_ON(Lang.EARTH, new HashMap<>()),
+    MODERATION_GOD_OFF(Lang.EARTH, new HashMap<>()),
+
     COSMETICS_HEALED_SELF(Lang.EARTH, new HashMap<>()),
     COSMETICS_HEALED_OTHERS(Lang.EARTH, new HashMap<>()),
 
