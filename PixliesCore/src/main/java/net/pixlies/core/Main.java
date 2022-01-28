@@ -32,6 +32,7 @@ public class Main extends JavaPlugin {
         instance = this;
 
         // HANDLERS
+        moduleManager = new ModuleManager();
         handlerManager = new HandlerManager();
         new RegisterHandlerManager().registerAllHandlers();
 
@@ -52,7 +53,6 @@ public class Main extends JavaPlugin {
         commandManager = new CommandManager();
 
         // MODULES
-        moduleManager = new ModuleManager();
         moduleManager.loadModules();
 
     }
