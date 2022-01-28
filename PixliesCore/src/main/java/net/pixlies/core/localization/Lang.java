@@ -49,6 +49,10 @@ public enum Lang {
     // MODERATION
     MODERATION_INVSEE_DISALLOW_SELF(Lang.EARTH, new HashMap<>()),
 
+    MODERATION_PVP_ON(Lang.EARTH, new HashMap<>()),
+    MODERATION_PVP_OFF(Lang.EARTH, new HashMap<>()),
+    PVP_OFF_PLAYER_TRIED_TO_PVP(Lang.EARTH, new HashMap<>()),
+
     // COSMETICS
     MODERATION_GOD_ON(Lang.EARTH, new HashMap<>()),
     MODERATION_GOD_OFF(Lang.EARTH, new HashMap<>()),

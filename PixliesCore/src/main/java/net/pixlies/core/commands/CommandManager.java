@@ -32,6 +32,7 @@ public class CommandManager {
         register(new TempMuteCommand());
         register(new ChatCommand());
         register(new InventorySeeCommand());
+        register(new TogglePvPCommand());
 
         // STAFF
         register(new GodCommand());

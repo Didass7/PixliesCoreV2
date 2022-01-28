@@ -2,8 +2,7 @@ package net.pixlies.core.handlers;
 
 import com.google.common.collect.ImmutableList;
 import net.pixlies.core.Main;
-import net.pixlies.core.handlers.impl.ChatHandler;
-import net.pixlies.core.handlers.impl.CosmeticsHandler;
+import net.pixlies.core.handlers.impl.*;
 
 public class RegisterHandlerManager {
 
@@ -11,7 +10,8 @@ public class RegisterHandlerManager {
 
     private final ImmutableList<Class<? extends Handler>> handlers = ImmutableList.of(
             ChatHandler.class,
-            CosmeticsHandler.class
+            CosmeticsHandler.class,
+            ModerationHandler.class
     );
 
     public void registerAllHandlers() {
