@@ -1,3 +1,6 @@
 locations:
   spawn:
   pvp:
+
+walkspeed:
+  level: 1
