@@ -35,7 +35,7 @@ public class CommandManager {
         register(new TempMuteCommand(), false);
         register(new ChatCommand(), false);
         register(new InventorySeeCommand(), false);
-        register(new TogglePvPCommand(), false);
+        register(new ToggleGlobalPvpCommand(), false);
 
         // STAFF
         register(new GodCommand(), false);

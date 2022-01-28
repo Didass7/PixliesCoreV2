@@ -47,7 +47,6 @@ public class Main extends JavaPlugin {
         calendar = new PixliesCalendar(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]));
         calendar.startRunner();
 
-
         // LISTENERS & COMMANDS
         ListenerManager.registerAllListeners();
         commandManager = new CommandManager();
