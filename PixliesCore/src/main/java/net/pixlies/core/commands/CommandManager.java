@@ -8,6 +8,8 @@ import net.pixlies.core.Main;
 import net.pixlies.core.commands.cosmetics.*;
 import net.pixlies.core.commands.debug.*;
 import net.pixlies.core.commands.moderation.*;
+import net.pixlies.core.commands.player.MessageCommand;
+import net.pixlies.core.commands.player.ReplyCommand;
 import net.pixlies.core.commands.staff.*;
 
 public class CommandManager {
@@ -53,15 +55,19 @@ public class CommandManager {
         register(new RepairCommand(), true);
         register(new SuicideCommand(), true);
 
+        // PLAYER
+        register(new MessageCommand(), false);
+        register(new ReplyCommand(), false);
+
     }
 
     /**
      * Registers a command
      * @param command the command to register
-     * @param earthOnly if the command can be used on a server that isn't lobby
+     * @param notLobby if the command can be used on a server that isn't lobby
      */
-    public void register(BaseCommand command, boolean earthOnly) {
-        if (earthOnly && limitedCommands) return;
+    public void register(BaseCommand command, boolean notLobby) {
+        if (notLobby && limitedCommands) return;
         pcm.registerCommand(command);
     }
 

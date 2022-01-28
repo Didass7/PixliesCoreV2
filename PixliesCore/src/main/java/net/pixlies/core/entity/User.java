@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import net.pixlies.core.Main;
 import net.pixlies.core.economy.Wallet;
 import net.pixlies.core.localization.Lang;

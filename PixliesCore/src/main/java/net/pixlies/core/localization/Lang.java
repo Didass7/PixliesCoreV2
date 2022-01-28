@@ -75,6 +75,11 @@ public enum Lang {
     COSMETICS_PLAYER_SUICIDE(Lang.EARTH, new HashMap<>()),
     COSMETICS_ANNOUNCE_PLAYER_SUICIDE(Lang.EARTH, new HashMap<>()),
 
+    // PLAYER
+    PLAYER_MESSAGE_FORMAT_TO(Lang.EARTH, new HashMap<>()),
+    PLAYER_MESSAGE_FORMAT_FROM(Lang.EARTH, new HashMap<>()),
+    PLAYER_MESSAGE_NOONE_TO_MESSAGE(Lang.EARTH, new HashMap<>()),
+
     // OTHER
     MUST_BE_A_PLAYER(Lang.EARTH, new HashMap<>());
 
