@@ -19,7 +19,7 @@ public class BanCommand extends BaseCommand {
     @Default
     @CommandCompletion("@players")
     @Description("Bans player with the default reason")
-    public static void onBan(CommandSender sender, String player, @Optional String reason) {
+    public void onBan(CommandSender sender, String player, @Optional String reason) {
         boolean silent = false;
         String banReason = Main.getInstance().getConfig().getString("moderation.defaultReason", "No reason given");
         if (reason != null && !reason.isEmpty()) {

@@ -23,7 +23,7 @@ public class TempBanCommand extends BaseCommand {
     @Default
     @CommandCompletion("@players")
     @Description("Temporarily bans player with the default reason")
-    public static void onTempBan(CommandSender sender, String player, String duration, @Optional String reason) {
+    public void onTempBan(CommandSender sender, String player, String duration, @Optional String reason) {
         boolean silent = false;
         long durationLong = TimeUnit.getDuration(duration);
         String banReason = Main.getInstance().getConfig().getString("moderation.defaultReason", "No reason given");

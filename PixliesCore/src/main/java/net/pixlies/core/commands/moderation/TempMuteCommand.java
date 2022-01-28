@@ -18,7 +18,7 @@ public class TempMuteCommand extends BaseCommand {
     @Default
     @CommandCompletion("@players")
     @Description("Temporarily mutes player with the default reason")
-    public static void onTempMute(CommandSender sender, String player, String duration, @Optional String reason) {
+    public void onTempMute(CommandSender sender, String player, String duration, @Optional String reason) {
         boolean silent = false;
         long durationLong = TimeUnit.getDuration(duration);
         String muteReason = Main.getInstance().getConfig().getString("moderation.defaultReason", "No reason given");

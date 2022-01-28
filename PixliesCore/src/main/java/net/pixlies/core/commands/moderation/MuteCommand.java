@@ -17,7 +17,7 @@ public class MuteCommand extends BaseCommand {
     @Default
     @CommandCompletion("@players")
     @Description("Mutes player with the default reason")
-    public static void onBan(CommandSender sender, String player, @Optional String reason) {
+    public void onBan(CommandSender sender, String player, @Optional String reason) {
         boolean silent = false;
         String muteReason = Main.getInstance().getConfig().getString("moderation.defaultReason", "No reason given");
         if (reason != null && !reason.isEmpty()) {
