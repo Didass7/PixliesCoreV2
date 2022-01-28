@@ -23,7 +23,7 @@ public class FeedCommand extends BaseCommand {
     @CommandCompletion("@players")
     public void onFeed(CommandSender sender, Player target) {
         target.setFoodLevel(20);
-        Lang.COSMETICS_HEALED_OTHERS.send(sender, "%PLAYER%;" + target.getName());
+        Lang.COSMETICS_FEED_OTHERS.send(sender, "%PLAYER%;" + target.getName());
     }
 
     @HelpCommand

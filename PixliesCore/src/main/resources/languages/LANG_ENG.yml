@@ -23,7 +23,6 @@ PLAYER_DOESNT_EXIST: "§cThis player does not exist!"
 
 SWEAR_FILTER_ON: "§7Swear Filter has been §aenabled§7."
 SWEAR_FILTER_OFF: "§7Swear Filter has been §cdisabled§7."
-PLAYER_TRIED_TO_SWEAR: "§8%PLAYER%§8 tried to swear, but the filter has blocked the message."
 
 ADDED_BLOCKED_WORD: ""
 REMOVED_BLOCKED_WORD: ""
