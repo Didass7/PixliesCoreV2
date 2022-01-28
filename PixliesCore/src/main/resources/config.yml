@@ -9,4 +9,8 @@ moderation:
 
 swearWords: ["funniwordsgohere"]
 
-blockedWords:
+blockedWords: []
+
+commands:
+    # Enable if the plugin is loaded on a lobby server or equivalent
+    limitedCommands: false

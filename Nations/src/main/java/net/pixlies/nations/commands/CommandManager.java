@@ -13,7 +13,7 @@ public class CommandManager {
     );
 
     public void registerAllCommands() {
-        commands.forEach(command -> Main.getInstance().getCommandManager().register(command));
+        commands.forEach(command -> Main.getInstance().getCommandManager().register(command, true));
     }
 
     public void unregisterAllCommands() {
