@@ -12,6 +12,7 @@
         <module name="Nations" />
         <module name="LobbyModule" />
         <module name="PixliesCore" />
+        <module name="PixliesFun" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -20,6 +21,7 @@
       <module name="MiniMick" target="16" />
       <module name="NationModule" target="16" />
       <module name="Nations" target="16" />
+      <module name="PixliesFun" target="16" />
       <module name="PixliesCore" target="16" />
       <module name="PixliesCoreV2" target="16" />
       <module name="test" target="16" />

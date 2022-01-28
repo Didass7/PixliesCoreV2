@@ -9,6 +9,7 @@
         <module>Nations</module>
         <module>MiniMick</module>
         <module>LobbyModule</module>
+        <module>PixliesFun</module>
     </modules>
 
     <groupId>net.pixlies</groupId>
