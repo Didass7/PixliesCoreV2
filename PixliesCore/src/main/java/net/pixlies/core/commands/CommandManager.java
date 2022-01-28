@@ -2,6 +2,7 @@ package net.pixlies.core.commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.PaperCommandManager;
+import co.aikar.commands.RootCommand;
 import lombok.Getter;
 import net.pixlies.core.Main;
 import net.pixlies.core.commands.cosmetics.*;
@@ -14,6 +15,7 @@ public class CommandManager {
     private static final Main instance = Main.getInstance();
 
     private @Getter final PaperCommandManager pcm;
+    private final boolean limitedCommands = instance.getConfig().getBoolean("commands.limitedCommands", false);
 
     public CommandManager() {
         pcm = new PaperCommandManager(instance);
@@ -25,36 +27,45 @@ public class CommandManager {
     }
 
     public void registerAllCommands() {
+
         // MODERATION
-        register(new BanCommand());
-        register(new TempBanCommand());
-        register(new MuteCommand());
-        register(new TempMuteCommand());
-        register(new ChatCommand());
-        register(new InventorySeeCommand());
+        register(new BanCommand(), false);
+        register(new TempBanCommand(), false);
+        register(new MuteCommand(), false);
+        register(new TempMuteCommand(), false);
+        register(new ChatCommand(), false);
+        register(new InventorySeeCommand(), false);
 
         // STAFF
-        register(new GodCommand());
-        register(new StaffSettingsCommand());
-        register(new WorldCommand());
+        register(new GodCommand(), false);
+        register(new StaffSettingsCommand(), false);
+        register(new WorldCommand(), false);
 
         // DEBUG
-        register(new ModulesCommand());
+        register(new ModulesCommand(), false);
 
         // COSMETICS
-        register(new HealCommand());
-        register(new EnderChestCommand());
-        register(new FeedCommand());
-        register(new NightVisionCommand());
-        register(new RepairCommand());
-        register(new SuicideCommand());
+        register(new HealCommand(), false);
+        register(new FeedCommand(), false);
+        register(new EnderChestCommand(), true);
+        register(new NightVisionCommand(), true);
+        register(new RepairCommand(), true);
+        register(new SuicideCommand(), true);
+
     }
 
-    public void register(BaseCommand command) {
+    /**
+     * Registers a command
+     * @param command the command to register
+     * @param earthOnly if the command can be used on a server that isn't lobby
+     */
+    public void register(BaseCommand command, boolean earthOnly) {
+        if (earthOnly && limitedCommands) return;
         pcm.registerCommand(command);
     }
 
     public void unregister(BaseCommand command) {
+        if (!pcm.getRegisteredRootCommands().contains((RootCommand) command)) return;
         pcm.unregisterCommand(command);
     }
 
