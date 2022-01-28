@@ -71,6 +71,9 @@ public class PixliesCalendar extends Thread {
         save();
     }
 
+    /**
+     * @return current season
+     */
     public PixliesSeasons getSeason() {
         return switch (month) {
             case 4, 5, 6 -> PixliesSeasons.SUMMER;
@@ -80,6 +83,10 @@ public class PixliesCalendar extends Thread {
         };
     }
 
+    /**
+     * Format the current date to the european standard
+     * @return String with formatted date
+     */
     public String formatDate() {
         return day + "/" + month + "/" + year;
     }
