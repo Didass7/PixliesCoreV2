@@ -47,6 +47,7 @@ public class CommandManager {
         register(new FeedCommand());
         register(new NightVisionCommand());
         register(new RepairCommand());
+        register(new SuicideCommand());
     }
 
     public void register(BaseCommand command) {

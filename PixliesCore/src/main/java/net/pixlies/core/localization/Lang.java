@@ -65,7 +65,13 @@ public enum Lang {
     COSMETICS_NIGHTVISION_OFF_OTHER(Lang.EARTH, new HashMap<>()),
 
     COSMETICS_REPAIR_ITEM(Lang.EARTH, new HashMap<>()),
-    COSMETICS_CANNOT_REPAIR_ITEM(Lang.EARTH, new HashMap<>());
+    COSMETICS_CANNOT_REPAIR_ITEM(Lang.EARTH, new HashMap<>()),
+
+    COSMETICS_PLAYER_SUICIDE(Lang.EARTH, new HashMap<>()),
+    COSMETICS_ANNOUNCE_PLAYER_SUICIDE(Lang.EARTH, new HashMap<>()),
+
+    // OTHER
+    MUST_BE_A_PLAYER(Lang.EARTH, new HashMap<>());
 
     private final String PREFIX;
     private @Getter Map<String, String> languages;
