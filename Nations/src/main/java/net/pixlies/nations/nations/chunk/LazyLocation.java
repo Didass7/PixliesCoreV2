@@ -1,11 +1,14 @@
 package net.pixlies.nations.nations.chunk;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import net.pixlies.core.Main;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
 @Data
+@AllArgsConstructor
 public class LazyLocation {
 
     private final String world;
@@ -25,9 +28,24 @@ public class LazyLocation {
         return Main.getInstance().getServer().getWorld(world);
     }
 
+    public Location getAsBukkitLocation() {
+        return new Location(Bukkit.getWorld(world), x, y, z, pitch, yaw);
+    }
+
     @Override
     public String toString() {
         return world + ";" + x + ";" + y + ";" + z + ";" + pitch + ";" + yaw;
+    }
+
+    public static LazyLocation fromString(String string) {
+        String[] args = string.split(";");
+        return new LazyLocation(args[0],
+                Double.parseDouble(args[1]),
+                Double.parseDouble(args[2]),
+                Double.parseDouble(args[3]),
+                Float.parseFloat(args[4]),
+                Float.parseFloat(args[5])
+        );
     }
 
 }
