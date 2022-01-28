@@ -8,6 +8,7 @@
         <module>PixliesCore</module>
         <module>Nations</module>
         <module>MiniMick</module>
+        <module>LobbyModule</module>
     </modules>
 
     <groupId>net.pixlies</groupId>
