@@ -1,6 +1,7 @@
 package net.pixlies.core.configuration;
 
 import net.pixlies.core.Main;
+import net.pixlies.core.utils.CC;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -77,6 +78,14 @@ public class Config extends YamlConfiguration {
             e.printStackTrace();
             instance.getLogger().warning("Failed to create " + file.getName() + ".");
         }
+    }
+
+    public String getStringFormatted(String key) {
+        return CC.format(getString(key));
+    }
+
+    public String getStringFormatted(String key, String defaults) {
+        return CC.format(getString(key, defaults));
     }
 
 }
