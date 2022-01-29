@@ -45,9 +45,6 @@ public enum Lang {
     SLOWMODE_MUST_BE_NUMERIC_VALUE(Lang.EARTH, new HashMap<>()),
     PLAYER_MESSAGED_ON_SLOWMODE(Lang.EARTH, new HashMap<>()),
 
-    ISSUED_KICKALL(Lang.EARTH, new HashMap<>()),
-    KICKALL_MESSAGE(Lang.EARTH, new HashMap<>()),
-
     STAFFMODE_ON(Lang.EARTH, new HashMap<>()),
     STAFFMODE_OFF(Lang.EARTH, new HashMap<>()),
 
@@ -65,6 +62,9 @@ public enum Lang {
     MODERATION_GLOBAL_PVP_ON(Lang.EARTH, new HashMap<>()),
     MODERATION_GLOBAL_PVP_OFF(Lang.EARTH, new HashMap<>()),
     PVP_OFF_PLAYER_TRIED_TO_PVP(Lang.EARTH, new HashMap<>()),
+
+    MODERATION_ISSUED_KICKALL(Lang.EARTH, new HashMap<>()),
+    MODERATION_KICKALL_MESSAGE(Lang.EARTH, new HashMap<>()),
 
     // COSMETICS
     MODERATION_GOD_ON(Lang.EARTH, new HashMap<>()),
