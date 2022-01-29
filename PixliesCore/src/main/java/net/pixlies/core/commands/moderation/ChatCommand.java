@@ -82,6 +82,19 @@ public class ChatCommand extends BaseCommand {
         instance.getConfig().reload();
     }
 
+    @Subcommand("slow")
+    @Description("Slows the chat down")
+    @CommandCompletion("@values:min=0,max=10")
+    public void onSlow(CommandSender sender, @Conditions("longLimits:min=0,max=10") Long cooldown) {
+        if (cooldown == 0) {
+            chatHandler.setSlowMode(0);
+            Lang.SLOWMODE_OFF.send(sender, "%PLAYER%;" + sender.getName());
+        } else {
+            chatHandler.setSlowMode(cooldown);
+            Lang.SLOWMODE_SET.send(sender, "%PLAYER%" + sender.getName(), "%VALUE%;" + cooldown);
+        }
+    }
+
     @Default
     @HelpCommand
     @Description("Chat moderation")

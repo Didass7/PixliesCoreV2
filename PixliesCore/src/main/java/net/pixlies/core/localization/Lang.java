@@ -39,14 +39,9 @@ public enum Lang {
     REMOVED_BLOCKED_WORD(Lang.EARTH, new HashMap<>()),
     PLAYER_TRIED_BLOCKED_WORD(Lang.EARTH, new HashMap<>()),
 
-    SLOWMODE_ON(Lang.EARTH, new HashMap<>()),
+    SLOWMODE_SET(Lang.EARTH, new HashMap<>()),
     SLOWMODE_OFF(Lang.EARTH, new HashMap<>()),
-    SLOWMODE_IS_ALREADY_OFF(Lang.EARTH, new HashMap<>()),
-    SLOWMODE_MUST_BE_NUMERIC_VALUE(Lang.EARTH, new HashMap<>()),
-    PLAYER_MESSAGED_ON_SLOWMODE(Lang.EARTH, new HashMap<>()),
-
-    STAFFMODE_ON(Lang.EARTH, new HashMap<>()),
-    STAFFMODE_OFF(Lang.EARTH, new HashMap<>()),
+    SLOWMODE_MESSAGE(Lang.EARTH, new HashMap<>()),
 
     PLAYER_DOESNT_EXIST(Lang.EARTH, new HashMap<>()),
 

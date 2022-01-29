@@ -26,6 +26,7 @@ public class Main extends JavaPlugin {
 
     @Getter private Config config;
     @Getter private Config calendarConfig;
+    @Getter private Config settings;
 
     @Override
     public void onEnable() {
@@ -38,6 +39,7 @@ public class Main extends JavaPlugin {
 
         // CONFIGURATION
         config = new Config(new File(getDataFolder().getAbsolutePath() + "/config.yml"), "config.yml");
+        settings = new Config(new File(getDataFolder().getAbsolutePath() + "/settings.yml", "settings.yml"));
         calendarConfig = new Config(new File(getDataFolder().getAbsolutePath() + "/calendar.yml"), "calendar.yml");
 
         // DATABASE

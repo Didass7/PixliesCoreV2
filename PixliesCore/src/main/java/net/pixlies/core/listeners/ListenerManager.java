@@ -21,7 +21,7 @@ public class ListenerManager {
         add(new ChatModerationListener());
         add(new ChatEmojiListener());
         add(new GlobalPvpListener());
-        add(new SlowmodeListener());
+        add(new SlowModeListener());
         add(new JoinQuitMessageListener());
     }};
 

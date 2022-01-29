@@ -1,6 +1,7 @@
 package net.pixlies.core.commands;
 
 import co.aikar.commands.BaseCommand;
+import co.aikar.commands.ConditionFailedException;
 import co.aikar.commands.PaperCommandManager;
 import co.aikar.commands.RootCommand;
 import lombok.Getter;
@@ -26,10 +27,11 @@ public class CommandManager {
         pcm.enableUnstableAPI("help");
         pcm.enableUnstableAPI("brigadier");
 
+        registerConditions();
         registerAllCommands();
     }
 
-    public void registerAllCommands() {
+    private void registerAllCommands() {
 
         // MODERATION
         register(new BanCommand(), false);
@@ -39,7 +41,6 @@ public class CommandManager {
         register(new ChatCommand(), false);
         register(new InventorySeeCommand(), false);
         register(new ToggleGlobalPvpCommand(), false);
-        register(new SlowmodeCommand(), false);
         register(new KickallCommand(), false);
         register(new StaffModeCommand(), true);
 
@@ -63,6 +64,31 @@ public class CommandManager {
         register(new MessageCommand(), false);
         register(new ReplyCommand(), false);
 
+    }
+
+    private void registerConditions() {
+        pcm.getCommandConditions().addCondition(Integer.class, "intLimits", (context, execution, value) -> {
+            if (value == null) {
+                return;
+            }
+            if (context.hasConfig("min") && context.getConfigValue("min", 0) > value) {
+                throw new ConditionFailedException("Min value must be " + context.getConfigValue("min", 0));
+            }
+            if (context.hasConfig("max") && context.getConfigValue("max", 3) < value) {
+                throw new ConditionFailedException("Max value must be " + context.getConfigValue("max", 3));
+            }
+        });
+        pcm.getCommandConditions().addCondition(Long.class, "longLimits", (context, execution, value) -> {
+            if (value == null) {
+                return;
+            }
+            if (context.hasConfig("min") && context.getConfigValue("min", 0) > value) {
+                throw new ConditionFailedException("Min value must be " + context.getConfigValue("min", 0));
+            }
+            if (context.hasConfig("max") && context.getConfigValue("max", 3) < value) {
+                throw new ConditionFailedException("Max value must be " + context.getConfigValue("max", 3));
+            }
+        });
     }
 
     /**
