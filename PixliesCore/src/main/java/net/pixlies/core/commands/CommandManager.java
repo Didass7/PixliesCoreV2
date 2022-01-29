@@ -38,6 +38,7 @@ public class CommandManager {
         register(new ChatCommand(), false);
         register(new InventorySeeCommand(), false);
         register(new ToggleGlobalPvpCommand(), false);
+        register(new SlowmodeCommand(), false);
 
         // STAFF
         register(new GodCommand(), false);

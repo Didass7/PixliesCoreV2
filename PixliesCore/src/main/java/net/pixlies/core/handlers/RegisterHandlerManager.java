@@ -12,7 +12,8 @@ public class RegisterHandlerManager {
             ChatHandler.class,
             CosmeticsHandler.class,
             GlobalPvpHandler.class,
-            MessageHandler.class
+            MessageHandler.class,
+            SlowmodeHandler.class
     );
 
     public void registerAllHandlers() {

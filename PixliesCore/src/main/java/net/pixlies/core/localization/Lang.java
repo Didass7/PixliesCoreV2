@@ -39,6 +39,12 @@ public enum Lang {
     REMOVED_BLOCKED_WORD(Lang.EARTH, new HashMap<>()),
     PLAYER_TRIED_BLOCKED_WORD(Lang.EARTH, new HashMap<>()),
 
+    SLOWMODE_ON(Lang.EARTH, new HashMap<>()),
+    SLOWMODE_OFF(Lang.EARTH, new HashMap<>()),
+    SLOWMODE_IS_ALREADY_OFF(Lang.EARTH, new HashMap<>()),
+    SLOWMODE_MUST_BE_NUMERIC_VALUE(Lang.EARTH, new HashMap<>()),
+    PLAYER_MESSAGED_ON_SLOWMODE(Lang.EARTH, new HashMap<>()),
+
     PLAYER_DOESNT_EXIST(Lang.EARTH, new HashMap<>()),
 
     // STAFF
@@ -81,7 +87,8 @@ public enum Lang {
     PLAYER_MESSAGE_NOONE_TO_MESSAGE(Lang.EARTH, new HashMap<>()),
 
     // OTHER
-    MUST_BE_A_PLAYER(Lang.EARTH, new HashMap<>());
+    MUST_BE_A_PLAYER(Lang.EARTH, new HashMap<>()),
+    INVALID_COMMAND_SYNTAX(Lang.EARTH, new HashMap<>());
 
     private final String PREFIX;
     private @Getter Map<String, String> languages;
