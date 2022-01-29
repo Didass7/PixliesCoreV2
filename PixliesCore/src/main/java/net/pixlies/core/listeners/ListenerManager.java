@@ -3,6 +3,8 @@ package net.pixlies.core.listeners;
 import lombok.Getter;
 import net.pixlies.core.Main;
 import net.pixlies.core.listeners.cosmetics.ChatEmojiListener;
+import net.pixlies.core.listeners.cosmetics.JoinListener;
+import net.pixlies.core.listeners.cosmetics.LeaveListener;
 import net.pixlies.core.listeners.cosmetics.PlayerDeathListener;
 import net.pixlies.core.listeners.moderation.*;
 import org.bukkit.Bukkit;
@@ -23,6 +25,8 @@ public class ListenerManager {
         add(new PlayerDeathListener());
         add(new GlobalPvpListener());
         add(new SlowmodeListener());
+        add(new JoinListener());
+        add(new LeaveListener());
     }};
 
     public static void registerAllListeners() {

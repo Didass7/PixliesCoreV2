@@ -32,7 +32,6 @@ public class JoinListener implements Listener {
         player.setFreezeTicks(0);
         player.setGameMode(GameMode.ADVENTURE);
         // TODO Player teleport to spawn
-        // Join messages can be done in the normal core.
         player.setAllowFlight(player.hasPermission("pixlies.lobby.flight"));
         JoinItems.give(player);
 
