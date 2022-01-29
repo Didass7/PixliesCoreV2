@@ -48,6 +48,10 @@ public enum Lang {
     ISSUED_KICKALL(Lang.EARTH, new HashMap<>()),
     KICKALL_MESSAGE(Lang.EARTH, new HashMap<>()),
 
+    STAFFMODE_ON(Lang.EARTH, new HashMap<>()),
+    STAFFMODE_OFF(Lang.EARTH, new HashMap<>()),
+    STAFFMODE_KICK_MESSAGE(Lang.EARTH, new HashMap<>()),
+
     PLAYER_DOESNT_EXIST(Lang.EARTH, new HashMap<>()),
 
     // STAFF

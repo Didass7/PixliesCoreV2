@@ -13,7 +13,8 @@ public class RegisterHandlerManager {
             CosmeticsHandler.class,
             GlobalPvpHandler.class,
             MessageHandler.class,
-            SlowmodeHandler.class
+            SlowmodeHandler.class,
+            StaffModeHandler.class
     );
 
     public void registerAllHandlers() {
