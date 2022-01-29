@@ -10,6 +10,7 @@ import net.pixlies.core.commands.debug.*;
 import net.pixlies.core.commands.moderation.*;
 import net.pixlies.core.commands.player.MessageCommand;
 import net.pixlies.core.commands.player.ReplyCommand;
+import net.pixlies.core.commands.player.SuicideCommand;
 import net.pixlies.core.commands.staff.*;
 
 public class CommandManager {

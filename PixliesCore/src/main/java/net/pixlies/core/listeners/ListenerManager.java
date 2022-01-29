@@ -5,7 +5,6 @@ import net.pixlies.core.Main;
 import net.pixlies.core.listeners.cosmetics.ChatEmojiListener;
 import net.pixlies.core.listeners.cosmetics.JoinListener;
 import net.pixlies.core.listeners.cosmetics.LeaveListener;
-import net.pixlies.core.listeners.cosmetics.PlayerDeathListener;
 import net.pixlies.core.listeners.moderation.*;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
@@ -22,7 +21,6 @@ public class ListenerManager {
         add(new MuteListener());
         add(new ChatModerationListener());
         add(new ChatEmojiListener());
-        add(new PlayerDeathListener());
         add(new GlobalPvpListener());
         add(new SlowmodeListener());
         add(new JoinListener());

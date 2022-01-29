@@ -1,6 +1,7 @@
 package net.pixlies.core.localization;
 
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.User;
 import org.bukkit.Bukkit;
@@ -15,7 +16,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-@SuppressWarnings("SpellCheckingInspection")
 public enum Lang {
 
     BAN_MESSAGE("", new HashMap<>()),
@@ -83,14 +83,14 @@ public enum Lang {
 
     COSMETICS_REPAIR_ITEM(Lang.EARTH, new HashMap<>()),
     COSMETICS_CANNOT_REPAIR_ITEM(Lang.EARTH, new HashMap<>()),
-
-    COSMETICS_PLAYER_SUICIDE(Lang.EARTH, new HashMap<>()),
     COSMETICS_ANNOUNCE_PLAYER_SUICIDE(Lang.EARTH, new HashMap<>()),
 
     // PLAYER
     PLAYER_MESSAGE_FORMAT_TO(Lang.EARTH, new HashMap<>()),
     PLAYER_MESSAGE_FORMAT_FROM(Lang.EARTH, new HashMap<>()),
     PLAYER_MESSAGE_NOONE_TO_MESSAGE(Lang.EARTH, new HashMap<>()),
+
+    PLAYER_SUICIDE(Lang.EARTH, new HashMap<>()),
 
     // OTHER
     MUST_BE_A_PLAYER(Lang.EARTH, new HashMap<>()),
@@ -174,7 +174,7 @@ public enum Lang {
 
     public void kickPlayer(CommandSender sender) {
         Player player = (Player) sender;
-        player.kickPlayer(get(sender));
+        player.kick(Component.text(get(sender)));
     }
 
     public void kickPlayer(CommandSender sender, String... placeholders) {
@@ -184,7 +184,7 @@ public enum Lang {
             String[] pSplit = s.split(";");
             send = send.replace(pSplit[0], pSplit[1]);
         }
-        player.kickPlayer(send);
+        player.kick(Component.text(send));
     }
 
     public void setLanguage(Map<String, String> languages) {

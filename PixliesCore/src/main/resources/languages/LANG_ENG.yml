@@ -1,5 +1,3 @@
-# TODO
-
 BAN_MESSAGE: |-
   §7You are banned from §3Pixlies§fNet§7.
   
@@ -28,6 +26,7 @@ ADDED_BLOCKED_WORD: ""
 REMOVED_BLOCKED_WORD: ""
 PLAYER_TRIED_BLOCKED_WORD: ""
 
+# TODO: Finish messages and translations
 # STAFF
 STAFF_GOD_ON: ""
 STAFF_GOD_OFF: ""
@@ -49,5 +48,7 @@ COSMETICS_NIGHTVISION_OFF: ""
 COSMETICS_NIGHTVISION_ON_OTHER: "%PLAYER%"
 COSMETICS_NIGHTVISION_OFF_OTHER: "%PLAYER%"
 
-COSMETICS_REPAIR_ITEM: "§7Item has been repaired."
-COSMETICS_CANNOT_REPAIR_ITEM: "§cYou cannot repair this item."
+COSMETICS_REPAIR_ITEM: "§7The item has been repaired."
+COSMETICS_CANNOT_REPAIR_ITEM: "§cThis item cannot be repaired."
+
+# PLAYER
