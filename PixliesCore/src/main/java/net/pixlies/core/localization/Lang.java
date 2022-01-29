@@ -45,6 +45,9 @@ public enum Lang {
     SLOWMODE_MUST_BE_NUMERIC_VALUE(Lang.EARTH, new HashMap<>()),
     PLAYER_MESSAGED_ON_SLOWMODE(Lang.EARTH, new HashMap<>()),
 
+    ISSUED_KICKALL(Lang.EARTH, new HashMap<>()),
+    KICKALL_MESSAGE(Lang.EARTH, new HashMap<>()),
+
     PLAYER_DOESNT_EXIST(Lang.EARTH, new HashMap<>()),
 
     // STAFF
@@ -164,6 +167,21 @@ public enum Lang {
         for (Player player : Bukkit.getOnlinePlayers())
             if (player.hasPermission(permission))
                 send(player, placeholders);
+    }
+
+    public void kickPlayer(CommandSender sender) {
+        Player player = (Player) sender;
+        player.kickPlayer(get(sender));
+    }
+
+    public void kickPlayer(CommandSender sender, String... placeholders) {
+        Player player = (Player) sender;
+        String send = get(sender);
+        for (String s : placeholders) {
+            String[] pSplit = s.split(";");
+            send = send.replace(pSplit[0], pSplit[1]);
+        }
+        player.kickPlayer(send);
     }
 
     public void setLanguage(Map<String, String> languages) {
