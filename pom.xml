@@ -10,6 +10,7 @@
         <module>MiniMick</module>
         <module>LobbyModule</module>
         <module>PixliesFun</module>
+        <module>PixliesProxyCore</module>
     </modules>
 
     <groupId>net.pixlies</groupId>
