@@ -12,7 +12,7 @@ import net.pixlies.core.handlers.impl.MessageHandler;
 import net.pixlies.core.localization.Lang;
 import org.bukkit.entity.Player;
 
-@CommandAlias("message|w|msg|pm|m")
+@CommandAlias("message|w|msg|pm|m|whisper|tell|t")
 public class MessageCommand extends BaseCommand {
 
     private final MessageHandler handler = Main.getInstance().getHandlerManager().getHandler(MessageHandler.class);
