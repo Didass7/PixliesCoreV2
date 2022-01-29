@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 
 @CommandAlias("togglestaffmode")
 @CommandPermission("pixlies.moderation.staffmode")
-public class ToggleStaffModeCommand extends BaseCommand {
+public class StaffModeCommand extends BaseCommand {
 
     private static final Main instance = Main.getInstance();
 
