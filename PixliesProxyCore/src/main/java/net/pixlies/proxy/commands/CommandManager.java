@@ -24,6 +24,7 @@ public class CommandManager {
     public void registerDependencies() {
         manager.registerDependency(Config.class, "config", new Config(new File(instance.getDataFolder(), "config.yml"), "config.yml"));
         manager.registerDependency(Config.class, "serverListConfig", new Config(new File(instance.getDataFolder(), "serverlist.yml"), "serverlist.yml"));
+        manager.registerDependency(Config.class, "settings", new Config(new File(instance.getDataFolder(), "settings.yml"), "settings.yml"));
     }
 
     public void registerCompletions() {
