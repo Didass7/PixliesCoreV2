@@ -3,31 +3,6 @@
   <component name="CompilerConfiguration">
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
-      <profile name="Maven default annotation processors profile" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <module name="core" />
-        <module name="MiniMick" />
-        <module name="PixliesFun" />
-        <module name="PixliesProxyCore" />
-        <module name="LobbyModule" />
-        <module name="Nations" />
-        <module name="PixliesCore" />
-      </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="core" target="16" />
-      <module name="LobbyModule" target="16" />
-      <module name="MiniMick" target="16" />
-      <module name="NationModule" target="16" />
-      <module name="Nations" target="16" />
-      <module name="PixliesCore" target="16" />
-      <module name="PixliesCoreV2" target="16" />
-      <module name="PixliesFun" target="16" />
-      <module name="PixliesProxyCore" target="16" />
-      <module name="test" target="16" />
-      <module name="yourmom" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>
