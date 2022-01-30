@@ -1,3 +1,5 @@
+package net.pixlies.business;
+
 import net.pixlies.core.modules.Module;
 
 public class PixliesBusiness extends Module {
