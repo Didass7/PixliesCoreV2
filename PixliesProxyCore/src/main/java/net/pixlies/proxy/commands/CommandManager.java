@@ -4,6 +4,9 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.BungeeCommandManager;
 import com.google.common.collect.ImmutableList;
 import net.pixlies.proxy.Proxy;
+import net.pixlies.proxy.config.Config;
+
+import java.io.File;
 
 public class CommandManager {
 
@@ -19,7 +22,8 @@ public class CommandManager {
     }
 
     public void registerDependencies() {
-        manager.registerDependency(Proxy.class, instance);
+        manager.registerDependency(Config.class, "config", new Config(new File(instance.getDataFolder(), "config.yml"), "config.yml"));
+        manager.registerDependency(Config.class, "serverListConfig", new Config(new File(instance.getDataFolder(), "serverlist.yml"), "serverlist.yml"));
     }
 
     public void registerCompletions() {
