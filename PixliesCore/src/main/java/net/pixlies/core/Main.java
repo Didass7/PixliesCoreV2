@@ -8,6 +8,7 @@ import net.pixlies.core.database.MongoManager;
 import net.pixlies.core.handlers.HandlerManager;
 import net.pixlies.core.handlers.RegisterHandlerManager;
 import net.pixlies.core.listeners.ListenerManager;
+import net.pixlies.core.localization.Lang;
 import net.pixlies.core.modules.ModuleManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -35,6 +36,15 @@ public class Main extends JavaPlugin {
         config = new Config(new File(getDataFolder().getAbsolutePath() + "/config.yml"), "config.yml");
         settings = new Config(new File(getDataFolder().getAbsolutePath() + "/settings.yml", "settings.yml"));
         calendarConfig = new Config(new File(getDataFolder().getAbsolutePath() + "/calendar.yml"), "calendar.yml");
+
+        // LANGUAGE
+        saveResource("languages/LANG_GER.yml", true);
+        saveResource("languages/LANG_ENG.yml", true);
+        saveResource("languages/LANG_FRA.yml", true);
+        saveResource("languages/LANG_ARM.yml", true);
+        saveResource("languages/LANG_LUX.yml", true);
+        saveResource("languages/LANG_PER.yml", true);
+        Lang.init();
 
         // HANDLERS
         moduleManager = new ModuleManager();

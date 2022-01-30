@@ -21,7 +21,6 @@ public class HealCommand extends BaseCommand {
         Lang.COSMETICS_HEALED_SELF.send(player);
     }
 
-    @Private
     @CommandPermission("pixlies.cosmetics.heal.others")
     @CommandCompletion("@players")
     public void onHeal(CommandSender sender, Player player) {

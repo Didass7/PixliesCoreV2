@@ -67,6 +67,8 @@ public class ModuleManager {
 
                 instance.getLogger().info("Loading module " + infoJson.getName() + " v" + infoJson.getVersion() + "...");
 
+                instance.getLogger().info(new Gson().toJson(infoJson));
+
                 moduleInstance.init(infoJson);
 
                 try {

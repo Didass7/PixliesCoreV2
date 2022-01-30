@@ -1,11 +1,8 @@
 package net.pixlies.core.entity;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import net.pixlies.core.Main;
 import net.pixlies.core.economy.Wallet;
 import net.pixlies.core.localization.Lang;
@@ -36,7 +33,7 @@ public class User {
     private Map<String, Wallet> wallets;
     private List<String> knownUsernames;
     private List<UUID> blockedUsers;
-    private JsonObject stats;
+    private Map<String, Object> stats;
     private Map<String, Punishment> currentPunishments;
     private String lang;
 
@@ -123,7 +120,7 @@ public class User {
             profile.append("wallets", Wallet.mapAllForMongo(Wallet.getDefaultWallets()));
             profile.append("knownUsernames", new ArrayList<>());
             profile.append("blockedUsers", new ArrayList<>());
-            profile.append("stats", gson.toJson(new JsonObject()));
+            profile.append("stats", new HashMap<>());
             profile.append("currentPunishments", Punishment.mapAllForMongo(new HashMap<>()));
             profile.append("lang", "ENG");
 
@@ -136,7 +133,7 @@ public class User {
                     Wallet.getDefaultWallets(),
                     new ArrayList<>(),
                     new ArrayList<>(),
-                    new JsonObject(),
+                    new HashMap<>(),
                     new HashMap<>(),
                     "ENG"
             );
@@ -150,7 +147,7 @@ public class User {
                     Wallet.getFromMongo((Map<String, Map<String, Object>>) found.get("wallets", Map.class)),
                     found.getList("knownUsernames", String.class),
                     found.getList("blockedUsers", String.class).stream().map(UUID::fromString).collect(Collectors.toList()),
-                    gson.fromJson(found.getString("stats"), JsonObject.class),
+                    found.get("stats", Map.class),
                     Punishment.getFromMongo((Map<String, Map<String, Object>>) found.get("currentPunishments")),
                     found.getString("lang")
             );
