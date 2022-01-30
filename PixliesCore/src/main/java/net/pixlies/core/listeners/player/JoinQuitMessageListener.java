@@ -1,8 +1,9 @@
-package net.pixlies.core.listeners.cosmetics;
+package net.pixlies.core.listeners.player;
 
 import net.kyori.adventure.text.Component;
 import net.pixlies.core.Main;
 import net.pixlies.core.configuration.Config;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -14,12 +15,16 @@ public class JoinQuitMessageListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        event.joinMessage(Component.text(config.getStringFormatted("joinQuit.joinMessage")));
+        Player player = event.getPlayer();
+        event.joinMessage(Component.text(config.getStringFormatted("joinQuit.joinMessage")
+                .replace("%PLAYER%", player.getName())));
     }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
-        event.quitMessage(Component.text(config.getStringFormatted("joinQuit.quitMessage")));
+        Player player = event.getPlayer();
+        event.quitMessage(Component.text(config.getStringFormatted("joinQuit.quitMessage")
+                .replace("%PLAYER%", player.getName())));
     }
 
 }
