@@ -1,15 +1,14 @@
 package net.pixlies.core;
 
 import lombok.Getter;
-import lombok.Setter;
 import net.pixlies.core.calendar.PixliesCalendar;
 import net.pixlies.core.commands.CommandManager;
 import net.pixlies.core.configuration.Config;
 import net.pixlies.core.database.MongoManager;
 import net.pixlies.core.handlers.HandlerManager;
 import net.pixlies.core.handlers.RegisterHandlerManager;
-import net.pixlies.core.modules.ModuleManager;
 import net.pixlies.core.listeners.ListenerManager;
+import net.pixlies.core.modules.ModuleManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -32,15 +31,15 @@ public class Main extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
-        // HANDLERS
-        moduleManager = new ModuleManager();
-        handlerManager = new HandlerManager();
-        new RegisterHandlerManager().registerAllHandlers();
-
         // CONFIGURATION
         config = new Config(new File(getDataFolder().getAbsolutePath() + "/config.yml"), "config.yml");
         settings = new Config(new File(getDataFolder().getAbsolutePath() + "/settings.yml", "settings.yml"));
         calendarConfig = new Config(new File(getDataFolder().getAbsolutePath() + "/calendar.yml"), "calendar.yml");
+
+        // HANDLERS
+        moduleManager = new ModuleManager();
+        handlerManager = new HandlerManager();
+        new RegisterHandlerManager().registerAllHandlers();
 
         // DATABASE
         database = new MongoManager().init();
