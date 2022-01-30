@@ -51,6 +51,9 @@ public enum Lang {
 
     STAFF_WORLD_TELEPORT(Lang.EARTH, new HashMap<>()),
 
+    STAFFMODE_SETTING_TURNED_ON(Lang.EARTH, new HashMap<>()),
+    STAFFMODE_SETTING_TURNED_OFF(Lang.EARTH, new HashMap<>()),
+
     // MODERATION
     MODERATION_INVSEE_DISALLOW_SELF(Lang.EARTH, new HashMap<>()),
 

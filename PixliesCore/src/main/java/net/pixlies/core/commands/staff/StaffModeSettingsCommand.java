@@ -11,6 +11,7 @@ import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import com.github.stefvanschie.inventoryframework.pane.component.ToggleButton;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import net.pixlies.core.localization.Lang;
 import net.pixlies.core.utils.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -51,24 +52,37 @@ public class StaffModeSettingsCommand extends BaseCommand {
         // Settings pane
         StaticPane settingsPane = new StaticPane(2, 1, 5, 1);
         for (Settings s : Settings.values()) {
-            boolean enabled = s.isEnabledByDefault();
-            ToggleButton button = new ToggleButton(s.ordinal(), 0, 0, 0, enabled);
+            ToggleButton button = new ToggleButton(s.ordinal(), 0, 0, 0, s.isEnabledByDefault());
             Material material = s.getMaterial();
             ItemBuilder builder = new ItemBuilder(material)
                     .setDisplayName(s.getTitle())
+                    .setGlow(s.isEnabledByDefault())
                     .addLoreArray(s.getDescription())
                     .addLoreLine(" ");
-            if (enabled) {
+            if (s.isEnabledByDefault()) {
                 builder.addLoreLine(on);
             } else {
                 builder.addLoreLine(off);
             }
-            settingsPane.addItem(new GuiItem(builder.build()), s.ordinal(), 0);
+            GuiItem item = new GuiItem(builder.build());
+            item.setAction(event -> {
+                button.toggle();
+                builder.setGlow(button.isEnabled());
+                player.playSound(player.getLocation(), "entity.experience_orb.pickup", 100, 1);
+                if (button.isEnabled()) {
+                    builder.removeLoreLine(off);
+                    builder.addLoreLine(on);
+                    Lang.STAFFMODE_SETTING_TURNED_ON.send(player, "%SETTING%;" + s.getTitle());
+                } else {
+                    builder.removeLoreLine(on);
+                    builder.addLoreLine(off);
+                    Lang.STAFFMODE_SETTING_TURNED_OFF.send(player, "%SETTING%;" + s.getTitle());
+                }
+                settingsPane.addItem(item, s.ordinal(), 0);
+                gui.update();
+            });
+            settingsPane.addItem(item, s.ordinal(), 0);
         }
-
-        /* TODO
-           implement the settings as actual things
-         */
 
         // Add panes
         gui.addPane(background);
@@ -77,6 +91,7 @@ public class StaffModeSettingsCommand extends BaseCommand {
 
         // Show GUI
         gui.show(player);
+        gui.update();
     }
 
     @HelpCommand
