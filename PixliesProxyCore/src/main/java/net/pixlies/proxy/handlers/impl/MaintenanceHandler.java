@@ -52,7 +52,7 @@ public class MaintenanceHandler {
         save();
     }
 
-    public boolean isPlayerWhitelisted(UUID uuid) {
+    public boolean isWhitelisted(UUID uuid) {
         if (whitelisted.isEmpty()) return false;
         return whitelisted.contains(uuid);
     }
