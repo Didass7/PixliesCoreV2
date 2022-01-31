@@ -12,13 +12,12 @@ import org.bukkit.entity.Player;
 
 import java.util.Objects;
 
-@CommandAlias("kickall")
-@CommandPermission("pixlies.moderation.kickall")
 public class KickallCommand extends BaseCommand {
 
     private static final Main instance = Main.getInstance();
 
-    @Default
+    @CommandAlias("kickall")
+    @CommandPermission("pixlies.moderation.kickall")
     @Description("Kick all players")
     @CommandCompletion("@empty")
     public void onKickAll(CommandSender sender, @Optional String reason) {
