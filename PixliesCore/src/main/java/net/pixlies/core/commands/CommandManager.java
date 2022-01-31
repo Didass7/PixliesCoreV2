@@ -7,8 +7,9 @@ import co.aikar.commands.RootCommand;
 import lombok.Getter;
 import net.pixlies.core.Main;
 import net.pixlies.core.commands.cosmetics.*;
-import net.pixlies.core.commands.debug.*;
+import net.pixlies.core.commands.admin.*;
 import net.pixlies.core.commands.moderation.*;
+import net.pixlies.core.commands.player.ClearCommand;
 import net.pixlies.core.commands.player.MessageCommand;
 import net.pixlies.core.commands.player.ReplyCommand;
 import net.pixlies.core.commands.player.SuicideCommand;
@@ -32,7 +33,6 @@ public class CommandManager {
     }
 
     private void registerAllCommands() {
-
         // MODERATION
         register(new BanCommand(), false);
         register(new TempBanCommand(), false);
@@ -65,6 +65,7 @@ public class CommandManager {
         register(new ReplyCommand(), false);
         register(new RandomTeleportCommand(), false);
         register(new SuicideCommand(), true);
+        register(new ClearCommand(), false);
     }
 
     private void registerConditions() {
