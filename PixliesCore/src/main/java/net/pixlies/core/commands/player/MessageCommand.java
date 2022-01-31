@@ -27,7 +27,7 @@ public class MessageCommand extends BaseCommand {
             return;
         }
         Lang.PLAYER_MESSAGE_FORMAT_TO.send(player, "%PLAYER%;" + target.getName(), "%MESSAGE%;" + message);
-        Lang.PLAYER_MESSAGE_FORMAT_FROM.send(target, "%PLAYER%;" + player.getName(), "%MESSAGE;" + message);
+        Lang.PLAYER_MESSAGE_FORMAT_FROM.send(target, "%PLAYER%;" + player.getName(), "%MESSAGE%;" + message);
         handler.setReplyTarget(player.getUniqueId(), target.getUniqueId());
     }
 
