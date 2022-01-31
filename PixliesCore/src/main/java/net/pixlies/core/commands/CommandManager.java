@@ -9,6 +9,7 @@ import net.pixlies.core.Main;
 import net.pixlies.core.commands.cosmetics.*;
 import net.pixlies.core.commands.debug.*;
 import net.pixlies.core.commands.moderation.*;
+import net.pixlies.core.commands.player.ClearCommand;
 import net.pixlies.core.commands.player.MessageCommand;
 import net.pixlies.core.commands.player.ReplyCommand;
 import net.pixlies.core.commands.player.SuicideCommand;
@@ -65,6 +66,7 @@ public class CommandManager {
         register(new MessageCommand(), false);
         register(new ReplyCommand(), false);
         register(new RandomTeleportCommand(), false);
+        register(new ClearCommand(), false);
 
     }
 

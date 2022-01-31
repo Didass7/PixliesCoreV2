@@ -27,6 +27,8 @@ public enum Lang {
     MUTE_MESSAGE("", new HashMap<>()),
     MUTED_PLAYER_TRIED_TO_TALK(Lang.EARTH, new HashMap<>()),
 
+    NO_ITEMS_FOUND_ON_PLAYER(Lang.EARTH, new HashMap<>()),
+
     CHAT_CLEARED(Lang.EARTH, new HashMap<>()),
     CHAT_MUTED(Lang.EARTH, new HashMap<>()),
     CHAT_UNMUTED(Lang.EARTH, new HashMap<>()),
@@ -95,6 +97,8 @@ public enum Lang {
     PLAYER_MESSAGE_NOONE_TO_MESSAGE(Lang.EARTH, new HashMap<>()),
 
     PLAYER_SUICIDE(Lang.EARTH, new HashMap<>()),
+
+    PLAYER_CLEAR(Lang.EARTH, new HashMap<>()),
 
     // OTHER
     MUST_BE_A_PLAYER(Lang.EARTH, new HashMap<>()),
