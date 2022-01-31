@@ -52,7 +52,7 @@ public class StaffModeSettingsCommand extends BaseCommand {
         // Settings pane
         StaticPane settingsPane = new StaticPane(2, 1, 5, 1);
         for (Settings s : Settings.values()) {
-            ToggleButton button = new ToggleButton(s.ordinal(), 0, 0, 0, s.isEnabledByDefault());
+            ToggleButton button = new ToggleButton(s.ordinal(), 0, 1, 1, s.isEnabledByDefault());
             Material material = s.getMaterial();
             ItemBuilder builder = new ItemBuilder(material)
                     .setDisplayName(s.getTitle())

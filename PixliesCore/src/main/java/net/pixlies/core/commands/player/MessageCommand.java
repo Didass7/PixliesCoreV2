@@ -12,6 +12,7 @@ import net.pixlies.core.handlers.impl.MessageHandler;
 import net.pixlies.core.localization.Lang;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.CommandSender;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.Locale;
@@ -35,6 +36,14 @@ public class MessageCommand extends BaseCommand {
         }
         Lang.PLAYER_MESSAGE_FORMAT_TO.send(sender, "%PLAYER%;" + target.getName(), "%MESSAGE%;" + message);
         Lang.PLAYER_MESSAGE_FORMAT_FROM.send(target, "%PLAYER%;" + StringUtils.capitalize(sender.getName().toLowerCase(Locale.ROOT)), "%MESSAGE%;" + message);
+
+        // Socialspy
+        for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+            User pUser = User.get(p.getUniqueId());
+            if (user.isStaffModeEnabled() && user.isSocialSpy() && p.hasPermission("pixlies.moderation.socialspy")) {
+                p.sendMessage(Lang.PM + "§3" + player.getName() + "§8 >> §3" + target.getName() + " §8- §7" + message);
+            }
+        }
     }
 
 }

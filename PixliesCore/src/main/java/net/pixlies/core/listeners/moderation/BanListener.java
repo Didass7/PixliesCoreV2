@@ -1,15 +1,16 @@
 package net.pixlies.core.listeners.moderation;
 
 import net.kyori.adventure.text.Component;
-import net.pixlies.core.localization.Lang;
 import net.pixlies.core.entity.User;
+import net.pixlies.core.localization.Lang;
 import net.pixlies.core.moderation.Punishment;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.ocpsoft.prettytime.PrettyTime;
 
-import java.util.Collections;
 import java.util.Date;
 
 public class BanListener implements Listener {
@@ -33,7 +34,12 @@ public class BanListener implements Listener {
             }
 
             event.disallow(PlayerLoginEvent.Result.KICK_BANNED, Component.text(banMessage));
-            Lang.BANNED_PLAYER_TRIED_TO_JOIN.broadcast(Collections.singletonMap("%PLAYER%", event.getPlayer().getName()), BAN_BROADCAST_PERMISSION);
+            for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+                User pUser = User.get(p.getUniqueId());
+                if (pUser.isStaffModeEnabled() && pUser.isBanSpy() && p.hasPermission(BAN_BROADCAST_PERMISSION)) {
+                    Lang.BANNED_PLAYER_TRIED_TO_JOIN.send(p, "%PLAYER%;", event.getPlayer().getName());
+                }
+            }
         }
     }
 

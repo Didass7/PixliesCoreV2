@@ -59,13 +59,12 @@ public class CommandManager {
         register(new EnderChestCommand(), true);
         register(new NightVisionCommand(), true);
         register(new RepairCommand(), true);
-        register(new SuicideCommand(), true);
 
         // PLAYER
         register(new MessageCommand(), false);
         register(new ReplyCommand(), false);
         register(new RandomTeleportCommand(), false);
-
+        register(new SuicideCommand(), true);
     }
 
     private void registerConditions() {

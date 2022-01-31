@@ -37,6 +37,14 @@ public class User {
     private Map<String, Punishment> currentPunishments;
     private String lang;
 
+    // Staff mode settings
+    private boolean staffModeEnabled;
+    private boolean socialSpy;
+    private boolean commandSpy;
+    private boolean banSpy;
+    private boolean muteSpy;
+    private boolean clearChatBypass;
+
     public OfflinePlayer getAsOfflinePlayer() {
         return Bukkit.getOfflinePlayer(uuid);
     }
@@ -149,7 +157,13 @@ public class User {
                     new ArrayList<>(),
                     new HashMap<>(),
                     new HashMap<>(),
-                    "ENG"
+                    "ENG",
+                    false,
+                    true,
+                    true,
+                    true,
+                    true,
+                    false
             );
 
             Bukkit.getConsoleSender().sendMessage(ChatColor.AQUA + "Profile for " + uuid + " created in Database.");
@@ -163,7 +177,13 @@ public class User {
                     found.getList("blockedUsers", String.class).stream().map(UUID::fromString).collect(Collectors.toList()),
                     found.get("stats", Map.class),
                     Punishment.getFromMongo((Map<String, Map<String, Object>>) found.get("currentPunishments")),
-                    found.getString("lang")
+                    found.getString("lang"),
+                    found.getBoolean(false),
+                    found.getBoolean(true),
+                    found.getBoolean(true),
+                    found.getBoolean(true),
+                    found.getBoolean(true),
+                    found.getBoolean(false)
             );
         }
         return data;
@@ -184,6 +204,12 @@ public class User {
         profile.append("stats", gson.toJson(stats));
         profile.append("currentPunishments", Punishment.mapAllForMongo(currentPunishments));
         profile.append("lang", lang);
+        profile.append("socialSpy", socialSpy);
+        profile.append("commandSpy", commandSpy);
+        profile.append("banSpy", banSpy);
+        profile.append("muteSpy", muteSpy);
+        profile.append("clearChatBypass", clearChatBypass);
+        profile.append("staffModeEnabled", staffModeEnabled);
         instance.getDatabase().getUserCollection().replaceOne(found, profile);
     }
 

@@ -2,10 +2,10 @@ package net.pixlies.core.localization;
 
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
+import net.md_5.bungee.api.ChatColor;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.User;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -60,6 +60,9 @@ public enum Lang {
     STAFF_GAMEMODE_CHANGED_SELF(Lang.EARTH, new HashMap<>()),
     STAFF_GAMEMODE_CHANGED_OTHERS(Lang.EARTH, new HashMap<>()),
 
+    STAFFMODE_ON(Lang.EARTH, new HashMap<>()),
+    STAFFMODE_OFF(Lang.EARTH, new HashMap<>()),
+
     // MODERATION
     MODERATION_INVSEE_DISALLOW_SELF(Lang.EARTH, new HashMap<>()),
 
@@ -109,6 +112,8 @@ public enum Lang {
     public static final String NATION = "§x§2§F§D§1§E§5§lN§x§3§4§C§6§D§8§lA§x§3§7§B§A§C§A§lT§x§3§5§B§0§B§F§lI§x§3§3§A§3§B§0§lO§x§3§2§9§9§A§5§lN §8| ";
     public static final String DISCORD = "§3§lDISCORD §8| ";
     public static final String WAR = "§x§f§f§2§b§2§bW§x§e§b§2§1§2§1A§x§d§9§1§a§1§aR §8| ";
+    public static final String PM = ChatColor.of("#a811ce") + "P" + ChatColor.of("#a408a4") + "M §8| ";
+    public static final String CMD = ChatColor.of("#ffaa00") + "C" + ChatColor.of("#d48d00") + "M" + ChatColor.of("#a96f00") + "§lD §8| ";
 
     Lang(String PREFIX, Map<String, String> languages) {
         this.PREFIX = PREFIX;

@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/LobbyModule/LobbyModule.iml" filepath="$PROJECT_DIR$/LobbyModule/LobbyModule.iml" />
       <module fileurl="file://$PROJECT_DIR$/MiniMick/MiniMick.iml" filepath="$PROJECT_DIR$/MiniMick/MiniMick.iml" />
       <module fileurl="file://$PROJECT_DIR$/Nations/Nations.iml" filepath="$PROJECT_DIR$/Nations/Nations.iml" />
-      <module fileurl="file://$PROJECT_DIR$/PixliesBusiness/PixliesBusiness.iml" filepath="$PROJECT_DIR$/PixliesBusiness/PixliesBusiness.iml" />
       <module fileurl="file://$PROJECT_DIR$/PixliesCore/PixliesCore.iml" filepath="$PROJECT_DIR$/PixliesCore/PixliesCore.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/PixliesCoreV2.iml" filepath="$PROJECT_DIR$/.idea/PixliesCoreV2.iml" />
       <module fileurl="file://$PROJECT_DIR$/PixliesFun/PixliesFun.iml" filepath="$PROJECT_DIR$/PixliesFun/PixliesFun.iml" />

@@ -5,6 +5,7 @@ import net.pixlies.core.Main;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.entity.User;
 import net.pixlies.core.moderation.Punishment;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -27,7 +28,12 @@ public class MuteListener implements Listener {
                 user.save();
                 return;
             }
-            Lang.MUTED_PLAYER_TRIED_TO_TALK.broadcastPermission(MUTE_BROADCAST_PERMISSION, "%PLAYER%;" + player.getName());
+            for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+                User pUser = User.get(p.getUniqueId());
+                if (pUser.isStaffModeEnabled() && pUser.isMuteSpy() && p.hasPermission(MUTE_BROADCAST_PERMISSION)) {
+                    Lang.MUTED_PLAYER_TRIED_TO_TALK.send(p, "%PLAYER%;", player.getName());
+                }
+            }
             Lang.MUTE_MESSAGE.send(player);
             event.setCancelled(true);
         }
