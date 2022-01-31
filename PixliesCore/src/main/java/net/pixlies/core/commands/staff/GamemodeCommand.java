@@ -51,7 +51,7 @@ public class GamemodeCommand extends BaseCommand {
 
 
     public void changeGameMode(Player player, Player target, GameMode gameMode) {
-        if (target == null) {
+        if (target == null || target.getUniqueId().equals(player.getUniqueId())) {
             player.setGameMode(gameMode);
             Lang.STAFF_GAMEMODE_CHANGED_SELF.send(player, "%GAMEMODE%;" + TextUtils.getGameModeFormatted(gameMode));
         } else {

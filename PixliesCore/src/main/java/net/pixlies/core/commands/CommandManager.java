@@ -48,6 +48,7 @@ public class CommandManager {
         register(new GodCommand(), false);
         register(new StaffModeSettingsCommand(), false);
         register(new WorldCommand(), false);
+        register(new GamemodeCommand(), false);
 
         // DEBUG
         register(new ModulesCommand(), false);
