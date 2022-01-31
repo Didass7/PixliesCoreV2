@@ -36,6 +36,9 @@ public class HealCommand extends BaseCommand {
     private static void healPlayer(Player player) {
         player.setHealth(Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue());
         player.setFoodLevel(20);
+        player.setFreezeTicks(0);
+        player.setFireTicks(0);
+        player.setVisualFire(false);
         player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
     }
 
