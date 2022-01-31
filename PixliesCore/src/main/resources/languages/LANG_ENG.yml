@@ -15,7 +15,7 @@ MUTE_MESSAGE: "§cYou cannot talk while being muted."
 MUTED_PLAYER_TRIED_TO_TALK: "§6%PLAYER% §7tried to talk, but they are muted!"
 
 CHAT_CLEARED: "§7The chat was cleared by §6%PLAYER%§7."
-CHAT_MUTED: "§7The chat was §cmuted§7 by §6%PLAYER%§7."
+CHAT_MUTED: "§cThe chat function is disabled at the moment."
 CHAT_UNMUTED: "§7The chat was §aunmuted§7 by §6%PLAYER%§7."
 
 PLAYER_DOESNT_EXIST: "§cThis player does not exist!"
