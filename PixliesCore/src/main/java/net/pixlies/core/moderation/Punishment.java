@@ -58,6 +58,7 @@ public class Punishment {
 
     public boolean isExpired() {
         if (isPermanent()) return false;
+        if (getUntil() == 0) return false;
         return System.currentTimeMillis() - getUntil() <= 0;
     }
 
