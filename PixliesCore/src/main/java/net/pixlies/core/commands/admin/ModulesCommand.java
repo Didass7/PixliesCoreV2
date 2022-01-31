@@ -30,7 +30,7 @@ public class ModulesCommand extends BaseCommand {
     @Description("Returns all loaded Modules")
     public void onModules(Player player) {
 
-        ChestGui gui = new ChestGui(3, "§aModules");
+        ChestGui gui = new ChestGui(3, "Modules");
         PaginatedPane modulesPane = new PaginatedPane(0, 0, 9, 5);
 
         modulesPane.populateWithGuiItems(new ArrayList<>(){{
