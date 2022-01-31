@@ -39,7 +39,7 @@ public class GamemodeCommand extends BaseCommand {
         changeGameMode(player, target, GameMode.ADVENTURE);
     }
 
-    @CommandAlias("gmsp")
+    @CommandAlias("gmsp|gmt")
     @Subcommand("spectator|sp|3")
     @CommandPermission("pixlies.staff.gamemode.spectator")
     @Description("Change your gamemode to spectator")
