@@ -74,6 +74,11 @@ public class ItemBuilder {
         return this;
     }
 
+    public ItemBuilder removeLoreLine(String string) {
+        lore.remove(Component.text(string));
+        return this;
+    }
+
     public ItemBuilder addLoreArray(String[] strings) {
         List<String> list = new ArrayList<>(Arrays.asList(strings));
         list.forEach(string -> lore.add(Component.text(string)));

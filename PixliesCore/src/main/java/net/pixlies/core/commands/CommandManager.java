@@ -46,7 +46,7 @@ public class CommandManager {
 
         // STAFF
         register(new GodCommand(), false);
-        register(new StaffSettingsCommand(), false);
+        register(new StaffModeSettingsCommand(), false);
         register(new WorldCommand(), false);
 
         // DEBUG

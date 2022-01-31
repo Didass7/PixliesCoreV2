@@ -18,7 +18,7 @@ public class ModuleDescription {
         this.authors = authors;
         this.version = version;
         this.main = main;
-        this.icon = Material.getMaterial(icon.toUpperCase());
+        this.icon = Material.valueOf(icon.toUpperCase());
         activated = true;
     }
 

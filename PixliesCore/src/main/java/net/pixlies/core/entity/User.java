@@ -1,11 +1,8 @@
 package net.pixlies.core.entity;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import net.pixlies.core.Main;
 import net.pixlies.core.economy.Wallet;
 import net.pixlies.core.localization.Lang;
@@ -36,7 +33,7 @@ public class User {
     private Map<String, Wallet> wallets;
     private List<String> knownUsernames;
     private List<UUID> blockedUsers;
-    private JsonObject stats;
+    private Map<String, Object> stats;
     private Map<String, Punishment> currentPunishments;
     private String lang;
 
@@ -47,7 +44,7 @@ public class User {
     public Punishment getMute() {
         if (!currentPunishments.containsKey("mute")) return null;
         Punishment punishment = currentPunishments.get("mute");
-        if (punishment.getUntil() - System.currentTimeMillis() <= 0) {
+        if (punishment.getUntil() - System.currentTimeMillis() <= 0 && punishment.getUntil() != 0) {
             currentPunishments.remove("mute");
             return null;
         }
@@ -63,6 +60,7 @@ public class User {
         } else {
             Lang.PLAYER_PERMANENTLY_MUTED.broadcast("%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason);
         }
+        save();
         return punishment;
     }
 
@@ -74,13 +72,15 @@ public class User {
             Lang.PLAYER_TEMPORARILY_MUTED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason, "%TIME%;" + new PrettyTime().format(new Date(punishment.getUntil())));
         else
             Lang.PLAYER_TEMPORARILY_MUTED.broadcast("%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason, "%TIME%;" + new PrettyTime().format(new Date(punishment.getUntil())));
+        save();
         return punishment;
     }
 
     public Punishment getBan() {
         if (!currentPunishments.containsKey("ban")) return null;
+        System.out.println(currentPunishments);
         Punishment punishment = currentPunishments.get("ban");
-        if (punishment.getUntil() - System.currentTimeMillis() <= 0) {
+        if (punishment.getUntil() - System.currentTimeMillis() <= 0 && punishment.getUntil() != 0) {
             currentPunishments.remove("ban");
             return null;
         }
@@ -95,6 +95,7 @@ public class User {
             Lang.PLAYER_PERMANENTLY_BANNED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason);
         else
             Lang.PLAYER_PERMANENTLY_BANNED.broadcast("%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason);
+        save();
         return punishment;
     }
 
@@ -106,6 +107,7 @@ public class User {
             Lang.PLAYER_TEMPORARILY_BANNED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason, "%TIME%;" + new PrettyTime().format(new Date(punishment.getUntil())));
         else
             Lang.PLAYER_TEMPORARILY_BANNED.broadcast("%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason, "%TIME%;" + new PrettyTime().format(new Date(punishment.getUntil())));
+        save();
         return punishment;
     }
 
@@ -121,9 +123,10 @@ public class User {
             profile.append("joined", System.currentTimeMillis());
             profile.append("discordId", "NONE");
             profile.append("wallets", Wallet.mapAllForMongo(Wallet.getDefaultWallets()));
+            System.out.println(Wallet.mapAllForMongo(Wallet.getDefaultWallets()));
             profile.append("knownUsernames", new ArrayList<>());
             profile.append("blockedUsers", new ArrayList<>());
-            profile.append("stats", gson.toJson(new JsonObject()));
+            profile.append("stats", new HashMap<>());
             profile.append("currentPunishments", Punishment.mapAllForMongo(new HashMap<>()));
             profile.append("lang", "ENG");
 
@@ -136,7 +139,7 @@ public class User {
                     Wallet.getDefaultWallets(),
                     new ArrayList<>(),
                     new ArrayList<>(),
-                    new JsonObject(),
+                    new HashMap<>(),
                     new HashMap<>(),
                     "ENG"
             );
@@ -144,13 +147,13 @@ public class User {
             Bukkit.getConsoleSender().sendMessage(ChatColor.AQUA + "Profile for " + uuid + " created in Database.");
         } else {
             data = new User(
-                    UUID.fromString(found.getString("uuid")),
+                    UUID.fromString(found.getString("uniqueId")),
                     found.getLong("joined"),
                     found.getString("discordId"),
                     Wallet.getFromMongo((Map<String, Map<String, Object>>) found.get("wallets", Map.class)),
                     found.getList("knownUsernames", String.class),
                     found.getList("blockedUsers", String.class).stream().map(UUID::fromString).collect(Collectors.toList()),
-                    gson.fromJson(found.getString("stats"), JsonObject.class),
+                    found.get("stats", Map.class),
                     Punishment.getFromMongo((Map<String, Map<String, Object>>) found.get("currentPunishments")),
                     found.getString("lang")
             );
@@ -159,7 +162,7 @@ public class User {
     }
 
     public void backup() {
-        Document profile = new Document("uuid", uuid);
+        Document profile = new Document("uniqueId", uuid);
         Document found = instance.getDatabase().getUserCollection().find(profile).first();
         if (found == null) return;
         profile.append("joined", joined);

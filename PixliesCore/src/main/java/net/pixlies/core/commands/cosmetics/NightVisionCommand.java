@@ -8,6 +8,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+@CommandAlias("nightvision|nv")
+@CommandPermission("pixlies.cosmetics.nightvision")
 public class NightVisionCommand extends BaseCommand {
 
     @Default

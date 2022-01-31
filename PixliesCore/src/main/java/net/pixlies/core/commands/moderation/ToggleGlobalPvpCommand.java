@@ -8,14 +8,13 @@ import net.pixlies.core.handlers.impl.GlobalPvpHandler;
 import net.pixlies.core.localization.Lang;
 import org.bukkit.command.CommandSender;
 
-@CommandAlias("toggleglobalpvp")
-@CommandPermission("pixlies.moderation.globalpvp")
 public class ToggleGlobalPvpCommand extends BaseCommand {
 
     private static final Main instance = Main.getInstance();
     private final GlobalPvpHandler globalPvpHandler = instance.getHandlerManager().getHandler(GlobalPvpHandler.class);
 
-    @Default
+    @CommandAlias("toggleglobalpvp")
+    @CommandPermission("pixlies.moderation.globalpvp")
     @Description("Toggle Global PvP Combat")
     public void onTogglePvP(CommandSender sender) {
         boolean pvpEnabled = globalPvpHandler.isGlobalPvpEnabled();
@@ -26,12 +25,5 @@ public class ToggleGlobalPvpCommand extends BaseCommand {
         }
         globalPvpHandler.setGlobalPvpEnabled(!pvpEnabled);
     }
-
-    @HelpCommand
-    public void onHelp(CommandSender sender, CommandHelp help) {
-        help.showHelp();
-    }
-
-    public ToggleGlobalPvpCommand() {}
 
 }

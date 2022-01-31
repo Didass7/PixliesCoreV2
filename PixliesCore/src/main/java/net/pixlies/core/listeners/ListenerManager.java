@@ -3,7 +3,7 @@ package net.pixlies.core.listeners;
 import lombok.Getter;
 import net.pixlies.core.Main;
 import net.pixlies.core.listeners.cosmetics.ChatEmojiListener;
-import net.pixlies.core.listeners.cosmetics.JoinQuitMessageListener;
+import net.pixlies.core.listeners.player.JoinQuitMessageListener;
 import net.pixlies.core.listeners.moderation.*;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;

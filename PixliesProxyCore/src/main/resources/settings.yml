@@ -1,0 +1,5 @@
+# Please don't edit this file. Use the commands built in to the plugin.
+maintenance:
+  enabled: false
+  whitelist:
+    - MickMMars

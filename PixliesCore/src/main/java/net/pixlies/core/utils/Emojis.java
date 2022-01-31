@@ -1,5 +1,7 @@
 package net.pixlies.core.utils;
 
+import net.kyori.adventure.text.Component;
+
 import java.util.HashMap;
 import java.util.Map;
 

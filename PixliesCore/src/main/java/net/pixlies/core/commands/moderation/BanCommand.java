@@ -12,11 +12,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
-@CommandAlias("ban")
-@CommandPermission("pixlies.moderation.ban")
 public class BanCommand extends BaseCommand {
 
-    @Default
+    @CommandAlias("ban")
+    @CommandPermission("pixlies.moderation.ban")
     @CommandCompletion("@players")
     @Description("Bans player with the default reason")
     public void onBan(CommandSender sender, String player, @Optional String reason) {
@@ -44,11 +43,6 @@ public class BanCommand extends BaseCommand {
         }
         User user = User.get(targetOP.getUniqueId());
         user.ban(banReason, sender, silent);
-    }
-
-    @HelpCommand
-    public void onHelp(CommandSender sender, CommandHelp help) {
-        help.showHelp();
     }
 
     public BanCommand() {}
