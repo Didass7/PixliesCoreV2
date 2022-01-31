@@ -35,7 +35,7 @@ STAFF_GOD_OFF: ""
 STAFF_RANDOM_TELEPORT: "§7You have been randomly teleported to §6%TARGET%§7."
 STAFF_RANDOM_TELEPORT_OTHER: "§6%PLAYER%§7 has been randomly teleported to §6%TARGET%§7."
 
-STAFF_WORLD_TELEPORT: ""
+STAFF_WORLD_TELEPORT: "§7You have teleported to §d%WORLD%§7."
 
 STAFF_GAMEMODE_CHANGED_SELF: "§7You just changed your gamemode to %GAMEMODE%§7!"
 STAFF_GAMEMODE_CHANGED_OTHERS: "§6%CHANGER% §7just changed §6%TARGET%§7's gamemode to %GAMEMODE%§7!"

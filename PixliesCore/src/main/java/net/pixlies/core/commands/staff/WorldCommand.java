@@ -18,14 +18,14 @@ public class WorldCommand extends BaseCommand {
     @Syntax("<world>")
     public void onWorld(Player player, World world) {
         player.teleport(world.getSpawnLocation());
-        Lang.STAFF_WORLD_TELEPORT.send(player);
+        Lang.STAFF_WORLD_TELEPORT.send(player, "%WORLD%;" + world.getName());
     }
 
     @CommandPermission("pixlies.staff.world.others")
     @CommandCompletion("@players @worlds")
     public void onWorld(CommandSender sender, Player target, World world) {
         target.teleport(world.getSpawnLocation());
-        Lang.STAFF_WORLD_TELEPORT.send(sender);
+        Lang.STAFF_WORLD_TELEPORT.send(sender, "%WORLD%;" + world.getName());
     }
 
     @HelpCommand
