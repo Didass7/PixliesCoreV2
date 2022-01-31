@@ -6,6 +6,7 @@ import net.md_5.bungee.api.event.ProxyPingEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 import net.pixlies.proxy.config.Config;
+import net.pixlies.proxy.handlers.impl.MaintenanceHandler;
 import net.pixlies.proxy.utils.CC;
 
 import java.util.UUID;
@@ -13,12 +14,13 @@ import java.util.UUID;
 public class ServerListListener implements Listener {
 
     @Dependency Config config;
+    @Dependency("maintenanceHandler") MaintenanceHandler handler;
     @Dependency("serverListConfig") Config serverList;
 
     @EventHandler
     public void onPing(ProxyPingEvent event) {
 
-        if (!serverList.getConfig().getBoolean("disabled", false)) return;
+        if (!serverList.getConfig().getBoolean("enabled", false)) return;
 
         // PING
         ServerPing ping = event.getResponse();
@@ -27,9 +29,8 @@ public class ServerListListener implements Listener {
                 .replace("\\n", "\n")));
 
         // PROTOCOL
-        // TODO: MAINTENANCE MODE
         ServerPing.Protocol protocol = ping.getVersion();
-        if (true /* MAINTENANCE MODE */) {
+        if (handler.isEnabled()) {
             protocol.setProtocol(serverList.getConfig().getInt("maintenance.protocol", 2));
             protocol.setName(serverList.getConfig().getString("maintenance.message", ""));
         } else {

@@ -4,6 +4,7 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.BungeeCommandManager;
 import com.google.common.collect.ImmutableList;
 import net.pixlies.proxy.Proxy;
+import net.pixlies.proxy.commands.impl.MaintenanceCommand;
 import net.pixlies.proxy.config.Config;
 import net.pixlies.proxy.handlers.impl.MaintenanceHandler;
 
@@ -15,7 +16,7 @@ public class CommandManager {
     private final BungeeCommandManager manager = new BungeeCommandManager(instance);
 
     private final ImmutableList<BaseCommand> commands = ImmutableList.of(
-            // COMMANDS
+            new MaintenanceCommand()
     );
 
     public void registerCommands() {
