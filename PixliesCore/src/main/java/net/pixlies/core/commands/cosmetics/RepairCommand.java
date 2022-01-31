@@ -25,7 +25,7 @@ public class RepairCommand extends BaseCommand {
             Lang.COSMETICS_CANNOT_REPAIR_ITEM.send(player);
             return;
         }
-        meta.setDamage(item.getType().getMaxDurability());
+        meta.setDamage(0);
         item.setItemMeta(meta);
         Lang.COSMETICS_REPAIR_ITEM.send(player);
     }
@@ -35,7 +35,7 @@ public class RepairCommand extends BaseCommand {
     @CommandPermission("pixlies.cosmetics.repair.all")
     public void onRepairEverything(Player player) {
         val toRepair = new ArrayList<ItemStack>();
-        for (ItemStack item : player.getInventory()) {
+        for (val item : player.getInventory()) {
             if (!(item.getItemMeta() instanceof Damageable)) continue;
             toRepair.add(item);
         }
@@ -44,8 +44,8 @@ public class RepairCommand extends BaseCommand {
             return;
         }
         toRepair.forEach(item -> {
-            Damageable meta = (Damageable) item.getItemMeta();
-            meta.setDamage(item.getType().getMaxDurability());
+            val meta = (Damageable) item.getItemMeta();
+            meta.setDamage(0);
             item.setItemMeta(meta);
         });
         Lang.COSMETICS_REPAIR_ITEM.send(player);

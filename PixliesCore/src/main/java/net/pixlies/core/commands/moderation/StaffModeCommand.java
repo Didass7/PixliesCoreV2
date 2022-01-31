@@ -10,9 +10,9 @@ public class StaffModeCommand extends BaseCommand {
 
     private static final Main instance = Main.getInstance();
 
-    @CommandAlias("staff")
+    @CommandAlias("staff|staffmode|h")
     @CommandPermission("pixlies.moderation.staffmode")
-    @Description("Staff gamemode")
+    @Description("Toggles staff mode")
     public void onStaffMode(CommandSender sender) {
         // TODO
     }

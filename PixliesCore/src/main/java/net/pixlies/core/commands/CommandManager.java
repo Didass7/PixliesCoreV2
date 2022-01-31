@@ -36,10 +36,8 @@ public class CommandManager {
         // MODERATION
         register(new BanCommand(), false);
         register(new TempBanCommand(), false);
-        register(new UnBanCommand(), false);
         register(new MuteCommand(), false);
         register(new TempMuteCommand(), false);
-        register(new UnMuteCommand(), false);
         register(new ChatCommand(), false);
         register(new InventorySeeCommand(), false);
         register(new ToggleGlobalPvpCommand(), false);
@@ -50,7 +48,6 @@ public class CommandManager {
         register(new GodCommand(), false);
         register(new StaffModeSettingsCommand(), false);
         register(new WorldCommand(), false);
-        register(new GamemodeCommand(), false);
 
         // DEBUG
         register(new ModulesCommand(), false);
