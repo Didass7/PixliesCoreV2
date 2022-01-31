@@ -54,6 +54,9 @@ public enum Lang {
     STAFFMODE_SETTING_TURNED_ON(Lang.EARTH, new HashMap<>()),
     STAFFMODE_SETTING_TURNED_OFF(Lang.EARTH, new HashMap<>()),
 
+    STAFF_GAMEMODE_CHANGED_SELF(Lang.EARTH, new HashMap<>()),
+    STAFF_GAMEMODE_CHANGED_OTHERS(Lang.EARTH, new HashMap<>()),
+
     // MODERATION
     MODERATION_INVSEE_DISALLOW_SELF(Lang.EARTH, new HashMap<>()),
 

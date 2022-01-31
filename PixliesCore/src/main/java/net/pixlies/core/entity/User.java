@@ -64,6 +64,10 @@ public class User {
         return punishment;
     }
 
+    public void unmute(CommandSender theGuy, boolean silent) {
+        tempMute("Unmuted", theGuy, 0, silent);
+    }
+
     public Punishment tempMute(String reason, CommandSender punisher, long duration, boolean silent) {
         UUID punisherUUID = punisher.getName().equalsIgnoreCase("console") ? UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670") : ((Player)punisher).getUniqueId();
         Punishment punishment = new Punishment(UUID.randomUUID().toString(), PunishmentType.MUTE, punisherUUID, System.currentTimeMillis(), reason, duration + System.currentTimeMillis());
@@ -109,6 +113,10 @@ public class User {
             Lang.PLAYER_TEMPORARILY_BANNED.broadcast("%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason, "%TIME%;" + new PrettyTime().format(new Date(punishment.getUntil())));
         save();
         return punishment;
+    }
+
+    public void unban(CommandSender theGuy, boolean silent) {
+        tempBan("Unbanned", theGuy, 0, silent);
     }
 
     public static User get(UUID uuid) {
