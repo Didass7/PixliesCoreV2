@@ -29,4 +29,16 @@ public class MaintenanceCommand extends BaseCommand {
         // TODO
     }
 
+    @Subcommand("enable")
+    @CommandCompletion("@players")
+    public void onEnable(CommandSender sender) {
+        // TODO
+    }
+
+    @Subcommand("disable")
+    @CommandCompletion("@players")
+    public void onDisable(CommandSender sender) {
+        // TODO
+    }
+
 }
