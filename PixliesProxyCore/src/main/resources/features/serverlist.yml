@@ -2,10 +2,13 @@
 enabled: true
 
 list:
-  description: '\n'
+  description: |-
+    Description Line One
+    Description Line Two
 
 playerlist:
-  message: ''
+  message: |-
+    &3&lPixlies
 
 maintenance:
   message: '&cMaintenance'
@@ -14,5 +17,5 @@ maintenance:
 # The version message
 version:
   message: '&3&lPixlies&f&lEarth'
-  # set the set protocol before using
-  protocol: 0
+  # Set the set protocol before using (Default 757 | 1.18.1)
+  protocol: 757

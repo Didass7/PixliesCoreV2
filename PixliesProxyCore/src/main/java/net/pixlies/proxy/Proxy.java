@@ -20,7 +20,8 @@ public class Proxy extends Plugin {
 
         // COMMANDS
         commandManager = new CommandManager();
-        commandManager.registerDependencies();
+        commandManager.registerConfigs();
+        commandManager.registerHandlers();
         commandManager.registerCommands();
 
         // LISTENERS
