@@ -52,6 +52,7 @@ public enum Lang {
     STAFF_WORLD_TELEPORT(Lang.EARTH, new HashMap<>()),
 
     STAFF_RANDOM_TELEPORT(Lang.EARTH, new HashMap<>()),
+    STAFF_RANDOM_TELEPORT_OTHER(Lang.EARTH, new HashMap<>()),
 
     STAFFMODE_SETTING_TURNED_ON(Lang.EARTH, new HashMap<>()),
     STAFFMODE_SETTING_TURNED_OFF(Lang.EARTH, new HashMap<>()),

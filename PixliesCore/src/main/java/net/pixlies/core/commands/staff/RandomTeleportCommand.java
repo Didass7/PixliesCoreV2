@@ -20,6 +20,7 @@ public class RandomTeleportCommand extends BaseCommand {
             return;
         }
         player.teleport(target);
+        Lang.STAFF_RANDOM_TELEPORT.send(player, "%TARGET%;" + target.getName());
     }
 
     @CommandAlias("randomteleport|srt")
@@ -31,6 +32,7 @@ public class RandomTeleportCommand extends BaseCommand {
             return;
         }
         player.teleport(target);
+        Lang.STAFF_RANDOM_TELEPORT_OTHER.send(player, "%PLAYER%;" + player.getName() ,"%TARGET%;" + target.getName());
     }
 
 }
