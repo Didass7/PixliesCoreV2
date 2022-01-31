@@ -10,7 +10,7 @@ public class ModuleDescription {
     private final String[] authors;
     private final String version;
     private final String main;
-    private final Material icon;
+    private final String icon;
     private boolean activated;
 
     public ModuleDescription(String name, String[] authors, String version, String main, String icon) {
@@ -18,8 +18,12 @@ public class ModuleDescription {
         this.authors = authors;
         this.version = version;
         this.main = main;
-        this.icon = Material.valueOf(icon.toUpperCase());
+        this.icon = icon;
         activated = true;
+    }
+
+    public Material getIcon() {
+        return Material.getMaterial(icon);
     }
 
     /**

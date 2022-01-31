@@ -6,13 +6,12 @@ import co.aikar.commands.annotation.*;
 import net.pixlies.core.Main;
 import org.bukkit.command.CommandSender;
 
-@CommandAlias("togglestaffmode")
-@CommandPermission("pixlies.moderation.staffmode")
 public class StaffModeCommand extends BaseCommand {
 
     private static final Main instance = Main.getInstance();
 
-    @Default
+    @CommandAlias("staff")
+    @CommandPermission("pixlies.moderation.staffmode")
     @Description("Staff gamemode")
     public void onStaffMode(CommandSender sender) {
         // TODO

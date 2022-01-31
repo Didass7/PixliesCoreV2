@@ -63,7 +63,7 @@ public class Wallet {
         map.put("balance", balance);
         map.put("history", history);
         map.put("prefix", prefix);
-        map.put("palette", new char[]{palette.getEffect().getChar(), palette.getPrimary().getChar(), palette.getAccent().getChar()});
+        map.put("palette", palette.getEffect().getChar() + ";" +  palette.getPrimary().getChar() + ";" + palette.getAccent().getChar());
         return map;
     }
 
@@ -73,7 +73,7 @@ public class Wallet {
         this.balance = (double) mapped.get("balance");
         this.history = (List<String>) mapped.get("history");
         this.prefix = (boolean) mapped.get("prefix");
-        char[] paletteList = (char[]) mapped.get("palette");
+        String[] paletteList = ((String) mapped.get("palette")).split(";");
         this.palette = new Palette(ChatColor.getByChar(paletteList[0]), ChatColor.getByChar(paletteList[1]), ChatColor.getByChar(paletteList[2]));
     }
 
