@@ -10,7 +10,11 @@ import net.pixlies.core.Main;
 import net.pixlies.core.entity.User;
 import net.pixlies.core.handlers.impl.MessageHandler;
 import net.pixlies.core.localization.Lang;
+import org.apache.commons.lang.StringUtils;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.Locale;
 
 @CommandAlias("message|w|msg|pm|m|whisper|tell|t")
 public class MessageCommand extends BaseCommand {
@@ -20,15 +24,17 @@ public class MessageCommand extends BaseCommand {
     @Default
     @CommandCompletion("@players @empty")
     @Syntax("<player> <message>")
-    public void onMessage(Player player, Player target, String message) {
-        val user = User.get(player.getUniqueId());
-        if (user.getMute() != null) {
-            Lang.MUTE_MESSAGE.send(player);
-            return;
+    public void onMessage(CommandSender sender, Player target, String message) {
+        if (sender instanceof Player player) {
+            val user = User.get(player.getUniqueId());
+            if (user.getMute() != null) {
+                Lang.MUTE_MESSAGE.send(player);
+                return;
+            }
+            handler.setReplyTarget(player.getUniqueId(), target.getUniqueId());
         }
-        Lang.PLAYER_MESSAGE_FORMAT_TO.send(player, "%PLAYER%;" + target.getName(), "%MESSAGE%;" + message);
-        Lang.PLAYER_MESSAGE_FORMAT_FROM.send(target, "%PLAYER%;" + player.getName(), "%MESSAGE%;" + message);
-        handler.setReplyTarget(player.getUniqueId(), target.getUniqueId());
+        Lang.PLAYER_MESSAGE_FORMAT_TO.send(sender, "%PLAYER%;" + target.getName(), "%MESSAGE%;" + message);
+        Lang.PLAYER_MESSAGE_FORMAT_FROM.send(target, "%PLAYER%;" + StringUtils.capitalize(sender.getName().toLowerCase(Locale.ROOT)), "%MESSAGE%;" + message);
     }
 
 }
