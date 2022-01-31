@@ -63,6 +63,7 @@ public class CommandManager {
         // PLAYER
         register(new MessageCommand(), false);
         register(new ReplyCommand(), false);
+        register(new RandomTeleportCommand(), false);
 
     }
 
