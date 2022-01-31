@@ -20,6 +20,7 @@ public class ServerListListener implements Listener {
     @EventHandler
     public void onPing(ProxyPingEvent event) {
 
+        // TODO: Move serverlist things to a handler instead of doing it all in a listener
         if (!serverList.getConfig().getBoolean("enabled", false)) return;
 
         // PING
