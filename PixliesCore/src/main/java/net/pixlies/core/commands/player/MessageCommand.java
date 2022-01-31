@@ -40,8 +40,8 @@ public class MessageCommand extends BaseCommand {
         // Socialspy
         for (Player p : Bukkit.getServer().getOnlinePlayers()) {
             User pUser = User.get(p.getUniqueId());
-            if (user.isStaffModeEnabled() && user.isSocialSpy() && p.hasPermission("pixlies.moderation.socialspy")) {
-                p.sendMessage(Lang.PM + "§3" + player.getName() + "§8 >> §3" + target.getName() + " §8- §7" + message);
+            if (pUser.isStaffModeEnabled() && pUser.isSocialSpy() && p.hasPermission("pixlies.moderation.socialspy")) {
+                p.sendMessage(Lang.PM + "§3" + sender.getName() + "§8 >> §3" + target.getName() + " §8- §7" + message);
             }
         }
     }
