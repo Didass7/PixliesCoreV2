@@ -40,8 +40,8 @@ MODERATION_INVSEE_DISALLOW_SELF: ""
 COSMETICS_HEALED_SELF: "§7You just healed yourself!"
 COSMETICS_HEALED_OTHERS: "§7You just healed §6%PLAYER%§7!"
 
-COSMETICS_FEED_SELF: ""
-COSMETICS_FEED_OTHERS: "%PLAYER%"
+COSMETICS_FEED_SELF: "§7Your appetite has been sedated."
+COSMETICS_FEED_OTHERS: "§6%PLAYER%§7's appetite has been sedated."
 
 COSMETICS_NIGHTVISION_ON: ""
 COSMETICS_NIGHTVISION_OFF: ""
@@ -52,3 +52,8 @@ COSMETICS_REPAIR_ITEM: "§7The item has been repaired."
 COSMETICS_CANNOT_REPAIR_ITEM: "§cThis item cannot be repaired."
 
 # PLAYER
+PLAYER_MESSAGE_FORMAT_TO: "§7(To §6%PLAYER%§7) §f%MESSAGE%"
+PLAYER_MESSAGE_FORMAT_FROM: "§7(From §6%PLAYER%§7) §f%MESSAGE%"
+PLAYER_MESSAGE_NOONE_TO_MESSAGE: "§cThere is no one to message."
+
+PLAYER_SUICIDE: "§7You committed suicide."
