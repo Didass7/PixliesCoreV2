@@ -2,6 +2,7 @@ package net.pixlies.core.modules;
 
 import lombok.Getter;
 import net.pixlies.core.Main;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.InputStream;

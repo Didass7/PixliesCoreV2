@@ -51,6 +51,8 @@ public class ModuleManager {
 
                 ModuleDescription infoJson = new Gson().fromJson(IOUtils.toString(stream, StandardCharsets.UTF_8), ModuleDescription.class);
 
+                System.out.println(infoJson);
+
                 if (modules.containsValue(infoJson)) {
                     instance.getLogger().warning("Module " + infoJson.getName() + " v" + infoJson.getVersion() + " has already been loaded!");
                     return;

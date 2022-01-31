@@ -1,6 +1,9 @@
 package net.pixlies.core;
 
 import lombok.Getter;
+import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.config.ServerInfo;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.pixlies.core.calendar.PixliesCalendar;
 import net.pixlies.core.commands.CommandManager;
 import net.pixlies.core.configuration.Config;
@@ -10,6 +13,8 @@ import net.pixlies.core.handlers.RegisterHandlerManager;
 import net.pixlies.core.listeners.ListenerManager;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.modules.ModuleManager;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
