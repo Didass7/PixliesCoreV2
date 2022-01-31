@@ -7,7 +7,7 @@ import co.aikar.commands.RootCommand;
 import lombok.Getter;
 import net.pixlies.core.Main;
 import net.pixlies.core.commands.cosmetics.*;
-import net.pixlies.core.commands.debug.*;
+import net.pixlies.core.commands.admin.*;
 import net.pixlies.core.commands.moderation.*;
 import net.pixlies.core.commands.player.ClearCommand;
 import net.pixlies.core.commands.player.MessageCommand;
