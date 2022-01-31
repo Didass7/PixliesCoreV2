@@ -29,7 +29,7 @@ public class ChatModerationListener implements Listener {
         String message = String.valueOf(event.message());
 
         if (chatHandler.isMuted() && !player.hasPermission("pixlies.moderation.bypass.mutechat")) {
-            Lang.MUTE_MESSAGE.send(player);
+            Lang.CHAT_MUTED.send(player);
             event.setCancelled(true);
             return;
         }
