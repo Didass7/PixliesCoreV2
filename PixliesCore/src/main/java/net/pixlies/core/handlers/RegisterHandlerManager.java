@@ -11,7 +11,8 @@ public class RegisterHandlerManager {
     private final ImmutableList<Class<? extends Handler>> handlers = ImmutableList.of(
             ChatHandler.class,
             GlobalPvpHandler.class,
-            MessageHandler.class
+            MessageHandler.class,
+            VanishHandler.class
     );
 
     public void registerAllHandlers() {

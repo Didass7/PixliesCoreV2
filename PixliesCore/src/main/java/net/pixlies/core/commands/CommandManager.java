@@ -43,6 +43,7 @@ public class CommandManager {
         register(new ToggleGlobalPvpCommand(), false);
         register(new KickallCommand(), false);
         register(new StaffModeCommand(), true);
+        register(new VanishCommand(), false);
 
         // STAFF
         register(new GodCommand(), false);
