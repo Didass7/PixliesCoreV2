@@ -58,4 +58,8 @@ public class MaintenanceHandler {
     }
 
 
+    public boolean isEnabled() {
+        return settings.getConfig().getBoolean("maintenance.enabled", false);
+    }
+
 }
