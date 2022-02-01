@@ -1,4 +1,4 @@
-package events;
+package net.pixlies.core.events;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,4 +1,4 @@
-package events;
+package net.pixlies.core.events;
 
 import net.pixlies.core.Main;
 import org.bukkit.event.Event;

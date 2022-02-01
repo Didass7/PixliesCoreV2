@@ -1,6 +1,6 @@
-package events.impl.player;
+package net.pixlies.core.events.impl.player;
 
-import events.PixliesEventCancellable;
+import net.pixlies.core.events.PixliesEventCancellable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.pixlies.core.handlers.impl.VanishHandler;

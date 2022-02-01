@@ -120,8 +120,8 @@ public class PixliesCalendar extends Thread {
 
         for (String s : calconf.getConfigurationSection("events").getKeys(false)) {
             events.put(Integer.parseInt(s), () -> {
-                if (calconf.contains("events." + s + ".todo")) {
-                    for (String todo : calconf.getStringList("events." + s + ".todo")) {
+                if (calconf.contains("net.pixlies.core.events." + s + ".todo")) {
+                    for (String todo : calconf.getStringList("net.pixlies.core.events." + s + ".todo")) {
                         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), todo);
                     }
                 }
