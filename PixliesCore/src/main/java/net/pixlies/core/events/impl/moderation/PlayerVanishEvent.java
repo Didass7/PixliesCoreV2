@@ -1,4 +1,4 @@
-package net.pixlies.core.events.impl.player;
+package net.pixlies.core.events.impl.moderation;
 
 import net.pixlies.core.events.PixliesEventCancellable;
 import lombok.AllArgsConstructor;
