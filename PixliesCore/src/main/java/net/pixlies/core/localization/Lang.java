@@ -47,6 +47,8 @@ public enum Lang {
 
     PLAYER_DOESNT_EXIST(Lang.EARTH, new HashMap<>()),
 
+    CANNOT_USE_ON_SELF(Lang.EARTH, new HashMap<>()),
+
     // STAFF
     STAFF_GOD_ON(Lang.EARTH, new HashMap<>()),
     STAFF_GOD_OFF(Lang.EARTH, new HashMap<>()),
@@ -66,14 +68,17 @@ public enum Lang {
     STAFFMODE_OFF(Lang.EARTH, new HashMap<>()),
 
     // MODERATION
-    MODERATION_INVSEE_DISALLOW_SELF(Lang.EARTH, new HashMap<>()),
-
     MODERATION_GLOBAL_PVP_ON(Lang.EARTH, new HashMap<>()),
     MODERATION_GLOBAL_PVP_OFF(Lang.EARTH, new HashMap<>()),
     PVP_OFF_PLAYER_TRIED_TO_PVP(Lang.EARTH, new HashMap<>()),
 
     MODERATION_ISSUED_KICKALL(Lang.EARTH, new HashMap<>()),
     MODERATION_KICKALL_MESSAGE(Lang.EARTH, new HashMap<>()),
+
+    MODERATION_VANISH_ON(Lang.EARTH, new HashMap<>()),
+    MODERATION_VANISH_OFF(Lang.EARTH, new HashMap<>()),
+    MODERATION_VANISH_ON_OTHER(Lang.EARTH, new HashMap<>()),
+    MODERATION_VANISH_OFF_OTHER(Lang.EARTH, new HashMap<>()),
 
     // COSMETICS
     MODERATION_GOD_ON(Lang.EARTH, new HashMap<>()),

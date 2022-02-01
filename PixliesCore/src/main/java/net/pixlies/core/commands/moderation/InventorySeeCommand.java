@@ -15,7 +15,7 @@ public class InventorySeeCommand extends BaseCommand {
     @Syntax("<target>")
     public void onInventorySee(Player player, Player target) {
         if (!player.hasPermission("pixlies.moderation.invsee.self")) {
-            Lang.MODERATION_INVSEE_DISALLOW_SELF.send(player);
+            Lang.CANNOT_USE_ON_SELF.send(player);
             return;
         }
         player.openInventory(target.getInventory());

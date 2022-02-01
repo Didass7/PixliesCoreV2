@@ -41,4 +41,12 @@ public class VanishHandler implements Handler {
         return vanishedPlayers.contains(uuid);
     }
 
+    public void setVanished(Player player, boolean state) {
+        if (state) {
+            vanish(player);
+        } else {
+            unvanish(player);
+        }
+    }
+
 }
