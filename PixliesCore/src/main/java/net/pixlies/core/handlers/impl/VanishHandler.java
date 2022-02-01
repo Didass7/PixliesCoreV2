@@ -5,9 +5,7 @@ import net.pixlies.core.handlers.Handler;
 import net.pixlies.core.utils.PlayerUtils;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class VanishHandler implements Handler {
 
@@ -50,6 +48,24 @@ public class VanishHandler implements Handler {
         } else {
             unvanish(player);
         }
+    }
+
+    public Collection<Player> getVanishedPlayers() {
+        if (vanishedPlayers.isEmpty()) return Collections.emptyList();
+        List<Player> players = new ArrayList<>();
+        for (UUID uuid : vanishedPlayers) {
+            Player player = instance.getServer().getPlayer(uuid);
+            if (player == null) {
+                vanishedPlayers.remove(uuid);
+                continue;
+            }
+            players.add(player);
+        }
+        return players;
+    }
+
+    public Collection<UUID> getVanishedUniqueIds() {
+        return vanishedPlayers;
     }
 
 }
