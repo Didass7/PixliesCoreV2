@@ -8,6 +8,6 @@ import org.bukkit.event.Cancellable;
 @Setter
 public abstract class PixliesEventCancellable extends PixliesEvent implements Cancellable {
 
-    private boolean isCancelled;
+    private boolean isCancelled = false;
 
 }
