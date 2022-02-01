@@ -1,0 +1,7 @@
+{
+  "name": "PixliesBusiness",
+  "authors": ["TAMaurice", "MickMMars", "vPrototype_", "Dynmie"],
+  "version": "1.0.0",
+  "main": "net.pixlies.business.Business",
+  "icon": "EMERALD"
+}
