@@ -7,6 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="DiploMaurice" />
         <module name="core" />
         <module name="PixliesFun" />
         <module name="MiniMick" />
@@ -19,6 +20,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="core" target="16" />
+      <module name="DiploMaurice" target="16" />
       <module name="LobbyModule" target="16" />
       <module name="MiniMick" target="16" />
       <module name="NationModule" target="16" />

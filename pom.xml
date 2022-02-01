@@ -12,6 +12,7 @@
         <module>PixliesFun</module>
         <module>PixliesProxyCore</module>
         <module>PixliesBusiness</module>
+        <module>DiploMaurice</module>
     </modules>
 
     <groupId>net.pixlies</groupId>
