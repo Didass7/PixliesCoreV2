@@ -67,6 +67,18 @@ public enum Lang {
     STAFFMODE_ON(Lang.EARTH, new HashMap<>()),
     STAFFMODE_OFF(Lang.EARTH, new HashMap<>()),
 
+    TPHERE_MESSAGE_SENDER(Lang.EARTH, new HashMap<>()),
+    TPHERE_MESSAGE_TARGET(Lang.EARTH, new HashMap<>()),
+    TPASK_MESSAGE_SENDER(Lang.EARTH, new HashMap<>()),
+    TPASK_MESSAGE_TARGET(Lang.EARTH, new HashMap<>()),
+    TPASK_ACCEPTED_MESSAGE_SENDER(Lang.EARTH, new HashMap<>()),
+    TPASK_ACCEPTED_MESSAGE_TARGET(Lang.EARTH, new HashMap<>()),
+    TPACCEPT_NOBODY(Lang.EARTH, new HashMap<>()),
+    TPACCEPT_PLAYER_NOT_ONLINE(Lang.EARTH, new HashMap<>()),
+    TPALL_BROADCAST(Lang.EARTH, new HashMap<>()),
+    RETURNED_TO_PREVIOUS_LOCATION(Lang.EARTH, new HashMap<>()),
+    TPBACK_NO_LOCATION(Lang.EARTH, new HashMap<>()),
+
     // MODERATION
     MODERATION_GLOBAL_PVP_ON(Lang.EARTH, new HashMap<>()),
     MODERATION_GLOBAL_PVP_OFF(Lang.EARTH, new HashMap<>()),

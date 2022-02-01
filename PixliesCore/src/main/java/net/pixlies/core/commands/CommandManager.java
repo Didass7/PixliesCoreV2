@@ -6,13 +6,10 @@ import co.aikar.commands.PaperCommandManager;
 import co.aikar.commands.RootCommand;
 import lombok.Getter;
 import net.pixlies.core.Main;
+import net.pixlies.core.commands.admin.ModulesCommand;
 import net.pixlies.core.commands.cosmetics.*;
-import net.pixlies.core.commands.admin.*;
 import net.pixlies.core.commands.moderation.*;
-import net.pixlies.core.commands.player.ClearCommand;
-import net.pixlies.core.commands.player.MessageCommand;
-import net.pixlies.core.commands.player.ReplyCommand;
-import net.pixlies.core.commands.player.SuicideCommand;
+import net.pixlies.core.commands.player.*;
 import net.pixlies.core.commands.staff.*;
 
 public class CommandManager {
@@ -44,6 +41,11 @@ public class CommandManager {
         register(new KickallCommand(), false);
         register(new StaffModeCommand(), true);
         register(new VanishCommand(), false);
+        register(new TpHereCommand(), false);
+        register(new TpAskCommand(), false);
+        register(new TpAllCommand(), false);
+        register(new TpAcceptCommand(), false);
+        register(new TpBackCommand(), false);
 
         // STAFF
         register(new GodCommand(), false);
