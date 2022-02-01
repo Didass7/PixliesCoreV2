@@ -44,13 +44,6 @@ public class MessageCommand extends BaseCommand {
         Lang.PLAYER_MESSAGE_FORMAT_TO.send(sender, "%PLAYER%;" + target.getName(), "%MESSAGE%;" + message);
         Lang.PLAYER_MESSAGE_FORMAT_FROM.send(target, "%PLAYER%;" + StringUtils.capitalize(sender.getName().toLowerCase(Locale.ROOT)), "%MESSAGE%;" + message);
 
-        // Socialspy
-        for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-            User pUser = User.get(p.getUniqueId());
-            if (pUser.isStaffModeEnabled() && pUser.isSocialSpy() && p.hasPermission("pixlies.moderation.socialspy")) {
-                p.sendMessage(Lang.PM + "§3" + sender.getName() + "§8 >> §3" + target.getName() + " §8- §7" + message);
-            }
-        }
     }
 
 }

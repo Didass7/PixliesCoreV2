@@ -116,6 +116,7 @@ public enum Lang {
     PLAYER_MESSAGE_FORMAT_TO("", new HashMap<>()),
     PLAYER_MESSAGE_FORMAT_FROM("", new HashMap<>()),
     PLAYER_MESSAGE_NOONE_TO_MESSAGE(Lang.EARTH, new HashMap<>()),
+    PLAYER_MESSAGE_SOCIALSPY("", new HashMap<>()),
 
     PLAYER_SUICIDE(Lang.EARTH, new HashMap<>()),
 

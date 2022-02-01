@@ -5,6 +5,7 @@ import net.pixlies.core.Main;
 import net.pixlies.core.listeners.cosmetics.ChatEmojiListener;
 import net.pixlies.core.listeners.moderation.*;
 import net.pixlies.core.listeners.player.JoinListener;
+import net.pixlies.core.listeners.player.MessageListener;
 import net.pixlies.core.listeners.player.QuitListener;
 import net.pixlies.core.listeners.player.TeleportListener;
 import org.bukkit.Bukkit;
@@ -29,6 +30,7 @@ public class ListenerManager {
         add(new CommandSpyListener());
         add(new TeleportListener());
         add(new VanishListener());
+        add(new MessageListener());
     }};
 
     public static void registerAllListeners() {

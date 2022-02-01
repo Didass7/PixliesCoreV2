@@ -77,6 +77,7 @@ COSMETICS_CANNOT_REPAIR_ITEM: "§cThis item cannot be repaired."
 PLAYER_MESSAGE_FORMAT_TO: "§7(To §6%PLAYER%§7) §f%MESSAGE%"
 PLAYER_MESSAGE_FORMAT_FROM: "§7(From §6%PLAYER%§7) §f%MESSAGE%"
 PLAYER_MESSAGE_NOONE_TO_MESSAGE: "§cThere is no one to message."
+PLAYER_MESSAGE_SOCIALSPY: "§7(To §6%TARGET%§7 from §6%PLAYER%§7) §f%MESSAGE%"
 
 PLAYER_SUICIDE: "§7You committed suicide."
 
