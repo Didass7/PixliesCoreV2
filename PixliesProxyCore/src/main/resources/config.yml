@@ -1,2 +1,4 @@
 # Welcome to the config!
-server-list: true
+commands:
+  lobby:
+    server: 'Lobby'
