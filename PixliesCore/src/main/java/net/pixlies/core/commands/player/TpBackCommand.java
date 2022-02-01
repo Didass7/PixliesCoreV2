@@ -18,7 +18,7 @@ public class TpBackCommand extends BaseCommand {
     private static final Main instance = Main.getInstance();
     private final TeleportHandler tpHandler = instance.getHandlerManager().getHandler(TeleportHandler.class);
 
-    @CommandAlias("tpback")
+    @CommandAlias("tpback|back")
     @CommandPermission("pixlies.player.tpback")
     @Description("Returns to the last location before teleportation")
     public void onTpBack(CommandSender sender) {
