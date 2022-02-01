@@ -5,11 +5,13 @@ import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandCompletion;
 import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Syntax;
+import events.impl.player.MessagePlayerEvent;
 import lombok.val;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.User;
 import net.pixlies.core.handlers.impl.MessageHandler;
 import net.pixlies.core.localization.Lang;
+import net.pixlies.core.utils.EventUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.Bukkit;
@@ -34,6 +36,11 @@ public class MessageCommand extends BaseCommand {
             }
             handler.setReplyTarget(player.getUniqueId(), target.getUniqueId());
         }
+
+        val event = new MessagePlayerEvent(sender, target);
+        EventUtils.callEvent(event);
+        if (event.isCancelled()) return;
+
         Lang.PLAYER_MESSAGE_FORMAT_TO.send(sender, "%PLAYER%;" + target.getName(), "%MESSAGE%;" + message);
         Lang.PLAYER_MESSAGE_FORMAT_FROM.send(target, "%PLAYER%;" + StringUtils.capitalize(sender.getName().toLowerCase(Locale.ROOT)), "%MESSAGE%;" + message);
 
