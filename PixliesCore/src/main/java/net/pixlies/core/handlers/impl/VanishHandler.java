@@ -55,7 +55,7 @@ public class VanishHandler implements Handler {
         List<Player> players = new ArrayList<>();
         for (UUID uuid : vanishedPlayers) {
             Player player = instance.getServer().getPlayer(uuid);
-            if (player == null) {
+            if (player == null || !player.isOnline()) {
                 vanishedPlayers.remove(uuid);
                 continue;
             }
