@@ -24,7 +24,7 @@ public class ReplyCommand extends BaseCommand {
 
         val user = User.get(player.getUniqueId());
 
-        if (user.getMute() != null) {
+        if (user.getMute() != null && !player.hasPermission("pixlies.moderation.mute.exempt")) {
             Lang.MUTE_MESSAGE.send(player);
             return;
         }
