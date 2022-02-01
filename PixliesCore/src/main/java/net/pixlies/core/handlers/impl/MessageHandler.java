@@ -11,7 +11,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MessageHandler implements Handler {
     
     private final Map<UUID, UUID> replyTargets = new ConcurrentHashMap<>();
-    // TODO: Socialspy
 
     public Player getReplyTarget(UUID uuid) {
         if (replyTargets.get(uuid) == null) return null;

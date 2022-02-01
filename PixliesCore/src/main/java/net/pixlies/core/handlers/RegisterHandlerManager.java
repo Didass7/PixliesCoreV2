@@ -12,7 +12,8 @@ public class RegisterHandlerManager {
             ChatHandler.class,
             GlobalPvpHandler.class,
             MessageHandler.class,
-            VanishHandler.class
+            VanishHandler.class,
+            TeleportHandler.class
     );
 
     public void registerAllHandlers() {
