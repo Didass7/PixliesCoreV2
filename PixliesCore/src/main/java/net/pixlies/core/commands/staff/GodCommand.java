@@ -18,7 +18,7 @@ public class GodCommand extends BaseCommand {
         if (player.isInvulnerable()) {
             Lang.STAFF_GOD_ON.send(player);
         } else {
-            Lang.MODERATION_GOD_OFF.send(player);
+            Lang.STAFF_GOD_OFF.send(player);
         }
     }
 
@@ -29,7 +29,7 @@ public class GodCommand extends BaseCommand {
         if (player.isInvulnerable()) {
             Lang.STAFF_GOD_ON.send(sender);
         } else {
-            Lang.MODERATION_GOD_OFF.send(sender);
+            Lang.STAFF_GOD_OFF.send(sender);
         }
     }
 
