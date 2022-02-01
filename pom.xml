@@ -11,8 +11,8 @@
         <module>LobbyModule</module>
         <module>PixliesFun</module>
         <module>PixliesProxyCore</module>
-        <module>PixliesBusiness</module>
         <module>DiploMaurice</module>
+        <module>ProtoBusiness</module>
     </modules>
 
     <groupId>net.pixlies</groupId>

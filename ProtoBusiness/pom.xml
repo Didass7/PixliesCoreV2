@@ -10,7 +10,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>PixliesBusiness</artifactId>
+    <artifactId>ProtoBusiness</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -44,7 +44,7 @@
 
     <build>
         <defaultGoal>clean package</defaultGoal>
-        <finalName>PixliesBusiness</finalName>
+        <finalName>ProtoBusiness</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
