@@ -38,7 +38,7 @@ public class ReplyCommand extends BaseCommand {
             return;
         }
 
-        val event = new MessagePlayerEvent(player, target);
+        val event = new MessagePlayerEvent(player, target, MessagePlayerEvent.MessageType.REPLY);
         EventUtils.callEvent(event);
         if (event.isCancelled()) return;
 

@@ -1,7 +1,10 @@
 package net.pixlies.core.handlers.impl;
 
+import events.impl.player.PlayerVanishEvent;
+import lombok.val;
 import net.pixlies.core.Main;
 import net.pixlies.core.handlers.Handler;
+import net.pixlies.core.utils.EventUtils;
 import net.pixlies.core.utils.PlayerUtils;
 import org.bukkit.entity.Player;
 
@@ -14,6 +17,9 @@ public class VanishHandler implements Handler {
     private final List<UUID> vanishedPlayers = new ArrayList<>();
 
     public boolean vanish(Player player) {
+        val event = new PlayerVanishEvent(player, PlayerVanishEvent.VanishState.VANISH);
+        EventUtils.callEvent(event);
+        if (event.isCancelled()) return false;
         if (vanishedPlayers.contains(player.getUniqueId())) return false;
         PlayerUtils.heal(player);
         player.setInvulnerable(true);
@@ -27,6 +33,9 @@ public class VanishHandler implements Handler {
     }
 
     public boolean unvanish(Player player) {
+        val event = new PlayerVanishEvent(player, PlayerVanishEvent.VanishState.UNVANISH);
+        EventUtils.callEvent(event);
+        if (event.isCancelled()) return false;
         if (!vanishedPlayers.contains(player.getUniqueId())) return false;
         player.setInvulnerable(false);
         player.setAllowFlight(player.hasPermission("pixlies.fly"));

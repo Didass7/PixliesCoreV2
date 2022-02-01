@@ -37,7 +37,7 @@ public class MessageCommand extends BaseCommand {
             handler.setReplyTarget(player.getUniqueId(), target.getUniqueId());
         }
 
-        val event = new MessagePlayerEvent(sender, target);
+        val event = new MessagePlayerEvent(sender, target, MessagePlayerEvent.MessageType.MESSAGE);
         EventUtils.callEvent(event);
         if (event.isCancelled()) return;
 
