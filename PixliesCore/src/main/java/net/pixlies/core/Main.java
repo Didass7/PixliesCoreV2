@@ -7,12 +7,17 @@ import net.pixlies.core.configuration.Config;
 import net.pixlies.core.database.MongoManager;
 import net.pixlies.core.handlers.HandlerManager;
 import net.pixlies.core.handlers.RegisterHandlerManager;
+import net.pixlies.core.lib.io.github.thatkawaiisam.assemble.Assemble;
+import net.pixlies.core.lib.io.github.thatkawaiisam.assemble.AssembleStyle;
 import net.pixlies.core.listeners.ListenerManager;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.modules.ModuleManager;
 import net.pixlies.core.runnables.RunnableManager;
 import net.pixlies.core.runnables.RunnableRegisterManager;
+import net.pixlies.core.scoreboard.ScoreboardAdapter;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.Scoreboard;
 
 import java.io.File;
 
@@ -30,6 +35,9 @@ public class Main extends JavaPlugin {
     @Getter private Config config;
     @Getter private Config calendarConfig;
     @Getter private Config settings;
+
+    @Getter private Assemble assemble = null;
+    @Getter private Scoreboard emptyScoreboard;
 
     private RunnableRegisterManager runnableRegisterManager;
 
@@ -75,6 +83,15 @@ public class Main extends JavaPlugin {
         // RUNNABLES
         runnableRegisterManager = new RunnableRegisterManager();
         runnableRegisterManager.runAll();
+
+        // SCOREBOARD
+        assemble = new Assemble(this, new ScoreboardAdapter());
+
+        assemble.setTicks(1);
+
+        assemble.setAssembleStyle(AssembleStyle.MODERN);
+
+        emptyScoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
 
     }
 
