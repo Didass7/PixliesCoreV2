@@ -56,6 +56,7 @@ MODERATION_VANISH_ON: "§7You are now vanished."
 MODERATION_VANISH_OFF: "§7You are no longer vanished."
 MODERATION_VANISH_ON_OTHER: "§6%PLAYER%§7 is now vanished."
 MODERATION_VANISH_OFF_OTHER: "§6%PLAYER%§7 is no longer vanished."
+MODERATION_VANISH_NO_ONE_CAN_SEE: "§cNo one can see you."
 
 # COSMETICS
 COSMETICS_HEALED_SELF: "§7You just healed yourself!"

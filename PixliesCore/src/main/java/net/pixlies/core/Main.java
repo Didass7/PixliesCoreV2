@@ -13,6 +13,8 @@ import net.pixlies.core.handlers.RegisterHandlerManager;
 import net.pixlies.core.listeners.ListenerManager;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.modules.ModuleManager;
+import net.pixlies.core.runnables.RunnableManager;
+import net.pixlies.core.runnables.RunnableRegisterManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -27,11 +29,14 @@ public class Main extends JavaPlugin {
     @Getter private HandlerManager handlerManager;
     @Getter private ModuleManager moduleManager;
     @Getter private CommandManager commandManager;
+    @Getter private RunnableManager runnableManager;
     @Getter private PixliesCalendar calendar;
 
     @Getter private Config config;
     @Getter private Config calendarConfig;
     @Getter private Config settings;
+
+    private RunnableRegisterManager runnableRegisterManager;
 
     @Override
     public void onEnable() {
@@ -54,6 +59,7 @@ public class Main extends JavaPlugin {
         // HANDLERS
         moduleManager = new ModuleManager();
         handlerManager = new HandlerManager();
+        runnableManager = new RunnableManager();
         new RegisterHandlerManager().registerAllHandlers();
 
         // DATABASE
@@ -71,10 +77,15 @@ public class Main extends JavaPlugin {
         // MODULES
         moduleManager.loadModules();
 
+        // RUNNABLES
+        runnableRegisterManager = new RunnableRegisterManager();
+        runnableRegisterManager.runAll();
+
     }
 
     @Override
     public void onDisable() {
+        runnableRegisterManager.stopAll();
         moduleManager.unloadModules();
         instance = null;
     }

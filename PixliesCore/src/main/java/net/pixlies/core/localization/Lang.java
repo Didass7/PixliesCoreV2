@@ -79,6 +79,7 @@ public enum Lang {
     MODERATION_VANISH_OFF(Lang.EARTH, new HashMap<>()),
     MODERATION_VANISH_ON_OTHER(Lang.EARTH, new HashMap<>()),
     MODERATION_VANISH_OFF_OTHER(Lang.EARTH, new HashMap<>()),
+    MODERATION_VANISH_NO_ONE_CAN_SEE("", new HashMap<>()),
 
     // COSMETICS
     MODERATION_GOD_ON(Lang.EARTH, new HashMap<>()),

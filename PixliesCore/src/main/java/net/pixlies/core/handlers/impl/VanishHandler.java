@@ -19,6 +19,7 @@ public class VanishHandler implements Handler {
     public boolean vanish(Player player) {
         if (vanishedPlayers.contains(player.getUniqueId())) return false;
         PlayerUtils.heal(player);
+        player.setInvulnerable(true);
         for (Player target : instance.getServer().getOnlinePlayers()) {
             if (target.hasPermission("pixlies.moderation.vanish.exempt")) continue;
             target.hidePlayer(instance, player);
