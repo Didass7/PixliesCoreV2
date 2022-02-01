@@ -1,6 +1,6 @@
 package net.pixlies.core.handlers.impl;
 
-import net.pixlies.core.events.impl.player.PlayerVanishEvent;
+import net.pixlies.core.events.impl.moderation.PlayerVanishEvent;
 import lombok.val;
 import net.pixlies.core.Main;
 import net.pixlies.core.handlers.Handler;
