@@ -40,7 +40,7 @@ public class CommandManager {
         register(new TempMuteCommand(), false);
         register(new ChatCommand(), false);
         register(new InventorySeeCommand(), false);
-        register(new ToggleGlobalPvpCommand(), false);
+        register(new GlobalPvpCommand(), false);
         register(new KickallCommand(), false);
         register(new StaffModeCommand(), true);
         register(new VanishCommand(), false);
