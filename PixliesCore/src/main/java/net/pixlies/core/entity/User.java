@@ -141,6 +141,8 @@ public class User {
             profile.append("blockedUsers", new ArrayList<>());
             profile.append("stats", new HashMap<>());
             profile.append("currentPunishments", Punishment.mapAllForMongo(new HashMap<>()));
+            profile.append("personalization", UserPersonalization.getDefaults());
+            profile.append("settings", UserSettings.getDefaults());
             profile.append("lang", "ENG");
 
             instance.getDatabase().getUserCollection().insertOne(profile);
