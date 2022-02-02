@@ -4,10 +4,7 @@ import lombok.Getter;
 import net.pixlies.core.Main;
 import net.pixlies.core.listeners.cosmetics.ChatEmojiListener;
 import net.pixlies.core.listeners.moderation.*;
-import net.pixlies.core.listeners.player.JoinListener;
-import net.pixlies.core.listeners.player.MessageListener;
-import net.pixlies.core.listeners.player.QuitListener;
-import net.pixlies.core.listeners.player.TeleportListener;
+import net.pixlies.core.listeners.player.*;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 
@@ -31,6 +28,7 @@ public class ListenerManager {
         add(new TeleportListener());
         add(new VanishListener());
         add(new MessageListener());
+        add(new LockedChestsListener());
     }};
 
     public static void registerAllListeners() {
