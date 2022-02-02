@@ -9,8 +9,9 @@ public final class EventUtils {
 
     private EventUtils() {}
 
-    public static void callEvent(Event event) {
+    public static Event callEvent(Event event) {
          instance.getServer().getPluginManager().callEvent(event);
+         return event;
     }
 
 }

@@ -5,7 +5,6 @@ import lombok.val;
 import net.pixlies.core.Main;
 import net.pixlies.core.handlers.Handler;
 import net.pixlies.core.utils.EventUtils;
-import net.pixlies.core.utils.PlayerUtils;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -21,7 +20,6 @@ public class VanishHandler implements Handler {
         EventUtils.callEvent(event);
         if (event.isCancelled()) return false;
         if (vanishedPlayers.contains(player.getUniqueId())) return false;
-        PlayerUtils.heal(player);
         player.setInvulnerable(true);
         player.setAllowFlight(true);
         for (Player target : instance.getServer().getOnlinePlayers()) {
