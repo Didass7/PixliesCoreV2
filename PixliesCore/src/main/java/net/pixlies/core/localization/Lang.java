@@ -116,6 +116,10 @@ public enum Lang {
     PLAYER_MESSAGE_SOCIALSPY(Lang.PM, new HashMap<>()),
 
     PLAYER_SUICIDE(Lang.PIXLIES, new HashMap<>()),
+    CHEST_LOCKED(Lang.PIXLIES, new HashMap<>()),
+    CHEST_UNLOCKED(Lang.PIXLIES, new HashMap<>()),
+    CHEST_BELONGS_TO_OTHER(Lang.PIXLIES, new HashMap<>()),
+    MUST_BE_FACING_A_CHEST(Lang.PIXLIES, new HashMap<>()),
 
     PLAYER_CLEAR(Lang.PIXLIES, new HashMap<>()),
 

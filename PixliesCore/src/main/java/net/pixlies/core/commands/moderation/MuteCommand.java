@@ -1,6 +1,7 @@
 package net.pixlies.core.commands.moderation;
 
 import co.aikar.commands.BaseCommand;
+import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.User;
@@ -32,6 +33,11 @@ public class MuteCommand extends BaseCommand {
 
         User user = User.get(targetOP.getUniqueId());
         user.mute(muteReason, sender, silent);
+    }
+
+    @HelpCommand
+    public void onHelp(CommandSender sender, CommandHelp help) {
+        help.showHelp();
     }
 
 }
