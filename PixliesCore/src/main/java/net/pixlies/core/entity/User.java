@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import net.pixlies.core.Main;
 import net.pixlies.core.economy.Wallet;
+import net.pixlies.core.entity.data.UserPersonalization;
+import net.pixlies.core.entity.data.UserSettings;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.moderation.Punishment;
 import net.pixlies.core.moderation.PunishmentType;
@@ -35,15 +37,9 @@ public class User {
     private List<UUID> blockedUsers;
     private Map<String, Object> stats;
     private Map<String, Punishment> currentPunishments;
+    private UserPersonalization personalization;
+    private UserSettings settings;
     private String lang;
-
-    // Staff mode settings
-    private boolean staffModeEnabled;
-    private boolean socialSpy;
-    private boolean commandSpy;
-    private boolean banSpy;
-    private boolean muteSpy;
-    private boolean clearChatBypass;
 
     public OfflinePlayer getAsOfflinePlayer() {
         return Bukkit.getOfflinePlayer(uuid);
@@ -131,6 +127,7 @@ public class User {
         return instance.getDatabase().getUserCache().getOrDefault(uuid, getFromDatabase(uuid));
     }
 
+    @SuppressWarnings("unchecked")
     public static User getFromDatabase(UUID uuid) {
         Document profile = new Document("uniqueId", uuid.toString());
         Document found = instance.getDatabase().getUserCollection().find(profile).first();
@@ -157,13 +154,9 @@ public class User {
                     new ArrayList<>(),
                     new HashMap<>(),
                     new HashMap<>(),
-                    "ENG",
-                    false,
-                    true,
-                    true,
-                    true,
-                    true,
-                    false
+                    UserPersonalization.getDefaults(),
+                    UserSettings.getDefaults(),
+                    "ENG"
             );
 
             Bukkit.getConsoleSender().sendMessage(ChatColor.AQUA + "Profile for " + uuid + " created in Database.");
@@ -177,13 +170,9 @@ public class User {
                     found.getList("blockedUsers", String.class).stream().map(UUID::fromString).collect(Collectors.toList()),
                     found.get("stats", Map.class),
                     Punishment.getFromMongo((Map<String, Map<String, Object>>) found.get("currentPunishments")),
-                    found.getString("lang"),
-                    found.getBoolean(false),
-                    found.getBoolean(true),
-                    found.getBoolean(true),
-                    found.getBoolean(true),
-                    found.getBoolean(true),
-                    found.getBoolean(false)
+                    UserPersonalization.getFromMongo((Map<String, Object>) found.get("personalization")),
+                    UserSettings.getFromMongo((Map<String, Object>) found.get("settings")),
+                    found.getString("lang")
             );
         }
         return data;
@@ -203,13 +192,9 @@ public class User {
         );
         profile.append("stats", gson.toJson(stats));
         profile.append("currentPunishments", Punishment.mapAllForMongo(currentPunishments));
+        profile.append("personalization", personalization.mapForMongo());
+        profile.append("settings", settings.mapForMongo());
         profile.append("lang", lang);
-        profile.append("socialSpy", socialSpy);
-        profile.append("commandSpy", commandSpy);
-        profile.append("banSpy", banSpy);
-        profile.append("muteSpy", muteSpy);
-        profile.append("clearChatBypass", clearChatBypass);
-        profile.append("staffModeEnabled", staffModeEnabled);
         instance.getDatabase().getUserCollection().replaceOne(found, profile);
     }
 

@@ -35,8 +35,7 @@ public class BanListener implements Listener {
 
             event.disallow(PlayerLoginEvent.Result.KICK_BANNED, Component.text(banMessage));
             for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-                User pUser = User.get(p.getUniqueId());
-                if (pUser.isStaffModeEnabled() && pUser.isBanSpy() && p.hasPermission(BAN_BROADCAST_PERMISSION)) {
+                if (p.hasPermission(BAN_BROADCAST_PERMISSION)) {
                     Lang.BANNED_PLAYER_TRIED_TO_JOIN.send(p, "%PLAYER%;", event.getPlayer().getName());
                 }
             }

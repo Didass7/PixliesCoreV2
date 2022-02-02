@@ -49,11 +49,9 @@ public class ChatCommand extends BaseCommand {
     @Description("Clear messages in chat")
     public void onClearChat(CommandSender sender) {
         for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-            User user = User.get(p.getUniqueId());
-            if (!user.isStaffModeEnabled() && !user.isClearChatBypass()) {
-                for (int i = 0; i < 100; i++) {
-                    p.sendMessage("");
-                }
+            if (p.hasPermission("pixlies.moderation.chat.clear.exempt")) continue;
+            for (int i = 0; i < 100; i++) {
+                p.sendMessage(" ");
             }
         }
         Lang.CHAT_CLEARED.broadcast("%PLAYER%;" + sender.getName());

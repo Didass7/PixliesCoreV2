@@ -19,7 +19,8 @@ public class MessageListener implements Listener {
 
         for (Player player : Bukkit.getServer().getOnlinePlayers()) {
             User user = User.get(player.getUniqueId());
-            if (!user.isSocialSpy()) continue;
+            // TODO: check if USER is social spy
+            //if (!user.isSocialSpy()) continue;
             Lang.PLAYER_MESSAGE_SOCIALSPY.send(player, "%PLAYER%;" + sender.getName(), "%TARGET%;" + target.getName());
         }
 

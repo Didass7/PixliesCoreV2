@@ -20,13 +20,13 @@ public class StaffModeCommand extends BaseCommand {
     @Description("Toggles staff mode")
     public void onStaffMode(Player sender) {
         User user = User.get(sender.getUniqueId());
-        boolean staffModeEnabled = user.isStaffModeEnabled();
+        boolean staffModeEnabled = user.getSettings().isStaffModeEnabled();
         if (staffModeEnabled) {
             Lang.STAFFMODE_ON.send(sender);
         } else {
             Lang.STAFFMODE_OFF.send(sender);
         }
-        user.setStaffModeEnabled(!staffModeEnabled);
+        user.getSettings().setStaffModeEnabled(!staffModeEnabled);
 
         // TODO other stuff
     }
