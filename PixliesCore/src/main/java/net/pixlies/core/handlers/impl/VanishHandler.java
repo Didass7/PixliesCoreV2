@@ -21,6 +21,7 @@ public class VanishHandler implements Handler {
         if (event.isCancelled()) return false;
         if (vanishedPlayers.contains(player.getUniqueId())) return false;
         player.setInvulnerable(true);
+        player.setSleepingIgnored(true);
         player.setAllowFlight(true);
         for (Player target : instance.getServer().getOnlinePlayers()) {
             if (target.hasPermission("pixlies.moderation.vanish.exempt")) continue;
@@ -36,6 +37,7 @@ public class VanishHandler implements Handler {
         if (event.isCancelled()) return false;
         if (!vanishedPlayers.contains(player.getUniqueId())) return false;
         player.setInvulnerable(false);
+        player.setSleepingIgnored(false);
         player.setAllowFlight(player.hasPermission("pixlies.fly"));
         for (Player target : instance.getServer().getOnlinePlayers()) {
             target.showPlayer(instance, player);

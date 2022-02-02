@@ -15,10 +15,12 @@ public class UserPersonalization {
     private static final String SOCIAL_SPY_ENABLED = "socialSpyEnabled";
     private static final String COMMAND_SPY_ENABLED = "commandSpyEnabled";
     private static final String VIEW_MUTED_CHAT = "viewMutedChat";
+    private static final String JOIN_VANISH = "joinVanish";
 
     private boolean socialSpyEnabled;
     private boolean commandSpyEnabled;
     @Getter(AccessLevel.NONE) private boolean viewMutedChat;
+    private boolean joinVanish;
 
     public boolean canViewMutedChat() {
         // lombok wasn't being fun
@@ -40,11 +42,13 @@ public class UserPersonalization {
             put(SOCIAL_SPY_ENABLED, socialSpyEnabled);
             put(COMMAND_SPY_ENABLED, commandSpyEnabled);
             put(VIEW_MUTED_CHAT, viewMutedChat);
+            put(JOIN_VANISH, joinVanish);
         }};
     }
 
     public static UserPersonalization getDefaults() {
         return new UserPersonalization(
+                false,
                 false,
                 false,
                 false
