@@ -21,6 +21,7 @@ public class ChatCommand extends BaseCommand {
     private static final Main instance = Main.getInstance();
     private final ChatHandler chatHandler = instance.getHandlerManager().getHandler(ChatHandler.class);
 
+    @CommandAlias("mutechat")
     @Subcommand("mute")
     @Description("Toggle the chat being muted")
     public void onToggleMute(CommandSender sender) {
@@ -45,6 +46,7 @@ public class ChatCommand extends BaseCommand {
         chatHandler.setSwearFilterEnabled(!swearFilter);
     }
 
+    @CommandAlias("clearchat")
     @Subcommand("clear")
     @Description("Clear messages in chat")
     public void onClearChat(CommandSender sender) {
