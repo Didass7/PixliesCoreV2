@@ -3,6 +3,7 @@ package net.pixlies.core.commands.player;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandPermission;
+import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Description;
 import net.pixlies.core.Main;
 import net.pixlies.core.handlers.impl.TeleportHandler;
@@ -13,12 +14,13 @@ import org.bukkit.entity.Player;
 import java.util.UUID;
 
 @CommandAlias("tpback|back")
+@CommandPermission("pixlies.player.tpback")
 public class TpBackCommand extends BaseCommand {
 
     private static final Main instance = Main.getInstance();
     private final TeleportHandler tpHandler = instance.getHandlerManager().getHandler(TeleportHandler.class);
 
-    @CommandPermission("pixlies.player.tpback")
+    @Default
     @Description("Returns to the last location before teleportation")
     public void onTpBack(Player sender) {
         UUID uuid = sender.getUniqueId();
