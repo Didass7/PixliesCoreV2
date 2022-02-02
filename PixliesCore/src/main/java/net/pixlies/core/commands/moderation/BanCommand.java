@@ -1,21 +1,20 @@
 package net.pixlies.core.commands.moderation;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.pixlies.core.Main;
-import net.pixlies.core.localization.Lang;
 import net.pixlies.core.entity.User;
+import net.pixlies.core.localization.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
+@CommandAlias("ban")
+@CommandPermission("pixlies.moderation.ban")
 public class BanCommand extends BaseCommand {
 
-    @CommandAlias("ban")
-    @CommandPermission("pixlies.moderation.ban")
     @CommandCompletion("@players")
     @Description("Bans player with the default reason")
     public void onBan(CommandSender sender, String player, @Optional String reason) {

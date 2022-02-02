@@ -5,16 +5,15 @@ import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandCompletion;
 import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Syntax;
-import net.pixlies.core.events.impl.player.MessagePlayerEvent;
 import lombok.val;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.User;
+import net.pixlies.core.events.impl.player.MessagePlayerEvent;
 import net.pixlies.core.handlers.impl.MessageHandler;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.utils.EventUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.CommandSender;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.Locale;

@@ -1,6 +1,7 @@
 package net.pixlies.core.commands.moderation;
 
 import co.aikar.commands.BaseCommand;
+import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import net.pixlies.core.Main;
 import net.pixlies.core.handlers.impl.VanishHandler;
@@ -26,7 +27,6 @@ public class VanishCommand extends BaseCommand {
 
     @Private
     @Default
-    @CommandCompletion("@empty")
     public void onVanish(Player player) {
         handler.setVanished(player, !handler.isVanished(player.getUniqueId()));
         if (handler.isVanished(player.getUniqueId())) {
@@ -35,5 +35,11 @@ public class VanishCommand extends BaseCommand {
             Lang.MODERATION_VANISH_OFF.send(player);
         }
     }
+
+    @HelpCommand
+    public void onHelp(CommandSender sender, CommandHelp help) {
+        help.showHelp();
+    }
+
 
 }

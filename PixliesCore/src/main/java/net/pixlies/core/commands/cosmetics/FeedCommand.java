@@ -12,7 +12,6 @@ import org.bukkit.entity.Player;
 public class FeedCommand extends BaseCommand {
 
     @Default
-    @CommandCompletion("@empty")
     public void onFeed(Player player) {
         player.setFoodLevel(20);
         Lang.COSMETICS_FEED_SELF.send(player);

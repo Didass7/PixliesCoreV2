@@ -26,10 +26,8 @@ public class ModulesCommand extends BaseCommand {
     private final Map<Module, ModuleDescription> modules = Main.getInstance().getModuleManager().getModules();
 
     @Default
-    @CommandCompletion("@empty")
-    @Description("Returns all loaded Modules")
+    @Description("Returns all loaded modules")
     public void onModules(Player player) {
-
         ChestGui gui = new ChestGui(3, "Modules");
         PaginatedPane modulesPane = new PaginatedPane(0, 0, 9, 5);
 
@@ -50,7 +48,6 @@ public class ModulesCommand extends BaseCommand {
 
         gui.addPane(modulesPane);
         gui.show(player);
-
     }
 
     @HelpCommand

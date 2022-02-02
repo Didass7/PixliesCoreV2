@@ -1,7 +1,6 @@
 package net.pixlies.core.commands.moderation;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import lombok.val;
 import net.pixlies.core.Main;
@@ -12,12 +11,12 @@ import org.bukkit.entity.Player;
 
 import java.util.Objects;
 
+@CommandAlias("kickall")
+@CommandPermission("pixlies.moderation.kickall")
 public class KickallCommand extends BaseCommand {
 
     private static final Main instance = Main.getInstance();
 
-    @CommandAlias("kickall")
-    @CommandPermission("pixlies.moderation.kickall")
     @Description("Kick all players")
     @CommandCompletion("@empty")
     public void onKickAll(CommandSender sender, @Optional String reason) {

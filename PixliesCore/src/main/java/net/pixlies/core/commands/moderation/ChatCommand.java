@@ -59,7 +59,7 @@ public class ChatCommand extends BaseCommand {
         Lang.CHAT_CLEARED.broadcast("%PLAYER%;" + sender.getName());
     }
 
-    @Subcommand("word")
+    @Subcommand("toggleword")
     @Description("Toggle the usage of a certain word in chat")
     public void onToggleWord(CommandSender sender, String word) {
         if (word == null) {
@@ -86,7 +86,7 @@ public class ChatCommand extends BaseCommand {
 
     @Subcommand("slow")
     @Description("Slows the chat down")
-    @CommandCompletion("@values:min=0,max=10")
+    @CommandCompletion("@range:15")
     public void onSlow(CommandSender sender, @Conditions("longLimits:min=0,max=10") Long cooldown) {
         if (cooldown == 0) {
             chatHandler.setSlowMode(0);

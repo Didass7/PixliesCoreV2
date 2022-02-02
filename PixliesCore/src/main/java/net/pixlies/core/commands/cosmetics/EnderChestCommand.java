@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 public class EnderChestCommand extends BaseCommand {
 
     @Default
-    @CommandCompletion("@empty")
     public void onEnderChest(Player player) {
         player.openInventory(player.getEnderChest());
     }

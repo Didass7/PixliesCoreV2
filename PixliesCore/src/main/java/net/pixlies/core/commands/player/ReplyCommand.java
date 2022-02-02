@@ -23,7 +23,6 @@ public class ReplyCommand extends BaseCommand {
     @CommandCompletion("@empty")
     @Syntax("<message>")
     public void onReply(Player player, String message) {
-
         val user = User.get(player.getUniqueId());
 
         if (user.getMute() != null && !player.hasPermission("pixlies.moderation.mute.exempt")) {
@@ -44,7 +43,6 @@ public class ReplyCommand extends BaseCommand {
 
         Lang.PLAYER_MESSAGE_FORMAT_TO.send(player, "%PLAYER%;" + target.getName(), "%MESSAGE%;" + message);
         Lang.PLAYER_MESSAGE_FORMAT_FROM.send(target, "%PLAYER%;" + player.getName(), "%MESSAGE;" + message);
-
     }
 
 }

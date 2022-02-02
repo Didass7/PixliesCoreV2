@@ -9,33 +9,30 @@ import net.pixlies.core.Main;
 import net.pixlies.core.handlers.impl.TeleportHandler;
 import net.pixlies.core.localization.Lang;
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+@CommandAlias("tpaccept")
+@CommandPermission("pixlies.player.tpaccept")
 public class TpAcceptCommand extends BaseCommand {
 
     private static final Main instance = Main.getInstance();
     private final TeleportHandler tpHandler = instance.getHandlerManager().getHandler(TeleportHandler.class);
 
-    @CommandAlias("tpaccept")
-    @CommandPermission("pixlies.player.tpaccept")
     @CommandCompletion("@players")
     @Description("Accepts teleport request")
-    public void onTpAccept(CommandSender sender) {
-        Player player = (Player) sender;
-
+    public void onTpAccept(Player sender) {
         // If nobody has requested teleportation
-        if (tpHandler.getTpAskPlayer(player.getUniqueId()) == null) {
+        if (tpHandler.getTpAskPlayer(sender.getUniqueId()) == null) {
             Lang.TPACCEPT_NOBODY.send(sender);
         } else {
-            Player target = (Player) Bukkit.getOfflinePlayer(tpHandler.getTpAskPlayer(player.getUniqueId()));
+            Player target = (Player) Bukkit.getOfflinePlayer(tpHandler.getTpAskPlayer(sender.getUniqueId()));
 
             // If target is no longer online
             if (!target.isOnline()) {
                 Lang.TPACCEPT_PLAYER_NOT_ONLINE.send(sender);
             } else {
                 tpHandler.setBackLocation(target.getUniqueId(), target.getLocation());
-                target.teleport(player);
+                target.teleport(sender);
                 Lang.TPASK_ACCEPTED_MESSAGE_SENDER.send(sender, "%PLAYER%;" + target.getName());
                 Lang.TPASK_ACCEPTED_MESSAGE_TARGET.send(target, "%PLAYER%;" + sender.getName());
             }

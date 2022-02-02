@@ -24,9 +24,7 @@ public class StaffModeSettingsCommand extends BaseCommand {
 
     @Default
     @Description("Toggle staffmode settings")
-    public static void openStaffModeSettings(CommandSender sender) {
-        Player player = (Player) sender;
-
+    public static void openStaffModeSettings(Player player) {
         // Create GUI
         ChestGui gui = new ChestGui(3, "Staff Settings");
 

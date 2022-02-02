@@ -7,12 +7,12 @@ import net.pixlies.core.utils.PlayerUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+@CommandAlias("randomteleport|rtp")
 @CommandPermission("pixlies.staff.randomteleport")
 public class RandomTeleportCommand extends BaseCommand {
 
     @Default
     @Private
-    @CommandAlias("randomteleport|srt")
     public void onRandomTeleport(Player player) {
         Player target = PlayerUtils.getRandomPlayer(player);
         if (target == null) {
@@ -23,7 +23,6 @@ public class RandomTeleportCommand extends BaseCommand {
         Lang.STAFF_RANDOM_TELEPORT.send(player, "%TARGET%;" + target.getName());
     }
 
-    @CommandAlias("randomteleport|srt")
     @CommandPermission("pixlies.staff.randomteleport.others")
     public void onRandomTeleport(CommandSender sender, Player player) {
         Player target = PlayerUtils.getRandomPlayer(player);

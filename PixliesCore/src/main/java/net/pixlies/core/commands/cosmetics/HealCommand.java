@@ -13,7 +13,6 @@ import org.bukkit.entity.Player;
 public class HealCommand extends BaseCommand {
 
     @Default
-    @CommandCompletion("@empty")
     public void onHeal(Player player) {
         PlayerUtils.heal(player);
         Lang.COSMETICS_HEALED_SELF.send(player);

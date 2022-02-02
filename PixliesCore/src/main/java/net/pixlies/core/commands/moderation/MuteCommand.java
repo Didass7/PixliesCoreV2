@@ -1,19 +1,18 @@
 package net.pixlies.core.commands.moderation;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import net.pixlies.core.Main;
-import net.pixlies.core.localization.Lang;
 import net.pixlies.core.entity.User;
+import net.pixlies.core.localization.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
+@CommandAlias("mute")
+@CommandPermission("pixlies.moderation.mute")
 public class MuteCommand extends BaseCommand {
 
-    @CommandAlias("mute")
-    @CommandPermission("pixlies.moderation.mute")
     @CommandCompletion("@players")
     @Description("Mutes player with the default reason")
     public void onBan(CommandSender sender, String player, @Optional String reason) {
