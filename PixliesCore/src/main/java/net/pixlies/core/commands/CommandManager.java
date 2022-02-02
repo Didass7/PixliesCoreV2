@@ -69,6 +69,8 @@ public class CommandManager {
         register(new RandomTeleportCommand(), false);
         register(new SuicideCommand(), true);
         register(new ClearCommand(), false);
+        register(new EchoCommand(), false);
+
     }
 
     private void registerConditions() {
