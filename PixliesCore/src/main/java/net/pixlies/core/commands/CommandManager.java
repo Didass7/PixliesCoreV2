@@ -70,7 +70,6 @@ public class CommandManager {
         register(new SuicideCommand(), true);
         register(new ClearCommand(), false);
         register(new EchoCommand(), false);
-        register(new LockCommand(), false);
     }
 
     private void registerConditions() {

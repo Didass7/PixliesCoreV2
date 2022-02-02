@@ -28,7 +28,6 @@ public class ListenerManager {
         add(new TeleportListener());
         add(new VanishListener());
         add(new MessageListener());
-        add(new LockedChestsListener());
     }};
 
     public static void registerAllListeners() {

@@ -2,6 +2,7 @@ package net.pixlies.nations.events;
 
 import com.google.common.collect.ImmutableList;
 import net.pixlies.core.Main;
+import net.pixlies.nations.events.listeners.LockedChestListener;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
@@ -10,7 +11,7 @@ public class ListenerManager {
     private static final Main instance = Main.getInstance();
 
     private final ImmutableList<Listener> listeners = ImmutableList.of(
-            // ADD LISTENERS
+            new LockedChestListener()
     );
 
     public void registerAllListeners() {

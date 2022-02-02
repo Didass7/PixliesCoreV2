@@ -1,4 +1,4 @@
-package net.pixlies.core.listeners.player;
+package net.pixlies.nations.events.listeners;
 
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.User;
@@ -15,12 +15,12 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-public class LockedChestsListener implements Listener {
+public class LockedChestListener implements Listener {
 
     private static final Main instance = Main.getInstance();
 
     @EventHandler
-    public void onInteract (PlayerInteractEvent event) {
+    public void onInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         Block block = event.getClickedBlock();
         if (block != null && block.getType() == Material.CHEST) {
@@ -32,8 +32,8 @@ public class LockedChestsListener implements Listener {
                 NamespacedKey key = new NamespacedKey(instance, "locked-chests");
                 String ownerUuid = container.getOrDefault(key, PersistentDataType.STRING, "none");
 
-                if (container.has(key, PersistentDataType.STRING) && ownerUuid.equals(player.getUniqueId().toString())
-                        && !user.isStaffModeEnabled()) {
+                // TODO: Nation bypass
+                if (container.has(key, PersistentDataType.STRING) && ownerUuid.equals(player.getUniqueId().toString()) /* && !user.isStaffModeEnabled() */) {
                     event.setCancelled(true);
                     Lang.CHEST_BELONGS_TO_OTHER.send(player);
                     player.playSound(player.getLocation(), "block.chest.locked", 100, 1);

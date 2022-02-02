@@ -1,4 +1,4 @@
-package net.pixlies.core.commands.player;
+package net.pixlies.nations.commands.impl.player;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;
@@ -23,12 +23,12 @@ public class LockCommand extends BaseCommand {
 
     @Default
     @Description("Locks/unlocks a chest")
-    public void onLock(Player sender) {
-        User user = User.get(sender.getUniqueId());
+    public void onLock(Player player) {
+        User user = User.get(player.getUniqueId());
 
-        Block block = sender.getTargetBlock(5);
+        Block block = player.getTargetBlock(5);
         if (block == null || !block.getType().equals(Material.CHEST)) {
-            Lang.MUST_BE_A_PLAYER.send(sender);
+            Lang.MUST_BE_A_PLAYER.send(player);
             return;
         }
 
@@ -39,18 +39,18 @@ public class LockCommand extends BaseCommand {
 
         // If chest already is locked
         if (container.has(key, PersistentDataType.STRING)) {
-            // If owner is not the sender AND if sender is not in staff mode
-            if (!ownerUuid.equals(sender.getUniqueId().toString()) && !user.isStaffModeEnabled()) {
-                Lang.CHEST_BELONGS_TO_OTHER.send(sender, "%PLAYER%;" + ownerUuid);
+            // If owner is not the player AND if player is not in staff mode
+            if (!ownerUuid.equals(player.getUniqueId().toString()) /* TODO: nation bypass is enabled */) {
+                Lang.CHEST_BELONGS_TO_OTHER.send(player, "%PLAYER%;" + ownerUuid);
             } else {
                 container.set(key, PersistentDataType.STRING, "none");
-                Lang.CHEST_UNLOCKED.send(sender);
-                sender.playSound(sender.getLocation(), "entity.arrow.hit_player", 100, 1);
+                Lang.CHEST_UNLOCKED.send(player);
+                player.playSound(player.getLocation(), "entity.arrow.hit_player", 100, 1);
             }
         } else {
-            container.set(key, PersistentDataType.STRING, sender.getUniqueId().toString());
-            Lang.CHEST_LOCKED.send(sender);
-            sender.playSound(sender.getLocation(), "block.chest.locked", 100, 1);
+            container.set(key, PersistentDataType.STRING, player.getUniqueId().toString());
+            Lang.CHEST_LOCKED.send(player);
+            player.playSound(player.getLocation(), "block.chest.locked", 100, 1);
         }
 
         state.update();
