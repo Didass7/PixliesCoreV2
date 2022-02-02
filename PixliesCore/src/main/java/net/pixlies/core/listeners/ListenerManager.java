@@ -22,8 +22,7 @@ public class ListenerManager {
         add(new ChatEmojiListener());
         add(new GlobalPvpListener());
         add(new SlowModeListener());
-        add(new JoinListener());
-        add(new QuitListener());
+        add(new JoinQuitListener());
         add(new CommandSpyListener());
         add(new TeleportListener());
         add(new VanishListener());

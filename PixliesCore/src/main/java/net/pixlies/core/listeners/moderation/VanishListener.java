@@ -7,6 +7,7 @@ import net.pixlies.core.handlers.impl.VanishHandler;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.*;
@@ -69,7 +70,7 @@ public class VanishListener implements Listener {
         event.setCancelled(true);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
@@ -85,7 +86,7 @@ public class VanishListener implements Listener {
                 player.hidePlayer(instance, target));
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         if (!handler.isVanished(player.getUniqueId())) return;
