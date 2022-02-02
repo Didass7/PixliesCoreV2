@@ -19,115 +19,116 @@ import java.util.Objects;
 public enum Lang {
 
     BAN_MESSAGE("", new HashMap<>()),
-    BANNED_PLAYER_TRIED_TO_JOIN(Lang.EARTH, new HashMap<>()),
-    PLAYER_PERMANENTLY_BANNED(Lang.EARTH, new HashMap<>()),
-    PLAYER_TEMPORARILY_BANNED(Lang.EARTH, new HashMap<>()),
-    PLAYER_PERMANENTLY_MUTED(Lang.EARTH, new HashMap<>()),
-    PLAYER_TEMPORARILY_MUTED(Lang.EARTH, new HashMap<>()),
+    BANNED_PLAYER_TRIED_TO_JOIN(Lang.PIXLIES, new HashMap<>()),
+    PLAYER_PERMANENTLY_BANNED(Lang.PIXLIES, new HashMap<>()),
+    PLAYER_TEMPORARILY_BANNED(Lang.PIXLIES, new HashMap<>()),
+    PLAYER_PERMANENTLY_MUTED(Lang.PIXLIES, new HashMap<>()),
+    PLAYER_TEMPORARILY_MUTED(Lang.PIXLIES, new HashMap<>()),
     MUTE_MESSAGE("", new HashMap<>()),
-    MUTED_PLAYER_TRIED_TO_TALK(Lang.EARTH, new HashMap<>()),
+    MUTED_PLAYER_TRIED_TO_TALK(Lang.PIXLIES, new HashMap<>()),
 
-    NO_ITEMS_FOUND_ON_PLAYER(Lang.EARTH, new HashMap<>()),
+    NO_ITEMS_FOUND_ON_PLAYER(Lang.PIXLIES, new HashMap<>()),
 
-    CHAT_CLEARED(Lang.EARTH, new HashMap<>()),
-    CHAT_MUTED(Lang.EARTH, new HashMap<>()),
-    CHAT_UNMUTED(Lang.EARTH, new HashMap<>()),
+    CHAT_CLEARED(Lang.PIXLIES, new HashMap<>()),
+    CHAT_MUTED(Lang.PIXLIES, new HashMap<>()),
+    CHAT_UNMUTED(Lang.PIXLIES, new HashMap<>()),
 
-    SWEAR_FILTER_ON(Lang.EARTH, new HashMap<>()),
-    SWEAR_FILTER_OFF(Lang.EARTH, new HashMap<>()),
-    PLAYER_TRIED_TO_SWEAR(Lang.EARTH, new HashMap<>()),
+    SWEAR_FILTER_ON(Lang.PIXLIES, new HashMap<>()),
+    SWEAR_FILTER_OFF(Lang.PIXLIES, new HashMap<>()),
+    PLAYER_TRIED_TO_SWEAR(Lang.PIXLIES, new HashMap<>()),
 
-    ADDED_BLOCKED_WORD(Lang.EARTH, new HashMap<>()),
-    REMOVED_BLOCKED_WORD(Lang.EARTH, new HashMap<>()),
-    PLAYER_TRIED_BLOCKED_WORD(Lang.EARTH, new HashMap<>()),
+    ADDED_BLOCKED_WORD(Lang.PIXLIES, new HashMap<>()),
+    REMOVED_BLOCKED_WORD(Lang.PIXLIES, new HashMap<>()),
+    PLAYER_TRIED_BLOCKED_WORD(Lang.PIXLIES, new HashMap<>()),
 
-    SLOWMODE_SET(Lang.EARTH, new HashMap<>()),
-    SLOWMODE_OFF(Lang.EARTH, new HashMap<>()),
-    SLOWMODE_MESSAGE(Lang.EARTH, new HashMap<>()),
+    SLOWMODE_SET(Lang.PIXLIES, new HashMap<>()),
+    SLOWMODE_OFF(Lang.PIXLIES, new HashMap<>()),
+    SLOWMODE_MESSAGE(Lang.PIXLIES, new HashMap<>()),
 
-    PLAYER_DOESNT_EXIST(Lang.EARTH, new HashMap<>()),
+    PLAYER_DOESNT_EXIST(Lang.PIXLIES, new HashMap<>()),
 
-    CANNOT_USE_ON_SELF(Lang.EARTH, new HashMap<>()),
+    CANNOT_USE_ON_SELF(Lang.PIXLIES, new HashMap<>()),
 
     // STAFF
-    STAFF_GOD_ON(Lang.EARTH, new HashMap<>()),
-    STAFF_GOD_OFF(Lang.EARTH, new HashMap<>()),
+    STAFF_GOD_ON(Lang.PIXLIES, new HashMap<>()),
+    STAFF_GOD_OFF(Lang.PIXLIES, new HashMap<>()),
 
-    STAFF_WORLD_TELEPORT(Lang.EARTH, new HashMap<>()),
+    STAFF_WORLD_TELEPORT(Lang.PIXLIES, new HashMap<>()),
 
-    STAFF_RANDOM_TELEPORT(Lang.EARTH, new HashMap<>()),
-    STAFF_RANDOM_TELEPORT_OTHER(Lang.EARTH, new HashMap<>()),
+    STAFF_RANDOM_TELEPORT(Lang.PIXLIES, new HashMap<>()),
+    STAFF_RANDOM_TELEPORT_OTHER(Lang.PIXLIES, new HashMap<>()),
 
-    STAFFMODE_SETTING_TURNED_ON(Lang.EARTH, new HashMap<>()),
-    STAFFMODE_SETTING_TURNED_OFF(Lang.EARTH, new HashMap<>()),
+    STAFFMODE_SETTING_TURNED_ON(Lang.PIXLIES, new HashMap<>()),
+    STAFFMODE_SETTING_TURNED_OFF(Lang.PIXLIES, new HashMap<>()),
 
-    STAFF_GAMEMODE_CHANGED_SELF(Lang.EARTH, new HashMap<>()),
-    STAFF_GAMEMODE_CHANGED_OTHERS(Lang.EARTH, new HashMap<>()),
+    STAFF_GAMEMODE_CHANGED_SELF(Lang.PIXLIES, new HashMap<>()),
+    STAFF_GAMEMODE_CHANGED_OTHERS(Lang.PIXLIES, new HashMap<>()),
 
-    STAFFMODE_ON(Lang.EARTH, new HashMap<>()),
-    STAFFMODE_OFF(Lang.EARTH, new HashMap<>()),
+    STAFFMODE_ON(Lang.PIXLIES, new HashMap<>()),
+    STAFFMODE_OFF(Lang.PIXLIES, new HashMap<>()),
 
-    TPHERE_MESSAGE_SENDER(Lang.EARTH, new HashMap<>()),
-    TPHERE_MESSAGE_TARGET(Lang.EARTH, new HashMap<>()),
-    TPASK_MESSAGE_SENDER(Lang.EARTH, new HashMap<>()),
-    TPASK_MESSAGE_TARGET(Lang.EARTH, new HashMap<>()),
-    TPASK_ACCEPTED_MESSAGE_SENDER(Lang.EARTH, new HashMap<>()),
-    TPASK_ACCEPTED_MESSAGE_TARGET(Lang.EARTH, new HashMap<>()),
-    TPACCEPT_NOBODY(Lang.EARTH, new HashMap<>()),
-    TPACCEPT_PLAYER_NOT_ONLINE(Lang.EARTH, new HashMap<>()),
-    TPALL_BROADCAST(Lang.EARTH, new HashMap<>()),
-    RETURNED_TO_PREVIOUS_LOCATION(Lang.EARTH, new HashMap<>()),
-    TPBACK_NO_LOCATION(Lang.EARTH, new HashMap<>()),
+    TPHERE_MESSAGE_SENDER(Lang.PIXLIES, new HashMap<>()),
+    TPHERE_MESSAGE_TARGET(Lang.PIXLIES, new HashMap<>()),
+    TPASK_MESSAGE_SENDER(Lang.PIXLIES, new HashMap<>()),
+    TPASK_MESSAGE_TARGET(Lang.PIXLIES, new HashMap<>()),
+    TPASK_ACCEPTED_MESSAGE_SENDER(Lang.PIXLIES, new HashMap<>()),
+    TPASK_ACCEPTED_MESSAGE_TARGET(Lang.PIXLIES, new HashMap<>()),
+    TPACCEPT_NOBODY(Lang.PIXLIES, new HashMap<>()),
+    TPACCEPT_PLAYER_NOT_ONLINE(Lang.PIXLIES, new HashMap<>()),
+    TPALL_BROADCAST(Lang.PIXLIES, new HashMap<>()),
+    RETURNED_TO_PREVIOUS_LOCATION(Lang.PIXLIES, new HashMap<>()),
+    TPBACK_NO_LOCATION(Lang.PIXLIES, new HashMap<>()),
 
     // MODERATION
-    MODERATION_GLOBAL_PVP_ON(Lang.EARTH, new HashMap<>()),
-    MODERATION_GLOBAL_PVP_OFF(Lang.EARTH, new HashMap<>()),
-    PVP_OFF_PLAYER_TRIED_TO_PVP(Lang.EARTH, new HashMap<>()),
+    MODERATION_GLOBAL_PVP_ON(Lang.PIXLIES, new HashMap<>()),
+    MODERATION_GLOBAL_PVP_OFF(Lang.PIXLIES, new HashMap<>()),
+    PVP_OFF_PLAYER_TRIED_TO_PVP(Lang.PIXLIES, new HashMap<>()),
 
-    MODERATION_ISSUED_KICKALL(Lang.EARTH, new HashMap<>()),
-    MODERATION_KICKALL_MESSAGE(Lang.EARTH, new HashMap<>()),
+    MODERATION_ISSUED_KICKALL(Lang.PIXLIES, new HashMap<>()),
+    MODERATION_KICKALL_MESSAGE(Lang.PIXLIES, new HashMap<>()),
 
-    MODERATION_VANISH_ON(Lang.EARTH, new HashMap<>()),
-    MODERATION_VANISH_OFF(Lang.EARTH, new HashMap<>()),
-    MODERATION_VANISH_ON_OTHER(Lang.EARTH, new HashMap<>()),
-    MODERATION_VANISH_OFF_OTHER(Lang.EARTH, new HashMap<>()),
+    MODERATION_VANISH_ON(Lang.PIXLIES, new HashMap<>()),
+    MODERATION_VANISH_OFF(Lang.PIXLIES, new HashMap<>()),
+    MODERATION_VANISH_ON_OTHER(Lang.PIXLIES, new HashMap<>()),
+    MODERATION_VANISH_OFF_OTHER(Lang.PIXLIES, new HashMap<>()),
     MODERATION_VANISH_NO_ONE_CAN_SEE("", new HashMap<>()),
 
     // COSMETICS
-    COSMETICS_HEALED_SELF(Lang.EARTH, new HashMap<>()),
-    COSMETICS_HEALED_OTHERS(Lang.EARTH, new HashMap<>()),
+    COSMETICS_HEALED_SELF(Lang.PIXLIES, new HashMap<>()),
+    COSMETICS_HEALED_OTHERS(Lang.PIXLIES, new HashMap<>()),
 
-    COSMETICS_FEED_SELF(Lang.EARTH, new HashMap<>()),
-    COSMETICS_FEED_OTHERS(Lang.EARTH, new HashMap<>()),
+    COSMETICS_FEED_SELF(Lang.PIXLIES, new HashMap<>()),
+    COSMETICS_FEED_OTHERS(Lang.PIXLIES, new HashMap<>()),
 
-    COSMETICS_NIGHTVISION_ON(Lang.EARTH, new HashMap<>()),
-    COSMETICS_NIGHTVISION_OFF(Lang.EARTH, new HashMap<>()),
-    COSMETICS_NIGHTVISION_ON_OTHER(Lang.EARTH, new HashMap<>()),
-    COSMETICS_NIGHTVISION_OFF_OTHER(Lang.EARTH, new HashMap<>()),
+    COSMETICS_NIGHTVISION_ON(Lang.PIXLIES, new HashMap<>()),
+    COSMETICS_NIGHTVISION_OFF(Lang.PIXLIES, new HashMap<>()),
+    COSMETICS_NIGHTVISION_ON_OTHER(Lang.PIXLIES, new HashMap<>()),
+    COSMETICS_NIGHTVISION_OFF_OTHER(Lang.PIXLIES, new HashMap<>()),
 
-    COSMETICS_REPAIR_ITEM(Lang.EARTH, new HashMap<>()),
-    COSMETICS_CANNOT_REPAIR_ITEM(Lang.EARTH, new HashMap<>()),
-    COSMETICS_ANNOUNCE_PLAYER_SUICIDE(Lang.EARTH, new HashMap<>()),
+    COSMETICS_REPAIR_ITEM(Lang.PIXLIES, new HashMap<>()),
+    COSMETICS_CANNOT_REPAIR_ITEM(Lang.PIXLIES, new HashMap<>()),
+    COSMETICS_ANNOUNCE_PLAYER_SUICIDE(Lang.PIXLIES, new HashMap<>()),
 
     // PLAYER
     PLAYER_MESSAGE_FORMAT_TO("", new HashMap<>()),
     PLAYER_MESSAGE_FORMAT_FROM("", new HashMap<>()),
-    PLAYER_MESSAGE_NOONE_TO_MESSAGE(Lang.EARTH, new HashMap<>()),
+    PLAYER_MESSAGE_NOONE_TO_MESSAGE(Lang.PIXLIES, new HashMap<>()),
     PLAYER_MESSAGE_SOCIALSPY(Lang.PM, new HashMap<>()),
 
-    PLAYER_SUICIDE(Lang.EARTH, new HashMap<>()),
+    PLAYER_SUICIDE(Lang.PIXLIES, new HashMap<>()),
 
-    PLAYER_CLEAR(Lang.EARTH, new HashMap<>()),
+    PLAYER_CLEAR(Lang.PIXLIES, new HashMap<>()),
 
     // OTHER
-    MUST_BE_A_PLAYER(Lang.EARTH, new HashMap<>()),
-    INVALID_COMMAND_SYNTAX(Lang.EARTH, new HashMap<>());
+    MUST_BE_A_PLAYER(Lang.PIXLIES, new HashMap<>()),
+    INVALID_COMMAND_SYNTAX(Lang.PIXLIES, new HashMap<>());
 
     private final String PREFIX;
     private @Getter Map<String, String> languages;
 
     private static @Getter final Map<String, ItemStack> items = new HashMap<>();
 
+    public static final String PIXLIES = "§x§4§e§d§e§d§b§lP§x§4§8§c§b§c§8§lI§x§4§2§b§7§b§5§lX§x§3§c§a§4§a§2§lL§x§3§5§9§0§8§f§lI§x§2§f§7§d§7§c§lE§x§2§9§6§9§6§9§lS";
     public static final String EARTH = "§x§2§E§D§C§3§E§lE§x§3§0§C§A§3§E§lA§x§3§1§B§F§3§E§lR§x§3§8§B§2§4§3§lT§x§3§7§A§3§4§1§lH §8| ";
     public static final String NATION = "§x§2§F§D§1§E§5§lN§x§3§4§C§6§D§8§lA§x§3§7§B§A§C§A§lT§x§3§5§B§0§B§F§lI§x§3§3§A§3§B§0§lO§x§3§2§9§9§A§5§lN §8| ";
     public static final String DISCORD = "§3DISCORD §8| ";

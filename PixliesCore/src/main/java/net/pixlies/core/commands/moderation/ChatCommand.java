@@ -63,7 +63,7 @@ public class ChatCommand extends BaseCommand {
     @Description("Toggle the usage of a certain word in chat")
     public void onToggleWord(CommandSender sender, String word) {
         if (word == null) {
-            sender.sendMessage(Lang.EARTH + "You have to enter the word you want to block/unblock.");
+            sender.sendMessage(Lang.PIXLIES + "You have to enter the word you want to block/unblock.");
             return;
         }
 
