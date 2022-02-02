@@ -1,6 +1,6 @@
 package net.pixlies.core.handlers.impl;
 
-import net.pixlies.core.events.impl.moderation.PlayerVanishEvent;
+import net.pixlies.core.events.impl.moderation.VanishStatusChangeEvent;
 import lombok.val;
 import net.pixlies.core.Main;
 import net.pixlies.core.handlers.Handler;
@@ -17,7 +17,7 @@ public class VanishHandler implements Handler {
     private final List<UUID> vanishedPlayers = new ArrayList<>();
 
     public boolean vanish(Player player) {
-        val event = new PlayerVanishEvent(player, PlayerVanishEvent.VanishState.VANISH);
+        val event = new VanishStatusChangeEvent(player, VanishStatusChangeEvent.VanishState.VANISH);
         EventUtils.callEvent(event);
         if (event.isCancelled()) return false;
         if (vanishedPlayers.contains(player.getUniqueId())) return false;
@@ -33,7 +33,7 @@ public class VanishHandler implements Handler {
     }
 
     public boolean unvanish(Player player) {
-        val event = new PlayerVanishEvent(player, PlayerVanishEvent.VanishState.UNVANISH);
+        val event = new VanishStatusChangeEvent(player, VanishStatusChangeEvent.VanishState.UNVANISH);
         EventUtils.callEvent(event);
         if (event.isCancelled()) return false;
         if (!vanishedPlayers.contains(player.getUniqueId())) return false;

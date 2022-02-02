@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 @Getter
 @AllArgsConstructor
-public class PlayerVanishEvent extends PixliesEventCancellable {
+public class VanishStatusChangeEvent extends PixliesEventCancellable {
 
     private final Player player;
     private final VanishState state;

@@ -5,7 +5,7 @@ import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandCompletion;
 import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Syntax;
-import net.pixlies.core.events.impl.player.MessagePlayerEvent;
+import net.pixlies.core.events.impl.player.SenderMessagePlayerEvent;
 import lombok.val;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.User;
@@ -37,7 +37,7 @@ public class ReplyCommand extends BaseCommand {
             return;
         }
 
-        val event = new MessagePlayerEvent(player, target, MessagePlayerEvent.MessageType.REPLY);
+        val event = new SenderMessagePlayerEvent(player, target, SenderMessagePlayerEvent.MessageType.REPLY);
         EventUtils.callEvent(event);
         if (event.isCancelled()) return;
 

@@ -1,7 +1,7 @@
 package net.pixlies.core.listeners.player;
 
 import net.pixlies.core.entity.User;
-import net.pixlies.core.events.impl.player.MessagePlayerEvent;
+import net.pixlies.core.events.impl.player.SenderMessagePlayerEvent;
 import net.pixlies.core.localization.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -12,7 +12,7 @@ import org.bukkit.event.Listener;
 public class MessageListener implements Listener {
 
     @EventHandler
-    public void onMessage(MessagePlayerEvent event) {
+    public void onMessage(SenderMessagePlayerEvent event) {
 
         CommandSender sender = event.getSender();
         Player target = event.getTarget();

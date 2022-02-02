@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 @Getter
 @AllArgsConstructor
-public class MessagePlayerEvent extends PixliesEventCancellable {
+public class SenderMessagePlayerEvent extends PixliesEventCancellable {
 
     private final CommandSender sender;
     private final Player target;

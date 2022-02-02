@@ -10,7 +10,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/PixliesCoreV2.iml" filepath="$PROJECT_DIR$/.idea/PixliesCoreV2.iml" />
       <module fileurl="file://$PROJECT_DIR$/PixliesFun/PixliesFun.iml" filepath="$PROJECT_DIR$/PixliesFun/PixliesFun.iml" />
       <module fileurl="file://$PROJECT_DIR$/PixliesProxyCore/PixliesProxyCore.iml" filepath="$PROJECT_DIR$/PixliesProxyCore/PixliesProxyCore.iml" />
-      <module fileurl="file://$PROJECT_DIR$/PixliesBusiness/ProtoBusiness.iml" filepath="$PROJECT_DIR$/PixliesBusiness/ProtoBusiness.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ProtoBusiness/ProtoBusiness.iml" filepath="$PROJECT_DIR$/ProtoBusiness/ProtoBusiness.iml" />
       <module fileurl="file://$PROJECT_DIR$/PixliesCore/core.iml" filepath="$PROJECT_DIR$/PixliesCore/core.iml" />
     </modules>
   </component>
