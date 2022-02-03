@@ -32,6 +32,7 @@ public class User {
     private UUID uuid;
     private long joined;
     private String discordId;
+    private String nickName;
     private Map<String, Wallet> wallets;
     private List<String> knownUsernames;
     private List<UUID> blockedUsers;
@@ -123,6 +124,11 @@ public class User {
         tempBan("Unbanned", theGuy, 0, silent);
     }
 
+    public boolean hasNickName() {
+        if (nickName == null) return false;
+        return !nickName.equals("NONE");
+    }
+
     public static User get(UUID uuid) {
         return instance.getDatabase().getUserCache().getOrDefault(uuid, getFromDatabase(uuid));
     }
@@ -151,6 +157,7 @@ public class User {
                     uuid,
                     System.currentTimeMillis(),
                     "NONE",
+                    "NONE",
                     Wallet.getDefaultWallets(),
                     new ArrayList<>(),
                     new ArrayList<>(),
@@ -167,6 +174,7 @@ public class User {
                     UUID.fromString(found.getString("uniqueId")),
                     found.getLong("joined"),
                     found.getString("discordId"),
+                    found.getString("nickName"),
                     Wallet.getFromMongo((Map<String, Map<String, Object>>) found.get("wallets", Map.class)),
                     found.getList("knownUsernames", String.class),
                     found.getList("blockedUsers", String.class).stream().map(UUID::fromString).collect(Collectors.toList()),
@@ -186,6 +194,7 @@ public class User {
         if (found == null) return;
         profile.append("joined", joined);
         profile.append("discordId", discordId);
+        profile.append("nickName", nickName);
         profile.append("wallets", Wallet.mapAllForMongo(wallets));
         profile.append("knownUsernames", knownUsernames);
         profile.append("blockedUsers", blockedUsers.stream()
