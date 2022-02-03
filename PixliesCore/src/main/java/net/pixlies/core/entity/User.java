@@ -129,6 +129,13 @@ public class User {
         return !nickName.equals("NONE");
     }
 
+    public void setNickName(String name) {
+        if (name.length() > 16) {
+            throw new IllegalArgumentException("Nickname length cannot be above 16. Current length: " + name.length());
+        }
+        nickName = name;
+    }
+
     public static User get(UUID uuid) {
         return instance.getDatabase().getUserCache().getOrDefault(uuid, getFromDatabase(uuid));
     }
