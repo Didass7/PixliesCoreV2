@@ -201,6 +201,9 @@ public class User {
     }
 
     public void save() {
+        if (!instance.getDatabase().getUserCache().isEmpty()) {
+            instance.getDatabase().getUserCache().remove(uuid);
+        }
         instance.getDatabase().getUserCache().put(uuid, this);
     }
     

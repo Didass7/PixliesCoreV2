@@ -18,6 +18,7 @@ public class PassiveHandler implements Handler {
         player.setSleepingIgnored(true);
         player.setAllowFlight(true);
         user.getSettings().setPassive(true);
+        user.save();
     }
 
     public void unpassive(Player player) {
@@ -25,7 +26,8 @@ public class PassiveHandler implements Handler {
         player.setInvulnerable(false);
         player.setSleepingIgnored(false);
         player.setAllowFlight(player.hasPermission("pixlies.fly"));
-        user.getSettings().setVanished(false);
+        user.getSettings().setPassive(false);
+        user.save();
     }
 
     public void setPassive(Player player, boolean state) {

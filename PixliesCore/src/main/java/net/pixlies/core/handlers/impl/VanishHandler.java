@@ -44,6 +44,7 @@ public class VanishHandler implements Handler {
             handler.setPassive(player, false);
         }
         user.getSettings().setVanished(false);
+        user.save();
         return true;
     }
 

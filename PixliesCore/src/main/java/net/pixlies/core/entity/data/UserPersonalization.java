@@ -1,9 +1,6 @@
 package net.pixlies.core.entity.data;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
+import lombok.*;
 
 import java.util.HashMap;
 import java.util.Map;

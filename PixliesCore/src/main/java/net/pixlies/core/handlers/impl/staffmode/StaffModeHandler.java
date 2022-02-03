@@ -39,6 +39,7 @@ public class StaffModeHandler implements Handler {
         if (!user.getSettings().isStaffModeEnabled()) return;
         disableWithoutUpdate(player, user);
         user.getSettings().setStaffModeEnabled(false);
+        user.save();
     }
 
     public void enableWithoutUpdate(Player player, User user) {
@@ -46,7 +47,6 @@ public class StaffModeHandler implements Handler {
         PlayerUtils.heal(player);
         saveItems(player);
         loadStaffItems(player, user);
-        passiveHandler.setPassive(player, true);
     }
 
     public void disableWithoutUpdate(Player player, User user) {
