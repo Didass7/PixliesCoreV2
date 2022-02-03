@@ -12,7 +12,7 @@ public class VanishRunnable extends PixliesRunnable {
     private final VanishHandler handler = Main.getInstance().getHandlerManager().getHandler(VanishHandler.class);
 
     public VanishRunnable() {
-        super(false, 10, 0);
+        super(false, 30, 10);
     }
 
     @Override
