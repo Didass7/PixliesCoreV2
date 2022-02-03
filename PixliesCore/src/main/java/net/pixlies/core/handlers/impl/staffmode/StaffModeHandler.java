@@ -7,7 +7,9 @@ import net.pixlies.core.events.impl.moderation.StaffModeStatusChangeEvent;
 import net.pixlies.core.handlers.Handler;
 import net.pixlies.core.handlers.impl.PassiveHandler;
 import net.pixlies.core.handlers.impl.VanishHandler;
+import net.pixlies.core.handlers.impl.staffmode.data.PreviousInventory;
 import net.pixlies.core.utils.*;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -75,6 +77,8 @@ public class StaffModeHandler implements Handler {
         inventory.setItem(4, compass);
         inventory.setItem(5, randomTeleporter);
         inventory.setItem(8, vanish);
+
+        player.setGameMode(GameMode.CREATIVE);
 
     }
 

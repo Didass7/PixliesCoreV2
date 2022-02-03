@@ -1,4 +1,4 @@
-package net.pixlies.core.handlers.impl.staffmode;
+package net.pixlies.core.handlers.impl.staffmode.data;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
