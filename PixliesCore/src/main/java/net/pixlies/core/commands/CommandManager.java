@@ -68,6 +68,7 @@ public class CommandManager {
         register(new SmithingTableCommand(), true);
         register(new StoneCutterCommand(), true);
         register(new EnchantTableCommand(), true);
+        register(new CartographyTableCommand(), true);
 
         // PLAYER
         register(new MessageCommand(), false);

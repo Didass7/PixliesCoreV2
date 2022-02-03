@@ -13,7 +13,7 @@ public class StoneCutterCommand extends BaseCommand {
 
     @Default
     @Description("Cut stone")
-    public void onRepair(Player player) {
+    public void onStoneCutter(Player player) {
         player.openStonecutter(null, true);
     }
 

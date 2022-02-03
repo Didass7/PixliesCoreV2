@@ -7,14 +7,14 @@ import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Description;
 import org.bukkit.entity.Player;
 
-@CommandAlias("enchanttable|enchantmenttable|etable")
-@CommandPermission("pixlies.cosmetics.enchantmenttable")
-public class EnchantTableCommand extends BaseCommand {
+@CommandAlias("cartography|carto|carrot|cart")
+@CommandPermission("pixlies.cosmetics.cartography")
+public class CartographyTableCommand extends BaseCommand {
 
     @Default
     @Description("Repairs items")
-    public void onEnchantTable(Player player) {
-        player.openEnchanting(null, true);
+    public void onCartography(Player player) {
+        player.openCartographyTable(null, true);
     }
 
 }
