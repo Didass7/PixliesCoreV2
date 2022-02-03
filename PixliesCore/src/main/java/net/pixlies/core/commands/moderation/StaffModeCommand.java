@@ -7,7 +7,7 @@ import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Description;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.User;
-import net.pixlies.core.handlers.impl.StaffModeHandler;
+import net.pixlies.core.handlers.impl.staffmode.StaffModeHandler;
 import net.pixlies.core.localization.Lang;
 import org.bukkit.entity.Player;
 

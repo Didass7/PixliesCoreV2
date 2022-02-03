@@ -1,5 +1,6 @@
 package net.pixlies.core.utils;
 
+import net.pixlies.core.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -21,14 +22,16 @@ public final class InventoryUtils {
      *
      * @param playerInventory to turn into an array of strings.
      * @return Array of strings: [ main content, armor content ]
-     * @throws IllegalStateException
      */
-    public static String[] playerInventoryToBase64(PlayerInventory playerInventory) throws IllegalStateException {
+    public static String[] playerInventoryToBase64(PlayerInventory playerInventory) {
         //get the main content part, this doesn't return the armor
         String content = toBase64(playerInventory);
         String armor = itemStackArrayToBase64(playerInventory.getArmorContents());
 
-        return new String[] { content, armor };
+        return new String[] {
+                content, armor
+        };
+
     }
 
     /**
@@ -42,7 +45,7 @@ public final class InventoryUtils {
      * @param items to turn into a Base64 String.
      * @return Base64 string of the items.
      */
-    public static String itemStackArrayToBase64(ItemStack[] items) throws IllegalStateException {
+    public static String itemStackArrayToBase64(ItemStack[] items) {
         try {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             BukkitObjectOutputStream dataOutput = new BukkitObjectOutputStream(outputStream);
@@ -58,9 +61,10 @@ public final class InventoryUtils {
             // Serialize that array
             dataOutput.close();
             return Base64Coder.encodeLines(outputStream.toByteArray());
-        } catch (Exception e) {
-            throw new IllegalStateException("Unable to save item stacks.", e);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return null;
     }
 
     /**
@@ -76,7 +80,7 @@ public final class InventoryUtils {
      * @param inventory to serialize
      * @return Base64 string of the provided inventory
      */
-    public static String toBase64(Inventory inventory) throws IllegalStateException {
+    public static String toBase64(Inventory inventory) {
         try {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             BukkitObjectOutputStream dataOutput = new BukkitObjectOutputStream(outputStream);
@@ -93,8 +97,9 @@ public final class InventoryUtils {
             dataOutput.close();
             return Base64Coder.encodeLines(outputStream.toByteArray());
         } catch (Exception e) {
-            throw new IllegalStateException("Unable to save item stacks.", e);
+            e.printStackTrace();
         }
+        return null;
     }
 
     /**
@@ -111,7 +116,7 @@ public final class InventoryUtils {
      * @param data Base64 string of data containing an inventory.
      * @return Inventory created from the Base64 string.
      */
-    public static Inventory fromBase64(String data) throws IOException {
+    public static Inventory fromBase64(String data) {
         try {
             ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(data));
             BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream);
@@ -124,9 +129,10 @@ public final class InventoryUtils {
 
             dataInput.close();
             return inventory;
-        } catch (ClassNotFoundException e) {
-            throw new IOException("Unable to decode class type.", e);
+        } catch (ClassNotFoundException | IOException e) {
+            e.printStackTrace();
         }
+        return null;
     }
 
     /**
@@ -139,7 +145,7 @@ public final class InventoryUtils {
      * @param data Base64 string to convert to ItemStack array.
      * @return ItemStack array created from the Base64 string.
      */
-    public static ItemStack[] itemStackArrayFromBase64(String data) throws IOException {
+    public static ItemStack[] itemStackArrayFromBase64(String data) {
         try {
             ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(data));
             BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream);
@@ -152,9 +158,10 @@ public final class InventoryUtils {
 
             dataInput.close();
             return items;
-        } catch (ClassNotFoundException e) {
-            throw new IOException("Unable to decode class type.", e);
+        } catch (ClassNotFoundException | IOException e) {
+            e.printStackTrace();
         }
+        return null;
     }
 
  }
