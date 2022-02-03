@@ -134,6 +134,7 @@ public class User {
             throw new IllegalArgumentException("Nickname length cannot be above 16. Current length: " + name.length());
         }
         nickName = name;
+        save();
     }
 
     public String getNickName() {
