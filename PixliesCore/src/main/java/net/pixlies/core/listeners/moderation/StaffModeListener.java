@@ -34,6 +34,7 @@ public class StaffModeListener implements Listener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
+        if (instance.isLobbyServer()) return;
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
         if (!user.getSettings().isStaffModeEnabled()) return;
