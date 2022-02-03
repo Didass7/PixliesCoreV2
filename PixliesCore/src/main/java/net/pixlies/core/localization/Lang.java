@@ -130,6 +130,9 @@ public enum Lang {
 
     PLAYER_CLEAR(Lang.PIXLIES, new HashMap<>()),
 
+    PLAYER_RULES_MESSAGE(Lang.EARTH, new HashMap<>()),
+    PLAYER_DISCORD_MESSAGE(Lang.EARTH, new HashMap<>()),
+
     // OTHER
     MUST_BE_A_PLAYER(Lang.PIXLIES, new HashMap<>()),
     INVALID_COMMAND_SYNTAX(Lang.PIXLIES, new HashMap<>());

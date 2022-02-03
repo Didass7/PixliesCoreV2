@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="EntryPointsManager">
-    <list size="8">
-      <item index="0" class="java.lang.String" itemvalue="co.aikar.commands.annotation.CommandCompletion" />
-      <item index="1" class="java.lang.String" itemvalue="co.aikar.commands.annotation.CommandPermission" />
-      <item index="2" class="java.lang.String" itemvalue="co.aikar.commands.annotation.Default" />
-      <item index="3" class="java.lang.String" itemvalue="co.aikar.commands.annotation.Description" />
-      <item index="4" class="java.lang.String" itemvalue="co.aikar.commands.annotation.HelpCommand" />
-      <item index="5" class="java.lang.String" itemvalue="co.aikar.commands.annotation.Subcommand" />
-      <item index="6" class="java.lang.String" itemvalue="net.md_5.bungee.event.EventHandler" />
-      <item index="7" class="java.lang.String" itemvalue="org.bukkit.event.EventHandler" />
+    <list size="9">
+      <item index="0" class="java.lang.String" itemvalue="co.aikar.commands.annotation.CommandAlias" />
+      <item index="1" class="java.lang.String" itemvalue="co.aikar.commands.annotation.CommandCompletion" />
+      <item index="2" class="java.lang.String" itemvalue="co.aikar.commands.annotation.CommandPermission" />
+      <item index="3" class="java.lang.String" itemvalue="co.aikar.commands.annotation.Default" />
+      <item index="4" class="java.lang.String" itemvalue="co.aikar.commands.annotation.Description" />
+      <item index="5" class="java.lang.String" itemvalue="co.aikar.commands.annotation.HelpCommand" />
+      <item index="6" class="java.lang.String" itemvalue="co.aikar.commands.annotation.Subcommand" />
+      <item index="7" class="java.lang.String" itemvalue="net.md_5.bungee.event.EventHandler" />
+      <item index="8" class="java.lang.String" itemvalue="org.bukkit.event.EventHandler" />
     </list>
   </component>
   <component name="MavenProjectsManager">

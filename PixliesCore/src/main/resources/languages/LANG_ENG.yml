@@ -94,3 +94,6 @@ PLAYER_MESSAGE_SOCIALSPY: "§8(§7To §6%TARGET%§7 from §6%PLAYER%§8) §f%MES
 PLAYER_SUICIDE: "§7You committed suicide."
 
 PLAYER_CLEAR: "§7Cleared inventory for §6%PLAYER%§7"
+
+PLAYER_RULES_MESSAGE: "§7View our rules here: §b%MESSAGE%"
+PLAYER_DISCORD_MESSAGE: "§7Join our Discord here: §b%MESSAGE%"

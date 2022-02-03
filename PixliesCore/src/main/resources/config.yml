@@ -15,6 +15,10 @@ swearWords: ["funniwordsgohere"]
 
 blockedWords: []
 
+links:
+    rules: "https://pixlies.net/rules"
+    discord: "https://pixlies.net/discord"
+
 commands:
     # Enable if the plugin is loaded on a lobby server or equivalent
     limitedCommands: false
