@@ -66,6 +66,7 @@ public class CommandManager {
         register(new AnvilCommand(), true);
         register(new WorkBenchCommand(), true);
         register(new SmithingTableCommand(), true);
+        register(new StoneCutterCommand(), true);
 
         // PLAYER
         register(new MessageCommand(), false);
