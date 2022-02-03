@@ -12,5 +12,10 @@ public class StaffModeStatusChangeEvent extends PixliesCancellableEvent {
 
     private final Player player;
     private final User user;
+    private final StaffModeStatus status;
+
+    public enum StaffModeStatus {
+        ENABLE, DISABLE
+    }
 
 }

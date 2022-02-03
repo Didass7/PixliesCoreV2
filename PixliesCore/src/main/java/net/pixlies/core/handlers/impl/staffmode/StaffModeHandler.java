@@ -25,7 +25,7 @@ public class StaffModeHandler implements Handler {
 
     public void enable(Player player) {
         User user = User.get(player.getUniqueId());
-        if (EventUtils.callCancelable(new StaffModeStatusChangeEvent(player, user)).isCancelled()) return;
+        if (EventUtils.callCancelable(new StaffModeStatusChangeEvent(player, user, StaffModeStatusChangeEvent.StaffModeStatus.ENABLE)).isCancelled()) return;
         if (user.getSettings().isStaffModeEnabled()) return;
         user.getSettings().setStaffModeEnabled(true);
         passiveHandler.setPassive(player, true);
@@ -37,6 +37,7 @@ public class StaffModeHandler implements Handler {
 
     public void disable(Player player) {
         User user = User.get(player.getUniqueId());
+        if (EventUtils.callCancelable(new StaffModeStatusChangeEvent(player, user, StaffModeStatusChangeEvent.StaffModeStatus.DISABLE)).isCancelled()) return;
         if (!user.getSettings().isStaffModeEnabled()) return;
         passiveHandler.setPassive(player, false);
         loadItems(player);
