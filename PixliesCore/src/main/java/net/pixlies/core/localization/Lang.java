@@ -68,9 +68,6 @@ public enum Lang {
     STAFF_GAMEMODE_CHANGED_SELF(Lang.PIXLIES, new HashMap<>()),
     STAFF_GAMEMODE_CHANGED_OTHERS(Lang.PIXLIES, new HashMap<>()),
 
-    STAFFMODE_ON(Lang.PIXLIES, new HashMap<>()),
-    STAFFMODE_OFF(Lang.PIXLIES, new HashMap<>()),
-
     TPHERE_MESSAGE_SENDER(Lang.PIXLIES, new HashMap<>()),
     TPHERE_MESSAGE_TARGET(Lang.PIXLIES, new HashMap<>()),
     TPASK_MESSAGE_SENDER(Lang.PIXLIES, new HashMap<>()),
