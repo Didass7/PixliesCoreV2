@@ -50,9 +50,9 @@ public class CommandManager {
 
         // STAFF
         register(new GodCommand(), false);
-        register(new StaffModeSettingsCommand(), true);
         register(new WorldCommand(), false);
         register(new GamemodeCommand(), false);
+        register(new StaffModeSettingsCommand(), false);
 
         // DEBUG
         register(new ModulesCommand(), false);
@@ -68,11 +68,12 @@ public class CommandManager {
         register(new MessageCommand(), false);
         register(new ReplyCommand(), false);
         register(new RandomTeleportCommand(), false);
-        register(new SuicideCommand(), true);
         register(new ClearCommand(), false);
         register(new EchoCommand(), false);
         register(new DiscordCommand(), false);
         register(new RulesCommand(), false);
+        register(new AfkCommand(), true);
+        register(new SuicideCommand(), true);
 
     }
 

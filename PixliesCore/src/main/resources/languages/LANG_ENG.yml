@@ -97,3 +97,8 @@ PLAYER_CLEAR: "§7Cleared inventory for §6%PLAYER%§7"
 
 PLAYER_RULES_MESSAGE: "§7View our rules here: §b%MESSAGE%"
 PLAYER_DISCORD_MESSAGE: "§7Join our Discord here: §b%MESSAGE%"
+
+PLAYER_AFK_ON: "§7You are now AFK."
+PLAYER_AFK_OFF: "§7You are no longer AFK."
+PLAYER_AFK_ON_BROADCAST: "§6%PLAYER%§7 is now AFK."
+PLAYER_AFK_OFF_BROADCAST: "§6%PLAYER%§7 is no longer AFK."

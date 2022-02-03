@@ -15,7 +15,7 @@ public class ListenerManager {
 
     private static final Main instance = Main.getInstance();
 
-    private @Getter static final List<Listener> listeners = new ArrayList<>(){{
+    private @Getter static final List<Listener> listeners = new ArrayList<>() {{
         add(new BanListener());
         add(new MuteListener());
         add(new ChatModerationListener());
@@ -29,6 +29,7 @@ public class ListenerManager {
         add(new MessageListener());
         add(new VanishListener());
         add(new StaffModeListener());
+        add(new AfkListener());
     }};
 
     public static void registerAllListeners() {

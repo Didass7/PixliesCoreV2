@@ -130,8 +130,13 @@ public enum Lang {
 
     PLAYER_CLEAR(Lang.PIXLIES, new HashMap<>()),
 
-    PLAYER_RULES_MESSAGE(Lang.EARTH, new HashMap<>()),
-    PLAYER_DISCORD_MESSAGE(Lang.EARTH, new HashMap<>()),
+    PLAYER_RULES_MESSAGE(Lang.PIXLIES, new HashMap<>()),
+    PLAYER_DISCORD_MESSAGE(Lang.PIXLIES, new HashMap<>()),
+
+    PLAYER_AFK_ON(Lang.PIXLIES, new HashMap<>()),
+    PLAYER_AFK_OFF(Lang.PIXLIES, new HashMap<>()),
+    PLAYER_AFK_ON_BROADCAST(Lang.PIXLIES, new HashMap<>()),
+    PLAYER_AFK_OFF_BROADCAST(Lang.PIXLIES, new HashMap<>()),
 
     // OTHER
     MUST_BE_A_PLAYER(Lang.PIXLIES, new HashMap<>()),
