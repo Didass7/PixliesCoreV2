@@ -69,6 +69,7 @@ public class CommandManager {
         register(new StoneCutterCommand(), true);
         register(new EnchantTableCommand(), true);
         register(new CartographyTableCommand(), true);
+        register(new GrindStoneCommand(), true);
 
         // PLAYER
         register(new MessageCommand(), false);
