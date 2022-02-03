@@ -60,8 +60,10 @@ public enum Lang {
     STAFF_RANDOM_TELEPORT(Lang.PIXLIES, new HashMap<>()),
     STAFF_RANDOM_TELEPORT_OTHER(Lang.PIXLIES, new HashMap<>()),
 
-    STAFFMODE_SETTING_TURNED_ON(Lang.PIXLIES, new HashMap<>()),
-    STAFFMODE_SETTING_TURNED_OFF(Lang.PIXLIES, new HashMap<>()),
+    STAFF_STAFFMODE_ON(Lang.PIXLIES, new HashMap<>()),
+    STAFF_STAFFMODE_OFF(Lang.PIXLIES, new HashMap<>()),
+    STAFF_STAFFMODE_ON_OTHER(Lang.PIXLIES, new HashMap<>()),
+    STAFF_STAFFMODE_OFF_OTHER(Lang.PIXLIES, new HashMap<>()),
 
     STAFF_GAMEMODE_CHANGED_SELF(Lang.PIXLIES, new HashMap<>()),
     STAFF_GAMEMODE_CHANGED_OTHERS(Lang.PIXLIES, new HashMap<>()),
@@ -94,6 +96,12 @@ public enum Lang {
     MODERATION_VANISH_ON_OTHER(Lang.PIXLIES, new HashMap<>()),
     MODERATION_VANISH_OFF_OTHER(Lang.PIXLIES, new HashMap<>()),
     MODERATION_VANISH_NO_ONE_CAN_SEE("", new HashMap<>()),
+
+    MODERATION_COMMANDSPY_ON(Lang.PIXLIES, new HashMap<>()),
+    MODERATION_COMMANDSPY_OFF(Lang.PIXLIES, new HashMap<>()),
+    MODERATION_COMMANDSPY_ON_OTHER(Lang.PIXLIES, new HashMap<>()),
+    MODERATION_COMMANDSPY_OFF_OTHER(Lang.PIXLIES, new HashMap<>()),
+    MODERATION_COMMANDSPY_FORMAT(Lang.COMMAND, new HashMap<>()),
 
     // COSMETICS
     COSMETICS_HEALED_SELF(Lang.PIXLIES, new HashMap<>()),

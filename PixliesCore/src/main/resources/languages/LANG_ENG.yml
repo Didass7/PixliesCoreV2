@@ -22,8 +22,8 @@ NO_ITEMS_FOUND_ON_PLAYER: "§7No items found on player §6%PLAYER%§7."
 
 PLAYER_DOESNT_EXIST: "§cThis player does not exist!"
 
-SWEAR_FILTER_ON: "§7Swear Filter has been §aenabled§7."
-SWEAR_FILTER_OFF: "§7Swear Filter has been §cdisabled§7."
+SWEAR_FILTER_ON: "§7Swear filter has been §aenabled§7."
+SWEAR_FILTER_OFF: "§7Swear filter has been §cdisabled§7."
 
 ADDED_BLOCKED_WORD: ""
 REMOVED_BLOCKED_WORD: ""
@@ -43,6 +43,11 @@ STAFF_RANDOM_TELEPORT_OTHER: "§6%PLAYER%§7 has been randomly teleported to §6
 
 STAFF_WORLD_TELEPORT: "§7You have teleported to §d%WORLD%§7."
 
+STAFF_STAFFMODE_ON: "§7You have enabled staff mode."
+STAFF_STAFFMODE_OFF: "§7You have disabled staff mode."
+STAFF_STAFFMODE_ON_OTHER: "§7%PLAYER% has enabled staff mode."
+STAFF_STAFFMODE_OFF_OTHER: "§7%PLAYER% has disabled staff mode."
+
 STAFF_GAMEMODE_CHANGED_SELF: "§7You just changed your gamemode to %GAMEMODE%§7!"
 STAFF_GAMEMODE_CHANGED_OTHERS: "§6%CHANGER% §7just changed §6%TARGET%§7's gamemode to %GAMEMODE%§7!"
 
@@ -51,14 +56,19 @@ MODERATION_GLOBAL_PVP_ON: ""
 MODERATION_GLOBAL_PVP_OFF: ""
 PVP_OFF_PLAYER_TRIED_TO_PVP: ""
 
-MODERATION_ISSUED_KICKALL: ""
-MODERATION_KICKALL_MESSAGE: ""
+MODERATION_ISSUED_KICKALL: "§7All online players have been kicked by §6%PLAYER% §7for §6%REASON%§7."
 
 MODERATION_VANISH_ON: "§7You are now vanished."
 MODERATION_VANISH_OFF: "§7You are no longer vanished."
 MODERATION_VANISH_ON_OTHER: "§6%PLAYER%§7 is now vanished."
 MODERATION_VANISH_OFF_OTHER: "§6%PLAYER%§7 is no longer vanished."
 MODERATION_VANISH_NO_ONE_CAN_SEE: "§cNo one can see you."
+
+MODERATION_COMMANDSPY_ON: "§7You have enabled command spy."
+MODERATION_COMMANDSPY_OFF: "§7You have disabled command spy."
+MODERATION_COMMANDSPY_ON_OTHER: "§6%PLAYER% §7has enabled command spy."
+MODERATION_COMMANDSPY_OFF_OTHER: "§7%PLAYER% §7has disabled command spy."
+MODERATION_COMMANDSPY_FORMAT: "§6%PLAYER%§7: %MESSAGE%"
 
 # COSMETICS
 COSMETICS_HEALED_SELF: "§7You just healed yourself!"
@@ -76,10 +86,10 @@ COSMETICS_REPAIR_ITEM: "§7The item has been repaired."
 COSMETICS_CANNOT_REPAIR_ITEM: "§cThis item cannot be repaired."
 
 # PLAYER
-PLAYER_MESSAGE_FORMAT_TO: "§7(To §6%PLAYER%§7) §f%MESSAGE%"
-PLAYER_MESSAGE_FORMAT_FROM: "§7(From §6%PLAYER%§7) §f%MESSAGE%"
+PLAYER_MESSAGE_FORMAT_TO: "§8(§7To §6%PLAYER%§8) §f%MESSAGE%"
+PLAYER_MESSAGE_FORMAT_FROM: "§8(§7From §6%PLAYER%§8) §f%MESSAGE%"
 PLAYER_MESSAGE_NOONE_TO_MESSAGE: "§cThere is no one to message."
-PLAYER_MESSAGE_SOCIALSPY: "§7(To §6%TARGET%§7 from §6%PLAYER%§7) §f%MESSAGE%"
+PLAYER_MESSAGE_SOCIALSPY: "§8(§7To §6%TARGET%§7 from §6%PLAYER%§8) §f%MESSAGE%"
 
 PLAYER_SUICIDE: "§7You committed suicide."
 

@@ -19,7 +19,7 @@ public class CommandSpyListener implements Listener {
         for (Player p : Bukkit.getServer().getOnlinePlayers()) {
             User user = User.get(p.getUniqueId());
             if (user.getPersonalization().isCommandSpyEnabled() && p.hasPermission("pixlies.moderation.commandspy")) {
-                p.sendMessage(Lang.COMMAND + "§3" + player.getName() + " §8- §7" + cmd);
+                Lang.MODERATION_COMMANDSPY_FORMAT.send(p, "%PLAYER%;" + player.getName(), "%MESSAGE%;" + cmd);
             }
         }
     }

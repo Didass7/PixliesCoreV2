@@ -70,11 +70,11 @@ public class StaffModeSettingsCommand extends BaseCommand {
                 if (button.isEnabled()) {
                     builder.removeLoreLine(off);
                     builder.addLoreLine(on);
-                    Lang.STAFFMODE_SETTING_TURNED_ON.send(player, "%SETTING%;" + s.getTitle());
+                    Lang.STAFF_STAFFMODE_ON.send(player, "%SETTING%;" + s.getTitle());
                 } else {
                     builder.removeLoreLine(on);
                     builder.addLoreLine(off);
-                    Lang.STAFFMODE_SETTING_TURNED_OFF.send(player, "%SETTING%;" + s.getTitle());
+                    Lang.STAFF_STAFFMODE_OFF.send(player, "%SETTING%;" + s.getTitle());
                 }
                 settingsPane.addItem(item, s.ordinal(), 0);
                 gui.update();

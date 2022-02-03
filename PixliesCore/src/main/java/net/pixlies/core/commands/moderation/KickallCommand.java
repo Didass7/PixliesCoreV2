@@ -23,7 +23,8 @@ public class KickallCommand extends BaseCommand {
         val kickMessage = Objects.requireNonNullElseGet(reason, () -> instance.getConfig().getString("moderation.defaultReason", ""));
         for (Player p : Bukkit.getOnlinePlayers()) {
             if (p != sender && !p.hasPermission("pixlies.moderation.kickall.bypass")) {
-                Lang.MODERATION_KICKALL_MESSAGE.kickPlayer(sender, "%PLAYER%;" + sender.getName(), "%REASON%;" + kickMessage);
+                //Lang.MODERATION_KICKALL_MESSAGE.kickPlayer(sender, "%PLAYER%;" + sender.getName(), "%REASON%;" + kickMessage);
+                // TODO: KICK PLAYER WITH PROPER KICK MESSAGE
             }
         }
         Lang.MODERATION_ISSUED_KICKALL.broadcast("%PLAYER%;" + sender.getName(), "%REASON%;" + reason);
