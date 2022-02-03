@@ -1,7 +1,10 @@
 package net.pixlies.core.scoreboard;
 
 import net.pixlies.core.Main;
+import net.pixlies.core.entity.User;
+import net.pixlies.core.handlers.impl.staffmode.StaffModeHandler;
 import net.pixlies.core.lib.io.github.thatkawaiisam.assemble.AssembleAdapter;
+import net.pixlies.core.utils.CC;
 import org.bukkit.entity.Player;
 import java.util.*;
 
@@ -14,6 +17,9 @@ public class ScoreboardAdapter implements AssembleAdapter {
     private static String[] frames(Player player) {
         //TODO: String c = Main.getInstance().getProfile(player.getUniqueId()).getFavoriteColour();
         // String nc = Methods.getNeighbourColor(c)+"";
+
+        // TODO: Change this with pixlies and make the scoreboard be able to turn off from config
+        // TODO:   because the nations module will also have it's own scoreboard system
         String c = "§a";
         String nc = "§2";
         return new String[]{
@@ -129,17 +135,35 @@ public class ScoreboardAdapter implements AssembleAdapter {
         }
     }
 
+    // TODO: add scoreboard list stuff
     @Override
     public List<String> getLines(Player player) {
-        List<String> returnable = new ArrayList<>();
-        //TODO
-        return returnable;
+
+        User user = User.get(player.getUniqueId());
+
+        List<String> lines = new ArrayList<>();
+
+        // switch (user.getScoreboardType()) {}
+        if (user.getSettings().isStaffModeEnabled()) {
+            lines.add(" "); // TODO: add line separator
+            lines.add("§3§lStaff Mode §8(§aON§8)");
+            lines.add("§3Vanish§8: §7" + user.getSettings().isVanished());
+            lines.add("§3Game Mode§8: §7" + player.getGameMode());
+            lines.add(" ");
+        }
+
+        lines.add("§3§lPlayer");
+        lines.add(""); // TODO
+
+
+        return lines;
     }
 
-    public enum scoreboardType {
+    public enum ScoreboardType {
 
         STANDARD,
-        COMPACT
+        COMPACT,
+        OFF
 
     }
 
