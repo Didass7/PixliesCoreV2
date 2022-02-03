@@ -63,6 +63,9 @@ public class CommandManager {
         register(new EnderChestCommand(), true);
         register(new NightVisionCommand(), true);
         register(new RepairCommand(), true);
+        register(new AnvilCommand(), true);
+        register(new WorkBenchCommand(), true);
+        register(new SmithingTableCommand(), true);
 
         // PLAYER
         register(new MessageCommand(), false);
