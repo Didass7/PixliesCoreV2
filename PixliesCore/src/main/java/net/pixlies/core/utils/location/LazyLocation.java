@@ -1,4 +1,4 @@
-package net.pixlies.nations.nations.chunk;
+package net.pixlies.core.utils.location;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
