@@ -3,6 +3,7 @@ package net.pixlies.core.listeners.player;
 import net.kyori.adventure.text.Component;
 import net.pixlies.core.Main;
 import net.pixlies.core.configuration.Config;
+import net.pixlies.core.entity.User;
 import net.pixlies.core.handlers.impl.VanishHandler;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,7 +21,8 @@ public class JoinQuitListener implements Listener {
     @EventHandler(priority = EventPriority.LOW)
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        if (handler.isVanished(player.getUniqueId())) {
+        User user = User.get(player.getUniqueId());
+        if (user.getSettings().isVanished()) {
             event.joinMessage(null);
             return;
         }
@@ -31,7 +33,8 @@ public class JoinQuitListener implements Listener {
     @EventHandler(priority = EventPriority.LOW)
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        if (handler.isVanished(player.getUniqueId())) {
+        User user = User.get(player.getUniqueId());
+        if (user.getSettings().isVanished()) {
             event.quitMessage(null);
             return;
         }

@@ -1,6 +1,6 @@
 package net.pixlies.core.events.impl.moderation;
 
-import net.pixlies.core.events.PixliesEventCancellable;
+import net.pixlies.core.events.PixliesCancellableEvent;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.pixlies.core.handlers.impl.VanishHandler;
@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 @Getter
 @AllArgsConstructor
-public class VanishStatusChangeEvent extends PixliesEventCancellable {
+public class VanishStatusChangeEvent extends PixliesCancellableEvent {
 
     private final Player player;
     private final VanishState state;

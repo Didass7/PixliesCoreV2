@@ -1,5 +1,6 @@
 package net.pixlies.core.configuration;
 
+import lombok.val;
 import net.pixlies.core.Main;
 import net.pixlies.core.utils.CC;
 import org.apache.commons.io.FileUtils;
@@ -8,6 +9,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class Config extends YamlConfiguration {

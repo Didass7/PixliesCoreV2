@@ -33,6 +33,7 @@ public class Main extends JavaPlugin {
     @Getter private PixliesCalendar calendar;
 
     @Getter private Config config;
+    @Getter private Config staffModeConfig;
     @Getter private Config calendarConfig;
     @Getter private Config settings;
 
@@ -47,8 +48,12 @@ public class Main extends JavaPlugin {
 
         // CONFIGURATION
         config = new Config(new File(getDataFolder().getAbsolutePath() + "/config.yml"), "config.yml");
+        staffModeConfig = new Config(new File(getDataFolder().getAbsolutePath() + "/staffmode/persist.yml"), "staffmode/persist.yml");
         settings = new Config(new File(getDataFolder().getAbsolutePath() + "/settings.yml", "settings.yml"));
         calendarConfig = new Config(new File(getDataFolder().getAbsolutePath() + "/calendar.yml"), "calendar.yml");
+
+        // CONFIG INIT
+        saveResource("staffmode/persist.yml", true);
 
         // LANGUAGE
         saveResource("languages/LANG_GER.yml", true);

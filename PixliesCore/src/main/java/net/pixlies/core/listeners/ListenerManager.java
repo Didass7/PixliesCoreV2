@@ -25,8 +25,9 @@ public class ListenerManager {
         add(new JoinQuitListener());
         add(new CommandSpyListener());
         add(new TeleportListener());
-        add(new VanishListener());
+        add(new PassiveListener());
         add(new MessageListener());
+        add(new VanishListener());
     }};
 
     public static void registerAllListeners() {

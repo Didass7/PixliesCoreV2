@@ -1,5 +1,6 @@
 package net.pixlies.core.handlers.impl;
 
+import net.pixlies.core.entity.User;
 import net.pixlies.core.events.impl.moderation.VanishStatusChangeEvent;
 import lombok.val;
 import net.pixlies.core.Main;
@@ -13,21 +14,19 @@ public class VanishHandler implements Handler {
 
     private static final Main instance = Main.getInstance();
 
-    private final List<UUID> vanishedPlayers = new ArrayList<>();
+    private final PassiveHandler handler = instance.getHandlerManager().getHandler(PassiveHandler.class);
 
     public boolean vanish(Player player) {
         val event = new VanishStatusChangeEvent(player, VanishStatusChangeEvent.VanishState.VANISH);
         EventUtils.callEvent(event);
-        if (event.isCancelled()) return false;
-        if (vanishedPlayers.contains(player.getUniqueId())) return false;
-        player.setInvulnerable(true);
-        player.setSleepingIgnored(true);
-        player.setAllowFlight(true);
+        User user = User.get(player.getUniqueId());
+        if (!user.getSettings().isVanished()) return false;
         for (Player target : instance.getServer().getOnlinePlayers()) {
             if (target.hasPermission("pixlies.moderation.vanish.exempt")) continue;
             target.hidePlayer(instance, player);
         }
-        vanishedPlayers.add(player.getUniqueId());
+        handler.setPassive(player, true);
+        user.getSettings().setVanished(true);
         return true;
     }
 
@@ -35,20 +34,15 @@ public class VanishHandler implements Handler {
         val event = new VanishStatusChangeEvent(player, VanishStatusChangeEvent.VanishState.UNVANISH);
         EventUtils.callEvent(event);
         if (event.isCancelled()) return false;
-        if (!vanishedPlayers.contains(player.getUniqueId())) return false;
-        player.setInvulnerable(false);
-        player.setSleepingIgnored(false);
+        User user = User.get(player.getUniqueId());
+        if (!user.getSettings().isVanished()) return false;
         player.setAllowFlight(player.hasPermission("pixlies.fly"));
         for (Player target : instance.getServer().getOnlinePlayers()) {
             target.showPlayer(instance, player);
         }
-        vanishedPlayers.remove(player.getUniqueId());
+        handler.setPassive(player, true);
+        user.getSettings().setVanished(true);
         return true;
-    }
-
-    public boolean isVanished(UUID uuid) {
-        if (vanishedPlayers.isEmpty()) return false;
-        return vanishedPlayers.contains(uuid);
     }
 
     public void setVanished(Player player, boolean state) {
@@ -60,21 +54,14 @@ public class VanishHandler implements Handler {
     }
 
     public Collection<Player> getVanishedPlayers() {
-        if (vanishedPlayers.isEmpty()) return Collections.emptyList();
         List<Player> players = new ArrayList<>();
-        for (UUID uuid : vanishedPlayers) {
+        instance.getDatabase().getUserCache().forEach((uuid, user) -> {
             Player player = instance.getServer().getPlayer(uuid);
-            if (player == null || !player.isOnline()) {
-                vanishedPlayers.remove(uuid);
-                continue;
-            }
+            if (player == null) return;
+            if (!user.getSettings().isVanished()) return;
             players.add(player);
-        }
+        });
         return players;
-    }
-
-    public Collection<UUID> getVanishedUniqueIds() {
-        return vanishedPlayers;
     }
 
 }

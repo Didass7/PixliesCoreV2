@@ -6,7 +6,7 @@ import org.bukkit.event.Cancellable;
 
 @Getter
 @Setter
-public abstract class PixliesEventCancellable extends PixliesEvent implements Cancellable {
+public abstract class PixliesCancellableEvent extends PixliesEvent implements Cancellable {
 
     private boolean isCancelled = false;
 

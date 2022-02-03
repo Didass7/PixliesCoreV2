@@ -1,6 +1,6 @@
 package net.pixlies.core.events.impl.player;
 
-import net.pixlies.core.events.PixliesEventCancellable;
+import net.pixlies.core.events.PixliesCancellableEvent;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.pixlies.core.handlers.impl.MessageHandler;
@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 @Getter
 @AllArgsConstructor
-public class SenderMessagePlayerEvent extends PixliesEventCancellable {
+public class SenderMessagePlayerEvent extends PixliesCancellableEvent {
 
     private final CommandSender sender;
     private final Player target;

@@ -7,6 +7,7 @@ import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Description;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.User;
+import net.pixlies.core.handlers.impl.StaffModeHandler;
 import net.pixlies.core.localization.Lang;
 import org.bukkit.entity.Player;
 
@@ -15,20 +16,20 @@ import org.bukkit.entity.Player;
 public class StaffModeCommand extends BaseCommand {
 
     private static final Main instance = Main.getInstance();
+    private final StaffModeHandler handler = instance.getHandlerManager().getHandler(StaffModeHandler.class);
 
     @Default
-    @Description("Toggles staff mode")
-    public void onStaffMode(Player sender) {
-        User user = User.get(sender.getUniqueId());
+    @Description("Toggle your staff mode status")
+    public void onStaffMode(Player player) {
+        User user = User.get(player.getUniqueId());
         boolean staffModeEnabled = user.getSettings().isStaffModeEnabled();
         if (staffModeEnabled) {
-            Lang.STAFFMODE_ON.send(sender);
+            handler.enable(player);
+            Lang.STAFFMODE_ON.send(player);
         } else {
-            Lang.STAFFMODE_OFF.send(sender);
+            handler.disable(player);
+            Lang.STAFFMODE_OFF.send(player);
         }
-        user.getSettings().setStaffModeEnabled(!staffModeEnabled);
-
-        // TODO other stuff
     }
 
 }
