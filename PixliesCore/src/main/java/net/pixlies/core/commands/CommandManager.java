@@ -49,7 +49,7 @@ public class CommandManager {
 
         // STAFF
         register(new GodCommand(), false);
-        register(new StaffModeSettingsCommand(), false);
+        register(new StaffModeSettingsCommand(), true);
         register(new WorldCommand(), false);
         register(new GamemodeCommand(), false);
 

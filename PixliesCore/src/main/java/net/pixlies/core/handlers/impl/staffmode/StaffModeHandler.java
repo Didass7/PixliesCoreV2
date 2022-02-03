@@ -27,7 +27,19 @@ public class StaffModeHandler implements Handler {
         User user = User.get(player.getUniqueId());
         if (EventUtils.callCancelable(new StaffModeStatusChangeEvent(player, user, StaffModeStatusChangeEvent.StaffModeStatus.ENABLE)).isCancelled()) return;
         if (user.getSettings().isStaffModeEnabled()) return;
+        enableWithoutUpdate(player, user);
         user.getSettings().setStaffModeEnabled(true);
+    }
+
+    public void disable(Player player) {
+        User user = User.get(player.getUniqueId());
+        if (EventUtils.callCancelable(new StaffModeStatusChangeEvent(player, user, StaffModeStatusChangeEvent.StaffModeStatus.DISABLE)).isCancelled()) return;
+        if (!user.getSettings().isStaffModeEnabled()) return;
+        disableWithoutUpdate(player, user);
+        user.getSettings().setStaffModeEnabled(false);
+    }
+
+    public void enableWithoutUpdate(Player player, User user) {
         passiveHandler.setPassive(player, true);
         PlayerUtils.heal(player);
         saveItems(player);
@@ -35,13 +47,11 @@ public class StaffModeHandler implements Handler {
         passiveHandler.setPassive(player, true);
     }
 
-    public void disable(Player player) {
-        User user = User.get(player.getUniqueId());
-        if (EventUtils.callCancelable(new StaffModeStatusChangeEvent(player, user, StaffModeStatusChangeEvent.StaffModeStatus.DISABLE)).isCancelled()) return;
-        if (!user.getSettings().isStaffModeEnabled()) return;
-        passiveHandler.setPassive(player, false);
+    public void disableWithoutUpdate(Player player, User user) {
+        if (!user.getSettings().isVanished()) {
+            passiveHandler.setPassive(player, false);
+        }
         loadItems(player);
-        user.getSettings().setStaffModeEnabled(false);
     }
 
     private void loadStaffItems(Player player, User user) {

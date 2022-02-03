@@ -28,6 +28,7 @@ public class ListenerManager {
         add(new PassiveListener());
         add(new MessageListener());
         add(new VanishListener());
+        add(new StaffModeListener());
     }};
 
     public static void registerAllListeners() {

@@ -29,6 +29,9 @@ public final class PlayerUtils {
         player.setFreezeTicks(0);
         player.setFireTicks(0);
         player.setVisualFire(false);
+        player.setArrowsInBody(0);
+        player.setArrowsStuck(0);
         player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
     }
+
 }

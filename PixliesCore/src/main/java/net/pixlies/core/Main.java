@@ -37,6 +37,8 @@ public class Main extends JavaPlugin {
     @Getter private Config calendarConfig;
     @Getter private Config settings;
 
+    @Getter private boolean lobbyServer;
+
     @Getter private Assemble assemble = null;
     @Getter private Scoreboard emptyScoreboard;
 
@@ -51,6 +53,9 @@ public class Main extends JavaPlugin {
         staffModeConfig = new Config(new File(getDataFolder().getAbsolutePath() + "/staffmode/persist.yml"), "staffmode/persist.yml");
         settings = new Config(new File(getDataFolder().getAbsolutePath() + "/settings.yml", "settings.yml"));
         calendarConfig = new Config(new File(getDataFolder().getAbsolutePath() + "/calendar.yml"), "calendar.yml");
+
+        // CHECK LOBBY
+        lobbyServer = config.getBoolean("commands.limitedCommands", false);
 
         // CONFIG INIT
         saveResource("staffmode/persist.yml", true);

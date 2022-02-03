@@ -40,8 +40,10 @@ public class VanishHandler implements Handler {
         for (Player target : instance.getServer().getOnlinePlayers()) {
             target.showPlayer(instance, player);
         }
-        handler.setPassive(player, true);
-        user.getSettings().setVanished(true);
+        if (!user.getSettings().isStaffModeEnabled()) {
+            handler.setPassive(player, false);
+        }
+        user.getSettings().setVanished(false);
         return true;
     }
 
