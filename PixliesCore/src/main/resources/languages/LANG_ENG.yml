@@ -31,6 +31,8 @@ PLAYER_TRIED_BLOCKED_WORD: ""
 
 CANNOT_USE_ON_SELF: "§7You cannot use that on yourself."
 
+PLAYER_TELEPORT_NO_PLAYERS: "§cThere is no one to teleport to."
+
 # TODO: Finish messages and translations
 # STAFF
 STAFF_GOD_ON: ""
