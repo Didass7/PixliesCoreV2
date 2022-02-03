@@ -19,6 +19,9 @@ links:
     rules: "https://pixlies.net/rules"
     discord: "https://pixlies.net/discord"
 
+chat:
+    formatting: true
+
 commands:
     # Enable if the plugin is loaded on a lobby server or equivalent
     limitedCommands: false

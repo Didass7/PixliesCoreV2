@@ -2,7 +2,7 @@ package net.pixlies.core.listeners;
 
 import lombok.Getter;
 import net.pixlies.core.Main;
-import net.pixlies.core.listeners.cosmetics.ChatEmojiListener;
+import net.pixlies.core.listeners.cosmetics.chatformatting.ChatFormattingListener;
 import net.pixlies.core.listeners.moderation.*;
 import net.pixlies.core.listeners.player.*;
 import org.bukkit.Bukkit;
@@ -19,7 +19,7 @@ public class ListenerManager {
         add(new BanListener());
         add(new MuteListener());
         add(new ChatModerationListener());
-        add(new ChatEmojiListener());
+        add(new ChatFormattingListener());
         add(new GlobalPvpListener());
         add(new SlowModeListener());
         add(new JoinQuitListener());

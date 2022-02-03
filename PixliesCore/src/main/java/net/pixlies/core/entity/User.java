@@ -136,6 +136,14 @@ public class User {
         nickName = name;
     }
 
+    public String getNickName() {
+        if (nickName == null) return getAsOfflinePlayer().getName();
+        if (!nickName.equalsIgnoreCase("NONE")) {
+            return nickName;
+        }
+        return getAsOfflinePlayer().getName();
+    }
+
     public static User get(UUID uuid) {
         return instance.getDatabase().getUserCache().getOrDefault(uuid, getFromDatabase(uuid));
     }
