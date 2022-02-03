@@ -108,6 +108,7 @@ public class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         runnableRegisterManager.stopAll();
+        calendar.stopRunner();
         moduleManager.unloadModules();
         instance = null;
     }
