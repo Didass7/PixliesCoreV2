@@ -26,6 +26,7 @@ public class TeleportListener implements Listener {
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         tpHandler.removeBackLocation(player.getUniqueId());
+        tpHandler.removeTpAskPlayer(player.getUniqueId());
     }
 
 }
