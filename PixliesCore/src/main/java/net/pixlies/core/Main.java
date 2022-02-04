@@ -15,11 +15,14 @@ import net.pixlies.core.modules.ModuleManager;
 import net.pixlies.core.runnables.RunnableManager;
 import net.pixlies.core.runnables.RunnableRegisterManager;
 import net.pixlies.core.scoreboard.ScoreboardAdapter;
+import net.pixlies.core.utils.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
 
 import java.io.File;
+
+import static net.pixlies.core.utils.FileUtils.saveIfNotExists;
 
 public class Main extends JavaPlugin {
 
@@ -58,15 +61,15 @@ public class Main extends JavaPlugin {
         lobbyServer = config.getBoolean("commands.limitedCommands", false);
 
         // CONFIG INIT
-        saveResource("staffmode/persist.yml", true);
+        saveIfNotExists("staffmode/persist.yml");
 
         // LANGUAGE
-        saveResource("languages/LANG_GER.yml", true);
-        saveResource("languages/LANG_ENG.yml", true);
-        saveResource("languages/LANG_FRA.yml", true);
-        saveResource("languages/LANG_ARM.yml", true);
-        saveResource("languages/LANG_LUX.yml", true);
-        saveResource("languages/LANG_PER.yml", true);
+        saveIfNotExists("languages/LANG_GER.yml");
+        saveIfNotExists("languages/LANG_ENG.yml");
+        saveIfNotExists("languages/LANG_FRA.yml");
+        saveIfNotExists("languages/LANG_ARM.yml");
+        saveIfNotExists("languages/LANG_LUX.yml");
+        saveIfNotExists("languages/LANG_PER.yml");
         Lang.init();
 
         // HANDLERS
@@ -96,11 +99,8 @@ public class Main extends JavaPlugin {
 
         // SCOREBOARD
         assemble = new Assemble(this, new ScoreboardAdapter());
-
         assemble.setTicks(1);
-
         assemble.setAssembleStyle(AssembleStyle.MODERN);
-
         emptyScoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
 
     }

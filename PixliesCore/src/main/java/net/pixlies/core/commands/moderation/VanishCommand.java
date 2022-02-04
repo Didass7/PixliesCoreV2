@@ -21,10 +21,10 @@ public class VanishCommand extends BaseCommand {
         User user = User.get(target.getUniqueId());
         boolean vanished = user.getSettings().isVanished();
         handler.setVanished(target, !vanished);
-        if (!vanished) {
-            Lang.MODERATION_VANISH_ON_OTHER.send(sender, "%PLAYER%;" + target.getName());
-        } else {
+        if (vanished) {
             Lang.MODERATION_VANISH_OFF_OTHER.send(sender, "%PLAYER%;" + target.getName());
+        } else {
+            Lang.MODERATION_VANISH_ON_OTHER.send(sender, "%PLAYER%;" + target.getName());
         }
     }
 
@@ -34,10 +34,10 @@ public class VanishCommand extends BaseCommand {
         User user = User.get(player.getUniqueId());
         boolean vanished = user.getSettings().isVanished();
         handler.setVanished(player, !vanished);
-        if (!vanished) {
-            Lang.MODERATION_VANISH_ON.send(player);
-        } else {
+        if (vanished) {
             Lang.MODERATION_VANISH_OFF.send(player);
+        } else {
+            Lang.MODERATION_VANISH_ON.send(player);
         }
     }
 

@@ -22,11 +22,11 @@ public class StaffModeCommand extends BaseCommand {
         User user = User.get(player.getUniqueId());
         boolean staffModeEnabled = user.getSettings().isStaffModeEnabled();
         if (staffModeEnabled) {
-            handler.enable(player);
-            Lang.STAFF_STAFFMODE_ON.send(player);
-        } else {
             handler.disable(player);
             Lang.STAFF_STAFFMODE_OFF.send(player);
+        } else {
+            handler.enable(player);
+            Lang.STAFF_STAFFMODE_ON.send(player);
         }
     }
 
@@ -36,11 +36,11 @@ public class StaffModeCommand extends BaseCommand {
         User user = User.get(player.getUniqueId());
         boolean staffModeEnabled = user.getSettings().isStaffModeEnabled();
         if (staffModeEnabled) {
-            handler.enable(player);
-            Lang.STAFF_STAFFMODE_ON_OTHER.send(sender, "%PLAYER%;" + player.getName());
-        } else {
             handler.disable(player);
             Lang.STAFF_STAFFMODE_OFF_OTHER.send(sender, "%PLAYER%;" + player.getName());
+        } else {
+            handler.enable(player);
+            Lang.STAFF_STAFFMODE_ON_OTHER.send(sender, "%PLAYER%;" + player.getName());
         }
     }
 

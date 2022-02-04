@@ -139,20 +139,24 @@ public class ScoreboardAdapter implements AssembleAdapter {
     @Override
     public List<String> getLines(Player player) {
 
-        User user = User.get(player.getUniqueId());
+//        User user = User.get(player.getUniqueId());
 
         List<String> lines = new ArrayList<>();
 
         // switch (user.getScoreboardType()) {}
-        if (user.getSettings().isStaffModeEnabled()) {
-            lines.add(" "); // TODO: add line separator
-            lines.add("§3§lStaff Mode §8(§aON§8)");
-            lines.add("§3Vanish§8: §7" + user.getSettings().isVanished());
-            lines.add("§3Game Mode§8: §7" + player.getGameMode());
-            lines.add(" ");
-        }
+//        if (user.getSettings().isStaffModeEnabled()) {
+//            lines.add(" "); // TODO: add line separator
+//            lines.add("§3§lStaff Mode §8(§aON§8)");
+//            lines.add("§3Vanish§8: §7" + user.getSettings().isVanished());
+//            lines.add("§3Game Mode§8: §7" + player.getGameMode());
+//            lines.add(" ");
+//        }
 
-        lines.add("§3§lPlayer");
+        User user = User.get(player.getUniqueId());
+
+        // TEST
+        lines.add("§aStaffModeEnabled: " + user.getSettings().isStaffModeEnabled());
+        lines.add("§aVanished: " + user.getSettings().isVanished());
         lines.add(""); // TODO
 
 

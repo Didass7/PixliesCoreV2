@@ -53,6 +53,7 @@ public class CommandManager {
         register(new WorldCommand(), false);
         register(new GamemodeCommand(), false);
         register(new StaffModeSettingsCommand(), false);
+        register(new SudoCommand(), false);
 
         // DEBUG
         register(new ModulesCommand(), false);

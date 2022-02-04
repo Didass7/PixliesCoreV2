@@ -163,8 +163,8 @@ public class User {
             profile.append("blockedUsers", new ArrayList<>());
             profile.append("stats", new HashMap<>());
             profile.append("currentPunishments", Punishment.mapAllForMongo(new HashMap<>()));
-            profile.append("personalization", UserPersonalization.getDefaults());
-            profile.append("settings", UserSettings.getDefaults());
+            profile.append("personalization", UserPersonalization.getDefaults().mapForMongo());
+            profile.append("settings", UserSettings.getDefaults().mapForMongo());
             profile.append("lang", "ENG");
 
             instance.getDatabase().getUserCollection().insertOne(profile);
@@ -195,9 +195,9 @@ public class User {
                     found.getList("knownUsernames", String.class),
                     found.getList("blockedUsers", String.class).stream().map(UUID::fromString).collect(Collectors.toList()),
                     found.get("stats", Map.class),
-                    Punishment.getFromMongo((Map<String, Map<String, Object>>) found.get("currentPunishments")),
-                    UserPersonalization.getFromMongo((Map<String, Object>) found.get("personalization")),
-                    UserSettings.getFromMongo((Map<String, Object>) found.get("settings")),
+                    Punishment.getFromMongo((Map<String, Map<String, Object>>) found.get("currentPunishments", Map.class)),
+                    UserPersonalization.getFromMongo((Map<String, Object>) found.get("personalization", Map.class)),
+                    UserSettings.getFromMongo((Map<String, Object>) found.get("settings", Map.class)),
                     found.getString("lang")
             );
         }

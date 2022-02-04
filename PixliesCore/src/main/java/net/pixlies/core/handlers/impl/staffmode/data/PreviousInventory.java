@@ -17,12 +17,19 @@ public class PreviousInventory {
     private GameMode gameMode;
 
     public static PreviousInventory fromConfig(Config config, String key) {
+
+        GameMode gameMode = GameMode.SURVIVAL;
+        try {
+            gameMode = GameMode.valueOf(config.getString(key + ".gameMode"));
+        } catch (IllegalArgumentException ignored) {}
+
         return new PreviousInventory(
                 config.getInt(key + ".xp"),
                 InventoryUtils.itemStackArrayFromBase64(config.getString(key + ".armor")),
                 InventoryUtils.itemStackArrayFromBase64(config.getString(key + ".inventory")),
-                GameMode.valueOf(config.getString(key + ".gameMode"))
+                gameMode
         );
+
     }
 
     public void saveToConfig(Config config, String key) {
@@ -30,6 +37,7 @@ public class PreviousInventory {
         config.set(key + ".armor", InventoryUtils.itemStackArrayToBase64(armorContents));
         config.set(key + ".inventory", InventoryUtils.itemStackArrayToBase64(inventoryContents));
         config.set(key + ".gamemode", gameMode.toString());
+        config.save();
     }
 
 }
