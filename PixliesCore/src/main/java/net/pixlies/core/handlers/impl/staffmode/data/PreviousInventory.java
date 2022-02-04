@@ -18,16 +18,11 @@ public class PreviousInventory {
 
     public static PreviousInventory fromConfig(Config config, String key) {
 
-        GameMode gameMode = GameMode.SURVIVAL;
-        try {
-            gameMode = GameMode.valueOf(config.getString(key + ".gameMode"));
-        } catch (IllegalArgumentException ignored) {}
-
         return new PreviousInventory(
                 config.getInt(key + ".xp"),
                 InventoryUtils.itemStackArrayFromBase64(config.getString(key + ".armor")),
                 InventoryUtils.itemStackArrayFromBase64(config.getString(key + ".inventory")),
-                gameMode
+                GameMode.valueOf(config.getString(key + ".gamemode"))
         );
 
     }

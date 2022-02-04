@@ -31,6 +31,7 @@ public class StaffModeHandler implements Handler {
         if (user.getSettings().isStaffModeEnabled()) return;
         enableWithoutUpdate(player, user);
         user.getSettings().setStaffModeEnabled(true);
+        user.save();
     }
 
     public void disable(Player player) {
@@ -84,6 +85,7 @@ public class StaffModeHandler implements Handler {
 
     private void saveItems(Player player) {
 
+        // SET PREVIOUS INVENTORY
         PreviousInventory prevInv = new PreviousInventory(
                 player.getTotalExperience(),
                 player.getInventory().getArmorContents(),
@@ -91,8 +93,10 @@ public class StaffModeHandler implements Handler {
                 player.getGameMode()
         );
 
+        // SAVE TO CONFIG
         prevInv.saveToConfig(config, player.getUniqueId().toString());
 
+        // CLEAR INVENTORY
         player.getInventory().clear();
         player.getInventory().setArmorContents(null);
 

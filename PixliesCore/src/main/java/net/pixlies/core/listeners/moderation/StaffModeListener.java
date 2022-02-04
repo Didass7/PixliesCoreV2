@@ -2,6 +2,7 @@ package net.pixlies.core.listeners.moderation;
 
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.User;
+import net.pixlies.core.events.impl.moderation.VanishStatusChangeEvent;
 import net.pixlies.core.handlers.impl.VanishHandler;
 import net.pixlies.core.handlers.impl.staffmode.StaffModeHandler;
 import net.pixlies.core.localization.Lang;
@@ -92,15 +93,8 @@ public class StaffModeListener implements Listener {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
         if (!user.getSettings().isStaffModeEnabled()) return;
-        event.setCancelled(true);
 
-        if (event.getClickedBlock() == null) return;
-
-        if (event.getAction() != Action.LEFT_CLICK_AIR || event.getAction() != Action.RIGHT_CLICK_AIR || event.getAction() != Action.LEFT_CLICK_BLOCK || event.getAction() != Action.RIGHT_CLICK_BLOCK) {
-            return;
-        }
-
-        switch (event.getClickedBlock().getType()) {
+        switch (player.getInventory().getItemInMainHand().getType()) {
 
             case CLOCK -> {
                 Player target = PlayerUtils.getRandomPlayer(player);
@@ -124,6 +118,8 @@ public class StaffModeListener implements Listener {
 
         }
 
+        event.setCancelled(true);
+
     }
 
     @EventHandler
@@ -141,6 +137,17 @@ public class StaffModeListener implements Listener {
             case BOOK -> player.performCommand("invsee " + target.getName());
             case PACKED_ICE -> player.performCommand("freeze " + target.getName());
         }
+
+    }
+
+    @EventHandler
+    public void onVanish(VanishStatusChangeEvent event) {
+
+        Player player = event.getPlayer();
+        User user = User.get(player.getUniqueId());
+
+        if (!user.getSettings().isStaffModeEnabled()) return;
+        player.getInventory().setItem(8, getVanishItem(user));
 
     }
 

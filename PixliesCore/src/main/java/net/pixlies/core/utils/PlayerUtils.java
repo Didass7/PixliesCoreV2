@@ -16,11 +16,11 @@ public final class PlayerUtils {
     private PlayerUtils() {}
 
     public static Player getRandomPlayer(Player player) {
+        if (instance.getServer().getOnlinePlayers().isEmpty()) return null;
         val onlinePlayers = new ArrayList<Player>(instance.getServer().getOnlinePlayers());
-        if (onlinePlayers.isEmpty()) return null;
         onlinePlayers.remove(player);
-        Random random = new Random(onlinePlayers.size());
-        return onlinePlayers.get(random.nextInt());
+        int random = new Random().nextInt(onlinePlayers.size());
+        return onlinePlayers.get(random);
     }
 
     public static void heal(Player player) {

@@ -16,7 +16,7 @@ public class SudoCommand extends BaseCommand {
     @Description("Repairs items")
     public void onRepair(CommandSender sender, Player target) {
         if (target.hasPermission("pixlies.staff.sudo.exempt")) {
-
+            // TODO
         }
     }
 

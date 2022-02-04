@@ -110,6 +110,7 @@ public class Main extends JavaPlugin {
         runnableRegisterManager.stopAll();
         calendar.stopRunner();
         moduleManager.unloadModules();
+        assemble.cleanup();
         instance = null;
     }
 
