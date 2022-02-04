@@ -29,7 +29,6 @@ public class VanishCommand extends BaseCommand {
         }
     }
 
-    @Private
     @Default
     public void onVanish(Player player) {
         User user = User.get(player.getUniqueId());
