@@ -138,6 +138,9 @@ public enum Lang {
     PLAYER_AFK_ON_BROADCAST(Lang.PIXLIES, new HashMap<>()),
     PLAYER_AFK_OFF_BROADCAST(Lang.PIXLIES, new HashMap<>()),
 
+    // LOBBY
+    LOBBY_BUILDMODE_TOGGLE(Lang.PIXLIES, new HashMap<>()),
+
     // OTHER
     MUST_BE_A_PLAYER(Lang.PIXLIES, new HashMap<>()),
     INVALID_COMMAND_SYNTAX(Lang.PIXLIES, new HashMap<>());

@@ -1,6 +1,6 @@
 locations:
-  spawn: world;0;0;0;0;0
-  pvp: world;0;0;0;0;0
+  spawn: "NONE"
+  pvp: "NONE"
 
 walkspeed:
   level: 1
