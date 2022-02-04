@@ -19,7 +19,7 @@ public final class PlayerUtils {
     public static Player getRandomPlayer(Player player) {
         List<Player> players = new ArrayList<>(instance.getServer().getOnlinePlayers());
         instance.getServer().getOnlinePlayers().forEach(target -> {
-            if (target.getUniqueId() == player.getUniqueId()) return;
+            if (target.equals(player)) return;
             players.add(target);
         });
         Random random = new Random();

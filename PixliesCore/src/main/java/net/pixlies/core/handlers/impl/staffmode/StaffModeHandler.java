@@ -64,7 +64,7 @@ public class StaffModeHandler implements Handler {
         Material vanishMaterial = vanished ? Material.LIME_DYE : Material.GRAY_DYE;
 
         // ITEMS
-        ItemStack invsee = new ItemBuilder(Material.BOOK).setDisplayName(CC.format("&3Compass")).build();
+        ItemStack invsee = new ItemBuilder(Material.BOOK).setDisplayName(CC.format("&3View Inventory")).build();
         ItemStack freeze = new ItemBuilder(Material.PACKED_ICE).setDisplayName(CC.format("&3Freeze Player")).build();
         ItemStack compass = new ItemBuilder(Material.COMPASS).setDisplayName(CC.format("&3Teleport")).build();
         ItemStack randomTeleporter = new ItemBuilder(Material.CLOCK).setDisplayName(CC.format("&3Random Teleport")).build();
