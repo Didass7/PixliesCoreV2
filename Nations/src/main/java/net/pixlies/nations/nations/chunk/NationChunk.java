@@ -5,6 +5,12 @@ import com.google.gson.JsonObject;
 
 import java.util.Map;
 
+/**
+ * Efficient nation chunk system
+ *
+ * @author MickMMars
+ * @author Dynmie
+ */
 public class NationChunk {
     public static Map<String, Table<Integer, Integer, NationChunk>> table;
 
