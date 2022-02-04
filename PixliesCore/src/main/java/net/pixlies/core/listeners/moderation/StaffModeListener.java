@@ -58,7 +58,7 @@ public class StaffModeListener implements Listener {
     public void onClick(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player player)) return;
         User user = User.get(player.getUniqueId());
-        if (user.getSettings().isStaffModeEnabled()) return;
+        if (!user.getSettings().isStaffModeEnabled()) return;
         event.setCancelled(true);
     }
 
@@ -66,7 +66,7 @@ public class StaffModeListener implements Listener {
     public void onBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (user.getSettings().isStaffModeEnabled()) return;
+        if (!user.getSettings().isStaffModeEnabled()) return;
         event.setCancelled(true);
     }
 
@@ -74,7 +74,7 @@ public class StaffModeListener implements Listener {
     public void onPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (user.getSettings().isStaffModeEnabled()) return;
+        if (!user.getSettings().isStaffModeEnabled()) return;
         event.setCancelled(true);
     }
 
@@ -82,7 +82,7 @@ public class StaffModeListener implements Listener {
     public void onItemPickup(PlayerAttemptPickupItemEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (user.getSettings().isStaffModeEnabled()) return;
+        if (!user.getSettings().isStaffModeEnabled()) return;
         event.setCancelled(true);
     }
 
@@ -91,7 +91,7 @@ public class StaffModeListener implements Listener {
 
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (user.getSettings().isStaffModeEnabled()) return;
+        if (!user.getSettings().isStaffModeEnabled()) return;
         event.setCancelled(true);
 
         if (event.getClickedBlock() == null) return;
@@ -131,7 +131,7 @@ public class StaffModeListener implements Listener {
 
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (user.getSettings().isStaffModeEnabled()) return;
+        if (!user.getSettings().isStaffModeEnabled()) return;
         event.setCancelled(true);
 
         if (!(event.getRightClicked() instanceof Player target)) return;

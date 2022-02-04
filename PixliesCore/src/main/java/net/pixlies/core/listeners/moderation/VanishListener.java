@@ -37,7 +37,7 @@ public class VanishListener implements Listener {
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (user.getSettings().isVanished()) return;
+        if (!user.getSettings().isVanished()) return;
         handler.unvanish(player);
     }
 
@@ -56,7 +56,7 @@ public class VanishListener implements Listener {
     public void onCropTrample(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (user.getSettings().isVanished()) return;
+        if (!user.getSettings().isVanished()) return;
         if (event.getAction() != Action.PHYSICAL) return;
         if (event.getClickedBlock() == null) return;
         if (event.getClickedBlock().getType() != Material.FARMLAND) return;
@@ -67,7 +67,7 @@ public class VanishListener implements Listener {
     public void onItemPickup(PlayerAttemptPickupItemEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (user.getSettings().isVanished()) return;
+        if (!user.getSettings().isVanished()) return;
         event.setCancelled(true);
     }
 
