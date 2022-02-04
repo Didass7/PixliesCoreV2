@@ -6,6 +6,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -16,11 +17,13 @@ public final class PlayerUtils {
     private PlayerUtils() {}
 
     public static Player getRandomPlayer(Player player) {
-        if (instance.getServer().getOnlinePlayers().isEmpty()) return null;
-        val onlinePlayers = new ArrayList<Player>(instance.getServer().getOnlinePlayers());
-        onlinePlayers.remove(player);
-        int random = new Random().nextInt(onlinePlayers.size());
-        return onlinePlayers.get(random);
+        List<Player> players = new ArrayList<>(instance.getServer().getOnlinePlayers());
+        instance.getServer().getOnlinePlayers().forEach(target -> {
+            if (target.getUniqueId() == player.getUniqueId()) return;
+            players.add(target);
+        });
+        Random random = new Random();
+        return players.get(random.nextInt(players.size()));
     }
 
     public static void heal(Player player) {
