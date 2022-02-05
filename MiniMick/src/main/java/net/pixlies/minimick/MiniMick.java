@@ -1,19 +1,28 @@
 package net.pixlies.minimick;
 
+import lombok.Getter;
 import net.pixlies.core.modules.Module;
 import net.pixlies.minimick.listeners.ListenerManager;
+import net.pixlies.minimick.managers.DiscordManager;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 
 public class MiniMick extends Module {
 
-    private static MiniMick instance;
-    private static String token;
+    @Getter private static MiniMick instance;
+    @Getter private String token = ""; // set token from config
+
+    @Getter private DiscordManager discordManager;
 
     @Override
     public void onLoad() {
+
         instance = this;
-        new Thread(MiniMick::start); // Runs MiniMick in a different thread
+
+        // DISCORD MANAGER
+        discordManager = new DiscordManager();
+        discordManager.init();
+
     }
 
     @Override
@@ -21,15 +30,4 @@ public class MiniMick extends Module {
         instance = null;
     }
 
-    public static void start() {
-        // Create discord-bot with token
-        DiscordApi api = new DiscordApiBuilder()
-                .setToken(token)
-                .login().join();
-
-        // Loads the listeners
-        ListenerManager listenerManager = new ListenerManager(api);
-        listenerManager.loadListeners();
-
-    }
 }
