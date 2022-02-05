@@ -3,10 +3,7 @@ package net.pixlies.nations.nations.ranks;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Data
 @AllArgsConstructor
@@ -65,9 +62,10 @@ public class Rank {
         return new Rank("admin", "§c***", 64, perms);
     }
 
+    // Leader has all them perms
     public static Rank leader() {
         List<String> perms = new ArrayList<>();
-
+        Arrays.stream(Permission.values()).forEach(perm -> perms.add(perm.name()));
         return new Rank("leader", "§6★", 127, perms);
     }
 
