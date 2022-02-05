@@ -16,6 +16,7 @@ import java.util.Objects;
 
 public class JoinListener implements Listener {
 
+    private final Lobby instance = Lobby.getInstance();
     private final Config config = Lobby.getInstance().getConfig();
 
     @EventHandler
@@ -31,7 +32,7 @@ public class JoinListener implements Listener {
         player.setInvulnerable(true);
         player.setFreezeTicks(0);
         player.setGameMode(GameMode.ADVENTURE);
-        // TODO Player teleport to spawn
+        player.teleport(instance.getLobbyManager().getSpawnLocation());
         player.setAllowFlight(player.hasPermission("pixlies.lobby.flight"));
         JoinItems.give(player);
 
