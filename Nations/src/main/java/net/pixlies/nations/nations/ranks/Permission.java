@@ -1,6 +1,7 @@
 package net.pixlies.nations.nations.ranks;
 
 public enum Permission {
+
     INVITE,
     KICK,
 
@@ -37,5 +38,6 @@ public enum Permission {
     CHUNK_MENU,
 
     MANAGE_ELECTIONS,
-    MANAGE_TAX;
+    MANAGE_TAX
+
 }

@@ -35,13 +35,13 @@ public class Rank {
     }
 
     // Newbie has no permissions
-    public static Rank NEWBIE() {
+    public static Rank newbie() {
         List<String> perms = new ArrayList<>();
         return new Rank("newbie", "§a*", 1, perms);
     }
 
     // Member has a few basic permissions
-    public static Rank MEMBER() {
+    public static Rank member() {
         List<String> perms = new ArrayList<>();
         perms.add(Permission.INVITE.name());
         perms.add(Permission.BUILD.name());
@@ -51,8 +51,8 @@ public class Rank {
     }
 
     // Admin has quite a few perms
-    public static Rank ADMIN() {
-        List<String> perms = new ArrayList<>(MEMBER().permissions);
+    public static Rank admin() {
+        List<String> perms = new ArrayList<>(member().permissions);
         perms.add(Permission.INVITE.name());
         perms.add(Permission.KICK.name());
         perms.add(Permission.MANAGE_SETTLEMENTS.name());
@@ -65,7 +65,7 @@ public class Rank {
         return new Rank("admin", "§c***", 64, perms);
     }
 
-    public static Rank LEADER() {
+    public static Rank leader() {
         List<String> perms = new ArrayList<>();
 
         return new Rank("leader", "§6★", 127, perms);
