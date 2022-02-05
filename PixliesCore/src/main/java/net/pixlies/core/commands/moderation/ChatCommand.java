@@ -86,7 +86,7 @@ public class ChatCommand extends BaseCommand {
 
     @Subcommand("slow")
     @Description("Slows the chat down")
-    @CommandCompletion("@range:15")
+    @CommandCompletion("@range:0-10")
     public void onSlow(CommandSender sender, @Conditions("longLimits:min=0,max=10") Long cooldown) {
         if (cooldown == 0) {
             chatHandler.setSlowMode(0);

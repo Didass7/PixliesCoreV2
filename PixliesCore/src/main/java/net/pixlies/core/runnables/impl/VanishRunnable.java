@@ -9,8 +9,6 @@ import net.pixlies.core.runnables.PixliesRunnable;
 
 public class VanishRunnable extends PixliesRunnable {
 
-    private final VanishHandler handler = Main.getInstance().getHandlerManager().getHandler(VanishHandler.class);
-
     public VanishRunnable() {
         super(false, 30, 10);
     }
