@@ -13,6 +13,7 @@ public class Nation {
 
     private String id;
     private String name;
+    private String description;
     // UUID & Rank Name
     private Map<UUID, String> members;
     private Map<String, Map<String, Object>> ranks;
