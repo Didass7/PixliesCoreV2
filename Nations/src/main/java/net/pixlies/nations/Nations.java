@@ -23,14 +23,18 @@ public class Nations extends Module {
 
     @Override
     public void onLoad() {
+
         instance = this;
 
+        // HANDLERS & MANAGERS
         handlerManager = new HandlerManager();
         new RegisterHandlerManager().registerAllHandlers();
 
+        // LISTENERS
         listenerManager = new ListenerManager();
         listenerManager.registerAllListeners();
 
+        // COMMANDS
         commandManager = new CommandManager();
         commandManager.registerAllCommands();
 
@@ -38,6 +42,8 @@ public class Nations extends Module {
 
     @Override
     public void onDrop() {
+
+        // COMMANDS & LISTENERS
         listenerManager.unregisterAllListeners();
         commandManager.unregisterAllCommands();
         instance = null;

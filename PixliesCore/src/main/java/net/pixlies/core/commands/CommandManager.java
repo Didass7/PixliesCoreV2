@@ -1,9 +1,6 @@
 package net.pixlies.core.commands;
 
-import co.aikar.commands.BaseCommand;
-import co.aikar.commands.ConditionFailedException;
-import co.aikar.commands.PaperCommandManager;
-import co.aikar.commands.RootCommand;
+import co.aikar.commands.*;
 import lombok.Getter;
 import net.pixlies.core.Main;
 import net.pixlies.core.commands.admin.ModulesCommand;
@@ -11,6 +8,7 @@ import net.pixlies.core.commands.cosmetics.*;
 import net.pixlies.core.commands.moderation.*;
 import net.pixlies.core.commands.player.*;
 import net.pixlies.core.commands.staff.*;
+import net.pixlies.core.entity.User;
 
 public class CommandManager {
 
@@ -20,13 +18,16 @@ public class CommandManager {
     private final boolean limitedCommands = instance.getConfig().getBoolean("commands.limitedCommands", false);
 
     public CommandManager() {
+
         pcm = new PaperCommandManager(instance);
 
         pcm.enableUnstableAPI("help");
         pcm.enableUnstableAPI("brigadier");
 
+        registerContexts();
         registerConditions();
         registerAllCommands();
+
     }
 
     private void registerAllCommands() {
@@ -83,6 +84,12 @@ public class CommandManager {
         register(new AfkCommand(), true);
         register(new SuicideCommand(), true);
 
+    }
+
+    private void registerContexts() {
+            CommandContexts<BukkitCommandExecutionContext> contexts = pcm.getCommandContexts();
+            contexts.registerContext(User.class, context ->
+                    User.get(context.getPlayer().getUniqueId()));
     }
 
     private void registerConditions() {
