@@ -5,6 +5,7 @@ import net.kyori.adventure.text.Component;
 import net.md_5.bungee.api.ChatColor;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.User;
+import net.pixlies.core.utils.CC;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -166,12 +167,17 @@ public enum Lang {
         try {
             if (sender instanceof Player player) {
                 User user = User.get(player.getUniqueId());
-                return languages.containsKey(user.getLang()) ? PREFIX + ChatColor.translateAlternateColorCodes('&', languages.get(user.getLang())) : PREFIX + ChatColor.translateAlternateColorCodes('&', languages.get("ENG"));
+                String lang = user.getLang();
+                if (languages.containsKey(lang)) {
+                    return PREFIX + CC.format(languages.get(user.getLang()));
+                } else {
+                    return PREFIX + CC.format(languages.get("ENG"));
+                }
             }
-        } catch (Exception e) {
-            return PREFIX + languages.get("ENG").replace("&", "§");
+        } catch (Exception ignored) {
+
         }
-        return PREFIX + languages.get("ENG").replace("&", "§");
+        return PREFIX + CC.format(languages.get("ENG"));
     }
 
     public String getRaw(String language) {
@@ -258,13 +264,11 @@ public enum Lang {
         return true;
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored") // folder.mkdirs() is safe to ignore
     public static void init() {
         int loaded = 0;
         File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath() + "/languages/");
-        if (!folder.exists()) {
-            System.out.println("Couldn't load languages. Folder doesn't exist.");
-            return;
-        }
+        if (!folder.exists()) folder.mkdirs();
         for (File file : Objects.requireNonNull(folder.listFiles())) {
             if (!file.getName().endsWith(".yml"))
                 continue;
@@ -277,7 +281,7 @@ public enum Lang {
             }
             loaded++;
         }
-        Main.getInstance().getLogger().info("§7Added §b" + loaded + " §7languages.");
+        Main.getInstance().getLogger().info("§7Loaded §b" + loaded + " §7languages.");
     }
 
 }

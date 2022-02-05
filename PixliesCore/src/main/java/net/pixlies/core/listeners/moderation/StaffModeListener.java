@@ -16,6 +16,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
@@ -45,11 +46,26 @@ public class StaffModeListener implements Listener {
     }
 
     @EventHandler
+    public void onEntityAttack(EntityDamageByEntityEvent event) {
+
+        if (event.getDamager() instanceof Player damager) {
+            User user = User.get(damager.getUniqueId());
+            if (user.getSettings().isStaffModeEnabled())
+                event.setCancelled(true);
+        } else if (event.getEntity() instanceof Player victim) {
+            User user = User.get(victim.getUniqueId());
+            if (user.getSettings().isStaffModeEnabled())
+                event.setCancelled(true);
+        }
+
+    }
+
+    @EventHandler
     public void onCropTrample(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
         if (user.getSettings().isStaffModeEnabled()) return;
-        if (event.getAction() != Action.PHYSICAL) return;
+        if (event.getAction() == Action.PHYSICAL) return;
         if (event.getClickedBlock() == null) return;
         if (event.getClickedBlock().getType() != Material.FARMLAND) return;
         event.setCancelled(true);
