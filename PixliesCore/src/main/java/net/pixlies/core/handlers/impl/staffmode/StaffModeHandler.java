@@ -59,16 +59,12 @@ public class StaffModeHandler implements Handler {
 
     private void loadStaffItems(Player player, User user) {
 
-        boolean vanished = user.getSettings().isVanished();
-        String vanishName = vanished ? "&3Vanish &8[&aON&8]" : "&3Vanish &8[&cOFF&8]";
-        Material vanishMaterial = vanished ? Material.LIME_DYE : Material.GRAY_DYE;
-
         // ITEMS
-        ItemStack invsee = new ItemBuilder(Material.BOOK).setDisplayName(CC.format("&3View Inventory")).build();
-        ItemStack freeze = new ItemBuilder(Material.PACKED_ICE).setDisplayName(CC.format("&3Freeze Player")).build();
-        ItemStack compass = new ItemBuilder(Material.COMPASS).setDisplayName(CC.format("&3Teleport")).build();
-        ItemStack randomTeleporter = new ItemBuilder(Material.CLOCK).setDisplayName(CC.format("&3Random Teleport")).build();
-        ItemStack vanish = new ItemBuilder(vanishMaterial).setDisplayName(CC.format(vanishName)).build();
+        ItemStack invsee = getInspectItem();
+        ItemStack freeze = getFreezeItem();
+        ItemStack compass = getTeleportItem();
+        ItemStack randomTeleporter = getRandomTeleportItem();
+        ItemStack vanish = getVanishItem(user.getSettings().isVanished());
 
         // LOAD INVENTORY
         Inventory inventory =  player.getInventory();
@@ -99,6 +95,7 @@ public class StaffModeHandler implements Handler {
         // CLEAR INVENTORY
         player.getInventory().clear();
         player.getInventory().setArmorContents(null);
+        player.setTotalExperience(0);
 
     }
 
@@ -116,6 +113,38 @@ public class StaffModeHandler implements Handler {
         player.setTotalExperience(prevInv.getXp());
         player.setGameMode(prevInv.getGameMode());
 
+    }
+
+    public static ItemStack getInspectItem() {
+        return new ItemBuilder(Material.BOOK)
+                .setDisplayName(CC.format("&3View Inventory"))
+                .build();
+    }
+
+    public static ItemStack getFreezeItem() {
+        return new ItemBuilder(Material.PACKED_ICE)
+                .setDisplayName(CC.format("&3Freeze Player"))
+                .build();
+    }
+
+    public static ItemStack getTeleportItem() {
+        return new ItemBuilder(Material.COMPASS)
+                .setDisplayName(CC.format("&3Teleport"))
+                .build();
+    }
+
+    public static ItemStack getRandomTeleportItem() {
+        return new ItemBuilder(Material.CLOCK)
+                .setDisplayName(CC.format("&3Random Teleport"))
+                .build();
+    }
+
+    public static ItemStack getVanishItem(boolean vanish) {
+        Material material = vanish ? Material.LIME_DYE : Material.GRAY_DYE;
+        String displayName = vanish ? CC.format("&2Vanish") : CC.format("&4Vanish");
+        return new ItemBuilder(material)
+                .setDisplayName(CC.format(displayName))
+                .build();
     }
 
 }

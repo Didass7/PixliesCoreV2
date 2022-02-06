@@ -110,6 +110,8 @@ public class StaffModeListener implements Listener {
         User user = User.get(player.getUniqueId());
         if (!user.getSettings().isStaffModeEnabled()) return;
 
+        if (event.getAction() == Action.PHYSICAL) return;
+
         switch (player.getInventory().getItemInMainHand().getType()) {
 
             case CLOCK -> {
@@ -124,12 +126,12 @@ public class StaffModeListener implements Listener {
 
             case LIME_DYE -> {
                 vanishHandler.unvanish(player);
-                player.getInventory().setItem(8, getVanishItem(false));
+                player.getInventory().setItem(8, StaffModeHandler.getVanishItem(false));
             }
 
             case GRAY_DYE -> {
                 vanishHandler.vanish(player);
-                player.getInventory().setItem(8, getVanishItem(true));
+                player.getInventory().setItem(8, StaffModeHandler.getVanishItem(true));
             }
 
         }
@@ -166,18 +168,9 @@ public class StaffModeListener implements Listener {
         if (!user.getSettings().isStaffModeEnabled()) return;
 
         switch (state) {
-            case VANISH -> player.getInventory().setItem(8, getVanishItem(true));
-            case UNVANISH -> player.getInventory().setItem(8, getVanishItem(false));
+            case VANISH -> player.getInventory().setItem(8, StaffModeHandler.getVanishItem(true));
+            case UNVANISH -> player.getInventory().setItem(8, StaffModeHandler.getVanishItem(false));
         }
-
-    }
-
-    private ItemStack getVanishItem(boolean vanished) {
-
-        String vanishName = vanished ? "&3Vanish &8[&aON&8]" : "&3Vanish &8[&cOFF&8]";
-        Material vanishMaterial = vanished ? Material.LIME_DYE : Material.GRAY_DYE;
-
-        return new ItemBuilder(vanishMaterial).setDisplayName(CC.format(vanishName)).build();
 
     }
 
