@@ -3,7 +3,7 @@ package net.pixlies.core.listeners;
 import lombok.Getter;
 import net.pixlies.core.Main;
 import net.pixlies.core.listeners.cosmetics.chatformatting.ChatFormattingListener;
-import net.pixlies.core.listeners.cosmetics.chatformatting.SitListener;
+import net.pixlies.core.listeners.cosmetics.SitListener;
 import net.pixlies.core.listeners.moderation.*;
 import net.pixlies.core.listeners.player.*;
 import org.bukkit.Bukkit;

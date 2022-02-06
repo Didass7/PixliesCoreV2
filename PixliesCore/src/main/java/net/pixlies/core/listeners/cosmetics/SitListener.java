@@ -1,4 +1,4 @@
-package net.pixlies.core.listeners.cosmetics.chatformatting;
+package net.pixlies.core.listeners.cosmetics;
 
 import net.pixlies.core.Main;
 import org.bukkit.NamespacedKey;
