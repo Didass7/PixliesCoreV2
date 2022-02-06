@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-@CommandAlias("repair")
+@CommandAlias("rename")
 @CommandPermission("pixlies.cosmetics.rename")
 public class RenameCommand extends BaseCommand {
 

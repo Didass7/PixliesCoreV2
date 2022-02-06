@@ -50,6 +50,7 @@ public class RepairCommand extends BaseCommand {
         toRepair.forEach(item -> {
             if (item == null) return;
             val meta = (Damageable) item.getItemMeta();
+            if (meta == null) return;
             meta.setDamage(0);
             item.setItemMeta(meta);
         });
