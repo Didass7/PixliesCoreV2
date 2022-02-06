@@ -18,6 +18,7 @@ public class RenameCommand extends BaseCommand {
     @Private
     @Default
     @Description("Renames items")
+    @Syntax("<name>")
     public void onRepair(Player player, String message) {
         ItemStack item = player.getInventory().getItemInMainHand();
         ItemMeta meta = item.getItemMeta();
