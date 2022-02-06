@@ -2,6 +2,7 @@ package net.pixlies.core.commands.player;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandCompletion;
 import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Default;
 import net.pixlies.core.utils.CC;
@@ -12,6 +13,7 @@ public class EchoCommand extends BaseCommand {
 
     @Default
     @CommandAlias("echo")
+    @CommandCompletion("@empty")
     public void onEcho(CommandSender sender, String text) {
         sender.sendMessage(CC.format(text));
     }

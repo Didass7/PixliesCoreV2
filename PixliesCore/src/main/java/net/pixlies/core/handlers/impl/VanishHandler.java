@@ -31,12 +31,14 @@ public class VanishHandler implements Handler {
         // LOOP PLAYERS
         for (Player target : instance.getServer().getOnlinePlayers()) {
             if (target.hasPermission("pixlies.moderation.vanish.exempt")) continue;
-            if (target.equals(player)) continue;
+            if (target.getUniqueId().equals(player.getUniqueId())) continue;
             target.hidePlayer(instance, player);
         }
 
         // SET PASSIVE
-        handler.setPassive(player, true);
+        if (!user.getSettings().isPassive()) {
+            handler.setPassive(player, true);
+        }
 
         // SET VANISHED
         user.getSettings().setVanished(true);
@@ -59,7 +61,7 @@ public class VanishHandler implements Handler {
 
         player.setAllowFlight(player.hasPermission("pixlies.fly"));
         for (Player target : instance.getServer().getOnlinePlayers()) {
-            if (target.equals(player)) continue;
+            if (target.getUniqueId().equals(player.getUniqueId())) continue;
             target.showPlayer(instance, player);
         }
 

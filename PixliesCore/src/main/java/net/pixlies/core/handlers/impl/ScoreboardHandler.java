@@ -15,7 +15,7 @@ public class ScoreboardHandler implements Handler {
 
     @Getter private Assemble assemble;
     @Getter private Scoreboard emptyScoreboard;
-    private final boolean enabled = Main.getInstance().getConfig().getBoolean("scoreboard.enabled", false);
+    private final boolean enabled = Main.getInstance().getConfig().getBoolean("scoreboard.enabled", true);
 
     public void load() {
         if (!enabled) return;
