@@ -117,31 +117,31 @@ public class StaffModeHandler implements Handler {
 
     public static ItemStack getInspectItem() {
         return new ItemBuilder(Material.BOOK)
-                .setDisplayName(CC.format("&3View Inventory"))
+                .setDisplayName(CC.format("&bInspect Inventory"))
                 .build();
     }
 
     public static ItemStack getFreezeItem() {
         return new ItemBuilder(Material.PACKED_ICE)
-                .setDisplayName(CC.format("&3Freeze Player"))
+                .setDisplayName(CC.format("&bFreeze Player"))
                 .build();
     }
 
     public static ItemStack getTeleportItem() {
         return new ItemBuilder(Material.COMPASS)
-                .setDisplayName(CC.format("&3Teleport"))
+                .setDisplayName(CC.format("&bTeleport"))
                 .build();
     }
 
     public static ItemStack getRandomTeleportItem() {
         return new ItemBuilder(Material.CLOCK)
-                .setDisplayName(CC.format("&3Random Teleport"))
+                .setDisplayName(CC.format("&bRandom Teleport"))
                 .build();
     }
 
     public static ItemStack getVanishItem(boolean vanish) {
         Material material = vanish ? Material.LIME_DYE : Material.GRAY_DYE;
-        String displayName = vanish ? CC.format("&2Vanish") : CC.format("&4Vanish");
+        String displayName = vanish ? CC.format("&aVanish") : CC.format("&7Vanish");
         return new ItemBuilder(material)
                 .setDisplayName(CC.format(displayName))
                 .build();

@@ -1,5 +1,6 @@
 package net.pixlies.core.database;
 
+import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
@@ -10,9 +11,12 @@ import net.pixlies.core.entity.User;
 import org.bson.Document;
 import org.bukkit.Bukkit;
 
+import java.rmi.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Getter
 public class MongoManager {
@@ -26,6 +30,8 @@ public class MongoManager {
     private final Map<UUID, User> userCache = new HashMap<>();
 
     public MongoManager init() {
+        Logger.getLogger("org.mongodb.driver").setLevel(Level.WARNING);
+        instance.getLogger().info("Connecting to MongoDB...");
         String uri = instance.getConfig().getString("database.uri");
         if (uri == null) {
             instance.getLogger().warning("Plugin can't start because MongoDB URI is missing.");

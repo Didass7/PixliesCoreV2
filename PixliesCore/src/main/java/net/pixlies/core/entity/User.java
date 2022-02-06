@@ -158,7 +158,6 @@ public class User {
             profile.append("joined", System.currentTimeMillis());
             profile.append("discordId", "NONE");
             profile.append("wallets", Wallet.mapAllForMongo(Wallet.getDefaultWallets()));
-            System.out.println(Wallet.mapAllForMongo(Wallet.getDefaultWallets()));
             profile.append("knownUsernames", new ArrayList<>());
             profile.append("blockedUsers", new ArrayList<>());
             profile.append("stats", new HashMap<>());
@@ -207,7 +206,6 @@ public class User {
     public void backup() {
         Document profile = new Document("uniqueId", uuid);
         Document found = instance.getDatabase().getUserCollection().find(profile).first();
-        if (found == null) return;
         profile.append("joined", joined);
         profile.append("discordId", discordId);
         profile.append("nickName", nickName);
@@ -222,7 +220,11 @@ public class User {
         profile.append("personalization", personalization.mapForMongo());
         profile.append("settings", settings.mapForMongo());
         profile.append("lang", lang);
-        instance.getDatabase().getUserCollection().replaceOne(found, profile);
+        if (found == null) {
+            instance.getDatabase().getUserCollection().insertOne(profile);
+        } else {
+            instance.getDatabase().getUserCollection().replaceOne(found, profile);
+        }
     }
 
     public void save() {
