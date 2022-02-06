@@ -123,6 +123,10 @@ public enum Lang {
 
     COSMETICS_CANNOT_SIT_HERE(Lang.PIXLIES, new HashMap<>()),
 
+    COSMETICS_NICKNAME(Lang.PIXLIES, new HashMap<>()),
+    COSMETICS_NICKNAME_OTHER(Lang.PIXLIES, new HashMap<>()),
+    COSMETICS_CANNOT_NICKNAME(Lang.PIXLIES, new HashMap<>()),
+
     // PLAYER
     PLAYER_MESSAGE_FORMAT_TO("", new HashMap<>()),
     PLAYER_MESSAGE_FORMAT_FROM("", new HashMap<>()),

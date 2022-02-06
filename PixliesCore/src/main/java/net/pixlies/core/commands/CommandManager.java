@@ -63,6 +63,7 @@ public class CommandManager {
         register(new HealCommand(), false);
         register(new FeedCommand(), false);
         register(new SitCommand(), false);
+        register(new NickNameCommand(), false);
         register(new EnderChestCommand(), true);
         register(new NightVisionCommand(), true);
         register(new RepairCommand(), true);
