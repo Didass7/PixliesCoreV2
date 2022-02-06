@@ -25,3 +25,6 @@ chat:
 commands:
     # Enable if the plugin is loaded on a lobby server or equivalent
     limitedCommands: false
+
+scoreboard:
+    enabled: true

@@ -7,6 +7,7 @@ import net.pixlies.core.configuration.Config;
 import net.pixlies.core.database.MongoManager;
 import net.pixlies.core.handlers.HandlerManager;
 import net.pixlies.core.handlers.RegisterHandlerManager;
+import net.pixlies.core.handlers.impl.ScoreboardHandler;
 import net.pixlies.core.lib.io.github.thatkawaiisam.assemble.Assemble;
 import net.pixlies.core.lib.io.github.thatkawaiisam.assemble.AssembleStyle;
 import net.pixlies.core.listeners.ListenerManager;
@@ -98,10 +99,7 @@ public class Main extends JavaPlugin {
         runnableRegisterManager.runAll();
 
         // SCOREBOARD
-        assemble = new Assemble(this, new ScoreboardAdapter());
-        assemble.setTicks(1);
-        assemble.setAssembleStyle(AssembleStyle.MODERN);
-        emptyScoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+        handlerManager.getHandler(ScoreboardHandler.class).load();
 
     }
 
@@ -110,7 +108,7 @@ public class Main extends JavaPlugin {
         runnableRegisterManager.stopAll();
         calendar.stopRunner();
         moduleManager.unloadModules();
-        assemble.cleanup();
+        handlerManager.getHandler(ScoreboardHandler.class).unload();
         instance = null;
     }
 
