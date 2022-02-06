@@ -49,6 +49,7 @@ public enum Lang {
     PLAYER_DOESNT_EXIST(Lang.PIXLIES, new HashMap<>()),
 
     CANNOT_USE_ON_SELF(Lang.PIXLIES, new HashMap<>()),
+    CANNOT_EDIT_ITEM(Lang.PIXLIES, new HashMap<>()),
 
     PLAYER_TELEPORT_NO_PLAYERS(Lang.PIXLIES, new HashMap<>()),
 
@@ -114,8 +115,11 @@ public enum Lang {
     COSMETICS_NIGHTVISION_OFF_OTHER(Lang.PIXLIES, new HashMap<>()),
 
     COSMETICS_REPAIR_ITEM(Lang.PIXLIES, new HashMap<>()),
-    COSMETICS_CANNOT_REPAIR_ITEM(Lang.PIXLIES, new HashMap<>()),
+    COSMETICS_ALREADY_REPAIRED(Lang.PIXLIES, new HashMap<>()),
+
     COSMETICS_ANNOUNCE_PLAYER_SUICIDE(Lang.PIXLIES, new HashMap<>()),
+
+    COSMETICS_RENAME_ITEM(Lang.PIXLIES, new HashMap<>()),
 
     // PLAYER
     PLAYER_MESSAGE_FORMAT_TO("", new HashMap<>()),

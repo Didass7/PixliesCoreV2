@@ -22,7 +22,11 @@ public class RepairCommand extends BaseCommand {
     public void onRepair(Player player) {
         ItemStack item = player.getInventory().getItemInMainHand();
         if (!(item.getItemMeta() instanceof Damageable meta)) {
-            Lang.COSMETICS_CANNOT_REPAIR_ITEM.send(player);
+            Lang.CANNOT_EDIT_ITEM.send(player);
+            return;
+        }
+        if (meta.getDamage() == 0) {
+            Lang.COSMETICS_ALREADY_REPAIRED.send(player);
             return;
         }
         meta.setDamage(0);
@@ -40,10 +44,11 @@ public class RepairCommand extends BaseCommand {
             toRepair.add(item);
         }
         if (toRepair.isEmpty()) {
-            Lang.COSMETICS_CANNOT_REPAIR_ITEM.send(player);
+            Lang.CANNOT_EDIT_ITEM.send(player);
             return;
         }
         toRepair.forEach(item -> {
+            if (item == null) return;
             val meta = (Damageable) item.getItemMeta();
             meta.setDamage(0);
             item.setItemMeta(meta);
