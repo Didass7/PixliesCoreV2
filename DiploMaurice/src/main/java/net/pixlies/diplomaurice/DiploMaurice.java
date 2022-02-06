@@ -1,6 +1,6 @@
-package net.pixlies.DiploMaurice;
+package net.pixlies.diplomaurice;
 
-import net.pixlies.DiploMaurice.listeners.ListenerLoader;
+import net.pixlies.diplomaurice.listeners.ListenerLoader;
 import net.pixlies.core.modules.Module;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
@@ -11,7 +11,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.http.WebSocket;
 
 public class DiploMaurice extends Module {
     private static DiploMaurice instance;
@@ -37,7 +36,7 @@ public class DiploMaurice extends Module {
         api.updateActivity(ActivityType.CUSTOM, "doing diplomacy");
         api.updateStatus(UserStatus.ONLINE);
 
-        System.out.println("INfO |Bot Invite Link: " + api.createBotInvite());
+        System.out.println("INFO | Bot Invite Link: " + api.createBotInvite());
 
         new ListenerLoader(api).loadAll();
     }

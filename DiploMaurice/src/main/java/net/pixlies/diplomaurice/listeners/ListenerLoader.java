@@ -1,6 +1,6 @@
-package net.pixlies.DiploMaurice.listeners;
+package net.pixlies.diplomaurice.listeners;
 
-import net.pixlies.DiploMaurice.listeners.impl.CommandListenerImpl;
+import net.pixlies.diplomaurice.listeners.impl.CommandListenerImpl;
 import org.javacord.api.DiscordApi;
 
 public class ListenerLoader {

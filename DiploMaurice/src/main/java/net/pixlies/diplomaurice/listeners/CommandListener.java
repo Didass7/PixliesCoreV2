@@ -1,4 +1,4 @@
-package net.pixlies.DiploMaurice.listeners;
+package net.pixlies.diplomaurice.listeners;
 
 import org.javacord.api.listener.message.MessageCreateListener;
 
