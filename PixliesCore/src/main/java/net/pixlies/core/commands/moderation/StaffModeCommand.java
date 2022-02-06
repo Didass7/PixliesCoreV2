@@ -20,7 +20,7 @@ public class StaffModeCommand extends BaseCommand {
     @Description("Toggle your staff mode status")
     public void onStaffMode(Player player) {
         User user = User.get(player.getUniqueId());
-        boolean staffModeEnabled = user.getSettings().isStaffModeEnabled();
+        boolean staffModeEnabled = user.getSettings().isInStaffMode();
         if (staffModeEnabled) {
             handler.disable(player);
             Lang.STAFF_STAFFMODE_OFF.send(player);
@@ -34,7 +34,7 @@ public class StaffModeCommand extends BaseCommand {
     @Description("Toggle your staff mode status")
     public void onStaffMode(CommandSender sender, Player player) {
         User user = User.get(player.getUniqueId());
-        boolean staffModeEnabled = user.getSettings().isStaffModeEnabled();
+        boolean staffModeEnabled = user.getSettings().isInStaffMode();
         if (staffModeEnabled) {
             handler.disable(player);
             Lang.STAFF_STAFFMODE_OFF_OTHER.send(sender, "%PLAYER%;" + player.getName());

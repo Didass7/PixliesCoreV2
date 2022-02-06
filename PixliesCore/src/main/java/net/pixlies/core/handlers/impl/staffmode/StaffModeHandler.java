@@ -28,18 +28,18 @@ public class StaffModeHandler implements Handler {
     public void enable(Player player) {
         User user = User.get(player.getUniqueId());
         if (EventUtils.callCancelable(new StaffModeStatusChangeEvent(player, user, StaffModeStatusChangeEvent.StaffModeStatus.ENABLE)).isCancelled()) return;
-        if (user.getSettings().isStaffModeEnabled()) return;
+        if (user.getSettings().isInStaffMode()) return;
         enableWithoutUpdate(player, user);
-        user.getSettings().setStaffModeEnabled(true);
+        user.getSettings().setInStaffMode(true);
         user.save();
     }
 
     public void disable(Player player) {
         User user = User.get(player.getUniqueId());
         if (EventUtils.callCancelable(new StaffModeStatusChangeEvent(player, user, StaffModeStatusChangeEvent.StaffModeStatus.DISABLE)).isCancelled()) return;
-        if (!user.getSettings().isStaffModeEnabled()) return;
+        if (!user.getSettings().isInStaffMode()) return;
         disableWithoutUpdate(player, user);
-        user.getSettings().setStaffModeEnabled(false);
+        user.getSettings().setInStaffMode(false);
         user.save();
     }
 

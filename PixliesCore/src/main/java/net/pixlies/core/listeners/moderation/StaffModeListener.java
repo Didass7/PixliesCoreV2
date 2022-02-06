@@ -6,8 +6,6 @@ import net.pixlies.core.events.impl.moderation.VanishStatusChangeEvent;
 import net.pixlies.core.handlers.impl.VanishHandler;
 import net.pixlies.core.handlers.impl.staffmode.StaffModeHandler;
 import net.pixlies.core.localization.Lang;
-import net.pixlies.core.utils.CC;
-import net.pixlies.core.utils.ItemBuilder;
 import net.pixlies.core.utils.PlayerUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -19,7 +17,6 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
-import org.bukkit.inventory.ItemStack;
 
 public class StaffModeListener implements Listener {
 
@@ -32,7 +29,7 @@ public class StaffModeListener implements Listener {
         if (instance.isLobbyServer()) return;
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (!user.getSettings().isStaffModeEnabled()) return;
+        if (!user.getSettings().isInStaffMode()) return;
         staffModeHandler.enableWithoutUpdate(player, User.get(player.getUniqueId()));
     }
 
@@ -41,7 +38,7 @@ public class StaffModeListener implements Listener {
         if (instance.isLobbyServer()) return;
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (!user.getSettings().isStaffModeEnabled()) return;
+        if (!user.getSettings().isInStaffMode()) return;
         staffModeHandler.disableWithoutUpdate(player, user);
     }
 
@@ -50,11 +47,11 @@ public class StaffModeListener implements Listener {
 
         if (event.getDamager() instanceof Player damager) {
             User user = User.get(damager.getUniqueId());
-            if (user.getSettings().isStaffModeEnabled())
+            if (user.getSettings().isInStaffMode())
                 event.setCancelled(true);
         } else if (event.getEntity() instanceof Player victim) {
             User user = User.get(victim.getUniqueId());
-            if (user.getSettings().isStaffModeEnabled())
+            if (user.getSettings().isInStaffMode())
                 event.setCancelled(true);
         }
 
@@ -64,7 +61,7 @@ public class StaffModeListener implements Listener {
     public void onCropTrample(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (user.getSettings().isStaffModeEnabled()) return;
+        if (user.getSettings().isInStaffMode()) return;
         if (event.getAction() == Action.PHYSICAL) return;
         if (event.getClickedBlock() == null) return;
         if (event.getClickedBlock().getType() != Material.FARMLAND) return;
@@ -75,7 +72,7 @@ public class StaffModeListener implements Listener {
     public void onClick(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player player)) return;
         User user = User.get(player.getUniqueId());
-        if (!user.getSettings().isStaffModeEnabled()) return;
+        if (!user.getSettings().isInStaffMode()) return;
         event.setCancelled(true);
     }
 
@@ -83,7 +80,7 @@ public class StaffModeListener implements Listener {
     public void onBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (!user.getSettings().isStaffModeEnabled()) return;
+        if (!user.getSettings().isInStaffMode()) return;
         event.setCancelled(true);
     }
 
@@ -91,7 +88,7 @@ public class StaffModeListener implements Listener {
     public void onPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (!user.getSettings().isStaffModeEnabled()) return;
+        if (!user.getSettings().isInStaffMode()) return;
         event.setCancelled(true);
     }
 
@@ -99,7 +96,7 @@ public class StaffModeListener implements Listener {
     public void onItemPickup(PlayerAttemptPickupItemEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (!user.getSettings().isStaffModeEnabled()) return;
+        if (!user.getSettings().isInStaffMode()) return;
         event.setCancelled(true);
     }
 
@@ -108,7 +105,7 @@ public class StaffModeListener implements Listener {
 
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (!user.getSettings().isStaffModeEnabled()) return;
+        if (!user.getSettings().isInStaffMode()) return;
 
         if (event.getAction() == Action.PHYSICAL) return;
 
@@ -145,7 +142,7 @@ public class StaffModeListener implements Listener {
 
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (!user.getSettings().isStaffModeEnabled()) return;
+        if (!user.getSettings().isInStaffMode()) return;
         event.setCancelled(true);
 
         if (!(event.getRightClicked() instanceof Player target)) return;
@@ -165,7 +162,7 @@ public class StaffModeListener implements Listener {
         User user = User.get(player.getUniqueId());
         VanishStatusChangeEvent.VanishState state = event.getState();
 
-        if (!user.getSettings().isStaffModeEnabled()) return;
+        if (!user.getSettings().isInStaffMode()) return;
 
         switch (state) {
             case VANISH -> player.getInventory().setItem(8, StaffModeHandler.getVanishItem(true));

@@ -14,12 +14,12 @@ public class UserSettings {
     private static final String VANISHED = "vanished";
     private static final String PASSIVE = "passive";
 
-    private boolean staffModeEnabled;
+    private boolean inStaffMode;
     private boolean vanished;
     private boolean passive;
 
     public UserSettings(Map<String, Object> map) {
-        this.staffModeEnabled = (boolean) map.get(STAFF_MODE_ENABLED);
+        this.inStaffMode = (boolean) map.get(STAFF_MODE_ENABLED);
     }
 
     public static UserSettings getFromMongo(Map<String, Object> map) {
@@ -28,7 +28,7 @@ public class UserSettings {
 
     public Map<String, Object> mapForMongo() {
         return new HashMap<>() {{
-            put(STAFF_MODE_ENABLED, staffModeEnabled);
+            put(STAFF_MODE_ENABLED, inStaffMode);
             put(VANISHED, vanished);
             put(PASSIVE, passive);
         }};

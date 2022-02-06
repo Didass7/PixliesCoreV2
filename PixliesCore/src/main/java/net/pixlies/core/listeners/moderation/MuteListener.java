@@ -30,7 +30,7 @@ public class MuteListener implements Listener {
             }
             for (Player p : Bukkit.getServer().getOnlinePlayers()) {
                 User pUser = User.get(p.getUniqueId());
-                if (pUser.getSettings().isStaffModeEnabled() && p.hasPermission(MUTE_BROADCAST_PERMISSION)) {
+                if (pUser.getSettings().isInStaffMode() && p.hasPermission(MUTE_BROADCAST_PERMISSION)) {
                     Lang.MUTED_PLAYER_TRIED_TO_TALK.send(p, "%PLAYER%;", player.getName());
                 }
             }

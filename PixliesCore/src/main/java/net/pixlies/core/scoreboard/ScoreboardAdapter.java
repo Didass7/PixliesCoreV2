@@ -2,9 +2,7 @@ package net.pixlies.core.scoreboard;
 
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.User;
-import net.pixlies.core.handlers.impl.staffmode.StaffModeHandler;
 import net.pixlies.core.lib.io.github.thatkawaiisam.assemble.AssembleAdapter;
-import net.pixlies.core.utils.CC;
 import org.bukkit.entity.Player;
 import java.util.*;
 
@@ -155,7 +153,7 @@ public class ScoreboardAdapter implements AssembleAdapter {
         User user = User.get(player.getUniqueId());
 
         // TEST
-        lines.add("§aStaffModeEnabled: " + user.getSettings().isStaffModeEnabled());
+        lines.add("§aStaffModeEnabled: " + user.getSettings().isInStaffMode());
         lines.add("§aVanished: " + user.getSettings().isVanished());
         lines.add(""); // TODO
 

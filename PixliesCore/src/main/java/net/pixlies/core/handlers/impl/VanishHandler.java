@@ -66,7 +66,7 @@ public class VanishHandler implements Handler {
         }
 
         // IF STAFF MODE IS NOT ENABLED, DISABLE PASSIVE
-        if (!user.getSettings().isStaffModeEnabled()) {
+        if (!user.getSettings().isInStaffMode()) {
             handler.setPassive(player, false);
         }
 
