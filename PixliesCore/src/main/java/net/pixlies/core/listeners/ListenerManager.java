@@ -3,6 +3,7 @@ package net.pixlies.core.listeners;
 import lombok.Getter;
 import net.pixlies.core.Main;
 import net.pixlies.core.listeners.cosmetics.chatformatting.ChatFormattingListener;
+import net.pixlies.core.listeners.cosmetics.chatformatting.SitListener;
 import net.pixlies.core.listeners.moderation.*;
 import net.pixlies.core.listeners.player.*;
 import org.bukkit.Bukkit;
@@ -30,6 +31,7 @@ public class ListenerManager {
         add(new VanishListener());
         add(new StaffModeListener());
         add(new AfkListener());
+        add(new SitListener());
     }};
 
     public static void registerAllListeners() {

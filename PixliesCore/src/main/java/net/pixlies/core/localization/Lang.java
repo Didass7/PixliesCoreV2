@@ -121,6 +121,8 @@ public enum Lang {
 
     COSMETICS_RENAME_ITEM(Lang.PIXLIES, new HashMap<>()),
 
+    COSMETICS_CANNOT_SIT_HERE(Lang.PIXLIES, new HashMap<>()),
+
     // PLAYER
     PLAYER_MESSAGE_FORMAT_TO("", new HashMap<>()),
     PLAYER_MESSAGE_FORMAT_FROM("", new HashMap<>()),

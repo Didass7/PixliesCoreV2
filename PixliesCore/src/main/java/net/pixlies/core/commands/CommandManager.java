@@ -62,6 +62,7 @@ public class CommandManager {
         // COSMETICS
         register(new HealCommand(), false);
         register(new FeedCommand(), false);
+        register(new SitCommand(), false);
         register(new EnderChestCommand(), true);
         register(new NightVisionCommand(), true);
         register(new RepairCommand(), true);
