@@ -122,7 +122,7 @@ public class StaffModeListener implements Listener {
             case CLOCK -> {
                 Player target = PlayerUtils.getRandomPlayer(player);
                 if (target == null) {
-                    Lang.TPACCEPT_PLAYER_NOT_ONLINE.send(player);
+                    Lang.PLAYER_TELEPORT_NO_PLAYERS.send(player);
                     break;
                 }
                 player.teleport(target.getLocation());

@@ -16,7 +16,7 @@ public class RandomTeleportCommand extends BaseCommand {
     public void onRandomTeleport(Player player) {
         Player target = PlayerUtils.getRandomPlayer(player);
         if (target == null) {
-            Lang.PLAYER_DOESNT_EXIST.send(player);
+            Lang.PLAYER_TELEPORT_NO_PLAYERS.send(player);
             return;
         }
         player.teleport(target);
