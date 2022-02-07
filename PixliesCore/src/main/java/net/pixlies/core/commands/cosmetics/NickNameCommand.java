@@ -13,8 +13,14 @@ import org.bukkit.entity.Player;
 public class NickNameCommand extends BaseCommand {
 
     @Default
-    public void onNickName(Player player, String string) {
+    @CommandCompletion("off")
+    public void onNickName(Player player, @Optional String string) {
         User user = User.get(player.getUniqueId());
+        if (string == null || string.equalsIgnoreCase("off")) {
+            user.setNickName("NONE");
+            Lang.COSMETICS_NICKNAME.send(player, "%MESSAGE%" + player.getName());
+            return;
+        }
         if (string.isEmpty() || string.length() > 16) {
             Lang.COSMETICS_CANNOT_NICKNAME.send(player);
             return;
@@ -25,9 +31,14 @@ public class NickNameCommand extends BaseCommand {
     }
 
     @Private
-    @CommandCompletion("@players")
+    @CommandCompletion("@players off")
     @CommandPermission("pixlies.cosmetics.nickname.others")
-    public void onNickName(CommandSender sender, User user, String string) {
+    public void onNickName(CommandSender sender, User user, @Optional String string) {
+        if (string == null || string.equalsIgnoreCase("off")) {
+            user.setNickName("NONE");
+            Lang.COSMETICS_NICKNAME.send(sender, "%MESSAGE%" + user.getAsOfflinePlayer().getName());
+            return;
+        }
         if (string.isEmpty() || string.length() > 16) {
             Lang.COSMETICS_CANNOT_NICKNAME.send(sender);
             return;
