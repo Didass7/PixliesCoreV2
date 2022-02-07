@@ -53,8 +53,8 @@ public class GamemodeCommand extends BaseCommand {
     @CommandPermission("pixlies.staff.staffmode")
     @Description("Change your gamemode to staff")
     @CommandCompletion("@players")
-    public void onStaff(Player player, @Optional Player target) {
-        changeGameMode(player, target, GameMode.SPECTATOR);
+    public void onStaff(Player player) {
+        player.performCommand("staffmode");
     }
 
     @Default
@@ -65,7 +65,7 @@ public class GamemodeCommand extends BaseCommand {
     private void changeGameMode(Player player, Player target, GameMode gameMode) {
         if (target == null || target.getUniqueId().equals(player.getUniqueId())) {
             player.setGameMode(gameMode);
-            Lang.STAFF_GAMEMODE_CHANGED_SELF.send(player, "f%GAMEMODE%;" + TextUtils.getGameModeFormatted(gameMode));
+            Lang.STAFF_GAMEMODE_CHANGED_SELF.send(player, "%GAMEMODE%;" + TextUtils.getGameModeFormatted(gameMode));
         } else {
             target.setGameMode(gameMode);
             Lang.STAFF_GAMEMODE_CHANGED_OTHERS.send(player, "%GAMEMODE%;" + TextUtils.getGameModeFormatted(gameMode), "%TARGET%;" + target.getName(), "%CHANGER%;" + player.getName());
