@@ -1,6 +1,7 @@
 package net.pixlies.core.commands.staff;
 
 import co.aikar.commands.BaseCommand;
+import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.utils.TextUtils;
@@ -48,12 +49,23 @@ public class GamemodeCommand extends BaseCommand {
         changeGameMode(player, target, GameMode.SPECTATOR);
     }
 
+    @Subcommand("staff|st|4")
+    @CommandPermission("pixlies.staff.staffmode")
+    @Description("Change your gamemode to staff")
+    @CommandCompletion("@players")
+    public void onStaff(Player player, @Optional Player target) {
+        changeGameMode(player, target, GameMode.SPECTATOR);
+    }
 
+    @Default
+    public void onHelp(CommandHelp help) {
+        help.showHelp();
+    }
 
-    public void changeGameMode(Player player, Player target, GameMode gameMode) {
+    private void changeGameMode(Player player, Player target, GameMode gameMode) {
         if (target == null || target.getUniqueId().equals(player.getUniqueId())) {
             player.setGameMode(gameMode);
-            Lang.STAFF_GAMEMODE_CHANGED_SELF.send(player, "%GAMEMODE%;" + TextUtils.getGameModeFormatted(gameMode));
+            Lang.STAFF_GAMEMODE_CHANGED_SELF.send(player, "f%GAMEMODE%;" + TextUtils.getGameModeFormatted(gameMode));
         } else {
             target.setGameMode(gameMode);
             Lang.STAFF_GAMEMODE_CHANGED_OTHERS.send(player, "%GAMEMODE%;" + TextUtils.getGameModeFormatted(gameMode), "%TARGET%;" + target.getName(), "%CHANGER%;" + player.getName());
