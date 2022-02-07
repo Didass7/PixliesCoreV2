@@ -21,7 +21,7 @@ public class NickNameCommand extends BaseCommand {
             Lang.COSMETICS_NICKNAME.send(player, "%MESSAGE%" + player.getName());
             return;
         }
-        if (string.isEmpty() || string.length() > 16 || string.matches("^[a-zA-Z0-9_-]*$")) {
+        if (string.isEmpty() || string.length() > 16 || string.matches("^[a-zA-Z0-9_-]*$") || string.equals("NONE")) {
             Lang.COSMETICS_CANNOT_NICKNAME.send(player);
             return;
         }
@@ -39,7 +39,7 @@ public class NickNameCommand extends BaseCommand {
             Lang.COSMETICS_NICKNAME.send(sender, "%MESSAGE%" + user.getAsOfflinePlayer().getName());
             return;
         }
-        if (string.isEmpty() || string.length() > 16 || string.matches("^[a-zA-Z0-9_-]*$")) {
+        if (string.isEmpty() || string.length() > 16 || string.matches("^[a-zA-Z0-9_-]*$") || string.equals("NONE")) {
             Lang.COSMETICS_CANNOT_NICKNAME.send(sender);
             return;
         }
