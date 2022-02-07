@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 @CommandPermission("pixlies.player.clear")
 public class ClearCommand extends BaseCommand {
 
-    @Default
     @Syntax("<player>")
     public void onClear(CommandSender sender, Player player) {
         if (player.getInventory().isEmpty()) {
