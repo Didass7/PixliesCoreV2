@@ -5,7 +5,10 @@ import net.pixlies.core.entity.User;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.UUID;
+import java.util.function.BiConsumer;
 
 public class UserCache {
 
@@ -44,6 +47,22 @@ public class UserCache {
         try (Jedis jedis = pool.getResource()) {
             jedis.del("USER:" + uuid.toString());
         }
+    }
+
+    public void forEach(BiConsumer<UUID, User> consumer) {
+        for (User user : values()) {
+            consumer.accept(user.getUuid(), user);
+        }
+    }
+
+    public Collection<User> values() {
+        Collection<User> re = new HashSet<>();
+        try (Jedis jedis = pool.getResource()) {
+            for (String key : jedis.keys("USER:*")) {
+                re.add(get(UUID.fromString(key.replace("USER:", ""))));
+            }
+        }
+        return re;
     }
 
 }
