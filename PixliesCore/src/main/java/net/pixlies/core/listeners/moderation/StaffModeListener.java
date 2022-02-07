@@ -77,6 +77,14 @@ public class StaffModeListener implements Listener {
     }
 
     @EventHandler
+    public void onDrop(PlayerDropItemEvent event) {
+        Player player = event.getPlayer();
+        User user = User.get(player.getUniqueId());
+        if (!user.getSettings().isInStaffMode()) return;
+        event.setCancelled(true);
+    }
+
+    @EventHandler
     public void onBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
