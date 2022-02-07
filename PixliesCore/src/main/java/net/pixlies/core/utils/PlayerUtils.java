@@ -1,9 +1,11 @@
 package net.pixlies.core.utils;
 
-import lombok.val;
 import net.pixlies.core.Main;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,18 +18,24 @@ public final class PlayerUtils {
 
     private PlayerUtils() {}
 
-    public static Player getRandomPlayer(Player player) {
+    @Nullable
+    public static Player getRandomPlayer(@NotNull Player player) {
+
         List<Player> players = new ArrayList<>(instance.getServer().getOnlinePlayers());
-        instance.getServer().getOnlinePlayers().forEach(target -> {
-            if (target.equals(player)) return;
-            players.add(target);
-        });
+        if (players.isEmpty()) return null;
+
         Random random = new Random();
-        return players.get(random.nextInt(players.size()));
+        Player target = players.get(random.nextInt(players.size()));
+
+        if (target.getUniqueId().equals(player.getUniqueId()))
+            return null;
+
+        return target;
     }
 
-    public static void heal(Player player) {
-        player.setHealth(Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue());
+    public static void heal(@NotNull Player player) {
+        AttributeInstance health = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+        player.setHealth(health == null ? 20 : health.getBaseValue());
         player.setFoodLevel(20);
         player.setFreezeTicks(0);
         player.setFireTicks(0);
