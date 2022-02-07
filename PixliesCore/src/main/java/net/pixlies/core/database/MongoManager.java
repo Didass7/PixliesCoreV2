@@ -11,7 +11,6 @@ import net.pixlies.core.entity.User;
 import org.bson.Document;
 import org.bukkit.Bukkit;
 
-import java.rmi.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -27,7 +26,7 @@ public class MongoManager {
     private MongoDatabase database;
 
     private MongoCollection<Document> userCollection;
-    private final Map<UUID, User> userCache = new HashMap<>();
+    private final UserCache userCache = new UserCache();
 
     public MongoManager init() {
         Logger.getLogger("org.mongodb.driver").setLevel(Level.WARNING);
