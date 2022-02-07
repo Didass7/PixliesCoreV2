@@ -33,6 +33,7 @@ public enum Lang {
     CHAT_CLEARED(Lang.PIXLIES, new HashMap<>()),
     CHAT_MUTED(Lang.PIXLIES, new HashMap<>()),
     CHAT_UNMUTED(Lang.PIXLIES, new HashMap<>()),
+    CHAT_MUTED_FORMAT(Lang.PIXLIES, new HashMap<>()),
 
     SWEAR_FILTER_ON(Lang.PIXLIES, new HashMap<>()),
     SWEAR_FILTER_OFF(Lang.PIXLIES, new HashMap<>()),
