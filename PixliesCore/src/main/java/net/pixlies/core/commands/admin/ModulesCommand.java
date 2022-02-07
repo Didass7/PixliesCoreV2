@@ -27,27 +27,36 @@ public class ModulesCommand extends BaseCommand {
 
     @Default
     @Description("Returns all loaded modules")
-    public void onModules(Player player) {
-        ChestGui gui = new ChestGui(3, "Modules");
-        PaginatedPane modulesPane = new PaginatedPane(0, 0, 9, 5);
+    public void onModules(CommandSender sender) {
+        if (sender instanceof Player player) {
+            ChestGui gui = new ChestGui(3, "Modules");
+            PaginatedPane modulesPane = new PaginatedPane(0, 0, 9, 5);
 
-        modulesPane.populateWithGuiItems(new ArrayList<>(){{
-            for(Map.Entry<Module, ModuleDescription> entry : modules.entrySet()) {
-                Material icon = entry.getValue().getIcon();
-                StringJoiner authorJoiner = new StringJoiner("§7, ");
-                for (String author : entry.getValue().getAuthors())
-                    authorJoiner.add("§b" + author);
-                ChatColor nameColor = entry.getValue().isActivated() ? ChatColor.GREEN : ChatColor.RED;
-                ItemBuilder builder = new ItemBuilder(icon)
-                        .setDisplayName(nameColor + entry.getValue().getName() + " v" + entry.getValue().getVersion())
-                        .addLoreLine("§7by " + authorJoiner);
+            modulesPane.populateWithGuiItems(new ArrayList<>() {{
+                for (Map.Entry<Module, ModuleDescription> entry : modules.entrySet()) {
+                    Material icon = entry.getValue().getIcon();
+                    StringJoiner authorJoiner = new StringJoiner("§7, ");
+                    for (String author : entry.getValue().getAuthors())
+                        authorJoiner.add("§b" + author);
+                    ChatColor nameColor = entry.getValue().isActivated() ? ChatColor.GREEN : ChatColor.RED;
+                    ItemBuilder builder = new ItemBuilder(icon)
+                            .setDisplayName(nameColor + entry.getValue().getName() + " v" + entry.getValue().getVersion())
+                            .addLoreLine("§7by " + authorJoiner);
 
-                add(new GuiItem(builder.build(), e -> e.setCancelled(true)));
+                    add(new GuiItem(builder.build(), e -> e.setCancelled(true)));
+                }
+            }});
+
+            gui.addPane(modulesPane);
+            gui.show(player);
+        } else {
+            StringJoiner modulesJoiner = new StringJoiner("§8, ");
+            for (Map.Entry<Module, ModuleDescription> entry : modules.entrySet()) {
+                ChatColor cc = entry.getValue().isActivated() ? ChatColor.GREEN : ChatColor.RED;
+                modulesJoiner.add(cc + entry.getValue().getName());
             }
-        }});
-
-        gui.addPane(modulesPane);
-        gui.show(player);
+            sender.sendMessage("§7Modules [§b" + modules.size() + "§7]: " + modulesJoiner);
+        }
     }
 
     @HelpCommand
