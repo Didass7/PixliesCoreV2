@@ -22,15 +22,13 @@ public final class PlayerUtils {
     public static Player getRandomPlayer(@NotNull Player player) {
 
         List<Player> players = new ArrayList<>(instance.getServer().getOnlinePlayers());
+
         if (players.isEmpty()) return null;
+        players.remove(player);
 
         Random random = new Random();
-        Player target = players.get(random.nextInt(players.size()));
 
-        if (target.getUniqueId().equals(player.getUniqueId()))
-            return null;
-
-        return target;
+        return players.get(random.nextInt(players.size()));
     }
 
     public static void heal(@NotNull Player player) {
