@@ -29,12 +29,17 @@ public class UserCache {
     public void put(UUID uuid, User user) {
         try (Jedis jedis = pool.getResource()) {
             jedis.set("USER:" + uuid.toString(), gson.toJson(user));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     public boolean containsKey(UUID uuid) {
         try (Jedis jedis = pool.getResource()) {
             return jedis.exists("USER:" + uuid.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
     }
 
@@ -46,6 +51,8 @@ public class UserCache {
     public void remove(UUID uuid) {
         try (Jedis jedis = pool.getResource()) {
             jedis.del("USER:" + uuid.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -61,6 +68,8 @@ public class UserCache {
             for (String key : jedis.keys("USER:*")) {
                 re.add(get(UUID.fromString(key.replace("USER:", ""))));
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return re;
     }

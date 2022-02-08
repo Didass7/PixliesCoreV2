@@ -99,7 +99,7 @@ public class Main extends JavaPlugin {
         runnableRegisterManager.runAll();
 
         // SCOREBOARD
-        handlerManager.getHandler(ScoreboardHandler.class).load();
+        // handlerManager.getHandler(ScoreboardHandler.class).load();
 
     }
 

@@ -20,6 +20,8 @@ public class UserSettings {
 
     public UserSettings(Map<String, Object> map) {
         this.inStaffMode = (boolean) map.get(STAFF_MODE_ENABLED);
+        this.vanished = (boolean) map.get(VANISHED);
+        this.passive = (boolean) map.get(PASSIVE);
     }
 
     public static UserSettings getFromMongo(Map<String, Object> map) {

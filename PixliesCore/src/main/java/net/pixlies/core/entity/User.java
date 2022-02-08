@@ -38,9 +38,17 @@ public class User {
     private List<UUID> blockedUsers;
     private Map<String, Object> stats;
     private Map<String, Punishment> currentPunishments;
-    private UserPersonalization personalization;
-    private UserSettings settings;
+    private Map<String, Object> personalization;
+    private Map<String, Object> settings;
     private String lang;
+
+    public UserPersonalization getPersonalization() {
+        return new UserPersonalization(personalization);
+    }
+
+    public UserSettings getSettings() {
+        return new UserSettings(settings);
+    }
 
     public OfflinePlayer getAsOfflinePlayer() {
         return Bukkit.getOfflinePlayer(uuid);
@@ -178,8 +186,8 @@ public class User {
                     new ArrayList<>(),
                     new HashMap<>(),
                     new HashMap<>(),
-                    UserPersonalization.getDefaults(),
-                    UserSettings.getDefaults(),
+                    UserPersonalization.getDefaults().mapForMongo(),
+                    UserSettings.getDefaults().mapForMongo(),
                     "ENG"
             );
 
@@ -195,8 +203,8 @@ public class User {
                     found.getList("blockedUsers", String.class).stream().map(UUID::fromString).collect(Collectors.toList()),
                     found.get("stats", Map.class),
                     Punishment.getFromMongo((Map<String, Map<String, Object>>) found.get("currentPunishments", Map.class)),
-                    UserPersonalization.getFromMongo((Map<String, Object>) found.get("personalization", Map.class)),
-                    UserSettings.getFromMongo((Map<String, Object>) found.get("settings", Map.class)),
+                    UserPersonalization.getFromMongo((Map<String, Object>) found.get("personalization", Map.class)).mapForMongo(),
+                    UserSettings.getFromMongo((Map<String, Object>) found.get("settings", Map.class)).mapForMongo(),
                     found.getString("lang")
             );
         }
@@ -217,8 +225,8 @@ public class User {
         );
         profile.append("stats", gson.toJson(stats));
         profile.append("currentPunishments", Punishment.mapAllForMongo(currentPunishments));
-        profile.append("personalization", personalization.mapForMongo());
-        profile.append("settings", settings.mapForMongo());
+        profile.append("personalization", personalization);
+        profile.append("settings", settings);
         profile.append("lang", lang);
         if (found == null) {
             instance.getDatabase().getUserCollection().insertOne(profile);
