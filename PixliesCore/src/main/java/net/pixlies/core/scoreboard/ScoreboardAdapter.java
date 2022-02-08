@@ -3,7 +3,9 @@ package net.pixlies.core.scoreboard;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.User;
 import net.pixlies.core.lib.io.github.thatkawaiisam.assemble.AssembleAdapter;
+import net.pixlies.core.utils.TextUtils;
 import org.bukkit.entity.Player;
+
 import java.util.*;
 
 public class ScoreboardAdapter implements AssembleAdapter {
@@ -137,26 +139,30 @@ public class ScoreboardAdapter implements AssembleAdapter {
     @Override
     public List<String> getLines(Player player) {
 
-//        User user = User.get(player.getUniqueId());
+        User user = User.get(player.getUniqueId());
 
         List<String> lines = new ArrayList<>();
 
-        // switch (user.getScoreboardType()) {}
-//        if (user.getSettings().isStaffModeEnabled()) {
-//            lines.add(" "); // TODO: add line separator
-//            lines.add("§3§lStaff Mode §8(§aON§8)");
-//            lines.add("§3Vanish§8: §7" + user.getSettings().isVanished());
-//            lines.add("§3Game Mode§8: §7" + player.getGameMode());
-//            lines.add(" ");
-//        }
+        // switch (user.getScoreboardType()) {} TODO
+        if (user.getSettings().isPassive()) {
 
-        User user = User.get(player.getUniqueId());
+            boolean isInStaffMode = user.getSettings().isInStaffMode();
+            boolean vanished = user.getSettings().isVanished();
+
+            lines.add(""); // TODO: add line separator
+            lines.add("§3§lStaff");
+            lines.add("§3Staff Mode§8: " + (isInStaffMode ? "§aEnabled" : "§cDisabled"));
+            lines.add("§3Vanish§8: " + (vanished ? "§aEnabled" : "§cDisabled"));
+            lines.add("§3Game Mode§8: " + TextUtils.getGameModeFormatted(player.getGameMode()));
+
+        }
 
         // TEST
-        lines.add("§aStaffModeEnabled: " + user.getSettings().isInStaffMode());
-        lines.add("§aVanished: " + user.getSettings().isVanished());
-        lines.add(""); // TODO
-
+        lines.add("");
+        lines.add("§3§lTest");
+        lines.add("§3Nick§8: §b" + user.getNickName());
+        lines.add("§3isPassive§8: " + (user.getSettings().isPassive() ? "§aTrue" : "§cFalse"));
+        lines.add("");
 
         return lines;
     }
@@ -165,7 +171,7 @@ public class ScoreboardAdapter implements AssembleAdapter {
 
         STANDARD,
         COMPACT,
-        OFF
+        DISABLED
 
     }
 
