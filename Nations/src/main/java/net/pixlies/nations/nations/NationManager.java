@@ -2,7 +2,6 @@ package net.pixlies.nations.nations;
 
 import com.google.gson.Gson;
 import lombok.Getter;
-import net.pixlies.core.Main;
 import net.pixlies.nations.Nations;
 import org.bson.Document;
 
