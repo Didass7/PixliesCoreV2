@@ -2,11 +2,13 @@ package net.pixlies.nations;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import net.pixlies.core.modules.Module;
 import net.pixlies.nations.commands.CommandManager;
 import net.pixlies.nations.events.ListenerManager;
 import net.pixlies.nations.handlers.HandlerManager;
 import net.pixlies.nations.handlers.RegisterHandlerManager;
-import net.pixlies.core.modules.Module;
+import net.pixlies.nations.nations.Nation;
+import net.pixlies.nations.nations.NationManager;
 
 public class Nations extends Module {
 
@@ -47,6 +49,12 @@ public class Nations extends Module {
         listenerManager.unregisterAllListeners();
         commandManager.unregisterAllCommands();
         instance = null;
+
+        // NATIONS
+        for (Nation nation : NationManager.nations.values()) {
+            nation.backup();
+        }
+
     }
 
     public Gson getGson() {

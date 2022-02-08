@@ -1,6 +1,6 @@
 package net.pixlies.nations.nations.ranks;
 
-public enum Permission {
+public enum NationPermission {
 
     INVITE,
     KICK,

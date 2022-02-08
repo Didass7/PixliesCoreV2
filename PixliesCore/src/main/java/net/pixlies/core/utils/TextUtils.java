@@ -1,5 +1,6 @@
 package net.pixlies.core.utils;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.GameMode;
 
@@ -13,6 +14,10 @@ public class TextUtils {
             case SPECTATOR -> "§3Spectator";
             default -> "§9" + StringUtils.capitalize(mode.name().toLowerCase());
         };
+    }
+
+    public static String generateId(int length) {
+        return RandomStringUtils.randomAlphanumeric(length);
     }
 
 }
