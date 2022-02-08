@@ -2,7 +2,6 @@ package net.pixlies.core.localization;
 
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
-import net.md_5.bungee.api.ChatColor;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.User;
 import net.pixlies.core.utils.CC;
@@ -10,7 +9,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.util.HashMap;
@@ -152,6 +150,9 @@ public enum Lang {
 
     // LOBBY
     LOBBY_BUILDMODE_TOGGLE(Lang.PIXLIES, new HashMap<>()),
+
+    // NATIONS
+    NATION_FORMED(Lang.PIXLIES, new HashMap<>()),
 
     // OTHER
     MUST_BE_A_PLAYER(Lang.PIXLIES, new HashMap<>()),

@@ -22,8 +22,7 @@ public class Nation {
     private String name;
     private String description;
     private String leaderUUID;
-    private String banner;
-    private String created;
+    private long created;
 
     private double politicalPower;
     private double money;
@@ -31,7 +30,7 @@ public class Nation {
     private GovernmentType govType;
     private Ideology ideology;
     private Religion religion;
-    private List<Byte> constitutionValues;
+    private List<Integer> constitutionValues;
 
     private List<String> stateIds;
 
@@ -49,7 +48,7 @@ public class Nation {
         return this;
     }
 
-    private void save() {
+    public void save() {
         NationManager.nations.put(id, this);
     }
 
@@ -60,7 +59,6 @@ public class Nation {
         nation.append("name", name);
         nation.append("description", description);
         nation.append("leaderUUID", leaderUUID);
-        nation.append("banner", banner);
         nation.append("created", created);
 
         nation.append("politicalPower", politicalPower);
@@ -91,7 +89,7 @@ public class Nation {
         memberUUIDs.remove(uuid);
     }
 
-    private void editConstitution(byte law, byte option) {
+    private void editConstitution(byte law, int option) {
         constitutionValues.set(law, option);
     }
 
