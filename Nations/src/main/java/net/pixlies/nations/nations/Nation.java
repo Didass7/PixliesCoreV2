@@ -2,7 +2,6 @@ package net.pixlies.nations.nations;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import net.pixlies.core.Main;
 import net.pixlies.nations.Nations;
 import net.pixlies.nations.nations.customization.GovernmentType;
 import net.pixlies.nations.nations.customization.Ideology;
@@ -18,26 +17,31 @@ import java.util.Map;
 public class Nation {
 
     private static final Nations instance = Nations.getInstance();
-    private static final Main pixlies = Main.getInstance();
 
+    // INFO
     private String id;
     private String name;
     private String description;
     private String leaderUUID;
     private long created;
 
+    // DATA
     private double politicalPower;
     private double money;
 
+    // CUSTOMIZATION
     private GovernmentType govType;
     private Ideology ideology;
     private Religion religion;
     private List<Integer> constitutionValues;
 
+    // STATES
     private List<String> stateIds;
 
+    // RANKS
     private Map<String, Map<String, Object>> ranks;
 
+    // MEMBERS
     private List<String> memberUUIDs;
 
     public Nation create() {
@@ -56,7 +60,7 @@ public class Nation {
 
     public void backup() {
         Document nation = new Document("id", id);
-        Document found = pixlies.getDatabase().getNationCollection().find(nation).first();
+        Document found = instance.getMongoManager().getNationCollection().find(nation).first();
 
         // INFO
         nation.append("name", name);
