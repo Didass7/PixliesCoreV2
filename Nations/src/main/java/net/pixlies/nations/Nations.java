@@ -2,21 +2,30 @@ package net.pixlies.nations;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import lombok.Getter;
 import net.pixlies.core.modules.Module;
 import net.pixlies.nations.commands.CommandManager;
+import net.pixlies.nations.config.Config;
+import net.pixlies.nations.database.MongoManager;
 import net.pixlies.nations.events.ListenerManager;
 import net.pixlies.nations.handlers.HandlerManager;
 import net.pixlies.nations.handlers.RegisterHandlerManager;
-import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.NationManager;
 
+import java.io.File;
+
+@Getter
 public class Nations extends Module {
 
-    private static Nations instance;
+    @Getter private static Nations instance;
+
+    private Config config;
 
     private HandlerManager handlerManager;
     private ListenerManager listenerManager;
     private CommandManager commandManager;
+    private NationManager nationManager;
+    private MongoManager mongoManager;
 
     private final Gson gson = new GsonBuilder()
             .serializeNulls()
@@ -28,8 +37,15 @@ public class Nations extends Module {
 
         instance = this;
 
+        // CONFIGURATION
+        config = new Config(new File(this.getModuleFolder(), "config.yml"), "config.yml");
+
         // HANDLERS & MANAGERS
+        mongoManager = new MongoManager();
         handlerManager = new HandlerManager();
+        nationManager = new NationManager();
+
+
         new RegisterHandlerManager().registerAllHandlers();
 
         // LISTENERS
@@ -48,29 +64,9 @@ public class Nations extends Module {
         // COMMANDS & LISTENERS
         listenerManager.unregisterAllListeners();
         commandManager.unregisterAllCommands();
+        nationManager.backupAll();
         instance = null;
 
-        // NATIONS
-        for (Nation nation : NationManager.nations.values()) {
-            nation.backup();
-        }
-
-    }
-
-    public Gson getGson() {
-        return gson;
-    }
-
-    public HandlerManager getHandlerManager() {
-        return handlerManager;
-    }
-
-    public ListenerManager getListenerManager() {
-        return listenerManager;
-    }
-
-    public static Nations getInstance() {
-        return instance;
     }
 
 }

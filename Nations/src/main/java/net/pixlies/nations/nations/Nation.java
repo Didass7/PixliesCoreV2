@@ -3,6 +3,7 @@ package net.pixlies.nations.nations;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import net.pixlies.core.Main;
+import net.pixlies.nations.Nations;
 import net.pixlies.nations.nations.customization.GovernmentType;
 import net.pixlies.nations.nations.customization.Ideology;
 import net.pixlies.nations.nations.customization.Religion;
@@ -16,7 +17,8 @@ import java.util.Map;
 @AllArgsConstructor
 public class Nation {
 
-    private static final Main instance = Main.getInstance();
+    private static final Nations instance = Nations.getInstance();
+    private static final Main pixlies = Main.getInstance();
 
     private String id;
     private String name;
@@ -49,36 +51,44 @@ public class Nation {
     }
 
     public void save() {
-        NationManager.nations.put(id, this);
+        instance.getNationManager().getNations().put(id, this);
     }
 
     public void backup() {
         Document nation = new Document("id", id);
-        Document found = instance.getDatabase().getNationCollection().find(nation).first();
+        Document found = pixlies.getDatabase().getNationCollection().find(nation).first();
 
+        // INFO
         nation.append("name", name);
         nation.append("description", description);
         nation.append("leaderUUID", leaderUUID);
         nation.append("created", created);
 
+        // DATA
         nation.append("politicalPower", politicalPower);
         nation.append("money", money);
 
+        // CUSTOMIZATION
         nation.append("ideology", ideology.toString());
         nation.append("govType", govType.toString());
         nation.append("religion", religion.toString());
         nation.append("constitutionValues", constitutionValues);
 
+        // STATES
         nation.append("stateIds", stateIds);
 
+        // RANKS
         nation.append("ranks", ranks);
 
+        // MEMBERS
         nation.append("memberUUIDs", memberUUIDs);
 
         if (found != null) {
-            instance.getDatabase().getNationCollection().deleteOne(found);
+            instance.getMongoManager().getNationCollection().replaceOne(found, nation);
+        } else {
+            instance.getMongoManager().getNationCollection().insertOne(nation);
         }
-        instance.getDatabase().getNationCollection().insertOne(nation);
+
     }
 
     private void addMember(String uuid) {

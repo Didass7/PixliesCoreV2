@@ -21,7 +21,6 @@ public class MongoManager {
     private MongoDatabase database;
 
     private MongoCollection<Document> userCollection;
-    private MongoCollection<Document> nationCollection;
     private final UserCache userCache = new UserCache();
 
     public MongoManager init() {
@@ -39,7 +38,6 @@ public class MongoManager {
 
         database = client.getDatabase(instance.getConfig().getString("database.database", "admin"));
         userCollection = database.getCollection(instance.getConfig().getString("database.users-collection", "users"));
-        nationCollection = database.getCollection(instance.getConfig().getString("database.nations-collection", "nations"));
 
         instance.getLogger().info("Connected to MongoDB database.");
         return this;
