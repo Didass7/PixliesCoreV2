@@ -109,6 +109,14 @@ public class StaffModeListener implements Listener {
     }
 
     @EventHandler
+    public void onSwapHand(PlayerSwapHandItemsEvent event) {
+        Player player = event.getPlayer();
+        User user = User.get(player.getUniqueId());
+        if (!user.getSettings().isInStaffMode()) return;
+        event.setCancelled(true);
+    }
+
+    @EventHandler
     public void onInteract(PlayerInteractEvent event) {
 
         Player player = event.getPlayer();
