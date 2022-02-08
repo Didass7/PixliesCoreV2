@@ -22,8 +22,8 @@ public final class PlayerUtils {
 
         List<Player> players = new ArrayList<>(instance.getServer().getOnlinePlayers());
 
-        if (players.isEmpty()) return null;
         players.remove(player);
+        if (players.isEmpty()) return null; // second check so we dont get outofbounds
 
         Random random = new Random();
 
