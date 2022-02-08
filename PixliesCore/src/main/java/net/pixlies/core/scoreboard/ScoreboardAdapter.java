@@ -139,8 +139,8 @@ public class ScoreboardAdapter implements AssembleAdapter {
 
         User user = User.get(player.getUniqueId());
 
-        // TODO: change below and replace with user's scoreboard type
-        ScoreboardType scoreboardType = null;
+        ScoreboardType scoreboardType = user.getPersonalization().getScoreboardType();
+        if (scoreboardType == null) return null;
 
         switch (scoreboardType) {
 

@@ -1,6 +1,10 @@
 package net.pixlies.core.entity.data;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import net.pixlies.core.scoreboard.ScoreboardAdapter.ScoreboardType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,11 +17,13 @@ public class UserPersonalization {
     private static final String COMMAND_SPY_ENABLED = "commandSpyEnabled";
     private static final String VIEW_MUTED_CHAT = "viewMutedChat";
     private static final String JOIN_VANISH = "joinVanish";
+    private static final String SCOREBOARD_TYPE = "scoreboardType";
 
     private boolean socialSpyEnabled;
     private boolean commandSpyEnabled;
     @Getter(AccessLevel.NONE) private boolean viewMutedChat;
     private boolean joinVanish;
+    private ScoreboardType scoreboardType;
 
     public boolean canViewMutedChat() {
         // lombok wasn't being fun
@@ -28,6 +34,7 @@ public class UserPersonalization {
         this.socialSpyEnabled = (boolean) map.get(SOCIAL_SPY_ENABLED);
         this.commandSpyEnabled = (boolean) map.get(COMMAND_SPY_ENABLED);
         this.viewMutedChat = (boolean) map.get(VIEW_MUTED_CHAT);
+        this.scoreboardType = ScoreboardType.valueOf((String) map.get(SCOREBOARD_TYPE));
     }
 
     public static UserPersonalization getFromMongo(Map<String, Object> map) {
@@ -48,7 +55,8 @@ public class UserPersonalization {
                 false,
                 false,
                 false,
-                false
+                false,
+                ScoreboardType.STANDARD
         );
     }
 
