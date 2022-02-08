@@ -123,22 +123,45 @@ public class ScoreboardAdapter implements AssembleAdapter {
 
     @Override
     public String getTitle(Player player) {
+
         scoreboardFrames.putIfAbsent(player.getUniqueId(), 0);
         int frame = scoreboardFrames.get(player.getUniqueId());
         if (frame == frames(player).length - 1) scoreboardFrames.put(player.getUniqueId(), 0);
         scoreboardFrames.put(player.getUniqueId(), scoreboardFrames.get(player.getUniqueId()) + 1);
-        // if (Main.getInstance().getUtilLists().staffMode.contains(player.getUniqueId())) {
-        if (true) {
-            return "§eStaff - " +  frames(player)[frame];
-        } else {
-            return frames(player)[frame];
-        }
+
+        return frames(player)[frame];
+
     }
 
     // TODO: add scoreboard list stuff
     @Override
     public List<String> getLines(Player player) {
 
+        User user = User.get(player.getUniqueId());
+
+        // TODO: change below and replace with user's scoreboard type
+        ScoreboardType scoreboardType = null;
+
+        switch (scoreboardType) {
+
+            case STANDARD -> {
+                return getStandard(player);
+            }
+
+            case COMPACT -> {
+                return getCompact(player);
+            }
+
+            case DISABLED -> {
+                return null;
+            }
+
+        }
+
+        return new ArrayList<>();
+    }
+
+    private List<String> getStandard(Player player) {
         User user = User.get(player.getUniqueId());
 
         List<String> lines = new ArrayList<>();
@@ -165,6 +188,11 @@ public class ScoreboardAdapter implements AssembleAdapter {
         lines.add("");
 
         return lines;
+    }
+
+    private List<String> getCompact(Player player) {
+        // TODO
+        return new ArrayList<>();
     }
 
     public enum ScoreboardType {
