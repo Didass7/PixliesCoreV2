@@ -40,6 +40,8 @@ public class MongoManager {
 
         datastore = morphia.createDatastore(client, instance.getConfig().getString("database.database", "admin"));
 
+        datastore.ensureIndexes();
+
         instance.getLogger().info("Connected to MongoDB database.");
         return this;
     }
