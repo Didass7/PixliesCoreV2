@@ -8,6 +8,10 @@ import org.bukkit.entity.Player;
 
 import java.util.*;
 
+/**
+ * @author MickMMars
+ * @author Dynmie
+ */
 public class ScoreboardAdapter implements AssembleAdapter {
 
     private static final Main instance = Main.getInstance();
@@ -142,23 +146,12 @@ public class ScoreboardAdapter implements AssembleAdapter {
         ScoreboardType scoreboardType = user.getPersonalization().getScoreboardType();
         if (scoreboardType == null) return null;
 
-        switch (scoreboardType) {
+        return switch (scoreboardType) {
+            case STANDARD -> getStandard(player);
+            case COMPACT -> getCompact(player);
+            case DISABLED -> null;
+        };
 
-            case STANDARD -> {
-                return getStandard(player);
-            }
-
-            case COMPACT -> {
-                return getCompact(player);
-            }
-
-            case DISABLED -> {
-                return null;
-            }
-
-        }
-
-        return new ArrayList<>();
     }
 
     private List<String> getStandard(Player player) {
