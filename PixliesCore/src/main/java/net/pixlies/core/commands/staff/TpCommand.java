@@ -30,7 +30,7 @@ public class TpCommand extends BaseCommand {
     // PLAYER
     @Description("Teleport to another player")
     @CommandCompletion("@players")
-    public void onTpSender(Player player, Player target) {
+    public void onTpPlayer(Player player, Player target) {
         player.teleport(target);
         Lang.STAFF_TELEPORT_PLAYER_TO_TARGET.send(player,
                 "%PLAYER%;" + player.getName(),
@@ -50,7 +50,7 @@ public class TpCommand extends BaseCommand {
     // PLAYER
     @Description("Teleport to a location")
     @CommandCompletion("@empty")
-    public void onTpSender(Player player, Location location) {
+    public void onTpPlayer(Player player, Location location) {
         player.teleport(location);
         Lang.STAFF_TELEPORT_SELF_TO_TARGET.send(player,
                 "%PLAYER%;" + player.getName(),
