@@ -18,6 +18,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * @author vPrototype_
+ */
 @CommandAlias("staffsettings")
 @CommandPermission("pixlies.staff.staffsettings")
 public class StaffModeSettingsCommand extends BaseCommand {
@@ -45,11 +48,13 @@ public class StaffModeSettingsCommand extends BaseCommand {
         background.setRepeat(true);
 
         // Info pane
+        /*
         StaticPane infoPane = new StaticPane(4, 0, 1, 1);
         ItemBuilder infoBuilder = new ItemBuilder(Material.ENCHANTED_BOOK)
                 .setDisplayName("§6Chat settings")
                 .addLoreLine("§7Modify your staff settings");
         infoPane.addItem(new GuiItem(infoBuilder.build()), 0, 0);
+         */
 
         // Toggle text
         String on = "§7Toggled: §aON";
@@ -78,21 +83,22 @@ public class StaffModeSettingsCommand extends BaseCommand {
                 if (button.isEnabled()) {
                     builder.removeLoreLine(off);
                     builder.addLoreLine(on);
-                    Lang.STAFF_STAFFMODE_ON.send(player, "%SETTING%;" + s.getTitle());
+                    Lang.STAFF_STAFFMODE_SETTING_ON.send(player, "%SETTING%;" + s.getTitle().toLowerCase());
                 } else {
                     builder.removeLoreLine(on);
                     builder.addLoreLine(off);
-                    Lang.STAFF_STAFFMODE_OFF.send(player, "%SETTING%;" + s.getTitle());
+                    Lang.STAFF_STAFFMODE_SETTING_OFF.send(player, "%SETTING%;" + s.getTitle().toLowerCase());
                 }
                 settingsPane.addItem(item, s.ordinal(), 0);
                 gui.update();
+                gui.show(player);
             });
             settingsPane.addItem(item, s.ordinal(), 0);
         }
 
         // Add panes
         gui.addPane(background);
-        gui.addPane(infoPane);
+        // gui.addPane(infoPane);
         gui.addPane(settingsPane);
 
         // Show GUI

@@ -63,6 +63,8 @@ public enum Lang {
 
     STAFF_STAFFMODE_ON(Lang.PIXLIES, new HashMap<>()),
     STAFF_STAFFMODE_OFF(Lang.PIXLIES, new HashMap<>()),
+    STAFF_STAFFMODE_SETTING_ON(Lang.PIXLIES, new HashMap<>()),
+    STAFF_STAFFMODE_SETTING_OFF(Lang.PIXLIES, new HashMap<>()),
     STAFF_STAFFMODE_ON_OTHER(Lang.PIXLIES, new HashMap<>()),
     STAFF_STAFFMODE_OFF_OTHER(Lang.PIXLIES, new HashMap<>()),
 
