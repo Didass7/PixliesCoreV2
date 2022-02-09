@@ -1,12 +1,10 @@
 package net.pixlies.nations.database;
 
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
+import dev.morphia.Datastore;
 import lombok.Getter;
 import net.pixlies.core.Main;
 import net.pixlies.nations.Nations;
 import net.pixlies.nations.config.Config;
-import org.bson.Document;
 
 @Getter
 public class MongoManager {
@@ -15,8 +13,13 @@ public class MongoManager {
     private static final Main pixlies = Main.getInstance();
 
     private final Config config = instance.getConfig();
-    private final MongoDatabase database = pixlies.getDatabase().getDatastore();
+    private Datastore datastore;
 
-    private final MongoCollection<Document> nationCollection = database.getCollection(config.getString("network.database", "nations"));
+    public void init() {
+        pixlies.getDatabase().getMorphia().mapPackage("net.pixlies.nations");
+
+        datastore = pixlies.getDatabase().getDatastore();
+        datastore.ensureIndexes();
+    }
 
 }

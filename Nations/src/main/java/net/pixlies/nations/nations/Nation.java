@@ -1,5 +1,7 @@
 package net.pixlies.nations.nations;
 
+import dev.morphia.annotations.Entity;
+import dev.morphia.annotations.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import net.pixlies.nations.Nations;
@@ -15,13 +17,15 @@ import java.util.UUID;
 
 @Data
 @AllArgsConstructor
+@Entity("nations")
 public class Nation {
 
     private static final Nations instance = Nations.getInstance();
     private static final NationManager nationManager = new NationManager();
 
     // INFO
-    private String id;
+    @Id
+    private String nationsId;
     private String name;
     private String description;
     private UUID leaderUUID;
@@ -57,43 +61,11 @@ public class Nation {
     }
 
     public void save() {
-        instance.getNationManager().getNations().put(id, this);
+        instance.getNationManager().getNations().put(nationsId, this);
     }
 
     public void backup() {
-        Document nation = new Document("id", id);
-        Document found = instance.getMongoManager().getNationCollection().find(nation).first();
-
-        // INFO
-        nation.append("name", name);
-        nation.append("description", description);
-        nation.append("leaderUUID", leaderUUID);
-        nation.append("created", created);
-
-        // DATA
-        nation.append("politicalPower", politicalPower);
-        nation.append("money", money);
-
-        // CUSTOMIZATION
-        nation.append("ideology", ideology.toString());
-        nation.append("govType", govType.toString());
-        nation.append("religion", religion.toString());
-        nation.append("constitutionValues", constitutionValues);
-
-        // STATES
-        nation.append("stateIds", stateIds);
-
-        // RANKS
-        nation.append("ranks", ranks);
-
-        // MEMBERS
-        nation.append("memberUUIDs", memberUUIDs);
-
-        if (found != null) {
-            instance.getMongoManager().getNationCollection().replaceOne(found, nation);
-        } else {
-            instance.getMongoManager().getNationCollection().insertOne(nation);
-        }
+        instance.getMongoManager().getDatastore().save(this);
 
     }
 

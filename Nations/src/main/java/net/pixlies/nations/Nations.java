@@ -42,6 +42,7 @@ public class Nations extends Module {
 
         // HANDLERS & MANAGERS
         mongoManager = new MongoManager();
+        mongoManager.init();
         handlerManager = new HandlerManager();
         nationManager = new NationManager();
 
