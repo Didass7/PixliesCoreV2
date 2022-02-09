@@ -1,8 +1,10 @@
 package net.pixlies.core.utils;
 
+import net.pixlies.core.localization.Lang;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 
 public class TextUtils {
 
@@ -18,6 +20,24 @@ public class TextUtils {
 
     public static String generateId(int length) {
         return RandomStringUtils.randomAlphanumeric(length);
+    }
+
+    /**
+     * Get the location in a format
+     * @author dynmie
+     */
+    public static String getLocationFormatted(Location location) {
+
+        String format = Lang.LOCATION_FORMAT.getRaw("ENG");
+
+        String xPos = String.valueOf(location.getX());
+        String yPos = String.valueOf(location.getY());
+        String zPos = String.valueOf(location.getZ());
+
+        return format.replace("%X%", xPos)
+                .replace("%Y%", yPos)
+                .replace("%Z%", zPos);
+
     }
 
 }
