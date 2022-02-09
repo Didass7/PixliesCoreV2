@@ -6,6 +6,7 @@ import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Description;
 import net.pixlies.core.localization.Lang;
+import net.pixlies.core.utils.CC;
 import org.bukkit.command.CommandSender;
 
 /**
@@ -19,7 +20,9 @@ public class BroadcastCommand extends BaseCommand {
     @CommandAlias("broadcast|bc")
     @Description("Broadcast a message")
     public void onBroadcast(CommandSender sender, String text) {
-        Lang.STAFF_BROADCAST_MESSAGE.broadcast(text);
+        // if player has perm below then allow color, else normal text
+        String message = sender.hasPermission("pixlies.staff.broadcast.color") ? CC.format(text) : text;
+        Lang.STAFF_BROADCAST_MESSAGE.broadcast("%MESSAGE%;" + message);
     }
 
 }
