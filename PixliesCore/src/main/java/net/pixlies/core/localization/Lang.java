@@ -184,7 +184,7 @@ public enum Lang {
     public static final String WAR = "§x§f§f§2§b§2§bW§x§e§b§2§1§2§1A§x§d§9§1§a§1§aR §8| ";
     public static final String PM = "§x§a§8§1§1§c§eP§x§a§4§0§8§a§4M §8| ";
     public static final String COMMAND = "§x§f§f§a§a§0§0C§x§d§4§8§d§0§0§M§x§a§9§6§f§0§0§D §8| ";
-    public static final String BROADCAST = "&x&f&f&5&5&5&5&lB&x&f&4&4&a&4&a&lR&x&e&a&4&0&4&0&lO&x&d&f&3&5&3&5&lA&x&d&5&2&b&2&b&lD&x&c&a&2&0&2&0&lC&x&b&f&1&5&1&5&lA&x&b&5&0&b&0&b&lS&x&a&a&0&0&0&0&lT §8| ";
+    public static final String BROADCAST = "§x§f§f§5§5§5§5§lB§x§f§4§4§a§4§a§lR§x§e§a§4§0§4§0§lO§x§d§f§3§5§3§5§lA§x§d§5§2§b§2§b§lD§x§c§a§2§0§2§0§lC§x§b§f§1§5§1§5§lA§x§b§5§0§b§0§b§lS§x§a§a§0§0§0§0§lT §8| ";
 
     Lang(String PREFIX, Map<String, String> languages) {
         this.PREFIX = PREFIX;
