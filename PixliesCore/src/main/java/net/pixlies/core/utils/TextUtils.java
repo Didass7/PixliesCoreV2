@@ -30,11 +30,13 @@ public class TextUtils {
 
         String format = Lang.LOCATION_FORMAT.getRaw("ENG");
 
+        String world = location.getWorld().getName();
         String xPos = String.valueOf(location.getX());
         String yPos = String.valueOf(location.getY());
         String zPos = String.valueOf(location.getZ());
 
-        return format.replace("%X%", xPos)
+        return format.replace("%WORLD%", world)
+                .replace("%X%", xPos)
                 .replace("%Y%", yPos)
                 .replace("%Z%", zPos);
 

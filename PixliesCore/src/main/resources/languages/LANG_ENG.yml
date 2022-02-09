@@ -36,7 +36,7 @@ CANNOT_EDIT_ITEM: "§7You cannot edit this item."
 PLAYER_TELEPORT_NO_PLAYERS: "§cThere is no one to teleport to."
 
 # PLACEHOLDERS: %X%, %Y%, %Z%
-LOCATION_FORMAT: "§dX: %X%, Y: %Y%, Z: %Z%"
+LOCATION_FORMAT: "§dWorld: %WORLD%, X: %X%, Y: %Y%, Z: %Z%"
 
 # TODO: Finish messages and translations
 # STAFF
