@@ -25,7 +25,7 @@ public class BreakCommand extends BaseCommand {
 
         Block block = player.getTargetBlock(5);
 
-        if (block == null) {
+        if (block == null || block.getType() == Material.AIR) {
             Lang.STAFF_BREAK_BLOCK_NOT_FOUND.send(player);
             return;
         }
