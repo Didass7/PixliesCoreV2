@@ -159,7 +159,6 @@ public class ScoreboardAdapter implements AssembleAdapter {
 
         List<String> lines = new ArrayList<>();
 
-        // switch (user.getScoreboardType()) {} TODO
         if (user.getSettings().isPassive()) {
 
             boolean isInStaffMode = user.getSettings().isInStaffMode();
