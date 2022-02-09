@@ -2,6 +2,7 @@ package net.pixlies.core.commands.player;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.Default;
 import net.pixlies.core.localization.Lang;
 import org.bukkit.entity.Player;
 
@@ -11,6 +12,7 @@ import org.bukkit.entity.Player;
  */
 public class AfkCommand extends BaseCommand {
 
+    @Default
     @CommandAlias("afk")
     public void onAfk(Player player) {
 
