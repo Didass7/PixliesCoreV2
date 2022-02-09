@@ -55,6 +55,7 @@ public class CommandManager {
         register(new GamemodeCommand(), false);
         register(new StaffModeSettingsCommand(), false);
         register(new SudoCommand(), false);
+        register(new BreakCommand(), false);
 
         // DEBUG
         register(new ModulesCommand(), false);
