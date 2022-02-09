@@ -31,10 +31,13 @@ public class NationCommand extends BaseCommand {
     public void onCreate(Player player, String name) {
         User user = User.get(player.getUniqueId());
 
+        /*
         if (user.inNation()) {
             Lang.ALREADY_IN_NATION.send(player);
             return;
         }
+
+        */
 
         /* TODO (checks)
              - if nation with name already exists
