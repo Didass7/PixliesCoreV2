@@ -58,8 +58,6 @@ public enum Lang {
     STAFF_GOD_ON(Lang.PIXLIES, new HashMap<>()),
     STAFF_GOD_OFF(Lang.PIXLIES, new HashMap<>()),
 
-    STAFF_WORLD_TELEPORT(Lang.PIXLIES, new HashMap<>()),
-
     STAFF_RANDOM_TELEPORT(Lang.PIXLIES, new HashMap<>()),
     STAFF_RANDOM_TELEPORT_OTHER(Lang.PIXLIES, new HashMap<>()),
 
