@@ -2,11 +2,10 @@ package net.pixlies.core.database;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
+import dev.morphia.Datastore;
+import dev.morphia.Morphia;
 import lombok.Getter;
 import net.pixlies.core.Main;
-import org.bson.Document;
 import org.bukkit.Bukkit;
 
 import java.util.logging.Level;
@@ -18,9 +17,9 @@ public class MongoManager {
     private static final Main instance = Main.getInstance();
 
     private MongoClient client;
-    private MongoDatabase database;
+    private Datastore datastore;
+    private Morphia morphia;
 
-    private MongoCollection<Document> userCollection;
     private final UserCache userCache = new UserCache();
 
     public MongoManager init() {
@@ -36,8 +35,10 @@ public class MongoManager {
         MongoClientURI clientURI = new MongoClientURI(uri);
         client = new MongoClient(clientURI);
 
-        database = client.getDatabase(instance.getConfig().getString("database.database", "admin"));
-        userCollection = database.getCollection(instance.getConfig().getString("database.users-collection", "users"));
+        morphia = new Morphia();
+        morphia.mapPackage("net.pixlies.core");
+
+        datastore = morphia.createDatastore(client, instance.getConfig().getString("database.database", "admin"));
 
         instance.getLogger().info("Connected to MongoDB database.");
         return this;

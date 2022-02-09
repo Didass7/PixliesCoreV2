@@ -1,6 +1,8 @@
 package net.pixlies.core.entity;
 
 import com.google.gson.Gson;
+import dev.morphia.annotations.Entity;
+import dev.morphia.annotations.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import net.pixlies.core.Main;
@@ -10,7 +12,6 @@ import net.pixlies.core.entity.data.UserSettings;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.moderation.Punishment;
 import net.pixlies.core.moderation.PunishmentType;
-import org.bson.Document;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -19,17 +20,18 @@ import org.bukkit.entity.Player;
 import org.ocpsoft.prettytime.PrettyTime;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
+@Entity("users")
 public class User {
 
     private static final Main instance = Main.getInstance();
 
     private static final Gson gson = new Gson();
 
-    private UUID uuid;
+    @Id
+    private String uuid;
     private long joined;
     private String discordId;
     private String nationId;
@@ -174,33 +176,19 @@ public class User {
 
      */
 
+    public UUID getUniqueId() {
+        return UUID.fromString(uuid);
+    }
+
     public static User get(UUID uuid) {
         return instance.getDatabase().getUserCache().getOrDefault(uuid, getFromDatabase(uuid));
     }
 
-    @SuppressWarnings("unchecked")
     public static User getFromDatabase(UUID uuid) {
-        Document profile = new Document("uniqueId", uuid.toString());
-        Document found = instance.getDatabase().getUserCollection().find(profile).first();
-        User data;
-        if (found == null) {
-            profile.append("joined", System.currentTimeMillis());
-            profile.append("discordId", "NONE");
-            profile.append("nationId", "NONE");
-            profile.append("nationRank", "NONE");
-            profile.append("wallets", Wallet.mapAllForMongo(Wallet.getDefaultWallets()));
-            profile.append("knownUsernames", new ArrayList<>());
-            profile.append("blockedUsers", new ArrayList<>());
-            profile.append("stats", new HashMap<>());
-            profile.append("currentPunishments", Punishment.mapAllForMongo(new HashMap<>()));
-            profile.append("personalization", UserPersonalization.getDefaults().mapForMongo());
-            profile.append("settings", UserSettings.getDefaults().mapForMongo());
-            profile.append("lang", "ENG");
-
-            instance.getDatabase().getUserCollection().insertOne(profile);
-
-            data = new User(
-                    uuid,
+        User profile = instance.getDatabase().getDatastore().createQuery(User.class).field("uniqueId").contains(uuid.toString()).find().tryNext();
+        if (profile == null) {
+            profile = new User(
+                    uuid.toString(),
                     System.currentTimeMillis(),
                     "NONE",
                     "NONE",
@@ -216,56 +204,19 @@ public class User {
                     "ENG"
             );
 
+            instance.getDatabase().getDatastore().save(profile);
+
             Bukkit.getConsoleSender().sendMessage(ChatColor.AQUA + "Profile for " + uuid + " created in Database.");
-        } else {
-            data = new User(
-                    UUID.fromString(found.getString("uniqueId")),
-                    found.getLong("joined"),
-                    found.getString("discordId"),
-                    found.getString("nationId"),
-                    found.getString("nationRank"),
-                    found.getString("nickName"),
-                    Wallet.getFromMongo((Map<String, Map<String, Object>>) found.get("wallets", Map.class)),
-                    found.getList("knownUsernames", String.class),
-                    found.getList("blockedUsers", String.class).stream().map(UUID::fromString).collect(Collectors.toList()),
-                    found.get("stats", Map.class),
-                    Punishment.getFromMongo((Map<String, Map<String, Object>>) found.get("currentPunishments", Map.class)),
-                    UserPersonalization.getFromMongo((Map<String, Object>) found.get("personalization", Map.class)).mapForMongo(),
-                    UserSettings.getFromMongo((Map<String, Object>) found.get("settings", Map.class)).mapForMongo(),
-                    found.getString("lang")
-            );
         }
-        return data;
+        return profile;
     }
 
     public void backup() {
-        Document profile = new Document("uniqueId", uuid);
-        Document found = instance.getDatabase().getUserCollection().find(profile).first();
-        profile.append("joined", joined);
-        profile.append("discordId", discordId);
-        profile.append("nationId", nationId);
-        profile.append("nationRank", nationRank);
-        profile.append("nickName", nickName);
-        profile.append("wallets", Wallet.mapAllForMongo(wallets));
-        profile.append("knownUsernames", knownUsernames);
-        profile.append("blockedUsers", blockedUsers.stream()
-                .map(UUID::toString)
-                .collect(Collectors.toList())
-        );
-        profile.append("stats", gson.toJson(stats));
-        profile.append("currentPunishments", Punishment.mapAllForMongo(currentPunishments));
-        profile.append("personalization", personalization);
-        profile.append("settings", settings);
-        profile.append("lang", lang);
-        if (found == null) {
-            instance.getDatabase().getUserCollection().insertOne(profile);
-        } else {
-            instance.getDatabase().getUserCollection().replaceOne(found, profile);
-        }
+        instance.getDatabase().getDatastore().save(this);
     }
 
     public void save() {
-        instance.getDatabase().getUserCache().put(uuid, this);
+        instance.getDatabase().getUserCache().put(getUniqueId(), this);
     }
     
 }
