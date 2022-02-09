@@ -128,6 +128,9 @@ public enum Lang {
     COSMETICS_NICKNAME_OTHER(Lang.PIXLIES, new HashMap<>()),
     COSMETICS_CANNOT_NICKNAME(Lang.PIXLIES, new HashMap<>()),
 
+    COSMETICS_HAT_CANNOT_SET(Lang.PIXLIES, new HashMap<>()),
+    COSMETICS_HAT_SET(Lang.PIXLIES, new HashMap<>()),
+
     // PLAYER
     PLAYER_MESSAGE_FORMAT_TO("", new HashMap<>()),
     PLAYER_MESSAGE_FORMAT_FROM("", new HashMap<>()),

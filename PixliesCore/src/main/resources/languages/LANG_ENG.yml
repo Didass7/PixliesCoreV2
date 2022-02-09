@@ -95,6 +95,9 @@ COSMETICS_NICKNAME: "§7You have changed your nickname to §6%MESSAGE%§7."
 COSMETICS_NICKNAME_OTHER: "§7You have changed §6%PLAYER%§7's nickname to §6%MESSAGE%§7."
 COSMETICS_CANNOT_NICKNAME: "§7You cannot set this as a nickname."
 
+COSMETICS_HAT_CANNOT_SET: "§7You cannot set this as a hat."
+COSMETICS_HAT_SET: "§7You now have a hat!"
+
 # PLAYER
 PLAYER_MESSAGE_FORMAT_TO: "§8(§7To §6%PLAYER%§8) §f%MESSAGE%"
 PLAYER_MESSAGE_FORMAT_FROM: "§8(§7From §6%PLAYER%§8) §f%MESSAGE%"

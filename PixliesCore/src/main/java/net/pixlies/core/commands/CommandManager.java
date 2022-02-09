@@ -75,6 +75,7 @@ public class CommandManager {
         register(new CartographyTableCommand(), true);
         register(new GrindStoneCommand(), true);
         register(new RenameCommand(), true);
+        register(new HatCommand(), true);
 
         // PLAYER
         register(new MessageCommand(), false);
