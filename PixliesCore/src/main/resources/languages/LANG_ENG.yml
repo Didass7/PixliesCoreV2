@@ -36,7 +36,7 @@ CANNOT_EDIT_ITEM: "§7You cannot edit this item."
 PLAYER_TELEPORT_NO_PLAYERS: "§cThere is no one to teleport to."
 
 # PLACEHOLDERS: %X%, %Y%, %Z%
-LOCATION_FORMAT: "§dWorld: %WORLD%, X: %X%, Y: %Y%, Z: %Z%"
+LOCATION_FORMAT: "§dW: %WORLD%, X: %X%, Y: %Y%, Z: %Z%"
 
 # TODO: Finish messages and translations
 # STAFF
@@ -45,8 +45,6 @@ STAFF_GOD_OFF: ""
 
 STAFF_RANDOM_TELEPORT: "§7You have been randomly teleported to §6%TARGET%§7."
 STAFF_RANDOM_TELEPORT_OTHER: "§6%PLAYER%§7 has been randomly teleported to §6%TARGET%§7."
-
-STAFF_WORLD_TELEPORT: "§7You have teleported to §d%WORLD%§7."
 
 STAFF_STAFFMODE_ON: "§7You have enabled staff mode."
 STAFF_STAFFMODE_OFF: "§7You have disabled staff mode."
