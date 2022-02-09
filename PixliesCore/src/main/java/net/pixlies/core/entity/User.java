@@ -32,6 +32,8 @@ public class User {
     private UUID uuid;
     private long joined;
     private String discordId;
+    private String nationId;
+    private String nationRank;
     private String nickName;
     private Map<String, Wallet> wallets;
     private List<String> knownUsernames;
@@ -153,6 +155,25 @@ public class User {
         return getAsOfflinePlayer().getName();
     }
 
+    /*
+
+    public boolean inNation() {
+        return !nationId.equalsIgnoreCase("NONE");
+    }
+
+    public void addToNation(String nationId, NationRank rank) {
+        if (!inNation()) {
+            this.nationId = nationId;
+            this.nationRank = rank.getName();
+            Nation nation = Nation.getFromId(nationId);
+            nation.getMemberUUIDs().add(uuid);
+            nation.save();
+            save();
+        }
+    }
+    
+     */
+
     public static User get(UUID uuid) {
         return instance.getDatabase().getUserCache().getOrDefault(uuid, getFromDatabase(uuid));
     }
@@ -165,6 +186,8 @@ public class User {
         if (found == null) {
             profile.append("joined", System.currentTimeMillis());
             profile.append("discordId", "NONE");
+            profile.append("nationId", "NONE");
+            profile.append("nationRank", "NONE");
             profile.append("wallets", Wallet.mapAllForMongo(Wallet.getDefaultWallets()));
             profile.append("knownUsernames", new ArrayList<>());
             profile.append("blockedUsers", new ArrayList<>());
@@ -179,6 +202,8 @@ public class User {
             data = new User(
                     uuid,
                     System.currentTimeMillis(),
+                    "NONE",
+                    "NONE",
                     "NONE",
                     "NONE",
                     Wallet.getDefaultWallets(),
@@ -197,6 +222,8 @@ public class User {
                     UUID.fromString(found.getString("uniqueId")),
                     found.getLong("joined"),
                     found.getString("discordId"),
+                    found.getString("nationId"),
+                    found.getString("nationRank"),
                     found.getString("nickName"),
                     Wallet.getFromMongo((Map<String, Map<String, Object>>) found.get("wallets", Map.class)),
                     found.getList("knownUsernames", String.class),
@@ -216,6 +243,8 @@ public class User {
         Document found = instance.getDatabase().getUserCollection().find(profile).first();
         profile.append("joined", joined);
         profile.append("discordId", discordId);
+        profile.append("nationId", nationId);
+        profile.append("nationRank", nationRank);
         profile.append("nickName", nickName);
         profile.append("wallets", Wallet.mapAllForMongo(wallets));
         profile.append("knownUsernames", knownUsernames);

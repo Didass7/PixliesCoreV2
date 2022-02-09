@@ -31,8 +31,12 @@ public class NationCommand extends BaseCommand {
     public void onCreate(Player player, String name) {
         User user = User.get(player.getUniqueId());
 
+        if (user.inNation()) {
+            Lang.ALREADY_IN_NATION.send(player);
+            return;
+        }
+
         /* TODO (checks)
-             - if profile is in nation
              - if nation with name already exists
              - if nation name is invalid
          */
@@ -45,7 +49,7 @@ public class NationCommand extends BaseCommand {
             ncValues.add(nc.getDefaultValue());
         }
 
-        Nation nation = new Nation(id, name, "No description yet", player.getUniqueId().toString(), System.currentTimeMillis(), 0.0, 0.0, GovernmentType.UNITARY, Ideology.TRIBAL, Religion.SECULAR, ncValues, new ArrayList<>(), new HashMap<>(), new ArrayList<>());
+        Nation nation = new Nation(id, name, "No description yet", player.getUniqueId(), System.currentTimeMillis(), 0.0, 0.0, GovernmentType.UNITARY, Ideology.TRIBAL, Religion.SECULAR, ncValues, new ArrayList<>(), new HashMap<>(), new ArrayList<>());
         nation.create();
         Lang.NATION_FORMED.broadcast("%NATION%;" + nation.getName(), "%PLAYER%;" + player.getName());
 

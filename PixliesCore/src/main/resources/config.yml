@@ -3,6 +3,7 @@ database:
     uri: "mongodb://uxh5futzi56lapqpnupd:fQKxI8M4t32HxPiO2084@bvt9uk8itwhrlwe-mongodb.services.clever-cloud.com:27017/bvt9uk8itwhrlwe"
     database: "bvt9uk8itwhrlwe"
     users-collection: "users"
+    nations-collection: "nation"
 
 moderation:
     defaultReason: "No reason given."
@@ -13,7 +14,7 @@ joinQuit:
 
 swearWords: ["funniwordsgohere"]
 
-blockedWords: []
+blockedWords: ["blockedword1"]
 
 links:
     rules: "https://pixlies.net/rules"

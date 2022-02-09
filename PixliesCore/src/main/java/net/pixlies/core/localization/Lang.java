@@ -152,7 +152,8 @@ public enum Lang {
     LOBBY_BUILDMODE_TOGGLE(Lang.PIXLIES, new HashMap<>()),
 
     // NATIONS
-    NATION_FORMED(Lang.PIXLIES, new HashMap<>()),
+    NATION_FORMED(Lang.NATION, new HashMap<>()),
+    ALREADY_IN_NATION(Lang.NATION, new HashMap<>()),
 
     // OTHER
     MUST_BE_A_PLAYER(Lang.PIXLIES, new HashMap<>()),

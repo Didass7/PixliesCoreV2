@@ -11,18 +11,20 @@ import org.bson.Document;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 public class Nation {
 
     private static final Nations instance = Nations.getInstance();
+    private static final NationManager nationManager = new NationManager();
 
     // INFO
     private String id;
     private String name;
     private String description;
-    private String leaderUUID;
+    private UUID leaderUUID;
     private long created;
 
     // DATA
@@ -95,12 +97,8 @@ public class Nation {
 
     }
 
-    private void addMember(String uuid) {
-        memberUUIDs.add(uuid);
-    }
-
-    private void removeMember(String uuid) {
-        memberUUIDs.remove(uuid);
+    public static Nation getFromId(String id) {
+        return nationManager.getNations().get(id);
     }
 
     private void editConstitution(byte law, int option) {
