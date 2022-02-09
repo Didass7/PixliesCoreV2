@@ -77,6 +77,7 @@ public class CommandManager {
         register(new GrindStoneCommand(), true);
         register(new RenameCommand(), true);
         register(new HatCommand(), true);
+        register(new LoomCommand(), true);
 
         // PLAYER
         register(new MessageCommand(), false);
