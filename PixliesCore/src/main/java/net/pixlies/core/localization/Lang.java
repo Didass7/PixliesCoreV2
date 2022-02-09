@@ -78,6 +78,9 @@ public enum Lang {
 
     STAFF_BROADCAST_MESSAGE(Lang.BROADCAST, new HashMap<>()),
 
+    STAFF_TELEPORT_SELF_TO_TARGET(Lang.PIXLIES, new HashMap<>()),
+    STAFF_TELEPORT_PLAYER_TO_TARGET(Lang.PIXLIES, new HashMap<>()),
+
     TPHERE_MESSAGE_SENDER(Lang.PIXLIES, new HashMap<>()),
     TPHERE_MESSAGE_TARGET(Lang.PIXLIES, new HashMap<>()),
     TPASK_MESSAGE_SENDER(Lang.PIXLIES, new HashMap<>()),

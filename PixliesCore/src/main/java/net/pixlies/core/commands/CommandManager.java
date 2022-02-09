@@ -58,6 +58,7 @@ public class CommandManager {
         register(new BreakCommand(), false);
         register(new ExtinguishCommand(), false);
         register(new BroadcastCommand(), false);
+        register(new TpCommand(), false);
 
         // DEBUG
         register(new ModulesCommand(), false);
