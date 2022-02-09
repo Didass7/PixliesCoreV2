@@ -19,7 +19,6 @@ public final class PlayerUtils {
 
     @Nullable
     public static Player getRandomPlayer(@NotNull Player player) {
-
         List<Player> players = new ArrayList<>(instance.getServer().getOnlinePlayers());
 
         players.remove(player);

@@ -22,6 +22,14 @@ import org.bukkit.inventory.ItemStack;
 @CommandPermission("pixlies.staff.staffsettings")
 public class StaffModeSettingsCommand extends BaseCommand {
 
+    /*
+
+    TODO
+    - lang messages
+    - toggles???
+
+     */
+
     @Default
     @Description("Toggle staffmode settings")
     public static void openStaffModeSettings(Player player) {
@@ -105,7 +113,7 @@ public class StaffModeSettingsCommand extends BaseCommand {
         SOCIALSPY("§6Social spy", new String[]{"§7Spy on other players' private messages"}, Material.PAPER, true),
         BANSPY("§cBan spy", new String[]{"§7Receive messages when banned", "§7players try to join"}, Material.BARRIER, true),
         MUTESPY("§cMute spy", new String[]{"§7Receive messages when muted", "§7players try to talk"}, Material.NAME_TAG, true),
-        BYPASSCLEARCHAT("§3Bypass clearchat", new String[]{"Bypass the chat getting cleared"}, Material.FILLED_MAP, false);
+        BYPASSCLEARCHAT("§3Bypass clearchat", new String[]{"§7Bypass the chat getting cleared"}, Material.MAP, false);
 
         @Getter private final String title;
         @Getter private final String[] description;

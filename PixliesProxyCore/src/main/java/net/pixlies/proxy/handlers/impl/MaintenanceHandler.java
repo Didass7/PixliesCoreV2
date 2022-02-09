@@ -57,7 +57,6 @@ public class MaintenanceHandler {
         return whitelisted.contains(uuid);
     }
 
-
     public boolean isEnabled() {
         return settings.getConfig().getBoolean("maintenance.enabled", false);
     }
