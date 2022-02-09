@@ -81,7 +81,7 @@ public class CommandManager {
         // PLAYER
         register(new MessageCommand(), false);
         register(new ReplyCommand(), false);
-        register(new RandomTeleportCommand(), false);
+        register(new TprCommand(), false);
         register(new ClearCommand(), false);
         register(new EchoCommand(), false);
         register(new DiscordCommand(), false);
