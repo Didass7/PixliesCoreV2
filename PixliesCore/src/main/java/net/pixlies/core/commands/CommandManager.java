@@ -57,6 +57,7 @@ public class CommandManager {
         register(new SudoCommand(), false);
         register(new BreakCommand(), false);
         register(new ExtinguishCommand(), false);
+        register(new BroadcastCommand(), false);
 
         // DEBUG
         register(new ModulesCommand(), false);
