@@ -42,17 +42,9 @@ public class User {
     private List<UUID> blockedUsers;
     private Map<String, Object> stats;
     private Map<String, Punishment> currentPunishments;
-    private Map<String, Object> personalization;
-    private Map<String, Object> settings;
+    private UserPersonalization personalization;
+    private UserSettings settings;
     private String lang;
-
-    public UserPersonalization getPersonalization() {
-        return new UserPersonalization(personalization);
-    }
-
-    public UserSettings getSettings() {
-        return new UserSettings(settings);
-    }
 
     public OfflinePlayer getAsOfflinePlayer() {
         return Bukkit.getOfflinePlayer(uuid);
@@ -199,8 +191,8 @@ public class User {
                     new ArrayList<>(),
                     new HashMap<>(),
                     new HashMap<>(),
-                    UserPersonalization.getDefaults().mapForMongo(),
-                    UserSettings.getDefaults().mapForMongo(),
+                    UserPersonalization.getDefaults(),
+                    UserSettings.getDefaults(),
                     "ENG"
             );
 
