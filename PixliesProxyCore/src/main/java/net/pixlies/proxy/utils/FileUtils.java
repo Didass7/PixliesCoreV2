@@ -28,6 +28,7 @@ public final class FileUtils {
         }
 
         try (InputStream stream = instance.getResourceAsStream(path)) {
+            if (stream == null) return;
             Files.copy(stream, file.toPath());
         } catch (IOException e) {
             e.printStackTrace();
