@@ -7,6 +7,11 @@ package net.pixlies.core.commands.cosmetics;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.Poll;
 import net.pixlies.core.handlers.impl.PollHandler;
@@ -35,7 +40,7 @@ public class PollCommand extends BaseCommand {
     }
 
     @Subcommand("list")
-    @Description("Lists all the active poll ids.")
+    @Description("Lists all the active poll ids")
     public void onPollList(CommandSender sender) {
         List<Poll> polls = pollHandler.getPolls().values().stream().toList();
         sender.sendMessage(Lang.POLL);
@@ -62,14 +67,42 @@ public class PollCommand extends BaseCommand {
 
     @Subcommand("view")
     @Description("View an active poll")
-    public void onPollView(Player player) {
+    public void onPollView(Player player, String id) {
+        // Checks if the poll id is valid
+        if (!pollHandler.getPolls().containsKey(id)) {
+            Lang.POLL_DOES_NOT_EXIST.send(player);
+            return;
+        }
 
+        List<Integer> answers = pollHandler.getPolls().get(id).getPollVotes().keySet().stream().toList();
+
+        Lang.POLL_VIEW_INFO.send(player, "%ID%;" + id);
+        for (int i : pollHandler.getPolls().get(id).getPollVotes().keySet()) {
+            TextComponent component = Component.text(i + ". ", NamedTextColor.GOLD)
+                    .append(Component.text(answers.indexOf(i), NamedTextColor.GRAY)
+                            .hoverEvent(HoverEvent.showText(Component.text("Click here to vote for this option!", NamedTextColor.GOLD)))
+                            .clickEvent(ClickEvent.suggestCommand("poll vote " + id + " " + (i + 1))));
+            player.sendMessage(component);
+        }
     }
 
     @Subcommand("vote")
     @Description("Cast a vote on an active poll")
-    public void onPollVote(Player player) {
+    public void onPollVote(Player player, String id, int option) {
+        // Checks if the poll id is valid
+        if (!pollHandler.getPolls().containsKey(id)) {
+            Lang.POLL_DOES_NOT_EXIST.send(player);
+            return;
+        }
 
+        // Checks if the option is valid
+        if (!pollHandler.getPolls().get(id).getPollVotes().containsKey(option)) {
+            Lang.POLL_OPTION_DOES_NOT_EXIST.send(player);
+            return;
+        }
+        
+        pollHandler.getPolls().get(id).registerVote(player.getUniqueId(), option);
+        Lang.REGISTERED_VOTE.send(player, "%OPTION%;" + option);
     }
 
     @Subcommand("results")

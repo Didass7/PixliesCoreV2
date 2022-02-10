@@ -147,6 +147,11 @@ public enum Lang {
     HOW_TO_END_POLL_CREATION(Lang.POLL, new HashMap<>()),
     POLL_CREATED(Lang.POLL, new HashMap<>()),
 
+    POLL_DOES_NOT_EXIST(Lang.POLL, new HashMap<>()),
+    POLL_VIEW_INFO(Lang.POLL, new HashMap<>()),
+    POLL_OPTION_DOES_NOT_EXIST(Lang.POLL, new HashMap<>()),
+    REGISTERED_VOTE(Lang.POLL, new HashMap<>()),
+
     // PLAYER
     PLAYER_MESSAGE_FORMAT_TO("", new HashMap<>()),
     PLAYER_MESSAGE_FORMAT_FROM("", new HashMap<>()),

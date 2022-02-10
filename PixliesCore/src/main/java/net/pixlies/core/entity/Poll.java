@@ -66,14 +66,10 @@ public class Poll {
         pollInfo.add(answer);
     }
 
-    public void removeVote(UUID voter, int option) {
+    public void registerVote(UUID voter, int option) {
         if (voterInfo.containsKey(voter)) {
             pollVotes.put(option - 1, pollVotes.get(option - 1) - 1);
-            voterInfo.put(voter, 0);
         }
-    }
-
-    public void registerVote(UUID voter, int option) {
         pollVotes.put(option - 1, pollVotes.get(option - 1) + 1);
         voterInfo.put(voter, option);
     }
@@ -84,7 +80,7 @@ public class Poll {
         TextComponent component = Component.text("  " + Lang.POLL)
                 .append(Component.text("Poll started! View with ", NamedTextColor.GRAY))
                 .append(Component.text("/poll view " + id, NamedTextColor.GREEN)
-                        .hoverEvent(HoverEvent.showText(Component.text("Click here to view the poll!", NamedTextColor.GRAY)))
+                        .hoverEvent(HoverEvent.showText(Component.text("Click here to view the poll!", NamedTextColor.GOLD)))
                         .clickEvent(ClickEvent.suggestCommand("poll view " + id)))
                 .append(Component.text(".", NamedTextColor.GRAY));
 
@@ -106,7 +102,7 @@ public class Poll {
         TextComponent component = Component.text("  " + Lang.POLL)
                 .append(Component.text("Poll ended! View results with ", NamedTextColor.GRAY))
                 .append(Component.text("/poll results " + id, NamedTextColor.RED)
-                        .hoverEvent(HoverEvent.showText(Component.text("Click here to view the ended poll!", NamedTextColor.GRAY)))
+                        .hoverEvent(HoverEvent.showText(Component.text("Click here to view the ended poll!", NamedTextColor.GOLD)))
                         .clickEvent(ClickEvent.suggestCommand("poll results " + id)))
                 .append(Component.text(".", NamedTextColor.GRAY));
 
