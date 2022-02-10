@@ -23,7 +23,7 @@ public class SlowModeListener implements Listener {
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
 
-        if (!chatHandler.isPlayerCooldown(uuid)) return;
+        if (!chatHandler.isPlayerOnCooldown(uuid)) return;
         Lang.SLOWMODE_MESSAGE.send(player);
         event.setCancelled(true);
 
