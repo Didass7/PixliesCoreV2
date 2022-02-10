@@ -11,8 +11,11 @@ import net.pixlies.core.Main;
 import net.pixlies.core.entity.Poll;
 import net.pixlies.core.handlers.impl.PollHandler;
 import net.pixlies.core.localization.Lang;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.List;
 
 @CommandAlias("poll|polls")
 @CommandPermission("pixlies.cosmetics.poll")
@@ -31,9 +34,28 @@ public class PollCommand extends BaseCommand {
         Lang.HOW_TO_CANCEL_POLL.send(player);
     }
 
+    @Subcommand("list")
+    @Description("Lists all the active poll ids.")
+    public void onPollList(CommandSender sender) {
+        List<Poll> polls = pollHandler.getPolls().values().stream().toList();
+        sender.sendMessage(Lang.POLL);
+        for (Poll poll : pollHandler.getPolls().values()) {
+            String status;
+            if (poll.getStage() == 2) {
+                status = "§cENDED§7)";
+            } else {
+                status = "§aACTIVE§7)";
+            }
+
+            String creator = Bukkit.getOfflinePlayer(poll.getPollCreator()).getName();
+            sender.sendMessage("  §7" + polls.indexOf(poll) + ". §d" + poll.getId() + "§7: §f" + poll.getPollInfo().get(0) +
+                    " §7(by §6" + creator + "§7, " + status);
+        }
+    }
+
     @Subcommand("end")
     @Description("End an active poll")
-    public void onPollEnd(Player player) {
+    public void onPollEnd(CommandSender sender, String id) {
 
     }
 
