@@ -141,7 +141,10 @@ public enum Lang {
 
     CREATING_POLL(Lang.POLL, new HashMap<>()),
     ENTER_POLL_OPTION(Lang.POLL, new HashMap<>()),
+    HOW_TO_CANCEL_POLL(Lang.POLL, new HashMap<>()),
+    POLL_CANCELLED(Lang.POLL, new HashMap<>()),
     ADDED_POLL_OPTION(Lang.POLL, new HashMap<>()),
+    HOW_TO_END_POLL_CREATION(Lang.POLL, new HashMap<>()),
     POLL_CREATED(Lang.POLL, new HashMap<>()),
 
     // PLAYER

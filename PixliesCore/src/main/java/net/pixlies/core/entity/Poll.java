@@ -20,19 +20,19 @@ public class Poll {
      * Stores the poll question and its possible answers.
      * Index 0 is the question, and the rest are the answers.
      */
-    private final List<String> pollInfo;
+    @Getter private final List<String> pollInfo;
 
     /**
      * Stores the votes of the poll.
      * First identifier is the index of the answer in pollInfo, minus 1.
      * Second identifier is the amount of votes the poll has.
      */
-    private final Map<Integer, Integer> pollVotes;
+    @Getter private final Map<Integer, Integer> pollVotes;
 
     /**
      * Stores which UUIDs voted for which option.
      */
-    private final Map<UUID, Integer> voterInfo;
+    @Getter private final Map<UUID, Integer> voterInfo;
 
     /**
      * Stores the stage of the poll.
@@ -72,6 +72,8 @@ public class Poll {
 
     public void makePublic() {
         stage = 1;
+
+        // TODO broadcast message
     }
 
     public void end() {
@@ -83,6 +85,8 @@ public class Poll {
         }
 
         stage = 2;
+
+        // TODO broadcast message
     }
 
 }
