@@ -17,8 +17,13 @@ public class CommandManager {
     private final BungeeCommandManager manager = new BungeeCommandManager(instance);
 
     private final ImmutableList<BaseCommand> commands = ImmutableList.of(
-            new MaintenanceCommand(),
-            new LobbyCommand()
+
+            // PLAYER
+            new LobbyCommand(),
+
+            // STAFF
+            new MaintenanceCommand()
+
     );
 
     public void registerCommands() {

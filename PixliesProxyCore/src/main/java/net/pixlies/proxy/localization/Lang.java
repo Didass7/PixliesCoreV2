@@ -152,7 +152,7 @@ public enum Lang {
     public static void init() {
 
         int loaded = 0;
-        File folder = new File(instance.getDataFolder() + "/languages");
+        File folder = new File(instance.getDataFolder().getAbsolutePath() + "/languages");
         if (!folder.exists()) folder.mkdirs();
 
         File[] files = folder.listFiles();

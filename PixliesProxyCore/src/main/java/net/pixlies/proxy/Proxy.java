@@ -21,7 +21,7 @@ public class Proxy extends Plugin {
         instance = this;
 
         // LANGUAGE
-        FileUtils.saveResource("/languages/LANG_ENG.yml", false);
+        FileUtils.saveResource("languages/LANG_ENG.yml", false);
         Lang.init();
 
         // COMMANDS
