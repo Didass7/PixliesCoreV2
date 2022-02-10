@@ -66,15 +66,15 @@ public class PollCommand extends BaseCommand {
 
     }
 
-    @Subcommand("results")
-    @Description("View the results of the previous poll")
-    public void onPollResults(Player player) {
-
-    }
-
     @Subcommand("vote")
     @Description("Cast a vote on an active poll")
     public void onPollVote(Player player) {
+
+    }
+
+    @Subcommand("results")
+    @Description("View the results of a previous poll")
+    public void onPollResults(Player player) {
 
     }
 

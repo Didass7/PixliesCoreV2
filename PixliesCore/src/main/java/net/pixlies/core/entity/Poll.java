@@ -5,7 +5,15 @@
 package net.pixlies.core.entity;
 
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.pixlies.core.localization.Lang;
 import net.pixlies.core.utils.TextUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.util.*;
 
@@ -73,7 +81,16 @@ public class Poll {
     public void makePublic() {
         stage = 1;
 
-        // TODO broadcast message
+        TextComponent component = Component.text("  " + Lang.POLL)
+                .append(Component.text("Poll started! View with ", NamedTextColor.GRAY))
+                .append(Component.text("/poll view " + id, NamedTextColor.GREEN)
+                        .hoverEvent(HoverEvent.showText(Component.text("Click here to view the poll!", NamedTextColor.GRAY)))
+                        .clickEvent(ClickEvent.suggestCommand("poll view " + id)))
+                .append(Component.text(".", NamedTextColor.GRAY));
+
+        for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+            p.sendMessage(component);
+        }
     }
 
     public void end() {
@@ -86,7 +103,16 @@ public class Poll {
 
         stage = 2;
 
-        // TODO broadcast message
+        TextComponent component = Component.text("  " + Lang.POLL)
+                .append(Component.text("Poll ended! View results with ", NamedTextColor.GRAY))
+                .append(Component.text("/poll results " + id, NamedTextColor.RED)
+                        .hoverEvent(HoverEvent.showText(Component.text("Click here to view the ended poll!", NamedTextColor.GRAY)))
+                        .clickEvent(ClickEvent.suggestCommand("poll results " + id)))
+                .append(Component.text(".", NamedTextColor.GRAY));
+
+        for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+            p.sendMessage(component);
+        }
     }
 
 }
