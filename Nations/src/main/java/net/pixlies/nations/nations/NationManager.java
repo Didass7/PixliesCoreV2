@@ -18,10 +18,9 @@ public class NationManager {
 
         Gson gson = new Gson();
 
-        for (Document d : instance.getMongoManager().getNationCollection().find()) {
-            Nation nation = gson.fromJson(d.toJson(), Nation.class);
-            if (nation.getId() != null) {
-                nations.put(nation.getId(), nation);
+        for (Nation nation : instance.getMongoManager().getDatastore().createQuery(Nation.class).find().toList()) {
+            if (nation.getNationsId() != null) {
+                nations.put(nation.getNationsId(), nation);
             }
         }
 

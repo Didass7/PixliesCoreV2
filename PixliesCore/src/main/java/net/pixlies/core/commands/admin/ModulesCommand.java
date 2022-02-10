@@ -52,7 +52,7 @@ public class ModulesCommand extends BaseCommand {
         } else {
             StringJoiner modulesJoiner = new StringJoiner("§8, ");
             for (Map.Entry<Module, ModuleDescription> entry : modules.entrySet()) {
-                ChatColor cc = entry.getValue().isActivated() ? ChatColor.GREEN : ChatColor.RED;
+                ChatColor cc = entry.getValue().isActivated() ? ChatColor.RED : ChatColor.GREEN;
                 modulesJoiner.add(cc + entry.getValue().getName());
             }
             sender.sendMessage("§7Modules [§b" + modules.size() + "§7]: " + modulesJoiner);

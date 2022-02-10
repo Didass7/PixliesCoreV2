@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Data
-@AllArgsConstructor
 public class UserPersonalization {
 
     private static final String SOCIAL_SPY_ENABLED = "socialSpyEnabled";
@@ -23,7 +22,7 @@ public class UserPersonalization {
     private boolean commandSpyEnabled;
     private boolean viewMutedChat;
     private boolean joinVanish;
-    private String scoreboardType;
+    private ScoreboardType scoreboardType;
 
     public boolean canViewMutedChat() {
         // lombok wasn't being fun
@@ -35,11 +34,15 @@ public class UserPersonalization {
         this.commandSpyEnabled = (boolean) map.get(COMMAND_SPY_ENABLED);
         this.viewMutedChat = (boolean) map.get(VIEW_MUTED_CHAT);
         this.joinVanish = (boolean) map.get(JOIN_VANISH);
-        this.scoreboardType = (String) map.get(SCOREBOARD_TYPE);
+        this.scoreboardType = ScoreboardType.valueOf((String) map.get(SCOREBOARD_TYPE));
     }
 
-    public ScoreboardType getScoreboardType() {
-        return ScoreboardType.valueOf(scoreboardType);
+    public UserPersonalization(boolean socialSpyEnabled, boolean commandSpyEnabled, boolean viewMutedChat, boolean joinVanish, String scoreboardType) {
+        this.socialSpyEnabled = socialSpyEnabled;
+        this.commandSpyEnabled = commandSpyEnabled;
+        this.viewMutedChat = viewMutedChat;
+        this.joinVanish = joinVanish;
+        this.scoreboardType = ScoreboardType.valueOf(scoreboardType);
     }
 
     public static UserPersonalization getFromMongo(Map<String, Object> map) {

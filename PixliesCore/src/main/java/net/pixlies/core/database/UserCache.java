@@ -58,7 +58,7 @@ public class UserCache {
 
     public void forEach(BiConsumer<UUID, User> consumer) {
         for (User user : values()) {
-            consumer.accept(user.getUuid(), user);
+            consumer.accept(user.getUniqueId(), user);
         }
     }
 
