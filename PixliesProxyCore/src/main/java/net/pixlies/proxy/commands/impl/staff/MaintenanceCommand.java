@@ -1,4 +1,4 @@
-package net.pixlies.proxy.commands.impl;
+package net.pixlies.proxy.commands.impl.staff;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
@@ -7,6 +7,10 @@ import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Subcommand;
 import net.md_5.bungee.api.CommandSender;
 
+/**
+ * Edit maintenance mode settings.
+ * @author Dynmie
+ */
 @CommandAlias("maintenance")
 @CommandPermission("pixlies.maintenance")
 public class MaintenanceCommand extends BaseCommand {

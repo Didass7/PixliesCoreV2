@@ -20,7 +20,11 @@ import java.util.Map;
  */
 public enum Lang {
 
-    TEST("", new HashMap<>()); // TODO
+    // PLAYER
+    PLAYER_SERVER_CONNECTED(Lang.PIXLIES);
+
+    // STAFF
+    // TODO
 
     private static final Proxy instance = Proxy.getInstance();
 
@@ -29,9 +33,9 @@ public enum Lang {
 
     public static final String PIXLIES = "§x§4§e§d§e§d§b§lP§x§4§8§c§b§c§8§lI§x§4§2§b§7§b§5§lX§x§3§c§a§4§a§2§lL§x§3§5§9§0§8§f§lI§x§2§f§7§d§7§c§lE§x§2§9§6§9§6§9§lS §8| ";
 
-    Lang(String PREFIX, Map<String, String> languages) {
-        this.PREFIX = PREFIX;
-        this.languages = languages;
+    Lang(String prefix) {
+        this.PREFIX = prefix;
+        this.languages = new HashMap<>();
     }
 
     public String get(CommandSender sender) { // TODO: User specified localization.

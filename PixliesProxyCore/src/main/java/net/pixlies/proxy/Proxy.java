@@ -5,6 +5,7 @@ import net.md_5.bungee.api.plugin.Plugin;
 import net.pixlies.proxy.commands.CommandManager;
 import net.pixlies.proxy.listeners.ListenerManager;
 import net.pixlies.proxy.localization.Lang;
+import net.pixlies.proxy.utils.FileUtils;
 
 public class Proxy extends Plugin {
 
@@ -20,6 +21,7 @@ public class Proxy extends Plugin {
         instance = this;
 
         // LANGUAGE
+        FileUtils.saveResource("/languages/LANG_ENG.yml", false);
         Lang.init();
 
         // COMMANDS
