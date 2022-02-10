@@ -2,15 +2,14 @@ package net.pixlies.core.commands.cosmetics;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;
-import co.aikar.commands.annotation.Default;
-import co.aikar.commands.annotation.Description;
-import co.aikar.commands.annotation.HelpCommand;
-import co.aikar.commands.annotation.Subcommand;
+import co.aikar.commands.annotation.*;
 import net.pixlies.core.entity.Poll;
 import net.pixlies.core.localization.Lang;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+@CommandAlias("poll|polls")
+@CommandPermission("pixlies.cosmetics.poll")
 public class PollCommand extends BaseCommand {
 
     @Subcommand("create")
