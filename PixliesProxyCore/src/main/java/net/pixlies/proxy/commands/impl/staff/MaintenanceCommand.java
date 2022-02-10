@@ -1,10 +1,8 @@
 package net.pixlies.proxy.commands.impl.staff;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.CommandCompletion;
-import co.aikar.commands.annotation.CommandPermission;
-import co.aikar.commands.annotation.Subcommand;
+import co.aikar.commands.CommandHelp;
+import co.aikar.commands.annotation.*;
 import net.md_5.bungee.api.CommandSender;
 
 /**
@@ -43,6 +41,12 @@ public class MaintenanceCommand extends BaseCommand {
     @CommandCompletion("@players")
     public void onDisable(CommandSender sender) {
         // TODO
+    }
+
+    @Default
+    @HelpCommand
+    public void onHelp(CommandHelp help) {
+        help.showHelp();
     }
 
 }

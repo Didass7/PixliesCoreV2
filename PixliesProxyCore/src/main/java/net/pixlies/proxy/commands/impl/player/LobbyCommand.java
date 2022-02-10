@@ -1,6 +1,7 @@
 package net.pixlies.proxy.commands.impl.player;
 
 import co.aikar.commands.BaseCommand;
+import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.config.ServerInfo;
@@ -30,7 +31,6 @@ public class LobbyCommand extends BaseCommand {
         Lang.PLAYER_SERVER_CONNECTED.send(player, "%SERVER%;" + serverInfo.getName());
     }
 
-    @Private
     @CommandCompletion("@players")
     @CommandPermission("pixlies.lobby.others")
     public void onLobby(CommandSender sender, ProxiedPlayer player) {
@@ -41,6 +41,12 @@ public class LobbyCommand extends BaseCommand {
         }
         player.connect(serverInfo);
         Lang.PLAYER_SERVER_CONNECTED.send(player, "%SERVER%;" + serverInfo.getName());
+    }
+
+    @Default
+    @HelpCommand
+    public void onHelp(CommandHelp help) {
+        help.showHelp();
     }
 
 }
