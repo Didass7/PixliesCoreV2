@@ -4,6 +4,7 @@ import lombok.Getter;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.pixlies.proxy.commands.CommandManager;
 import net.pixlies.proxy.listeners.ListenerManager;
+import net.pixlies.proxy.localization.Lang;
 
 public class Proxy extends Plugin {
 
@@ -17,6 +18,9 @@ public class Proxy extends Plugin {
 
         // INSTANCE
         instance = this;
+
+        // LANGUAGE
+        Lang.init();
 
         // COMMANDS
         commandManager = new CommandManager();
