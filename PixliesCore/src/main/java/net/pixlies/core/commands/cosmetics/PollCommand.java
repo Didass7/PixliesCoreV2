@@ -56,7 +56,8 @@ public class PollCommand extends BaseCommand {
     @Subcommand("end")
     @Description("End an active poll")
     public void onPollEnd(CommandSender sender, String id) {
-
+        Poll poll = pollHandler.getPolls().get(id);
+        poll.end();
     }
 
     @Subcommand("view")
