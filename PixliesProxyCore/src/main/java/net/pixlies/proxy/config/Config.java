@@ -66,6 +66,9 @@ public class Config {
         }
 
         try (InputStream input = instance.getResourceAsStream(localDefaults)) {
+            if (input == null) {
+                return;
+            }
             Files.copy(input, file.toPath());
         } catch (IOException e) {
             e.printStackTrace();
