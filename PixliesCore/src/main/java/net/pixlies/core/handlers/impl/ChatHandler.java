@@ -32,7 +32,7 @@ public class ChatHandler implements Handler {
         }
     }
 
-    public boolean isPlayerCooldown(UUID uuid) {
+    public boolean isPlayerOnCooldown(UUID uuid) {
         long now = System.currentTimeMillis();
         long lastSent = getPlayerCooldown(uuid);
         long until = now - lastSent;

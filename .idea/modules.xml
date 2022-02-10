@@ -12,6 +12,7 @@
       <module fileurl="file://$PROJECT_DIR$/PixliesProxyCore/PixliesProxyCore.iml" filepath="$PROJECT_DIR$/PixliesProxyCore/PixliesProxyCore.iml" />
       <module fileurl="file://$PROJECT_DIR$/ProtoBusiness/ProtoBusiness.iml" filepath="$PROJECT_DIR$/ProtoBusiness/ProtoBusiness.iml" />
       <module fileurl="file://$PROJECT_DIR$/PixliesCore/core.iml" filepath="$PROJECT_DIR$/PixliesCore/core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/version-two.iml" filepath="$PROJECT_DIR$/version-two.iml" />
     </modules>
   </component>
 </project>
