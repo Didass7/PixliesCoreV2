@@ -23,7 +23,7 @@ public class LobbyCommand extends BaseCommand {
     public void onLobby(ProxiedPlayer player) {
         ServerInfo serverInfo = instance.getProxy().getServerInfo(config.getConfig().getString("commands.lobby.server", "Lobby"));
         player.connect(serverInfo);
-        Lang.PLAYER_SERVER_CONNECTED.send(player);
+        Lang.PLAYER_SERVER_CONNECTED.send(player, "%SERVER%;" + serverInfo.getName());
     }
 
     @Private
@@ -32,7 +32,7 @@ public class LobbyCommand extends BaseCommand {
     public void onLobby(CommandSender sender, ProxiedPlayer player) {
         ServerInfo serverInfo = instance.getProxy().getServerInfo(config.getConfig().getString("commands.lobby.server", "Lobby"));
         player.connect(serverInfo);
-        Lang.PLAYER_SERVER_CONNECTED.send(player);
+        Lang.PLAYER_SERVER_CONNECTED.send(player, "%SERVER%;" + serverInfo.getName());
     }
 
 }

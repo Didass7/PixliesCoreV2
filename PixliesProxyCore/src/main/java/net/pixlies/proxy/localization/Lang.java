@@ -21,7 +21,11 @@ import java.util.Map;
 public enum Lang {
 
     // PLAYER
-    PLAYER_SERVER_CONNECTED(Lang.PIXLIES);
+    PLAYER_SERVER_CONNECTED(Lang.PIXLIES),
+    PLAYER_SERVER_CONNECTED_OTHER(Lang.PIXLIES),
+    PLAYER_SERVER_NOT_EXIST(Lang.PIXLIES),
+    PLAYER_SERVER_CANNOT_CONNECT(Lang.PIXLIES),
+    PLAYER_SERVER_CANNOT_CONNECT_OTHER(Lang.PIXLIES);
 
     // STAFF
     // TODO
@@ -31,7 +35,8 @@ public enum Lang {
     private final String PREFIX;
     private @Getter Map<String, String> languages;
 
-    public static final String PIXLIES = "§x§4§e§d§e§d§b§lP§x§4§8§c§b§c§8§lI§x§4§2§b§7§b§5§lX§x§3§c§a§4§a§2§lL§x§3§5§9§0§8§f§lI§x§2§f§7§d§7§c§lE§x§2§9§6§9§6§9§lS §8| ";
+    public static final String PIXLIES = "§x§4§e§d§e§d§b§lP§x§4§8§c§b§c§8§lI§x§4§2§b§7§b§5§lX§x§3§c§a§4§a§2§lL§x§3§5§9§0§8§f§lI§x§2§f§7§d§7§c§lE§x§2§9§6§9§6§9§lS §8| §7";
+    public static final String STAFF = "§x§0§0§a§a§a§a§lS§x§0§0§8§0§a§a§lT§x§0§0§5§5§a§a§lA§x§0§0§2§b§a§a§lF§x§0§0§0§0§a§a§lF §8| §7";
 
     Lang(String prefix) {
         this.PREFIX = prefix;

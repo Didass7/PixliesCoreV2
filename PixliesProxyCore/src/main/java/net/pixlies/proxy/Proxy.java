@@ -48,6 +48,7 @@ public class Proxy extends Plugin {
 
         // COMMANDS
         commandManager = new CommandManager();
+        commandManager.registerContexts();
         commandManager.registerCommands();
 
         // LISTENERS
