@@ -81,6 +81,7 @@ public class CommandManager {
         register(new RenameCommand(), true);
         register(new HatCommand(), true);
         register(new LoomCommand(), true);
+        register(new PollCommand(), false);
 
         // PLAYER
         register(new MessageCommand(), false);

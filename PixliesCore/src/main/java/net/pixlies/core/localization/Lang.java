@@ -139,6 +139,11 @@ public enum Lang {
     COSMETICS_HAT_CANNOT_SET(Lang.PIXLIES, new HashMap<>()),
     COSMETICS_HAT_SET(Lang.PIXLIES, new HashMap<>()),
 
+    CREATING_POLL(Lang.POLL, new HashMap<>()),
+    ENTER_POLL_OPTION(Lang.POLL, new HashMap<>()),
+    ADDED_POLL_OPTION(Lang.POLL, new HashMap<>()),
+    POLL_CREATED(Lang.POLL, new HashMap<>()),
+
     // PLAYER
     PLAYER_MESSAGE_FORMAT_TO("", new HashMap<>()),
     PLAYER_MESSAGE_FORMAT_FROM("", new HashMap<>()),
@@ -179,6 +184,7 @@ public enum Lang {
     public static final String EARTH = "§x§2§E§D§C§3§E§lE§x§3§0§C§A§3§E§lA§x§3§1§B§F§3§E§lR§x§3§8§B§2§4§3§lT§x§3§7§A§3§4§1§lH §8| ";
     public static final String NATION = "§x§2§F§D§1§E§5§lN§x§3§4§C§6§D§8§lA§x§3§7§B§A§C§A§lT§x§3§5§B§0§B§F§lI§x§3§3§A§3§B§0§lO§x§3§2§9§9§A§5§lN §8| ";
     public static final String DISCORD = "§3DISCORD §8| ";
+    public static final String POLL = "§x§1§6§a§7§e§7§lP§x§1§a§8§d§c§7§lO§x§1§a§7§5§a§8§lL§x§1§6§5§d§8§a§lL";
     public static final String WAR = "§x§f§f§2§b§2§bW§x§e§b§2§1§2§1A§x§d§9§1§a§1§aR §8| ";
     public static final String PM = "§x§a§8§1§1§c§eP§x§a§4§0§8§a§4M §8| ";
     public static final String COMMAND = "§x§f§f§a§a§0§0C§x§d§4§8§d§0§0§M§x§a§9§6§f§0§0§D §8| ";
