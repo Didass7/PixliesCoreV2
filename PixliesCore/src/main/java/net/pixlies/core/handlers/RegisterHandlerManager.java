@@ -14,7 +14,8 @@ public class RegisterHandlerManager {
             MessageHandler.class,
             VanishHandler.class,
             TeleportHandler.class,
-            PassiveHandler.class
+            PassiveHandler.class,
+            PollHandler.class
     );
 
     public void registerAllHandlers() {
