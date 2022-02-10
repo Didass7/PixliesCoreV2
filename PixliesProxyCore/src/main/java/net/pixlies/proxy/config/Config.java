@@ -33,6 +33,10 @@ public class Config {
         reload();
     }
 
+    public Config(File file) {
+        this(file, null);
+    }
+
     public void save() {
         try {
             ConfigurationProvider.getProvider(YamlConfiguration.class).save(config, file);
@@ -51,13 +55,25 @@ public class Config {
         }
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public void createIfNotExists() {
+
         if (file.exists()) return;
+        if (localDefaults == null) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+
         try (InputStream input = instance.getResourceAsStream(localDefaults)) {
             Files.copy(input, file.toPath());
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
 

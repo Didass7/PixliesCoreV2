@@ -5,8 +5,10 @@ import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.pixlies.proxy.Proxy;
+import net.pixlies.proxy.config.Config;
 import net.pixlies.proxy.utils.CC;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -142,24 +144,37 @@ public enum Lang {
         return replacePlaceholders(null, placeholders);
     }
 
-//    @SuppressWarnings("ResultOfMethodCallIgnored") // folder.mkdirs() is safe to ignore
-//    public static void init() {
-//        int loaded = 0;
-//        File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath() + "/languages/");
-//        if (!folder.exists()) folder.mkdirs();
-//        for (File file : Objects.requireNonNull(folder.listFiles())) {
-//            if (!file.getName().endsWith(".yml"))
-//                continue;
-//            YamlConfiguration cfg = YamlConfiguration.loadConfiguration(file);
-//            String langName = file.getName().replace("LANG_", "").replace(".yml", "").toUpperCase();
-//            for (Lang l : values()) {
-//                Map<String, String> map = new HashMap<>(l.languages);
-//                map.put(langName, cfg.getString(l.name()));
-//                l.setLanguage(map);
-//            }
-//            loaded++;
-//        }
-//        Main.getInstance().getLogger().info("§7Loaded §b" + loaded + " §7languages.");
-//    }
+    @SuppressWarnings("ResultOfMethodCallIgnored") // folder.mkdirs() is safe to ignore
+    public static void init() {
+
+        int loaded = 0;
+        File folder = new File(instance.getDataFolder() + "/languages");
+        if (!folder.exists()) folder.mkdirs();
+
+        File[] files = folder.listFiles();
+        if (files == null) {
+            instance.getLogger().severe("Failed to load language files.");
+            return;
+        }
+
+        for (File file : files) {
+
+            if (!file.getName().endsWith(".yml"))
+                continue;
+
+            Config config = new Config(file);
+            String langName = file.getName()
+                    .replace("LANG_", "")
+                    .replace(".yml", "")
+                    .toUpperCase();
+
+            for (Lang lang : values()) {
+                lang.languages.put(langName, config.getConfig().getString(lang.name()));
+            }
+
+            loaded++;
+        }
+        instance.getLogger().info("§7Loaded §b" + loaded + " §7languages.");
+    }
 
 }
