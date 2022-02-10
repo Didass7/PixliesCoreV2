@@ -17,7 +17,7 @@ import net.pixlies.proxy.localization.Lang;
 public class LobbyCommand extends BaseCommand {
 
     private static final Proxy instance = Proxy.getInstance();
-    @Dependency Config config;
+    private final Config config = instance.getConfig();
 
     @Default
     public void onLobby(ProxiedPlayer player) {

@@ -1,10 +1,10 @@
 package net.pixlies.proxy.listeners.impl;
 
-import co.aikar.commands.annotation.Dependency;
 import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.event.ProxyPingEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
+import net.pixlies.proxy.Proxy;
 import net.pixlies.proxy.config.Config;
 import net.pixlies.proxy.handlers.impl.MaintenanceHandler;
 import net.pixlies.proxy.utils.CC;
@@ -13,9 +13,11 @@ import java.util.UUID;
 
 public class ServerListListener implements Listener {
 
-    @Dependency Config config;
-    @Dependency("maintenanceHandler") MaintenanceHandler handler;
-    @Dependency("serverListConfig") Config serverList;
+    private static final Proxy instance = Proxy.getInstance();
+
+    private final MaintenanceHandler handler = instance.getHandlerManager().getHandler(MaintenanceHandler.class);
+    private final Config config = instance.getConfig();
+    private final Config serverList = instance.getServerListConfig();
 
     @EventHandler
     public void onPing(ProxyPingEvent event) {

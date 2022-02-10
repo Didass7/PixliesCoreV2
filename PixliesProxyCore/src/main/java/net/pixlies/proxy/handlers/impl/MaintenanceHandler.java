@@ -4,12 +4,13 @@ import co.aikar.commands.annotation.Dependency;
 import lombok.val;
 import net.pixlies.proxy.Proxy;
 import net.pixlies.proxy.config.Config;
+import net.pixlies.proxy.handlers.Handler;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class MaintenanceHandler {
+public class MaintenanceHandler implements Handler {
 
     private static final Proxy instance = Proxy.getInstance();
 
