@@ -15,15 +15,11 @@ public class NationManager {
     @Getter private final Map<String, Nation> nations = new HashMap<>(); // UUID/ID, Nation
 
     public NationManager() {
-
-        Gson gson = new Gson();
-
         for (Nation nation : instance.getMongoManager().getDatastore().createQuery(Nation.class).find().toList()) {
             if (nation.getNationsId() != null) {
                 nations.put(nation.getNationsId(), nation);
             }
         }
-
     }
 
     public void backupAll() {

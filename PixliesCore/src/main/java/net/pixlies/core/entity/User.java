@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import net.pixlies.core.Main;
 import net.pixlies.core.economy.Wallet;
+import net.pixlies.core.entity.data.PermissionProfile;
 import net.pixlies.core.entity.data.UserPersonalization;
 import net.pixlies.core.entity.data.UserSettings;
 import net.pixlies.core.localization.Lang;
@@ -45,6 +46,7 @@ public class User {
     private UserPersonalization personalization;
     private UserSettings settings;
     private String lang;
+    private PermissionProfile permissionProfile;
 
     public OfflinePlayer getAsOfflinePlayer() {
         return Bukkit.getOfflinePlayer(uuid);
@@ -193,7 +195,8 @@ public class User {
                     new HashMap<>(),
                     UserPersonalization.getDefaults(),
                     UserSettings.getDefaults(),
-                    "ENG"
+                    "ENG",
+                    new PermissionProfile(new ArrayList<>(), new ArrayList<>())
             );
 
             instance.getDatabase().getDatastore().save(profile);
