@@ -11,21 +11,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 
+/**
+ * some bungee config
+*/
 public class Config {
-
-    // TODO: Set defaults
 
     private static final Proxy instance = Proxy.getInstance();
 
-    @Getter private Configuration config;
+    @Getter private Configuration config = ConfigurationProvider.getProvider(YamlConfiguration.class).load("");
     private final File file;
     private final String localDefaults;
 
-    /**
-     * some bungee config
-     * @param file The path where you want to save your config.
-     * @param localDefaults The defaults in the resources folder
-     */
     public Config(File file, String localDefaults) {
         this.file = file;
         this.localDefaults = localDefaults;
@@ -59,6 +55,7 @@ public class Config {
     public void createIfNotExists() {
 
         if (file.exists()) return;
+
         if (localDefaults == null) {
             try {
                 file.createNewFile();
@@ -75,6 +72,5 @@ public class Config {
         }
 
     }
-
 
 }
