@@ -22,6 +22,10 @@ public class LobbyCommand extends BaseCommand {
     @Default
     public void onLobby(ProxiedPlayer player) {
         ServerInfo serverInfo = instance.getProxy().getServerInfo(config.getConfig().getString("commands.lobby.server", "Lobby"));
+        if (serverInfo == null) {
+            Lang.PLAYER_SERVER_NOT_EXIST.send(player);
+            return;
+        }
         player.connect(serverInfo);
         Lang.PLAYER_SERVER_CONNECTED.send(player, "%SERVER%;" + serverInfo.getName());
     }
@@ -31,6 +35,10 @@ public class LobbyCommand extends BaseCommand {
     @CommandPermission("pixlies.lobby.others")
     public void onLobby(CommandSender sender, ProxiedPlayer player) {
         ServerInfo serverInfo = instance.getProxy().getServerInfo(config.getConfig().getString("commands.lobby.server", "Lobby"));
+        if (serverInfo == null) {
+            Lang.PLAYER_SERVER_NOT_EXIST.send(player);
+            return;
+        }
         player.connect(serverInfo);
         Lang.PLAYER_SERVER_CONNECTED.send(player, "%SERVER%;" + serverInfo.getName());
     }
