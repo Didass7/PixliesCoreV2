@@ -5,6 +5,10 @@ database:
     users-collection: "users"
     nations-collection: "nation"
 
+redis:
+    host: "localhost"
+    port: 6379
+
 moderation:
     defaultReason: "No reason given."
 

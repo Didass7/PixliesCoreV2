@@ -1,6 +1,8 @@
 package net.pixlies.core.database;
 
 import com.google.gson.Gson;
+import net.pixlies.core.Main;
+import net.pixlies.core.configuration.Config;
 import net.pixlies.core.entity.User;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -12,13 +14,9 @@ import java.util.function.BiConsumer;
 
 public class UserCache {
 
-    private final JedisPool pool;
-    private final Gson gson;
-
-    public UserCache() {
-        pool = new JedisPool("localhost", 6379);
-        gson = new Gson();
-    }
+    private final Config config = Main.getInstance().getConfig();
+    private final JedisPool pool = new JedisPool(config.getString("redis.host"), config.getInt("redis.port"));
+    private final Gson gson = new Gson();
 
     public User get(UUID uuid) {
         try(Jedis jedis = pool.getResource()) {
