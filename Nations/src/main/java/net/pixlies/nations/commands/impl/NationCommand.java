@@ -5,7 +5,6 @@ import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import net.pixlies.core.entity.User;
 import net.pixlies.core.localization.Lang;
-import net.pixlies.core.utils.TextUtils;
 import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.customization.GovernmentType;
 import net.pixlies.nations.nations.customization.Ideology;
@@ -16,6 +15,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 @CommandAlias("nation|nations|n|faction|factions|country|countries")
 public class NationCommand extends BaseCommand {
@@ -44,7 +44,7 @@ public class NationCommand extends BaseCommand {
              - if nation name is invalid
          */
 
-        final String id = TextUtils.generateId(7);
+        final UUID uuid = UUID.randomUUID();
 
         final List<Integer> ncValues = new ArrayList<>();
 
@@ -52,7 +52,8 @@ public class NationCommand extends BaseCommand {
             ncValues.add(nc.getDefaultValue());
         }
 
-        Nation nation = new Nation(id, name, "No description yet", player.getUniqueId(), System.currentTimeMillis(), 0.0, 0.0, GovernmentType.UNITARY, Ideology.TRIBAL, Religion.SECULAR, ncValues, new ArrayList<>(), new HashMap<>(), new ArrayList<>());
+        // TODO: Random description
+        Nation nation = new Nation(uuid.toString(), name, "No description yet", player.getUniqueId(), System.currentTimeMillis(), 0.0, 0.0, GovernmentType.UNITARY, Ideology.TRIBAL, Religion.SECULAR, ncValues, new ArrayList<>(), new HashMap<>(), new ArrayList<>());
         nation.create();
         Lang.NATION_FORMED.broadcast("%NATION%;" + nation.getName(), "%PLAYER%;" + player.getName());
 
