@@ -89,7 +89,7 @@ public enum Lang {
 
     public void broadcast(String... placeholders) {
         String message = replacePlaceholders(placeholders);
-        instance.getProxy().broadcast(new TextComponent());
+        instance.getProxy().broadcast(new TextComponent(message));
     }
 
     public void broadcastPermission(String permission, String... placeholders) {
