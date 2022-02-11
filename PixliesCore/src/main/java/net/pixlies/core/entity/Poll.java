@@ -4,6 +4,8 @@
 
 package net.pixlies.core.entity;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -39,8 +41,10 @@ public class Poll {
 
     /**
      * Stores which UUIDs voted for which option.
+     * First identifier is the index of the answer in pollInfo, minus 1.
+     * Second identifier is the list of UUIDs who voted for the option.
      */
-    @Getter private final Map<UUID, Integer> voterInfo;
+    @Getter private final Multimap<Integer, UUID> voterInfo;
 
     /**
      * Stores the stage of the poll.
@@ -56,7 +60,7 @@ public class Poll {
         this.pollCreator = pollCreator;
         pollInfo = new ArrayList<>();
         pollVotes = new HashMap<>();
-        voterInfo = new HashMap<>();
+        voterInfo = ArrayListMultimap.create();
         pollInfo.add(question);
         stage = 0;
         id = TextUtils.generateId(7);
@@ -71,7 +75,7 @@ public class Poll {
             pollVotes.put(option - 1, pollVotes.get(option - 1) - 1);
         }
         pollVotes.put(option - 1, pollVotes.get(option - 1) + 1);
-        voterInfo.put(voter, option);
+        voterInfo.put(option - 1, voter);
     }
 
     public void makePublic() {
