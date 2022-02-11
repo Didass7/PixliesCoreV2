@@ -13,8 +13,8 @@ import net.pixlies.core.entity.data.UserSettings;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.moderation.Punishment;
 import net.pixlies.core.moderation.PunishmentType;
+import net.pixlies.core.utils.CC;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -49,7 +49,7 @@ public class User {
     private PermissionProfile permissionProfile;
 
     public OfflinePlayer getAsOfflinePlayer() {
-        return Bukkit.getOfflinePlayer(uuid);
+        return Bukkit.getOfflinePlayer(this.getUniqueId());
     }
 
     public Punishment getMute() {
@@ -63,7 +63,7 @@ public class User {
     }
 
     public Punishment mute(String reason, CommandSender punisher, boolean silent) {
-        UUID punisherUUID = punisher.getName().equalsIgnoreCase("console") ? UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670") : ((Player)punisher).getUniqueId();
+        UUID punisherUUID = !(punisher instanceof Player player) ? UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670") : player.getUniqueId();
         Punishment punishment = new Punishment(UUID.randomUUID().toString(), PunishmentType.MUTE, punisherUUID, System.currentTimeMillis(), reason, 0);
         currentPunishments.put("mute", punishment);
         if (silent) {
@@ -201,7 +201,7 @@ public class User {
 
             instance.getDatabase().getDatastore().save(profile);
 
-            Bukkit.getConsoleSender().sendMessage(ChatColor.AQUA + "Profile for " + uuid + " created in Database.");
+            instance.getLogger().info(CC.format("&bProfile for &6" + uuid + "&b created in Database."));
         }
         return profile;
     }
