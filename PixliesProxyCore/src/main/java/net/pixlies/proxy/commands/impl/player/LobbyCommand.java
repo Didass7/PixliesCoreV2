@@ -43,7 +43,6 @@ public class LobbyCommand extends BaseCommand {
         Lang.PLAYER_SERVER_CONNECTED.send(player, "%SERVER%;" + serverInfo.getName());
     }
 
-    @Default
     @HelpCommand
     public void onHelp(CommandHelp help) {
         help.showHelp();
