@@ -64,8 +64,13 @@ public class PollCommand extends BaseCommand {
     @Subcommand("end")
     @Description("End an active poll")
     public void onPollEnd(CommandSender sender, String id) {
-        Poll poll = pollHandler.getPolls().get(id);
-        poll.end();
+        // Checks if the poll id is valid
+        if (!pollHandler.getPolls().containsKey(id)) {
+            Lang.POLL_DOES_NOT_EXIST.send(player);
+            return;
+        }
+        
+        pollHandler.getPolls().get(id).end();
     }
 
     @Subcommand("view")
