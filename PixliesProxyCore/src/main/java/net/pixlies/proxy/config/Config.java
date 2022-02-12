@@ -13,12 +13,13 @@ import java.nio.file.Files;
 
 /**
  * some bungee config
+ * @author Dynmie
 */
 public class Config {
 
     private static final Proxy instance = Proxy.getInstance();
 
-    @Getter private Configuration config = ConfigurationProvider.getProvider(YamlConfiguration.class).load("");
+    @Getter private Configuration config = new Configuration();
     private final File file;
     private final String localDefaults;
 
