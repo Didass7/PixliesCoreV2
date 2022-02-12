@@ -66,7 +66,7 @@ public class PollCommand extends BaseCommand {
     public void onPollEnd(CommandSender sender, String id) {
         // Checks if the poll id is valid
         if (!pollHandler.getPolls().containsKey(id)) {
-            Lang.POLL_DOES_NOT_EXIST.send(player);
+            Lang.POLL_DOES_NOT_EXIST.send(sender);
             return;
         }
         
