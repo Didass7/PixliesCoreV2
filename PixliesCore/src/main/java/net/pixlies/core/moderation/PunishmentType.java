@@ -4,6 +4,7 @@ public enum PunishmentType {
 
     BAN,
     MUTE,
-    WARN
+    WARN,
+    BLACKLIST
 
 }

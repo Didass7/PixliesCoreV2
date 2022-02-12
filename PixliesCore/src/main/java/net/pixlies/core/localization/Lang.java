@@ -20,6 +20,7 @@ public enum Lang {
     BAN_MESSAGE("", new HashMap<>()),
     BANNED_PLAYER_TRIED_TO_JOIN(Lang.PIXLIES, new HashMap<>()),
     PLAYER_PERMANENTLY_BANNED(Lang.PIXLIES, new HashMap<>()),
+    PLAYER_BLACKLISTED(Lang.PIXLIES, new HashMap<>()),
     PLAYER_TEMPORARILY_BANNED(Lang.PIXLIES, new HashMap<>()),
     PLAYER_PERMANENTLY_MUTED(Lang.PIXLIES, new HashMap<>()),
     PLAYER_TEMPORARILY_MUTED(Lang.PIXLIES, new HashMap<>()),

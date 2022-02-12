@@ -93,13 +93,16 @@ public class User {
 
     public Punishment getBan() {
         if (!currentPunishments.containsKey("ban")) return null;
-        System.out.println(currentPunishments);
         Punishment punishment = currentPunishments.get("ban");
         if (punishment.getUntil() - System.currentTimeMillis() <= 0 && punishment.getUntil() != 0) {
             currentPunishments.remove("ban");
             return null;
         }
         return punishment;
+    }
+
+    public boolean isBanned() {
+        return getBan() == null;
     }
 
     public Punishment ban(String reason, CommandSender punisher, boolean silent) {
@@ -126,8 +129,41 @@ public class User {
         return punishment;
     }
 
-    public void unban(CommandSender theGuy, boolean silent) {
-        tempBan("Unbanned", theGuy, 0, silent);
+    public void unban(CommandSender theGuy) {
+        tempBan("Unbanned", theGuy, 0, true);
+    }
+
+    public Punishment getBlacklist() {
+        if (!currentPunishments.containsKey("blacklist")) return null;
+        return currentPunishments.get("blacklist");
+    }
+
+    public boolean isBlacklisted() {
+        return currentPunishments.containsKey("blacklist");
+    }
+
+    public Punishment blacklist(String reason, CommandSender punisher, boolean silent) {
+        UUID punisherUUID = punisher instanceof Player player ? player.getUniqueId() : UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670");
+        Punishment punishment = new Punishment(UUID.randomUUID().toString(),
+                PunishmentType.BLACKLIST,
+                punisherUUID,
+                System.currentTimeMillis(),
+                reason,
+                0
+        );
+        currentPunishments.put("blacklist", punishment);
+        if (silent) {
+            Lang.PLAYER_BLACKLISTED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason);
+        } else {
+            Lang.PLAYER_BLACKLISTED.broadcast("%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason);
+        }
+        save();
+        return punishment;
+    }
+
+    public void unblacklist(CommandSender sender) {
+        if (!isBlacklisted()) return;
+        currentPunishments.remove("blacklist");
     }
 
     public boolean hasNickName() {
