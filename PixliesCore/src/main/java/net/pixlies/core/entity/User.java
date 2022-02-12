@@ -138,6 +138,7 @@ public class User {
     public void unban() {
         if (!isBanned()) return;
         currentPunishments.remove("ban");
+        save();
     }
 
     public Punishment getBlacklist() {
@@ -171,6 +172,7 @@ public class User {
     public void unblacklist() {
         if (!isBlacklisted()) return;
         currentPunishments.remove("blacklist");
+        save();
     }
 
     public boolean hasNickName() {
