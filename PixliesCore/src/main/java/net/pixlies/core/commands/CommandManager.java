@@ -68,6 +68,7 @@ public class CommandManager {
         register(new FeedCommand(), false);
         register(new SitCommand(), false);
         register(new NickNameCommand(), false);
+        register(new PollCommand(), false);
         register(new EnderChestCommand(), true);
         register(new NightVisionCommand(), true);
         register(new RepairCommand(), true);
@@ -81,7 +82,6 @@ public class CommandManager {
         register(new RenameCommand(), true);
         register(new HatCommand(), true);
         register(new LoomCommand(), true);
-        register(new PollCommand(), false);
 
         // PLAYER
         register(new MessageCommand(), false);
@@ -91,6 +91,7 @@ public class CommandManager {
         register(new EchoCommand(), false);
         register(new DiscordCommand(), false);
         register(new RulesCommand(), false);
+        register(new PlaytimeCommand(), false);
         register(new AfkCommand(), true);
         register(new SuicideCommand(), true);
 

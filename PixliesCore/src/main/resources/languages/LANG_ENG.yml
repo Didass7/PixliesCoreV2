@@ -133,5 +133,8 @@ PLAYER_AFK_OFF: "§7You are no longer AFK."
 PLAYER_AFK_ON_BROADCAST: "§6%PLAYER%§7 is now AFK."
 PLAYER_AFK_OFF_BROADCAST: "§6%PLAYER%§7 is no longer AFK."
 
+PLAYER_PLAYTIME: "§7Your playtime is §6%TIME%§7."
+PLAYER_PLAYTIME_OTHER: "§6%PLAYER%§7's playtime is §6%TIME%§7."
+
 # Lobby
 LOBBY_BUILDMODE_TOGGLE: "§7You just %STATE% §7build-mode."

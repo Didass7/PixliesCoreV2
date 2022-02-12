@@ -168,7 +168,7 @@ public class User {
         return punishment;
     }
 
-    public void unblacklist(CommandSender sender) {
+    public void unblacklist() {
         if (!isBlacklisted()) return;
         currentPunishments.remove("blacklist");
     }
@@ -192,6 +192,10 @@ public class User {
     public String getNickName() {
         if (nickName == null || nickName.isEmpty()) return getAsOfflinePlayer().getName();
         return nickName;
+    }
+
+    public long getPlaytime() {
+        return System.currentTimeMillis() - joined;
     }
 
     /*
