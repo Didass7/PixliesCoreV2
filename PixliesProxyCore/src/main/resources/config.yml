@@ -1,4 +1,8 @@
 # Welcome to the config!
+mongo:
+  uri: "mongodb://"
+  user-database: "proxy-users"
+
 commands:
   lobby:
     server: 'Lobby'

@@ -36,6 +36,11 @@
             <artifactId>acf-bungee</artifactId>
             <version>0.5.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>dev.morphia.morphia</groupId>
+            <artifactId>morphia-core</artifactId>
+            <version>2.2.3</version>
+        </dependency>
     </dependencies>
 
     <pluginRepositories>

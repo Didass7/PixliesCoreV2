@@ -4,6 +4,7 @@ import lombok.Getter;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.pixlies.proxy.commands.CommandManager;
 import net.pixlies.proxy.config.Config;
+import net.pixlies.proxy.database.MongoManager;
 import net.pixlies.proxy.handlers.HandlerManager;
 import net.pixlies.proxy.handlers.RegisterHandlerManager;
 import net.pixlies.proxy.listeners.ListenerManager;
@@ -17,6 +18,7 @@ public class Proxy extends Plugin {
 
     @Getter private static Proxy instance;
 
+    private MongoManager mongoManager;
     private CommandManager commandManager;
     private ListenerManager listenerManager;
     private HandlerManager handlerManager;
@@ -43,6 +45,8 @@ public class Proxy extends Plugin {
         maintenanceConfig = new Config(new File(instance.getDataFolder(), "maintenance.yml"), "maintenance.yml");
 
         // MANAGERS & HANDLERS
+        mongoManager = new MongoManager();
+        mongoManager.init();
         handlerManager = new HandlerManager();
         new RegisterHandlerManager().registerAllHandlers();
 
