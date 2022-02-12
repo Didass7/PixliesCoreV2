@@ -10,8 +10,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
-import java.util.List;
-
 public class ChatModerationListener implements Listener {
 
     private static final Main instance = Main.getInstance();
@@ -24,33 +22,18 @@ public class ChatModerationListener implements Listener {
         String message = String.valueOf(event.message());
 
         // If chat is muted
-        if (chatHandler.isMuted() && !player.hasPermission("pixlies.moderation.bypass.mutechat")) {
+        if (chatHandler.isMuted() && !player.hasPermission("pixlies.moderation.chat.exempt")) {
             Lang.CHAT_MUTED_FORMAT.send(player);
             event.setCancelled(true);
             return;
         }
 
-        // If swear filter is enabled
-        if (!chatHandler.isSwearFilterEnabled() && !player.hasPermission("pixlies.moderation.bypass.swearfilter")) {
-            List<String> swearWords = config.getStringList("swearWords");
-            for (String s : swearWords) {
-                if (message.toLowerCase().contains(s)) {
-                    Lang.PLAYER_TRIED_TO_SWEAR.send(player);
-                    event.setCancelled(true);
-                    return;
-                }
-            }
+        // Checks for blocked words
+        if (chatHandler.isBlocked(message)) {
+            Lang.PLAYER_BLOCKED_WORD_DISABLED.send(player);
+            event.setCancelled(true);
         }
 
-        // Checks for blocked words
-        List<String> blockedWords = instance.getConfig().getStringList("blockedWords");
-        for (String s : blockedWords) {
-            if (message.contains(s) && !player.hasPermission("pixlies.moderation.bypass.blockedwords")) {
-                Lang.PLAYER_TRIED_BLOCKED_WORD.send(player);
-                event.setCancelled(true);
-                return;
-            }
-        }
     }
 
 }

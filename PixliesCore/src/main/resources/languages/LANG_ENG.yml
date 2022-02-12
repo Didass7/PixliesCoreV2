@@ -36,7 +36,7 @@ SWEAR_FILTER_OFF: "§7Swear filter has been §cdisabled§7."
 
 ADDED_BLOCKED_WORD: ""
 REMOVED_BLOCKED_WORD: ""
-PLAYER_TRIED_BLOCKED_WORD: ""
+PLAYER_BLOCKED_WORD_DISABLED: "§7That word is currently disabled."
 
 CANNOT_USE_ON_SELF: "§7You cannot use that on yourself."
 CANNOT_EDIT_ITEM: "§7You cannot edit this item."

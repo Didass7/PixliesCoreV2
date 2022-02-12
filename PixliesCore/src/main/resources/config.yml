@@ -16,8 +16,6 @@ joinQuit:
     joinMessage: "&8[&2&l+&8] &7%PLAYER%"
     quitMessage: "&8[&c&l-&8] &7%PLAYER%"
 
-swearWords: ["funniwordsgohere"]
-
 blockedWords: ["blockedword1"]
 
 links:

@@ -4,15 +4,11 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import net.pixlies.core.Main;
-import net.pixlies.core.entity.User;
 import net.pixlies.core.handlers.impl.ChatHandler;
 import net.pixlies.core.localization.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @CommandAlias("chat")
 @CommandPermission("pixlies.moderation.chat")
@@ -34,18 +30,6 @@ public class ChatCommand extends BaseCommand {
         chatHandler.setMuted(!chatMuted);
     }
 
-    @Subcommand("filter")
-    @Description("Toggle the chat filter")
-    public void onToggleSwear(CommandSender sender) {
-        boolean swearFilter = chatHandler.isSwearFilterEnabled();
-        if (swearFilter) {
-            Lang.SWEAR_FILTER_OFF.broadcast("%PLAYER%;" + sender.getName());
-        } else {
-            Lang.SWEAR_FILTER_ON.broadcast("%PLAYER%;" + sender.getName());
-        }
-        chatHandler.setSwearFilterEnabled(!swearFilter);
-    }
-
     @CommandAlias("clearchat")
     @Subcommand("clear")
     @Description("Clear messages in chat")
@@ -62,26 +46,15 @@ public class ChatCommand extends BaseCommand {
     @Subcommand("toggleword")
     @Description("Toggle the usage of a certain word in chat")
     public void onToggleWord(CommandSender sender, String word) {
-        if (word == null) {
-            sender.sendMessage(Lang.PIXLIES + "You have to enter the word you want to block/unblock.");
-            return;
-        }
 
-        List<String> blockedWords = new ArrayList<>(instance.getConfig().getStringList("blockedWords"));
-        String lcWord = word.toLowerCase();
-
-        if (blockedWords.contains(lcWord)) {
-            blockedWords.remove(lcWord);
-            instance.getConfig().set("blockedWords", blockedWords);
+        if (chatHandler.isBlocked(word)) {
+            chatHandler.unblockWord(word);
             Lang.REMOVED_BLOCKED_WORD.send(sender);
         } else {
-            blockedWords.add(lcWord);
-            instance.getConfig().set("blockedWords", blockedWords);
+            chatHandler.blockWord(word);
             Lang.ADDED_BLOCKED_WORD.send(sender);
         }
 
-        instance.getConfig().save();
-        instance.getConfig().reload();
     }
 
     @Subcommand("slow")
