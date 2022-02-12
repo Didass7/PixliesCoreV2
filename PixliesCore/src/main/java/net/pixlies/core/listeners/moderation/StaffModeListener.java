@@ -18,6 +18,9 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 
+/**
+ * @author Dynmie
+ */
 public class StaffModeListener implements Listener {
 
     private static final Main instance = Main.getInstance();
@@ -162,7 +165,6 @@ public class StaffModeListener implements Listener {
         event.setCancelled(true);
 
         if (!(event.getRightClicked() instanceof Player target)) return;
-        if (player.getInventory().getItemInMainHand().getType() != Material.BOOK || player.getInventory().getItemInMainHand().getType() != Material.PACKED_ICE) return;
 
         switch (player.getInventory().getItemInMainHand().getType()) {
             case BOOK -> player.performCommand("invsee " + target.getName());
