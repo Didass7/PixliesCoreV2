@@ -7,26 +7,31 @@ import net.pixlies.core.entity.User;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
-@CommandAlias("ban")
-@CommandPermission("pixlies.moderation.ban")
-public class BanCommand extends BaseCommand {
+/**
+ * cool blacklist command for your enemies
+ * @author Dynmie
+ */
+@CommandAlias("blacklist")
+@CommandPermission("pixlies.moderation.blacklist")
+public class BlacklistCommand extends BaseCommand {
+
+    private static final Main instance = Main.getInstance();
 
     @CommandCompletion("@players")
     @Description("Bans player with the default reason")
-    public void onBan(CommandSender sender, OfflinePlayer target, @Optional String reason) {
+    public void onBlacklist(CommandSender sender, OfflinePlayer target, @Optional String reason) {
 
         boolean silent = false;
-
-        String banReason = Main.getInstance().getConfig().getString("moderation.defaultReason", "No reason given");
+        String blacklistReason = instance.getConfig().getString("moderation.defaultReason", "No reason given");
 
         if (reason != null && !reason.isEmpty()) {
-            banReason = reason.replace("-s", "");
+            blacklistReason = reason.replace("-s", "");
             if (reason.endsWith("-s") || reason.startsWith("-s"))
                 silent = true;
         }
 
         User user = User.get(target.getUniqueId());
-        user.ban(banReason, sender, silent);
+        user.blacklist(blacklistReason, sender, silent);
 
     }
 

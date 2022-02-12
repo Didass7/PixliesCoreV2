@@ -5,6 +5,7 @@ import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import net.kyori.adventure.text.Component;
 import net.pixlies.core.Main;
 import net.pixlies.core.economy.Wallet;
 import net.pixlies.core.entity.data.PermissionProfile;
@@ -118,6 +119,15 @@ public class User {
             Lang.PLAYER_PERMANENTLY_BANNED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason);
         else
             Lang.PLAYER_PERMANENTLY_BANNED.broadcast("%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason);
+        if (getAsOfflinePlayer().getPlayer() != null && getAsOfflinePlayer().isOnline()) {
+            Player player = getAsOfflinePlayer().getPlayer();
+            String message = Lang.BAN_MESSAGE.get(player)
+                    .replace("%REASON%", punishment.getReason())
+                    .replace("%BAN_ID%", punishment.getID())
+                    .replace("%DURATION%", "§4§lPERMANENT!");
+
+            player.kick(Component.text(message));
+        }
         save();
         return punishment;
     }
@@ -131,6 +141,16 @@ public class User {
             Lang.PLAYER_TEMPORARILY_BANNED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason, "%TIME%;" + new PrettyTime().format(new Date(punishment.getUntil())));
         else
             Lang.PLAYER_TEMPORARILY_BANNED.broadcast("%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason, "%TIME%;" + new PrettyTime().format(new Date(punishment.getUntil())));
+
+        if (getAsOfflinePlayer().getPlayer() != null && getAsOfflinePlayer().isOnline()) {
+            Player player = getAsOfflinePlayer().getPlayer();
+            String message = Lang.BAN_MESSAGE.get(player)
+                    .replace("%REASON%", punishment.getReason())
+                    .replace("%BAN_ID%", punishment.getID())
+                    .replace("%DURATION%", new PrettyTime().format(new Date(punishment.getUntil())));
+
+            player.kick(Component.text(message));
+        }
         save();
         return punishment;
     }
@@ -164,6 +184,13 @@ public class User {
             Lang.PLAYER_BLACKLISTED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason);
         } else {
             Lang.PLAYER_BLACKLISTED.broadcast("%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason);
+        }
+        if (getAsOfflinePlayer().getPlayer() != null && getAsOfflinePlayer().isOnline()) {
+            Player player = getAsOfflinePlayer().getPlayer();
+            String message = Lang.BLACKLIST_MESSAGE.get(player)
+                    .replace("%REASON%", punishment.getReason())
+                    .replace("%BAN_ID%", punishment.getID());
+            player.kick(Component.text(message));
         }
         save();
         return punishment;

@@ -27,7 +27,7 @@ public class PlaytimeCommand extends BaseCommand {
         Lang.PLAYER_PLAYTIME.send(player, "%TIME%;" + playtime);
     }
 
-    @CommandPermission("pixlies.playtime.others")
+    @CommandPermission("pixlies.player.playtime.others")
     @CommandCompletion("@players")
     public void onPlaytimeTarget(CommandSender sender, Player target) {
         User user = User.get(target.getUniqueId());

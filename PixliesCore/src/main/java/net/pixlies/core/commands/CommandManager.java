@@ -48,6 +48,7 @@ public class CommandManager {
         register(new TpAllCommand(), false);
         register(new TpAcceptCommand(), false);
         register(new TpBackCommand(), false);
+        register(new BlacklistCommand(), false);
 
         // STAFF
         register(new GodCommand(), false);
