@@ -1,12 +1,13 @@
 package net.pixlies.core.listeners.player;
 
 import net.pixlies.core.Main;
+import net.pixlies.core.entity.User;
 import net.pixlies.core.handlers.impl.TeleportHandler;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
@@ -19,6 +20,8 @@ public class TeleportListener implements Listener {
     public void onTeleport(PlayerTeleportEvent event) {
         Player player = event.getPlayer();
         Location loc = event.getFrom();
+        User user = User.get(player.getUniqueId());
+        if (user.getSettings().isPassive()) return;
         tpHandler.setBackLocation(player.getUniqueId(), loc);
     }
 
@@ -27,6 +30,14 @@ public class TeleportListener implements Listener {
         Player player = event.getPlayer();
         tpHandler.removeBackLocation(player.getUniqueId());
         tpHandler.removeTpAskPlayer(player.getUniqueId());
+    }
+
+    @EventHandler
+    public void onDeath(PlayerDeathEvent event) {
+        Player player = event.getPlayer();
+        User user = User.get(player.getUniqueId());
+        if (user.getSettings().isPassive()) return;
+        tpHandler.setBackLocation(player.getUniqueId(), player.getLocation());
     }
 
 }
