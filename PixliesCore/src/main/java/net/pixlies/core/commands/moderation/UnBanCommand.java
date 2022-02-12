@@ -23,7 +23,7 @@ public class UnBanCommand extends BaseCommand {
         }
 
         User user = User.get(targetOP.getUniqueId());
-        user.unban(sender);
+        user.unban();
     }
 
     @Default

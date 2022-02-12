@@ -17,7 +17,7 @@ public class NickNameCommand extends BaseCommand {
     public void onNickName(Player player, @Optional String string) {
         User user = User.get(player.getUniqueId());
         if (string == null || string.equalsIgnoreCase("off")) {
-            user.setNickName("NONE");
+            user.removeNickName();
             Lang.COSMETICS_NICKNAME.send(player, "%MESSAGE%" + player.getName());
             return;
         }
@@ -35,7 +35,7 @@ public class NickNameCommand extends BaseCommand {
     @CommandPermission("pixlies.cosmetics.nickname.others")
     public void onNickName(CommandSender sender, User user, @Optional String string) {
         if (string == null || string.equalsIgnoreCase("off")) {
-            user.setNickName("NONE");
+            user.removeNickName();
             Lang.COSMETICS_NICKNAME.send(sender, "%MESSAGE%" + user.getAsOfflinePlayer().getName());
             return;
         }

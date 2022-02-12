@@ -35,8 +35,6 @@ public class User {
     private String uuid;
     private long joined;
     private String discordId;
-    private String nationId;
-    private String nationRank;
     private String nickName;
     private Map<String, Wallet> wallets;
     private List<String> knownUsernames;
@@ -137,7 +135,7 @@ public class User {
         return punishment;
     }
 
-    public void unban(CommandSender theGuy) {
+    public void unban() {
         if (!isBanned()) return;
         currentPunishments.remove("ban");
     }
@@ -176,24 +174,24 @@ public class User {
     }
 
     public boolean hasNickName() {
-        if (nickName == null) return false;
-        return !nickName.equals("NONE");
+        return nickName != null && !nickName.isEmpty();
     }
 
     public void setNickName(String name) {
-        if (name.length() > 16) {
-            throw new IllegalArgumentException("Nickname length cannot be above 16. Current length: " + name.length());
+        if (name.length() > 16 || name.isEmpty()) {
+            throw new IllegalArgumentException("Illegal nickname. Current length: " + name.length());
         }
         nickName = name;
         save();
     }
 
+    public void removeNickName() {
+        nickName = null;
+    }
+
     public String getNickName() {
-        if (nickName == null) return getAsOfflinePlayer().getName();
-        if (!nickName.equalsIgnoreCase("NONE")) {
-            return nickName;
-        }
-        return getAsOfflinePlayer().getName();
+        if (nickName == null || nickName.isEmpty()) return getAsOfflinePlayer().getName();
+        return nickName;
     }
 
     /*
@@ -229,10 +227,8 @@ public class User {
             profile = new User(
                     uuid.toString(),
                     System.currentTimeMillis(),
-                    "NONE",
-                    "NONE",
-                    "NONE",
-                    "NONE",
+                    null,
+                    null,
                     Wallet.getDefaultWallets(),
                     new ArrayList<>(),
                     new ArrayList<>(),
