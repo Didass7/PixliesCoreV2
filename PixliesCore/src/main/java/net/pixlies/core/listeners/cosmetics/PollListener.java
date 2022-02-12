@@ -12,6 +12,7 @@ import net.pixlies.core.localization.Lang;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PollListener implements Listener {
 
@@ -55,6 +56,11 @@ public class PollListener implements Listener {
             poll.addAnswer(message);
             player.playSound(player.getLocation(), "minecraft:entity.experience_orb.pickup", 100, 1);
         }
+    }
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent event) {
+        pollHandler.getPollsInCreation().remove(event.getPlayer().getUniqueId());
     }
 
 }
