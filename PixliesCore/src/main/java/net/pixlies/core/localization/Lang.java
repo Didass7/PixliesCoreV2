@@ -18,6 +18,7 @@ import java.util.Objects;
 public enum Lang {
 
     BAN_MESSAGE("", new HashMap<>()),
+    BLACKLIST_MESSAGE("", new HashMap<>()),
     BANNED_PLAYER_TRIED_TO_JOIN(Lang.PIXLIES, new HashMap<>()),
     PLAYER_PERMANENTLY_BANNED(Lang.PIXLIES, new HashMap<>()),
     PLAYER_BLACKLISTED(Lang.PIXLIES, new HashMap<>()),
@@ -220,6 +221,11 @@ public enum Lang {
         } catch (Exception ignored) {
 
         }
+        return PREFIX + CC.format(languages.get("ENG"));
+    }
+
+    public String get() {
+        if (languages == null) return "";
         return PREFIX + CC.format(languages.get("ENG"));
     }
 

@@ -37,6 +37,7 @@ public class ListenerManager {
         add(new AfkListener());
         add(new SitListener());
         add(new PollListener());
+        add(new BlackListListener());
     }};
 
     public static void registerAllListeners() {
