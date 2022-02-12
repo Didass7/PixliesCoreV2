@@ -5,13 +5,11 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.pixlies.core.Main;
 import net.pixlies.core.configuration.Config;
+import net.pixlies.core.handlers.impl.PixlieMojiHandler;
 import net.pixlies.core.utils.CC;
-import net.pixlies.core.utils.Emojis;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class ChatFormattingListener implements Listener {
 
@@ -29,8 +27,8 @@ public class ChatFormattingListener implements Listener {
             message = CC.format(message);
         }
 
-        // SET MESSAGE
-        event.message(Component.text(Emojis.replaceEmojis(message)));
+        // SET MESSAGE TODO
+        event.message(Component.text(PixlieMojiHandler.replaceEmojis(message)));
 
         // SET CHAT FORMATTING
         if (config.getBoolean("chat.formatting", false)) {

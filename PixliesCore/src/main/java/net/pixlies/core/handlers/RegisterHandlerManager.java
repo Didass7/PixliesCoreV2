@@ -15,7 +15,8 @@ public class RegisterHandlerManager {
             VanishHandler.class,
             TeleportHandler.class,
             PassiveHandler.class,
-            PollHandler.class
+            PollHandler.class,
+            PixlieMojiHandler.class
     );
 
     public void registerAllHandlers() {

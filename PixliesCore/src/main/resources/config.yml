@@ -24,6 +24,14 @@ links:
     rules: "https://pixlies.net/rules"
     discord: "https://pixlies.net/discord"
 
+# Only the first character is an emoji.
+emojis:
+    relax: '是'
+    mad: '了'
+    really: '不'
+    amogus: '在'
+    pog: '码'
+
 chat:
     formatting: true
 
