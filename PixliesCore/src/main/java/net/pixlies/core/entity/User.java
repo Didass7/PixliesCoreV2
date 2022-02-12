@@ -62,7 +62,12 @@ public class User {
         return punishment;
     }
 
+    public boolean isMuted() {
+        return getMute() != null;
+    }
+
     public Punishment mute(String reason, CommandSender punisher, boolean silent) {
+        if (isMuted()) return getMute();
         UUID punisherUUID = !(punisher instanceof Player player) ? UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670") : player.getUniqueId();
         Punishment punishment = new Punishment(UUID.randomUUID().toString(), PunishmentType.MUTE, punisherUUID, System.currentTimeMillis(), reason, 0);
         currentPunishments.put("mute", punishment);
@@ -80,6 +85,7 @@ public class User {
     }
 
     public Punishment tempMute(String reason, CommandSender punisher, long duration, boolean silent) {
+        if (isMuted()) return getMute();
         UUID punisherUUID = punisher.getName().equalsIgnoreCase("console") ? UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670") : ((Player)punisher).getUniqueId();
         Punishment punishment = new Punishment(UUID.randomUUID().toString(), PunishmentType.MUTE, punisherUUID, System.currentTimeMillis(), reason, duration + System.currentTimeMillis());
         currentPunishments.put("mute", punishment);
@@ -102,10 +108,11 @@ public class User {
     }
 
     public boolean isBanned() {
-        return getBan() == null;
+        return getBan() != null;
     }
 
     public Punishment ban(String reason, CommandSender punisher, boolean silent) {
+        if (isBanned()) return getBan();
         UUID punisherUUID = punisher.getName().equalsIgnoreCase("console") ? UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670") : ((Player)punisher).getUniqueId();
         Punishment punishment = new Punishment(UUID.randomUUID().toString(), PunishmentType.BAN, punisherUUID, System.currentTimeMillis(), reason, 0);
         currentPunishments.put("ban", punishment);
@@ -118,6 +125,7 @@ public class User {
     }
 
     public Punishment tempBan(String reason, CommandSender punisher, long duration, boolean silent) {
+        if (isBanned()) return getBan();
         UUID punisherUUID = punisher.getName().equalsIgnoreCase("console") ? UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670") : ((Player)punisher).getUniqueId();
         Punishment punishment = new Punishment(UUID.randomUUID().toString(), PunishmentType.BAN, punisherUUID, System.currentTimeMillis(), reason, duration + System.currentTimeMillis());
         currentPunishments.put("ban", punishment);
@@ -130,7 +138,8 @@ public class User {
     }
 
     public void unban(CommandSender theGuy) {
-        tempBan("Unbanned", theGuy, 0, true);
+        if (!isBanned()) return;
+        currentPunishments.remove("ban");
     }
 
     public Punishment getBlacklist() {
