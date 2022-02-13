@@ -7,6 +7,7 @@ import lombok.ToString;
 import net.pixlies.core.Main;
 import net.pixlies.core.configuration.Config;
 import net.pixlies.core.utils.location.LazyLocation;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -50,12 +51,11 @@ public class Warp extends LazyLocation {
     public static Warp get(String name) {
         ConfigurationSection section = config.getConfigurationSection(name);
         if (section == null) return null;
-        Location location = section.getLocation("location");
         return new Warp(
                 name,
-                section.getString("description"),
-                Material.valueOf(section.getString("material")),
-                location
+                section.getString("description", "No description."),
+                Material.valueOf(section.getString("material", "BARRIER")),
+                section.getLocation("location", new Location(Bukkit.getWorld("world"), 0, 0, 0))
         );
     }
 
@@ -68,9 +68,9 @@ public class Warp extends LazyLocation {
             if (section == null) return;
             warps.add(new Warp(
                     key,
-                    section.getString("description"),
-                    Material.valueOf(section.getString("material")),
-                    section.getLocation("location")
+                    section.getString("description", "No description."),
+                    Material.valueOf(section.getString("material", "BARRIER")),
+                    section.getLocation("location", new Location(Bukkit.getWorld("world"), 0, 0, 0))
             ));
         });
         return warps;
