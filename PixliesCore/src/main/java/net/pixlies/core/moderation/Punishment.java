@@ -1,5 +1,6 @@
 package net.pixlies.core.moderation;
 
+import dev.morphia.annotations.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -9,22 +10,31 @@ import java.util.UUID;
 
 @Data
 @AllArgsConstructor
+@Entity
 public class Punishment {
 
     private String ID;
-    private PunishmentType type;
-    private UUID punisher;
+    private String type;
+    private String punisher;
     private long date;
     private String reason;
     private long until;
 
     public Punishment(Map<String, Object> mapped) {
         this.ID = (String)mapped.get("ID");
-        this.type = PunishmentType.valueOf((String) mapped.get("type"));
-        this.punisher = UUID.fromString((String) mapped.get("punisher"));
+        this.type = (String) mapped.get("type");
+        this.punisher = (String) mapped.get("punisher");
         this.date = (long) mapped.get("date");
         this.reason = (String) mapped.get("reason");
         this.until = (long) mapped.get("until");
+    }
+
+    public UUID getPunisherUUID() {
+        return UUID.fromString(punisher);
+    }
+
+    public PunishmentType getTypeEnum() {
+        return PunishmentType.valueOf(type);
     }
 
     public static Map<String, Punishment> getFromMongo(Map<String, Map<String, Object>> map) {
@@ -37,7 +47,7 @@ public class Punishment {
     public Map<String, Object> mapForMongo() {
         Map<String, Object> map = new HashMap<>();
         map.put("ID", ID);
-        map.put("type", type.name());
+        map.put("type", type);
         map.put("punisher", punisher.toString());
         map.put("date", date);
         map.put("reason", reason);

@@ -1,5 +1,6 @@
 package net.pixlies.core.entity.data;
 
+import dev.morphia.annotations.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -8,11 +9,8 @@ import java.util.Map;
 
 @Data
 @AllArgsConstructor
+@Entity
 public class UserSettings {
-
-    private static final String STAFF_MODE_ENABLED = "staffMode";
-    private static final String VANISHED = "vanished";
-    private static final String PASSIVE = "passive";
 
     private boolean inStaffMode;
     private boolean vanished;
@@ -23,6 +21,10 @@ public class UserSettings {
         this.vanished = (boolean) map.get(VANISHED);
         this.passive = (boolean) map.get(PASSIVE);
     }
+
+    public static final String STAFF_MODE_ENABLED = "staffMode";
+    public static final String VANISHED = "vanished";
+    public static final String PASSIVE = "passive";
 
     public static UserSettings getFromMongo(Map<String, Object> map) {
         return new UserSettings(map);

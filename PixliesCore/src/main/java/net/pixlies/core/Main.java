@@ -2,7 +2,7 @@ package net.pixlies.core;
 
 import lombok.Getter;
 import net.pixlies.core.calendar.PixliesCalendar;
-import net.pixlies.core.commands.CommandManager;
+import net.pixlies.core.commands.PixliesCommandManager;
 import net.pixlies.core.configuration.Config;
 import net.pixlies.core.database.MongoManager;
 import net.pixlies.core.handlers.HandlerManager;
@@ -28,7 +28,7 @@ public class Main extends JavaPlugin {
     @Getter private MongoManager database;
     @Getter private HandlerManager handlerManager;
     @Getter private ModuleManager moduleManager;
-    @Getter private CommandManager commandManager;
+    @Getter private PixliesCommandManager commandManager;
     @Getter private RunnableManager runnableManager;
     @Getter private PixliesCalendar calendar;
 
@@ -87,7 +87,7 @@ public class Main extends JavaPlugin {
 
         // LISTENERS & COMMANDS
         ListenerManager.registerAllListeners();
-        commandManager = new CommandManager();
+        commandManager = new PixliesCommandManager();
 
         // MODULES
         moduleManager.loadModules();

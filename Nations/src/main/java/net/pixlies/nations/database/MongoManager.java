@@ -16,9 +16,9 @@ public class MongoManager {
     private Datastore datastore;
 
     public void init() {
-        pixlies.getDatabase().getMorphia().mapPackage("net.pixlies.nations");
+        pixlies.getDatabase().getUserCollection().getMapper().mapPackage("net.pixlies.nations");
 
-        datastore = pixlies.getDatabase().getDatastore();
+        datastore = pixlies.getDatabase().getUserCollection();
         datastore.ensureIndexes();
     }
 

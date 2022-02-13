@@ -1,28 +1,27 @@
 package net.pixlies.core.entity.data;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import dev.morphia.annotations.Entity;
 import lombok.Data;
-import lombok.Getter;
 import net.pixlies.core.scoreboard.ScoreboardAdapter.ScoreboardType;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Data
+@Entity
 public class UserPersonalization {
-
-    private static final String SOCIAL_SPY_ENABLED = "socialSpyEnabled";
-    private static final String COMMAND_SPY_ENABLED = "commandSpyEnabled";
-    private static final String VIEW_MUTED_CHAT = "viewMutedChat";
-    private static final String JOIN_VANISH = "joinVanish";
-    private static final String SCOREBOARD_TYPE = "scoreboardType";
 
     private boolean socialSpyEnabled;
     private boolean commandSpyEnabled;
     private boolean viewMutedChat;
     private boolean joinVanish;
-    private ScoreboardType scoreboardType;
+    private String scoreboardType;
+
+    public static final String SOCIAL_SPY_ENABLED = "socialSpyEnabled";
+    public static final String COMMAND_SPY_ENABLED = "commandSpyEnabled";
+    public static final String VIEW_MUTED_CHAT = "viewMutedChat";
+    public static final String JOIN_VANISH = "joinVanish";
+    public static final String SCOREBOARD_TYPE = "scoreboardType";
 
     public boolean canViewMutedChat() {
         // lombok wasn't being fun
@@ -34,7 +33,7 @@ public class UserPersonalization {
         this.commandSpyEnabled = (boolean) map.get(COMMAND_SPY_ENABLED);
         this.viewMutedChat = (boolean) map.get(VIEW_MUTED_CHAT);
         this.joinVanish = (boolean) map.get(JOIN_VANISH);
-        this.scoreboardType = ScoreboardType.valueOf((String) map.get(SCOREBOARD_TYPE));
+        this.scoreboardType = (String) map.get(SCOREBOARD_TYPE);
     }
 
     public UserPersonalization(boolean socialSpyEnabled, boolean commandSpyEnabled, boolean viewMutedChat, boolean joinVanish, String scoreboardType) {
@@ -42,7 +41,11 @@ public class UserPersonalization {
         this.commandSpyEnabled = commandSpyEnabled;
         this.viewMutedChat = viewMutedChat;
         this.joinVanish = joinVanish;
-        this.scoreboardType = ScoreboardType.valueOf(scoreboardType);
+        this.scoreboardType = scoreboardType;
+    }
+
+    public ScoreboardType getScoreboardTypeAsEnum() {
+        return ScoreboardType.valueOf(scoreboardType);
     }
 
     public static UserPersonalization getFromMongo(Map<String, Object> map) {

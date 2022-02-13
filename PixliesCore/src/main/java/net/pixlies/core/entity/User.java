@@ -1,8 +1,8 @@
 package net.pixlies.core.entity;
 
 import com.google.gson.Gson;
-import dev.morphia.annotations.Entity;
-import dev.morphia.annotations.Id;
+import dev.morphia.annotations.*;
+import dev.morphia.query.experimental.filters.Filters;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import net.kyori.adventure.text.Component;
@@ -15,6 +15,7 @@ import net.pixlies.core.localization.Lang;
 import net.pixlies.core.moderation.Punishment;
 import net.pixlies.core.moderation.PunishmentType;
 import net.pixlies.core.utils.CC;
+import org.bson.types.ObjectId;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -26,13 +27,17 @@ import java.util.*;
 @Data
 @AllArgsConstructor
 @Entity("users")
+@Indexes(
+        @Index(fields = { @Field("uuid")})
+)
 public class User {
 
-    private static final Main instance = Main.getInstance();
+    public static final Main instance = Main.getInstance();
 
-    private static final Gson gson = new Gson();
+    public static final Gson gson = new Gson();
 
     @Id
+    private ObjectId id;
     private String uuid;
     private long joined;
     private String discordId;
@@ -68,7 +73,7 @@ public class User {
     public Punishment mute(String reason, CommandSender punisher, boolean silent) {
         if (isMuted()) return getMute();
         UUID punisherUUID = !(punisher instanceof Player player) ? UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670") : player.getUniqueId();
-        Punishment punishment = new Punishment(UUID.randomUUID().toString(), PunishmentType.MUTE, punisherUUID, System.currentTimeMillis(), reason, 0);
+        Punishment punishment = new Punishment(UUID.randomUUID().toString(), PunishmentType.MUTE.name(), punisherUUID.toString(), System.currentTimeMillis(), reason, 0);
         currentPunishments.put("mute", punishment);
         if (silent) {
             Lang.PLAYER_PERMANENTLY_MUTED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason);
@@ -86,7 +91,7 @@ public class User {
     public Punishment tempMute(String reason, CommandSender punisher, long duration, boolean silent) {
         if (isMuted()) return getMute();
         UUID punisherUUID = punisher.getName().equalsIgnoreCase("console") ? UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670") : ((Player)punisher).getUniqueId();
-        Punishment punishment = new Punishment(UUID.randomUUID().toString(), PunishmentType.MUTE, punisherUUID, System.currentTimeMillis(), reason, duration + System.currentTimeMillis());
+        Punishment punishment = new Punishment(UUID.randomUUID().toString(), PunishmentType.MUTE.name(), punisherUUID.toString(), System.currentTimeMillis(), reason, duration + System.currentTimeMillis());
         currentPunishments.put("mute", punishment);
         if (silent)
             Lang.PLAYER_TEMPORARILY_MUTED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason, "%TIME%;" + new PrettyTime().format(new Date(punishment.getUntil())));
@@ -113,7 +118,7 @@ public class User {
     public Punishment ban(String reason, CommandSender punisher, boolean silent) {
         if (isBanned()) return getBan();
         UUID punisherUUID = punisher.getName().equalsIgnoreCase("console") ? UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670") : ((Player)punisher).getUniqueId();
-        Punishment punishment = new Punishment(UUID.randomUUID().toString(), PunishmentType.BAN, punisherUUID, System.currentTimeMillis(), reason, 0);
+        Punishment punishment = new Punishment(UUID.randomUUID().toString(), PunishmentType.BAN.name(), punisherUUID.toString(), System.currentTimeMillis(), reason, 0);
         currentPunishments.put("ban", punishment);
         if (silent)
             Lang.PLAYER_PERMANENTLY_BANNED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason);
@@ -135,7 +140,7 @@ public class User {
     public Punishment tempBan(String reason, CommandSender punisher, long duration, boolean silent) {
         if (isBanned()) return getBan();
         UUID punisherUUID = punisher.getName().equalsIgnoreCase("console") ? UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670") : ((Player)punisher).getUniqueId();
-        Punishment punishment = new Punishment(UUID.randomUUID().toString(), PunishmentType.BAN, punisherUUID, System.currentTimeMillis(), reason, duration + System.currentTimeMillis());
+        Punishment punishment = new Punishment(UUID.randomUUID().toString(), PunishmentType.BAN.name(), punisherUUID.toString(), System.currentTimeMillis(), reason, duration + System.currentTimeMillis());
         currentPunishments.put("ban", punishment);
         if (silent)
             Lang.PLAYER_TEMPORARILY_BANNED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason, "%TIME%;" + new PrettyTime().format(new Date(punishment.getUntil())));
@@ -173,8 +178,8 @@ public class User {
     public Punishment blacklist(String reason, CommandSender punisher, boolean silent) {
         UUID punisherUUID = punisher instanceof Player player ? player.getUniqueId() : UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670");
         Punishment punishment = new Punishment(UUID.randomUUID().toString(),
-                PunishmentType.BLACKLIST,
-                punisherUUID,
+                PunishmentType.BLACKLIST.name(),
+                punisherUUID.toString(),
                 System.currentTimeMillis(),
                 reason,
                 0
@@ -255,13 +260,14 @@ public class User {
     }
 
     public static User getFromDatabase(UUID uuid) {
-        User profile = instance.getDatabase().getDatastore().createQuery(User.class).field("uniqueId").contains(uuid.toString()).find().tryNext();
+        User profile = instance.getDatabase().getDatastore().find(User.class).filter(Filters.gte("uuid", uuid.toString())).first();
         if (profile == null) {
             profile = new User(
+                    new ObjectId(),
                     uuid.toString(),
                     System.currentTimeMillis(),
-                    null,
-                    null,
+                    "NONE",
+                    "NONE",
                     Wallet.getDefaultWallets(),
                     new ArrayList<>(),
                     new ArrayList<>(),

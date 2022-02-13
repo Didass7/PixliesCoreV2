@@ -1,5 +1,6 @@
 package net.pixlies.core.economy;
 
+import dev.morphia.annotations.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import net.pixlies.core.utils.Palette;
@@ -12,6 +13,7 @@ import java.util.Map;
 
 @Data
 @AllArgsConstructor
+@Entity
 public class Wallet {
 
     private String name;

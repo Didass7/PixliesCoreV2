@@ -10,14 +10,14 @@ import net.pixlies.core.commands.player.*;
 import net.pixlies.core.commands.staff.*;
 import net.pixlies.core.entity.User;
 
-public class CommandManager {
+public class PixliesCommandManager {
 
     private static final Main instance = Main.getInstance();
 
     private @Getter final PaperCommandManager pcm;
     private final boolean limitedCommands = instance.getConfig().getBoolean("commands.limitedCommands", false);
 
-    public CommandManager() {
+    public PixliesCommandManager() {
 
         pcm = new PaperCommandManager(instance);
 
