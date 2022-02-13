@@ -35,8 +35,10 @@ public class PixliesCommandManager {
         // MODERATION
         register(new BanCommand(), false);
         register(new TempBanCommand(), false);
+        register(new UnBanCommand(), false);
         register(new MuteCommand(), false);
         register(new TempMuteCommand(), false);
+        register(new UnMuteCommand(), false);
         register(new ChatCommand(), false);
         register(new InventorySeeCommand(), false);
         register(new GlobalPvpCommand(), false);
