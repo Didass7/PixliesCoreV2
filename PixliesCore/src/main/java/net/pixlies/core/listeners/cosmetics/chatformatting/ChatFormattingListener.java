@@ -27,7 +27,7 @@ public class ChatFormattingListener implements Listener {
             message = CC.format(message);
         }
 
-        // SET MESSAGE TODO
+        // SET MESSAGE
         event.message(Component.text(PixlieMojiHandler.replaceEmojis(message)));
 
         // SET CHAT FORMATTING
