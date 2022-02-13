@@ -25,7 +25,7 @@ import java.util.*;
 public class Warp extends LazyLocation {
 
     private static final Main instance = Main.getInstance();
-    private static final Config config = instance.getConfig();
+    private static final Config config = instance.getWarpsConfig();
 
     private final String name;
     private final String description;
