@@ -36,7 +36,7 @@ public class DiploMaurice extends Module {
         api.updateActivity(ActivityType.CUSTOM, "doing diplomacy");
         api.updateStatus(UserStatus.ONLINE);
 
-        System.out.println("INFO | Bot Invite Link: " + api.createBotInvite());
+        // System.out.println("INFO | Bot Invite Link: " + api.createBotInvite());
 
         new ListenerLoader(api).loadAll();
     }
