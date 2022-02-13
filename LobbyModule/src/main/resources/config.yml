@@ -1,6 +1,11 @@
 locations:
   spawn: "NONE"
-  pvp: "NONE"
+
+warps:
+  pvp:
+    name: "PvP"
+    description: "Teleport to the PvP arena!"
+    material: "NETHERITE_SWORD"
 
 walkspeed:
   level: 1

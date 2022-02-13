@@ -1,11 +1,11 @@
 package net.pixlies.lobby.managers;
 
-import lombok.Getter;
+import net.pixlies.core.entity.Warp;
 import net.pixlies.lobby.Lobby;
 import net.pixlies.lobby.config.Config;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
+import org.bukkit.Material;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ public class LobbyManager {
     private final Config config = instance.getConfig();
 
     private final Location spawnLocation = instance.getConfig().getLocation("locations.spawn");
-    private final Location pvpLocation = instance.getConfig().getLocation("locations.pvp");
+    private Warp pvpWarp = Warp.get(config.getString("warps.pvp.name", "pvp"));
 
     private final List<UUID> buildModePlayers = new ArrayList<>();
 
@@ -48,17 +48,18 @@ public class LobbyManager {
         config.save();
     }
 
-    /* TODO: Warps on the core to replace this
-    public Location getPvpLocation() {
-        if (pvpLocation == null)
-            return new Location(Bukkit.getWorld("world"), 0, 0, 0, 0, 0);
-        return pvpLocation;
+    public Warp getPvpWarp() {
+        return pvpWarp;
     }
 
-    public void setPvpLocation(Location location) {
-        config.set("locations.pvp", location);
-        config.save();
+    public void setPvpWarp(Location location) {
+        pvpWarp = new Warp(
+                config.getString("warps.pvp.name", "pvp"),
+                config.getString("warps.pvp.description", "No description."),
+                Material.valueOf(config.getString("warps.pvp.material", "DIAMOND_SWORD")),
+                location
+        );
+        pvpWarp.save();
     }
-     */
 
 }
