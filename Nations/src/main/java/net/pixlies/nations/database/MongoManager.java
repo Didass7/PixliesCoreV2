@@ -5,6 +5,7 @@ import lombok.Getter;
 import net.pixlies.core.Main;
 import net.pixlies.nations.Nations;
 import net.pixlies.nations.config.Config;
+import net.pixlies.nations.nations.Nation;
 
 @Getter
 public class MongoManager {
@@ -16,7 +17,7 @@ public class MongoManager {
     private Datastore datastore;
 
     public void init() {
-        pixlies.getDatabase().getMorphia().mapPackage("net.pixlies.nations");
+        pixlies.getDatabase().getDatastore().getMapper().map(Nation.class);
 
         datastore = pixlies.getDatabase().getDatastore();
         datastore.ensureIndexes();

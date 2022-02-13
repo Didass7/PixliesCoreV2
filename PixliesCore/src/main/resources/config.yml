@@ -1,6 +1,9 @@
 database:
     type: "mongo"
-    uri: "mongodb://uxh5futzi56lapqpnupd:fQKxI8M4t32HxPiO2084@bvt9uk8itwhrlwe-mongodb.services.clever-cloud.com:27017/bvt9uk8itwhrlwe"
+    host: "0.0.0.0"
+    port: "27017"
+    user: "youKnow"
+    password: "YouKnowBetter"
     database: "bvt9uk8itwhrlwe"
     users-collection: "users"
     nations-collection: "nation"

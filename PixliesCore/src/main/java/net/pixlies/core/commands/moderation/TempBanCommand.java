@@ -16,10 +16,10 @@ import org.ocpsoft.prettytime.PrettyTime;
 
 import java.util.Date;
 
-@CommandAlias("tempban")
-@CommandPermission("pixlies.moderation.tempban")
 public class TempBanCommand extends BaseCommand {
 
+    @CommandAlias("tempban")
+    @CommandPermission("pixlies.moderation.tempban")
     @CommandCompletion("@players")
     @Description("Temporarily bans player with the default reason")
     public void onTempBan(CommandSender sender, String player, String duration, @Optional String reason) {
@@ -49,12 +49,5 @@ public class TempBanCommand extends BaseCommand {
         User user = User.get(targetOP.getUniqueId());
         user.tempBan(banReason, sender, durationLong, silent);
     }
-
-    @Default
-    @HelpCommand
-    public void onHelp(CommandSender sender, CommandHelp help) {
-        help.showHelp();
-    }
-
 
 }

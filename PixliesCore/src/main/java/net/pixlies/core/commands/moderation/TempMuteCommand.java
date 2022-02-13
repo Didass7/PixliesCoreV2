@@ -11,10 +11,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
-@CommandAlias("tempmute")
-@CommandPermission("pixlies.moderation.tempmute")
 public class TempMuteCommand extends BaseCommand {
 
+    @CommandAlias("tempmute")
+    @CommandPermission("pixlies.moderation.tempmute")
     @CommandCompletion("@players")
     @Description("Temporarily mutes player with the default reason")
     public void onTempMute(CommandSender sender, String player, String duration, @Optional String reason) {
@@ -36,12 +36,5 @@ public class TempMuteCommand extends BaseCommand {
         User user = User.get(targetOP.getUniqueId());
         user.tempMute(muteReason, sender, durationLong, silent);
     }
-
-    @Default
-    @HelpCommand
-    public void onHelp(CommandSender sender, CommandHelp help) {
-        help.showHelp();
-    }
-
 
 }

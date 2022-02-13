@@ -5,7 +5,7 @@ import org.javacord.api.event.message.MessageCreateEvent;
 
 public class CommandListenerImpl implements CommandListener {
     @Override
-    public void onMessageCreate(MessageCreateEvent messageCreateEvent) {
+    public void onMessageCreate(MessageCreateEvent event) {
 
     }
 }

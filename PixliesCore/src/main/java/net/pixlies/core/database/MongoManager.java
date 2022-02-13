@@ -1,13 +1,23 @@
 package net.pixlies.core.database;
 
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
+import com.mongodb.*;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
 import dev.morphia.Datastore;
 import dev.morphia.Morphia;
 import lombok.Getter;
 import net.pixlies.core.Main;
-import org.bukkit.Bukkit;
+import net.pixlies.core.economy.Wallet;
+import net.pixlies.core.entity.User;
+import net.pixlies.core.entity.data.PermissionProfile;
+import net.pixlies.core.entity.data.UserPersonalization;
+import net.pixlies.core.entity.data.UserSettings;
+import net.pixlies.core.moderation.Punishment;
+import org.bson.codecs.configuration.CodecRegistries;
+import org.bson.codecs.configuration.CodecRegistry;
+import org.bson.codecs.pojo.PojoCodecProvider;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,7 +28,18 @@ public class MongoManager {
 
     private MongoClient client;
     private Datastore datastore;
-    private Morphia morphia;
+    private final CodecRegistry codecRegistry = CodecRegistries.fromRegistries(
+            MongoClientSettings.getDefaultCodecRegistry(),
+            CodecRegistries.fromProviders(
+                    PojoCodecProvider.builder()
+                            .register(UserSettings.class)
+                            .register(Wallet.class)
+                            .register(UserPersonalization.class)
+                            .register(PermissionProfile.class)
+                            .register(Punishment.class)
+                            .build()
+            )
+    );
 
     private final UserCache userCache = new UserCache();
 
@@ -26,24 +47,28 @@ public class MongoManager {
         Logger.getLogger("org.mongodb.driver").setLevel(Level.WARNING);
         instance.getLogger().info("Connecting to MongoDB...");
 
-        String uri = instance.getConfig().getString("database.uri");
-        if (uri == null) {
-            instance.getLogger().warning("Plugin can't start because MongoDB URI is missing.");
-            Bukkit.getPluginManager().disablePlugin(instance);
-            return this;
-        }
-        MongoClientURI clientURI = new MongoClientURI(uri);
-        client = new MongoClient(clientURI);
+        MongoCredential credential = MongoCredential.createCredential(conf("database.user"), conf("database.database"), conf("database.password").toCharArray());
 
-        morphia = new Morphia();
-        morphia.mapPackage("net.pixlies.core");
+        MongoClientSettings settings = MongoClientSettings.builder()
+                .credential(credential)
+                .applyToClusterSettings(builder ->
+                        builder.hosts(List.of(new ServerAddress(conf("database.host"), Integer.parseInt(conf("database.port"))))))
+                .build();
 
-        datastore = morphia.createDatastore(client, instance.getConfig().getString("database.database", "admin"));
+        client = MongoClients.create(
+                settings
+        );
 
-        datastore.ensureIndexes();
+        datastore = Morphia.createDatastore(client, conf("database.database"));
+
+        datastore.getMapper().map(User.class);
 
         instance.getLogger().info("Connected to MongoDB database.");
         return this;
+    }
+
+    private static String conf(String what) {
+        return instance.getConfig().getString(what);
     }
 
 }
