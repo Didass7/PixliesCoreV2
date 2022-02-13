@@ -1,6 +1,7 @@
 package net.pixlies.core.entity;
 
 import com.google.gson.Gson;
+import dev.morphia.InsertOneOptions;
 import dev.morphia.annotations.*;
 import dev.morphia.query.experimental.filters.Filters;
 import lombok.AllArgsConstructor;
@@ -287,6 +288,10 @@ public class User {
     }
 
     public void backup() {
+        try {
+            instance.getDatabase().getDatastore().find(User.class).filter(Filters.gte("uuid", uuid)).delete();
+        } catch (Exception ignored) { }
+
         instance.getDatabase().getDatastore().save(this);
     }
 

@@ -10,10 +10,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
-@CommandAlias("mute")
-@CommandPermission("pixlies.moderation.mute")
 public class MuteCommand extends BaseCommand {
 
+    @CommandAlias("mute")
+    @CommandPermission("pixlies.moderation.mute")
     @CommandCompletion("@players")
     @Description("Mutes player with the default reason")
     public void onBan(CommandSender sender, String player, @Optional String reason) {
@@ -33,11 +33,6 @@ public class MuteCommand extends BaseCommand {
 
         User user = User.get(targetOP.getUniqueId());
         user.mute(muteReason, sender, silent);
-    }
-
-    @HelpCommand
-    public void onHelp(CommandSender sender, CommandHelp help) {
-        help.showHelp();
     }
 
 }

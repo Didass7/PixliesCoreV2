@@ -11,12 +11,12 @@ import org.bukkit.command.CommandSender;
  * cool blacklist command for your enemies
  * @author Dynmie
  */
-@CommandAlias("blacklist")
-@CommandPermission("pixlies.moderation.blacklist")
 public class BlacklistCommand extends BaseCommand {
 
     private static final Main instance = Main.getInstance();
 
+    @CommandAlias("blacklist")
+    @CommandPermission("pixlies.moderation.blacklist")
     @CommandCompletion("@players")
     @Description("Bans player with the default reason")
     public void onBlacklist(CommandSender sender, OfflinePlayer target, @Optional String reason) {
