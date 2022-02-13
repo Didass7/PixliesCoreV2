@@ -32,20 +32,4 @@ public class LazyLocation {
         return new Location(Bukkit.getWorld(world), x, y, z, pitch, yaw);
     }
 
-    @Override
-    public String toString() {
-        return world + ";" + x + ";" + y + ";" + z + ";" + pitch + ";" + yaw;
-    }
-
-    public static LazyLocation fromString(String string) {
-        String[] args = string.split(";");
-        return new LazyLocation(args[0],
-                Double.parseDouble(args[1]),
-                Double.parseDouble(args[2]),
-                Double.parseDouble(args[3]),
-                Float.parseFloat(args[4]),
-                Float.parseFloat(args[5])
-        );
-    }
-
 }

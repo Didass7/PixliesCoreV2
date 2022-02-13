@@ -9,15 +9,11 @@ import net.pixlies.core.handlers.HandlerManager;
 import net.pixlies.core.handlers.RegisterHandlerManager;
 import net.pixlies.core.handlers.impl.ScoreboardHandler;
 import net.pixlies.core.lib.io.github.thatkawaiisam.assemble.Assemble;
-import net.pixlies.core.lib.io.github.thatkawaiisam.assemble.AssembleStyle;
 import net.pixlies.core.listeners.ListenerManager;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.modules.ModuleManager;
 import net.pixlies.core.runnables.RunnableManager;
 import net.pixlies.core.runnables.RunnableRegisterManager;
-import net.pixlies.core.scoreboard.ScoreboardAdapter;
-import net.pixlies.core.utils.FileUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
 
@@ -40,6 +36,7 @@ public class Main extends JavaPlugin {
     @Getter private Config staffModeConfig;
     @Getter private Config calendarConfig;
     @Getter private Config settings;
+    @Getter private Config warpsConfig;
 
     @Getter private boolean lobbyServer;
 
@@ -57,6 +54,7 @@ public class Main extends JavaPlugin {
         staffModeConfig = new Config(new File(getDataFolder().getAbsolutePath() + "/staffmode/persist.yml"), "staffmode/persist.yml");
         settings = new Config(new File(getDataFolder().getAbsolutePath() + "/settings.yml", "settings.yml"));
         calendarConfig = new Config(new File(getDataFolder().getAbsolutePath() + "/calendar.yml"), "calendar.yml");
+        warpsConfig = new Config(new File(getDataFolder().getAbsolutePath() + "/warps.yml", "warps.yml"));
 
         // CHECK LOBBY
         lobbyServer = config.getBoolean("commands.limitedCommands", false);
