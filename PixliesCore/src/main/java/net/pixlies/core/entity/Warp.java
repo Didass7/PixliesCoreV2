@@ -11,6 +11,12 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
+import java.util.*;
+
+/**
+ * Warps
+ * @author Dynmie
+ */
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = false)
@@ -51,6 +57,23 @@ public class Warp extends LazyLocation {
                 Material.valueOf(section.getString("material")),
                 location
         );
+    }
+
+    public static Collection<Warp> getWarps() {
+        Set<String> keys = config.getKeys(false);
+        if (keys.isEmpty()) return Collections.emptyList();
+        List<Warp> warps = new ArrayList<>();
+        keys.forEach(key -> {
+            ConfigurationSection section = config.getConfigurationSection(key);
+            if (section == null) return;
+            warps.add(new Warp(
+                    key,
+                    section.getString("description"),
+                    Material.valueOf(section.getString("material")),
+                    section.getLocation("location")
+            ));
+        });
+        return warps;
     }
 
 }
