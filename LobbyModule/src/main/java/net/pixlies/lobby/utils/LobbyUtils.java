@@ -32,6 +32,7 @@ public final class LobbyUtils {
         player.teleport(instance.getLobbyManager().getSpawnLocation());
         player.setAllowFlight(player.hasPermission("pixlies.lobby.flight"));
         player.getInventory().setHeldItemSlot(4);
+        JoinItems.give(player);
     }
 
 }

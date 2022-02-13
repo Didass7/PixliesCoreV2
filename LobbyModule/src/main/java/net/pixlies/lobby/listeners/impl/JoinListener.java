@@ -1,6 +1,5 @@
 package net.pixlies.lobby.listeners.impl;
 
-import net.pixlies.lobby.utils.JoinItems;
 import net.pixlies.lobby.utils.LobbyUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,7 +13,6 @@ public class JoinListener implements Listener {
 
         Player player = event.getPlayer();
         LobbyUtils.resetPlayer(player);
-        JoinItems.give(player);
 
     }
 
