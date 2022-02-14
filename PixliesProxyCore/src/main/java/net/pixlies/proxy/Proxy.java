@@ -9,6 +9,7 @@ import net.pixlies.proxy.handlers.HandlerManager;
 import net.pixlies.proxy.handlers.RegisterHandlerManager;
 import net.pixlies.proxy.listeners.ListenerManager;
 import net.pixlies.proxy.localization.Lang;
+import net.pixlies.proxy.runnables.RunnableManager;
 import net.pixlies.proxy.utils.FileUtils;
 
 import java.io.File;
@@ -49,6 +50,7 @@ public class Proxy extends Plugin {
         mongoManager.init();
         handlerManager = new HandlerManager();
         new RegisterHandlerManager().registerAllHandlers();
+        new RunnableManager().runAll();
 
         // COMMANDS
         commandManager = new CommandManager();
