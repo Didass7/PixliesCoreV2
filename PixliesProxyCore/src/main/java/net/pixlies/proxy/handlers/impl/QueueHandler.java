@@ -37,6 +37,10 @@ public class QueueHandler implements Handler {
         if (section == null) return;
 
         for (String queueName : section.getKeys()) {
+            if (instance.getProxy().getServerInfo(queueName) == null) {
+                instance.getLogger().warning("The server \"" + queueName + "\" does not exist.");
+                continue;
+            }
             Configuration queueSection = section.getSection("queue.queues." + queueName);
             if (queueSection == null) continue;
             queues.add(new Queue(
@@ -49,6 +53,7 @@ public class QueueHandler implements Handler {
     }
 
     public Collection<Queue> getQueues() {
+        queues.removeIf(queue -> queue.getServerInfo() == null);
         return queues;
     }
 
