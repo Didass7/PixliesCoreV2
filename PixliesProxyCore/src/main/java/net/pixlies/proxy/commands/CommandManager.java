@@ -59,9 +59,9 @@ public class CommandManager {
             Queue queue = queueHandler.getQueue(context.getFirstArg());
             if (queue == null) {
                 if (sender instanceof ProxiedPlayer player) {
-                    throw new ConditionFailedException(Lang.PLAYER_QUEUE_NOT_EXIST.get(player));
+                    throw new ConditionFailedException(Lang.PLAYER_QUEUE_NOT_EXIST.get(player).replace("%QUEUE%", context.getFirstArg()));
                 } else {
-                    throw new ConditionFailedException(Lang.PLAYER_QUEUE_NOT_EXIST.get(sender));
+                    throw new ConditionFailedException(Lang.PLAYER_QUEUE_NOT_EXIST.get(sender).replace("%QUEUE%", context.getFirstArg()));
                 }
             }
             return queue;

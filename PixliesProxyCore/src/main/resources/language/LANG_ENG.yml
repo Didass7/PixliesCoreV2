@@ -5,7 +5,7 @@ PLAYER_SERVER_NOT_EXIST: "&7That server does not exist."
 PLAYER_SERVER_CANNOT_CONNECT: "&7You cannot connect to that server."
 PLAYER_SERVER_CANNOT_CONNECT_OTHER: "&6%PLAYER%&7 cannot connect to that server."
 
-PLAYER_QUEUE_NOT_EXIST: "<gray>The queue <gold><queue></gold> does not exist.</gray>"
+PLAYER_QUEUE_NOT_EXIST: "§7The queue §6%QUEUE%§7 does not exist."
 
 # STAFF
 # TODO
