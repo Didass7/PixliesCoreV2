@@ -31,6 +31,8 @@ NO_ITEMS_FOUND_ON_PLAYER: "§7No items found on player §6%PLAYER%§7."
 
 PLAYER_DOESNT_EXIST: "§cThis player does not exist!"
 
+NOT_HOLDING_ANYTHING: "§7You are not holding anything."
+
 SWEAR_FILTER_ON: "§7Swear filter has been §aenabled§7."
 SWEAR_FILTER_OFF: "§7Swear filter has been §cdisabled§7."
 
@@ -69,6 +71,9 @@ STAFF_BROADCAST_MESSAGE: "§6%MESSAGE%"
 
 STAFF_TELEPORT_SELF_TO_TARGET: "§7You have been teleported to §6%TARGET%§7."
 STAFF_TELEPORT_PLAYER_TO_TARGET: "§6%PLAYER%§7 has been teleported to §6%TARGET%§7."
+
+STAFF_MODELDATA_SET: "§7The model data has been set to §d%DATA%§7."
+STAFF_MODELDATA_GET: "§7The model data is §6%DATA%§7."
 
 # MODERATION
 MODERATION_GLOBAL_PVP_ON: ""

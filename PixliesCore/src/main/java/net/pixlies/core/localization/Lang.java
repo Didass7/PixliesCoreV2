@@ -45,6 +45,8 @@ public enum Lang {
 
     PLAYER_DOESNT_EXIST(Lang.PIXLIES, new HashMap<>()),
 
+    NOT_HOLDING_ANYTHING(Lang.PIXLIES, new HashMap<>()),
+
     CANNOT_USE_ON_SELF(Lang.PIXLIES, new HashMap<>()),
     CANNOT_EDIT_ITEM(Lang.PIXLIES, new HashMap<>()),
 
@@ -76,6 +78,9 @@ public enum Lang {
 
     STAFF_TELEPORT_SELF_TO_TARGET(Lang.PIXLIES, new HashMap<>()),
     STAFF_TELEPORT_PLAYER_TO_TARGET(Lang.PIXLIES, new HashMap<>()),
+
+    STAFF_MODELDATA_SET(Lang.PIXLIES, new HashMap<>()),
+    STAFF_MODELDATA_GET(Lang.PIXLIES, new HashMap<>()),
 
     TPHERE_MESSAGE_SENDER(Lang.PIXLIES, new HashMap<>()),
     TPHERE_MESSAGE_TARGET(Lang.PIXLIES, new HashMap<>()),
