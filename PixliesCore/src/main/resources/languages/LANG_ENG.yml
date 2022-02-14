@@ -17,6 +17,7 @@ BANNED_PLAYER_TRIED_TO_JOIN: '§6%PLAYER%§7 tried to join, but is banned!'
 PLAYER_PERMANENTLY_BANNED: '§6%PLAYER%§7 was permanently banned by §6%EXECUTOR%§7 for §c"%REASON%"§7.'
 PLAYER_TEMPORARILY_BANNED: '§6%PLAYER%§7 was temporarily banned by §6%EXECUTOR%§7 for §c"%REASON%"§7 for §c%TIME%.'
 PLAYER_BLACKLISTED: '§6%PLAYER%§7 was permanently blacklisted by §6%EXECUTOR%§7 for §c"%REASON%"§7.'
+PLAYER_UNBLACKLISTED: "§6%PLAYER%§7 has been unblacklisted."
 PLAYER_PERMANENTLY_MUTED: '§6%PLAYER%§7 was muted by §6%EXECUTOR%§7 for §c"%REASON%"§7.'
 PLAYER_TEMPORARILY_MUTED: '§6%PLAYER%§7 was muted by §6%EXECUTOR%§7 for §c"%REASON%"§7 for §c%TIME%.'
 MUTE_MESSAGE: "§cYou cannot talk while being muted."

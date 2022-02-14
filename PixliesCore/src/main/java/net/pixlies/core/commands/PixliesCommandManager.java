@@ -51,6 +51,7 @@ public class PixliesCommandManager {
         register(new TpAcceptCommand(), false);
         register(new TpBackCommand(), false);
         register(new BlacklistCommand(), false);
+        register(new UnBlacklistCommand(), false);
 
         // STAFF
         register(new GodCommand(), false);
