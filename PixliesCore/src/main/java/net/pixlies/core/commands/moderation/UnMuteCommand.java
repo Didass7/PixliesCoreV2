@@ -15,15 +15,18 @@ public class UnMuteCommand extends BaseCommand {
 
     @CommandCompletion("@players")
     @Description("Mute'nt a player")
-    public void onUnmute(CommandSender sender, String target, @Optional String silent) {
+    public void onUnmute(CommandSender sender, String target, @Optional String s) {
         OfflinePlayer targetOP = Bukkit.getOfflinePlayerIfCached(target);
+
+        boolean silent = s.contains("-s");
+
         if (targetOP == null) {
             Lang.PLAYER_DOESNT_EXIST.send(sender);
             return;
         }
 
         User user = User.get(targetOP.getUniqueId());
-        user.unmute();
+        user.unmute(sender, silent);
     }
 
     @Default

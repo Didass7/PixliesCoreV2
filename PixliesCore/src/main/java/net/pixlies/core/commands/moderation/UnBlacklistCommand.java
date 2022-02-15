@@ -20,10 +20,12 @@ public class UnBlacklistCommand extends BaseCommand {
     @CommandPermission("pixlies.moderation.unblacklist")
     @CommandCompletion("@players")
     @Description("Unblacklist a player")
-    public void onBlacklist(CommandSender sender, OfflinePlayer target, @Optional String reason) {
+    public void onUnBlacklist(CommandSender sender, OfflinePlayer target, @Optional String s) {
+
+        boolean silent = s.contains("-s");
 
         User user = User.get(target.getUniqueId());
-        user.unblacklist();
+        user.unblacklist(sender, silent);
         Lang.PLAYER_UNBLACKLISTED.send(sender, "%PLAYER%;" + target.getName());
 
     }

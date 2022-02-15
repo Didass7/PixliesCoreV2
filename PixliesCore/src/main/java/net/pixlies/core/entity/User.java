@@ -72,7 +72,7 @@ public class User {
 
     public Punishment mute(String reason, CommandSender punisher, boolean silent) {
         if (isMuted()) return getMute();
-        UUID punisherUUID = !(punisher instanceof Player player) ? UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670") : player.getUniqueId();
+        UUID punisherUUID = punisher instanceof Player player ? player.getUniqueId() : UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670");
         Punishment punishment = new Punishment(UUID.randomUUID().toString(), PunishmentType.MUTE.name(), punisherUUID.toString(), System.currentTimeMillis(), reason, 0);
         currentPunishments.put("mute", punishment);
         if (silent) {
@@ -84,15 +84,20 @@ public class User {
         return punishment;
     }
 
-    public void unmute() {
+    public void unmute(CommandSender sender, boolean silent) {
         if (!isMuted()) return;
         currentPunishments.remove("mute");
+        if (silent) {
+            Lang.PLAYER_UNMUTED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + getAsOfflinePlayer().getName(), "%EXECUTOR%;" + sender.getName());
+        } else {
+            Lang.PLAYER_UNMUTED.broadcast("%PLAYER%;" + getAsOfflinePlayer().getName(), "%EXECUTOR%;" + sender.getName());
+        }
         save();
     }
 
     public Punishment tempMute(String reason, CommandSender punisher, long duration, boolean silent) {
         if (isMuted()) return getMute();
-        UUID punisherUUID = punisher.getName().equalsIgnoreCase("console") ? UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670") : ((Player)punisher).getUniqueId();
+        UUID punisherUUID = punisher instanceof Player player ? player.getUniqueId() : UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670");
         Punishment punishment = new Punishment(UUID.randomUUID().toString(), PunishmentType.MUTE.name(), punisherUUID.toString(), System.currentTimeMillis(), reason, duration + System.currentTimeMillis());
         currentPunishments.put("mute", punishment);
         if (silent)
@@ -119,7 +124,7 @@ public class User {
 
     public Punishment ban(String reason, CommandSender punisher, boolean silent) {
         if (isBanned()) return getBan();
-        UUID punisherUUID = punisher.getName().equalsIgnoreCase("console") ? UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670") : ((Player)punisher).getUniqueId();
+        UUID punisherUUID = punisher instanceof Player player ? player.getUniqueId() : UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670");
         Punishment punishment = new Punishment(UUID.randomUUID().toString(), PunishmentType.BAN.name(), punisherUUID.toString(), System.currentTimeMillis(), reason, 0);
         currentPunishments.put("ban", punishment);
         if (silent)
@@ -141,7 +146,7 @@ public class User {
 
     public Punishment tempBan(String reason, CommandSender punisher, long duration, boolean silent) {
         if (isBanned()) return getBan();
-        UUID punisherUUID = punisher.getName().equalsIgnoreCase("console") ? UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670") : ((Player)punisher).getUniqueId();
+        UUID punisherUUID = punisher instanceof Player player ? player.getUniqueId() : UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670");
         Punishment punishment = new Punishment(UUID.randomUUID().toString(), PunishmentType.BAN.name(), punisherUUID.toString(), System.currentTimeMillis(), reason, duration + System.currentTimeMillis());
         currentPunishments.put("ban", punishment);
         if (silent)
@@ -162,9 +167,14 @@ public class User {
         return punishment;
     }
 
-    public void unban() {
+    public void unban(CommandSender sender, boolean silent) {
         if (!isBanned()) return;
         currentPunishments.remove("ban");
+        if (silent) {
+            Lang.PLAYER_UNBANNED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + getAsOfflinePlayer().getName(), "%EXECUTOR%;" + sender.getName());
+        } else {
+            Lang.PLAYER_UNBANNED.broadcast("%PLAYER%;" + getAsOfflinePlayer().getName(), "%EXECUTOR%;" + sender.getName());
+        }
         save();
     }
 
@@ -203,9 +213,14 @@ public class User {
         return punishment;
     }
 
-    public void unblacklist() {
+    public void unblacklist(CommandSender sender, boolean silent) {
         if (!isBlacklisted()) return;
         currentPunishments.remove("blacklist");
+        if (silent) {
+            Lang.PLAYER_UNBLACKLISTED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + getAsOfflinePlayer().getName(), "%EXECUTOR%;" + sender.getName());
+        } else {
+            Lang.PLAYER_UNBLACKLISTED.broadcast("%PLAYER%;" + getAsOfflinePlayer().getName(), "%EXECUTOR%;" + sender.getName());
+        }
         save();
     }
 
