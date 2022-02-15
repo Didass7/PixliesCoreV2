@@ -1,7 +1,6 @@
 package net.pixlies.core.entity;
 
 import com.google.gson.Gson;
-import dev.morphia.InsertOneOptions;
 import dev.morphia.annotations.*;
 import dev.morphia.query.experimental.filters.Filters;
 import lombok.AllArgsConstructor;
@@ -85,8 +84,10 @@ public class User {
         return punishment;
     }
 
-    public void unmute(CommandSender theGuy, boolean silent) {
-        tempMute("Unmuted", theGuy, 0, silent);
+    public void unmute() {
+        if (!isMuted()) return;
+        currentPunishments.remove("mute");
+        save();
     }
 
     public Punishment tempMute(String reason, CommandSender punisher, long duration, boolean silent) {

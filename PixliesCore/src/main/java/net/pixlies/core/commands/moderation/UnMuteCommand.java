@@ -23,7 +23,7 @@ public class UnMuteCommand extends BaseCommand {
         }
 
         User user = User.get(targetOP.getUniqueId());
-        user.unmute(sender, silent != null && silent.equalsIgnoreCase("-s"));
+        user.unmute();
     }
 
     @Default
