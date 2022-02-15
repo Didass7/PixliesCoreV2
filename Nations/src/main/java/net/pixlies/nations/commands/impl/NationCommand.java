@@ -66,6 +66,7 @@ public class NationCommand extends BaseCommand {
                 Religion.SECULAR,
                 ncValues,
                 new HashMap<>(),
+                new ArrayList<>(),
                 new ArrayList<>());
         nation.create();
         Lang.NATION_FORMED.broadcast("%NATION%;" + nation.getName(), "%PLAYER%;" + player.getName());

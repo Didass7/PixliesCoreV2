@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import net.pixlies.nations.Nations;
+import net.pixlies.nations.nations.chunk.NationChunk;
 import net.pixlies.nations.nations.customization.GovernmentType;
 import net.pixlies.nations.nations.customization.Ideology;
 import net.pixlies.nations.nations.customization.Religion;
@@ -18,6 +19,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * Nation Class ready to be put in MongoDB because of @Entity
+ *
+ * @author MickMMars
+ * @author Dynmie
+ * @author vPrototype
+ */
 @AllArgsConstructor
 @Entity("nations")
 public class Nation {
@@ -49,6 +57,9 @@ public class Nation {
     // MEMBERS
     private @Getter @Setter List<String> memberUUIDs;
 
+    // CHUNKS
+    private @Getter @Setter List<NationChunk> claims;
+
     // -------------------------------------------------------------------------------------------------
 
     public Nation(String nationsId,
@@ -63,7 +74,8 @@ public class Nation {
                   Religion religion,
                   List<Integer> constitutionValues,
                   Map<String, NationRank> ranks,
-                  List<UUID> memberUUIDs
+                  List<UUID> memberUUIDs,
+                  List<NationChunk> claims
     ) {
         this.nationsId = nationsId;
         this.name = name;
@@ -80,6 +92,7 @@ public class Nation {
         List<String> membersStrings = new ArrayList<>();
         memberUUIDs.forEach(uuid -> membersStrings.add(uuid.toString()));
         this.memberUUIDs = membersStrings;
+        this.claims = claims;
     }
 
     // -------------------------------------------------------------------------------------------------
