@@ -53,7 +53,20 @@ public class NationCommand extends BaseCommand {
         }
 
         // TODO: Random description
-        Nation nation = new Nation(uuid.toString(), name, "No description yet", player.getUniqueId(), System.currentTimeMillis(), 0.0, 0.0, GovernmentType.UNITARY, Ideology.TRIBAL, Religion.SECULAR, ncValues, new ArrayList<>(), new HashMap<>(), new ArrayList<>());
+        Nation nation = new Nation(
+                uuid.toString(),
+                name,
+                "No description yet",
+                player.getUniqueId(),
+                System.currentTimeMillis(),
+                0.0,
+                0.0,
+                GovernmentType.UNITARY,
+                Ideology.TRIBAL,
+                Religion.SECULAR,
+                ncValues,
+                new HashMap<>(),
+                new ArrayList<>());
         nation.create();
         Lang.NATION_FORMED.broadcast("%NATION%;" + nation.getName(), "%PLAYER%;" + player.getName());
 
