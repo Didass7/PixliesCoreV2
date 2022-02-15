@@ -11,6 +11,7 @@ import net.pixlies.core.economy.Wallet;
 import net.pixlies.core.entity.data.PermissionProfile;
 import net.pixlies.core.entity.data.UserPersonalization;
 import net.pixlies.core.entity.data.UserSettings;
+import net.pixlies.core.entity.data.UserStats;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.moderation.Punishment;
 import net.pixlies.core.moderation.PunishmentType;
@@ -45,7 +46,7 @@ public class User {
     private Map<String, Wallet> wallets;
     private List<String> knownUsernames;
     private List<UUID> blockedUsers;
-    private Map<String, Object> stats;
+    private UserStats stats;
     private Map<String, Punishment> currentPunishments;
     private UserPersonalization personalization;
     private UserSettings settings;
@@ -288,7 +289,7 @@ public class User {
                     Wallet.getDefaultWallets(),
                     new ArrayList<>(),
                     new ArrayList<>(),
-                    new HashMap<>(),
+                    new UserStats(),
                     new HashMap<>(),
                     UserPersonalization.getDefaults(),
                     UserSettings.getDefaults(),

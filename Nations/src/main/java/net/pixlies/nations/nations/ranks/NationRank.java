@@ -1,5 +1,6 @@
 package net.pixlies.nations.nations.ranks;
 
+import dev.morphia.annotations.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -7,6 +8,7 @@ import java.util.*;
 
 @Data
 @AllArgsConstructor
+@Entity
 public class NationRank {
 
     private String name;
@@ -14,22 +16,22 @@ public class NationRank {
     private int priority;
     private List<String> permissions;
 
-    @SuppressWarnings("unchecked")
+/*    @SuppressWarnings("unchecked")
     public static NationRank get(Map<String, Object> map) {
         return new NationRank((String) map.get("name"),
                 (String) map.get("prefix"),
                 (Short) map.get("priority"),
                 (List<String>) map.get("permissions"));
-    }
+    }*/
 
-    public Map<String, Object> toMap() {
+/*    public Map<String, Object> toMap() {
         Map<String, Object> returner = new HashMap<>();
         returner.put("name", name);
         returner.put("prefix", prefix);
         returner.put("priority", priority);
         returner.put("permissions", permissions);
         return returner;
-    }
+    }*/
 
     // Newbie has no permissions
     public static NationRank newbie() {

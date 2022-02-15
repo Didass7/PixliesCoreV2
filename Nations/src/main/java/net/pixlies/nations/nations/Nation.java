@@ -4,6 +4,8 @@ import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import net.pixlies.nations.Nations;
 import net.pixlies.nations.nations.customization.GovernmentType;
 import net.pixlies.nations.nations.customization.Ideology;
@@ -11,11 +13,11 @@ import net.pixlies.nations.nations.customization.Religion;
 import net.pixlies.nations.nations.ranks.NationRank;
 import org.bson.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-@Data
 @AllArgsConstructor
 @Entity("nations")
 public class Nation {
@@ -25,36 +27,101 @@ public class Nation {
 
     // INFO
     @Id
-    private String nationsId;
-    private String name;
-    private String description;
-    private UUID leaderUUID;
-    private long created;
+    private @Getter @Setter String nationsId;
+    private @Getter @Setter String name;
+    private @Getter @Setter String description;
+    private String leaderUUID;
+    private @Getter @Setter long created;
 
     // DATA
-    private double politicalPower;
-    private double money;
+    private @Getter @Setter double politicalPower;
+    private @Getter @Setter double money;
 
     // CUSTOMIZATION
-    private GovernmentType govType;
-    private Ideology ideology;
-    private Religion religion;
-    private List<Integer> constitutionValues;
-
-    // STATES
-    private List<String> stateIds;
+    private String govType;
+    private String ideology;
+    private String religion;
+    private @Getter @Setter List<Integer> constitutionValues;
 
     // RANKS
-    private Map<String, Map<String, Object>> ranks;
+    private @Getter @Setter Map<String, NationRank> ranks;
 
     // MEMBERS
-    private List<String> memberUUIDs;
+    private @Getter @Setter List<String> memberUUIDs;
+
+    // -------------------------------------------------------------------------------------------------
+
+    public Nation(String nationsId,
+                  String name,
+                  String description,
+                  UUID leaderUUID,
+                  long created,
+                  double politicalPower,
+                  double money,
+                  GovernmentType govType,
+                  Ideology ideology,
+                  Religion religion,
+                  List<Integer> constitutionValues,
+                  Map<String, NationRank> ranks,
+                  List<UUID> memberUUIDs
+    ) {
+        this.nationsId = nationsId;
+        this.name = name;
+        this.description = description;
+        this.leaderUUID = leaderUUID.toString();
+        this.created = created;
+        this.politicalPower = politicalPower;
+        this.money = money;
+        this.govType = govType.name();
+        this.ideology = ideology.name();
+        this.religion = religion.name();
+        this.constitutionValues = constitutionValues;
+        this.ranks = ranks;
+        List<String> membersStrings = new ArrayList<>();
+        memberUUIDs.forEach(uuid -> membersStrings.add(uuid.toString()));
+        this.memberUUIDs = membersStrings;
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    // MANUAL GETTER AND SETTERS
+    public void setLeaderUUID(UUID uuid) {
+        this.leaderUUID = uuid.toString();
+    }
+
+    public UUID getLeaderUUID() {
+        return UUID.fromString(this.leaderUUID);
+    }
+
+    public void setGovType(GovernmentType type) {
+        this.govType = type.name();
+    }
+
+    public GovernmentType getGovType() {
+        return GovernmentType.valueOf(this.govType);
+    }
+
+    public void setIdeology(Ideology type) {
+        this.ideology = type.name();
+    }
+
+    public Ideology getIdeology() {
+        return Ideology.valueOf(this.ideology);
+    }
+
+    public void setReligion(Religion type) {
+        this.religion = type.name();
+    }
+
+    public Religion getReligion() {
+        return Religion.valueOf(this.religion);
+    }
 
     public Nation create() {
-        ranks.put("leader", NationRank.leader().toMap());
-        ranks.put("admin", NationRank.admin().toMap());
-        ranks.put("member", NationRank.member().toMap());
-        ranks.put("newbie", NationRank.newbie().toMap());
+        ranks.put("leader", NationRank.leader());
+        ranks.put("admin", NationRank.admin());
+        ranks.put("member", NationRank.member());
+        ranks.put("newbie", NationRank.newbie());
 
         save();
         return this;
