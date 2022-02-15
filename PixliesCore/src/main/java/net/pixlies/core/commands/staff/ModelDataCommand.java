@@ -14,7 +14,7 @@ public class ModelDataCommand extends BaseCommand {
 
     @Subcommand("set")
     @CommandCompletion("@empty")
-    public void onItemData(Player player, Integer integer) {
+    public void onSet(Player player, Integer integer) {
         ItemStack item = player.getInventory().getItemInMainHand();
         if (item.getType() == Material.AIR) {
             Lang.NOT_HOLDING_ANYTHING.send(player);
@@ -24,9 +24,21 @@ public class ModelDataCommand extends BaseCommand {
         Lang.STAFF_MODELDATA_SET.send(player, "%DATA%;" + integer);
     }
 
-    @Default
+    @Subcommand("clear")
     @CommandCompletion("@empty")
-    public void onItemData(Player player) {
+    public void onClear(Player player) {
+        ItemStack item = player.getInventory().getItemInMainHand();
+        if (item.getType() == Material.AIR) {
+            Lang.NOT_HOLDING_ANYTHING.send(player);
+            return;
+        }
+        Lang.STAFF_MODELDATA_SET.send(player, "%DATA%;empty");
+    }
+
+    @Default
+    @Subcommand("get")
+    @CommandCompletion("@empty")
+    public void onGet(Player player) {
         ItemStack item = player.getInventory().getItemInMainHand();
         if (item.getType() == Material.AIR) {
             Lang.NOT_HOLDING_ANYTHING.send(player);
