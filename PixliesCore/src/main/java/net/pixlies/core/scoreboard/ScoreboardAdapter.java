@@ -19,7 +19,7 @@ public class ScoreboardAdapter implements AssembleAdapter {
     private static final Map<UUID, Integer> scoreboardFrames = new HashMap<>();
 
     private static String[] frames(Player player) {
-        //TODO: String c = Main.getInstance().getProfile(player.getUniqueId()).getFavoriteColour();
+        // TODO: String c = Main.getInstance().getProfile(player.getUniqueId()).getFavoriteColour();
         // String nc = Methods.getNeighbourColor(c)+"";
 
         // TODO: Change this with pixlies and make the scoreboard be able to turn off from config
