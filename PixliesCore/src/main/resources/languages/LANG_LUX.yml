@@ -1,16 +1,167 @@
-BAN_MESSAGE: |- 
-  §7Du guefs vun §3Pixlies§fNet§7 gebannt!.
+BAN_MESSAGE: |-
+  §7You are banned from §3Pixlies§fNet§7.
   
-  §7Grond: §c%REASON%
-  §7Durée: §b%DURATION%
+  §7Reason: §c%REASON%
+  §7Duration: §b%DURATION%
   
-  §7Ban-ID: §f%BAN_ID%
-BANNED_PLAYER_TRIED_TO_JOIN: '§6%PLAYER% §7huet versicht sech ze verbannen, mee ass gebannt!'
-PLAYER_PERMANENTLY_BANNED: '§6%PLAYER% §7guef vum §6%EXECUTOR% $7gebannt wéngst §c"%REASON%"'
-PLAYER_TEMPORARILY_BANNED: '§6%PLAYER% §7guef vum §6%EXECUTOR% §7gebannt wéngst §c"%REASON%" §7fir §c%TIME%'
-PLAYER_PERMANENTLY_MUTED: '§6%PLAYER% §7guef vum §6%EXECUTOR% §7gemuted wéngst §c"%REASON%"'
-PLAYER_TEMPORARILY_MUTED: '§6%PLAYER% §7guef vum §6%EXECUTOR% §7gemuted wéngst §c"%REASON%" §7fir §c%TIME%'
-MUTE_MESSAGE: "§cDu bass gemute an daarfs net schwätzen."
-MUTED_PLAYER_TRIED_TO_TALK: '§6%PLAYER% §7huet versicht ze schwätzen, mee ass gemute!'
+  §7ID: §f%BAN_ID%
 
-PLAYER_DOESNT_EXIST: "§cDësse Spiller gëtt et net."
+BLACKLIST_MESSAGE: |-
+  §7You are permanently blacklisted from §3Pixlies§fNet§7.
+  
+  §7Reason: §c%REASON%
+  
+  §7ID: §f%BAN_ID%
+
+BANNED_PLAYER_TRIED_TO_JOIN: '§c%PLAYER%§7 tried to join, but is currently banned.'
+
+PLAYER_PERMANENTLY_BANNED: '§6%PLAYER%§7 was permanently banned by §6%EXECUTOR%§7 for §c"%REASON%"§7.'
+PLAYER_UNBANNED: '§6%PLAYER%§7 was unbanned by §6%EXECUTOR%§7.'
+PLAYER_TEMPORARILY_BANNED: '§6%PLAYER%§7 was temporarily banned by §6%EXECUTOR%§7 for §c"%REASON%"§7 for §c%TIME%.'
+
+PLAYER_BLACKLISTED: '§6%PLAYER%§7 was permanently blacklisted by §6%EXECUTOR%§7 for §c"%REASON%"§7.'
+PLAYER_UNBLACKLISTED: '§6%PLAYER%§7 was unblacklisted by §6%EXECUTOR%§7.'
+
+PLAYER_PERMANENTLY_MUTED: '§6%PLAYER%§7 was muted by §6%EXECUTOR%§7 for §c"%REASON%"§7.'
+PLAYER_UNMUTED: '§6%PLAYER%§7 was unmuted by §6%EXECUTOR%§7.'
+PLAYER_TEMPORARILY_MUTED: '§6%PLAYER%§7 was muted by §6%EXECUTOR%§7 for §c"%REASON%"§7 for §c%TIME%.'
+MUTE_MESSAGE: "§cYou cannot talk while muted."
+MUTED_PLAYER_TRIED_TO_TALK: "§6%PLAYER% §7tried to talk, but they are muted!"
+
+CHAT_CLEARED: "§7The chat was cleared by §6%PLAYER%§7."
+CHAT_MUTED_FORMAT: "§cThe chat function is disabled at the moment."
+CHAT_MUTED: "§7The chat has been §cmuted§7 by §6%PLAYER%§7."
+CHAT_UNMUTED: "§7The chat has been §aunmuted§7 by §6%PLAYER%§7."
+
+NO_ITEMS_FOUND_ON_PLAYER: "§7No items found on player §6%PLAYER%§7."
+
+PLAYER_DOESNT_EXIST: "§cThis player does not exist!"
+
+NOT_HOLDING_ANYTHING: "§7You are not holding anything."
+
+SWEAR_FILTER_ON: "§7Swear filter has been §aenabled§7."
+SWEAR_FILTER_OFF: "§7Swear filter has been §cdisabled§7."
+
+ADDED_BLOCKED_WORD: ""
+REMOVED_BLOCKED_WORD: ""
+PLAYER_BLOCKED_WORD_DISABLED: "§7That word is currently disabled."
+
+CANNOT_USE_ON_SELF: "§7You cannot use that on yourself."
+CANNOT_EDIT_ITEM: "§7You cannot edit this item."
+
+PLAYER_TELEPORT_NO_PLAYERS: "§cThere is no one to teleport to."
+
+# PLACEHOLDERS: %X%, %Y%, %Z%
+LOCATION_FORMAT: "§dW: %WORLD%, X: %X%, Y: %Y%, Z: %Z%"
+
+# TODO: Finish messages and translations
+# STAFF
+STAFF_GOD_ON: ""
+STAFF_GOD_OFF: ""
+
+STAFF_RANDOM_TELEPORT: "§7You have been randomly teleported to §6%TARGET%§7."
+STAFF_RANDOM_TELEPORT_OTHER: "§6%PLAYER%§7 has been randomly teleported to §6%TARGET%§7."
+
+STAFF_STAFFMODE_ON: "§7You have enabled staff mode."
+STAFF_STAFFMODE_OFF: "§7You have disabled staff mode."
+STAFF_STAFFMODE_ON_OTHER: "§7%PLAYER% has enabled staff mode."
+STAFF_STAFFMODE_OFF_OTHER: "§7%PLAYER% has disabled staff mode."
+
+STAFF_GAMEMODE_CHANGED_SELF: "§7You just changed your gamemode to %GAMEMODE%§7!"
+STAFF_GAMEMODE_CHANGED_OTHERS: "§6%CHANGER% §7just changed §6%TARGET%§7's gamemode to %GAMEMODE%§7!"
+
+STAFF_BREAK_BLOCK_NOT_FOUND: "§7You aren't looking at a block!"
+STAFF_BREAK_DONE: "§7The block has been broken."
+
+STAFF_BROADCAST_MESSAGE: "§6%MESSAGE%"
+
+STAFF_TELEPORT_SELF_TO_TARGET: "§7You have been teleported to §6%TARGET%§7."
+STAFF_TELEPORT_PLAYER_TO_TARGET: "§6%PLAYER%§7 has been teleported to §6%TARGET%§7."
+
+STAFF_MODELDATA_SET: "§7The model data has been set to §d%DATA%§7."
+STAFF_MODELDATA_GET: "§7The model data is §6%DATA%§7."
+
+STAFF_SPEED_FLY_GET: "§7Your fly speed is §6%SPEED%§7."
+STAFF_SPEED_FLY_SET: "§7Your fly speed has been set to §6%SPEED%§7."
+STAFF_SPEED_FLY_SET_OTHER: "§6%PLAYER%'s§7 fly speed has been set to §6%SPEED%§7."
+STAFF_SPEED_FLY_GET_OTHER: "§6%PLAYER%'s§7 fly speed is §6%SPEED%§7."
+STAFF_SPEED_WALK_GET: "§7Your walk speed is §6%SPEED%§7."
+STAFF_SPEED_WALK_SET: "§7Your walk speed has been set to §6%SPEED%§7."
+STAFF_SPEED_WALK_SET_OTHER: "§6%PLAYER%'s§7 walk speed has been set to §6%SPEED%§7."
+STAFF_SPEED_WALK_GET_OTHER: "§6%PLAYER%'s§7 walk speed is §6%SPEED%§7."
+STAFF_SPEED_RESET: "§7Your speed has been reset."
+STAFF_SPEED_RESET_OTHER: "§6%PLAYER%§7's speed has been reset."
+
+# MODERATION
+MODERATION_GLOBAL_PVP_ON: ""
+MODERATION_GLOBAL_PVP_OFF: ""
+PVP_OFF_PLAYER_TRIED_TO_PVP: ""
+
+MODERATION_ISSUED_KICKALL: "§7All online players have been kicked by §6%PLAYER% §7for §6%REASON%§7."
+
+MODERATION_VANISH_ON: "§7You are now vanished."
+MODERATION_VANISH_OFF: "§7You are no longer vanished."
+MODERATION_VANISH_ON_OTHER: "§6%PLAYER%§7 is now vanished."
+MODERATION_VANISH_OFF_OTHER: "§6%PLAYER%§7 is no longer vanished."
+MODERATION_VANISH_NO_ONE_CAN_SEE: "§cNo one can see you."
+
+MODERATION_COMMANDSPY_ON: "§7You have enabled command spy."
+MODERATION_COMMANDSPY_OFF: "§7You have disabled command spy."
+MODERATION_COMMANDSPY_ON_OTHER: "§6%PLAYER% §7has enabled command spy."
+MODERATION_COMMANDSPY_OFF_OTHER: "§7%PLAYER% §7has disabled command spy."
+MODERATION_COMMANDSPY_FORMAT: "§6%PLAYER%§7: %MESSAGE%"
+
+# COSMETICS
+COSMETICS_HEALED_SELF: "§7You just healed yourself!"
+COSMETICS_HEALED_OTHERS: "§7You just healed §6%PLAYER%§7!"
+
+COSMETICS_FEED_SELF: "§7Your appetite has been sedated."
+COSMETICS_FEED_OTHERS: "§6%PLAYER%'s§7 appetite has been sedated."
+
+COSMETICS_NIGHTVISION_ON: "§7Your night vision has been enabled."
+COSMETICS_NIGHTVISION_OFF: "§7Your night vision has been disabled."
+COSMETICS_NIGHTVISION_ON_OTHER: "%PLAYER%"
+COSMETICS_NIGHTVISION_OFF_OTHER: "%PLAYER%"
+
+COSMETICS_REPAIR_ITEM: "§7This item has been repaired."
+COSMETICS_ALREADY_REPAIRED: "§7This item is already at max health."
+
+COSMETICS_RENAME_ITEM: "§7This item has been renamed to §6%MESSAGE%§7."
+
+COSMETICS_CANNOT_SIT_HERE: "§7You can't sit here."
+
+COSMETICS_NICKNAME: "§7You have changed your nickname to §6%MESSAGE%§7."
+COSMETICS_NICKNAME_OTHER: "§7You have changed §6%PLAYER%§7's nickname to §6%MESSAGE%§7."
+COSMETICS_CANNOT_NICKNAME: "§7You cannot set this as a nickname."
+
+COSMETICS_HAT_CANNOT_SET: "§7You cannot set this as a hat."
+COSMETICS_HAT_SET: "§7You now have a hat!"
+
+# PLAYER
+PLAYER_MESSAGE_FORMAT_TO: "§8(§7To §6%PLAYER%§8) §f%MESSAGE%"
+PLAYER_MESSAGE_FORMAT_FROM: "§8(§7From §6%PLAYER%§8) §f%MESSAGE%"
+PLAYER_MESSAGE_NOONE_TO_MESSAGE: "§cThere is no one to message."
+PLAYER_MESSAGE_SOCIALSPY: "§8(§7To §6%TARGET%§7 from §6%PLAYER%§8) §f%MESSAGE%"
+
+PLAYER_SUICIDE: "§7You committed suicide."
+
+PLAYER_CLEAR: "§7Cleared inventory for §6%PLAYER%§7"
+
+PLAYER_RULES_MESSAGE: "§7View our rules here: §b%MESSAGE%"
+PLAYER_DISCORD_MESSAGE: "§7Join our Discord here: §b%MESSAGE%"
+
+PLAYER_AFK_ON: "§7You are now AFK."
+PLAYER_AFK_OFF: "§7You are no longer AFK."
+PLAYER_AFK_ON_BROADCAST: "§6%PLAYER%§7 is now AFK."
+PLAYER_AFK_OFF_BROADCAST: "§6%PLAYER%§7 is no longer AFK."
+
+PLAYER_PLAYTIME: "§7Your playtime is §6%TIME%§7."
+PLAYER_PLAYTIME_OTHER: "§6%PLAYER%§7's playtime is §6%TIME%§7."
+
+# Lobby
+LOBBY_BUILDMODE_TOGGLE: "§7You just %STATE% §7build-mode."
+
+# NATIONS
+NATION_NAME_INVALID: "§cThe name you chose for your future nation is not alpha-numeric."
+ALREADY_IN_NATION: "§cYou are already in an nation. §7/n leave"
+NATION_FORMED: "§6%PLAYER% §7just formed the nation of §b%NATION%§7, a new Era is born!"
