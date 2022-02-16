@@ -12,13 +12,13 @@ public class CommandSpyListener implements Listener {
 
     @EventHandler
     public void onPlayerCommand(PlayerCommandPreprocessEvent event) {
-
         Player player = event.getPlayer();
         String cmd = event.getMessage();
 
+        // Staff setting: commandspy
         for (Player p : Bukkit.getServer().getOnlinePlayers()) {
             User user = User.get(p.getUniqueId());
-            if (user.getPersonalization().isCommandSpyEnabled() && p.hasPermission("pixlies.moderation.commandspy")) {
+            if (user.getPersonalization().isCommandSpyEnabled()) {
                 Lang.MODERATION_COMMANDSPY_FORMAT.send(p, "%PLAYER%;" + player.getName(), "%MESSAGE%;" + cmd);
             }
         }

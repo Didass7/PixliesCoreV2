@@ -8,7 +8,7 @@ import net.pixlies.core.listeners.cosmetics.chatformatting.ChatFormattingListene
 import net.pixlies.core.listeners.moderation.*;
 import net.pixlies.core.listeners.player.AfkListener;
 import net.pixlies.core.listeners.player.JoinQuitListener;
-import net.pixlies.core.listeners.player.MessageListener;
+import net.pixlies.core.listeners.player.SocialSpyListener;
 import net.pixlies.core.listeners.player.TeleportListener;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
@@ -31,7 +31,7 @@ public class ListenerManager {
         add(new CommandSpyListener());
         add(new TeleportListener());
         add(new PassiveListener());
-        add(new MessageListener());
+        add(new SocialSpyListener());
         add(new VanishListener());
         add(new StaffModeListener());
         add(new AfkListener());

@@ -4,6 +4,8 @@ import net.kyori.adventure.text.Component;
 import net.pixlies.core.entity.User;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.moderation.Punishment;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -31,7 +33,14 @@ public class BanListener implements Listener {
             banMessage = banMessage.replace("%DURATION%", prettyTime.format(new Date(punishment.getUntil())));
         }
 
-        Lang.BANNED_PLAYER_TRIED_TO_JOIN.broadcastPermission("pixlies.moderation.logs", "%PLAYER%;", event.getPlayer().getName());
+        // Staff setting: view banned join messages
+        for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+            User msgUser = User.get(p.getUniqueId());
+            if (msgUser.getPersonalization().canViewBannedJoins()) {
+                Lang.BANNED_PLAYER_TRIED_TO_JOIN.send(p, event.getPlayer().getName());
+            }
+        }
+
         event.disallow(PlayerLoginEvent.Result.KICK_BANNED, Component.text(banMessage));
     }
 

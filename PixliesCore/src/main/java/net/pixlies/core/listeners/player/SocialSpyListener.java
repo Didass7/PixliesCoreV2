@@ -9,20 +9,20 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-public class MessageListener implements Listener {
+public class SocialSpyListener implements Listener {
 
     @EventHandler
     public void onMessage(SenderMessagePlayerEvent event) {
-
         CommandSender sender = event.getSender();
         Player target = event.getTarget();
 
-        for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-            User user = User.get(player.getUniqueId());
-            if (!user.getPersonalization().isSocialSpyEnabled() && !player.hasPermission("pixlies.moderation.socialspy")) continue;
-            Lang.PLAYER_MESSAGE_SOCIALSPY.send(player, "%PLAYER%;" + sender.getName(), "%TARGET%;" + target.getName());
+        // Staff setting: socialspy
+        for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+            User msgUser = User.get(p.getUniqueId());
+            if (msgUser.getPersonalization().isSocialSpyEnabled()) {
+                Lang.PLAYER_MESSAGE_SOCIALSPY.send(p, "%PLAYER%;" + sender.getName(), "%TARGET%;" + target.getName());
+            }
         }
-
     }
 
 }
