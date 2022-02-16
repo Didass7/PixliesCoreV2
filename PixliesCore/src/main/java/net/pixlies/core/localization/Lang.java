@@ -98,6 +98,8 @@ public enum Lang {
     STAFF_SPEED_WALK_SET(Lang.PIXLIES, new HashMap<>()),
     STAFF_SPEED_WALK_GET_OTHER(Lang.PIXLIES, new HashMap<>()),
     STAFF_SPEED_WALK_SET_OTHER(Lang.PIXLIES, new HashMap<>()),
+    STAFF_SPEED_RESET(Lang.PIXLIES, new HashMap<>()),
+    STAFF_SPEED_RESET_OTHER(Lang.PIXLIES, new HashMap<>()),
 
     TPHERE_MESSAGE_SENDER(Lang.PIXLIES, new HashMap<>()),
     TPHERE_MESSAGE_TARGET(Lang.PIXLIES, new HashMap<>()),

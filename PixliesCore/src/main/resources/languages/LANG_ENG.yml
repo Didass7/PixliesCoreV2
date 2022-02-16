@@ -83,12 +83,14 @@ STAFF_MODELDATA_GET: "§7The model data is §6%DATA%§7."
 
 STAFF_SPEED_FLY_GET: "§7Your fly speed is §6%SPEED%§7."
 STAFF_SPEED_FLY_SET: "§7Your fly speed has been set to §6%SPEED%§7."
-STAFF_SPEED_FLY_SET_OTHER: "§6%PLAYER%§7's fly speed has been set to §6%SPEED%§7."
-STAFF_SPEED_FLY_GET_OTHER: "§6%PLAYER%§7's fly speed is §6%SPEED%§7."
+STAFF_SPEED_FLY_SET_OTHER: "§6%PLAYER%'s§7 fly speed has been set to §6%SPEED%§7."
+STAFF_SPEED_FLY_GET_OTHER: "§6%PLAYER%'s§7 fly speed is §6%SPEED%§7."
 STAFF_SPEED_WALK_GET: "§7Your walk speed is §6%SPEED%§7."
 STAFF_SPEED_WALK_SET: "§7Your walk speed has been set to §6%SPEED%§7."
-STAFF_SPEED_WALK_SET_OTHER: "§6%PLAYER%§7's walk speed has been set to §6%SPEED%§7."
-STAFF_SPEED_WALK_GET_OTHER: "§6%PLAYER%§7's walk speed is §6%SPEED%§7."
+STAFF_SPEED_WALK_SET_OTHER: "§6%PLAYER%'s§7 walk speed has been set to §6%SPEED%§7."
+STAFF_SPEED_WALK_GET_OTHER: "§6%PLAYER%'s§7 walk speed is §6%SPEED%§7."
+STAFF_SPEED_RESET: "§7Your speed has been reset."
+STAFF_SPEED_RESET_OTHER: "§6%PLAYER%§7's speed has been reset."
 
 # MODERATION
 MODERATION_GLOBAL_PVP_ON: ""
@@ -114,7 +116,7 @@ COSMETICS_HEALED_SELF: "§7You just healed yourself!"
 COSMETICS_HEALED_OTHERS: "§7You just healed §6%PLAYER%§7!"
 
 COSMETICS_FEED_SELF: "§7Your appetite has been sedated."
-COSMETICS_FEED_OTHERS: "§6%PLAYER%§7's appetite has been sedated."
+COSMETICS_FEED_OTHERS: "§6%PLAYER%'s§7 appetite has been sedated."
 
 COSMETICS_NIGHTVISION_ON: "§7Your night vision has been enabled."
 COSMETICS_NIGHTVISION_OFF: "§7Your night vision has been disabled."

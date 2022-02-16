@@ -109,18 +109,7 @@ public class PixliesCommandManager {
     }
 
     private void registerConditions() {
-        pcm.getCommandConditions().addCondition(Integer.class, "intLimits", (context, execution, value) -> {
-            if (value == null) {
-                return;
-            }
-            if (context.hasConfig("min") && context.getConfigValue("min", 0) > value) {
-                throw new ConditionFailedException("Min value must be " + context.getConfigValue("min", 0));
-            }
-            if (context.hasConfig("max") && context.getConfigValue("max", 3) < value) {
-                throw new ConditionFailedException("Max value must be " + context.getConfigValue("max", 3));
-            }
-        });
-        pcm.getCommandConditions().addCondition(Long.class, "longLimits", (context, execution, value) -> {
+        pcm.getCommandConditions().addCondition(Integer.class, "limits", (context, execution, value) -> {
             if (value == null) {
                 return;
             }
