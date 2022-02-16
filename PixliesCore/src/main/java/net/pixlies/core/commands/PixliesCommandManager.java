@@ -82,7 +82,6 @@ public class PixliesCommandManager {
         register(new WorkBenchCommand(), true);
         register(new SmithingTableCommand(), true);
         register(new StoneCutterCommand(), true);
-        register(new EnchantTableCommand(), true);
         register(new CartographyTableCommand(), true);
         register(new GrindStoneCommand(), true);
         register(new RenameCommand(), true);
