@@ -64,6 +64,7 @@ STAFF_RANDOM_TELEPORT_OTHER: "§6%PLAYER%§7 wurde zufällig teleportiert zu §6
 
 STAFF_STAFFMODE_ON: "§7Du hast Staff-Modus angemacht."
 STAFF_STAFFMODE_OFF: "§7Du hast Staff-Modus ausgemacht."
+STAFF_SETTING_CHANGED: "§7Die Staff Einstellung %SETTING%§7 ist jetzt %STATE%§7."
 STAFF_STAFFMODE_ON_OTHER: "§7%PLAYER% hat Staff-Modus angemacht."
 STAFF_STAFFMODE_OFF_OTHER: "§7%PLAYER% hat Staff-Modus ausgemacht."
 
