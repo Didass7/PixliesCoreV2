@@ -19,7 +19,7 @@ public class SpeedCommand extends BaseCommand {
     @Description("Set your speed to a number")
     @Subcommand("set")
     @Syntax("[speed]")
-    public void onPlayer(Player player, @Conditions("intLimits:min=0,max=10") Float speed) {
+    public void onPlayer(Player player, @Conditions("limits:min=0,max=10") Float speed) {
 
         if (player.isFlying()) {
             player.setFlySpeed(speed / 10);
@@ -36,7 +36,18 @@ public class SpeedCommand extends BaseCommand {
     @Subcommand("set")
     @CommandCompletion("@players")
     @Syntax("<player> [speed]")
-    public void onSender(CommandSender sender, Player target, @Conditions("intLimits:min=0,max=10") Float speed) {
+    public void onSender(CommandSender sender, Player target, @Conditions("limits:min=0,max=10") Float speed) {
+
+        if (sender instanceof Player player && player.getUniqueId().equals(target.getUniqueId())) {
+            if (player.isFlying()) {
+                player.setFlySpeed(speed / 10);
+                Lang.STAFF_SPEED_FLY_SET.send(player, "%SPEED%;" + speed);
+            } else {
+                player.setWalkSpeed(speed / 10);
+                Lang.STAFF_SPEED_WALK_SET.send(player, "%SPEED%;" + speed);
+            }
+            return;
+        }
 
         if (target.isFlying()) {
             target.setFlySpeed(speed / 10);
