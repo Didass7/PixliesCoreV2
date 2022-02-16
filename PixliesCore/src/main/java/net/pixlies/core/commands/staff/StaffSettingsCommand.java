@@ -11,6 +11,7 @@ import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import com.github.stefvanschie.inventoryframework.pane.component.ToggleButton;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import net.pixlies.core.entity.User;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.utils.ItemBuilder;
 import org.bukkit.Material;
@@ -19,25 +20,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 /**
+ * Customize the staff experience.
  * @author vPrototype_
  */
 @CommandAlias("staffsettings")
 @CommandPermission("pixlies.staff.staffsettings")
-public class StaffModeSettingsCommand extends BaseCommand {
-
-    /*
-
-    TODO
-    - lang messages
-    - toggles???
-
-     */
+public class StaffSettingsCommand extends BaseCommand {
 
     @Default
-    @Description("Toggle staffmode settings")
-    public static void openStaffModeSettings(Player player) {
+    @Description("Open staff settings menu")
+    public static void openStaffSettings(Player player) {
         // Create GUI
-        ChestGui gui = new ChestGui(3, "Staff Settings");
+        ChestGui gui = new ChestGui(3, "Staff settings");
 
         // Disable clicks
         gui.setOnGlobalClick(event -> event.setCancelled(true));
@@ -46,15 +40,6 @@ public class StaffModeSettingsCommand extends BaseCommand {
         OutlinePane background = new OutlinePane(0, 0, 9, 3, Pane.Priority.LOWEST);
         background.addItem(new GuiItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE)));
         background.setRepeat(true);
-
-        // Info pane
-        /*
-        StaticPane infoPane = new StaticPane(4, 0, 1, 1);
-        ItemBuilder infoBuilder = new ItemBuilder(Material.ENCHANTED_BOOK)
-                .setDisplayName("§6Chat settings")
-                .addLoreLine("§7Modify your staff settings");
-        infoPane.addItem(new GuiItem(infoBuilder.build()), 0, 0);
-         */
 
         // Toggle text
         String on = "§7Toggled: §aON";
@@ -77,28 +62,34 @@ public class StaffModeSettingsCommand extends BaseCommand {
             }
             GuiItem item = new GuiItem(builder.build());
             item.setAction(event -> {
+                // GUI Shenanigans
                 button.toggle();
                 builder.setGlow(button.isEnabled());
                 player.playSound(player.getLocation(), "entity.experience_orb.pickup", 100, 1);
-                if (button.isEnabled()) {
-                    builder.removeLoreLine(off);
-                    builder.addLoreLine(on);
-                    Lang.STAFF_STAFFMODE_SETTING_ON.send(player, "%SETTING%;" + s.getTitle().toLowerCase());
-                } else {
-                    builder.removeLoreLine(on);
-                    builder.addLoreLine(off);
-                    Lang.STAFF_STAFFMODE_SETTING_OFF.send(player, "%SETTING%;" + s.getTitle().toLowerCase());
-                }
-                settingsPane.addItem(item, s.ordinal(), 0);
+                builder.removeLoreLine(button.isEnabled() ? "§7Toggled: §cOFF" : "§7Toggled: §aON");
+                builder.addLoreLine(button.isEnabled() ? "§7Toggled: §cOFF" : "§7Toggled: §aON");
+                Lang.STAFF_SETTING_CHANGED.send(player, "%SETTING%;" + s.getTitle().toLowerCase(),
+                        "%STATE%;" + (button.isEnabled() ? "§aon" : "§coff"));
+
+                ItemStack newItem = builder.build();
+                settingsPane.addItem(new GuiItem(newItem), s.ordinal(), 0);
                 gui.update();
-                gui.show(player);
+
+                // Actual functionality
+                User user = User.get(player.getUniqueId());
+                switch (newItem.getDisplayName()) {
+                    case "§9Command spy" -> user.getPersonalization().setCommandSpyEnabled(button.isEnabled());
+                    case "§6Social spy" -> user.getPersonalization().setSocialSpyEnabled(button.isEnabled());
+                    case "§cBan spy" -> user.getPersonalization().setViewBannedJoins(button.isEnabled());
+                    case "§cMute spy" -> user.getPersonalization().setViewMutedChat(button.isEnabled());
+                    case "§3Bypass clearchat" -> user.getPersonalization().setBypassClearChat(button.isEnabled());
+                }
             });
             settingsPane.addItem(item, s.ordinal(), 0);
         }
 
         // Add panes
         gui.addPane(background);
-        // gui.addPane(infoPane);
         gui.addPane(settingsPane);
 
         // Show GUI
@@ -111,14 +102,14 @@ public class StaffModeSettingsCommand extends BaseCommand {
         help.showHelp();
     }
 
-    public StaffModeSettingsCommand() {}
+    public StaffSettingsCommand() {}
 
     @AllArgsConstructor
     public enum Settings {
         COMMANDSPY("§9Command spy", new String[]{"§7Spy on other players' commands"}, Material.COMMAND_BLOCK, true),
         SOCIALSPY("§6Social spy", new String[]{"§7Spy on other players' private messages"}, Material.PAPER, true),
-        BANSPY("§cBan spy", new String[]{"§7Receive messages when banned", "§7players try to join"}, Material.BARRIER, true),
         MUTESPY("§cMute spy", new String[]{"§7Receive messages when muted", "§7players try to talk"}, Material.NAME_TAG, true),
+        BANSPY("§cBan spy", new String[]{"§7Receive messages when banned", "§7players try to join"}, Material.BARRIER, true),
         BYPASSCLEARCHAT("§3Bypass clearchat", new String[]{"§7Bypass the chat getting cleared"}, Material.MAP, false);
 
         @Getter private final String title;

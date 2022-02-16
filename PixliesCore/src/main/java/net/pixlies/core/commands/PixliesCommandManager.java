@@ -57,7 +57,7 @@ public class PixliesCommandManager {
         register(new GodCommand(), false);
         register(new WorldCommand(), false);
         register(new GamemodeCommand(), false);
-        register(new StaffModeSettingsCommand(), false);
+        register(new StaffSettingsCommand(), false);
         register(new SudoCommand(), false);
         register(new BreakCommand(), false);
         register(new ExtinguishCommand(), false);

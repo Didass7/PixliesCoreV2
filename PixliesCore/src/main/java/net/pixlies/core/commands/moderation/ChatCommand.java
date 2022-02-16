@@ -4,6 +4,7 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import net.pixlies.core.Main;
+import net.pixlies.core.entity.User;
 import net.pixlies.core.handlers.impl.ChatHandler;
 import net.pixlies.core.localization.Lang;
 import org.bukkit.Bukkit;
@@ -35,8 +36,13 @@ public class ChatCommand extends BaseCommand {
     @Description("Clear messages in chat")
     public void onClearChat(CommandSender sender) {
         for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-            if (p.hasPermission("pixlies.moderation.chat.clear.exempt")) continue;
-            for (int i = 0; i < 100; i++) {
+            // Staff setting: bypass clearchat
+            if (sender instanceof Player player) {
+                User user = User.get(player.getUniqueId());
+                if (user.getPersonalization().canBypassClearchat()) continue;
+            }
+
+            for (int i = 0; i < 150; i++) {
                 p.sendMessage(" ");
             }
         }
