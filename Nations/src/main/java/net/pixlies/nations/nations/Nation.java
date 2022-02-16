@@ -3,7 +3,6 @@ package net.pixlies.nations.nations;
 import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import net.pixlies.core.entity.User;
@@ -12,12 +11,13 @@ import net.pixlies.nations.interfaces.NationProfile;
 import net.pixlies.nations.nations.chunk.NationChunk;
 import net.pixlies.nations.nations.customization.GovernmentType;
 import net.pixlies.nations.nations.customization.Ideology;
-import net.pixlies.nations.nations.customization.NationConstitution;
 import net.pixlies.nations.nations.customization.Religion;
 import net.pixlies.nations.nations.ranks.NationRank;
-import org.bson.Document;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Nation Class ready to be put in MongoDB because of @Entity
@@ -31,7 +31,6 @@ import java.util.*;
 public class Nation {
 
     private static final Nations instance = Nations.getInstance();
-    private static final NationManager nationManager = new NationManager();
 
     // INFO
     @Id
@@ -148,11 +147,10 @@ public class Nation {
 
     public void backup() {
         instance.getMongoManager().getDatastore().save(this);
-
     }
 
     public static Nation getFromId(String id) {
-        return nationManager.getNations().get(id);
+        return instance.getNationManager().getNations().get(id);
     }
 
     private void editConstitution(byte law, int option) {

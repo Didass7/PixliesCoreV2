@@ -14,7 +14,6 @@ import net.pixlies.nations.nations.customization.Religion;
 import net.pixlies.nations.nations.ranks.NationRank;
 import net.pixlies.nations.utils.NationUtils;
 import org.apache.commons.lang.RandomStringUtils;
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -42,7 +41,6 @@ public class NationCommand extends BaseCommand {
 
         /* TODO (checks)
              - if nation with name already exists
-             - if nation name is invalid
          */
 
         if (!NationUtils.nameValid(name)) {
@@ -56,7 +54,6 @@ public class NationCommand extends BaseCommand {
             ncValues.add(nc.getDefaultValue());
         }
 
-        // TODO: Random description
         Nation nation = new Nation(
                 RandomStringUtils.randomAlphanumeric(7),
                 name,
