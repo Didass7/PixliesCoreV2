@@ -11,6 +11,7 @@ import net.pixlies.nations.events.ListenerManager;
 import net.pixlies.nations.handlers.HandlerManager;
 import net.pixlies.nations.handlers.RegisterHandlerManager;
 import net.pixlies.nations.nations.NationManager;
+import net.pixlies.nations.runnables.RunnableManager;
 
 import java.io.File;
 
@@ -26,6 +27,7 @@ public class Nations extends Module {
     private CommandManager commandManager;
     private NationManager nationManager;
     private MongoManager mongoManager;
+    private RunnableManager runnableManager;
 
     private final Gson gson = new GsonBuilder()
             .serializeNulls()
@@ -45,7 +47,8 @@ public class Nations extends Module {
         mongoManager.init();
         handlerManager = new HandlerManager();
         nationManager = new NationManager();
-
+        runnableManager = new RunnableManager();
+        runnableManager.registerAll();
 
         new RegisterHandlerManager().registerAllHandlers();
 
@@ -66,6 +69,7 @@ public class Nations extends Module {
         listenerManager.unregisterAllListeners();
         commandManager.unregisterAllCommands();
         nationManager.backupAll();
+        runnableManager.unregisterAll();
         instance = null;
 
     }
