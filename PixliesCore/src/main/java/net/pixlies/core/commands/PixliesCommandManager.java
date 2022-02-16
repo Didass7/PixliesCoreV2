@@ -64,6 +64,7 @@ public class PixliesCommandManager {
         register(new BroadcastCommand(), false);
         register(new TpCommand(), false);
         register(new ModelDataCommand(), false);
+        register(new SpeedCommand(), false);
 
         // DEBUG
         register(new ModulesCommand(), false);

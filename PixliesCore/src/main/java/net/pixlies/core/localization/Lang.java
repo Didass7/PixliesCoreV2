@@ -90,6 +90,15 @@ public enum Lang {
     STAFF_MODELDATA_SET(Lang.PIXLIES, new HashMap<>()),
     STAFF_MODELDATA_GET(Lang.PIXLIES, new HashMap<>()),
 
+    STAFF_SPEED_FLY_GET(Lang.PIXLIES, new HashMap<>()),
+    STAFF_SPEED_FLY_SET(Lang.PIXLIES, new HashMap<>()),
+    STAFF_SPEED_FLY_SET_OTHER(Lang.PIXLIES, new HashMap<>()),
+    STAFF_SPEED_FLY_GET_OTHER(Lang.PIXLIES, new HashMap<>()),
+    STAFF_SPEED_WALK_GET(Lang.PIXLIES, new HashMap<>()),
+    STAFF_SPEED_WALK_SET(Lang.PIXLIES, new HashMap<>()),
+    STAFF_SPEED_WALK_GET_OTHER(Lang.PIXLIES, new HashMap<>()),
+    STAFF_SPEED_WALK_SET_OTHER(Lang.PIXLIES, new HashMap<>()),
+
     TPHERE_MESSAGE_SENDER(Lang.PIXLIES, new HashMap<>()),
     TPHERE_MESSAGE_TARGET(Lang.PIXLIES, new HashMap<>()),
     TPASK_MESSAGE_SENDER(Lang.PIXLIES, new HashMap<>()),

@@ -81,6 +81,15 @@ STAFF_TELEPORT_PLAYER_TO_TARGET: "§6%PLAYER%§7 has been teleported to §6%TARG
 STAFF_MODELDATA_SET: "§7The model data has been set to §d%DATA%§7."
 STAFF_MODELDATA_GET: "§7The model data is §6%DATA%§7."
 
+STAFF_SPEED_FLY_GET: "§7Your fly speed is §6%SPEED%§7."
+STAFF_SPEED_FLY_SET: "§7Your fly speed has been set to §6%SPEED%§7."
+STAFF_SPEED_FLY_SET_OTHER: "§6%PLAYER%§7's fly speed has been set to §6%SPEED%§7."
+STAFF_SPEED_FLY_GET_OTHER: "§6%PLAYER%§7's fly speed is §6%SPEED%§7."
+STAFF_SPEED_WALK_GET: "§7Your walk speed is §6%SPEED%§7."
+STAFF_SPEED_WALK_SET: "§7Your walk speed has been set to §6%SPEED%§7."
+STAFF_SPEED_WALK_SET_OTHER: "§6%PLAYER%§7's walk speed has been set to §6%SPEED%§7."
+STAFF_SPEED_WALK_GET_OTHER: "§6%PLAYER%§7's walk speed is §6%SPEED%§7."
+
 # MODERATION
 MODERATION_GLOBAL_PVP_ON: ""
 MODERATION_GLOBAL_PVP_OFF: ""
