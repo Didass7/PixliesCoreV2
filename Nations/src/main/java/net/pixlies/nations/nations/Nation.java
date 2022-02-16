@@ -6,18 +6,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import net.pixlies.core.entity.User;
 import net.pixlies.nations.Nations;
+import net.pixlies.nations.interfaces.NationProfile;
 import net.pixlies.nations.nations.chunk.NationChunk;
 import net.pixlies.nations.nations.customization.GovernmentType;
 import net.pixlies.nations.nations.customization.Ideology;
+import net.pixlies.nations.nations.customization.NationConstitution;
 import net.pixlies.nations.nations.customization.Religion;
 import net.pixlies.nations.nations.ranks.NationRank;
 import org.bson.Document;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Nation Class ready to be put in MongoDB because of @Entity
@@ -130,6 +130,8 @@ public class Nation {
         return Religion.valueOf(this.religion);
     }
 
+    // -------------------------------------------------------------------------------------------------
+
     public Nation create() {
         ranks.put("leader", NationRank.leader());
         ranks.put("admin", NationRank.admin());
@@ -157,5 +159,21 @@ public class Nation {
         constitutionValues.set(law, option);
     }
 
-    
+    public void addMember(User user, String rank) {
+        // ADD TO MEMBER LIST
+        memberUUIDs.add(user.getUuid());
+        save();
+
+        // MAKE A VARIABLE TO STORE THE RANK NAME
+        String rankToAddIn = rank;
+
+        // CHECK IF RANK EXISTS; IF NOT TAKE NEWBIE
+        if (!ranks.containsKey(rankToAddIn)) rankToAddIn = NationRank.newbie().getName();
+
+        // CREATE A NEW NATIONPROFILE INSTANCE; ASSIGN TO PLAYER AND STORE IT
+        NationProfile nProfile = new NationProfile(nationsId, rankToAddIn);
+        user.getExtras().put("nationsProfile", nProfile);
+        user.save();
+    }
+
 }

@@ -52,6 +52,7 @@ public class User {
     private UserSettings settings;
     private String lang;
     private PermissionProfile permissionProfile;
+    private Map<String, Object> extras;
 
     public OfflinePlayer getAsOfflinePlayer() {
         return Bukkit.getOfflinePlayer(this.getUniqueId());
@@ -294,7 +295,8 @@ public class User {
                     UserPersonalization.getDefaults(),
                     UserSettings.getDefaults(),
                     "ENG",
-                    new PermissionProfile(new ArrayList<>(), new ArrayList<>())
+                    new PermissionProfile(new ArrayList<>(), new ArrayList<>()),
+                    new HashMap<>()
             );
 
             instance.getDatabase().getDatastore().save(profile);

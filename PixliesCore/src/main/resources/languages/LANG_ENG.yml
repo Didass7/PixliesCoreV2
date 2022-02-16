@@ -160,3 +160,8 @@ PLAYER_PLAYTIME_OTHER: "§6%PLAYER%§7's playtime is §6%TIME%§7."
 
 # Lobby
 LOBBY_BUILDMODE_TOGGLE: "§7You just %STATE% §7build-mode."
+
+# NATIONS
+NATION_NAME_INVALID: "§cThe name you chose for your future nation is not alpha-numeric."
+ALREADY_IN_NATION: "§cYou are already in an nation. §7/n leave"
+NATION_FORMED: "§6%PLAYER% §7just formed the nation of §b%NATION%§7, a new Era is born!"

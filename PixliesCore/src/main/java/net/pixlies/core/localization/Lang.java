@@ -206,6 +206,7 @@ public enum Lang {
     // NATIONS
     NATION_FORMED(Lang.NATION, new HashMap<>()),
     ALREADY_IN_NATION(Lang.NATION, new HashMap<>()),
+    NATION_NAME_INVALID(Lang.NATION, new HashMap<>()),
 
     // OTHER
     MUST_BE_A_PLAYER(Lang.PIXLIES, new HashMap<>()),
