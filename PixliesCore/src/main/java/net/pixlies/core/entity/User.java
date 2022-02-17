@@ -37,8 +37,7 @@ public class User {
 
     public static final Gson gson = new Gson();
 
-    @Id
-    private ObjectId id;
+    @Id private ObjectId id;
     private String uuid;
     private long joined;
     private String discordId;
@@ -281,25 +280,6 @@ public class User {
     public long getPlaytime() {
         return System.currentTimeMillis() - joined;
     }
-
-    /*
-
-    public boolean inNation() {
-        return !nationId.equalsIgnoreCase("NONE");
-    }
-
-    public void addToNation(String nationId, NationRank rank) {
-        if (!inNation()) {
-            this.nationId = nationId;
-            this.nationRank = rank.getName();
-            Nation nation = Nation.getFromId(nationId);
-            nation.getMemberUUIDs().add(uuid);
-            nation.save();
-            save();
-        }
-    }
-
-     */
 
     public UUID getUniqueId() {
         return UUID.fromString(uuid);

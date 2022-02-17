@@ -101,6 +101,7 @@ public enum Lang {
     STAFF_SPEED_RESET(Lang.PIXLIES, new HashMap<>()),
     STAFF_SPEED_RESET_OTHER(Lang.PIXLIES, new HashMap<>()),
 
+    // TELEPORTATION
     TPHERE_MESSAGE_SENDER(Lang.PIXLIES, new HashMap<>()),
     TPHERE_MESSAGE_TARGET(Lang.PIXLIES, new HashMap<>()),
     TPASK_MESSAGE_SENDER(Lang.PIXLIES, new HashMap<>()),
@@ -169,6 +170,7 @@ public enum Lang {
     COSMETICS_HAT_CANNOT_SET(Lang.PIXLIES, new HashMap<>()),
     COSMETICS_HAT_SET(Lang.PIXLIES, new HashMap<>()),
 
+    // POLLS
     CREATING_POLL(Lang.POLL, new HashMap<>()),
     ENTER_POLL_OPTION(Lang.POLL, new HashMap<>()),
     HOW_TO_CANCEL_POLL(Lang.POLL, new HashMap<>()),
@@ -213,8 +215,13 @@ public enum Lang {
 
     // NATIONS
     NATION_FORMED(Lang.NATION, new HashMap<>()),
+    NATION_DISBANDED(Lang.NATION, new HashMap<>()),
     ALREADY_IN_NATION(Lang.NATION, new HashMap<>()),
     NATION_NAME_INVALID(Lang.NATION, new HashMap<>()),
+    NATION_NAME_ALREADY_EXISTS(Lang.NATION, new HashMap<>()),
+    NATION_ID_ALREADY_EXISTS(Lang.NATION, new HashMap<>()),
+
+    NATION_NO_PERMISSION(Lang.NATION, new HashMap<>()),
 
     // OTHER
     MUST_BE_A_PLAYER(Lang.PIXLIES, new HashMap<>()),

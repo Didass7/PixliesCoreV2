@@ -12,12 +12,11 @@ import java.util.Random;
 public class NationUtils {
 
     public static String randomDesc() {
-        //TODO ADD BETTER DESCRIPTIONS
-        String[] arr = new String[]{
-            "No description yet :(",
-            "Pixlies is cool huh",
-            "Change me pleaaaase!",
-            "My nation owner was too lazy to change me :("
+        String[] arr = new String[] {
+            "No description yet",
+            "Use /n description to change me!",
+            "Pixlies has a place for you",
+            "Be creative!"
         };
 
         Random r = new Random();

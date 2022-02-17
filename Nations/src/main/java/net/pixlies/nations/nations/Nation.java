@@ -33,8 +33,7 @@ public class Nation {
     private static final Nations instance = Nations.getInstance();
 
     // INFO
-    @Id
-    private @Getter @Setter String nationsId;
+    @Id private @Getter @Setter String nationsId;
     private @Getter @Setter String name;
     private @Getter @Setter String description;
     private String leaderUUID;
@@ -97,6 +96,7 @@ public class Nation {
     // -------------------------------------------------------------------------------------------------
 
     // MANUAL GETTER AND SETTERS
+
     public void setLeaderUUID(UUID uuid) {
         this.leaderUUID = uuid.toString();
     }
@@ -149,10 +149,6 @@ public class Nation {
         instance.getMongoManager().getDatastore().save(this);
     }
 
-    public static Nation getFromId(String id) {
-        return instance.getNationManager().getNations().get(id);
-    }
-
     private void editConstitution(byte law, int option) {
         constitutionValues.set(law, option);
     }
@@ -172,6 +168,22 @@ public class Nation {
         NationProfile nProfile = new NationProfile(nationsId, rankToAddIn);
         user.getExtras().put("nationsProfile", nProfile);
         user.save();
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    // STATIC METHODS
+
+    public static Nation getFromId(String id) {
+        return instance.getNationManager().getNations().get(id);
+    }
+
+    public static List<String> getNationNames() {
+        List<String> list = new ArrayList<>();
+        for (Nation n : instance.getNationManager().getNations().values()) {
+            list.add(n.getName());
+        }
+        return list;
     }
 
 }
