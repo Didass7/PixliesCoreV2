@@ -315,7 +315,7 @@ public class User {
                     Wallet.getDefaultWallets(),
                     new ArrayList<>(),
                     new ArrayList<>(),
-                    new UserStats(),
+                    UserStats.createNew(),
                     new HashMap<>(),
                     UserPersonalization.getDefaults(),
                     UserSettings.getDefaults(),

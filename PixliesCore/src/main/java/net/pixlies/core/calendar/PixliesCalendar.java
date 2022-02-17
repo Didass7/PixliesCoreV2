@@ -91,6 +91,19 @@ public class PixliesCalendar extends Thread {
         return day + "/" + month + "/" + year;
     }
 
+    public String formatTime() {
+        long ticks = getWorld().getTime() + 6000L;
+
+        long hours = ticks / 1000;
+        if (hours > 24) hours = hours % 24;
+        long minutes = Math.round((ticks % 1000) / 60);
+        return (hours < 10 ? "0" : "") + hours + ":" + (minutes < 10 ? "0" : "") + minutes;
+    }
+
+    public String formatDateAndTime() {
+        return formatDate() + " " + formatTime();
+    }
+
     public void startRunner() {
         prevTime = 0L;
         currTime = (getWorld().getTime() + 6000L) % 24000L;
