@@ -24,7 +24,7 @@ import java.util.UUID;
  *
  * @author MickMMars
  * @author Dynmie
- * @author vPrototype
+ * @author vPrototype_
  */
 @AllArgsConstructor
 @Entity("nations")
