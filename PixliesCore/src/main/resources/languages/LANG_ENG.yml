@@ -112,6 +112,14 @@ MODERATION_COMMANDSPY_ON_OTHER: "§6%PLAYER% §7has enabled command spy."
 MODERATION_COMMANDSPY_OFF_OTHER: "§7%PLAYER% §7has disabled command spy."
 MODERATION_COMMANDSPY_FORMAT: "§6%PLAYER%§7: %MESSAGE%"
 
+MODERATION_FREEZE_ON: "§6%PLAYER%§7 is now frozen."
+MODERATION_FREEZE_OFF: "§6%PLAYER%§7 is no longer frozen."
+MODERATION_CANNOT_FREEZE: "§7That player cannot be frozen."
+MODERATION_FREEZE_UNFREEZE: "§7You are no longer frozen."
+MODERATION_FREEZE_FREEZE: "§cYou were frozen by %PLAYER%§c."
+MODERATION_FREEZE_MESSAGE: "§6%PLAYER%§7 was frozen by §6%EXECUTOR%§7."
+MODERATION_FREEZE_ACTIONBAR: "§cYou are currently frozen."
+
 # COSMETICS
 COSMETICS_HEALED_SELF: "§7You just healed yourself!"
 COSMETICS_HEALED_OTHERS: "§7You just healed §6%PLAYER%§7!"

@@ -132,6 +132,14 @@ public enum Lang {
     MODERATION_COMMANDSPY_OFF_OTHER(Lang.PIXLIES, new HashMap<>()),
     MODERATION_COMMANDSPY_FORMAT(Lang.COMMAND, new HashMap<>()),
 
+    MODERATION_FREEZE_FREEZE(Lang.PIXLIES, new HashMap<>()),
+    MODERATION_FREEZE_UNFREEZE(Lang.PIXLIES, new HashMap<>()),
+    MODERATION_CANNOT_FREEZE(Lang.PIXLIES, new HashMap<>()),
+    MODERATION_FREEZE_ON(Lang.PIXLIES, new HashMap<>()),
+    MODERATION_FREEZE_OFF(Lang.PIXLIES, new HashMap<>()),
+    MODERATION_FREEZE_MESSAGE(Lang.PIXLIES, new HashMap<>()),
+    MODERATION_FREEZE_ACTIONBAR("", new HashMap<>()),
+
     // COSMETICS
     COSMETICS_HEALED_SELF(Lang.PIXLIES, new HashMap<>()),
     COSMETICS_HEALED_OTHERS(Lang.PIXLIES, new HashMap<>()),
@@ -223,6 +231,7 @@ public enum Lang {
     public static final String PM = "§x§a§8§1§1§c§eP§x§a§4§0§8§a§4M §8| ";
     public static final String COMMAND = "§x§f§f§a§a§0§0C§x§d§4§8§d§0§0§M§x§a§9§6§f§0§0§D §8| ";
     public static final String BROADCAST = "§x§f§f§5§5§5§5§lB§x§f§4§4§a§4§a§lR§x§e§a§4§0§4§0§lO§x§d§f§3§5§3§5§lA§x§d§5§2§b§2§b§lD§x§c§a§2§0§2§0§lC§x§b§f§1§5§1§5§lA§x§b§5§0§b§0§b§lS§x§a§a§0§0§0§0§lT §8| ";
+    public static final String STAFF = "§x§0§0§a§a§a§a§lS§x§0§0§8§0§a§a§lT§x§0§0§5§5§a§a§lA§x§0§0§2§b§a§a§lF§x§0§0§0§0§a§a§lF §8| §7";
 
     Lang(String PREFIX, Map<String, String> languages) {
         this.PREFIX = PREFIX;
