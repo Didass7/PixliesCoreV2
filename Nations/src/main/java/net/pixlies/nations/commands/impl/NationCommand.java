@@ -6,6 +6,7 @@ import co.aikar.commands.annotation.*;
 import net.pixlies.core.entity.User;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.nations.Nations;
+import net.pixlies.nations.handlers.impl.NationDisbandHandler;
 import net.pixlies.nations.interfaces.NationProfile;
 import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.customization.GovernmentType;
@@ -25,6 +26,7 @@ import java.util.List;
 public class NationCommand extends BaseCommand {
 
     private static final Nations instance = Nations.getInstance();
+    private final NationDisbandHandler disbandHandler = instance.getHandlerManager().getHandler(NationDisbandHandler.class);
 
     @Default
     @HelpCommand
@@ -94,19 +96,17 @@ public class NationCommand extends BaseCommand {
 
     @Subcommand("disband")
     @Description("Disband a nation")
-    public void onDisband(Player player, @Optional String name) {
+    public void onDisband(Player player, @Optional String nationName) {
         User user = User.get(player.getUniqueId());
-
-        // STAFFMODE FORCE DISBAND
-        if (user.getSettings().isInStaffMode() && player.hasPermission("nations.staff.forcedisband")) {
-            // TODO: force disband a nation
-        }
-
-        // CHECK IF PLAYER IS THE LEADER OF THEIR NATION
         NationProfile profile = (NationProfile) user.getExtras().get("nationsProfile");
-        if (profile.getNationRank().equals(NationRank.leader().getName())) {
-            // TODO: nation disbanding sequence
-            // TODO: add confirmation
+
+        boolean staffCondition = user.getSettings().isInStaffMode() && player.hasPermission("nations.staff.forcedisband");
+        boolean playerCondition = profile.getNationRank().equals(NationRank.leader().getName());
+
+        if (staffCondition || playerCondition) {
+            disbandHandler.getConfirmations().put(player.getUniqueId(), profile.getNationId());
+            Lang.NATION_DISBAND_CONFIRM.send(player, "%NATION%;" +
+                    Nation.getFromId(profile.getNationId()).getName());
         } else {
             Lang.NATION_NO_PERMISSION.send(player);
         }

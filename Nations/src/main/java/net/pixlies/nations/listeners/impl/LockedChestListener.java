@@ -1,7 +1,6 @@
-package net.pixlies.nations.events.listeners;
+package net.pixlies.nations.listeners.impl;
 
 import net.pixlies.core.Main;
-import net.pixlies.core.entity.User;
 import net.pixlies.core.localization.Lang;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
