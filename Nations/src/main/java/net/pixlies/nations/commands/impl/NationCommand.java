@@ -44,7 +44,7 @@ public class NationCommand extends BaseCommand {
         }
 
         // CHECKS IF NATION WITH SAME NAME ALREADY EXISTS
-        if (Nation.getNationNames().contains(name)) {
+        if (instance.getNationManager().getNameNations().containsKey(name)) {
             Lang.NATION_NAME_ALREADY_EXISTS.send(player, "%NAME%;" + name);
             return;
         }

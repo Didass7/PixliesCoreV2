@@ -179,12 +179,4 @@ public class Nation {
         return instance.getNationManager().getNations().get(id);
     }
 
-    public static List<String> getNationNames() {
-        List<String> list = new ArrayList<>();
-        for (Nation n : instance.getNationManager().getNations().values()) {
-            list.add(n.getName());
-        }
-        return list;
-    }
-
 }
