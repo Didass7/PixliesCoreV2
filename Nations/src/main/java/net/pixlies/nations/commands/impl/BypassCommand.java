@@ -1,4 +1,4 @@
-package net.pixlies.core.commands.staff;
+package net.pixlies.nations.commands.impl;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 @CommandAlias("bypass|b|nationbypass")
 @CommandPermission("pixlies.moderation.bypass")
 public class BypassCommand extends BaseCommand {
-    
+
     @Default
     @Description("Toggle your nation bypass status")
     public void onStaffMode(Player player) {

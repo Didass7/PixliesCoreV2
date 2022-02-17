@@ -54,7 +54,6 @@ public class PixliesCommandManager {
         register(new FreezeCommand(), false);
 
         // STAFF
-        register(new BypassCommand(), true);
         register(new StaffModeCommand(), true);
         register(new GodCommand(), false);
         register(new WorldCommand(), false);

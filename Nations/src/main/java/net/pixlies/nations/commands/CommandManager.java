@@ -3,6 +3,7 @@ package net.pixlies.nations.commands;
 import co.aikar.commands.BaseCommand;
 import com.google.common.collect.ImmutableList;
 import net.pixlies.core.Main;
+import net.pixlies.nations.commands.impl.BypassCommand;
 import net.pixlies.nations.commands.impl.NationCommand;
 import net.pixlies.nations.commands.impl.player.LockCommand;
 
@@ -12,6 +13,7 @@ public class CommandManager {
 
             // NATIONS
             new NationCommand(),
+            new BypassCommand(),
 
             // PLAYER
             new LockCommand()
