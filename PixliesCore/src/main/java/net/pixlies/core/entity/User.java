@@ -309,8 +309,18 @@ public class User {
         return instance.getDatabase().getUserCache().getOrDefault(uuid, getFromDatabase(uuid));
     }
 
-    public static Collection<User> getUsers() {
+    public static Collection<User> getAllUsers() {
         return instance.getDatabase().getUserCache().values();
+    }
+
+    public static Collection<User> getOnlineUsers() {
+        List<User> users = new ArrayList<>();
+        for (User user : getAllUsers()) {
+            if (!user.getAsOfflinePlayer().isOnline())
+                continue;
+            users.add(user);
+        }
+        return users;
     }
 
     public static User getFromDatabase(UUID uuid) {
