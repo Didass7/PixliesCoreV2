@@ -226,6 +226,37 @@ public class User {
         save();
     }
 
+    /**
+     * Kicks the user with a reason.
+     * @param reason the reason to kick
+     * @return true if success, false if failed
+     */
+    public boolean kick(String reason) {
+        String kickReason = reason;
+        if (!getAsOfflinePlayer().isOnline()) return false;
+        Player player = getAsOfflinePlayer().getPlayer();
+        if (player == null)
+            return false;
+        if (player.hasPermission("pixlies.moderation.kick.exempt"))
+            return false;
+        if (reason == null || reason.isEmpty()) {
+            kickReason = instance.getConfig().getString("moderation.defaultReason", "No reason specified.");
+        }
+        String kickMessage = Lang.KICK_MESSAGE.get(player);
+        kickMessage = kickMessage
+                .replace("%REASON%",  kickReason);
+        player.kick(Component.text(kickMessage));
+        return true;
+    }
+
+    /**
+     * Kicks the user with the default reason.
+     * @return true if success, false if failed
+     */
+    public boolean kick() {
+        return this.kick(null);
+    }
+
     public boolean hasNickName() {
         return nickName != null && !nickName.isEmpty();
     }
@@ -276,6 +307,10 @@ public class User {
 
     public static User get(UUID uuid) {
         return instance.getDatabase().getUserCache().getOrDefault(uuid, getFromDatabase(uuid));
+    }
+
+    public static Collection<User> getUsers() {
+        return instance.getDatabase().getUserCache().values();
     }
 
     public static User getFromDatabase(UUID uuid) {

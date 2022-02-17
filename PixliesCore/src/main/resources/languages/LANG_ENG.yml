@@ -13,6 +13,11 @@ BLACKLIST_MESSAGE: |-
   
   §7ID: §f%BAN_ID%
 
+KICK_MESSAGE: |-
+  §7You were kicked from §3Pixlies§fNet§7.
+  
+  §7Reason: §c%REASON%
+
 BANNED_PLAYER_TRIED_TO_JOIN: '§c%PLAYER%§7 tried to join, but is currently banned.'
 
 PLAYER_PERMANENTLY_BANNED: '§6%PLAYER%§7 was permanently banned by §6%EXECUTOR%§7 for §c"%REASON%"§7.'
