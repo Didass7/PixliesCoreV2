@@ -143,6 +143,7 @@ public class Nation {
 
     public void save() {
         instance.getNationManager().getNations().put(nationsId, this);
+        instance.getNationManager().getNameNations().put(name, nationsId);
     }
 
     public void backup() {
