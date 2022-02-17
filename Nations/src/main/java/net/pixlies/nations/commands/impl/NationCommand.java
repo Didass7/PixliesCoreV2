@@ -100,7 +100,7 @@ public class NationCommand extends BaseCommand {
         User user = User.get(player.getUniqueId());
         NationProfile profile = (NationProfile) user.getExtras().get("nationsProfile");
 
-        boolean staffCondition = user.getSettings().isInStaffMode() && player.hasPermission("nations.staff.forcedisband");
+        boolean staffCondition = user.getSettings().hasNationBypass() && player.hasPermission("nations.staff.forcedisband");
         boolean playerCondition = profile.getNationRank().equals(NationRank.leader().getName());
 
         if (staffCondition || playerCondition) {

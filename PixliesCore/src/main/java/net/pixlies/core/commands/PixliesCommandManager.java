@@ -43,7 +43,6 @@ public class PixliesCommandManager {
         register(new InventorySeeCommand(), false);
         register(new GlobalPvpCommand(), false);
         register(new KickallCommand(), false);
-        register(new StaffModeCommand(), true);
         register(new VanishCommand(), false);
         register(new TpHereCommand(), false);
         register(new TpAskCommand(), false);
@@ -55,6 +54,8 @@ public class PixliesCommandManager {
         register(new FreezeCommand(), false);
 
         // STAFF
+        register(new BypassCommand(), true);
+        register(new StaffModeCommand(), true);
         register(new GodCommand(), false);
         register(new WorldCommand(), false);
         register(new GamemodeCommand(), false);

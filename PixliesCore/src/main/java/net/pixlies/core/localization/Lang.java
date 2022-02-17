@@ -76,6 +76,11 @@ public enum Lang {
     STAFF_STAFFMODE_ON_OTHER(Lang.PIXLIES, new HashMap<>()),
     STAFF_STAFFMODE_OFF_OTHER(Lang.PIXLIES, new HashMap<>()),
 
+    STAFF_BYPASS_ON(Lang.PIXLIES, new HashMap<>()),
+    STAFF_BYPASS_OFF(Lang.PIXLIES, new HashMap<>()),
+    STAFF_BYPASS_ON_OTHER(Lang.PIXLIES, new HashMap<>()),
+    STAFF_BYPASS_OFF_OTHER(Lang.PIXLIES, new HashMap<>()),
+
     STAFF_GAMEMODE_CHANGED_SELF(Lang.PIXLIES, new HashMap<>()),
     STAFF_GAMEMODE_CHANGED_OTHERS(Lang.PIXLIES, new HashMap<>()),
 
