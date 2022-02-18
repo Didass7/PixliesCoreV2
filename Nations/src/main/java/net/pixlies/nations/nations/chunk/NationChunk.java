@@ -17,17 +17,17 @@ import java.util.Map;
 public class NationChunk {
     public static Map<String, Table<Integer, Integer, NationChunk>> table;
 
-    private String              nationId, world;
-    private int                 x,z;
-    private NationChunkType     type;
-    private JsonObject          data;
+    private String nationId, world;
+    private int x, z;
+    private NationChunkType type;
+    private JsonObject data;
 
     public void claim(boolean claim) {
         Table<Integer, Integer, NationChunk> rst = table.get(world);
-        rst.put(x,z, this);
+        rst.put(x, z, this);
         table.put(world, rst);
         Nation nation = Nation.getFromId(nationId);
-        if(!nation.getClaims().contains(this)) {
+        if (!nation.getClaims().contains(this)) {
             nation.getClaims().add(this);
             nation.save();
         }
