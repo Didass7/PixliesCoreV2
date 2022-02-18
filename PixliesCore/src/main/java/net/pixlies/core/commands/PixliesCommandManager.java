@@ -9,10 +9,16 @@ import net.pixlies.core.commands.moderation.*;
 import net.pixlies.core.commands.player.*;
 import net.pixlies.core.commands.staff.*;
 import net.pixlies.core.entity.User;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PixliesCommandManager {
 
     private static final Main instance = Main.getInstance();
+
+    private final List<BaseCommand> registeredCommands = new ArrayList<>();
 
     private @Getter final PaperCommandManager pcm;
     private final boolean limitedCommands = instance.getConfig().getBoolean("commands.limitedCommands", false);
@@ -128,14 +134,17 @@ public class PixliesCommandManager {
      * @param command the command to register
      * @param notLobby if the command can be used on a server that isn't lobby
      */
-    public void register(BaseCommand command, boolean notLobby) {
+    public void register(@NotNull BaseCommand command, boolean notLobby) {
         if (notLobby && limitedCommands) return;
         pcm.registerCommand(command);
+        registeredCommands.add(command);
     }
 
-    public void unregister(BaseCommand command) {
-        if (!pcm.getRegisteredRootCommands().contains((RootCommand) command)) return;
+    public void unregister(@NotNull BaseCommand command) {
+        if (!(registeredCommands.contains(command)))
+            return;
         pcm.unregisterCommand(command);
+        registeredCommands.remove(command);
     }
 
 }
