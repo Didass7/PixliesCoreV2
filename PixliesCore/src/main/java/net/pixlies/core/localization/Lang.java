@@ -239,6 +239,10 @@ public enum Lang {
     NATION_MISSING_ARG(Lang.NATION, new HashMap<>()),
     NATION_DOES_NOT_EXIST(Lang.NATION, new HashMap<>()),
 
+    NATION_RENAME(Lang.NATION, new HashMap<>()),
+    NATION_CANNOT_RENAME(Lang.NATION, new HashMap<>()),
+    NOT_IN_NATION(Lang.NATION, new HashMap<>()),
+
     // OTHER
     MUST_BE_A_PLAYER(Lang.PIXLIES, new HashMap<>()),
     INVALID_COMMAND_SYNTAX(Lang.PIXLIES, new HashMap<>());

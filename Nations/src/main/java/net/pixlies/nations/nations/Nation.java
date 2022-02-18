@@ -209,11 +209,17 @@ public class Nation {
     }
 
     public void rename(String newName) {
+
+        if (newName.length() > 16 || newName.isEmpty() || newName.matches("^[a-zA-Z0-9_-]*$") ) {
+            throw new IllegalArgumentException("Illegal nation name: " + newName);
+        }
+
         instance.getNationManager().getNameNations().remove(this.name);
         instance.getNationManager().getNameNations().put(newName, nationsId);
 
         this.name = newName;
         save();
+
     }
 
     // -------------------------------------------------------------------------------------------------

@@ -95,10 +95,83 @@ public class NationCommand extends BaseCommand {
         // TODO: open nation creation menu
     }
 
-    //TODO: Other nations
     @Subcommand("rename")
     @Description("Rename a nation")
-    public void onRename(Player player, String name, @Optional String nationName) {
+    public void onRename(CommandSender sender, String name, @Optional String nationName) {
+
+        if (sender instanceof Player player) {
+
+            User user = User.get(player.getUniqueId());
+            NationProfile profile = NationProfile.get(user);
+
+            if (nationName.isEmpty() || nationName == null) {
+
+                if (profile == null) {
+                    Lang.NOT_IN_NATION.send(player);
+                    return;
+                }
+
+                boolean staffCondition = user.getSettings().isBypassing() && player.hasPermission("nations.staff.forcerename");
+                boolean playerCondition = profile.getNationRank().equals(NationRank.leader().getName());
+
+                if (!(staffCondition || playerCondition)) {
+                    Lang.NATION_NO_PERMISSION.send(player);
+                    return;
+                }
+
+                Nation nation = Nation.getFromId(profile.getNationId());
+
+                if (name.length() > 16 || name.matches("^[a-zA-Z0-9_-]*$") ) {
+                    Lang.NATION_CANNOT_RENAME.send(sender);
+                    return;
+                }
+
+                Lang.NATION_RENAME.broadcast("%NATION%;" + nation.getName(), "%NEW%;" + name, "%PLAYER%;" + player.getName());
+                nation.rename(name);
+
+            } else {
+
+                Nation nation = Nation.getFromName(nationName);
+
+                if (nation == null) {
+                    Lang.NATION_DOES_NOT_EXIST.send(player);
+                    return;
+                }
+
+                boolean staffCondition = user.getSettings().isBypassing() && player.hasPermission("nations.staff.forcerename");
+
+                if (!staffCondition) {
+                    Lang.NATION_NO_PERMISSION.send(player);
+                    return;
+                }
+
+                Lang.NATION_RENAME.broadcast("%NATION%;" + nation.getName(), "%NEW%;" + name, "%PLAYER%;" + player.getName());
+                nation.rename(name);
+
+            }
+
+        } else {
+
+            if (nationName == null || nationName.isEmpty()) {
+                Lang.NATION_MISSING_ARG.send(sender, "%X%;Nation Name");
+                return;
+            }
+
+            if (name.length() > 16 || name.matches("^[a-zA-Z0-9_-]*$") ) {
+                Lang.NATION_CANNOT_RENAME.send(sender);
+                return;
+            }
+
+            Nation nation = Nation.getFromName(nationName);
+            if (nation == null) {
+                Lang.NATION_DOES_NOT_EXIST.send(sender);
+                return;
+            }
+
+            Lang.NATION_RENAME.broadcast("%NATION%;" + nation.getName(), "%NEW%;" + name, "%PLAYER%;" + sender.getName());
+            nation.rename(name);
+
+        }
 
     }
 
@@ -107,7 +180,7 @@ public class NationCommand extends BaseCommand {
     public void onDisband(CommandSender sender, @Optional String nationName) {
         if (sender instanceof Player player) {
             User user = User.get(player.getUniqueId());
-            NationProfile profile = (NationProfile) user.getExtras().get("nationsProfile");
+            NationProfile profile = NationProfile.get(user);
 
             if (nationName == null || nationName.isEmpty()) {
                 if (profile == null) {
