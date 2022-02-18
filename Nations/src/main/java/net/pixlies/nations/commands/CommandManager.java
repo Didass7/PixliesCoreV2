@@ -1,6 +1,7 @@
 package net.pixlies.nations.commands;
 
 import co.aikar.commands.BaseCommand;
+import co.aikar.commands.ConditionFailedException;
 import com.google.common.collect.ImmutableList;
 import net.pixlies.core.Main;
 import net.pixlies.nations.commands.impl.BypassCommand;

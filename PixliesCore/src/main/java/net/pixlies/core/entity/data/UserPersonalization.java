@@ -90,7 +90,7 @@ public class UserPersonalization {
                 false,
                 false,
                 false,
-                "STANDARD"
+                ScoreboardType.STANDARD.name()
         );
     }
 

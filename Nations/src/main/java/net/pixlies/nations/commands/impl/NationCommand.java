@@ -100,15 +100,55 @@ public class NationCommand extends BaseCommand {
         User user = User.get(player.getUniqueId());
         NationProfile profile = (NationProfile) user.getExtras().get("nationsProfile");
 
+        if (nationName == null || nationName.isEmpty()) {
+            if (profile == null) {
+                Lang.NATION_MISSING_ARG.send(player, "%X%;Nation Name");
+                return;
+            } else {
+                nationName = profile.getNationId();
+            }
+        }
+
+        boolean staffCondition = user.getSettings().hasNationBypass() && player.hasPermission("nations.staff.forcedisband");
+        boolean playerCondition = profile != null ? profile.getNationRank().equals(NationRank.leader().getName()) : staffCondition;
+
+        if (staffCondition || playerCondition) {
+            disbandHandler.getConfirmations().put(player.getUniqueId(), nationName);
+            Lang.NATION_DISBAND_CONFIRM.send(player, "%NATION%;" +
+                    Nation.getFromId(nationName).getName());
+        } else {
+            Lang.NATION_NO_PERMISSION.send(player);
+        }
+    }
+
+    @Subcommand("disband confirm")
+    @Description("Disband a nation confirm")
+    public void onDisbandConfirm(Player player) {
+        User user = User.get(player.getUniqueId());
+        NationProfile profile = (NationProfile) user.getExtras().get("nationsProfile");
+
         boolean staffCondition = user.getSettings().hasNationBypass() && player.hasPermission("nations.staff.forcedisband");
         boolean playerCondition = profile.getNationRank().equals(NationRank.leader().getName());
 
         if (staffCondition || playerCondition) {
-            disbandHandler.getConfirmations().put(player.getUniqueId(), profile.getNationId());
-            Lang.NATION_DISBAND_CONFIRM.send(player, "%NATION%;" +
-                    Nation.getFromId(profile.getNationId()).getName());
+            if (disbandHandler.getConfirmations().containsKey(player.getUniqueId())) {
+                //TODO: Disband
+            } else {
+                Lang.NATION_NO_NATION_TO_DISBAND.send(player);
+            }
         } else {
             Lang.NATION_NO_PERMISSION.send(player);
+        }
+    }
+
+    @Subcommand("disband cancel")
+    @Description("Cancel a disbandment of a nation")
+    public void onDisbandCancel(Player player) {
+        if (disbandHandler.getConfirmations().containsKey(player.getUniqueId())) {
+            disbandHandler.getConfirmations().remove(player.getUniqueId());
+            Lang.NATION_DISBAND_CANCELLED.send(player);
+        } else {
+            Lang.NATION_NO_NATION_TO_DISBAND.send(player);
         }
     }
 

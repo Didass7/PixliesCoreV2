@@ -230,6 +230,8 @@ public enum Lang {
     NATION_DISBANDED(Lang.NATION, new HashMap<>()),
     NATION_DISBAND_CONFIRM(Lang.NATION, new HashMap<>()),
     NATION_DISBAND_CANCELLED(Lang.NATION, new HashMap<>()),
+    NATION_NO_NATION_TO_DISBAND(Lang.NATION, new HashMap<>()),
+    NATION_MISSING_ARG(Lang.NATION, new HashMap<>()),
 
     // OTHER
     MUST_BE_A_PLAYER(Lang.PIXLIES, new HashMap<>()),
