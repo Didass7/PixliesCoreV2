@@ -7,11 +7,14 @@ import net.pixlies.core.entity.User;
 import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.ranks.NationRank;
 
+import java.util.UUID;
+
 /**
  * A Morphia-serializable Object to store all important information about the players
  * Nation information.
  *
  * @author MickMMars
+ * @author Dynmie
  */
 @Data
 @AllArgsConstructor
@@ -22,6 +25,10 @@ public class NationProfile {
     //                                              DATA
     // -------------------------------------------------------------------------------------------------
 
+    // Player
+    private UUID uniqueId;
+
+    // Nations
     private String nationId;
     private String nationRank;
 
@@ -39,8 +46,31 @@ public class NationProfile {
         return Nation.getFromId(nationId).getRanks().get(nationRank);
     }
 
+    /**
+     * Removes the nation information from a user.
+     *
+     * @return true if success, false if failed.
+     */
+    public boolean leaveNation() {
+        User user = User.get(uniqueId);
+
+        if (!isInNation(user)) return false;
+
+        NationProfile profile = get(user);
+        if (profile == null) return false;
+        Nation nation = Nation.getFromId(profile.getNationId());
+
+        nation.getMemberUUIDs().remove(user.getUuid());
+        nation.save();
+
+        user.getExtras().remove("nationsProfile");
+        user.save();
+        return true;
+    }
+
     // -------------------------------------------------------------------------------------------------
     //                                          STATIC METHODS
+
     // -------------------------------------------------------------------------------------------------
 
     /**
@@ -62,24 +92,6 @@ public class NationProfile {
     public static NationProfile get(User user) {
         if (!isInNation(user)) return null;
         return (NationProfile) user.getExtras().get("nationsProfile");
-    }
-
-    /**
-     * Removes the nation information from a user.
-     *
-     * @param user Expects a valid "User" object of the player
-     */
-    public static void leaveNation(User user) {
-        if (!isInNation(user)) return;
-
-        NationProfile profile = get(user);
-        Nation nation = Nation.getFromId(profile.getNationId());
-
-        nation.getMemberUUIDs().remove(user.getUuid());
-        nation.save();
-
-        user.getExtras().remove("nationsProfile");
-        user.save();
     }
 
 }

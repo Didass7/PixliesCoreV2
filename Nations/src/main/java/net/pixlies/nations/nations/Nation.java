@@ -14,7 +14,6 @@ import net.pixlies.nations.nations.customization.Ideology;
 import net.pixlies.nations.nations.customization.Religion;
 import net.pixlies.nations.nations.ranks.NationRank;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -185,7 +184,11 @@ public class Nation {
         if (!ranks.containsKey(rankToAddIn)) rankToAddIn = NationRank.newbie().getName();
 
         // CREATE A NEW NATIONPROFILE INSTANCE; ASSIGN TO PLAYER AND STORE IT
-        NationProfile nProfile = new NationProfile(nationsId, rankToAddIn);
+        NationProfile nProfile = new NationProfile(
+                user.getUniqueId(),
+                nationsId,
+                rankToAddIn
+        );
         user.getExtras().put("nationsProfile", nProfile);
         user.save();
     }
@@ -193,7 +196,8 @@ public class Nation {
     public void disband(CommandSender disbander) {
         for (UUID member : getMembers()) {
             User memberUser = User.get(member);
-            NationProfile.leaveNation(memberUser);
+            NationProfile profile = NationProfile.get(memberUser);
+            profile.leaveNation();
         }
 
         instance.getNationManager().getNameNations().remove(name);
