@@ -12,11 +12,8 @@ import net.pixlies.core.events.impl.player.SenderMessagePlayerEvent;
 import net.pixlies.core.handlers.impl.MessageHandler;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.utils.EventUtils;
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.Locale;
 
 @CommandAlias("message|w|msg|pm|m|whisper|tell|t")
 public class MessageCommand extends BaseCommand {
@@ -40,8 +37,9 @@ public class MessageCommand extends BaseCommand {
         EventUtils.callEvent(event);
         if (event.isCancelled()) return;
 
-        Lang.PLAYER_MESSAGE_FORMAT_TO.send(sender, "%PLAYER%;" + target.getName(), "%MESSAGE%;" + message);
-        Lang.PLAYER_MESSAGE_FORMAT_FROM.send(target, "%PLAYER%;" + StringUtils.capitalize(sender.getName().toLowerCase(Locale.ROOT)), "%MESSAGE%;" + message);
+        String msgToSend = message.substring(target.getName().length());
+        Lang.PLAYER_MESSAGE_FORMAT_TO.send(sender, "%PLAYER%;" + target.getName(), "%MESSAGE%;" + msgToSend);
+        Lang.PLAYER_MESSAGE_FORMAT_FROM.send(target, "%PLAYER%;" + sender.getName(), "%MESSAGE%;" + msgToSend);
     }
 
 }

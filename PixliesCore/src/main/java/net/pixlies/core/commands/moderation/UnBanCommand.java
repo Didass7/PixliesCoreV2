@@ -15,8 +15,7 @@ public class UnBanCommand extends BaseCommand {
 
     @CommandCompletion("@players")
     @Description("Ban'nt a player")
-    public void onUnmute(CommandSender sender, String target, @Optional String s) {
-
+    public void onUnban(CommandSender sender, String target, @Optional String s) {
         boolean silent = s.contains("-s");
 
         OfflinePlayer targetOP = Bukkit.getOfflinePlayerIfCached(target);
@@ -29,7 +28,6 @@ public class UnBanCommand extends BaseCommand {
         user.unban(sender, silent);
     }
 
-    @Default
     @HelpCommand
     public void onHelp(CommandSender sender, CommandHelp help) {
         help.showHelp();

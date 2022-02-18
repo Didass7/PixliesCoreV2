@@ -98,14 +98,11 @@ public class NationCommand extends BaseCommand {
     @Subcommand("rename")
     @Description("Rename a nation")
     public void onRename(CommandSender sender, String name, @Optional String nationName) {
-
         if (sender instanceof Player player) {
-
             User user = User.get(player.getUniqueId());
             NationProfile profile = NationProfile.get(user);
 
             if (nationName == null || nationName.isEmpty()) {
-
                 if (profile == null) {
                     Lang.NOT_IN_NATION.send(player);
                     return;
@@ -127,9 +124,7 @@ public class NationCommand extends BaseCommand {
                 }
 
                 nation.rename(sender, name);
-
             } else {
-
                 Nation nation = Nation.getFromName(nationName);
 
                 if (nation == null) {
@@ -145,11 +140,9 @@ public class NationCommand extends BaseCommand {
                 }
 
                 nation.rename(sender, name);
-
             }
 
         } else {
-
             if (nationName == null || nationName.isEmpty()) {
                 Lang.NATION_MISSING_ARG.send(sender, "%X%;Nation Name");
                 return;
@@ -167,9 +160,7 @@ public class NationCommand extends BaseCommand {
             }
 
             nation.rename(sender, name);
-
         }
-
     }
 
     @Subcommand("disband")
