@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import net.pixlies.core.entity.User;
 import net.pixlies.nations.nations.Nation;
+import net.pixlies.nations.nations.ranks.NationRank;
 
 /**
  * A Morphia-serializable Object to store all important information about the players
@@ -23,6 +24,20 @@ public class NationProfile {
 
     private String nationId;
     private String nationRank;
+
+    // -------------------------------------------------------------------------------------------------
+    //                                            METHODS
+    // -------------------------------------------------------------------------------------------------
+
+    public boolean isLeader() {
+        Nation nation = Nation.getFromId(nationId);
+        NationRank rank = nation.getRanks().get(nationRank);
+        return rank.getPriority() == 666;
+    }
+
+    public NationRank getRank() {
+        return Nation.getFromId(nationId).getRanks().get(nationRank);
+    }
 
     // -------------------------------------------------------------------------------------------------
     //                                          STATIC METHODS

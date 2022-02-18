@@ -94,6 +94,13 @@ public class NationCommand extends BaseCommand {
         // TODO: open nation creation menu
     }
 
+    //TODO: Other nations
+    @Subcommand("rename")
+    @Description("Rename a nation")
+    public void onRename(Player player, String name, @Optional String nationName) {
+
+    }
+
     @Subcommand("disband")
     @Description("Disband a nation")
     public void onDisband(Player player, @Optional String nationName) {

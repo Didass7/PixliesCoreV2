@@ -193,6 +193,14 @@ public class Nation {
         //TODO: Broadcast message
     }
 
+    public void rename(String newName) {
+        instance.getNationManager().getNameNations().remove(this.name);
+        instance.getNationManager().getNameNations().put(newName, nationsId);
+
+        this.name = newName;
+        save();
+    }
+
     // -------------------------------------------------------------------------------------------------
 
     // STATIC METHODS
