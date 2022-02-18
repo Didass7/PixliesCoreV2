@@ -26,7 +26,7 @@ public class NationProfile {
     // -------------------------------------------------------------------------------------------------
 
     // Player
-    private UUID uniqueId;
+    private String uuid;
 
     // Nations
     private String nationId;
@@ -52,7 +52,7 @@ public class NationProfile {
      * @return true if success, false if failed.
      */
     public boolean leaveNation() {
-        User user = User.get(uniqueId);
+        User user = User.get(getUniqueId());
 
         if (!isInNation(user)) return false;
 
@@ -66,6 +66,10 @@ public class NationProfile {
         user.getExtras().remove("nationsProfile");
         user.save();
         return true;
+    }
+
+    public UUID getUniqueId() {
+        return UUID.fromString(uuid);
     }
 
     // -------------------------------------------------------------------------------------------------

@@ -185,7 +185,7 @@ public class Nation {
 
         // CREATE A NEW NATIONPROFILE INSTANCE; ASSIGN TO PLAYER AND STORE IT
         NationProfile nProfile = new NationProfile(
-                user.getUniqueId(),
+                user.getUuid(),
                 nationsId,
                 rankToAddIn
         );
