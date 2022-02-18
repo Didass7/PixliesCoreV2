@@ -11,6 +11,10 @@ import net.pixlies.core.handlers.impl.staffmode.StaffModeHandler;
 import net.pixlies.core.localization.Lang;
 import org.bukkit.entity.Player;
 
+/**
+ * Toggle your cool staff gamemode
+ * @author Dynmie
+ */
 @CommandAlias("staff|staffmode|sm|coolmode|h")
 @CommandPermission("pixlies.moderation.staffmode")
 public class StaffModeCommand extends BaseCommand {
@@ -19,7 +23,7 @@ public class StaffModeCommand extends BaseCommand {
     private final StaffModeHandler handler = instance.getHandlerManager().getHandler(StaffModeHandler.class);
 
     @Default
-    @Description("Toggle your nation bypass status")
+    @Description("Toggle your staff mode status")
     public void onStaffMode(Player player) {
         User user = User.get(player.getUniqueId());
         boolean staffModeEnabled = user.getSettings().isInStaffMode();
