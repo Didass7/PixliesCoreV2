@@ -38,7 +38,7 @@ public class PollListener implements Listener {
             int size = poll.getPollInfo().size();
 
             // Check if they want to end the poll creation process
-            if (size >= 3 && message.equalsIgnoreCase("end")) {
+            if (size >= 3 && message.equalsIgnoreCase("finish")) {
                 poll.makePublic();
                 pollHandler.getPollsInCreation().remove(player.getUniqueId());
                 pollHandler.getPolls().put(poll.getId(), poll);
@@ -46,7 +46,7 @@ public class PollListener implements Listener {
             }
 
             Lang.ADDED_POLL_OPTION.send(player, "%NUMBER%;" + size, "%OPTION%;" + message);
-            Lang.ENTER_POLL_OPTION.send(player, "%NUMBER%;" + size + 1);
+            Lang.ENTER_POLL_OPTION.send(player, "%NUMBER%;" + (size + 1));
 
             // Two options is the minimum
             if (size == 2) {
