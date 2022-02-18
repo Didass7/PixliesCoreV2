@@ -98,6 +98,10 @@ STAFF_SPEED_WALK_GET_OTHER: "§6%PLAYER%'s§7 walk speed is §6%SPEED%§7."
 STAFF_SPEED_RESET: "§7Your speed has been reset."
 STAFF_SPEED_RESET_OTHER: "§6%PLAYER%§7's speed has been reset."
 
+STAFF_SUDO_COMMAND: "§7You have forced §6%PLAYER%§7 to run §6/%MESSAGE%§7."
+STAFF_SUDO_CHAT: "§7You have forced §6%PLAYER%§7 to say §6%MESSAGE%§7."
+STAFF_SUDO_CANNOT: "§7You cannot sudo that player."
+
 # MODERATION
 MODERATION_GLOBAL_PVP_ON: ""
 MODERATION_GLOBAL_PVP_OFF: ""

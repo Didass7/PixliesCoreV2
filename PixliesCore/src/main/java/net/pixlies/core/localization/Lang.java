@@ -106,6 +106,10 @@ public enum Lang {
     STAFF_SPEED_RESET(Lang.PIXLIES, new HashMap<>()),
     STAFF_SPEED_RESET_OTHER(Lang.PIXLIES, new HashMap<>()),
 
+    STAFF_SUDO_COMMAND(Lang.PIXLIES, new HashMap<>()),
+    STAFF_SUDO_CHAT(Lang.PIXLIES, new HashMap<>()),
+    STAFF_SUDO_CANNOT(Lang.PIXLIES, new HashMap<>()),
+
     // TELEPORTATION
     TPHERE_MESSAGE_SENDER(Lang.PIXLIES, new HashMap<>()),
     TPHERE_MESSAGE_TARGET(Lang.PIXLIES, new HashMap<>()),

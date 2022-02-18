@@ -17,6 +17,8 @@ import org.bukkit.entity.Player;
 @CommandPermission("pixlies.staff.tp")
 public class TpCommand extends BaseCommand {
 
+    // TODO: this entire thing doesn't work
+
     // CONSOLE
     @Description("Teleport a player to another player")
     @CommandCompletion("@players @players")
