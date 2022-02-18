@@ -158,13 +158,7 @@ public class Nation {
         ranks.put("member", NationRank.member());
         ranks.put("newbie", NationRank.newbie());
 
-        save();
         return this;
-    }
-
-    public void save() {
-        instance.getNationManager().getNations().put(nationsId, this);
-        instance.getNationManager().getNameNations().put(name, nationsId);
     }
 
     public void backup() {
@@ -178,7 +172,6 @@ public class Nation {
     public void addMember(User user, String rank) {
         // ADD TO MEMBER LIST
         memberUUIDs.add(user.getUuid());
-        save();
 
         // MAKE A VARIABLE TO STORE THE RANK NAME
         String rankToAddIn = rank;
@@ -209,9 +202,7 @@ public class Nation {
                 profile.leaveNation();
         }
 
-        instance.getNationManager().getNameNations().remove(name);
-        instance.getNationManager().getNations().remove(nationsId);
-
+        instance.getNationManager().getNations().remove(this);
         instance.getMongoManager().getDatastore().delete(this);
 
         if (disbander != null) {
@@ -233,15 +224,13 @@ public class Nation {
             throw new IllegalArgumentException("Illegal nation name: " + newName);
         }
 
-        instance.getNationManager().getNameNations().remove(this.name);
-        instance.getNationManager().getNameNations().put(newName, nationsId);
+        instance.getNationManager().getNations().add(this);
 
         if (sender != null) {
             Lang.NATION_RENAME.broadcast("%NATION%;" + name, "%NEW%;" + newName, "%PLAYER%;" + sender.getName());
         }
 
         this.name = newName;
-        save();
 
     }
 
@@ -258,11 +247,11 @@ public class Nation {
     // -------------------------------------------------------------------------------------------------
 
     public static Nation getFromId(String id) {
-        return instance.getNationManager().getNations().get(id);
+        return instance.getNationManager().getNation(id);
     }
 
     public static Nation getFromName(String name) {
-        return instance.getNationManager().getNations().get(instance.getNationManager().getNameNations().get(name));
+        return instance.getNationManager().getNation(name);
     }
 
 }

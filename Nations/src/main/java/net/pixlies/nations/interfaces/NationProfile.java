@@ -61,7 +61,6 @@ public class NationProfile {
         Nation nation = Nation.getFromId(profile.getNationId());
 
         nation.getMemberUUIDs().remove(user.getUuid());
-        nation.save();
 
         user.getExtras().remove("nationsProfile");
         user.save();

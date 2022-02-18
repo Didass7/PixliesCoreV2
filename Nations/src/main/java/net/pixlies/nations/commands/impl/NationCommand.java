@@ -46,17 +46,11 @@ public class NationCommand extends BaseCommand {
             return;
         }
 
-        // CHECKS IF NATION WITH SAME NAME ALREADY EXISTS
-        if (instance.getNationManager().getNameNations().containsKey(name)) {
-            Lang.NATION_NAME_ALREADY_EXISTS.send(player, "%NAME%;" + name);
-            return;
-        }
-
         String id = RandomStringUtils.randomAlphanumeric(7);
 
-        // CHECKS IF NATION WITH SAME ID ALREADY EXISTS
-        if (instance.getNationManager().getNations().containsKey(id)) {
-            Lang.NATION_ID_ALREADY_EXISTS.send(player, "%NAME%;" + name);
+        // CHECKS IF NATION WITH SAME NAME ALREADY EXISTS
+        if (instance.getNationManager().getNation(name) != null || instance.getNationManager().getNation(id) != null) {
+            Lang.NATION_NAME_ALREADY_EXISTS.send(player, "%NAME%;" + name);
             return;
         }
 

@@ -29,7 +29,6 @@ public class NationChunk {
         Nation nation = Nation.getFromId(nationId);
         if (!nation.getClaims().contains(this)) {
             nation.getClaims().add(this);
-            nation.save();
         }
 
         if (claim) System.out.println("§b" + type.name() + "-Chunk claimed at §e" + x + "§8, §e " + z + "§bfor §e" + nation.getName());
