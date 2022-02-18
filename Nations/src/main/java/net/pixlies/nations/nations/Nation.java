@@ -13,6 +13,7 @@ import net.pixlies.nations.nations.customization.GovernmentType;
 import net.pixlies.nations.nations.customization.Ideology;
 import net.pixlies.nations.nations.customization.Religion;
 import net.pixlies.nations.nations.ranks.NationRank;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -30,6 +31,10 @@ import java.util.UUID;
 @AllArgsConstructor
 @Entity("nations")
 public class Nation {
+
+    // -------------------------------------------------------------------------------------------------
+    //                                              DATA
+    // -------------------------------------------------------------------------------------------------
 
     private static final Nations instance = Nations.getInstance();
 
@@ -59,6 +64,8 @@ public class Nation {
     // CHUNKS
     private @Getter @Setter List<NationChunk> claims;
 
+    // -------------------------------------------------------------------------------------------------
+    //                                         CONSTRUCTOR
     // -------------------------------------------------------------------------------------------------
 
     public Nation(String nationsId,
@@ -94,6 +101,8 @@ public class Nation {
         this.claims = claims;
     }
 
+    // -------------------------------------------------------------------------------------------------
+    //                                       GETTERS & SETTERS
     // -------------------------------------------------------------------------------------------------
 
     // MANUAL GETTER AND SETTERS
@@ -138,6 +147,8 @@ public class Nation {
     }
 
     // -------------------------------------------------------------------------------------------------
+    //                                            METHODS
+    // -------------------------------------------------------------------------------------------------
 
     public Nation create() {
         ranks.put("leader", NationRank.leader());
@@ -179,7 +190,7 @@ public class Nation {
         user.save();
     }
 
-    public void disband(Player disbander) {
+    public void disband(CommandSender disbander) {
         for (UUID member : getMembers()) {
             User memberUser = User.get(member);
             NationProfile.leaveNation(memberUser);
@@ -202,11 +213,15 @@ public class Nation {
     }
 
     // -------------------------------------------------------------------------------------------------
-
-    // STATIC METHODS
+    //                                        STATIC METHODS
+    // -------------------------------------------------------------------------------------------------
 
     public static Nation getFromId(String id) {
         return instance.getNationManager().getNations().get(id);
+    }
+
+    public static Nation getFromName(String name) {
+        return instance.getNationManager().getNations().get(instance.getNationManager().getNameNations().get(name));
     }
 
 }

@@ -16,6 +16,7 @@ import net.pixlies.nations.nations.customization.Religion;
 import net.pixlies.nations.nations.ranks.NationRank;
 import net.pixlies.nations.utils.NationUtils;
 import org.apache.commons.lang.RandomStringUtils;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -103,28 +104,46 @@ public class NationCommand extends BaseCommand {
 
     @Subcommand("disband")
     @Description("Disband a nation")
-    public void onDisband(Player player, @Optional String nationName) {
-        User user = User.get(player.getUniqueId());
-        NationProfile profile = (NationProfile) user.getExtras().get("nationsProfile");
+    public void onDisband(CommandSender sender, @Optional String nationName) {
+        if (sender instanceof Player player) {
+            User user = User.get(player.getUniqueId());
+            NationProfile profile = (NationProfile) user.getExtras().get("nationsProfile");
 
-        if (nationName == null || nationName.isEmpty()) {
-            if (profile == null) {
-                Lang.NATION_MISSING_ARG.send(player, "%X%;Nation Name");
-                return;
-            } else {
-                nationName = profile.getNationId();
+            if (nationName == null || nationName.isEmpty()) {
+                if (profile == null) {
+                    Lang.NATION_MISSING_ARG.send(player, "%X%;Nation Name");
+                    return;
+                } else {
+                    if (Nation.getFromName(nationName) == null) {
+                        Lang.NATION_DOES_NOT_EXIST.send(player);
+                        return;
+                    }
+                    nationName = profile.getNationId();
+                }
             }
-        }
 
-        boolean staffCondition = user.getSettings().hasNationBypass() && player.hasPermission("nations.staff.forcedisband");
-        boolean playerCondition = profile != null ? profile.getNationRank().equals(NationRank.leader().getName()) : staffCondition;
+            boolean staffCondition = user.getSettings().hasNationBypass() && player.hasPermission("nations.staff.forcedisband");
+            boolean playerCondition = profile != null ? profile.getNationRank().equals(NationRank.leader().getName()) : staffCondition;
 
-        if (staffCondition || playerCondition) {
-            disbandHandler.getConfirmations().put(player.getUniqueId(), nationName);
-            Lang.NATION_DISBAND_CONFIRM.send(player, "%NATION%;" +
-                    Nation.getFromId(nationName).getName());
+            if (staffCondition || playerCondition) {
+                disbandHandler.getConfirmations().put(player.getUniqueId(), nationName);
+                Lang.NATION_DISBAND_CONFIRM.send(player, "%NATION%;" +
+                        Nation.getFromId(nationName).getName());
+            } else {
+                Lang.NATION_NO_PERMISSION.send(player);
+            }
         } else {
-            Lang.NATION_NO_PERMISSION.send(player);
+            if (nationName == null || nationName.isEmpty()) {
+                Lang.NATION_MISSING_ARG.send(sender, "%X%;Nation Name");
+                return;
+            }
+            Nation nation = Nation.getFromName(nationName);
+            if (nation == null) {
+                Lang.NATION_DOES_NOT_EXIST.send(sender);
+                return;
+            }
+
+            nation.disband(sender);
         }
     }
 
