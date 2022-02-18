@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import net.pixlies.core.entity.User;
+import net.pixlies.core.localization.Lang;
 import net.pixlies.nations.Nations;
 import net.pixlies.nations.interfaces.NationProfile;
 import net.pixlies.nations.nations.chunk.NationChunk;
@@ -14,6 +15,8 @@ import net.pixlies.nations.nations.customization.Ideology;
 import net.pixlies.nations.nations.customization.Religion;
 import net.pixlies.nations.nations.ranks.NationRank;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -193,11 +196,17 @@ public class Nation {
         user.save();
     }
 
-    public void disband(CommandSender disbander) {
+    /**
+     * Disband the nation
+     * @param disbander the disbander
+     */
+    public void disband(@Nullable CommandSender disbander) {
+
         for (UUID member : getMembers()) {
             User memberUser = User.get(member);
             NationProfile profile = NationProfile.get(memberUser);
-            profile.leaveNation();
+            if (profile != null)
+                profile.leaveNation();
         }
 
         instance.getNationManager().getNameNations().remove(name);
@@ -205,10 +214,20 @@ public class Nation {
 
         instance.getMongoManager().getDatastore().delete(this);
 
-        //TODO: Broadcast message
+        if (disbander != null) {
+            Lang.NATION_DISBANDED.broadcast("%NATION%;" + name, "%PLAYER%;" + disbander.getName());
+        }
+
     }
 
-    public void rename(String newName) {
+    /**
+     * Shortened disband, will not broadcast.
+     */
+    public void disband() {
+        this.disband(null);
+    }
+
+    public void rename(@Nullable CommandSender sender, @NotNull String newName) {
 
         if (newName.length() > 16 || newName.isEmpty() || newName.matches("^[a-zA-Z0-9_-]*$") ) {
             throw new IllegalArgumentException("Illegal nation name: " + newName);
@@ -217,9 +236,21 @@ public class Nation {
         instance.getNationManager().getNameNations().remove(this.name);
         instance.getNationManager().getNameNations().put(newName, nationsId);
 
+        if (sender != null) {
+            Lang.NATION_RENAME.broadcast("%NATION%;" + name, "%NEW%;" + newName, "%PLAYER%;" + sender.getName());
+        }
+
         this.name = newName;
         save();
 
+    }
+
+    /**
+     * Shortened rename, will not broadcast.
+     * @param newName the new name
+     */
+    public void rename(@NotNull String newName) {
+        this.rename(null, newName);
     }
 
     // -------------------------------------------------------------------------------------------------

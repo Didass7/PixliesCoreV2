@@ -104,7 +104,7 @@ public class NationCommand extends BaseCommand {
             User user = User.get(player.getUniqueId());
             NationProfile profile = NationProfile.get(user);
 
-            if (nationName.isEmpty() || nationName == null) {
+            if (nationName == null || nationName.isEmpty()) {
 
                 if (profile == null) {
                     Lang.NOT_IN_NATION.send(player);
@@ -126,8 +126,7 @@ public class NationCommand extends BaseCommand {
                     return;
                 }
 
-                Lang.NATION_RENAME.broadcast("%NATION%;" + nation.getName(), "%NEW%;" + name, "%PLAYER%;" + player.getName());
-                nation.rename(name);
+                nation.rename(sender, name);
 
             } else {
 
@@ -145,8 +144,7 @@ public class NationCommand extends BaseCommand {
                     return;
                 }
 
-                Lang.NATION_RENAME.broadcast("%NATION%;" + nation.getName(), "%NEW%;" + name, "%PLAYER%;" + player.getName());
-                nation.rename(name);
+                nation.rename(sender, name);
 
             }
 
@@ -168,8 +166,7 @@ public class NationCommand extends BaseCommand {
                 return;
             }
 
-            Lang.NATION_RENAME.broadcast("%NATION%;" + nation.getName(), "%NEW%;" + name, "%PLAYER%;" + sender.getName());
-            nation.rename(name);
+            nation.rename(sender, name);
 
         }
 
