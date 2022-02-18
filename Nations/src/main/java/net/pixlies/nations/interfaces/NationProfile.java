@@ -4,6 +4,7 @@ import dev.morphia.annotations.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import net.pixlies.core.entity.User;
+import net.pixlies.nations.nations.Nation;
 
 /**
  * A Morphia-serializable Object to store all important information about the players
@@ -46,6 +47,24 @@ public class NationProfile {
     public static NationProfile get(User user) {
         if (!isInNation(user)) return null;
         return (NationProfile) user.getExtras().get("nationsProfile");
+    }
+
+    /**
+     * Removes the nation information from a user.
+     *
+     * @param user Expects a valid "User" object of the player
+     */
+    public static void leaveNation(User user) {
+        if (!isInNation(user)) return;
+
+        NationProfile profile = get(user);
+        Nation nation = Nation.getFromId(profile.getNationId());
+
+        nation.getMemberUUIDs().remove(user.getUuid());
+        nation.save();
+
+        user.getExtras().remove("nationsProfile");
+        user.save();
     }
 
 }

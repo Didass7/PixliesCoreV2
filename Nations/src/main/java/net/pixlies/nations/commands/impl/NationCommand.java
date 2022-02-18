@@ -132,7 +132,8 @@ public class NationCommand extends BaseCommand {
 
         if (staffCondition || playerCondition) {
             if (disbandHandler.getConfirmations().containsKey(player.getUniqueId())) {
-                //TODO: Disband
+                Nation nation = Nation.getFromId(disbandHandler.getConfirmations().get(player.getUniqueId()));
+                nation.disband(player);
             } else {
                 Lang.NATION_NO_NATION_TO_DISBAND.send(player);
             }

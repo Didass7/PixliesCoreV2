@@ -13,6 +13,7 @@ import net.pixlies.nations.nations.customization.GovernmentType;
 import net.pixlies.nations.nations.customization.Ideology;
 import net.pixlies.nations.nations.customization.Religion;
 import net.pixlies.nations.nations.ranks.NationRank;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -129,6 +130,13 @@ public class Nation {
         return Religion.valueOf(this.religion);
     }
 
+    public List<UUID> getMembers() {
+        List<UUID> returner = new ArrayList<>();
+        for (String s : memberUUIDs)
+            returner.add(UUID.fromString(s));
+        return returner;
+    }
+
     // -------------------------------------------------------------------------------------------------
 
     public Nation create() {
@@ -169,6 +177,20 @@ public class Nation {
         NationProfile nProfile = new NationProfile(nationsId, rankToAddIn);
         user.getExtras().put("nationsProfile", nProfile);
         user.save();
+    }
+
+    public void disband(Player disbander) {
+        for (UUID member : getMembers()) {
+            User memberUser = User.get(member);
+            NationProfile.leaveNation(memberUser);
+        }
+
+        instance.getNationManager().getNameNations().remove(name);
+        instance.getNationManager().getNations().remove(nationsId);
+
+        instance.getMongoManager().getDatastore().delete(this);
+
+        //TODO: Broadcast message
     }
 
     // -------------------------------------------------------------------------------------------------

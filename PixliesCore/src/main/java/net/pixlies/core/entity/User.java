@@ -37,8 +37,7 @@ public class User {
 
     public static final Gson gson = new Gson();
 
-    @Id private ObjectId id;
-    private String uuid;
+    @Id private String uuid;
     private long joined;
     private String discordId;
     private String nickName;
@@ -307,7 +306,6 @@ public class User {
         User profile = instance.getDatabase().getDatastore().find(User.class).filter(Filters.gte("uuid", uuid.toString())).first();
         if (profile == null) {
             profile = new User(
-                    new ObjectId(),
                     uuid.toString(),
                     System.currentTimeMillis(),
                     "NONE",
