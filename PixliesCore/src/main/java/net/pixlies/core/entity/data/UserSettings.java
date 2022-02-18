@@ -13,19 +13,19 @@ import java.util.Map;
 public class UserSettings {
 
     private boolean inStaffMode;
-    private boolean hasNationBypass;
+    private boolean bypassing;
     private boolean vanished;
     private boolean passive;
 
     public UserSettings(Map<String, Object> map) {
         this.inStaffMode = (boolean) map.get(STAFF_MODE_ENABLED);
-        this.hasNationBypass = (boolean) map.get(NATIONS_BYPASS_ENABLED);
+        this.bypassing = (boolean) map.get(TERRITORY_BYPASS);
         this.vanished = (boolean) map.get(VANISHED);
         this.passive = (boolean) map.get(PASSIVE);
     }
 
     public static final String STAFF_MODE_ENABLED = "staffMode";
-    public static final String NATIONS_BYPASS_ENABLED = "hasNationBypass";
+    public static final String TERRITORY_BYPASS = "territoryBypass";
     public static final String VANISHED = "vanished";
     public static final String PASSIVE = "passive";
 
@@ -33,14 +33,10 @@ public class UserSettings {
         return new UserSettings(map);
     }
 
-    public boolean hasNationBypass() {
-        return hasNationBypass;
-    }
-
     public Map<String, Object> mapForMongo() {
         return new HashMap<>() {{
             put(STAFF_MODE_ENABLED, inStaffMode);
-            put(NATIONS_BYPASS_ENABLED, hasNationBypass);
+            put(TERRITORY_BYPASS, bypassing);
             put(VANISHED, vanished);
             put(PASSIVE, passive);
         }};

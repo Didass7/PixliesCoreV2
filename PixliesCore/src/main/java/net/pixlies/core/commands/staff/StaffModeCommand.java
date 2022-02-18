@@ -1,12 +1,14 @@
 package net.pixlies.core.commands.staff;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.*;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandPermission;
+import co.aikar.commands.annotation.Default;
+import co.aikar.commands.annotation.Description;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.User;
 import net.pixlies.core.handlers.impl.staffmode.StaffModeHandler;
 import net.pixlies.core.localization.Lang;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandAlias("staff|staffmode|sm|coolmode|h")
@@ -26,22 +28,6 @@ public class StaffModeCommand extends BaseCommand {
             Lang.STAFF_STAFFMODE_OFF.send(player);
         } else {
             handler.enable(player);
-            Lang.STAFF_STAFFMODE_ON.send(player);
-        }
-    }
-
-    @Private
-    @Description("Toggle another's staff mode status")
-    public void onStaffMode(CommandSender sender, Player player) {
-        User user = User.get(player.getUniqueId());
-        boolean staffModeEnabled = user.getSettings().isInStaffMode();
-        if (staffModeEnabled) {
-            handler.disable(player);
-            Lang.STAFF_STAFFMODE_OFF_OTHER.send(sender, "%PLAYER%;" + player.getName());
-            Lang.STAFF_STAFFMODE_OFF.send(player);
-        } else {
-            handler.enable(player);
-            Lang.STAFF_STAFFMODE_ON_OTHER.send(sender, "%PLAYER%;" + player.getName());
             Lang.STAFF_STAFFMODE_ON.send(player);
         }
     }
