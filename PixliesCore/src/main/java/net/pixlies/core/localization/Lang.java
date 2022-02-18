@@ -173,6 +173,7 @@ public enum Lang {
     COSMETICS_CANNOT_NICKNAME(Lang.PIXLIES, new HashMap<>()),
 
     COSMETICS_HAT_CANNOT_SET(Lang.PIXLIES, new HashMap<>()),
+    COSMETICS_HAT_ALREADY_HAVE(Lang.PIXLIES, new HashMap<>()),
     COSMETICS_HAT_SET(Lang.PIXLIES, new HashMap<>()),
 
     // POLLS

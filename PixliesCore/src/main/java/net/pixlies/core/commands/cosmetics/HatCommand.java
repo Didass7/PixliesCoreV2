@@ -26,6 +26,11 @@ public class HatCommand extends BaseCommand {
         PlayerInventory inventory = player.getInventory();
         ItemStack item = inventory.getItemInMainHand();
 
+        if (inventory.getHelmet() != null) {
+            Lang.COSMETICS_HAT_ALREADY_HAVE.send(player);
+            return;
+        }
+
         if (item.getType() == Material.AIR) {
             Lang.COSMETICS_HAT_CANNOT_SET.send(player);
             return;

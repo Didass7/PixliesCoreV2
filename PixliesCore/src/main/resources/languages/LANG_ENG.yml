@@ -149,6 +149,7 @@ COSMETICS_NICKNAME_OTHER: "§7You have changed §6%PLAYER%§7's nickname to §6%
 COSMETICS_CANNOT_NICKNAME: "§7You cannot set this as a nickname."
 
 COSMETICS_HAT_CANNOT_SET: "§7You cannot set this as a hat."
+COSMETICS_HAT_ALREADY_HAVE: "§7You already have something as your hat."
 COSMETICS_HAT_SET: "§7You now have a hat!"
 
 # PLAYER
