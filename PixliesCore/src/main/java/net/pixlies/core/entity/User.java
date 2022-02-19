@@ -71,7 +71,7 @@ public class User {
         return getMute() != null;
     }
 
-    public Punishment mute(@Nullable String reason, CommandSender punisher, boolean silent) {
+    public @NotNull Punishment mute(@Nullable String reason, @NotNull CommandSender punisher, boolean silent) {
 
         if (isMuted()) return getMute();
         UUID punisherUUID = punisher instanceof Player player ? player.getUniqueId() : UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670");
@@ -101,7 +101,7 @@ public class User {
         return punishment;
     }
 
-    public void unmute(CommandSender sender, boolean silent) {
+    public void unmute(@NotNull CommandSender sender, boolean silent) {
         if (!isMuted()) return;
         currentPunishments.remove("mute");
         if (silent) {
@@ -112,7 +112,7 @@ public class User {
         save();
     }
 
-    public Punishment tempMute(String reason, CommandSender punisher, long duration, boolean silent) {
+    public @NotNull Punishment tempMute(@Nullable String reason, @NotNull CommandSender punisher, long duration, boolean silent) {
         if (isMuted()) return getMute();
         UUID punisherUUID = punisher instanceof Player player ? player.getUniqueId() : UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670");
 
@@ -146,7 +146,7 @@ public class User {
         return getBan() != null;
     }
 
-    public Punishment ban(String reason, CommandSender punisher, boolean silent) {
+    public @NotNull Punishment ban(@Nullable String reason, @NotNull CommandSender punisher, boolean silent) {
         if (isBanned()) return getBan();
         UUID punisherUUID = punisher instanceof Player player ? player.getUniqueId() : UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670");
 
@@ -175,7 +175,7 @@ public class User {
         return punishment;
     }
 
-    public Punishment tempBan(String reason, CommandSender punisher, long duration, boolean silent) {
+    public @NotNull Punishment tempBan(@Nullable String reason, @NotNull CommandSender punisher, long duration, boolean silent) {
         if (isBanned()) return getBan();
         UUID punisherUUID = punisher instanceof Player player ? player.getUniqueId() : UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670");
 
@@ -216,7 +216,7 @@ public class User {
         save();
     }
 
-    public Punishment getBlacklist() {
+    public @Nullable Punishment getBlacklist() {
         if (!currentPunishments.containsKey("blacklist")) return null;
         return currentPunishments.get("blacklist");
     }
@@ -232,8 +232,8 @@ public class User {
      * @param silent if you want it broadcasted to staff or not
      * @return the punishment.
      */
-    public Punishment blacklist(@Nullable String reason, @NotNull CommandSender punisher, boolean silent) {
-        if (isBlacklisted()) return getBlacklist();
+    public @NotNull Punishment blacklist(@Nullable String reason, @NotNull CommandSender punisher, boolean silent) {
+        if (isBlacklisted()) return Objects.requireNonNull(getBlacklist());
 
         UUID punisherUUID = punisher instanceof Player player ? player.getUniqueId() : UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670");
 
@@ -269,7 +269,7 @@ public class User {
         return punishment;
     }
 
-    public void unblacklist(CommandSender sender, boolean silent) {
+    public void unblacklist(@NotNull CommandSender sender, boolean silent) {
         if (!isBlacklisted()) return;
         currentPunishments.remove("blacklist");
         if (silent) {
@@ -347,15 +347,30 @@ public class User {
         return UUID.fromString(uuid);
     }
 
-    public static User get(UUID uuid) {
+    public void backup() {
+        try {
+            instance.getDatabase().getDatastore().find(User.class).filter(Filters.gte("uuid", uuid)).delete();
+        } catch (Exception ignored) { }
+
+        instance.getDatabase().getDatastore().save(this);
+    }
+
+    public void save() {
+        instance.getDatabase().getUserCache().remove(getUniqueId());
+        instance.getDatabase().getUserCache().put(getUniqueId(), this);
+    }
+
+    // STATICS - it's not static abuse if you use it properly.
+
+    public static @NotNull User get(UUID uuid) {
         return instance.getDatabase().getUserCache().getOrDefault(uuid, getFromDatabase(uuid));
     }
 
-    public static Collection<User> getAllUsers() {
+    public static @NotNull Collection<User> getAllUsers() {
         return instance.getDatabase().getUserCache().values();
     }
 
-    public static Collection<User> getOnlineUsers() {
+    public static @NotNull Collection<User> getOnlineUsers() {
         List<User> users = new ArrayList<>();
         for (User user : getAllUsers()) {
             if (!user.getAsOfflinePlayer().isOnline())
@@ -365,7 +380,7 @@ public class User {
         return users;
     }
 
-    public static User getFromDatabase(UUID uuid) {
+    public static @NotNull User getFromDatabase(UUID uuid) {
         User profile = instance.getDatabase().getDatastore().find(User.class).filter(Filters.gte("uuid", uuid.toString())).first();
         if (profile == null) {
             profile = new User(
@@ -392,16 +407,4 @@ public class User {
         return profile;
     }
 
-    public void backup() {
-        try {
-            instance.getDatabase().getDatastore().find(User.class).filter(Filters.gte("uuid", uuid)).delete();
-        } catch (Exception ignored) { }
-
-        instance.getDatabase().getDatastore().save(this);
-    }
-
-    public void save() {
-        instance.getDatabase().getUserCache().put(getUniqueId(), this);
-    }
-    
 }
