@@ -18,7 +18,7 @@ public class UnMuteCommand extends BaseCommand {
     public void onUnmute(CommandSender sender, String target, @Optional String s) {
         OfflinePlayer targetOP = Bukkit.getOfflinePlayerIfCached(target);
 
-        boolean silent = s.contains("-s");
+        boolean silent = s != null && s.contains("-s");
 
         if (targetOP == null) {
             Lang.PLAYER_DOESNT_EXIST.send(sender);

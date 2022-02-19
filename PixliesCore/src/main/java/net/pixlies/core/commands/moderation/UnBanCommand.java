@@ -16,7 +16,7 @@ public class UnBanCommand extends BaseCommand {
     @CommandCompletion("@players")
     @Description("Ban'nt a player")
     public void onUnban(CommandSender sender, String target, @Optional String s) {
-        boolean silent = s.contains("-s");
+        boolean silent = s != null && s.contains("-s");
 
         OfflinePlayer targetOP = Bukkit.getOfflinePlayerIfCached(target);
         if (targetOP == null) {

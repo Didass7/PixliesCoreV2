@@ -22,7 +22,7 @@ public class UnBlacklistCommand extends BaseCommand {
     @Description("Unblacklist a player")
     public void onUnBlacklist(CommandSender sender, OfflinePlayer target, @Optional String s) {
 
-        boolean silent = s.contains("-s");
+        boolean silent = s != null && s.contains("-s");
 
         User user = User.get(target.getUniqueId());
         user.unblacklist(sender, silent);
