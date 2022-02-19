@@ -5,6 +5,7 @@ import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Optional;
 import net.pixlies.core.entity.User;
+import net.pixlies.core.localization.Lang;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -22,12 +23,17 @@ public class KickCommand extends BaseCommand {
         String newReason = reason;
         boolean silent = false;
 
+        if (target.hasPermission("pixlies.moderation.kick.exempt")) {
+            Lang.MODERATION_CANNOT_KICK.send(sender);
+            return;
+        }
+
         if (reason != null && !reason.isEmpty()) {
             silent = reason.contains("-s");
             newReason = newReason.replace("-s", "");
         }
 
-        user.kick(newReason, silent);
+        user.kick(newReason, sender, silent);
 
     }
 

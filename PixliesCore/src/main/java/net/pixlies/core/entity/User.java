@@ -283,9 +283,11 @@ public class User {
     /**
      * Kicks the user with a reason.
      * @param reason the reason to kick
+     * @param sender the punisher that punished the player
+     * @param silent silently kick the player
      * @return true if success, false if failed
      */
-    public boolean kick(String reason, boolean silent) {
+    public boolean kick(@Nullable String reason, @NotNull CommandSender sender,  boolean silent) {
         String kickReason = reason;
         if (!getAsOfflinePlayer().isOnline()) return false;
         Player player = getAsOfflinePlayer().getPlayer();
@@ -300,6 +302,11 @@ public class User {
         kickMessage = kickMessage
                 .replace("%REASON%",  kickReason);
         player.kick(Component.text(kickMessage));
+        if (silent) {
+            Lang.PLAYER_KICKED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + getAsOfflinePlayer().getName(), "%EXECUTOR%;" + sender.getName(), "%REASON%;" + kickReason);
+        } else {
+            Lang.PLAYER_KICKED.broadcast("%PLAYER%;" + getAsOfflinePlayer().getName(), "%EXECUTOR%;" + sender.getName(), "%REASON%;" + kickReason);
+        }
         return true;
     }
 
@@ -307,8 +314,8 @@ public class User {
      * Kicks the user with the default reason.
      * @return true if success, false if failed
      */
-    public boolean kick(boolean silent) {
-        return this.kick(null, silent);
+    public boolean kick(@NotNull CommandSender sender, boolean silent) {
+        return this.kick(null, sender, silent);
     }
 
     public boolean hasNickName() {
