@@ -6,8 +6,6 @@ import net.pixlies.core.entity.User;
 import net.pixlies.core.handlers.Handler;
 import org.bukkit.entity.Player;
 
-import java.util.*;
-
 public class PassiveHandler implements Handler {
 
     private static final Main instance = Main.getInstance();
@@ -20,6 +18,7 @@ public class PassiveHandler implements Handler {
         player.setInvulnerable(true);
         player.setSleepingIgnored(true);
         player.setAllowFlight(true);
+        player.setCollidable(false);
 
         // SET PASSIVE
         user.getSettings().setPassive(true);
@@ -35,6 +34,7 @@ public class PassiveHandler implements Handler {
         player.setInvulnerable(false);
         player.setSleepingIgnored(false);
         player.setAllowFlight(player.hasPermission("pixlies.fly"));
+        player.setCollidable(true);
 
         // SET PASSIVE
         user.getSettings().setPassive(false);
