@@ -1,6 +1,7 @@
 package net.pixlies.nations.listeners.impl;
 
 import net.pixlies.core.Main;
+import net.pixlies.core.entity.User;
 import net.pixlies.core.localization.Lang;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -23,6 +24,7 @@ public class LockedChestListener implements Listener {
 
         Player player = event.getPlayer();
         Block block = event.getClickedBlock();
+        User user = User.get(player.getUniqueId());
 
         if (block == null || block.getType() != Material.CHEST) return;
         if (!(block instanceof TileState state)) return;
@@ -38,7 +40,7 @@ public class LockedChestListener implements Listener {
         String ownerUuid = container.get(key, PersistentDataType.PrimitivePersistentDataType.STRING);
         if (ownerUuid == null) return;
 
-        if (ownerUuid.equals(player.getUniqueId().toString())) return;
+        if (ownerUuid.equals(player.getUniqueId().toString()) || !(user.getSettings().isBypassing() && player.hasPermission("pixlies.staff.lockedchests"))) return;
 
         player.playSound(player.getLocation(), "block.chest.locked", Float.MAX_VALUE, 1);
         Lang.CHEST_BELONGS_TO_OTHER.send(player);

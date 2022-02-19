@@ -22,7 +22,7 @@ public class LockCommand extends BaseCommand {
 
     private static final Main instance = Main.getInstance();
 
-    @Default // TODO: Staff bypass
+    @Default
     @Description("Locks/unlocks a chest")
     public void onLock(Player player) {
 
@@ -40,7 +40,7 @@ public class LockCommand extends BaseCommand {
 
         if (container.has(key, PersistentDataType.PrimitivePersistentDataType.STRING)) {
 
-            if (!ownerUuid.equals(player.getUniqueId().toString())) {
+            if (!ownerUuid.equals(player.getUniqueId().toString()) || !(user.getSettings().isBypassing() && player.hasPermission("pixlies.staff.lockedchests"))) {
                 Lang.CHEST_BELONGS_TO_OTHER.send(player, "%PLAYER%;" + user.getNickName());
                 return;
             }
