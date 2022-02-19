@@ -14,7 +14,7 @@ public class InventorySeeCommand extends BaseCommand {
     @CommandCompletion("@empty")
     @Syntax("<target>")
     public void onInventorySee(Player player, Player target) {
-        if (!player.hasPermission("pixlies.moderation.invsee.self")) {
+        if (!player.hasPermission("pixlies.moderation.invsee.self") || player.getUniqueId().equals(target.getUniqueId())) {
             Lang.CANNOT_USE_ON_SELF.send(player);
             return;
         }
