@@ -4,6 +4,7 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import net.pixlies.core.entity.User;
+import net.pixlies.core.localization.Lang;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
@@ -16,8 +17,13 @@ public class UnMuteCommand extends BaseCommand {
     public void onUnmute(CommandSender sender, OfflinePlayer target, @Optional String s) {
 
         boolean silent = s != null && s.contains("-s");
-
         User user = User.get(target.getUniqueId());
+
+        if (!user.isMuted()) {
+            Lang.PLAYER_NOT_MUTED.send(sender);
+            return;
+        }
+
         user.unmute(sender, silent);
 
     }

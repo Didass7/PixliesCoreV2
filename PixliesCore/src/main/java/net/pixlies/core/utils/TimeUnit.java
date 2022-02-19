@@ -12,8 +12,18 @@ public class TimeUnit {
 
     private TimeUnit() {}
 
+    /**
+     * Get a long duration from a string.
+     * @param duration the string duration
+     * @return 0 if duration is not a valid duration.
+     */
     public static long getDuration(String duration) {
-        int multiplier = Integer.parseInt(duration.substring(0, duration.length() - 1));
+        long multiplier;
+        try {
+            multiplier = Integer.parseInt(duration.substring(0, duration.length() - 1));
+        } catch (NumberFormatException e) {
+            return 0;
+        }
         return switch (duration.substring(duration.length() - 1)) {
             case "s" -> SECOND * multiplier;
             case "m" -> MINUTE * multiplier;

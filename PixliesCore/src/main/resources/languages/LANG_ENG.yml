@@ -33,6 +33,16 @@ PLAYER_TEMPORARILY_MUTED: '§6%PLAYER%§7 was muted by §6%EXECUTOR%§7 for §c"
 MUTE_MESSAGE: "§cYou cannot talk while muted."
 MUTED_PLAYER_TRIED_TO_TALK: "§6%PLAYER% §7tried to talk, but they are muted!"
 
+PLAYER_NOT_MUTED: "§7That player is not muted."
+PLAYER_NOT_BLACKLISTED: "§7That player is not blacklisted."
+PLAYER_NOT_BANNED: "§7That player is not banned."
+
+PLAYER_ALREADY_MUTED: "§7That player is already muted."
+PLAYER_ALREADY_BLACKLISTED: "§7That player is already blacklisted."
+PLAYER_ALREADY_BANNED: "§7That player is already banned."
+
+NOT_A_NUMBER: "§7That isn't a valid number."
+
 CHAT_CLEARED: "§7The chat was cleared by §6%PLAYER%§7."
 CHAT_MUTED_FORMAT: "§cThe chat function is disabled at the moment."
 CHAT_MUTED: "§7The chat has been §cmuted§7 by §6%PLAYER%§7."

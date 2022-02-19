@@ -23,10 +23,14 @@ public class UnBlacklistCommand extends BaseCommand {
     public void onUnBlacklist(CommandSender sender, OfflinePlayer target, @Optional String s) {
 
         boolean silent = s != null && s.contains("-s");
-
         User user = User.get(target.getUniqueId());
+
+        if (!user.isBlacklisted()) {
+            Lang.PLAYER_NOT_BLACKLISTED.send(sender);
+            return;
+        }
+
         user.unblacklist(sender, silent);
-        Lang.PLAYER_UNBLACKLISTED.send(sender, "%PLAYER%;" + target.getName());
 
     }
 

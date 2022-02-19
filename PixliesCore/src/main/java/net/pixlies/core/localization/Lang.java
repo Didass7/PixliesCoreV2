@@ -37,6 +37,16 @@ public enum Lang {
     MUTE_MESSAGE("", new HashMap<>()),
     MUTED_PLAYER_TRIED_TO_TALK(Lang.PIXLIES, new HashMap<>()),
 
+    PLAYER_NOT_MUTED(Lang.PIXLIES, new HashMap<>()),
+    PLAYER_NOT_BLACKLISTED(Lang.PIXLIES, new HashMap<>()),
+    PLAYER_NOT_BANNED(Lang.PIXLIES, new HashMap<>()),
+
+    PLAYER_ALREADY_MUTED(Lang.PIXLIES, new HashMap<>()),
+    PLAYER_ALREADY_BLACKLISTED(Lang.PIXLIES, new HashMap<>()),
+    PLAYER_ALREADY_BANNED(Lang.PIXLIES, new HashMap<>()),
+
+    NOT_A_NUMBER(Lang.PIXLIES, new HashMap<>()),
+
     NO_ITEMS_FOUND_ON_PLAYER(Lang.PIXLIES, new HashMap<>()),
 
     CHAT_CLEARED(Lang.PIXLIES, new HashMap<>()),
