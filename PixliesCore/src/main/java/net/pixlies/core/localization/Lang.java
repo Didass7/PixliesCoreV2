@@ -203,13 +203,14 @@ public enum Lang {
     POLL_CANCELLED(Lang.POLL, new HashMap<>()),
     ADDED_POLL_OPTION(Lang.POLL, new HashMap<>()),
     HOW_TO_END_POLL_CREATION(Lang.POLL, new HashMap<>()),
-    POLL_CREATED(Lang.POLL, new HashMap<>()),
+    ALREADY_CREATING_POLL(Lang.POLL, new HashMap<>()),
 
     POLL_DOES_NOT_EXIST(Lang.POLL, new HashMap<>()),
     POLL_VIEW_INFO(Lang.POLL, new HashMap<>()),
     POLL_OPTION_DOES_NOT_EXIST(Lang.POLL, new HashMap<>()),
     REGISTERED_VOTE(Lang.POLL, new HashMap<>()),
     POLL_RESULTS_INFO(Lang.POLL, new HashMap<>()),
+    POLL_SHOW_QUESTION(Lang.POLL, new HashMap<>()),
 
     // PLAYER
     PLAYER_MESSAGE_FORMAT_TO("", new HashMap<>()),

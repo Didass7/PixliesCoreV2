@@ -52,7 +52,6 @@ public class ChatCommand extends BaseCommand {
     @Subcommand("toggleword")
     @Description("Toggle the usage of a certain word in chat")
     public void onToggleWord(CommandSender sender, String word) {
-
         if (chatHandler.isBlocked(word)) {
             chatHandler.unblockWord(word);
             Lang.REMOVED_BLOCKED_WORD.send(sender);
@@ -60,13 +59,12 @@ public class ChatCommand extends BaseCommand {
             chatHandler.blockWord(word);
             Lang.ADDED_BLOCKED_WORD.send(sender);
         }
-
     }
 
     @Subcommand("slow")
     @Description("Slows the chat down")
     @CommandCompletion("@range:0-10")
-    public void onSlow(CommandSender sender, @Conditions("longLimits:min=0,max=10") Long cooldown) {
+    public void onSlow(CommandSender sender, @Conditions("longLimits:min=0,max=10") long cooldown) {
         if (cooldown == 0) {
             chatHandler.setSlowMode(0);
             Lang.SLOWMODE_OFF.send(sender, "%PLAYER%;" + sender.getName());

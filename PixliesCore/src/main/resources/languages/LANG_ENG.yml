@@ -172,6 +172,22 @@ COSMETICS_HAT_CANNOT_SET: "§7You cannot set this as a hat."
 COSMETICS_HAT_ALREADY_HAVE: "§7You already have something as your hat."
 COSMETICS_HAT_SET: "§7You now have a hat!"
 
+# POLLS
+CREATING_POLL: "§7Creating poll with the question: §6%QUESTION%"
+ENTER_POLL_OPTION: "§7Please enter the §a#%NUMBER%§7 poll option."
+HOW_TO_CANCEL_POLL: "§7You can cancel the poll by typing §ccancel§7."
+POLL_CANCELLED: "§7You §ccancelled§7 this poll."
+ADDED_POLL_OPTION: "§7Added the §a#%NUMBER%§7 poll option: §a%OPTION%§7."
+HOW_TO_END_POLL_CREATION: "§7You can finish up this poll by typing §afinish§7."
+ALREADY_CREATING_POLL: "§cYou are already creating a poll!"
+
+POLL_DOES_NOT_EXIST: "§cThe poll with the id §6%ID%§c does not exist."
+POLL_VIEW_INFO: "§7Here is the information regarding the §6%ID%§7 poll."
+POLL_OPTION_DOES_NOT_EXIST: "§cThere is no poll option with that number."
+REGISTERED_VOTE: "§7You have §avoted§7 for option §6#%OPTION%§7."
+POLL_RESULTS_INFO: "§7Here are the results of the §6%ID%§7 poll."
+POLL_SHOW_QUESTION: "§7Question: §6%QUESTION%"
+
 # PLAYER
 PLAYER_MESSAGE_FORMAT_TO: "§8(§7To §6%PLAYER%§8) §f%MESSAGE%"
 PLAYER_MESSAGE_FORMAT_FROM: "§8(§7From §6%PLAYER%§8) §f%MESSAGE%"
