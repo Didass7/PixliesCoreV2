@@ -38,7 +38,7 @@ public final class PlayerUtils {
         player.setVisualFire(false);
         player.setArrowsInBody(0);
         player.setArrowsStuck(0);
-        player.setRemainingAir(0);
+        player.setRemainingAir(player.getMaximumAir());
         player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
     }
 
