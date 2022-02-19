@@ -15,7 +15,6 @@ public class AfkCommand extends BaseCommand {
     @Default
     @CommandAlias("afk")
     public void onAfk(Player player) {
-
         if (player.isAfk()) {
             Lang.PLAYER_AFK_OFF.send(player);
         } else {
@@ -23,7 +22,6 @@ public class AfkCommand extends BaseCommand {
         }
 
         player.setAfk(!player.isAfk());
-
     }
 
 }

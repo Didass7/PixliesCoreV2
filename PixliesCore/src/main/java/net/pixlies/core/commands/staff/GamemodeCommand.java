@@ -65,11 +65,11 @@ public class GamemodeCommand extends BaseCommand {
     private void changeGameMode(Player player, Player target, GameMode gameMode) {
         if (target == null || target.getUniqueId().equals(player.getUniqueId())) {
             player.setGameMode(gameMode);
-            Lang.STAFF_GAMEMODE_CHANGED_SELF.send(player, "%GAMEMODE%;" + TextUtils.getGameModeFormatted(gameMode));
+            Lang.STAFF_GAMEMODE_CHANGED_SELF.send(player, "%GAMEMODE%;" + TextUtils.getGameModeFormatted(gameMode).toLowerCase());
         } else {
             target.setGameMode(gameMode);
-            Lang.STAFF_GAMEMODE_CHANGED_OTHERS.send(player, "%GAMEMODE%;" + TextUtils.getGameModeFormatted(gameMode), "%TARGET%;" + target.getName(), "%CHANGER%;" + player.getName());
-            Lang.STAFF_GAMEMODE_CHANGED_OTHERS.send(target, "%GAMEMODE%;" + TextUtils.getGameModeFormatted(gameMode), "%TARGET%;" + target.getName(), "%CHANGER%;" + player.getName());
+            Lang.STAFF_GAMEMODE_CHANGED_OTHERS.send(player, "%GAMEMODE%;" + TextUtils.getGameModeFormatted(gameMode).toLowerCase(), "%TARGET%;" + target.getName(), "%CHANGER%;" + player.getName());
+            Lang.STAFF_GAMEMODE_CHANGED_OTHERS.send(target, "%GAMEMODE%;" + TextUtils.getGameModeFormatted(gameMode).toLowerCase(), "%TARGET%;" + target.getName(), "%CHANGER%;" + player.getName());
         }
     }
 
