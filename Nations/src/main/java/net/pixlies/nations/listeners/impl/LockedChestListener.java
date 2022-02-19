@@ -19,7 +19,7 @@ public class LockedChestListener implements Listener {
 
     private static final Main instance = Main.getInstance();
 
-    @EventHandler // TODO: Nation bypass
+    @EventHandler
     public void onInteract(PlayerInteractEvent event) {
 
         Player player = event.getPlayer();

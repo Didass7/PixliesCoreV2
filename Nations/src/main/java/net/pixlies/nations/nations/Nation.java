@@ -6,8 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import net.pixlies.core.entity.User;
+import net.pixlies.core.events.PixliesCancellableEvent;
 import net.pixlies.core.localization.Lang;
+import net.pixlies.core.utils.EventUtils;
 import net.pixlies.nations.Nations;
+import net.pixlies.nations.events.impl.NationDisbandEvent;
 import net.pixlies.nations.interfaces.NationProfile;
 import net.pixlies.nations.nations.chunk.NationChunk;
 import net.pixlies.nations.nations.customization.GovernmentType;
@@ -200,7 +203,10 @@ public class Nation {
      * Disband the nation
      * @param disbander the disbander
      */
-    public void disband(@Nullable CommandSender disbander) {
+    public boolean disband(@Nullable CommandSender disbander) {
+
+        PixliesCancellableEvent event = EventUtils.callCancelable(new NationDisbandEvent(this));
+        if (event.isCancelled()) return false;
 
         for (UUID member : getMembers()) {
             User memberUser = User.get(member);
@@ -217,6 +223,8 @@ public class Nation {
         if (disbander != null) {
             Lang.NATION_DISBANDED.broadcast("%NATION%;" + name, "%PLAYER%;" + disbander.getName());
         }
+
+        return true;
 
     }
 
