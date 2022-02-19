@@ -2,7 +2,6 @@ package net.pixlies.core.commands.moderation;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
-import net.pixlies.core.Main;
 import net.pixlies.core.entity.User;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.utils.TimeUnit;
@@ -26,7 +25,7 @@ public class TempBanCommand extends BaseCommand {
             return;
         }
 
-        String banReason = Main.getInstance().getConfig().getString("moderation.defaultReason", "No reason given");
+        String banReason = reason;
         if (reason != null && !reason.isEmpty()) {
             banReason = reason.replace("-s", "");
             if (reason.endsWith("-s") || reason.startsWith("-s"))

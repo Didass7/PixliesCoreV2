@@ -1,6 +1,7 @@
 package net.pixlies.core.entity;
 
 import com.google.gson.Gson;
+import com.mongodb.lang.Nullable;
 import dev.morphia.annotations.*;
 import dev.morphia.query.experimental.filters.Filters;
 import lombok.AllArgsConstructor;
@@ -16,11 +17,11 @@ import net.pixlies.core.localization.Lang;
 import net.pixlies.core.moderation.Punishment;
 import net.pixlies.core.moderation.PunishmentType;
 import net.pixlies.core.utils.CC;
-import org.bson.types.ObjectId;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import org.ocpsoft.prettytime.PrettyTime;
 
 import java.util.*;
@@ -70,10 +71,26 @@ public class User {
         return getMute() != null;
     }
 
-    public Punishment mute(String reason, CommandSender punisher, boolean silent) {
+    public Punishment mute(@Nullable String reason, CommandSender punisher, boolean silent) {
+
         if (isMuted()) return getMute();
         UUID punisherUUID = punisher instanceof Player player ? player.getUniqueId() : UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670");
-        Punishment punishment = new Punishment(UUID.randomUUID().toString(), PunishmentType.MUTE.name(), punisherUUID.toString(), System.currentTimeMillis(), reason, 0);
+
+        String newReason = reason;
+
+        if (newReason == null || newReason.isEmpty()) {
+            newReason = instance.getConfig().getString("moderation.defaultReason", "No reason given");
+        }
+
+        Punishment punishment = new Punishment(
+                UUID.randomUUID().toString(),
+                PunishmentType.MUTE.name(),
+                punisherUUID.toString(),
+                System.currentTimeMillis(),
+                newReason,
+                0
+        );
+
         currentPunishments.put("mute", punishment);
         if (silent) {
             Lang.PLAYER_PERMANENTLY_MUTED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason);
@@ -98,7 +115,14 @@ public class User {
     public Punishment tempMute(String reason, CommandSender punisher, long duration, boolean silent) {
         if (isMuted()) return getMute();
         UUID punisherUUID = punisher instanceof Player player ? player.getUniqueId() : UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670");
-        Punishment punishment = new Punishment(UUID.randomUUID().toString(), PunishmentType.MUTE.name(), punisherUUID.toString(), System.currentTimeMillis(), reason, duration + System.currentTimeMillis());
+
+        String newReason = reason;
+
+        if (newReason == null || newReason.isEmpty()) {
+            newReason = instance.getConfig().getString("moderation.defaultReason", "No reason given");
+        }
+
+        Punishment punishment = new Punishment(UUID.randomUUID().toString(), PunishmentType.MUTE.name(), punisherUUID.toString(), System.currentTimeMillis(), newReason, duration + System.currentTimeMillis());
         currentPunishments.put("mute", punishment);
         if (silent)
             Lang.PLAYER_TEMPORARILY_MUTED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason, "%TIME%;" + new PrettyTime().format(new Date(punishment.getUntil())));
@@ -125,7 +149,14 @@ public class User {
     public Punishment ban(String reason, CommandSender punisher, boolean silent) {
         if (isBanned()) return getBan();
         UUID punisherUUID = punisher instanceof Player player ? player.getUniqueId() : UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670");
-        Punishment punishment = new Punishment(UUID.randomUUID().toString(), PunishmentType.BAN.name(), punisherUUID.toString(), System.currentTimeMillis(), reason, 0);
+
+        String newReason = reason;
+
+        if (newReason == null || newReason.isEmpty()) {
+            newReason = instance.getConfig().getString("moderation.defaultReason", "No reason given");
+        }
+
+        Punishment punishment = new Punishment(UUID.randomUUID().toString(), PunishmentType.BAN.name(), punisherUUID.toString(), System.currentTimeMillis(), newReason, 0);
         currentPunishments.put("ban", punishment);
         if (silent)
             Lang.PLAYER_PERMANENTLY_BANNED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason);
@@ -147,7 +178,14 @@ public class User {
     public Punishment tempBan(String reason, CommandSender punisher, long duration, boolean silent) {
         if (isBanned()) return getBan();
         UUID punisherUUID = punisher instanceof Player player ? player.getUniqueId() : UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670");
-        Punishment punishment = new Punishment(UUID.randomUUID().toString(), PunishmentType.BAN.name(), punisherUUID.toString(), System.currentTimeMillis(), reason, duration + System.currentTimeMillis());
+
+        String newReason = reason;
+
+        if (newReason == null || newReason.isEmpty()) {
+            newReason = instance.getConfig().getString("moderation.defaultReason", "No reason given");
+        }
+
+        Punishment punishment = new Punishment(UUID.randomUUID().toString(), PunishmentType.BAN.name(), punisherUUID.toString(), System.currentTimeMillis(), newReason, duration + System.currentTimeMillis());
         currentPunishments.put("ban", punishment);
         if (silent)
             Lang.PLAYER_TEMPORARILY_BANNED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason, "%TIME%;" + new PrettyTime().format(new Date(punishment.getUntil())));
@@ -187,15 +225,33 @@ public class User {
         return currentPunishments.containsKey("blacklist");
     }
 
-    public Punishment blacklist(String reason, CommandSender punisher, boolean silent) {
+    /**
+     * Blacklists a player because they did a horrible no-no.
+     * @param reason the reason for the blacklist
+     * @param punisher the punisher
+     * @param silent if you want it broadcasted to staff or not
+     * @return the punishment.
+     */
+    public Punishment blacklist(@Nullable String reason, @NotNull CommandSender punisher, boolean silent) {
+        if (isBlacklisted()) return getBlacklist();
+
         UUID punisherUUID = punisher instanceof Player player ? player.getUniqueId() : UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670");
+
+        String newReason = reason;
+
+        if (newReason == null || newReason.isEmpty()) {
+            newReason = instance.getConfig().getString("moderation.defaultReason", "No reason given");
+        }
+
+
         Punishment punishment = new Punishment(UUID.randomUUID().toString(),
                 PunishmentType.BLACKLIST.name(),
                 punisherUUID.toString(),
                 System.currentTimeMillis(),
-                reason,
+                newReason,
                 0
         );
+
         currentPunishments.put("blacklist", punishment);
         if (silent) {
             Lang.PLAYER_BLACKLISTED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason);

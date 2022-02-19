@@ -2,7 +2,6 @@ package net.pixlies.core.commands.moderation;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
-import net.pixlies.core.Main;
 import net.pixlies.core.entity.User;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.utils.TimeUnit;
@@ -18,7 +17,7 @@ public class TempMuteCommand extends BaseCommand {
     public void onTempMute(CommandSender sender, OfflinePlayer target, String duration, @Optional String reason) {
         boolean silent = false;
         long durationLong = TimeUnit.getDuration(duration);
-        String muteReason = Main.getInstance().getConfig().getString("moderation.defaultReason", "No reason given");
+        String muteReason = reason;
         if (reason != null && !reason.isEmpty()) {
             muteReason = reason.replace("-s", "");
             if (reason.endsWith("-s") || reason.startsWith("-s"))
