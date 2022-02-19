@@ -95,7 +95,7 @@ public class User {
         if (silent) {
             Lang.PLAYER_PERMANENTLY_MUTED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason);
         } else {
-            Lang.PLAYER_PERMANENTLY_MUTED.broadcast("%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason);
+            Lang.PLAYER_PERMANENTLY_MUTED.broadcast("%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + newReason);
         }
         save();
         return punishment;
@@ -127,7 +127,7 @@ public class User {
         if (silent)
             Lang.PLAYER_TEMPORARILY_MUTED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason, "%TIME%;" + new PrettyTime().format(new Date(punishment.getUntil())));
         else
-            Lang.PLAYER_TEMPORARILY_MUTED.broadcast("%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason, "%TIME%;" + new PrettyTime().format(new Date(punishment.getUntil())));
+            Lang.PLAYER_TEMPORARILY_MUTED.broadcast("%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + newReason, "%TIME%;" + new PrettyTime().format(new Date(punishment.getUntil())));
         save();
         return punishment;
     }
@@ -161,7 +161,7 @@ public class User {
         if (silent)
             Lang.PLAYER_PERMANENTLY_BANNED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason);
         else
-            Lang.PLAYER_PERMANENTLY_BANNED.broadcast("%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason);
+            Lang.PLAYER_PERMANENTLY_BANNED.broadcast("%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + newReason);
         if (getAsOfflinePlayer().getPlayer() != null && getAsOfflinePlayer().isOnline()) {
             Player player = getAsOfflinePlayer().getPlayer();
             String message = Lang.BAN_MESSAGE.get(player)
@@ -190,7 +190,7 @@ public class User {
         if (silent)
             Lang.PLAYER_TEMPORARILY_BANNED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason, "%TIME%;" + new PrettyTime().format(new Date(punishment.getUntil())));
         else
-            Lang.PLAYER_TEMPORARILY_BANNED.broadcast("%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason, "%TIME%;" + new PrettyTime().format(new Date(punishment.getUntil())));
+            Lang.PLAYER_TEMPORARILY_BANNED.broadcast("%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + newReason, "%TIME%;" + new PrettyTime().format(new Date(punishment.getUntil())));
 
         if (getAsOfflinePlayer().getPlayer() != null && getAsOfflinePlayer().isOnline()) {
             Player player = getAsOfflinePlayer().getPlayer();
@@ -256,7 +256,7 @@ public class User {
         if (silent) {
             Lang.PLAYER_BLACKLISTED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason);
         } else {
-            Lang.PLAYER_BLACKLISTED.broadcast("%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason);
+            Lang.PLAYER_BLACKLISTED.broadcast("%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + newReason);
         }
         if (getAsOfflinePlayer().getPlayer() != null && getAsOfflinePlayer().isOnline()) {
             Player player = getAsOfflinePlayer().getPlayer();
@@ -285,7 +285,7 @@ public class User {
      * @param reason the reason to kick
      * @return true if success, false if failed
      */
-    public boolean kick(String reason) {
+    public boolean kick(String reason, boolean silent) {
         String kickReason = reason;
         if (!getAsOfflinePlayer().isOnline()) return false;
         Player player = getAsOfflinePlayer().getPlayer();
@@ -294,7 +294,7 @@ public class User {
         if (player.hasPermission("pixlies.moderation.kick.exempt"))
             return false;
         if (reason == null || reason.isEmpty()) {
-            kickReason = instance.getConfig().getString("moderation.defaultReason", "No reason specified.");
+            kickReason = instance.getConfig().getString("moderation.defaultReason", "No reason given");
         }
         String kickMessage = Lang.KICK_MESSAGE.get(player);
         kickMessage = kickMessage
@@ -307,8 +307,8 @@ public class User {
      * Kicks the user with the default reason.
      * @return true if success, false if failed
      */
-    public boolean kick() {
-        return this.kick(null);
+    public boolean kick(boolean silent) {
+        return this.kick(null, silent);
     }
 
     public boolean hasNickName() {

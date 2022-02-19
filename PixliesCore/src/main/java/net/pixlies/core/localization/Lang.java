@@ -30,6 +30,8 @@ public enum Lang {
     PLAYER_BLACKLISTED(Lang.PIXLIES, new HashMap<>()),
     PLAYER_UNBLACKLISTED(Lang.PIXLIES, new HashMap<>()),
 
+    PLAYER_KICKED(Lang.PIXLIES, new HashMap<>()),
+
     PLAYER_PERMANENTLY_MUTED(Lang.PIXLIES, new HashMap<>()),
     PLAYER_UNMUTED(Lang.PIXLIES, new HashMap<>()),
     PLAYER_TEMPORARILY_MUTED(Lang.PIXLIES, new HashMap<>()),
@@ -160,6 +162,10 @@ public enum Lang {
     MODERATION_FREEZE_OFF(Lang.PIXLIES, new HashMap<>()),
     MODERATION_FREEZE_MESSAGE(Lang.PIXLIES, new HashMap<>()),
     MODERATION_FREEZE_ACTIONBAR("", new HashMap<>()),
+
+    MODERATION_CANNOT_KICK("", new HashMap<>()),
+    MODERATION_CANNOT_BAN("", new HashMap<>()),
+    MODERATION_CANNOT_MUTE("", new HashMap<>()),
 
     // COSMETICS
     COSMETICS_HEALED_SELF(Lang.PIXLIES, new HashMap<>()),
