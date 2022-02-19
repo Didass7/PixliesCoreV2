@@ -16,10 +16,10 @@ public class VanishStatusChangeEvent extends PixliesCancellableEvent {
 
     private final VanishHandler vanishHandler = instance.getHandlerManager().getHandler(VanishHandler.class);
 
-    private static final HandlerList HANDLERS = new HandlerList();
+    private static final HandlerList handlers = new HandlerList();
 
     public static HandlerList getHandlerList() {
-        return HANDLERS;
+        return handlers;
     }
 
     public enum VanishState {

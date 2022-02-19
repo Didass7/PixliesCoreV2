@@ -10,12 +10,12 @@ import org.bukkit.event.HandlerList;
 @AllArgsConstructor
 public class NationDisbandEvent extends PixliesCancellableEvent {
 
-    private static final HandlerList HANDLERS = new HandlerList();
+    private static final HandlerList handlers = new HandlerList();
 
     private final Nation nation;
 
     public static HandlerList getHandlerList() {
-        return HANDLERS;
+        return handlers;
     }
 
 }

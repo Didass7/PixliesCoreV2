@@ -18,10 +18,10 @@ public class SenderMessagePlayerEvent extends PixliesCancellableEvent {
 
     private final MessageHandler messageHandler = instance.getHandlerManager().getHandler(MessageHandler.class);
 
-    private static final HandlerList HANDLERS = new HandlerList();
+    private static final HandlerList handlers = new HandlerList();
 
     public static HandlerList getHandlerList() {
-        return HANDLERS;
+        return handlers;
     }
 
     public enum MessageType {

@@ -15,10 +15,10 @@ public class StaffModeStatusChangeEvent extends PixliesCancellableEvent {
     private final User user;
     private final StaffModeStatus status;
 
-    private static final HandlerList HANDLERS = new HandlerList();
+    private static final HandlerList handlers = new HandlerList();
 
     public static HandlerList getHandlerList() {
-        return HANDLERS;
+        return handlers;
     }
 
     public enum StaffModeStatus {
