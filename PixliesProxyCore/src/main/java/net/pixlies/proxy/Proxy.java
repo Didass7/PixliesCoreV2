@@ -26,6 +26,7 @@ public class Proxy extends Plugin {
 
     private Config config;
     private Config serverListConfig;
+    private Config autoAnounceConfig;
     private Config settingsConfig;
     private Config maintenanceConfig;
 
@@ -40,10 +41,11 @@ public class Proxy extends Plugin {
         Lang.init();
 
         // CONFIGS
-        config = new Config(new File(instance.getDataFolder(), "config.yml"), "config.yml");
-        serverListConfig = new Config(new File(instance.getDataFolder(), "features/serverlist.yml"), "features/serverlist.yml");
-        settingsConfig = new Config(new File(instance.getDataFolder(), "settings.yml"), "settings.yml");
-        maintenanceConfig = new Config(new File(instance.getDataFolder(), "maintenance.yml"), "maintenance.yml");
+        config = new Config(new File(getDataFolder(), "config.yml"), "config.yml");
+        serverListConfig = new Config(new File(getDataFolder(), "features/serverlist.yml"), "features/serverlist.yml");
+        autoAnounceConfig = new Config(new File(getDataFolder(), "features/autoannounce.yml"), "features/autoannounce.yml");
+        settingsConfig = new Config(new File(getDataFolder(), "settings.yml"), "settings.yml");
+        maintenanceConfig = new Config(new File(getDataFolder(), "maintenance.yml"), "maintenance.yml");
 
         // MANAGERS & HANDLERS
         mongoManager = new MongoManager();

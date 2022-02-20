@@ -1,0 +1,15 @@
+# AUTO ANNOUNCE
+enabled: true
+
+# SECONDS
+delay: 240
+
+prefix: ""
+
+# MESSAGES
+messages:
+  - "&cMessage1"
+  - |-
+    Message2
+    Message2
+  - "AnotherMessage"
