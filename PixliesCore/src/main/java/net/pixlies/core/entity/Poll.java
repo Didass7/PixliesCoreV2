@@ -4,11 +4,12 @@
 
 package net.pixlies.core.entity;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimap;
 import lombok.Getter;
 import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.*;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.pixlies.core.Main;
 import net.pixlies.core.handlers.impl.PollHandler;
 import net.pixlies.core.localization.Lang;
@@ -38,17 +39,17 @@ public class Poll {
 
     /**
      * Votes of the poll.
-     * First identifier is the index of the answer in pollInfo, minus 1.
+     * First identifier is the index of the answer in pollInfo, minus one.
      * Second identifier is the amount of votes the poll has.
      */
     @Getter private final Map<Integer, Integer> pollVotes;
 
     /**
      * Which UUIDs voted for which option.
-     * First identifier is the index of the answer in pollInfo, minus 1.
-     * Second identifier is the list of UUIDs who voted for the option.
+     * First identifier is the UUID in question.
+     * Second identifier is the index of the answer in pollInfo, minus one.
      */
-    @Getter private final Multimap<Integer, UUID> voterInfo;
+    @Getter private final Map<UUID, Integer> voterInfo;
 
     /**
      * Stage of the poll.
@@ -69,7 +70,7 @@ public class Poll {
         this.pollCreator = pollCreator;
         pollInfo = new ArrayList<>();
         pollVotes = new HashMap<>();
-        voterInfo = ArrayListMultimap.create();
+        voterInfo = new HashMap<>();
         pollInfo.add(question);
         stage = 0;
         id = TextUtils.generateId(7);
@@ -80,68 +81,69 @@ public class Poll {
     }
 
     public void registerVote(UUID voter, int option) {
+        // Substracts one vote if the voter already has voted
         if (voterInfo.containsKey(voter)) {
             pollVotes.put(option - 1, pollVotes.get(option - 1) - 1);
         }
+        // Adds a vote
         pollVotes.put(option - 1, pollVotes.get(option - 1) + 1);
-        voterInfo.put(option - 1, voter);
+        // Replaces the voter's info
+        voterInfo.put(voter, (option -  1));
     }
 
     public void makePublic() {
         stage = 1;
 
-        TextComponent component = new TextComponent("  " + Lang.POLL);
-
-        TextComponent text = new TextComponent("Poll started! View with ");
-        text.setColor(ChatColor.GRAY);
-        component.addExtra(text);
+        // TEXT DISPLAY
+        TextComponent component = new TextComponent("Poll started! View with ");
+        component.setColor(ChatColor.GRAY);
 
         TextComponent view = new TextComponent("/poll view " + id);
         view.setColor(ChatColor.GREEN);
         view.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                 new ComponentBuilder("Click here to view the poll!").color(ChatColor.GRAY).create()));
-        view.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "poll view " + id));
+        view.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/poll view " + id));
         component.addExtra(view);
 
         TextComponent dot = new TextComponent(".");
         dot.setColor(ChatColor.GRAY);
         component.addExtra(dot);
 
-        for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-            p.sendMessage(component);
+        Bukkit.broadcastMessage("  ");
+        Bukkit.broadcastMessage("  " + Lang.POLL + component);
+        Bukkit.broadcastMessage("  ");
+
+        // FILLER
+        for (int i = 1; i <= pollInfo.size(); i++) {
+            pollVotes.put(i - 1, 0);
         }
     }
 
     public void end() {
-        // If an option got no votes, puts its value as 0 in pollVotes
-        for (int i = 1; i <= pollInfo.size(); i++) {
-            if (!pollVotes.containsKey(i)) {
-                pollVotes.put(i - 1, 0);
-            }
-        }
-
         stage = 2;
 
-        TextComponent component = new TextComponent("  " + Lang.POLL);
-
-        TextComponent text = new TextComponent("Poll ended! View results with ");
-        text.setColor(ChatColor.GRAY);
-        component.addExtra(text);
+        // TEXT DISPLAY
+        TextComponent component = new TextComponent("Poll ended! View results with ");
+        component.setColor(ChatColor.GRAY);
 
         TextComponent results = new TextComponent("/poll results " + id);
         results.setColor(ChatColor.GREEN);
         results.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                 new ComponentBuilder("Click here to view the ended poll!").color(ChatColor.GOLD).create()));
-        results.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "poll results " + id));
+        results.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/poll results " + id));
         component.addExtra(results);
 
         TextComponent dot = new TextComponent(".");
-        dot.setColor(ChatColor.GOLD);
+        dot.setColor(ChatColor.GRAY);
         component.addExtra(dot);
 
-        for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-            p.sendMessage(component);
-        }
+        Bukkit.broadcastMessage("  ");
+        Bukkit.broadcastMessage("  " + Lang.POLL + component);
+        Bukkit.broadcastMessage("  ");
+    }
+
+    public Integer getWinners() {
+        return Collections.max(pollVotes.values());
     }
 
     /**
@@ -166,29 +168,12 @@ public class Poll {
                 TextComponent comma = new TextComponent(", ");
                 comma.setColor(ChatColor.GRAY);
 
-                for (int i2 : pollVotes.keySet()) {
-                    TextComponent hoverText = new TextComponent("");
-                    for (UUID uuid : voterInfo.values()) {
-                        Player p = (Player) Bukkit.getOfflinePlayer(uuid);
-                        TextComponent name = new TextComponent(p.getName());
-
-                        if (p.isOnline()) name.setColor(ChatColor.GREEN);
-                        else name.setColor(ChatColor.GRAY);
-
-                        if (voterInfo.values().stream().toList().get(voterInfo.size() - 1) == uuid) hoverText.addExtra(comma);
-
-                        hoverText.addExtra(name);
-                    }
-                    
-                    // TODO: set color of the option (green if its the most voted, gray if it isn't)
-
-                    option.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(hoverText).create()));
-                }
+                // TODO: display results
             } else {
                 option.setColor(ChatColor.GREEN);
                 option.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                         new ComponentBuilder("Click here to vote for this option!").color(ChatColor.GOLD).create()));
-                option.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "poll vote " + id + " " + (i + 1)));
+                option.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/poll vote " + id + " " + (i + 1)));
                 component.addExtra(option);
             }
 

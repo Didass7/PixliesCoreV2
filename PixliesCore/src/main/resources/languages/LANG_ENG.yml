@@ -183,6 +183,7 @@ ALREADY_CREATING_POLL: "§cYou are already creating a poll!"
 
 POLL_DOES_NOT_EXIST: "§cThe poll with the id §6%ID%§c does not exist."
 POLL_VIEW_INFO: "§7Here is the information regarding the §6%ID%§7 poll."
+POLL_LIST_INFO: "§7Here are the current polls."
 POLL_OPTION_DOES_NOT_EXIST: "§cThere is no poll option with that number."
 REGISTERED_VOTE: "§7You have §avoted§7 for option §6#%OPTION%§7."
 POLL_RESULTS_INFO: "§7Here are the results of the §6%ID%§7 poll."
