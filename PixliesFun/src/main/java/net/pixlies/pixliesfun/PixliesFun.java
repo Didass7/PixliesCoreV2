@@ -1,17 +1,20 @@
 package net.pixlies.pixliesfun;
 
+import lombok.Getter;
 import net.pixlies.core.modules.Module;
 
 public class PixliesFun extends Module {
 
+    @Getter private static PixliesFun instance;
+
     @Override
     public void onLoad() {
-        // TODO
+        instance = this;
     }
 
     @Override
     public void onDrop() {
-        // TODO
+        instance = null;
     }
 
 }
