@@ -4,7 +4,6 @@
 
 package net.pixlies.core.listeners.cosmetics;
 
-import io.papermc.paper.event.player.AsyncChatEvent;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.Poll;
 import net.pixlies.core.handlers.impl.PollHandler;
@@ -12,6 +11,7 @@ import net.pixlies.core.localization.Lang;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PollListener implements Listener {
@@ -20,9 +20,9 @@ public class PollListener implements Listener {
     private final PollHandler pollHandler = instance.getHandlerManager().getHandler(PollHandler.class);
 
     @EventHandler
-    public void onChat(AsyncChatEvent event) {
+    public void onChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
-        String message = String.valueOf(event.message());
+        String message = event.getMessage();
 
         if (pollHandler.getPollsInCreation().containsKey(player.getUniqueId())) {
             Poll poll = pollHandler.getPollsInCreation().get(player.getUniqueId());
@@ -31,7 +31,7 @@ public class PollListener implements Listener {
 
             if (message.equalsIgnoreCase("cancel")) {
                 Lang.POLL_CANCELLED.send(player);
-                poll = null;
+                pollHandler.getPollsInCreation().remove(player.getUniqueId());
                 return;
             }
 

@@ -26,6 +26,8 @@ import java.util.List;
 @CommandPermission("pixlies.cosmetics.poll")
 public class PollCommand extends BaseCommand {
 
+    // TODO: DYNAMIC COMMAND COMPLETIONS
+
     private static final Main instance = Main.getInstance();
     private final PollHandler pollHandler = instance.getHandlerManager().getHandler(PollHandler.class);
 
@@ -51,7 +53,7 @@ public class PollCommand extends BaseCommand {
     @Description("Lists all the active poll ids")
     public void onPollList(CommandSender sender) {
         List<Poll> polls = pollHandler.getPolls().values().stream().toList();
-        sender.sendMessage(Lang.POLL);
+        Lang.POLL_LIST_INFO.send(sender);
         for (Poll poll : pollHandler.getPolls().values()) {
             String status;
             if (poll.getStage() == 2) {
@@ -61,8 +63,8 @@ public class PollCommand extends BaseCommand {
             }
 
             String creator = Bukkit.getOfflinePlayer(poll.getPollCreator()).getName();
-            sender.sendMessage("  §7" + polls.indexOf(poll) + ". §d" + poll.getId() + "§7: §f" + poll.getPollInfo().get(0) +
-                    " §7(by §6" + creator + "§7, " + status); // this isn't worth having its own thing in Lang
+            sender.sendMessage("  §7" + (polls.indexOf(poll) + 1) + ". §d" + poll.getId() + "§7: §f" + poll.getPollInfo().get(0) +
+                    " §7(by §6" + creator + "§7, " + status);
         }
     }
 

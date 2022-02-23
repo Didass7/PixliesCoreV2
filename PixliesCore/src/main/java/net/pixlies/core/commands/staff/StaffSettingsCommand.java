@@ -30,6 +30,8 @@ public class StaffSettingsCommand extends BaseCommand {
     @Default
     @Description("Open staff settings menu")
     public static void openStaffSettings(Player player) {
+        User user = User.get(player.getUniqueId());
+
         // Create GUI
         ChestGui gui = new ChestGui(3, "Staff settings");
 
@@ -47,36 +49,41 @@ public class StaffSettingsCommand extends BaseCommand {
 
         // Settings pane
         StaticPane settingsPane = new StaticPane(2, 1, 5, 1);
-        for (Settings s : Settings.values()) {
-            ToggleButton button = new ToggleButton(s.ordinal(), 0, 1, 1, s.isEnabledByDefault());
+        for (StaffSetting s : StaffSetting.values()) {
+            ToggleButton button = new ToggleButton(s.ordinal(), 0, 1, 1, user.getPersonalization().isSettingEnabled(s));
             Material material = s.getMaterial();
             ItemBuilder builder = new ItemBuilder(material)
                     .setDisplayName(s.getTitle())
-                    .setGlow(s.isEnabledByDefault())
+                    .setGlow(user.getPersonalization().isSettingEnabled(s))
                     .addLoreArray(s.getDescription())
                     .addLoreLine(" ");
-            if (s.isEnabledByDefault()) {
-                builder.addLoreLine(on);
-            } else {
-                builder.addLoreLine(off);
-            }
+            if (user.getPersonalization().isSettingEnabled(s)) builder.addLoreLine(on);
+            else builder.addLoreLine(off);
+
             GuiItem item = new GuiItem(builder.build());
             item.setAction(event -> {
                 // GUI Shenanigans
                 button.toggle();
                 builder.setGlow(button.isEnabled());
                 player.playSound(player.getLocation(), "entity.experience_orb.pickup", 100, 1);
-                builder.removeLoreLine(button.isEnabled() ? "§7Toggled: §cOFF" : "§7Toggled: §aON");
-                builder.addLoreLine(button.isEnabled() ? "§7Toggled: §cOFF" : "§7Toggled: §aON");
-                Lang.STAFF_SETTING_CHANGED.send(player, "%SETTING%;" + s.getTitle().toLowerCase(),
-                        "%STATE%;" + (button.isEnabled() ? "§aon" : "§coff"));
+                if (button.isEnabled()) {
+                    builder.removeLoreLine(off);
+                    builder.addLoreLine(on);
+                    Lang.STAFF_SETTING_CHANGED.send(player, "%SETTING%;" + s.getTitle().toLowerCase(),
+                            "%STATE%;" + "§aon");
+                } else {
+                    builder.removeLoreLine(on);
+                    builder.addLoreLine(off);
+                    Lang.STAFF_SETTING_CHANGED.send(player, "%SETTING%;" + s.getTitle().toLowerCase(),
+                            "%STATE%;" + "§coff");
+                }
 
                 ItemStack newItem = builder.build();
+                settingsPane.removeItem(s.ordinal(), 0);
                 settingsPane.addItem(new GuiItem(newItem), s.ordinal(), 0);
                 gui.update();
 
                 // Actual functionality
-                User user = User.get(player.getUniqueId());
                 switch (newItem.getDisplayName()) {
                     case "§9Command spy" -> user.getPersonalization().setCommandSpyEnabled(button.isEnabled());
                     case "§6Social spy" -> user.getPersonalization().setSocialSpyEnabled(button.isEnabled());
@@ -105,17 +112,16 @@ public class StaffSettingsCommand extends BaseCommand {
     public StaffSettingsCommand() {}
 
     @AllArgsConstructor
-    public enum Settings {
-        COMMANDSPY("§9Command spy", new String[]{"§7Spy on other players' commands"}, Material.COMMAND_BLOCK, true),
-        SOCIALSPY("§6Social spy", new String[]{"§7Spy on other players' private messages"}, Material.PAPER, true),
-        MUTESPY("§cMute spy", new String[]{"§7Receive messages when muted", "§7players try to talk"}, Material.NAME_TAG, true),
-        BANSPY("§cBan spy", new String[]{"§7Receive messages when banned", "§7players try to join"}, Material.BARRIER, true),
-        BYPASSCLEARCHAT("§3Bypass clearchat", new String[]{"§7Bypass the chat getting cleared"}, Material.MAP, false);
+    public enum StaffSetting {
+        COMMANDSPY("§9Command spy", new String[]{"§7Spy on other players' commands"}, Material.COMMAND_BLOCK),
+        SOCIALSPY("§6Social spy", new String[]{"§7Spy on other players' private messages"}, Material.PAPER),
+        MUTESPY("§cMute spy", new String[]{"§7Receive messages when muted", "§7players try to talk"}, Material.NAME_TAG),
+        BANSPY("§cBan spy", new String[]{"§7Receive messages when banned", "§7players try to join"}, Material.BARRIER),
+        BYPASSCLEARCHAT("§3Bypass clearchat", new String[]{"§7Bypass the chat getting cleared"}, Material.MAP);
 
         @Getter private final String title;
         @Getter private final String[] description;
         @Getter private final Material material;
-        @Getter private final boolean enabledByDefault;
     }
 
 }

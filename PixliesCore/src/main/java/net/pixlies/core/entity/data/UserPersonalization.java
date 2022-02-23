@@ -2,6 +2,7 @@ package net.pixlies.core.entity.data;
 
 import dev.morphia.annotations.Entity;
 import lombok.Data;
+import net.pixlies.core.commands.staff.StaffSettingsCommand;
 import net.pixlies.core.scoreboard.ScoreboardAdapter.ScoreboardType;
 
 import java.util.HashMap;
@@ -60,6 +61,16 @@ public class UserPersonalization {
         this.bypassClearChat = bypassClearChat;
         this.joinVanish = joinVanish;
         this.scoreboardType = scoreboardType;
+    }
+
+    public boolean isSettingEnabled(StaffSettingsCommand.StaffSetting s) {
+        return switch (s) {
+            case COMMANDSPY -> commandSpyEnabled;
+            case SOCIALSPY -> socialSpyEnabled;
+            case BANSPY -> viewBannedJoins;
+            case MUTESPY -> viewMutedChat;
+            case BYPASSCLEARCHAT -> bypassClearChat;
+        };
     }
 
     public ScoreboardType getScoreboardTypeAsEnum() {
