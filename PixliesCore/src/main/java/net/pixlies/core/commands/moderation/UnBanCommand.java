@@ -8,10 +8,10 @@ import net.pixlies.core.localization.Lang;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
-@CommandAlias("unban|bannt")
-@CommandPermission("pixlies.moderation.unban")
 public class UnBanCommand extends BaseCommand {
 
+    @CommandAlias("unban|bannt")
+    @CommandPermission("pixlies.moderation.unban")
     @CommandCompletion("@players")
     @Description("Ban'nt a player")
     public void onUnban(CommandSender sender, OfflinePlayer target, @Optional String s) {
@@ -24,11 +24,6 @@ public class UnBanCommand extends BaseCommand {
         }
 
         user.unban(sender, silent);
-    }
-
-    @HelpCommand
-    public void onHelp(CommandSender sender, CommandHelp help) {
-        help.showHelp();
     }
 
 }
