@@ -4,11 +4,17 @@ import net.pixlies.proxy.Proxy;
 import net.pixlies.proxy.config.Config;
 import net.pixlies.proxy.handlers.Handler;
 import net.pixlies.proxy.utils.CC;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Cool auto announce system.
+ * @author Dynmie
+ */
 public class AutoAnnounceHandler implements Handler {
 
     private static final Proxy instance = Proxy.getInstance();
@@ -29,6 +35,14 @@ public class AutoAnnounceHandler implements Handler {
         List<String> messages = config.getConfig().getStringList("messages");
         this.messages.clear();
         this.messages.addAll(messages);
+    }
+
+    /**
+     * Get all loaded messages
+     * @return all loaded messages
+     */
+    public @NotNull Collection<String> getMessages() {
+        return messages;
     }
 
     public boolean isEnabled() {
