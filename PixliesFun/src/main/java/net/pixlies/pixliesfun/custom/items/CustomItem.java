@@ -3,6 +3,7 @@ package net.pixlies.pixliesfun.custom.items;
 import net.pixlies.core.Main;
 import net.pixlies.core.utils.ItemBuilder;
 import net.pixlies.pixliesfun.PixliesFun;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -12,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -30,10 +32,19 @@ public abstract class CustomItem {
      */
     public ItemStack build() {
 
-        ItemStack item = new ItemBuilder(getMaterial())
-                .setDisplayName(getDisplayName())
-                .addLoreAll(getLore())
-                .build();
+        ItemBuilder builder = new ItemBuilder(getMaterial())
+                .setDisplayName(ChatColor.YELLOW + getDisplayName());
+
+        if (getLore() != null) {
+            builder.addLoreAll(getLore());
+        }
+
+        if (canGlow()) {
+            builder.setGlow();
+        }
+
+        ItemStack item = builder.build();
+        item.setCustomModelData(getCustomModelData());
 
         PersistentDataContainer container = item.getPersistentDataContainer();
         NamespacedKey key = new NamespacedKey(pixlies, "PixliesFunItem");
@@ -80,7 +91,7 @@ public abstract class CustomItem {
      * Gets the lore.
      * @return The lore in a list.
      */
-    public abstract @NotNull List<String> getLore();
+    public abstract @Nullable List<String> getLore();
 
     /**
      * Get the material.
@@ -96,8 +107,21 @@ public abstract class CustomItem {
 
     /**
      * If the custom item is stackable.
+     * This only works if the material can be stacked in the first place.
      * @return True if the item is stackable, false if it isn't.
      */
     public abstract boolean isStackable();
+
+    /**
+     * Get the custom model data for the item.
+     * @return The custom model data.
+     */
+    public abstract @Nullable Integer getCustomModelData();
+
+    /**
+     * If the custom model can glow.
+     * @return True if the item can glow, false if it cannot glow.
+     */
+    public abstract boolean canGlow();
 
 }
