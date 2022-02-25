@@ -186,9 +186,10 @@ public class Poll {
 
         if (!handler.getPolls().containsKey(id)) {
             Player player = Bukkit.getPlayer(uuid);
-            assert player != null;
-            Lang.POLL_DOES_NOT_EXIST.send(player, "%ID%;" + id);
-            player.playSound(player.getLocation(), "entity.villager.no", 100, 1);
+            if (player != null) {
+                Lang.POLL_DOES_NOT_EXIST.send(player, "%ID%;" + id);
+                player.playSound(player.getLocation(), "entity.villager.no", 100, 1);
+            }
             return false;
         }
 
