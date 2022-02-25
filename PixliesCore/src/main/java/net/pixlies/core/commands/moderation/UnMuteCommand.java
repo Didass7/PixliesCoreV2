@@ -8,10 +8,10 @@ import net.pixlies.core.localization.Lang;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
-@CommandAlias("unmute|mutent")
-@CommandPermission("pixlies.moderation.unmute")
 public class UnMuteCommand extends BaseCommand {
 
+    @CommandAlias("unmute|mutent")
+    @CommandPermission("pixlies.moderation.unmute")
     @CommandCompletion("@players")
     @Description("Mute'nt a player")
     public void onUnmute(CommandSender sender, OfflinePlayer target, @Optional String s) {
@@ -27,12 +27,5 @@ public class UnMuteCommand extends BaseCommand {
         user.unmute(sender, silent);
 
     }
-
-    @Default
-    @HelpCommand
-    public void onHelp(CommandSender sender, CommandHelp help) {
-        help.showHelp();
-    }
-
 
 }

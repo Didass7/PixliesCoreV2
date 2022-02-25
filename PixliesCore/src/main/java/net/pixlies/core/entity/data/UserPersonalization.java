@@ -67,8 +67,8 @@ public class UserPersonalization {
         return switch (s) {
             case COMMANDSPY -> commandSpyEnabled;
             case SOCIALSPY -> socialSpyEnabled;
-            case BANSPY -> viewBannedJoins;
             case MUTESPY -> viewMutedChat;
+            case BANSPY -> viewBannedJoins;
             case BYPASSCLEARCHAT -> bypassClearChat;
         };
     }

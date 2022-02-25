@@ -81,7 +81,6 @@ public class StaffSettingsCommand extends BaseCommand {
                 ItemStack newItem = builder.build();
                 settingsPane.removeItem(s.ordinal(), 0);
                 settingsPane.addItem(new GuiItem(newItem), s.ordinal(), 0);
-                gui.update();
 
                 // Actual functionality
                 switch (newItem.getDisplayName()) {
@@ -91,6 +90,9 @@ public class StaffSettingsCommand extends BaseCommand {
                     case "§cMute spy" -> user.getPersonalization().setViewMutedChat(button.isEnabled());
                     case "§3Bypass clearchat" -> user.getPersonalization().setBypassClearChat(button.isEnabled());
                 }
+                user.save();
+
+                gui.update();
             });
             settingsPane.addItem(item, s.ordinal(), 0);
         }
