@@ -3,8 +3,13 @@ package net.pixlies.nations.nations.chunk;
 import co.aikar.commands.lib.util.Table;
 import com.google.gson.JsonObject;
 import dev.morphia.annotations.Entity;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import net.pixlies.nations.Nations;
 import net.pixlies.nations.nations.Nation;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -14,8 +19,12 @@ import java.util.Map;
  * @author Dynmie
  */
 @Entity
+@Data
+@AllArgsConstructor
 public class NationChunk {
-    public static Map<String, Table<Integer, Integer, NationChunk>> table;
+    private static final Nations instance = Nations.getInstance();
+
+    @Getter private static Map<String, Table<Integer, Integer, NationChunk>> table = new HashMap<>(); // World, X, Y, NationChunk
 
     private String nationId, world;
     private int x, z;
@@ -32,7 +41,29 @@ public class NationChunk {
             nation.save();
         }
 
-        if (claim) System.out.println("§b" + type.name() + "-Chunk claimed at §e" + x + "§8, §e " + z + "§bfor §e" + nation.getName());
+        if (claim)
+            instance.getLogger().info("§b" + type.name() + "-Chunk claimed at §e" + x + "§8, §e " + z + "§bfor §e" + nation.getName());
+    }
+
+    /**
+     * Unclaim this chunk.
+     */
+    public void unclaim() {
+        if (table.get(world) == null) return;
+
+        Nation nation = Nation.getFromId(nationId);
+        if (nation == null)
+            return;
+
+        Table<Integer, Integer, NationChunk> rst = table.get(world);
+
+        if (nation.getClaims().contains(this)) {
+            nation.getClaims().remove(this);
+            nation.save();
+        }
+
+        rst.remove(x, z);
+        table.put(world, rst);
     }
 
 }
