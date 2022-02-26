@@ -94,12 +94,6 @@
                                     </excludes>
                                 </filter>
                             </filters>
-                            <relocations>
-                                <relocation>
-                                    <pattern>com.github.stefvanschie.inventoryframework</pattern>
-                                    <shadedPattern>net.pixlies.inventoryframework</shadedPattern>
-                                </relocation>
-                            </relocations>
                         </configuration>
                     </execution>
                 </executions>
