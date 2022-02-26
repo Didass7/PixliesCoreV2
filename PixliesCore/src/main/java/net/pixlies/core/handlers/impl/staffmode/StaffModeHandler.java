@@ -121,28 +121,29 @@ public class StaffModeHandler implements Handler {
     public static ItemStack getInspectItem() {
         return new ItemBuilder(Material.BOOK)
                 .setDisplayName(CC.format("&bInspect Inventory"))
-                .addLoreLine(CC.format("&7Left click to use."))
+                .addLoreLine(CC.format("&7Left click on a player to inspect."))
                 .build();
     }
 
     public static ItemStack getFreezeItem() {
         return new ItemBuilder(Material.PACKED_ICE)
                 .setDisplayName(CC.format("&bFreeze Player"))
-                .addLoreLine(CC.format("&7Left click to use."))
+                .addLoreLine(CC.format("&7Left click on a player to freeze."))
                 .build();
     }
 
     public static ItemStack getTeleportItem() {
         return new ItemBuilder(Material.COMPASS)
                 .setDisplayName(CC.format("&bTeleport"))
-                .addLoreLine(CC.format("&7Left click to use."))
+                .addLoreLine(CC.format("&7Left click to teleport to a block."))
+                .addLoreLine(CC.format("&7Right click to jump through walls."))
                 .build();
     }
 
     public static ItemStack getRandomTeleportItem() {
         return new ItemBuilder(Material.CLOCK)
                 .setDisplayName(CC.format("&bRandom Teleport"))
-                .addLoreLine(CC.format("&7Left click to use."))
+                .addLoreLine(CC.format("&7Left click to random teleport."))
                 .build();
     }
 
@@ -151,7 +152,7 @@ public class StaffModeHandler implements Handler {
         String displayName = vanish ? CC.format("&aVanish") : CC.format("&7Vanish");
         return new ItemBuilder(material)
                 .setDisplayName(CC.format(displayName))
-                .addLoreLine(CC.format("&7Left click to use."))
+                .addLoreLine(CC.format("&7Left click to toggle."))
                 .build();
     }
 
