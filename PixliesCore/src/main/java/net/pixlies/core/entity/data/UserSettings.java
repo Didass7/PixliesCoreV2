@@ -4,9 +4,6 @@ import dev.morphia.annotations.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Data
 @AllArgsConstructor
 @Entity
@@ -16,31 +13,6 @@ public class UserSettings {
     private boolean bypassing;
     private boolean vanished;
     private boolean passive;
-
-    public UserSettings(Map<String, Object> map) {
-        this.inStaffMode = (boolean) map.get(STAFF_MODE_ENABLED);
-        this.bypassing = (boolean) map.get(TERRITORY_BYPASS);
-        this.vanished = (boolean) map.get(VANISHED);
-        this.passive = (boolean) map.get(PASSIVE);
-    }
-
-    public static final String STAFF_MODE_ENABLED = "staffMode";
-    public static final String TERRITORY_BYPASS = "territoryBypass";
-    public static final String VANISHED = "vanished";
-    public static final String PASSIVE = "passive";
-
-    public static UserSettings getFromMongo(Map<String, Object> map) {
-        return new UserSettings(map);
-    }
-
-    public Map<String, Object> mapForMongo() {
-        return new HashMap<>() {{
-            put(STAFF_MODE_ENABLED, inStaffMode);
-            put(TERRITORY_BYPASS, bypassing);
-            put(VANISHED, vanished);
-            put(PASSIVE, passive);
-        }};
-    }
 
     public static UserSettings getDefaults() {
         return new UserSettings(
