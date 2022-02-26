@@ -9,6 +9,10 @@ import net.pixlies.core.commands.moderation.*;
 import net.pixlies.core.commands.player.*;
 import net.pixlies.core.commands.staff.*;
 import net.pixlies.core.entity.User;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -113,8 +117,37 @@ public class PixliesCommandManager {
 
     private void registerContexts() {
             CommandContexts<BukkitCommandExecutionContext> contexts = pcm.getCommandContexts();
+
             contexts.registerContext(User.class, context ->
                     User.get(context.getPlayer().getUniqueId()));
+
+            contexts.registerContext(Location.class, context -> {
+                String first = context.popFirstArg();
+                String second = context.popFirstArg();
+                String third = context.popFirstArg();
+                int x;
+                int y;
+                int z;
+                try {
+                    x = Integer.parseInt(first);
+                    y = Integer.parseInt(second);
+                    z = Integer.parseInt(third);
+                } catch (NumberFormatException e) {
+                    throw new ConditionFailedException("That isn't a valid location.");
+                }
+                Location location;
+                if (context.getSender() instanceof Player player) {
+                    location = new Location(player.getWorld(), x, y, z);
+                } else {
+                    World world = Bukkit.getWorld("world");
+                    if (world == null) {
+                        throw new ConditionFailedException("You cant execute this command as console.");
+                    }
+                    location = new Location(world, x, y, z);
+                }
+                return location;
+            });
+
     }
 
     private void registerConditions() {

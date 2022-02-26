@@ -10,13 +10,13 @@ import net.pixlies.core.localization.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-@CommandAlias("tpall")
-@CommandPermission("pixlies.staff.tpall")
 public class TpAllCommand extends BaseCommand {
 
     private static final Main instance = Main.getInstance();
     private final TeleportHandler tpHandler = instance.getHandlerManager().getHandler(TeleportHandler.class);
 
+    @CommandAlias("tpall")
+    @CommandPermission("pixlies.staff.tpall")
     @Description("Teleports all players to sender")
     public void onTpAll(Player sender) {
         for (Player p : Bukkit.getServer().getOnlinePlayers()) {

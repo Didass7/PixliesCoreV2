@@ -13,13 +13,11 @@ import org.bukkit.entity.Player;
  * Easier way to teleport around.
  * @author dynmie
  */
-@CommandAlias("teleport|tp")
-@CommandPermission("pixlies.staff.tp")
 public class TpCommand extends BaseCommand {
 
-    // TODO: this entire thing doesn't work
-
     // CONSOLE
+    @CommandAlias("teleport|tp")
+    @CommandPermission("pixlies.staff.tp")
     @Description("Teleport a player to another player")
     @CommandCompletion("@players @players")
     public void onTpSender(CommandSender sender, Player player, Player target) {
@@ -30,6 +28,8 @@ public class TpCommand extends BaseCommand {
     }
 
     // PLAYER
+    @CommandAlias("teleport|tp")
+    @CommandPermission("pixlies.staff.tp")
     @Description("Teleport to another player")
     @CommandCompletion("@players")
     public void onTpPlayer(Player player, Player target) {
@@ -40,6 +40,8 @@ public class TpCommand extends BaseCommand {
     }
 
     // CONSOLE
+    @CommandAlias("teleport|tp")
+    @CommandPermission("pixlies.staff.tp")
     @Description("Teleport a player to a location")
     @CommandCompletion("@players @empty")
     public void onTpSender(CommandSender sender, Player player, Location location) {
@@ -50,6 +52,8 @@ public class TpCommand extends BaseCommand {
     }
 
     // PLAYER
+    @CommandAlias("teleport|tp")
+    @CommandPermission("pixlies.staff.tp")
     @Description("Teleport to a location")
     @CommandCompletion("@empty")
     public void onTpPlayer(Player player, Location location) {
