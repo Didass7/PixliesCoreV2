@@ -47,6 +47,8 @@ public enum Lang {
     PLAYER_ALREADY_BLACKLISTED(Lang.PIXLIES, new HashMap<>()),
     PLAYER_ALREADY_BANNED(Lang.PIXLIES, new HashMap<>()),
 
+    SETTING_CHANGED(Lang.PIXLIES, new HashMap<>()),
+
     NOT_A_NUMBER(Lang.PIXLIES, new HashMap<>()),
 
     NO_ITEMS_FOUND_ON_PLAYER(Lang.PIXLIES, new HashMap<>()),
@@ -84,7 +86,6 @@ public enum Lang {
 
     STAFF_STAFFMODE_ON(Lang.PIXLIES, new HashMap<>()),
     STAFF_STAFFMODE_OFF(Lang.PIXLIES, new HashMap<>()),
-    STAFF_SETTING_CHANGED(Lang.PIXLIES, new HashMap<>()),
     STAFF_STAFFMODE_ON_OTHER(Lang.PIXLIES, new HashMap<>()),
     STAFF_STAFFMODE_OFF_OTHER(Lang.PIXLIES, new HashMap<>()),
 

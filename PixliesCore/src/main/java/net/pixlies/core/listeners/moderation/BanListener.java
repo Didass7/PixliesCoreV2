@@ -36,7 +36,7 @@ public class BanListener implements Listener {
         // Staff setting: view banned join messages
         for (Player p : Bukkit.getServer().getOnlinePlayers()) {
             User msgUser = User.get(p.getUniqueId());
-            if (msgUser.getPersonalization().canViewBannedJoins()) {
+            if (msgUser.getPersonalization().isViewBannedJoins()) {
                 Lang.BANNED_PLAYER_TRIED_TO_JOIN.send(p, event.getPlayer().getName());
             }
         }

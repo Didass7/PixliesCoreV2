@@ -43,6 +43,8 @@ PLAYER_ALREADY_MUTED: "§7That player is already muted."
 PLAYER_ALREADY_BLACKLISTED: "§7That player is already blacklisted."
 PLAYER_ALREADY_BANNED: "§7That player is already banned."
 
+SETTING_CHANGED: "§7The setting %SETTING%§7 is now %STATE%§7."
+
 NOT_A_NUMBER: "§7That isn't a valid number."
 
 CHAT_CLEARED: "§7The chat was cleared by §6%PLAYER%§7."
@@ -81,7 +83,6 @@ STAFF_RANDOM_TELEPORT_OTHER: "§6%PLAYER%§7 has been randomly teleported to §6
 
 STAFF_STAFFMODE_ON: "§7You have enabled staff mode."
 STAFF_STAFFMODE_OFF: "§7You have disabled staff mode."
-STAFF_SETTING_CHANGED: "§7The staff setting %SETTING%§7 is now %STATE%§7."
 STAFF_STAFFMODE_ON_OTHER: "§7%PLAYER% has enabled staff mode."
 STAFF_STAFFMODE_OFF_OTHER: "§7%PLAYER% has disabled staff mode."
 

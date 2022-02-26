@@ -39,7 +39,7 @@ public class ChatCommand extends BaseCommand {
             // Staff setting: bypass clearchat
             if (sender instanceof Player player) {
                 User user = User.get(player.getUniqueId());
-                if (user.getPersonalization().canBypassClearchat()) continue;
+                if (user.getPersonalization().isBypassClearChat()) continue;
             }
 
             for (int i = 0; i < 150; i++) {
