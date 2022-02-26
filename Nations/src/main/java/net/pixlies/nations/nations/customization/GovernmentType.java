@@ -5,6 +5,6 @@ public enum GovernmentType {
     ANARCHY,
     UNITARY,
     FEDERATION,
-    CONFEDERATION;
+    CONFEDERATION
 
 }
