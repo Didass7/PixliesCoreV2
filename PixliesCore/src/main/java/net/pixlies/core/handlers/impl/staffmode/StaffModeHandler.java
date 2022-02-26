@@ -8,7 +8,10 @@ import net.pixlies.core.handlers.Handler;
 import net.pixlies.core.handlers.impl.PassiveHandler;
 import net.pixlies.core.handlers.impl.VanishHandler;
 import net.pixlies.core.handlers.impl.staffmode.data.PreviousInventory;
-import net.pixlies.core.utils.*;
+import net.pixlies.core.utils.CC;
+import net.pixlies.core.utils.EventUtils;
+import net.pixlies.core.utils.ItemBuilder;
+import net.pixlies.core.utils.PlayerUtils;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -118,24 +121,28 @@ public class StaffModeHandler implements Handler {
     public static ItemStack getInspectItem() {
         return new ItemBuilder(Material.BOOK)
                 .setDisplayName(CC.format("&bInspect Inventory"))
+                .addLoreLine(CC.format("&7Left click to use."))
                 .build();
     }
 
     public static ItemStack getFreezeItem() {
         return new ItemBuilder(Material.PACKED_ICE)
                 .setDisplayName(CC.format("&bFreeze Player"))
+                .addLoreLine(CC.format("&7Left click to use."))
                 .build();
     }
 
     public static ItemStack getTeleportItem() {
         return new ItemBuilder(Material.COMPASS)
                 .setDisplayName(CC.format("&bTeleport"))
+                .addLoreLine(CC.format("&7Left click to use."))
                 .build();
     }
 
     public static ItemStack getRandomTeleportItem() {
         return new ItemBuilder(Material.CLOCK)
                 .setDisplayName(CC.format("&bRandom Teleport"))
+                .addLoreLine(CC.format("&7Left click to use."))
                 .build();
     }
 
@@ -144,6 +151,7 @@ public class StaffModeHandler implements Handler {
         String displayName = vanish ? CC.format("&aVanish") : CC.format("&7Vanish");
         return new ItemBuilder(material)
                 .setDisplayName(CC.format(displayName))
+                .addLoreLine(CC.format("&7Left click to use."))
                 .build();
     }
 

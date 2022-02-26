@@ -126,7 +126,7 @@ public class StaffModeListener implements Listener {
         User user = User.get(player.getUniqueId());
         if (!user.getSettings().isInStaffMode()) return;
 
-        if (event.getAction() == Action.PHYSICAL) return;
+        if (!event.getAction().isLeftClick()) return;
 
         switch (player.getInventory().getItemInMainHand().getType()) {
 
