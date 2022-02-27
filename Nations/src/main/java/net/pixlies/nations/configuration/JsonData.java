@@ -1,4 +1,4 @@
-package net.pixlies.nations.config;
+package net.pixlies.nations.configuration;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;

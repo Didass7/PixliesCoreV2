@@ -1,4 +1,4 @@
-package net.pixlies.nations.config;
+package net.pixlies.nations.configuration;
 
 import net.pixlies.nations.Nations;
 import net.pixlies.nations.handlers.Handler;

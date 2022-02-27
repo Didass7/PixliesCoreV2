@@ -4,7 +4,7 @@ import dev.morphia.Datastore;
 import lombok.Getter;
 import net.pixlies.core.Main;
 import net.pixlies.nations.Nations;
-import net.pixlies.nations.config.Config;
+import net.pixlies.nations.configuration.Config;
 import net.pixlies.nations.nations.Nation;
 
 @Getter

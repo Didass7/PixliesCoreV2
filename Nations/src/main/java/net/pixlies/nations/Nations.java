@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import lombok.Getter;
 import net.pixlies.core.modules.Module;
 import net.pixlies.nations.commands.CommandManager;
-import net.pixlies.nations.config.Config;
+import net.pixlies.nations.configuration.Config;
 import net.pixlies.nations.database.MongoManager;
 import net.pixlies.nations.listeners.ListenerManager;
 import net.pixlies.nations.handlers.HandlerManager;
