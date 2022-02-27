@@ -3,10 +3,11 @@ package net.pixlies.business;
 import lombok.Getter;
 import net.pixlies.business.commands.CommandManager;
 import net.pixlies.business.companies.CompanyManager;
+import net.pixlies.business.configuration.Config;
 import net.pixlies.business.database.MongoManager;
 import net.pixlies.business.handlers.HandlerManager;
-import net.pixlies.business.configuration.Config;
 import net.pixlies.business.handlers.RegisterHandlerManager;
+import net.pixlies.business.market.OrderManager;
 import net.pixlies.core.modules.Module;
 
 import java.io.File;
@@ -21,6 +22,7 @@ public class ProtoBusiness extends Module {
     private HandlerManager handlerManager;
     private CommandManager commandManager;
     private CompanyManager companyManager;
+    private OrderManager orderManager;
 
     @Override
     public void onLoad() {
@@ -38,6 +40,7 @@ public class ProtoBusiness extends Module {
         commandManager.registerAllCommands();
 
         companyManager = new CompanyManager();
+        orderManager = new OrderManager();
     }
 
     @Override
