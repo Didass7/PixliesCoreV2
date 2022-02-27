@@ -4,8 +4,9 @@ import dev.morphia.Datastore;
 import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.companies.Company;
+import net.pixlies.business.configuration.Config;
+import net.pixlies.business.market.Order;
 import net.pixlies.core.Main;
-import net.pixlies.core.configuration.Config;
 
 @Getter
 public class MongoManager {
@@ -18,6 +19,7 @@ public class MongoManager {
 
     public void init() {
         pixlies.getDatabase().getDatastore().getMapper().map(Company.class);
+        pixlies.getDatabase().getDatastore().getMapper().map(Order.class);
 
         datastore = pixlies.getDatabase().getDatastore();
         datastore.ensureIndexes();
