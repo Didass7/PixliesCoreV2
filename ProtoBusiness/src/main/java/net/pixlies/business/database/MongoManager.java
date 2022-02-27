@@ -4,8 +4,8 @@ import dev.morphia.Datastore;
 import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.companies.Company;
+import net.pixlies.business.configuration.Config;
 import net.pixlies.core.Main;
-import net.pixlies.core.configuration.Config;
 
 @Getter
 public class MongoManager {
