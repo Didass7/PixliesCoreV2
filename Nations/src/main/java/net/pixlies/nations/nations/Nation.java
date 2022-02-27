@@ -54,6 +54,12 @@ public class Nation {
     private @Getter @Setter double politicalPower;
     private @Getter @Setter double money;
 
+    /**
+     * Tax rate for buy orders.
+     * In decimal (ex: 0.05 will be a tax of 5%).
+     */
+    private @Getter @Setter double taxRate;
+
     // CUSTOMIZATION
     private String govType;
     private String ideology;

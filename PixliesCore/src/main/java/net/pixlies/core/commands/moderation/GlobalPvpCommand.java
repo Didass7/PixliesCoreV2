@@ -26,7 +26,7 @@ public class GlobalPvpCommand extends BaseCommand {
         } else {
             Lang.MODERATION_GLOBAL_PVP_ON.broadcast("%PLAYER%;" + sender.getName());
         }
-        globalPvpHandler.setGlobalPvpEnabled(!pvpEnabled);
+        globalPvpHandler.setGlobalPvp(!pvpEnabled);
     }
 
 }
