@@ -4,7 +4,9 @@ import lombok.Getter;
 import net.pixlies.business.commands.CommandManager;
 import net.pixlies.business.companies.CompanyManager;
 import net.pixlies.business.database.MongoManager;
-import net.pixlies.core.configuration.Config;
+import net.pixlies.business.handlers.HandlerManager;
+import net.pixlies.business.configuration.Config;
+import net.pixlies.business.handlers.RegisterHandlerManager;
 import net.pixlies.core.modules.Module;
 
 import java.io.File;
@@ -16,6 +18,7 @@ public class ProtoBusiness extends Module {
 
     private Config config;
     private MongoManager mongoManager;
+    private HandlerManager handlerManager;
     private CommandManager commandManager;
     private CompanyManager companyManager;
 
@@ -24,6 +27,9 @@ public class ProtoBusiness extends Module {
         instance = this;
 
         config = new Config(new File(this.getModuleFolder(), "config.yml"), "config.yml");
+
+        handlerManager = new HandlerManager();
+        new RegisterHandlerManager().registerAllHandlers();
 
         mongoManager = new MongoManager();
         mongoManager.init();
