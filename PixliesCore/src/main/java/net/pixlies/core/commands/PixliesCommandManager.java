@@ -36,6 +36,7 @@ public class PixliesCommandManager {
         pcm.enableUnstableAPI("brigadier");
 
         registerContexts();
+        registerLocaleSettings();
         registerConditions();
         registerAllCommands();
 
