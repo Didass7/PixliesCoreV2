@@ -4,6 +4,7 @@
 
 package net.pixlies.core.entity;
 
+import dev.morphia.annotations.Id;
 import lombok.Getter;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -25,6 +26,8 @@ import java.util.*;
  * @author vPrototype_
  */
 public class Poll {
+
+    // TODO save polls, add clearOldPolls, fix stuff...
 
     /**
      * UUID of the player who created the poll.
@@ -62,7 +65,7 @@ public class Poll {
     /**
      * ID of the poll
      */
-    @Getter private final String id;
+    @Id @Getter private final String id;
 
     private static final Main instance = Main.getInstance();
 

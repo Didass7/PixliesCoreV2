@@ -37,11 +37,11 @@ import java.util.UUID;
 @Entity("nations")
 public class Nation {
 
+    private static final Nations instance = Nations.getInstance();
+
     // -------------------------------------------------------------------------------------------------
     //                                              DATA
     // -------------------------------------------------------------------------------------------------
-
-    private static final Nations instance = Nations.getInstance();
 
     // INFO
     @Id private @Getter @Setter String nationsId;
