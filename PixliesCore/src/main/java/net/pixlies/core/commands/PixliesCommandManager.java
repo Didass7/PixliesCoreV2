@@ -10,6 +10,7 @@ import net.pixlies.core.commands.player.*;
 import net.pixlies.core.commands.staff.*;
 import net.pixlies.core.entity.User;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -148,6 +149,15 @@ public class PixliesCommandManager {
                 return location;
             });
 
+    }
+
+    private void registerLocaleSettings() {
+        pcm.usePerIssuerLocale(false);
+
+        pcm.setFormat(MessageType.ERROR, ChatColor.RED, ChatColor.WHITE);
+        pcm.setFormat(MessageType.HELP, ChatColor.AQUA, ChatColor.WHITE, ChatColor.DARK_GRAY, ChatColor.GRAY);
+        pcm.setFormat(MessageType.SYNTAX, 1, ChatColor.RED);
+        pcm.setFormat(MessageType.INFO, ChatColor.RED, ChatColor.WHITE);
     }
 
     private void registerConditions() {
