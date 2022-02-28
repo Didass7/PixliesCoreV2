@@ -1,22 +1,28 @@
 BAN_MESSAGE: |-
-  §7You are banned from §3Pixlies§fNet§7.
+  §cYou have been banned from PixliesNet.
   
+  §7By: §6%EXECUTOR%
   §7Reason: §c%REASON%
   §7Duration: §b%DURATION%
   
-  §7ID: §f%BAN_ID%
+  §9Discord: &7https://pixlies.net/discord
 
 BLACKLIST_MESSAGE: |-
-  §7You are permanently blacklisted from §3Pixlies§fNet§7.
+  §cYou are permanently blacklisted from PixliesNet.
+  §7You cannot appeal this punishment.
   
+  §7By: §6%EXECUTOR%
   §7Reason: §c%REASON%
   
-  §7ID: §f%BAN_ID%
+  §9Discord: &7https://pixlies.net/discord
 
 KICK_MESSAGE: |-
-  §7You were kicked from §3Pixlies§fNet§7.
+  §cYou were kicked from PixliesNet.
   
+  §7By: §6%EXECUTOR%
   §7Reason: §c%REASON%
+  
+  §9Discord: &7https://pixlies.net/discord
 
 BANNED_PLAYER_TRIED_TO_JOIN: '§c%PLAYER%§7 tried to join, but is currently banned.'
 
