@@ -69,11 +69,6 @@ public class OrderBook {
         cleanUp();
     }
 
-    /*
-    If I make a buy limit order for $20, it means I will buy it for <=$20
-If I make a sell limit order for $20, it means I will sell it for >=$20
-     */
-
     private void processLimitOrder(Order initialOrder, List<Order> orders) {
         Order.OrderType type = initialOrder.getOrderType();
         for (Order oppositeOrder : orders) {
