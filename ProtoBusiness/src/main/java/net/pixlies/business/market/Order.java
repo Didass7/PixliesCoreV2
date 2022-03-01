@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * Order Class ready to be put in MongoDB because of @Entity
+ * Order class ready to be put in MongoDB because of @Entity
  *
  * @author vPrototype_
  */
@@ -22,13 +22,16 @@ public class Order {
 
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();
 
-    @Id @Getter private final String orderId;
+    @Id private final @Getter String orderId;
+    private final @Getter int timestamp;
 
-    @Getter private OrderType orderType;
-    @Getter private final UUID playerUUID;
-    @Getter @Setter private double pricePerItem;
-    @Getter private final Material item;
-    @Getter private final int amount;
+    private @Getter @Setter OrderType orderType;
+    private @Getter @Setter boolean limitOrder;
+
+    private final @Getter UUID playerUUID;
+    private @Getter @Setter double minPricePerItem;
+    private @Getter @Setter double maxPricePerItem;
+    private @Getter @Setter int amount;
 
     /**
      * Represents the filled parts of the order.
@@ -37,12 +40,14 @@ public class Order {
      */
     @Getter private final Map<UUID, Integer> orderFills;
 
-    public Order(OrderType type, UUID uuid, double price, Material item, int amount) {
+    public Order(OrderType type, int timestamp, boolean limitOrder, UUID uuid, double min, double max, int amount) {
         orderId = TextUtils.generateId(7);
         orderType = type;
+        this.timestamp = timestamp;
+        this.limitOrder = limitOrder;
         playerUUID = uuid;
-        pricePerItem = price;
-        this.item = item;
+        minPricePerItem = min;
+        maxPricePerItem = max;
         this.amount = amount;
         orderFills = new HashMap<>();
     }
@@ -59,21 +64,8 @@ public class Order {
         orderFills.put(uuid, amount);
     }
 
-    /**
-     * Flips the order.
-     * If it was a Buy Order, it becomes a Sell Order.
-     * If it was a Sell Order, it becomes a Buy Order.
-     *
-     * TODO needs work
-     */
-    public void flipOrder() {
-        if (orderType == OrderType.BUY) orderType = OrderType.SELL;
-        else orderType = OrderType.BUY;
-    }
-
     public enum OrderType {
-        BUY,
-        SELL
+        BUY, SELL, CANCEL
     }
 
 }
