@@ -8,6 +8,7 @@ import net.pixlies.business.database.MongoManager;
 import net.pixlies.business.handlers.HandlerManager;
 import net.pixlies.business.handlers.RegisterHandlerManager;
 import net.pixlies.business.market.OrderManager;
+import net.pixlies.business.runnables.RunnableManager;
 import net.pixlies.core.modules.Module;
 
 import java.io.File;
@@ -23,6 +24,7 @@ public class ProtoBusiness extends Module {
     private CommandManager commandManager;
     private CompanyManager companyManager;
     private OrderManager orderManager;
+    private RunnableManager runnableManager;
 
     @Override
     public void onLoad() {
@@ -41,6 +43,9 @@ public class ProtoBusiness extends Module {
 
         companyManager = new CompanyManager();
         orderManager = new OrderManager();
+
+        runnableManager = new RunnableManager();
+        runnableManager.registerAll();
     }
 
     @Override
