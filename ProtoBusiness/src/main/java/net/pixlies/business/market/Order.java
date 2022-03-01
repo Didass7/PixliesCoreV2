@@ -6,10 +6,9 @@ import lombok.Getter;
 import lombok.Setter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.core.utils.TextUtils;
-import org.bukkit.Material;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -33,12 +32,7 @@ public class Order {
     private @Getter @Setter double maxPricePerItem;
     private @Getter @Setter int amount;
 
-    /**
-     * Represents the filled parts of the order.
-     * First argument represents the UUID of the player who filled the order.
-     * Second argument represents the amount of items filled.
-     */
-    @Getter private final Map<UUID, Integer> orderFills;
+    private final @Getter List<Trade> trades;
 
     public Order(OrderType type, int timestamp, boolean limitOrder, UUID uuid, double min, double max, int amount) {
         orderId = TextUtils.generateId(7);
@@ -49,8 +43,10 @@ public class Order {
         minPricePerItem = min;
         maxPricePerItem = max;
         this.amount = amount;
-        orderFills = new HashMap<>();
+        trades = new LinkedList<>();
     }
+
+    /*
 
     public void save() {
         instance.getOrderManager().getOrders().put(orderId, this);
@@ -63,6 +59,8 @@ public class Order {
     public void partiallyFillOrder(UUID uuid, int amount) {
         orderFills.put(uuid, amount);
     }
+
+     */
 
     public enum OrderType {
         BUY, SELL, CANCEL
