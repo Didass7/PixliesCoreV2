@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.core.utils.TextUtils;
+import org.bukkit.Bukkit;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -56,11 +57,15 @@ public class Order {
         instance.getMongoManager().getDatastore().save(this);
     }
 
-    public void partiallyFillOrder(UUID uuid, int amount) {
-        orderFills.put(uuid, amount);
-    }
-
      */
+
+    @Override
+    public String toString() {
+        if (minPricePerItem == maxPricePerItem) return "t: " + timestamp + " | amount" + " @ " + minPricePerItem +
+                "$ each | by " + Bukkit.getOfflinePlayer(playerUUID).getName();
+        else return "t: " + timestamp + " | amount" + " @ " + minPricePerItem + " to " + maxPricePerItem +
+                "$ each | by " + Bukkit.getOfflinePlayer(playerUUID).getName();
+    }
 
     public enum OrderType {
         BUY, SELL, CANCEL
