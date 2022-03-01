@@ -29,21 +29,19 @@ public class Order {
     private @Getter @Setter boolean limitOrder;
 
     private final @Getter UUID playerUUID;
-    private @Getter @Setter double minPrice;
-    private @Getter @Setter double maxPrice;
+    private @Getter @Setter double price;
     private @Getter @Setter int amount;
     private @Getter @Setter int volume;
 
     private final @Getter List<Trade> trades;
 
-    public Order(OrderType type, int timestamp, boolean limitOrder, UUID uuid, double min, double max, int amount) {
+    public Order(OrderType type, int timestamp, boolean limitOrder, UUID uuid, double price, int amount) {
         orderId = TextUtils.generateId(7);
         orderType = type;
         this.timestamp = timestamp;
         this.limitOrder = limitOrder;
         playerUUID = uuid;
-        minPrice = min;
-        maxPrice = max;
+        this.price = price;
         this.amount = amount;
         volume = amount;
         trades = new LinkedList<>();
@@ -71,10 +69,10 @@ public class Order {
 
     @Override
     public String toString() {
-        if (minPrice == maxPrice) return "t: " + timestamp + " | amount" + " @ " + minPrice +
-                "$ each | by " + Bukkit.getOfflinePlayer(playerUUID).getName();
-        else return "t: " + timestamp + " | amount" + " @ " + minPrice + " to " + maxPrice +
-                "$ each | by " + Bukkit.getOfflinePlayer(playerUUID).getName();
+        if (limitOrder) return "t: " + timestamp + " | amount" + " @ " + price + "$ each (limit) | by " +
+                Bukkit.getOfflinePlayer(playerUUID).getName();
+        else return "t: " + timestamp + " | amount" + " @ " + price + "$ each | by " +
+                Bukkit.getOfflinePlayer(playerUUID).getName();
     }
 
     public enum OrderType {

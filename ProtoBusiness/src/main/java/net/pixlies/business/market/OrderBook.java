@@ -58,7 +58,7 @@ public class OrderBook {
             if (initialOrder.getVolume() == 0) break; // Check if the order has been filled already
 
             // Check if the price matches
-            if (oppositeOrder.getMinPrice() == initialOrder.getMinPrice()) {
+            if (oppositeOrder.getPrice() == initialOrder.getPrice()) {
                 int volumeToDecrease = Math.min(initialOrder.getVolume(), oppositeOrder.getVolume());
                 initialOrder.decreaseVolume(volumeToDecrease);
                 oppositeOrder.decreaseVolume(volumeToDecrease);
@@ -69,18 +69,24 @@ public class OrderBook {
         cleanUp();
     }
 
+    /*
+    If I make a buy limit order for $20, it means I will buy it for <=$20
+If I make a sell limit order for $20, it means I will sell it for >=$20
+     */
+
     private void processLimitOrder(Order initialOrder, List<Order> orders) {
+        Order.OrderType type = initialOrder.getOrderType();
         for (Order oppositeOrder : orders) {
             if (initialOrder.getVolume() == 0) break; // Check if the order has been filled already
 
+            boolean buyCondition = type == Order.OrderType.BUY && oppositeOrder.getPrice() <= initialOrder.getPrice();
+            boolean sellCondition = type == Order.OrderType.SELL && oppositeOrder.getPrice() >= initialOrder.getPrice();
+
             // Check if the price matches
-            for (double min = initialOrder.getMinPrice(); min <= initialOrder.getMaxPrice(); min += change) {
-                if (min >= oppositeOrder.getMinPrice()) {
-                    int volumeToDecrease = Math.min(initialOrder.getVolume(), oppositeOrder.getVolume());
-                    initialOrder.decreaseVolume(volumeToDecrease);
-                    oppositeOrder.decreaseVolume(volumeToDecrease);
-                    break;
-                }
+            if (buyCondition || sellCondition) {
+                int volumeToDecrease = Math.min(initialOrder.getVolume(), oppositeOrder.getVolume());
+                initialOrder.decreaseVolume(volumeToDecrease);
+                oppositeOrder.decreaseVolume(volumeToDecrease);
             }
         }
 
