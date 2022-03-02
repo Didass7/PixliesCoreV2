@@ -80,6 +80,7 @@ public class PixliesCommandManager {
         register(new ModelDataCommand(), false);
         register(new SpeedCommand(), false);
         register(new BypassCommand(), false);
+        register(new StaffChatCommand(), false);
 
         // DEBUG
         register(new ModulesCommand(), false);

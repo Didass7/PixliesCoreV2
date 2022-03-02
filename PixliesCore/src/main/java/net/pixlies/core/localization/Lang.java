@@ -123,6 +123,10 @@ public enum Lang {
     STAFF_SUDO_CHAT(Lang.PIXLIES, new HashMap<>()),
     STAFF_SUDO_CANNOT(Lang.PIXLIES, new HashMap<>()),
 
+    STAFFCHAT_ENABLED(Lang.STAFF, new HashMap<>()),
+    STAFFCHAT_DISABLED(Lang.STAFF, new HashMap<>()),
+    STAFFCHAT_FORMAT(Lang.STAFF, new HashMap<>()),
+
     // TELEPORTATION
     TPHERE_MESSAGE_SENDER(Lang.PIXLIES, new HashMap<>()),
     TPHERE_MESSAGE_TARGET(Lang.PIXLIES, new HashMap<>()),

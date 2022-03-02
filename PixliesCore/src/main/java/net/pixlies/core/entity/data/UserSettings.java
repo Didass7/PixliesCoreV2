@@ -13,9 +13,11 @@ public class UserSettings {
     private boolean bypassing;
     private boolean vanished;
     private boolean passive;
+    private boolean inStaffChat;
 
     public static UserSettings getDefaults() {
         return new UserSettings(
+                false,
                 false,
                 false,
                 false,

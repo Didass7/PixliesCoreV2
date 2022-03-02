@@ -10,6 +10,7 @@ import net.pixlies.core.listeners.player.AfkListener;
 import net.pixlies.core.listeners.player.JoinQuitListener;
 import net.pixlies.core.listeners.player.SocialSpyListener;
 import net.pixlies.core.listeners.player.TeleportListener;
+import net.pixlies.core.listeners.staff.StaffChatListener;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 
@@ -39,6 +40,7 @@ public class ListenerManager {
         add(new PollListener());
         add(new BlackListListener());
         add(new FreezeListener());
+        add(new StaffChatListener());
     }};
 
     public static void registerAllListeners() {
