@@ -2,7 +2,10 @@ package net.pixlies.core.commands.staff;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
+import net.md_5.bungee.api.ChatColor;
+import net.pixlies.core.Main;
 import net.pixlies.core.entity.User;
+import net.pixlies.core.handlers.impl.StaffChatHandler;
 import net.pixlies.core.localization.Lang;
 import org.bukkit.entity.Player;
 
@@ -13,6 +16,9 @@ import org.bukkit.entity.Player;
 @CommandAlias("staffchat|sc")
 @CommandPermission("pixlies.staff.staffchat")
 public class StaffChatCommand extends BaseCommand {
+
+    private static final Main instance = Main.getInstance();
+    private final StaffChatHandler scHandler = instance.getHandlerManager().getHandler(StaffChatHandler.class);
 
     @Default
     @Description("Toggle staffchat or send a message in staffchat")
@@ -28,8 +34,8 @@ public class StaffChatCommand extends BaseCommand {
                 Lang.STAFFCHAT_ENABLED.send(player);
             }
         } else {
-            Lang.STAFFCHAT_FORMAT.broadcastPermission("pixlies.staff.staffchat", "%PLAYER%;" + player.getName(),
-                    "%MESSAGE%;" + message);
+            scHandler.sendStaffChat(Lang.STAFF + ChatColor.GOLD + player.getName() +
+                    ChatColor.DARK_GRAY + " >> " + ChatColor.GRAY + message);
         }
     }
 

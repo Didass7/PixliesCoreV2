@@ -14,6 +14,7 @@ import net.pixlies.core.localization.Lang;
 import net.pixlies.core.modules.ModuleManager;
 import net.pixlies.core.runnables.RunnableManager;
 import net.pixlies.core.runnables.RunnableRegisterManager;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
 
@@ -99,6 +100,8 @@ public class Main extends JavaPlugin {
         // SCOREBOARD
         // handlerManager.getHandler(ScoreboardHandler.class).load();
 
+        // MESSAGING
+        Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
     }
 
     @Override

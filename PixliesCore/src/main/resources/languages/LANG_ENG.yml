@@ -123,7 +123,6 @@ STAFF_SUDO_CANNOT: "§7You cannot sudo that player."
 
 STAFFCHAT_ENABLED: "§7Staffchat is now §aenabled§7."
 STAFFCHAT_DISABLED: "§7Staffchat is now §cdisabled§7."
-STAFFCHAT_FORMAT: "§6%PLAYER%§8 >> §7%MESSAGE%"
 
 # MODERATION
 MODERATION_GLOBAL_PVP_ON: ""
