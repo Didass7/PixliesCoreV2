@@ -17,7 +17,7 @@ public class OrderBookRunnable extends PixliesRunnable {
 
     @Override
     public void run() {
-        Map<String, OrderBook> books = instance.getOrderManager().getBooks();
+        Map<String, OrderBook> books = instance.getMarketManager().getBooks();
 
         // Runs for every book
         for (OrderBook book : books.values()) {
