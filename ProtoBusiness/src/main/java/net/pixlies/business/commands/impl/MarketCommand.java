@@ -5,7 +5,6 @@ import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.handlers.impl.MarketHandler;
-import net.pixlies.core.entity.User;
 import net.pixlies.core.localization.Lang;
 import org.bukkit.entity.Player;
 
@@ -19,8 +18,7 @@ public class MarketCommand extends BaseCommand {
     @Default
     @Description("Opens the market menu")
     public void onMarket(Player player) {
-        // TODO: open the market menu
-        // TODO: stats + personal stats in market menu
+        // TODO gui
     }
 
     @Subcommand("open")
@@ -50,23 +48,12 @@ public class MarketCommand extends BaseCommand {
     @Description("Resets the market statistics")
     public void onMarketReset(Player player, @Optional Player target) {
         if (target == null) {
-            instance.getStats().set("market.buyOrders", 0);
-            instance.getStats().set("market.sellOrders", 0);
-            instance.getStats().set("market.moneySpent", 0);
-            instance.getStats().set("market.moneyGained", 0);
-            // TODO more stat options
-
+            instance.getMarketManager().resetBooks();
             Lang.MARKET_STATISTICS_RESET.broadcast("%PLAYER%;" + player.getName());
             player.playSound(player.getLocation(), "entity.experience_orb.pickup", 100, 1);
         } else {
             if (target.isOnline()) {
-                User user = User.get(target.getUniqueId());
-                user.getStats().setBuyOrdersMade(0);
-                user.getStats().setSellOrdersMade(0);
-                user.getStats().setMoneySpent(0);
-                user.getStats().setMoneyGained(0);
-                // TODO more stat options
-
+                instance.getMarketManager().resetPlayer(target);
                 Lang.MARKET_PLAYER_STATISTICS_RESET.send(target, "%PLAYER%;" + target.getName(), "%SENDER%;" + player.getName());
                 target.playSound(target.getLocation(), "entity.experience_orb.pickup", 100, 1);
             } else {
