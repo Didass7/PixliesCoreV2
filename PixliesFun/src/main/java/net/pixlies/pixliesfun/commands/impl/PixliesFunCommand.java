@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 // TODO: All things, everything, they all must be completed.
-@CommandAlias("pixliesfun|slimefun|mickfun|coolfun|fun|pixcool|machine|pixfun|pf|sf|mf|cf|pc|m")
+@CommandAlias("pixliesfun|slimefun|mickfun|coolfun|fun|pixcool|machine|pixfun|pf|sf|mf|cf|pc")
 public class PixliesFunCommand extends BaseCommand {
 
     @Default

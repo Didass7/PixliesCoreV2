@@ -3,7 +3,6 @@ package net.pixlies.business.market;
 import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;
 import lombok.Getter;
-import lombok.Setter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.core.utils.TextUtils;
 import org.bukkit.Bukkit;
@@ -17,21 +16,22 @@ import java.util.UUID;
  *
  * @author vPrototype_
  */
-@Entity("nations")
+@Entity("orders")
+@Getter
 public class Order {
 
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();
 
     @Id private final @Getter String orderId;
-    private final @Getter int timestamp;
+    private final int timestamp;
 
-    private @Getter @Setter OrderType orderType;
-    private @Getter @Setter boolean limitOrder;
+    private final OrderType orderType;
+    private final boolean limitOrder;
 
-    private final @Getter UUID playerUUID;
-    private @Getter @Setter double price;
-    private @Getter @Setter int amount;
-    private @Getter @Setter int volume;
+    private final UUID playerUUID;
+    private final double price;
+    private final int amount;
+    private int volume;
 
     private final @Getter List<Trade> trades;
 
@@ -54,18 +54,6 @@ public class Order {
     public void decreaseVolume(int amount) {
         volume -= amount;
     }
-
-    /*
-
-    public void save() {
-        instance.getOrderManager().getOrders().put(orderId, this);
-    }
-
-    public void backup() {
-        instance.getMongoManager().getDatastore().save(this);
-    }
-
-     */
 
     @Override
     public String toString() {

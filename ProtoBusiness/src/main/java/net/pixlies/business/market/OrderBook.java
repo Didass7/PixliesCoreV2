@@ -1,5 +1,6 @@
 package net.pixlies.business.market;
 
+import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;
 import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
@@ -16,6 +17,7 @@ import java.util.concurrent.LinkedBlockingDeque;
  * @author vPrototype_
  */
 @Getter
+@Entity("orderbooks")
 public class OrderBook {
 
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();
@@ -59,10 +61,10 @@ public class OrderBook {
                 initialOrder.decreaseVolume(volumeToDecrease);
                 oppositeOrder.decreaseVolume(volumeToDecrease);
             }
-
         }
 
         cleanUp();
+        save();
     }
 
     private void processLimitOrder(Order initialOrder, List<Order> orders) {
@@ -82,6 +84,7 @@ public class OrderBook {
         }
 
         cleanUp();
+        save();
     }
 
     private void cleanUp() {
@@ -92,6 +95,7 @@ public class OrderBook {
     public void remove(Order order) {
         if (order.getOrderType() == Order.OrderType.BUY) buyOrders.remove(order);
         else if (order.getOrderType() == Order.OrderType.SELL) sellOrders.remove(order);
+        save();
     }
 
     // --------------------------------------------------------------------------------------------

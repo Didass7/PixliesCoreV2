@@ -30,6 +30,8 @@ public class OrderBookRunnable extends PixliesRunnable {
                     case SELL -> book.sell(order);
                     case CANCEL -> book.remove(order);
                 }
+
+                book.save();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
