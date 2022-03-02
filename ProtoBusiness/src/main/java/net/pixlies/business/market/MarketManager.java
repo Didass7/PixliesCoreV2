@@ -10,8 +10,7 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * Handles the saving of orders.
- *
+ * Market manager
  * @author vPrototype_
  */
 public class MarketManager {
@@ -31,10 +30,21 @@ public class MarketManager {
     }
 
     public void loadAll() {
-        for (OrderBook book : instance.getMongoManager().getDatastore().find(OrderBook.class).iterator().toList()) {
-            if (book.getBookId() != null) {
-                books.put(book.getBookId(), book);
+        if (instance.getMongoManager().getDatastore().find(OrderBook.class).iterator().toList().isEmpty()) {
+            initializeBooks();
+        } else {
+            for (OrderBook book : instance.getMongoManager().getDatastore().find(OrderBook.class).iterator().toList()) {
+                if (book.getBookId() != null) {
+                    books.put(book.getBookId(), book);
+                }
             }
+        }
+    }
+
+    public void initializeBooks() {
+        for (OrderItem item : OrderItem.values()) {
+            OrderBook book = new OrderBook(item);
+            books.put(book.getBookId(), book);
         }
     }
 

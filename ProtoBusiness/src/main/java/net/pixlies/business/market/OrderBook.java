@@ -25,12 +25,14 @@ public class OrderBook {
     public static double change = 0.01;
 
     @Id private final String bookId;
+    private final OrderItem item;
 
     private final List<Order> buyOrders;
     private final List<Order> sellOrders;
     private final BlockingQueue<Order> queue;
 
-    public OrderBook() {
+    public OrderBook(OrderItem item) {
+        this.item = item;
         bookId = TextUtils.generateId(7);
         buyOrders = new LinkedList<>();
         sellOrders = new LinkedList<>();
@@ -101,7 +103,7 @@ public class OrderBook {
     // --------------------------------------------------------------------------------------------
 
     public void save() {
-        instance.getOrderManager().getBooks().put(bookId, this);
+        instance.getMarketManager().getBooks().put(bookId, this);
     }
 
     public void backup() {
