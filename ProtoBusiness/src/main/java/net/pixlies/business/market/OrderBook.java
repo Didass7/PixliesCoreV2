@@ -5,11 +5,10 @@ import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.core.utils.TextUtils;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
 
 /**
  * Represents the order book for one item
@@ -25,18 +24,15 @@ public class OrderBook {
 
     @Id private final String bookId;
 
-    private List<Order> buyOrders;
-    private List<Order> sellOrders;
-    private Map<String, Order> orderCache;
+    private final List<Order> buyOrders;
+    private final List<Order> sellOrders;
+    private final BlockingQueue<Order> queue;
 
-    private BlockingQueue<Order> queue;
-
-    public OrderBook(BlockingQueue<Order> queue) {
+    public OrderBook() {
         bookId = TextUtils.generateId(7);
         buyOrders = new LinkedList<>();
         sellOrders = new LinkedList<>();
-        orderCache = new HashMap<>();
-        this.queue = queue;
+        queue = new LinkedBlockingDeque<>();
     }
 
     // --------------------------------------------------------------------------------------------
@@ -93,15 +89,9 @@ public class OrderBook {
         sellOrders.removeIf(order -> order.getVolume() == 0);
     }
 
-    public void remove(String orderId) {
-        if (orderCache.containsKey(orderId)) {
-            Order order = orderCache.remove(orderId);
-            if (order.getOrderType() == Order.OrderType.BUY) {
-                buyOrders.remove(order);
-            } else if (order.getOrderType() == Order.OrderType.SELL) {
-                sellOrders.remove(order);
-            }
-        }
+    public void remove(Order order) {
+        if (order.getOrderType() == Order.OrderType.BUY) buyOrders.remove(order);
+        else if (order.getOrderType() == Order.OrderType.SELL) sellOrders.remove(order);
     }
 
     // --------------------------------------------------------------------------------------------

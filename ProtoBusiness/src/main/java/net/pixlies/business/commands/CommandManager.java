@@ -3,13 +3,15 @@ package net.pixlies.business.commands;
 import co.aikar.commands.BaseCommand;
 import com.google.common.collect.ImmutableList;
 import net.pixlies.business.commands.impl.CompanyCommand;
+import net.pixlies.business.commands.impl.MarketCommand;
 import net.pixlies.core.Main;
 
 public class CommandManager {
 
     private final ImmutableList<BaseCommand> commands = ImmutableList.of(
             // COMPANIES
-            new CompanyCommand()
+            new CompanyCommand(),
+            new MarketCommand()
     );
 
     public void registerAllCommands() {

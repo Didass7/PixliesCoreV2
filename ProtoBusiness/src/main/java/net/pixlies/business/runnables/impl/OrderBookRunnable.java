@@ -28,7 +28,7 @@ public class OrderBookRunnable extends PixliesRunnable {
                 switch (type) {
                     case BUY -> book.buy(order);
                     case SELL -> book.sell(order);
-                    case CANCEL -> book.remove(order.getOrderId());
+                    case CANCEL -> book.remove(order);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();

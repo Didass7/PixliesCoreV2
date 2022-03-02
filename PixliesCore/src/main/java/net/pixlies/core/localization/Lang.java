@@ -262,6 +262,12 @@ public enum Lang {
     NATION_CANNOT_RENAME(Lang.NATION, new HashMap<>()),
     NOT_IN_NATION(Lang.NATION, new HashMap<>()),
 
+    // PROTOBUSINESS
+    MARKET_OPEN(Lang.MARKET, new HashMap<>()),
+    MARKET_CLOSED(Lang.MARKET, new HashMap<>()),
+    MARKET_WAS_ALREADY_OPEN(Lang.MARKET, new HashMap<>()),
+    MARKET_WAS_ALREADY_CLOSED(Lang.MARKET, new HashMap<>()),
+
     // OTHER
     MUST_BE_A_PLAYER(Lang.PIXLIES, new HashMap<>()),
     INVALID_COMMAND_SYNTAX(Lang.PIXLIES, new HashMap<>());
@@ -272,6 +278,7 @@ public enum Lang {
     public static final String PIXLIES = "§x§4§e§d§e§d§b§lP§x§4§8§c§b§c§8§lI§x§4§2§b§7§b§5§lX§x§3§c§a§4§a§2§lL§x§3§5§9§0§8§f§lI§x§2§f§7§d§7§c§lE§x§2§9§6§9§6§9§lS §8| ";
     public static final String EARTH = "§x§2§E§D§C§3§E§lE§x§3§0§C§A§3§E§lA§x§3§1§B§F§3§E§lR§x§3§8§B§2§4§3§lT§x§3§7§A§3§4§1§lH §8| ";
     public static final String NATION = "§x§2§F§D§1§E§5§lN§x§3§4§C§6§D§8§lA§x§3§7§B§A§C§A§lT§x§3§5§B§0§B§F§lI§x§3§3§A§3§B§0§lO§x§3§2§9§9§A§5§lN §8| ";
+    public static final String MARKET = "§x§1§f§c§a§7§3§lM§x§0§0§b§e§8§d§lA§x§0§0§b§0§a§0§lR§x§0§0§a§1§a§9§lK§x§0§0§9§1§a§9§lE§x§1§b§8§1§9§f§lT §8| ";
     public static final String DISCORD = "§3DISCORD §8| ";
     public static final String POLL = "§x§1§6§a§7§e§7§lP§x§1§a§8§d§c§7§lO§x§1§a§7§5§a§8§lL§x§1§6§5§d§8§a§lL §8| ";
     public static final String WAR = "§x§f§f§2§b§2§bW§x§e§b§2§1§2§1A§x§d§9§1§a§1§aR §8| ";
