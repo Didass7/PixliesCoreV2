@@ -9,10 +9,10 @@ import java.util.Map;
 
 public class OrderBookRunnable extends PixliesRunnable {
 
-    private final ProtoBusiness instance = ProtoBusiness.getInstance();
+    private static final ProtoBusiness instance = ProtoBusiness.getInstance();
 
     public OrderBookRunnable() {
-        super(true, 10L, 10L); // Refreshes every half second
+        super(true, instance.getConfig().getInt("market.refreshDelay", 10), instance.getConfig().getInt("market.refreshDelay", 10));
     }
 
     @Override
@@ -22,6 +22,8 @@ public class OrderBookRunnable extends PixliesRunnable {
         // Runs for every book
         for (OrderBook book : books.values()) {
             try {
+                if (book.getQueue().isEmpty()) continue;
+
                 Order order = book.getQueue().take();
                 Order.OrderType type = order.getOrderType();
 

@@ -19,6 +19,8 @@ public class ProtoBusiness extends Module {
     @Getter private static ProtoBusiness instance;
 
     private Config config;
+    private Config stats;
+
     private MongoManager mongoManager;
     private HandlerManager handlerManager;
     private CommandManager commandManager;
@@ -31,6 +33,7 @@ public class ProtoBusiness extends Module {
         instance = this;
 
         config = new Config(new File(this.getModuleFolder(), "config.yml"), "config.yml");
+        stats = new Config(new File(this.getModuleFolder(), "stats.yml"), "stats.yml");
 
         handlerManager = new HandlerManager();
         new RegisterHandlerManager().registerAllHandlers();
