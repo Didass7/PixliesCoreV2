@@ -5,6 +5,7 @@ import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.handlers.impl.MarketHandler;
+import net.pixlies.core.entity.User;
 import net.pixlies.core.localization.Lang;
 import org.bukkit.entity.Player;
 
@@ -47,8 +48,31 @@ public class MarketCommand extends BaseCommand {
     @Subcommand("reset")
     @CommandPermission("pixlies.business.market.reset")
     @Description("Resets the market statistics")
-    public void onMarketReset(Player player) {
-        // TODO
+    public void onMarketReset(Player player, @Optional Player target) {
+        if (target == null) {
+            instance.getStats().set("market.buyOrders", 0);
+            instance.getStats().set("market.sellOrders", 0);
+            instance.getStats().set("market.moneySpent", 0);
+            instance.getStats().set("market.moneyGained", 0);
+            // TODO more stat options
+
+            Lang.MARKET_STATISTICS_RESET.broadcast("%PLAYER%;" + player.getName());
+            player.playSound(player.getLocation(), "entity.experience_orb.pickup", 100, 1);
+        } else {
+            if (target.isOnline()) {
+                User user = User.get(target.getUniqueId());
+                user.getStats().setBuyOrdersMade(0);
+                user.getStats().setSellOrdersMade(0);
+                user.getStats().setMoneySpent(0);
+                user.getStats().setMoneyGained(0);
+                // TODO more stat options
+
+                Lang.MARKET_PLAYER_STATISTICS_RESET.send(target, "%PLAYER%;" + target.getName(), "%SENDER%;" + player.getName());
+                target.playSound(target.getLocation(), "entity.experience_orb.pickup", 100, 1);
+            } else {
+                Lang.PLAYER_DOESNT_EXIST.send(player);
+            }
+        }
     }
 
 

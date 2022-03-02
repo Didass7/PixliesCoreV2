@@ -19,6 +19,12 @@ public class UserStats {
     private Map<House, Integer> houses; // House & House XPs
     private int civilPoints; // Range: -100 to 100
 
+    private int buyOrdersMade;
+    private int sellOrdersMade;
+    private double moneySpent;
+    private double moneyGained;
+    // TODO more stat options
+
     public static UserStats createNew() {
         return new UserStats(
                 Main.getInstance().getCalendar().formatDateAndTime(),
@@ -26,6 +32,10 @@ public class UserStats {
                     for (House house : House.values())
                         put(house, 0);
                 }},
+                0,
+                0,
+                0,
+                0,
                 0
         );
     }

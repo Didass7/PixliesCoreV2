@@ -5,6 +5,6 @@ market:
   buyOrders: 0
   sellOrders: 0
   moneySpent: 0
-  moneyReceived: 0
+  moneyGained: 0
 
   # TODO more to come

@@ -60,7 +60,7 @@ CHAT_UNMUTED: "§7The chat has been §aunmuted§7 by §6%PLAYER%§7."
 
 NO_ITEMS_FOUND_ON_PLAYER: "§7No items found on player §6%PLAYER%§7."
 
-PLAYER_DOESNT_EXIST: "§cThis player does not exist!"
+PLAYER_DOESNT_EXIST: "§cThis player does not exist or is not online!"
 
 NOT_HOLDING_ANYTHING: "§7You are not holding anything."
 
@@ -243,3 +243,6 @@ MARKET_OPEN: "§7The market is now §aopen§7 for business!"
 MARKET_CLOSED: "§7The market is now §cclosed§7!"
 MARKET_WAS_ALREADY_OPEN: "§cThe market is already open."
 MARKET_WAS_ALREADY_CLOSED: "§cThe market is already closed."
+
+MARKET_STATISTICS_RESET: "§7Market statistics have been §creset§7."
+MARKET_PLAYER_STATISTICS_RESET: "§7Market statistics for §6%PLAYER%§7 have been §creset§7 by §6%SENDER§7."
