@@ -129,10 +129,10 @@ public class StaffSettingsCommand extends BaseCommand {
         MUTESPY("Mute Spy", new String[]{"§7Receive messages when muted", "§7players try to talk"}, Material.NAME_TAG),
         BANSPY("Ban Spy", new String[]{"§7Receive messages when banned", "§7players try to join"}, Material.BARRIER),
         BYPASSCLEARCHAT("Bypass Clearchat", new String[]{"§7Bypass the chat getting cleared"}, Material.MAP);
+
         @Getter private final String title;
         @Getter private final String[] description;
         @Getter private final Material material;
-
     }
 
 }
