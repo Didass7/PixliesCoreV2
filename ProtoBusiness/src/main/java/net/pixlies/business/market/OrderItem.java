@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public enum OrderItem {
 
-    // MINING
+    // MINERALS
 
     COBBLESTONE(Material.COBBLESTONE, 0, 0, 0),
     DEEPSLATE(Material.DEEPSLATE, 0, 1, 0),
@@ -39,17 +39,51 @@ public enum OrderItem {
     OBSIDIAN(Material.OBSIDIAN, 0, 2, 3),
     NETHERITE_SCRAP(Material.NETHERITE_SCRAP, 0, 3, 3),
     NETHERITE_INGOT(Material.NETHERITE_INGOT, 0, 4, 3),
-    GLOWSTONE_DUST(Material.GLOWSTONE_DUST, 0, 5, 3);
+    GLOWSTONE_DUST(Material.GLOWSTONE_DUST, 0, 5, 3),
 
     // FOODSTUFFS & PLANTS
+
+    WHEAT_SEEDS(Material.WHEAT_SEEDS, 1, 0, 0),
+    WHEAT(Material.WHEAT, 1, 1, 0),
+    PUMPKIN(Material.PUMPKIN, 1, 2, 0),
+    MELON_SLICE(Material.MELON_SLICE, 1, 3, 0),
+    CARROT(Material.CARROT, 1, 4, 0),
+    POTATO(Material.POTATO, 1, 5, 0),
+    HONEYCOMB(Material.HONEYCOMB, 1, 6, 0),
+    BEETROOT(Material.BEETROOT, 1, 0, 1),
+    COCOA_BEANS(Material.COCOA_BEANS, 1, 1, 1),
+    APPLE(Material.APPLE, 1, 2, 1),
+    GOLDEN_APPLE(Material.GOLDEN_APPLE, 1, 3, 1),
+    ENCHANTED_GOLDEN_APPLE(Material.ENCHANTED_GOLDEN_APPLE, 1, 4, 1),
+    MILK_BUCKET(Material.MILK_BUCKET, 1, 5, 1),
+    HONEY_BOTTLE(Material.HONEY_BOTTLE, 1, 6, 1),
+    PORKCHOP(Material.REDSTONE, 1, 0, 2),
+    COOKED_PORKCHOP(Material.LAPIS_LAZULI, 1, 1, 2),
+    BEEF(Material.AMETHYST_SHARD, 1, 2, 2),
+    COOKED_BEEF(Material.AMETHYST_BLOCK, 1, 3, 2),
+    CHICKEN(Material.DIAMOND, 1, 4, 2),
+    COOKED_CHICKEN(Material.EMERALD, 1, 5, 2),
+    SWEET_BERRIES(Material.SWEET_BERRIES, 1, 6, 2),
+    MUTTON(Material.QUARTZ, 1, 0, 3),
+    COOKED_MUTTON(Material.QUARTZ_BLOCK, 1, 1, 3),
+    RABBIT(Material.OBSIDIAN, 1, 2, 3),
+    COOKED_RABBIT(Material.NETHERITE_SCRAP, 1, 3, 3),
+    RED_MUSHROOM(Material.NETHERITE_INGOT, 1, 4, 3),
+    BROWN_MUSHROOM(Material.GLOWSTONE_DUST, 1, 5, 3),
+    GLOW_BERRIES(Material.GLOW_BERRIES, 1, 6, 3),
+    COD(Material.QUARTZ, 1, 0, 4),
+    SALMON(Material.QUARTZ_BLOCK, 1, 1, 4),
+    COOKED_COD(Material.OBSIDIAN, 1, 2, 4),
+    COOKED_SALMON(Material.NETHERITE_SCRAP, 1, 3, 4),
+    SUGAR_CANE(Material.SUGAR_CANE, 1, 4, 4),
+    CACTUS(Material.CACTUS, 1, 5, 4),
+    LILY_PAD(Material.LILY_PAD, 1, 6, 4);
 
     // BLOCKS
 
     // MOB DROPS
 
     // MISCELLANEOUS
-
-    // TODO all the other items
 
     /**
      * Material of the item
