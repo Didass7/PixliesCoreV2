@@ -242,6 +242,8 @@ public enum Lang {
     PLAYER_PLAYTIME(Lang.PIXLIES, new HashMap<>()),
     PLAYER_PLAYTIME_OTHER(Lang.PIXLIES, new HashMap<>()),
 
+    PLAYER_KISS(Lang.PIXLIES, new HashMap<>()),
+
     // LOBBY
     LOBBY_BUILDMODE_TOGGLE(Lang.PIXLIES, new HashMap<>()),
 
