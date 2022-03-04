@@ -12,7 +12,7 @@ public class OrderBookRunnable extends PixliesRunnable {
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();
 
     public OrderBookRunnable() {
-        super(true, instance.getConfig().getInt("market.refreshDelay", 10), instance.getConfig().getInt("market.refreshDelay", 10));
+        super(true, instance.getConfig().getInt("market.refreshDelay", 20), instance.getConfig().getInt("market.refreshDelay", 20));
     }
 
     @Override

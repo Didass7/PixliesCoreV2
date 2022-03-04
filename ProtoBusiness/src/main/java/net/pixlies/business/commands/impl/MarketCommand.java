@@ -19,6 +19,7 @@ import net.pixlies.core.utils.ItemBuilder;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -51,17 +52,20 @@ public class MarketCommand extends BaseCommand {
         StaticPane selectionPane = new StaticPane(0, 0, 1, 6);
         List<ToggleButton> selectionButtons = new ArrayList<>();
         for (Selection s : Selection.values()) {
-            String name = StringUtils.capitalize(s.name().toLowerCase().replace(" ", "and"));
+            String name = StringUtils.capitalize(s.name().toLowerCase().replace("_", " "));
             Material material = s.getMaterial();
 
-            ItemBuilder builder = new ItemBuilder(material).addLoreLine(" ");
+            ItemBuilder builder = new ItemBuilder(material).addLoreLine(" ").addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
             ToggleButton button = new ToggleButton(0, s.ordinal(), 1, 1);
             selectionButtons.add(button);
 
+            String viewing = "§aYou are viewing this tab!";
+            String notViewing = "§eClick to view this tab!";
+
             if (s == Selection.MINERALS) {
                 button.toggle();
-                builder.setDisplayName("§b" + name).addLoreLine("§aYou are viewing this tab!").setGlow(true);
-            } else builder.setDisplayName("§7" + name).addLoreLine("§eClick to view this tab!").setGlow(false);
+                builder.setDisplayName("§b" + name).addLoreLine(viewing).setGlow(true);
+            } else builder.setDisplayName("§7" + name).addLoreLine(notViewing).setGlow(false);
 
             GuiItem item = new GuiItem(builder.build());
             item.setAction(event -> {
@@ -70,19 +74,30 @@ public class MarketCommand extends BaseCommand {
                 // Disables the other enabled button
                 for (ToggleButton b : selectionButtons) {
                     if (b.isEnabled()) {
+                        selectionButtons.remove(b);
                         b.toggle();
-                        break;
+                        selectionButtons.add(b);
+                        builder.setDisplayName("§7" + name);
+                        builder.removeLoreLine(viewing);
+                        builder.addLoreLine(notViewing);
+                        builder.setGlow(false);
+                        // selectionPane.removeItem(0, b.getY());
+                        selectionPane.addItem(new GuiItem(builder.build()), 0, s.ordinal());
                     }
                 }
 
                 // GUI shenanigans
                 button.toggle();
-                builder.setDisplayName("§b" + name).addLoreLine("§aYou are viewing this tab!").setGlow(true);
-                selectionPane.removeItem(0, s.ordinal());
-                selectionPane.addItem(new GuiItem(builder.build()), 0, s.ordinal());
-                gui.update();
+                builder.setDisplayName("§b" + name);
+                builder.removeLoreLine(notViewing);
+                builder.addLoreLine(viewing);
+                builder.setGlow(true);
+                // selectionPane.removeItem(0, s.ordinal());
+                selectionPane.addItem(new GuiItem(builder.build()), 0, button.getY());
 
                 // TODO switch to the correct market page
+
+                gui.update();
             });
 
             selectionPane.addItem(item, 0, s.ordinal());
