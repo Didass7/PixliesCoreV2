@@ -7,6 +7,7 @@ import net.pixlies.core.Main;
 import net.pixlies.core.configuration.Config;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -130,15 +131,25 @@ public class PixliesCalendar extends Thread {
 
     static {
         Config calconf = Main.getInstance().getCalendarConfig();
+        ConfigurationSection section = calconf.getConfigurationSection("events");
 
-        for (String s : calconf.getConfigurationSection("events").getKeys(false)) {
-            events.put(Integer.parseInt(s), () -> {
-                if (calconf.contains("net.pixlies.core.events." + s + ".todo")) {
-                    for (String todo : calconf.getStringList("net.pixlies.core.events." + s + ".todo")) {
-                        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), todo);
-                    }
+        if (section != null) {
+            for (String s : section.getKeys(false)) {
+
+                int number;
+                try {
+                    number = Integer.parseInt(s);
+                } catch (NumberFormatException e) {
+                    continue;
                 }
-            });
+
+                events.put(number, () -> {
+                    for (String command : section.getStringList(s + ".todo")) {
+                        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
+                    }
+                });
+
+            }
         }
     }
 
