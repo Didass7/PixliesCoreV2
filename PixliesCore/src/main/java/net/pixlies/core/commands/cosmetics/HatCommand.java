@@ -36,7 +36,9 @@ public class HatCommand extends BaseCommand {
             return;
         }
 
-        inventory.setHelmet(item);
+        inventory.setHelmet(item.clone().asQuantity(1));
+        item.subtract();
+
         Lang.COSMETICS_HAT_SET.send(player);
 
     }
