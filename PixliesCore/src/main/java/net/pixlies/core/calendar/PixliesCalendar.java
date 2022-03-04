@@ -40,7 +40,7 @@ public class PixliesCalendar extends Thread {
         return month * daysInMonth + day;
     }
 
-    public boolean day() {
+    public boolean isDay() {
         return getWorld().getTime() < 12300 || getWorld().getTime() > 23850;
     }
 
