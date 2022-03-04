@@ -18,7 +18,7 @@ import java.util.List;
 public class AutoAnnounceHandler implements Handler {
 
     private static final Proxy instance = Proxy.getInstance();
-    private static final Config config = instance.getAutoAnounceConfig();
+    private static final Config config = instance.getAutoAnnounceConfig();
 
     private final List<String> messages = new LinkedList<>();
 

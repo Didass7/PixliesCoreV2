@@ -1,6 +1,7 @@
 name: ProxyCore
 main: net.pixlies.proxy.Proxy
 version: 1.0
+author: Pixlies Development Team
 authors:
   - MickMMars
   - Dynmie

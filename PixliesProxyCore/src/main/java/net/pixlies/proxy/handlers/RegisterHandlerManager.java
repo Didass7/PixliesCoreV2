@@ -17,7 +17,7 @@ public class RegisterHandlerManager {
             AutoAnnounceHandler.class
     );
 
-    public void registerAllHandlers() {
+    public void registerAll() {
         handlers.forEach(clazz -> instance.getHandlerManager().register(clazz));
     }
 

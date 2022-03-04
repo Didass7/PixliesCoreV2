@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 /**
  * Make file stuff easier
@@ -21,17 +22,17 @@ public final class FileUtils {
 
         File file = new File(instance.getDataFolder(), path);
 
+        file.getParentFile().mkdirs();
+
         if (!replace && file.exists()) return;
 
-        if (replace) {
-            file.delete();
-        }
-
-        try (InputStream stream = instance.getResourceAsStream(path)) {
-            if (stream == null) return;
-            Files.copy(stream, file.toPath());
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (!file.exists()) {
+            try (InputStream stream = instance.getResourceAsStream(path)) {
+                file.createNewFile();
+                Files.copy(stream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
     }

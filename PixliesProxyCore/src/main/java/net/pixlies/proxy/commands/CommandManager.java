@@ -57,4 +57,10 @@ public class CommandManager {
         // TODO
     }
 
+    public void registerAll() {
+        registerContexts();
+        registerCompletions();
+        registerCommands();
+    }
+
 }

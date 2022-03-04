@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 /**
  * some bungee config
@@ -55,6 +56,8 @@ public class Config {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public void createIfNotExists() {
 
+        file.getParentFile().mkdirs();
+
         if (file.exists()) return;
 
         if (localDefaults == null) {
@@ -67,10 +70,8 @@ public class Config {
         }
 
         try (InputStream input = instance.getResourceAsStream(localDefaults)) {
-            if (input == null) {
-                return;
-            }
-            Files.copy(input, file.toPath());
+            file.createNewFile();
+            Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             e.printStackTrace();
         }

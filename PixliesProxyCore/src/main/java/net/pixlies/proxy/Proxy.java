@@ -26,7 +26,7 @@ public class Proxy extends Plugin {
 
     private Config config;
     private Config serverListConfig;
-    private Config autoAnounceConfig;
+    private Config autoAnnounceConfig;
     private Config settingsConfig;
     private Config maintenanceConfig;
 
@@ -36,32 +36,31 @@ public class Proxy extends Plugin {
         // INSTANCE
         instance = this;
 
+        // CONFIGS
+        config = new Config(new File(getDataFolder().getAbsolutePath() + "/config.yml"), "config.yml");
+        serverListConfig = new Config(new File(getDataFolder().getAbsolutePath() + "/features/serverlist.yml"), "features/serverlist.yml");
+        autoAnnounceConfig = new Config(new File(getDataFolder().getAbsolutePath() + "/features/autoannounce.yml"), "features/autoannounce.yml");
+        settingsConfig = new Config(new File(getDataFolder().getAbsolutePath() + "/settings.yml"), "settings.yml");
+        maintenanceConfig = new Config(new File(getDataFolder().getAbsolutePath() + "/maintenance.yml"), "maintenance.yml");
+
         // LANGUAGE
         FileUtils.saveResource("languages/LANG_ENG.yml", false);
         Lang.init();
-
-        // CONFIGS
-        config = new Config(new File(getDataFolder(), "config.yml"), "config.yml");
-        serverListConfig = new Config(new File(getDataFolder(), "features/serverlist.yml"), "features/serverlist.yml");
-        autoAnounceConfig = new Config(new File(getDataFolder(), "features/autoannounce.yml"), "features/autoannounce.yml");
-        settingsConfig = new Config(new File(getDataFolder(), "settings.yml"), "settings.yml");
-        maintenanceConfig = new Config(new File(getDataFolder(), "maintenance.yml"), "maintenance.yml");
 
         // MANAGERS & HANDLERS
         mongoManager = new MongoManager();
         mongoManager.init();
         handlerManager = new HandlerManager();
-        new RegisterHandlerManager().registerAllHandlers();
+        new RegisterHandlerManager().registerAll();
         new RunnableManager().runAll();
 
         // COMMANDS
         commandManager = new CommandManager();
-        commandManager.registerContexts();
-        commandManager.registerCommands();
+        commandManager.registerAll();
 
         // LISTENERS
         listenerManager = new ListenerManager();
-        listenerManager.registerListeners();
+        listenerManager.registerAll();
 
     }
 

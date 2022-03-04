@@ -15,7 +15,7 @@ public class ListenerManager {
             new ServerKickListener()
     );
 
-    public void registerListeners() {
+    public void registerAll() {
         listeners.forEach(listener -> Proxy.getInstance().getProxy().getPluginManager().registerListener(Proxy.getInstance(), listener));
     }
 
