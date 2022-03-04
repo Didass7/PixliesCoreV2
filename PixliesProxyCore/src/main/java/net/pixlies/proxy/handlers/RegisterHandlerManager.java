@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableList;
 import net.pixlies.proxy.Proxy;
 import net.pixlies.proxy.handlers.impl.AutoAnnounceHandler;
 import net.pixlies.proxy.handlers.impl.MaintenanceHandler;
-import net.pixlies.proxy.handlers.impl.QueueHandler;
 
 /**
  * @author Dynmie
@@ -15,7 +14,6 @@ public class RegisterHandlerManager {
 
     private final ImmutableList<Class<? extends Handler>> handlers = ImmutableList.of(
             MaintenanceHandler.class,
-            QueueHandler.class,
             AutoAnnounceHandler.class
     );
 

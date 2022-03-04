@@ -6,16 +6,3 @@ mongo:
 commands:
   lobby:
     server: 'Lobby'
-
-queue:
-  enabled: true
-  queues:
-    Earth:
-      max-players: 80
-      permission: ""
-    Lobby:
-      max-players: 2000
-      permission: ""
-    Test:
-      max-players: 100
-      permission: "pixlies.queue.Test"

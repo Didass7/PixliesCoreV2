@@ -9,8 +9,6 @@ import net.pixlies.proxy.Proxy;
 import net.pixlies.proxy.commands.impl.player.LobbyCommand;
 import net.pixlies.proxy.commands.impl.player.ServerCommand;
 import net.pixlies.proxy.commands.impl.staff.MaintenanceCommand;
-import net.pixlies.proxy.entity.Queue;
-import net.pixlies.proxy.handlers.impl.QueueHandler;
 import net.pixlies.proxy.localization.Lang;
 
 /**
@@ -51,20 +49,6 @@ public class CommandManager {
                 }
             }
             return info;
-        });
-
-        contexts.registerContext(Queue.class, context -> {
-            CommandSender sender = context.getSender();
-            QueueHandler queueHandler = instance.getHandlerManager().getHandler(QueueHandler.class);
-            Queue queue = queueHandler.getQueue(context.getFirstArg());
-            if (queue == null) {
-                if (sender instanceof ProxiedPlayer player) {
-                    throw new ConditionFailedException(Lang.PLAYER_QUEUE_NOT_EXIST.get(player).replace("%QUEUE%", context.getFirstArg()));
-                } else {
-                    throw new ConditionFailedException(Lang.PLAYER_QUEUE_NOT_EXIST.get(sender).replace("%QUEUE%", context.getFirstArg()));
-                }
-            }
-            return queue;
         });
 
     }
