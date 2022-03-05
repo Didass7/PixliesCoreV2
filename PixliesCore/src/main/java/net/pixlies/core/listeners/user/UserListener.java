@@ -2,7 +2,7 @@ package net.pixlies.core.listeners.user;
 
 import lombok.val;
 import net.pixlies.core.Main;
-import net.pixlies.core.entity.User;
+import net.pixlies.core.entity.user.User;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;

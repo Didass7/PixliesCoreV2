@@ -2,7 +2,7 @@ package net.pixlies.core.runnables.impl;
 
 import net.kyori.adventure.text.Component;
 import net.pixlies.core.Main;
-import net.pixlies.core.entity.User;
+import net.pixlies.core.entity.user.User;
 import net.pixlies.core.handlers.impl.FreezeHandler;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.runnables.PixliesRunnable;

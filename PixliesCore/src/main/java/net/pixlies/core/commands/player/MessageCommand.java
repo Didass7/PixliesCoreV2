@@ -7,7 +7,7 @@ import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Syntax;
 import lombok.val;
 import net.pixlies.core.Main;
-import net.pixlies.core.entity.User;
+import net.pixlies.core.entity.user.User;
 import net.pixlies.core.events.impl.player.SenderMessagePlayerEvent;
 import net.pixlies.core.handlers.impl.MessageHandler;
 import net.pixlies.core.localization.Lang;

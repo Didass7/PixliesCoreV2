@@ -1,6 +1,8 @@
 package net.pixlies.core.database;
 
-import com.mongodb.*;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.MongoCredential;
+import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import dev.morphia.Datastore;
@@ -8,10 +10,10 @@ import dev.morphia.Morphia;
 import lombok.Getter;
 import net.pixlies.core.Main;
 import net.pixlies.core.economy.Wallet;
-import net.pixlies.core.entity.User;
-import net.pixlies.core.entity.data.PermissionProfile;
-import net.pixlies.core.entity.data.UserPersonalization;
-import net.pixlies.core.entity.data.UserSettings;
+import net.pixlies.core.entity.user.User;
+import net.pixlies.core.entity.user.data.PermissionProfile;
+import net.pixlies.core.entity.user.data.UserPersonalization;
+import net.pixlies.core.entity.user.data.UserSettings;
 import net.pixlies.core.moderation.Punishment;
 import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;

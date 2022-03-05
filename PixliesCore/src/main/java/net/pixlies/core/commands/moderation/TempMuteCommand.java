@@ -2,7 +2,7 @@ package net.pixlies.core.commands.moderation;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
-import net.pixlies.core.entity.User;
+import net.pixlies.core.entity.user.User;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.utils.TimeUnit;
 import org.bukkit.OfflinePlayer;

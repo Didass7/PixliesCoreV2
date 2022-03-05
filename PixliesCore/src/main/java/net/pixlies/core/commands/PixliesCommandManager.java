@@ -8,7 +8,7 @@ import net.pixlies.core.commands.cosmetics.*;
 import net.pixlies.core.commands.moderation.*;
 import net.pixlies.core.commands.player.*;
 import net.pixlies.core.commands.staff.*;
-import net.pixlies.core.entity.User;
+import net.pixlies.core.entity.user.User;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;

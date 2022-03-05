@@ -2,7 +2,7 @@ package net.pixlies.core.handlers.impl.staffmode;
 
 import net.pixlies.core.Main;
 import net.pixlies.core.configuration.Config;
-import net.pixlies.core.entity.User;
+import net.pixlies.core.entity.user.User;
 import net.pixlies.core.events.impl.moderation.StaffModeStatusChangeEvent;
 import net.pixlies.core.handlers.Handler;
 import net.pixlies.core.handlers.impl.PassiveHandler;

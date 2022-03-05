@@ -3,7 +3,7 @@ package net.pixlies.core.database;
 import com.google.gson.Gson;
 import net.pixlies.core.Main;
 import net.pixlies.core.configuration.Config;
-import net.pixlies.core.entity.User;
+import net.pixlies.core.entity.user.User;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 

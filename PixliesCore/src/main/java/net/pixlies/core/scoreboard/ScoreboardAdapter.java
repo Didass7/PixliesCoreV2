@@ -1,7 +1,7 @@
 package net.pixlies.core.scoreboard;
 
 import net.pixlies.core.Main;
-import net.pixlies.core.entity.User;
+import net.pixlies.core.entity.user.User;
 import net.pixlies.core.lib.io.github.thatkawaiisam.assemble.AssembleAdapter;
 import net.pixlies.core.utils.TextUtils;
 import org.bukkit.entity.Player;

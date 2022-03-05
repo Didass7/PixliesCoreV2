@@ -2,7 +2,7 @@ package net.pixlies.core.events.impl.moderation;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import net.pixlies.core.entity.User;
+import net.pixlies.core.entity.user.User;
 import net.pixlies.core.events.PixliesCancellableEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;

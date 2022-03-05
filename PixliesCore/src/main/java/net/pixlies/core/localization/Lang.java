@@ -3,7 +3,7 @@ package net.pixlies.core.localization;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.pixlies.core.Main;
-import net.pixlies.core.entity.User;
+import net.pixlies.core.entity.user.User;
 import net.pixlies.core.utils.CC;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;

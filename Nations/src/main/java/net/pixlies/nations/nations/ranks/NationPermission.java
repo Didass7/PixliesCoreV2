@@ -1,6 +1,6 @@
 package net.pixlies.nations.nations.ranks;
 
-import net.pixlies.core.entity.User;
+import net.pixlies.core.entity.user.User;
 import net.pixlies.nations.interfaces.NationProfile;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

@@ -3,7 +3,7 @@ package net.pixlies.core.listeners.cosmetics.chatformatting;
 import io.papermc.paper.chat.ChatRenderer;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
-import net.pixlies.core.entity.User;
+import net.pixlies.core.entity.user.User;
 import net.pixlies.core.utils.CC;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;

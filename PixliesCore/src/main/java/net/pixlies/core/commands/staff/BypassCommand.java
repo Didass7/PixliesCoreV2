@@ -2,7 +2,7 @@ package net.pixlies.core.commands.staff;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
-import net.pixlies.core.entity.User;
+import net.pixlies.core.entity.user.User;
 import net.pixlies.core.localization.Lang;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

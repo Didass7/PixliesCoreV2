@@ -2,7 +2,7 @@ package net.pixlies.core.handlers.impl;
 
 import lombok.val;
 import net.pixlies.core.Main;
-import net.pixlies.core.entity.User;
+import net.pixlies.core.entity.user.User;
 import net.pixlies.core.handlers.Handler;
 import org.bukkit.entity.Player;
 

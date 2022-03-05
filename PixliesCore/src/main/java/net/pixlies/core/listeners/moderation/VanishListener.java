@@ -1,7 +1,7 @@
 package net.pixlies.core.listeners.moderation;
 
 import net.pixlies.core.Main;
-import net.pixlies.core.entity.User;
+import net.pixlies.core.entity.user.User;
 import net.pixlies.core.handlers.impl.VanishHandler;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

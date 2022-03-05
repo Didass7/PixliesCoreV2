@@ -5,7 +5,7 @@ import dev.morphia.annotations.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import net.pixlies.core.entity.User;
+import net.pixlies.core.entity.user.User;
 import net.pixlies.core.events.PixliesCancellableEvent;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.utils.EventUtils;

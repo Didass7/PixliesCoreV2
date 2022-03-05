@@ -1,6 +1,6 @@
 package net.pixlies.core.listeners.player;
 
-import net.pixlies.core.entity.User;
+import net.pixlies.core.entity.user.User;
 import net.pixlies.core.events.impl.player.SenderMessagePlayerEvent;
 import net.pixlies.core.localization.Lang;
 import org.bukkit.Bukkit;

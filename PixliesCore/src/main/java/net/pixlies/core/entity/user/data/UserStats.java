@@ -1,4 +1,4 @@
-package net.pixlies.core.entity.data;
+package net.pixlies.core.entity.user.data;
 
 import dev.morphia.annotations.Entity;
 import lombok.AllArgsConstructor;

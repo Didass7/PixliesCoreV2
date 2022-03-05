@@ -4,7 +4,7 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import net.md_5.bungee.api.ChatColor;
 import net.pixlies.core.Main;
-import net.pixlies.core.entity.User;
+import net.pixlies.core.entity.user.User;
 import net.pixlies.core.handlers.impl.StaffChatHandler;
 import net.pixlies.core.localization.Lang;
 import org.bukkit.entity.Player;

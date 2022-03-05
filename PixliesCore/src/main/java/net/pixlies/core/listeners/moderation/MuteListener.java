@@ -1,7 +1,7 @@
 package net.pixlies.core.listeners.moderation;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
-import net.pixlies.core.entity.User;
+import net.pixlies.core.entity.user.User;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.moderation.Punishment;
 import org.bukkit.Bukkit;

@@ -1,6 +1,6 @@
 package net.pixlies.core.listeners.moderation;
 
-import net.pixlies.core.entity.User;
+import net.pixlies.core.entity.user.User;
 import net.pixlies.core.localization.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

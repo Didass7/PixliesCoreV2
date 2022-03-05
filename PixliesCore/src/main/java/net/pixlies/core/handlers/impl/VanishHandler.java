@@ -1,14 +1,16 @@
 package net.pixlies.core.handlers.impl;
 
-import net.pixlies.core.entity.User;
-import net.pixlies.core.events.impl.moderation.VanishStatusChangeEvent;
 import lombok.val;
 import net.pixlies.core.Main;
+import net.pixlies.core.entity.user.User;
+import net.pixlies.core.events.impl.moderation.VanishStatusChangeEvent;
 import net.pixlies.core.handlers.Handler;
 import net.pixlies.core.utils.EventUtils;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class VanishHandler implements Handler {
 

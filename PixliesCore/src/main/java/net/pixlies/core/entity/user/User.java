@@ -1,4 +1,4 @@
-package net.pixlies.core.entity;
+package net.pixlies.core.entity.user;
 
 import com.google.gson.Gson;
 import com.mongodb.lang.Nullable;
@@ -9,10 +9,11 @@ import lombok.Data;
 import net.kyori.adventure.text.Component;
 import net.pixlies.core.Main;
 import net.pixlies.core.economy.Wallet;
-import net.pixlies.core.entity.data.PermissionProfile;
-import net.pixlies.core.entity.data.UserPersonalization;
-import net.pixlies.core.entity.data.UserSettings;
-import net.pixlies.core.entity.data.UserStats;
+import net.pixlies.core.entity.user.data.PermissionProfile;
+import net.pixlies.core.entity.user.data.UserPersonalization;
+import net.pixlies.core.entity.user.data.UserSettings;
+import net.pixlies.core.entity.user.data.UserStats;
+import net.pixlies.core.entity.user.timers.Timer;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.moderation.Punishment;
 import net.pixlies.core.moderation.PunishmentType;
@@ -52,6 +53,7 @@ public class User {
     private String lang;
     private PermissionProfile permissionProfile;
     private Map<String, Object> extras;
+    private final @Transient Map<String, Timer> timers = new HashMap<>();
 
     public OfflinePlayer getAsOfflinePlayer() {
         return Bukkit.getOfflinePlayer(this.getUniqueId());
@@ -358,6 +360,10 @@ public class User {
     public void save() {
         instance.getDatabase().getUserCache().remove(getUniqueId());
         instance.getDatabase().getUserCache().put(getUniqueId(), this);
+    }
+
+    public Collection<Timer> getTimers() {
+        return timers.values();
     }
 
     // STATICS - it's not static abuse if you use it properly.

@@ -1,7 +1,7 @@
 package net.pixlies.core.listeners.moderation;
 
 import com.destroystokyo.paper.event.player.PlayerAdvancementCriterionGrantEvent;
-import net.pixlies.core.entity.User;
+import net.pixlies.core.entity.user.User;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;

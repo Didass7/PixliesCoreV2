@@ -3,7 +3,7 @@ package net.pixlies.nations.commands.impl;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
-import net.pixlies.core.entity.User;
+import net.pixlies.core.entity.user.User;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.nations.Nations;
 import net.pixlies.nations.handlers.impl.NationDisbandHandler;

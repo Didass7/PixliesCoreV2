@@ -2,7 +2,7 @@ package net.pixlies.business.market;
 
 import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
-import net.pixlies.core.entity.User;
+import net.pixlies.core.entity.user.User;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;

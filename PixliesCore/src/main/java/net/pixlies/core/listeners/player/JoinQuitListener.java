@@ -3,7 +3,7 @@ package net.pixlies.core.listeners.player;
 import net.kyori.adventure.text.Component;
 import net.pixlies.core.Main;
 import net.pixlies.core.configuration.Config;
-import net.pixlies.core.entity.User;
+import net.pixlies.core.entity.user.User;
 import net.pixlies.core.handlers.impl.VanishHandler;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

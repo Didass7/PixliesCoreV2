@@ -1,7 +1,7 @@
 package net.pixlies.core.runnables.impl;
 
 import net.pixlies.core.Main;
-import net.pixlies.core.entity.User;
+import net.pixlies.core.entity.user.User;
 import net.pixlies.core.runnables.PixliesRunnable;
 
 import java.util.Collection;

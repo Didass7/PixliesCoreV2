@@ -3,7 +3,7 @@ package net.pixlies.nations.interfaces;
 import dev.morphia.annotations.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import net.pixlies.core.entity.User;
+import net.pixlies.core.entity.user.User;
 import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.ranks.NationRank;
 
