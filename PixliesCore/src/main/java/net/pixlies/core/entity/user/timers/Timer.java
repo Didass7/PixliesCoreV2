@@ -24,7 +24,7 @@ public class Timer {
      * Check if the timer has finished.
      * @return True if completed; False if ongoing.
      */
-    public boolean isDone() {
+    public boolean isExpired() {
         return startTime < getEndTime();
     }
 
@@ -57,7 +57,7 @@ public class Timer {
      * @return Time remaining in millis
      */
     public long getTimeRemaining() {
-        if (isDone()) return 0;
+        if (isExpired()) return 0;
         return getEndTime() - startTime;
     }
 

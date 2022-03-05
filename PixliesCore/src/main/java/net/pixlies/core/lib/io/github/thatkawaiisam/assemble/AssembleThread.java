@@ -38,19 +38,8 @@ public class AssembleThread extends Thread {
 
     private void tick() {
         for (Player player : this.assemble.getPlugin().getServer().getOnlinePlayers()) {
-            // Profile profile = Main.getInstance().getProfile(player.getUniqueId());
 
-            //TODO CHANGE THIS ASAP
             if (true) {
-/*                if (profile.getTimers().size() > 0) {
-                    for (Map.Entry<String, Map<String, String>> entry : profile.getTimers().entrySet()) {
-                        if (entry.getKey().equalsIgnoreCase("teleport")) continue;
-                        if (new Timer(entry.getValue()).hasExpired()) {
-                            profile.getTimers().remove(entry.getKey());
-                            profile.save();
-                        }
-                    }
-                }*/
                 try {
                     AssembleBoard board = this.assemble.getBoards().get(player.getUniqueId());
 

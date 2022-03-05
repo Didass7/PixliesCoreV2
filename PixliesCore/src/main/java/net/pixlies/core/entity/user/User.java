@@ -53,7 +53,7 @@ public class User {
     private String lang;
     private PermissionProfile permissionProfile;
     private Map<String, Object> extras;
-    private final @Transient Map<String, Timer> timers = new HashMap<>();
+    private final @Transient Map<String, Timer> allTimers = new HashMap<>();
 
     public OfflinePlayer getAsOfflinePlayer() {
         return Bukkit.getOfflinePlayer(this.getUniqueId());
@@ -362,8 +362,39 @@ public class User {
         instance.getDatabase().getUserCache().put(getUniqueId(), this);
     }
 
+    /**
+     * Updates the timers list. Will purge all expired timers.
+     * Use this to get timers.
+     * @return All non-expired timers
+     */
     public Collection<Timer> getTimers() {
-        return timers.values();
+        if (allTimers.isEmpty()) return Collections.emptyList();
+        for (Map.Entry<String, Timer> entry : allTimers.entrySet()) {
+            String identifier = entry.getKey();
+            Timer timer = entry.getValue();
+            if (!timer.isExpired()) {
+                continue;
+            }
+            allTimers.remove(identifier);
+        }
+        return allTimers.values();
+    }
+
+    /**
+     * Check if the user has any timers.
+     * @return True if has timers; False if no timers.
+     */
+    public boolean hasTimers() {
+        return allTimers.size() > 0;
+    }
+
+    /**
+     * Check if the user has a specific timer.
+     * @param identifier The timer identifier
+     * @return True if the timer exists; False if it doesn't.
+     */
+    public boolean hasTimer(String identifier) {
+        return allTimers.containsKey(identifier);
     }
 
     // STATICS - it's not static abuse if you use it properly.
