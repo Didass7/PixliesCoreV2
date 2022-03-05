@@ -2,6 +2,7 @@ package net.pixlies.core.scoreboard;
 
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.user.User;
+import net.pixlies.core.entity.user.timers.Timer;
 import net.pixlies.core.lib.io.github.thatkawaiisam.assemble.AssembleAdapter;
 import net.pixlies.core.utils.TextUtils;
 import org.bukkit.entity.Player;
@@ -172,12 +173,14 @@ public class ScoreboardAdapter implements AssembleAdapter {
 
         }
 
-        // TEST
-        lines.add("");
-        lines.add("§3§lTest");
-        lines.add("§3Nick§8: §b" + user.getNickName());
-        lines.add("§3isPassive§8: " + (user.getSettings().isPassive() ? "§aTrue" : "§cFalse"));
-        lines.add("");
+        if (user.hasTimers()) {
+            lines.add("");
+            for (Timer timer : user.getTimers()) {
+                lines.add(timer.getColor().toString() + "§l" + timer.getDisplayName() + "§8: §7" + timer.getRemainingFormatted());
+                // §c§lCombat§8: §700:00:00
+            }
+            lines.add("");
+        }
 
         return lines;
     }

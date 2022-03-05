@@ -377,7 +377,9 @@ public class User {
             }
             allTimers.remove(identifier);
         }
-        return allTimers.values();
+        List<Timer> timers = new ArrayList<>(allTimers.values());
+        timers.sort(Comparator.comparing(Timer::getDisplayName));
+        return timers;
     }
 
     /**
