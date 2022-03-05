@@ -12,17 +12,12 @@ import org.bukkit.event.HandlerList;
 @AllArgsConstructor
 public class SenderMessagePlayerEvent extends PixliesCancellableEvent {
 
+    @Getter private static final HandlerList handlers = new HandlerList();
+    private final MessageHandler messageHandler = pixlies.getHandlerManager().getHandler(MessageHandler.class);
+
     private final CommandSender sender;
     private final Player target;
     private final MessageType type;
-
-    private final MessageHandler messageHandler = instance.getHandlerManager().getHandler(MessageHandler.class);
-
-    private static final HandlerList handlers = new HandlerList();
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
 
     public enum MessageType {
         MESSAGE, REPLY

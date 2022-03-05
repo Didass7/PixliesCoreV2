@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 public abstract class PixliesEvent extends Event {
 
     private final HandlerList handlers = new HandlerList();
-    protected Main instance = Main.getInstance();
+    protected Main pixlies = Main.getInstance();
 
     @Override
     public @NotNull HandlerList getHandlers() {

@@ -11,15 +11,11 @@ import org.bukkit.event.HandlerList;
 @AllArgsConstructor
 public class StaffModeStatusChangeEvent extends PixliesCancellableEvent {
 
+    @Getter private static final HandlerList handlers = new HandlerList();
+
     private final Player player;
     private final User user;
     private final StaffModeStatus status;
-
-    private static final HandlerList handlers = new HandlerList();
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
 
     public enum StaffModeStatus {
         ENABLE, DISABLE

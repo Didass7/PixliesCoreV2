@@ -11,16 +11,12 @@ import org.bukkit.event.HandlerList;
 @AllArgsConstructor
 public class VanishStatusChangeEvent extends PixliesCancellableEvent {
 
+    @Getter private static final HandlerList handlers = new HandlerList();
+    private final VanishHandler vanishHandler = pixlies.getHandlerManager().getHandler(VanishHandler.class);
+
     private final Player player;
     private final VanishState state;
 
-    private final VanishHandler vanishHandler = instance.getHandlerManager().getHandler(VanishHandler.class);
-
-    private static final HandlerList handlers = new HandlerList();
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
 
     public enum VanishState {
         VANISH, UNVANISH
