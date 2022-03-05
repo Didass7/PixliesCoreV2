@@ -9,7 +9,6 @@ import java.util.UUID;
 
 /**
  * Timer class to do user timer things.
- * Supposed to refresh every scoreboard tick.
  * @author Dynmie
  */
 @Data
