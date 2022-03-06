@@ -92,6 +92,10 @@ public class Main extends JavaPlugin {
         ListenerManager.registerAllListeners();
         commandManager = new PixliesCommandManager();
 
+        // MESSAGING
+        Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+        pluginMessageManager = new PixliesPluginMessageManager();
+
         // MODULES
         moduleManager.loadModules();
 
@@ -101,10 +105,6 @@ public class Main extends JavaPlugin {
 
         // SCOREBOARD
         // handlerManager.getHandler(ScoreboardHandler.class).load();
-
-        // MESSAGING
-        Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-        pluginMessageManager = new PixliesPluginMessageManager();
 
     }
 
