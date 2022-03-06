@@ -15,7 +15,7 @@ public class PlayCommand extends BaseCommand {
 
     private static final QueueManager manager = Lobby.getInstance().getQueueManager();
 
-    @CommandAlias("play|join")
+    @CommandAlias("play|join|queue|joinserver")
     @CommandCompletion("@empty")
     @Syntax("<server>")
     public void onPlay(Player player, @Single String server) {
