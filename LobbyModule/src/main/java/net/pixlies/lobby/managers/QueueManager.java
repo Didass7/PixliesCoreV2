@@ -69,7 +69,7 @@ public class QueueManager {
         catch (IOException e) {
             e.printStackTrace();
         }
-        player.sendPluginMessage(Main.getInstance(), "queue:joinQueue", b.toByteArray());
+        player.sendPluginMessage(Main.getInstance(), "queue:joinqueue", b.toByteArray());
     }
 
     public static int getPriority(Player player) {
