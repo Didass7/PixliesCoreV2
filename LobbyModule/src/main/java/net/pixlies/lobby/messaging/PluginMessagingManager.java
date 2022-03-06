@@ -20,7 +20,7 @@ public class PluginMessagingManager {
     );
 
     private final ImmutableList<String> outgoingChannels = ImmutableList.of(
-            "queue:joinQueue"
+            "queue:joinqueue"
     );
 
     public void registerAll() {

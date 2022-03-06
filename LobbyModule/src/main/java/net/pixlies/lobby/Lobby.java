@@ -35,14 +35,15 @@ public class Lobby extends Module {
         lobbyManager = new LobbyManager();
         queueManager = new QueueManager();
 
+        // PLUGIN MESSAGES
+        pluginMessagingManager = new PluginMessagingManager();
+        pluginMessagingManager.registerAll();
+
         // COMMANDS & LISTENERS
         listenerManager = new ListenerManager();
         listenerManager.registerAll();
         new CommandManager().registerAll();
 
-        // PLUGIN MESSAGES
-        pluginMessagingManager = new PluginMessagingManager();
-        pluginMessagingManager.registerAll();
 
     }
 
