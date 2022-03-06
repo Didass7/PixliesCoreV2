@@ -12,7 +12,7 @@ import org.bukkit.event.HandlerList;
 @AllArgsConstructor
 public class SenderMessagePlayerEvent extends PixliesCancellableEvent {
 
-    @Getter private static final HandlerList handlers = new HandlerList();
+    @Getter private static final HandlerList handlerList = new HandlerList();
     private final MessageHandler messageHandler = pixlies.getHandlerManager().getHandler(MessageHandler.class);
 
     private final CommandSender sender;

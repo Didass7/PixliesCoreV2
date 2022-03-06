@@ -11,7 +11,7 @@ import org.bukkit.event.HandlerList;
 @AllArgsConstructor
 public class StaffModeStatusChangeEvent extends PixliesCancellableEvent {
 
-    @Getter private static final HandlerList handlers = new HandlerList();
+    @Getter private static final HandlerList handlerList = new HandlerList();
 
     private final Player player;
     private final User user;
