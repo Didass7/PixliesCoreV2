@@ -51,7 +51,7 @@ public class QueueManager {
 
     public int getPlayersInQueue(String queue) {
         FileConfiguration bungeeconf = YamlConfiguration.loadConfiguration(new File("/home/minecraft/bungee/plugins/QueueBungee/config.yml"));
-        return bungeeconf.getInt("servers." + queue + ".inQueue");
+        return bungeeconf.getInt("servers." + queue + ".inQueue", 0);
     }
 
     public int getQueueLimit(String queue) {
