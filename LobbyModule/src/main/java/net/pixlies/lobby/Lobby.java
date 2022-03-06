@@ -6,15 +6,21 @@ import net.pixlies.lobby.commands.CommandManager;
 import net.pixlies.lobby.config.Config;
 import net.pixlies.lobby.listeners.ListenerManager;
 import net.pixlies.lobby.managers.LobbyManager;
+import net.pixlies.lobby.managers.QueueManager;
+import net.pixlies.lobby.messaging.PluginMessagingManager;
 
 import java.io.File;
 
+@Getter
 public class Lobby extends Module {
 
-    @Getter static Lobby instance;
-    @Getter Config config;
-    @Getter LobbyManager lobbyManager;
-    @Getter ListenerManager listenerManager;
+    @Getter private static Lobby instance;
+
+    Config config;
+    LobbyManager lobbyManager;
+    ListenerManager listenerManager;
+    PluginMessagingManager pluginMessagingManager;
+    QueueManager queueManager;
 
     @Override
     public void onLoad() {
@@ -27,17 +33,23 @@ public class Lobby extends Module {
 
         // MANAGERS
         lobbyManager = new LobbyManager();
+        queueManager = new QueueManager();
 
         // COMMANDS & LISTENERS
         listenerManager = new ListenerManager();
         listenerManager.registerAll();
         new CommandManager().registerAll();
 
+        // PLUGIN MESSAGES
+        pluginMessagingManager = new PluginMessagingManager();
+        pluginMessagingManager.registerAll();
+
     }
 
     @Override
     public void onDrop() {
         listenerManager.unregisterAll();
+        pluginMessagingManager.unregisterAll();
         instance = null;
     }
 

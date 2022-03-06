@@ -1,0 +1,36 @@
+package net.pixlies.lobby.messaging;
+
+import com.google.common.collect.ImmutableList;
+import net.pixlies.core.Main;
+import net.pixlies.core.pluginmessaging.PixliesIncomingMessageListener;
+import net.pixlies.core.pluginmessaging.PixliesPluginMessageManager;
+import net.pixlies.lobby.messaging.impl.LeaveQueueListener;
+import net.pixlies.lobby.messaging.impl.PlayerQueueListener;
+import net.pixlies.lobby.messaging.impl.QueueListener;
+
+public class PluginMessagingManager {
+
+    private static final Main pixlies = Main.getInstance();
+    private static final PixliesPluginMessageManager manager = pixlies.getPluginMessageManager();
+
+    private final ImmutableList<PixliesIncomingMessageListener> listeners = ImmutableList.of(
+            new QueueListener(),
+            new PlayerQueueListener(),
+            new LeaveQueueListener()
+    );
+
+    private final ImmutableList<String> outgoingChannels = ImmutableList.of(
+            "queue:joinQueue"
+    );
+
+    public void registerAll() {
+        outgoingChannels.forEach(manager::registerOutgoing);
+        listeners.forEach(manager::registerIncoming);
+    }
+
+    public void unregisterAll() {
+        outgoingChannels.forEach(manager::unregisterOutgoing);
+        listeners.forEach(manager::unregisterIncoming);
+    }
+
+}

@@ -12,6 +12,7 @@ import net.pixlies.core.lib.io.github.thatkawaiisam.assemble.Assemble;
 import net.pixlies.core.listeners.ListenerManager;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.modules.ModuleManager;
+import net.pixlies.core.pluginmessaging.PixliesPluginMessageManager;
 import net.pixlies.core.runnables.RunnableManager;
 import net.pixlies.core.runnables.RunnableRegisterManager;
 import org.bukkit.Bukkit;
@@ -28,6 +29,7 @@ public class Main extends JavaPlugin {
 
     @Getter private MongoManager database;
     @Getter private HandlerManager handlerManager;
+    @Getter private PixliesPluginMessageManager pluginMessageManager;
     @Getter private ModuleManager moduleManager;
     @Getter private PixliesCommandManager commandManager;
     @Getter private RunnableManager runnableManager;
@@ -102,6 +104,8 @@ public class Main extends JavaPlugin {
 
         // MESSAGING
         Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+        pluginMessageManager = new PixliesPluginMessageManager();
+
     }
 
     @Override
