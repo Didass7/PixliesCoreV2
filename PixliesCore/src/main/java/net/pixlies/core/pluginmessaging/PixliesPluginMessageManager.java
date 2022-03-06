@@ -9,7 +9,7 @@ public class PixliesPluginMessageManager {
     private static final Messenger messenger = instance.getServer().getMessenger();
 
     public void registerOutgoing(String channel) {
-        messenger.registerOutgoingPluginChannel(instance, channel);
+        messenger.registerOutgoingPluginChannel(instance, channel.toLowerCase());
     }
 
     public void registerIncoming(PixliesIncomingMessageListener listener) {
@@ -21,7 +21,7 @@ public class PixliesPluginMessageManager {
     }
 
     public void unregisterOutgoing(String channel) {
-        messenger.unregisterOutgoingPluginChannel(instance, channel);
+        messenger.unregisterOutgoingPluginChannel(instance, channel.toLowerCase());
     }
 
 }
