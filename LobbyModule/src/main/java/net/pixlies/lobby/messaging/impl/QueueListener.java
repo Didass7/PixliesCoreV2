@@ -18,7 +18,7 @@ public class QueueListener extends PixliesIncomingMessageListener {
     private static final QueueManager manager = instance.getQueueManager();
 
     public QueueListener() {
-        super("queue:queueInfo");
+        super("queue:queueinfo");
     }
 
     @Override
@@ -26,8 +26,6 @@ public class QueueListener extends PixliesIncomingMessageListener {
         ByteArrayInputStream stream = new ByteArrayInputStream(message);
         DataInputStream in = new DataInputStream(stream);
         try {
-            String sub = in.readUTF();
-            if (!sub.equalsIgnoreCase("queueInfo")) return;
 
             String server = in.readUTF();
             int size = in.readInt();

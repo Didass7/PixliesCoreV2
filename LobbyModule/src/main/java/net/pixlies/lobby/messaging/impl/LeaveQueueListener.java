@@ -18,7 +18,7 @@ public class LeaveQueueListener extends PixliesIncomingMessageListener {
     private static final QueueManager manager = instance.getQueueManager();
 
     public LeaveQueueListener() {
-        super("queue:leaveQueue");
+        super("queue:leavequeue");
     }
 
     @Override

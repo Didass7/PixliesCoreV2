@@ -20,7 +20,7 @@ public class PlayerQueueListener extends PixliesIncomingMessageListener {
     private static final QueueManager manager = instance.getQueueManager();
 
     public PlayerQueueListener() {
-        super("queue:queuePosition");
+        super("queue:queueposition");
     }
 
     @Override
