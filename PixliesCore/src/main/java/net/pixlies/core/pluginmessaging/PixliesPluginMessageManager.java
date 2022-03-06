@@ -13,11 +13,11 @@ public class PixliesPluginMessageManager {
     }
 
     public void registerIncoming(PixliesIncomingMessageListener listener) {
-        messenger.registerIncomingPluginChannel(instance, listener.getChannel(), listener);
+        messenger.registerIncomingPluginChannel(instance, listener.getChannel().toLowerCase(), listener);
     }
 
     public void unregisterIncoming(PixliesIncomingMessageListener listener) {
-        messenger.unregisterIncomingPluginChannel(instance, listener.getChannel());
+        messenger.unregisterIncomingPluginChannel(instance, listener.getChannel().toLowerCase());
     }
 
     public void unregisterOutgoing(String channel) {
