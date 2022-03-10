@@ -464,7 +464,7 @@ public class User {
                     System.currentTimeMillis(),
                     "NONE",
                     "NONE",
-                    Wallet.getDefaultWallets(),
+                    Wallet.getDefaults(),
                     new ArrayList<>(),
                     new ArrayList<>(),
                     UserStats.createNew(),

@@ -54,46 +54,11 @@ public class Wallet {
         return builder.toString();
     }
 
-    public String formatBalance() {
+    public String getFormattedBalance() {
         return format(balance);
     }
 
-    public Map<String, Object> mapForMongo() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("name", name);
-        map.put("sign", sign);
-        map.put("balance", balance);
-        map.put("history", history);
-        map.put("prefix", prefix);
-        map.put("palette", palette.getEffect().getChar() + ";" +  palette.getPrimary().getChar() + ";" + palette.getAccent().getChar());
-        return map;
-    }
-
-    public Wallet(Map<String, Object> mapped) {
-        this.name = (String) mapped.get("name");
-        this.sign = (String) mapped.get("sign");
-        this.balance = (double) mapped.get("balance");
-        this.history = (List<String>) mapped.get("history");
-        this.prefix = (boolean) mapped.get("prefix");
-        String[] paletteList = ((String) mapped.get("palette")).split(";");
-        this.palette = new Palette(ChatColor.getByChar(paletteList[0]), ChatColor.getByChar(paletteList[1]), ChatColor.getByChar(paletteList[2]));
-    }
-
-    public static Map<String, Wallet> getFromMongo(Map<String, Map<String, Object>> map) {
-        Map<String, Wallet> walletMap = new HashMap<>();
-        for (Map.Entry<String, Map<String, Object>> entry : map.entrySet())
-            walletMap.put(entry.getKey(), new Wallet(entry.getValue()));
-        return walletMap;
-    }
-
-    public static Map<String, Map<String, Object>> mapAllForMongo(Map<String, Wallet> walletMap) {
-        Map<String, Map<String, Object>> map = new HashMap<>();
-        for (Map.Entry<String, Wallet> entry : walletMap.entrySet())
-            map.put(entry.getKey(), entry.getValue().mapForMongo());
-        return map;
-    }
-
-    public static Map<String, Wallet> getDefaultWallets() {
+    public static Map<String, Wallet> getDefaults() {
         Map<String, Wallet> wallets = new HashMap<>();
         wallets.put("serverCurrency", new Wallet(
                 "Dollar",
