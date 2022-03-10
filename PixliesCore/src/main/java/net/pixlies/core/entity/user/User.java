@@ -17,6 +17,7 @@ import net.pixlies.core.entity.user.timers.Timer;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.moderation.Punishment;
 import net.pixlies.core.moderation.PunishmentType;
+import net.pixlies.core.scoreboard.ScoreboardType;
 import net.pixlies.core.utils.CC;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -57,6 +58,14 @@ public class User {
 
     public OfflinePlayer getAsOfflinePlayer() {
         return Bukkit.getOfflinePlayer(this.getUniqueId());
+    }
+
+    public boolean isOnline() {
+        OfflinePlayer player = getAsOfflinePlayer();
+        if (player == null) {
+            return false;
+        }
+        return player.isOnline();
     }
 
     public Punishment getMute() {
@@ -399,8 +408,36 @@ public class User {
         return allTimers.containsKey(identifier);
     }
 
+    /**
+     * Set the scoreboard scoreboardType for the user.
+     * @param scoreboardType The scoreboard scoreboardType
+     * @see ScoreboardType
+     */
+    public void setScoreboardType(@NotNull ScoreboardType scoreboardType) {
+        this.getPersonalization().setScoreboardType(scoreboardType.name());
+    }
+
+    /**
+     * Set the scoreboard type for the user.
+     * @return The scoreboard type
+     * @see ScoreboardType
+     */
+    public @NotNull ScoreboardType getScoreboardType() {
+        ScoreboardType scoreboardType = this.getPersonalization().getScoreboardTypeAsEnum();
+        if (scoreboardType == null) {
+            return ScoreboardType.STANDARD;
+        }
+        return scoreboardType;
+    }
+
     // STATICS - it's not static abuse if you use it properly.
 
+    /**
+     * Get a user from a UUID
+     * @param uuid The player's UUID
+     * @return A not null User
+     * @see User
+     */
     public static @NotNull User get(UUID uuid) {
         return instance.getDatabase().getUserCache().getOrDefault(uuid, getFromDatabase(uuid));
     }

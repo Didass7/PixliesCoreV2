@@ -3,7 +3,9 @@ package net.pixlies.core.entity.user.data;
 import dev.morphia.annotations.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import net.pixlies.core.scoreboard.ScoreboardAdapter.ScoreboardType;
+import net.pixlies.core.entity.user.User;
+import net.pixlies.core.scoreboard.ScoreboardType;
+import org.jetbrains.annotations.Nullable;
 
 @Data
 @Entity
@@ -18,7 +20,12 @@ public class UserPersonalization {
     private boolean joinVanish;
     private String scoreboardType;
 
-    public ScoreboardType getScoreboardTypeAsEnum() {
+    /**
+     * Gets the scoreboard type as an enum.
+     * @see User#getScoreboardType()
+     * @return The scoreboard type of the user.
+     */
+    public @Nullable ScoreboardType getScoreboardTypeAsEnum() {
         return ScoreboardType.valueOf(scoreboardType);
     }
 

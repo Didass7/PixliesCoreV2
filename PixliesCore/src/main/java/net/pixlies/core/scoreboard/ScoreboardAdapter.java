@@ -143,14 +143,12 @@ public class ScoreboardAdapter implements AssembleAdapter {
     public List<String> getLines(Player player) {
 
         User user = User.get(player.getUniqueId());
-
-        ScoreboardType scoreboardType = user.getPersonalization().getScoreboardTypeAsEnum();
-        if (scoreboardType == null) return null;
+        ScoreboardType scoreboardType = user.getScoreboardType();
 
         return switch (scoreboardType) {
             case STANDARD -> getStandard(player);
             case COMPACT -> getCompact(player);
-            case DISABLED -> null;
+            default -> null;
         };
 
     }
@@ -188,14 +186,6 @@ public class ScoreboardAdapter implements AssembleAdapter {
     private List<String> getCompact(Player player) {
         // TODO
         return new ArrayList<>();
-    }
-
-    public enum ScoreboardType {
-
-        STANDARD,
-        COMPACT,
-        DISABLED
-
     }
 
 }
