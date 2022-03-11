@@ -83,6 +83,8 @@ public class NationChunk {
     }
 
     public void revokeAccess(@NotNull NationProfile profile) {
+        if (!data.has("accessors")) return;
+
         Nation nation = Nation.getFromId(nationId);
         nation.getClaims().remove(this);
         nation.save();
