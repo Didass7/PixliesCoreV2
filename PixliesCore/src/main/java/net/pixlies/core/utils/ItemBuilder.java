@@ -154,7 +154,7 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder addItemFlags(ItemFlag flag) {
+    public ItemBuilder addItemFlags(ItemFlag... flag) {
         meta.addItemFlags(flag);
         return this;
     }
