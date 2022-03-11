@@ -75,7 +75,7 @@ public class NationChunk {
         nation.getClaims().remove(this);
         nation.save();
 
-        JsonArray accessors = data.getAsJsonArray("accessors");
+        JsonArray accessors = data.has("accessors") ? data.getAsJsonArray("accessors") : new JsonArray();
         accessors.add(profile.getUuid());
         data.add("accessors", accessors);
 
@@ -88,7 +88,12 @@ public class NationChunk {
         nation.save();
 
         JsonArray accessors = data.getAsJsonArray("accessors");
-        accessors.add(profile.getUniqueId().toString());
+        for (JsonElement accessor : accessors) {
+            if (!accessor.getAsString().equals(profile.getUniqueId().toString())) {
+                return;
+            }
+            accessors.remove(accessor);
+        }
         data.add("accessors", accessors);
 
         claim(false);
@@ -105,8 +110,9 @@ public class NationChunk {
 
     public @NotNull List<NationProfile> getAccessors() {
         List<NationProfile> returner = new ArrayList<>();
-        JsonArray accessors = data.getAsJsonArray("accessors");
+        if (!data.has("accessors")) return returner;
 
+        JsonArray accessors = data.getAsJsonArray("accessors");
         for (JsonElement accessor : accessors) {
             UUID uuid = UUID.fromString(accessor.getAsString());
             User user = User.get(uuid);
