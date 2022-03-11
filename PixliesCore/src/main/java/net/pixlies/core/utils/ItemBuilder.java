@@ -137,4 +137,12 @@ public class ItemBuilder {
         return item;
     }
 
+    /**
+     * Clones the ItemBuilder
+     * @return
+     */
+    public ItemBuilder copy() {
+        return new ItemBuilder(this.build());
+    }
+
 }

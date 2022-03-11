@@ -40,7 +40,7 @@ public abstract class CustomItem {
         }
 
         if (canGlow()) {
-            builder.setGlow();
+            builder = builder.setGlow();
         }
 
         ItemStack item = builder.build();

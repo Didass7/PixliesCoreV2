@@ -62,19 +62,21 @@ public class StaffSettingsCommand extends BaseCommand {
             GuiItem item = new GuiItem(builder.build());
             item.setAction(event -> {
 
+                ItemBuilder b = builder.copy();
+
                 HumanEntity opener = event.getWhoClicked();
 
                 // GUI Shenanigans
                 button.toggle();
                 if (button.isEnabled()) {
-                    builder.setDisplayName(ChatColor.GREEN + s.getTitle());
-                    builder.removeLoreLine(disabled);
-                    builder.addLoreLine(enabled);
+                    b = builder.setDisplayName(ChatColor.GREEN + s.getTitle())
+                            .removeLoreLine(disabled)
+                            .addLoreLine(enabled);
                     Lang.SETTING_CHANGED.send(opener, "%SETTINGS%;" + s.getTitle(), "%STATE%;enabled");
                 } else {
-                    builder.setDisplayName(ChatColor.RED + s.getTitle());
-                    builder.removeLoreLine(enabled);
-                    builder.addLoreLine(disabled);
+                    b.setDisplayName(ChatColor.RED + s.getTitle())
+                            .removeLoreLine(enabled)
+                            .addLoreLine(disabled);
                     Lang.SETTING_CHANGED.send(opener, "%SETTINGS%;" + s.getTitle(), "%STATE%;disabled");
                 }
 
