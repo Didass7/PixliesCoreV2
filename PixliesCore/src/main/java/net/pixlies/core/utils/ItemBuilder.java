@@ -8,6 +8,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,7 +18,7 @@ import java.util.UUID;
 public class ItemBuilder {
 
     private final ItemStack item;
-    private final List<Component> lore = new ArrayList<>();
+    private final List<String> lore = new ArrayList<>();
     private final ItemMeta meta;
 
     public ItemBuilder(Material material, int amount) {
@@ -70,23 +71,23 @@ public class ItemBuilder {
     }
 
     public ItemBuilder addLoreLine(String string) {
-        lore.add(Component.text(string));
+        lore.add(string);
         return this;
     }
 
     public ItemBuilder removeLoreLine(String string) {
-        lore.remove(Component.text(string));
+        lore.remove(string);
         return this;
     }
 
     public ItemBuilder addLoreArray(String[] strings) {
         List<String> list = new ArrayList<>(Arrays.asList(strings));
-        list.forEach(string -> lore.add(Component.text(string)));
+        lore.addAll(list);
         return this;
     }
 
     public ItemBuilder addLoreAll(List<String> list) {
-        list.forEach(string -> lore.add(Component.text(string)));
+        lore.addAll(list);
         return this;
     }
 
@@ -129,8 +130,12 @@ public class ItemBuilder {
      * Builds the ItemStack that you made.
      * @return the item that is built.
      */
-    public ItemStack build() {
-        if (!lore.isEmpty()) {
+    public @NotNull ItemStack build() {
+        if (!this.lore.isEmpty()) {
+            List<Component> lore = new ArrayList<>();
+            this.lore.forEach(s -> {
+                lore.add(Component.text(s));
+            });
             meta.lore(lore);
         }
         item.setItemMeta(meta);
@@ -139,9 +144,9 @@ public class ItemBuilder {
 
     /**
      * Clones the ItemBuilder
-     * @return
+     * @return A new ItemBuilder
      */
-    public ItemBuilder copy() {
+    public @NotNull ItemBuilder copy() {
         return new ItemBuilder(this.build());
     }
 

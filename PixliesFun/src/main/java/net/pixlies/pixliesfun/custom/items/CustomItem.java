@@ -36,7 +36,7 @@ public abstract class CustomItem {
                 .setDisplayName(ChatColor.YELLOW + getDisplayName());
 
         if (getLore() != null) {
-            builder.addLoreAll(getLore());
+            builder = builder.addLoreAll(getLore());
         }
 
         if (canGlow()) {
