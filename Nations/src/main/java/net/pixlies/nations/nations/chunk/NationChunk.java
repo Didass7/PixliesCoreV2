@@ -1,16 +1,20 @@
 package net.pixlies.nations.nations.chunk;
 
 import co.aikar.commands.lib.util.Table;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.morphia.annotations.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
+import net.pixlies.core.entity.user.User;
 import net.pixlies.nations.Nations;
+import net.pixlies.nations.interfaces.NationProfile;
 import net.pixlies.nations.nations.Nation;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Efficient nation chunk system
@@ -64,6 +68,53 @@ public class NationChunk {
 
         rst.remove(x, z);
         table.put(world, rst);
+    }
+
+    public void grantAccess(@NotNull NationProfile profile) {
+        Nation nation = Nation.getFromId(nationId);
+        nation.getClaims().remove(this);
+        nation.save();
+
+        JsonArray accessors = data.getAsJsonArray("accessors");
+        accessors.add(profile.getUuid());
+        data.add("accessors", accessors);
+
+        claim(false);
+    }
+
+    public void revokeAccess(@NotNull NationProfile profile) {
+        Nation nation = Nation.getFromId(nationId);
+        nation.getClaims().remove(this);
+        nation.save();
+
+        JsonArray accessors = data.getAsJsonArray("accessors");
+        accessors.add(profile.getUniqueId().toString());
+        data.add("accessors", accessors);
+
+        claim(false);
+    }
+
+    public boolean hasAccess(@NotNull NationProfile profile) {
+        for (NationProfile toCheck : this.getAccessors()) {
+            if (profile.getUniqueId().equals(toCheck.getUniqueId())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public @NotNull List<NationProfile> getAccessors() {
+        List<NationProfile> returner = new ArrayList<>();
+        JsonArray accessors = data.getAsJsonArray("accessors");
+
+        for (JsonElement accessor : accessors) {
+            UUID uuid = UUID.fromString(accessor.getAsString());
+            User user = User.get(uuid);
+            NationProfile profile = NationProfile.get(user);
+            returner.add(profile);
+        }
+
+        return returner;
     }
 
 }
