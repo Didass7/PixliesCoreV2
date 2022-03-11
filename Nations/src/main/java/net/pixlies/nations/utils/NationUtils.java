@@ -26,7 +26,8 @@ public class NationUtils {
     }
 
     public static boolean nameValid(String name) {
-        return StringUtils.isAlphanumeric(name);
+        if (!StringUtils.isAlphanumeric(name)) return false;
+        return name.length() <= 16 && name.matches("^[a-zA-Z0-9_-]*$");
     }
 
 }

@@ -93,6 +93,7 @@ public class NationCommand extends BaseCommand {
         nation.addMember(user, NationRank.leader().getName());
 
         // TODO: open nation creation menu
+        player.performCommand("nation menu");
     }
 
     @Subcommand("rename")
@@ -118,8 +119,8 @@ public class NationCommand extends BaseCommand {
 
                 Nation nation = Nation.getFromId(profile.getNationId());
 
-                if (name.length() > 16 || name.matches("^[a-zA-Z0-9_-]*$") ) {
-                    Lang.NATION_CANNOT_RENAME.send(sender);
+                if (!NationUtils.nameValid(name)) {
+                    Lang.NATION_NAME_INVALID.send(sender);
                     return;
                 }
 
@@ -148,8 +149,8 @@ public class NationCommand extends BaseCommand {
                 return;
             }
 
-            if (name.length() > 16 || name.matches("^[a-zA-Z0-9_-]*$") ) {
-                Lang.NATION_CANNOT_RENAME.send(sender);
+            if (!NationUtils.nameValid(name)) {
+                Lang.NATION_NAME_INVALID.send(sender);
                 return;
             }
 
@@ -209,6 +210,7 @@ public class NationCommand extends BaseCommand {
     }
 
     @Subcommand("disband confirm")
+    @Private
     @Description("Disband a nation confirm")
     public void onDisbandConfirm(Player player) {
         User user = User.get(player.getUniqueId());
@@ -230,6 +232,7 @@ public class NationCommand extends BaseCommand {
     }
 
     @Subcommand("disband cancel")
+    @Private
     @Description("Cancel a disbandment of a nation")
     public void onDisbandCancel(Player player) {
         if (disbandHandler.getConfirmations().containsKey(player.getUniqueId())) {

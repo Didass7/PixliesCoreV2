@@ -271,11 +271,12 @@ public class Nation {
     //                                        STATIC METHODS
     // -------------------------------------------------------------------------------------------------
 
-    public static Nation getFromId(String id) {
+
+    public static @Nullable Nation getFromId(String id) {
         return instance.getNationManager().getNations().get(id);
     }
 
-    public static Nation getFromName(String name) {
+    public static @Nullable Nation getFromName(String name) {
         return instance.getNationManager().getNations().get(instance.getNationManager().getNameNations().get(name));
     }
 
