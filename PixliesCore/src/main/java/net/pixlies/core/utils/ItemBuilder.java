@@ -1,5 +1,6 @@
 package net.pixlies.core.utils;
 
+import lombok.SneakyThrows;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -18,7 +19,7 @@ import java.util.UUID;
 public class ItemBuilder {
 
     private final ItemStack item;
-    private final List<String> lore = new ArrayList<>();
+    private final List<Component> lore = new ArrayList<>();
     private final ItemMeta meta;
 
     public ItemBuilder(Material material, int amount) {
@@ -56,9 +57,28 @@ public class ItemBuilder {
         return this;
     }
 
+    public ItemBuilder setDisplayName(Component component) {
+        meta.displayName(component);
+        return this;
+    }
+
+    public ItemBuilder setCustomModelData(int data) {
+        item.setCustomModelData(data);
+        return this;
+    }
+
+    public ItemBuilder setType(Material type) {
+        item.setType(type);
+        return this;
+    }
+
     public ItemBuilder setGlow() {
-        meta.addEnchant(Enchantment.DURABILITY, 1, true);
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        this.setGlow(true);
+        return this;
+    }
+
+    public ItemBuilder removeGlow() {
+        this.setGlow(false);
         return this;
     }
 
@@ -66,28 +86,41 @@ public class ItemBuilder {
         if (state) {
             meta.addEnchant(Enchantment.DURABILITY, 1, true);
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        } else {
+            meta.removeEnchant(Enchantment.DURABILITY);
+            meta.removeItemFlags(ItemFlag.HIDE_ENCHANTS);
         }
         return this;
     }
 
     public ItemBuilder addLoreLine(String string) {
-        lore.add(string);
+        lore.add(Component.text(string));
+        return this;
+    }
+
+    public ItemBuilder addLoreLine(Component component) {
+        lore.add(component);
+        return this;
+    }
+
+    public ItemBuilder removeLoreLine(Component component) {
+        lore.remove(component);
         return this;
     }
 
     public ItemBuilder removeLoreLine(String string) {
-        lore.remove(string);
+        lore.remove(Component.text(string));
         return this;
     }
 
     public ItemBuilder addLoreArray(String[] strings) {
         List<String> list = new ArrayList<>(Arrays.asList(strings));
-        lore.addAll(list);
+        list.forEach(string -> lore.add(Component.text(string)));
         return this;
     }
 
     public ItemBuilder addLoreAll(List<String> list) {
-        lore.addAll(list);
+        list.forEach(string -> lore.add(Component.text(string)));
         return this;
     }
 
@@ -131,11 +164,7 @@ public class ItemBuilder {
      * @return the item that is built.
      */
     public @NotNull ItemStack build() {
-        if (!this.lore.isEmpty()) {
-            List<Component> lore = new ArrayList<>();
-            this.lore.forEach(s -> {
-                lore.add(Component.text(s));
-            });
+        if (!lore.isEmpty()) {
             meta.lore(lore);
         }
         item.setItemMeta(meta);
@@ -144,10 +173,11 @@ public class ItemBuilder {
 
     /**
      * Clones the ItemBuilder
-     * @return A new ItemBuilder
+     * @return The copied ItemBuilder
      */
-    public @NotNull ItemBuilder copy() {
-        return new ItemBuilder(this.build());
+    @SneakyThrows
+    public @NotNull ItemBuilder clone() {
+        return (ItemBuilder) super.clone();
     }
 
 }

@@ -62,7 +62,7 @@ public class StaffSettingsCommand extends BaseCommand {
             GuiItem item = new GuiItem(builder.build());
             item.setAction(event -> {
 
-                ItemBuilder b = builder.copy();
+                ItemBuilder b = builder.clone();
 
                 HumanEntity opener = event.getWhoClicked();
 
