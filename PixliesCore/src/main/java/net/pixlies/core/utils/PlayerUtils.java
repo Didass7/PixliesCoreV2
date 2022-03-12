@@ -32,6 +32,7 @@ public final class PlayerUtils {
 
     public static @Nullable Player getRandomPlayer() {
         Collection<? extends Player> players = instance.getServer().getOnlinePlayers();
+        if (players.isEmpty()) return null;
         return new ArrayList<Player>(players).get(new Random().nextInt(players.size()));
     }
 
