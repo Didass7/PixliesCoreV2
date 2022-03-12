@@ -4,6 +4,7 @@ import co.aikar.commands.lib.util.Table;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import dev.morphia.annotations.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,13 +34,17 @@ public class NationChunk {
     private String nationId, world;
     private int x, z;
     private NationChunkType type;
-    private JsonObject data;
+    private String data;
 
     public void claim(boolean claim) {
         Table<Integer, Integer, NationChunk> rst = table.get(world);
         rst.put(x, z, this);
         table.put(world, rst);
+
         Nation nation = Nation.getFromId(nationId);
+        if (nation == null)
+            return;
+
         if (!nation.getClaims().contains(this)) {
             nation.getClaims().add(this);
             nation.save();
@@ -72,20 +77,27 @@ public class NationChunk {
 
     public void grantAccess(@NotNull NationProfile profile) {
         Nation nation = Nation.getFromId(nationId);
+        if (nation == null)
+            return;
         nation.getClaims().remove(this);
         nation.save();
 
+        JsonObject data = this.getJsonData();
         JsonArray accessors = data.has("accessors") ? data.getAsJsonArray("accessors") : new JsonArray();
         accessors.add(profile.getUuid());
         data.add("accessors", accessors);
+        this.setJsonData(data);
 
         claim(false);
     }
 
     public void revokeAccess(@NotNull NationProfile profile) {
+        JsonObject data = this.getJsonData();
         if (!data.has("accessors")) return;
 
         Nation nation = Nation.getFromId(nationId);
+        if (nation == null)
+            return;
         nation.getClaims().remove(this);
         nation.save();
 
@@ -97,6 +109,7 @@ public class NationChunk {
             accessors.remove(accessor);
         }
         data.add("accessors", accessors);
+        this.setJsonData(data);
 
         claim(false);
     }
@@ -112,6 +125,8 @@ public class NationChunk {
 
     public @NotNull List<NationProfile> getAccessors() {
         List<NationProfile> returner = new ArrayList<>();
+
+        JsonObject data = this.getJsonData();
         if (!data.has("accessors")) return returner;
 
         JsonArray accessors = data.getAsJsonArray("accessors");
@@ -121,8 +136,17 @@ public class NationChunk {
             NationProfile profile = NationProfile.get(user);
             returner.add(profile);
         }
+        this.setJsonData(data);
 
         return returner;
+    }
+
+    public JsonObject getJsonData() {
+        return JsonParser.parseString(data).getAsJsonObject();
+    }
+
+    public void setJsonData(JsonObject data) {
+        this.data = data.getAsString();
     }
 
 }
