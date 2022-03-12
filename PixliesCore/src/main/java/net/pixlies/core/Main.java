@@ -79,6 +79,8 @@ public class Main extends JavaPlugin {
         moduleManager = new ModuleManager();
         handlerManager = new HandlerManager();
         runnableManager = new RunnableManager();
+        pluginMessageManager = new PixliesPluginMessageManager();
+        pluginMessageRegisterManager = new PluginMessageRegisterManager();
         new RegisterHandlerManager().registerAllHandlers();
 
         // DATABASE
@@ -94,8 +96,6 @@ public class Main extends JavaPlugin {
         commandManager = new PixliesCommandManager();
 
         // MESSAGING
-        pluginMessageManager = new PixliesPluginMessageManager();
-        pluginMessageRegisterManager = new PluginMessageRegisterManager();
         pluginMessageRegisterManager.registerAll();
 
         // MODULES
