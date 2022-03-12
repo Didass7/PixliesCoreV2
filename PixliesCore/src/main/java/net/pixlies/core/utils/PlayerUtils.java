@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
@@ -27,6 +28,11 @@ public final class PlayerUtils {
         Random random = new Random();
 
         return players.get(random.nextInt(players.size()));
+    }
+
+    public static @Nullable Player getRandomPlayer() {
+        Collection<? extends Player> players = instance.getServer().getOnlinePlayers();
+        return new ArrayList<Player>(players).get(new Random().nextInt(players.size()));
     }
 
     public static void heal(@NotNull Player player) {

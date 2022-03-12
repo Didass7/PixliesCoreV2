@@ -13,9 +13,9 @@ import net.pixlies.core.listeners.ListenerManager;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.modules.ModuleManager;
 import net.pixlies.core.pluginmessaging.PixliesPluginMessageManager;
+import net.pixlies.core.pluginmessaging.PluginMessageRegisterManager;
 import net.pixlies.core.runnables.RunnableManager;
 import net.pixlies.core.runnables.RunnableRegisterManager;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
 
@@ -30,6 +30,7 @@ public class Main extends JavaPlugin {
     @Getter private MongoManager database;
     @Getter private HandlerManager handlerManager;
     @Getter private PixliesPluginMessageManager pluginMessageManager;
+    @Getter private PluginMessageRegisterManager pluginMessageRegisterManager;
     @Getter private ModuleManager moduleManager;
     @Getter private PixliesCommandManager commandManager;
     @Getter private RunnableManager runnableManager;
@@ -93,8 +94,9 @@ public class Main extends JavaPlugin {
         commandManager = new PixliesCommandManager();
 
         // MESSAGING
-        Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         pluginMessageManager = new PixliesPluginMessageManager();
+        pluginMessageRegisterManager = new PluginMessageRegisterManager();
+        pluginMessageRegisterManager.registerAll();
 
         // MODULES
         moduleManager.loadModules();
@@ -111,6 +113,7 @@ public class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         runnableRegisterManager.stopAll();
+        pluginMessageRegisterManager.unregisterAll();
         calendar.stopRunner();
         moduleManager.unloadModules();
         handlerManager.getHandler(ScoreboardHandler.class).unload();

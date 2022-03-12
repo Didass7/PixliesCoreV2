@@ -1,14 +1,13 @@
 package net.pixlies.core.listeners.staff;
 
-import net.md_5.bungee.api.ChatColor;
+import io.papermc.paper.event.player.AsyncChatEvent;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.handlers.impl.StaffChatHandler;
-import net.pixlies.core.localization.Lang;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 /**
  * Staffchat listener
@@ -20,17 +19,18 @@ public class StaffChatListener implements Listener {
     private final StaffChatHandler scHandler = instance.getHandlerManager().getHandler(StaffChatHandler.class);
 
     @EventHandler
-    public void onChat(AsyncPlayerChatEvent event) {
+    public void onChat(AsyncChatEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        String message = event.getMessage();
+        String message = LegacyComponentSerializer.legacyAmpersand().serialize(event.message());
+
+        if (!user.getSettings().isInStaffChat()) {
+            return;
+        }
 
         event.setCancelled(true);
 
-        if (user.getSettings().isInStaffChat()) {
-            scHandler.sendStaffChat(Lang.STAFF + ChatColor.GOLD + player.getName() +
-                    ChatColor.DARK_GRAY + " >> " + ChatColor.GRAY + message);
-        }
+        scHandler.sendStaffChat(player, message);
     }
 
 }
