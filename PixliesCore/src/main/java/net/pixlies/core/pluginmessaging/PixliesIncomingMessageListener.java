@@ -57,9 +57,10 @@ public abstract class PixliesIncomingMessageListener implements PluginMessageLis
     }
 
     /**
+     * A less complex version of the below see.
      * @see PluginMessageListener#onPluginMessageReceived(String, Player, byte[])
      */
-    public void onReceive(@NotNull String channel, @NotNull Player player, DataInputStream stream) throws IOException {
+    public void onReceive(@NotNull String channel, @NotNull Player player, @NotNull DataInputStream stream) throws IOException {
 
     }
 

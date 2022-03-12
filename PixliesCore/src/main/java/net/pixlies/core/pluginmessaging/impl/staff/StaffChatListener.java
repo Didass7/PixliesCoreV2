@@ -15,7 +15,7 @@ public class StaffChatListener extends PixliesIncomingMessageListener {
     }
 
     @Override
-    public void onReceive(@NotNull String channel, @NotNull Player player, DataInputStream stream) throws IOException {
+    public void onReceive(@NotNull String channel, @NotNull Player player, @NotNull DataInputStream stream) throws IOException {
 
         String head = stream.readUTF();
         if (!head.equals("staffchat")) return;
