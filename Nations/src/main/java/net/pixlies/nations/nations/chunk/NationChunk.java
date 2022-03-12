@@ -75,6 +75,11 @@ public class NationChunk {
         table.put(world, rst);
     }
 
+    /**
+     * Grant a NationProfile access to a chunk
+     * @see NationProfile
+     * @param profile the profile to allow access to
+     */
     public void grantAccess(@NotNull NationProfile profile) {
         Nation nation = Nation.getFromId(nationId);
         if (nation == null)
@@ -91,6 +96,11 @@ public class NationChunk {
         claim(false);
     }
 
+    /**
+     * Revoke a NationProfile access to a chunk
+     * @see NationProfile
+     * @param profile the profile to revoke access to
+     */
     public void revokeAccess(@NotNull NationProfile profile) {
         JsonObject data = this.getJsonData();
         if (!data.has("accessors")) return;
@@ -114,6 +124,11 @@ public class NationChunk {
         claim(false);
     }
 
+    /**
+     * Check if a NationProfile has access to a chunk
+     * @see NationProfile
+     * @param profile the profile to check access
+     */
     public boolean hasAccess(@NotNull NationProfile profile) {
         for (NationProfile toCheck : this.getAccessors()) {
             if (profile.getUniqueId().equals(toCheck.getUniqueId())) {
@@ -123,6 +138,11 @@ public class NationChunk {
         return false;
     }
 
+    /**
+     * Gets all the accessors in a chunk
+     * @see NationProfile
+     * @return a list of all chunk accessors
+     */
     public @NotNull List<NationProfile> getAccessors() {
         List<NationProfile> returner = new ArrayList<>();
 
