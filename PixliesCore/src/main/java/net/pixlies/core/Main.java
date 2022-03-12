@@ -8,7 +8,6 @@ import net.pixlies.core.database.MongoManager;
 import net.pixlies.core.handlers.HandlerManager;
 import net.pixlies.core.handlers.RegisterHandlerManager;
 import net.pixlies.core.handlers.impl.ScoreboardHandler;
-import net.pixlies.core.lib.io.github.thatkawaiisam.assemble.Assemble;
 import net.pixlies.core.listeners.ListenerManager;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.modules.ModuleManager;
@@ -17,7 +16,6 @@ import net.pixlies.core.pluginmessaging.PluginMessageRegisterManager;
 import net.pixlies.core.runnables.RunnableManager;
 import net.pixlies.core.runnables.RunnableRegisterManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scoreboard.Scoreboard;
 
 import java.io.File;
 
@@ -43,9 +41,6 @@ public class Main extends JavaPlugin {
     @Getter private Config warpsConfig;
 
     @Getter private boolean lobbyServer;
-
-    @Getter private Assemble assemble = null;
-    @Getter private Scoreboard emptyScoreboard;
 
     private RunnableRegisterManager runnableRegisterManager;
 
@@ -106,7 +101,7 @@ public class Main extends JavaPlugin {
         runnableRegisterManager.runAll();
 
         // SCOREBOARD
-        // handlerManager.getHandler(ScoreboardHandler.class).load();
+        handlerManager.getHandler(ScoreboardHandler.class).load();
 
     }
 

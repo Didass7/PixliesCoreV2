@@ -14,15 +14,14 @@ public class ScoreboardHandler implements Handler {
     private static final Main instance = Main.getInstance();
 
     @Getter private Assemble assemble;
-    @Getter private Scoreboard emptyScoreboard;
-    private final boolean enabled = Main.getInstance().getConfig().getBoolean("scoreboard.enabled", true);
+    @Getter private final Scoreboard emptyScoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+    private final boolean enabled = Main.getInstance().getConfig().getBoolean("scoreboard.enabled", false);
 
     public void load() {
         if (!enabled) return;
         assemble = new Assemble(instance, new ScoreboardAdapter());
         assemble.setTicks(1);
         assemble.setAssembleStyle(AssembleStyle.MODERN);
-        emptyScoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
     }
 
     public void unload() {
