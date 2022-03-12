@@ -2,15 +2,11 @@ package net.pixlies.core.pluginmessaging.impl.staff;
 
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.pluginmessaging.PixliesIncomingMessageListener;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.util.UUID;
 
 public class StaffChatListener extends PixliesIncomingMessageListener {
 
@@ -19,28 +15,15 @@ public class StaffChatListener extends PixliesIncomingMessageListener {
     }
 
     @Override
-    public void onReceive(@NotNull String channel, @NotNull Player player, byte[] message) {
+    public void onReceive(@NotNull String channel, @NotNull Player player, DataInputStream stream) throws IOException {
 
-        ByteArrayInputStream stream = new ByteArrayInputStream(message);
-        DataInputStream in = new DataInputStream(stream);
+        String head = stream.readUTF();
+        if (!head.equals("staffchat")) return;
 
-        try {
+        String name = stream.readUTF();
+        String m = stream.readUTF(); // message
 
-            String head = in.readUTF();
-            if (!head.equals("staffchat")) return;
-
-            String u = in.readUTF();
-            UUID uuid = UUID.fromString(u);
-
-            String m = in.readUTF(); // message
-
-            OfflinePlayer p = Bukkit.getOfflinePlayer(uuid);
-
-            Lang.STAFFCHAT_FORMAT.broadcastPermission("pixlies.staff.staffchat", "%PLAYER%;" + p.getName(), "%MESSAGE%;" + m);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Lang.STAFFCHAT_FORMAT.broadcastPermission("pixlies.staff.staffchat", "%PLAYER%;" + name, "%MESSAGE%;" + m);
 
     }
 

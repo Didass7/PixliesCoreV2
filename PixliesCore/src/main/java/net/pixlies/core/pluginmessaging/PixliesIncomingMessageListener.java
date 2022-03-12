@@ -9,6 +9,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+import java.io.IOException;
+
 /**
  * Abstract class for your plugin messaging needs
  * @author Dynmie
@@ -23,15 +27,40 @@ public abstract class PixliesIncomingMessageListener implements PluginMessageLis
     @Override
     public void onPluginMessageReceived(@NotNull String channel, @NotNull Player player, byte[] message) {
         if (async) {
-            Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> onReceive(channel, player, message));
+            Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
+                try {
+                    onReceive(channel, player, message);
+                    ByteArrayInputStream stream = new ByteArrayInputStream(message);
+                    DataInputStream in = new DataInputStream(stream);
+                    onReceive(channel, player, in);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
         } else {
-            onReceive(channel, player, message);
+            try {
+                onReceive(channel, player, message);
+                ByteArrayInputStream stream = new ByteArrayInputStream(message);
+                DataInputStream in = new DataInputStream(stream);
+                onReceive(channel, player, in);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     /**
      * @see PluginMessageListener#onPluginMessageReceived(String, Player, byte[])
      */
-    public abstract void onReceive(@NotNull String channel, @NotNull Player player, byte[] message);
+    public void onReceive(@NotNull String channel, @NotNull Player player, byte[] message) throws IOException {
+
+    }
+
+    /**
+     * @see PluginMessageListener#onPluginMessageReceived(String, Player, byte[])
+     */
+    public void onReceive(@NotNull String channel, @NotNull Player player, DataInputStream stream) throws IOException {
+
+    }
 
 }

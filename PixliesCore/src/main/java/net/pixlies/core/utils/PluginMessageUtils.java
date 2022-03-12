@@ -11,6 +11,9 @@ public final class PluginMessageUtils {
 
     private PluginMessageUtils() {}
 
+    /**
+     * Easy way to send a plugin message
+     */
     public static void sendMessage(Player player, String channel, DataOutput output) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         DataOutputStream out = new DataOutputStream(stream);
