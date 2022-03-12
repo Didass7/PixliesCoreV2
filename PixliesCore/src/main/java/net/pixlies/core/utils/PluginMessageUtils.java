@@ -2,6 +2,7 @@ package net.pixlies.core.utils;
 
 import net.pixlies.core.Main;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -13,8 +14,11 @@ public final class PluginMessageUtils {
 
     /**
      * Easy way to send a plugin message
+     * @param player the player to send the message through.
+     * @param channel the channel to send the message through.
+     * @param output use a lambda
      */
-    public static void sendMessage(Player player, String channel, DataOutput output) {
+    public static void sendMessage(@NotNull Player player, @NotNull String channel, @NotNull DataOutput output) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         DataOutputStream out = new DataOutputStream(stream);
 
