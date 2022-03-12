@@ -10,6 +10,7 @@ import net.pixlies.core.utils.EventUtils;
 import net.pixlies.nations.Nations;
 import net.pixlies.nations.events.impl.NationDisbandEvent;
 import net.pixlies.nations.interfaces.NationProfile;
+import net.pixlies.nations.interfaces.profile.ChatType;
 import net.pixlies.nations.nations.chunk.NationChunk;
 import net.pixlies.nations.nations.customization.GovernmentType;
 import net.pixlies.nations.nations.customization.Ideology;
@@ -46,6 +47,7 @@ public class Nation {
     @Id private @Getter @Setter String nationsId;
     private @Getter @Setter String name;
     private @Getter @Setter String description;
+    private @Getter @Setter String motd;
     private String leaderUUID;
     private @Getter @Setter long created;
 
@@ -81,6 +83,7 @@ public class Nation {
     public Nation(@NotNull String nationsId,
                   @NotNull String name,
                   @NotNull String description,
+                  @NotNull String motd,
                   @NotNull UUID leaderUUID,
                   long created,
                   double politicalPower,
@@ -96,6 +99,7 @@ public class Nation {
         this.nationsId = nationsId;
         this.name = name;
         this.description = description;
+        this.motd = motd;
         this.leaderUUID = leaderUUID.toString();
         this.created = created;
         this.politicalPower = politicalPower;
@@ -122,6 +126,7 @@ public class Nation {
                 nationId,
                 name,
                 NationUtils.randomDesc(),
+                "",
                 leaderUUID,
                 System.currentTimeMillis(),
                 0.0,
@@ -185,6 +190,13 @@ public class Nation {
         return returner;
     }
 
+    public boolean hasMotd() {
+        if (motd == null) {
+            return false;
+        }
+        return !motd.equals("");
+    }
+
     // -------------------------------------------------------------------------------------------------
     //                                            METHODS
     // -------------------------------------------------------------------------------------------------
@@ -240,6 +252,7 @@ public class Nation {
         NationProfile nProfile = new NationProfile(
                 user.getUuid(),
                 nationsId,
+                ChatType.PUBLIC.name(),
                 rankToAddIn
         );
         user.getExtras().put("nationsProfile", nProfile);

@@ -4,8 +4,11 @@ import dev.morphia.annotations.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import net.pixlies.core.entity.user.User;
+import net.pixlies.nations.interfaces.profile.ChatType;
 import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.ranks.NationRank;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
@@ -31,6 +34,7 @@ public class NationProfile {
     // Nations
     private String nationId;
     private String nationRank;
+    private String profileChatType;
 
     // -------------------------------------------------------------------------------------------------
     //                                            METHODS
@@ -44,6 +48,22 @@ public class NationProfile {
 
     public NationRank getRank() {
         return Nation.getFromId(nationId).getRanks().get(nationRank);
+    }
+
+    /**
+     * Get the nation chat type
+     * @return nation chat type
+     */
+    public ChatType getChatType() {
+        return ChatType.valueOf(profileChatType);
+    }
+
+    public void setChatType(ChatType chatType) {
+        this.profileChatType = chatType.name();
+    }
+
+    public Nation getNation() {
+        return Nation.getFromId(nationId);
     }
 
     /**
@@ -83,7 +103,7 @@ public class NationProfile {
      * @param user Expects a valid "User" object of the player
      * @see User
      */
-    public static boolean isInNation(User user) {
+    public static boolean isInNation(@NotNull User user) {
         return user.getExtras().containsKey("nationsProfile");
     }
 
@@ -93,7 +113,7 @@ public class NationProfile {
      * @param user Expects a valid "User" object of the player
      * @return If user is not in a nation: null; If he is: A valid NationProfile object
      */
-    public static NationProfile get(User user) {
+    public static @Nullable NationProfile get(@NotNull User user) {
         if (!isInNation(user)) return null;
         return (NationProfile) user.getExtras().get("nationsProfile");
     }
