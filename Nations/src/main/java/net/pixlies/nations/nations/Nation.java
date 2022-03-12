@@ -2,9 +2,7 @@ package net.pixlies.nations.nations;
 
 import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.events.PixliesCancellableEvent;
 import net.pixlies.core.localization.Lang;
@@ -15,16 +13,15 @@ import net.pixlies.nations.interfaces.NationProfile;
 import net.pixlies.nations.nations.chunk.NationChunk;
 import net.pixlies.nations.nations.customization.GovernmentType;
 import net.pixlies.nations.nations.customization.Ideology;
+import net.pixlies.nations.nations.customization.NationConstitution;
 import net.pixlies.nations.nations.customization.Religion;
 import net.pixlies.nations.nations.ranks.NationRank;
+import net.pixlies.nations.utils.NationUtils;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Nation Class ready to be put in MongoDB because of @Entity
@@ -33,6 +30,8 @@ import java.util.UUID;
  * @author Dynmie
  * @author vPrototype_
  */
+@ToString
+@EqualsAndHashCode
 @AllArgsConstructor
 @Entity("nations")
 public class Nation {
@@ -79,20 +78,20 @@ public class Nation {
     //                                         CONSTRUCTOR
     // -------------------------------------------------------------------------------------------------
 
-    public Nation(String nationsId,
-                  String name,
-                  String description,
-                  UUID leaderUUID,
+    public Nation(@NotNull String nationsId,
+                  @NotNull String name,
+                  @NotNull String description,
+                  @NotNull UUID leaderUUID,
                   long created,
                   double politicalPower,
                   double money,
-                  GovernmentType govType,
-                  Ideology ideology,
-                  Religion religion,
-                  List<Integer> constitutionValues,
-                  Map<String, NationRank> ranks,
-                  List<UUID> memberUUIDs,
-                  List<NationChunk> claims
+                  @NotNull GovernmentType govType,
+                  @NotNull Ideology ideology,
+                  @NotNull Religion religion,
+                  @NotNull List<Integer> constitutionValues,
+                  @NotNull Map<String, NationRank> ranks,
+                  @NotNull List<UUID> memberUUIDs,
+                  @NotNull List<NationChunk> claims
     ) {
         this.nationsId = nationsId;
         this.name = name;
@@ -110,6 +109,35 @@ public class Nation {
         memberUUIDs.forEach(uuid -> membersStrings.add(uuid.toString()));
         this.memberUUIDs = membersStrings;
         this.claims = claims;
+    }
+
+    /**
+     * Creates a nation with default settings.
+     * @param nationId The nation ID
+     * @param name the name of the nation
+     * @param leaderUUID the leader's UUID
+     */
+    public Nation(@NotNull String nationId, @NotNull String name, @NotNull UUID leaderUUID) {
+        this(
+                nationId,
+                name,
+                NationUtils.randomDesc(),
+                leaderUUID,
+                System.currentTimeMillis(),
+                0.0,
+                0.0,
+                GovernmentType.UNITARY,
+                Ideology.TRIBAL,
+                Religion.SECULAR,
+                new ArrayList<>(){{
+                    for (NationConstitution nc : NationConstitution.values()) {
+                        add(nc.getDefaultValue());
+                    }
+                }},
+                new HashMap<>(),
+                new ArrayList<>(),
+                new ArrayList<>()
+        );
     }
 
     // -------------------------------------------------------------------------------------------------
@@ -161,14 +189,27 @@ public class Nation {
     //                                            METHODS
     // -------------------------------------------------------------------------------------------------
 
-    public Nation create() {
+    public Nation create(@Nullable CommandSender sender) {
+        ranks.clear();
         ranks.put("leader", NationRank.leader());
         ranks.put("admin", NationRank.admin());
         ranks.put("member", NationRank.member());
         ranks.put("newbie", NationRank.newbie());
 
+        if (sender != null) {
+            Lang.NATION_FORMED.broadcast("%NATION%;" + this.getName(), "%PLAYER%;" + sender.getName());
+        }
+
         save();
         return this;
+    }
+
+    /**
+     * Silently create a nation.
+     * @return the nation
+     */
+    public Nation create() {
+        return this.create(null);
     }
 
     public void save() {
@@ -281,3 +322,5 @@ public class Nation {
     }
 
 }
+
+

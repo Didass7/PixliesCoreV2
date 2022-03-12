@@ -9,19 +9,11 @@ import net.pixlies.nations.Nations;
 import net.pixlies.nations.handlers.impl.NationDisbandHandler;
 import net.pixlies.nations.interfaces.NationProfile;
 import net.pixlies.nations.nations.Nation;
-import net.pixlies.nations.nations.customization.GovernmentType;
-import net.pixlies.nations.nations.customization.Ideology;
-import net.pixlies.nations.nations.customization.NationConstitution;
-import net.pixlies.nations.nations.customization.Religion;
 import net.pixlies.nations.nations.ranks.NationRank;
 import net.pixlies.nations.utils.NationUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 @CommandAlias("nation|nations|n|faction|factions|country|countries")
 public class NationCommand extends BaseCommand {
@@ -66,45 +58,30 @@ public class NationCommand extends BaseCommand {
             return;
         }
 
-        final List<Integer> ncValues = new ArrayList<>();
-        for (NationConstitution nc : NationConstitution.values()) {
-            ncValues.add(nc.getDefaultValue());
-        }
 
-        Nation nation = new Nation(
-                id,
-                name,
-                NationUtils.randomDesc(),
-                player.getUniqueId(),
-                System.currentTimeMillis(),
-                0.0,
-                0.0,
-                GovernmentType.UNITARY,
-                Ideology.TRIBAL,
-                Religion.SECULAR,
-                ncValues,
-                new HashMap<>(),
-                new ArrayList<>(),
-                new ArrayList<>()
-        );
-        nation.create();
-        Lang.NATION_FORMED.broadcast("%NATION%;" + nation.getName(), "%PLAYER%;" + player.getName());
+        Nation nation = new Nation(id, name, player.getUniqueId());
+        nation.create(player);
 
         nation.addMember(user, NationRank.leader().getName());
 
         // TODO: open nation creation menu
-        player.performCommand("nation menu");
+        player.performCommand("nation gui");
     }
 
     @Subcommand("rename")
     @Description("Rename a nation")
     public void onRename(CommandSender sender, String name, @Optional String nationName) {
+        // If sender is player
         if (sender instanceof Player player) {
             User user = User.get(player.getUniqueId());
             NationProfile profile = NationProfile.get(user);
 
+            Nation nation = Nation.getFromName(nationName);
+
+            // If the player just typed /disband with no extra args
             if (nationName == null || nationName.isEmpty()) {
-                if (profile == null) {
+
+                if (profile == null || nation == null) {
                     Lang.NOT_IN_NATION.send(player);
                     return;
                 }
@@ -117,16 +94,13 @@ public class NationCommand extends BaseCommand {
                     return;
                 }
 
-                Nation nation = Nation.getFromId(profile.getNationId());
-
                 if (!NationUtils.nameValid(name)) {
                     Lang.NATION_NAME_INVALID.send(sender);
                     return;
                 }
 
-                nation.rename(sender, name);
             } else {
-                Nation nation = Nation.getFromName(nationName);
+                // The player typed /disband <nation>
 
                 if (nation == null) {
                     Lang.NATION_DOES_NOT_EXIST.send(player);
@@ -140,10 +114,11 @@ public class NationCommand extends BaseCommand {
                     return;
                 }
 
-                nation.rename(sender, name);
             }
+            nation.rename(sender, name);
 
         } else {
+            // If sender is not player
             if (nationName == null || nationName.isEmpty()) {
                 Lang.NATION_MISSING_ARG.send(sender, "%X%;Nation Name");
                 return;
@@ -171,29 +146,34 @@ public class NationCommand extends BaseCommand {
             User user = User.get(player.getUniqueId());
             NationProfile profile = NationProfile.get(user);
 
+            boolean staffCondition = user.getSettings().isBypassing() && player.hasPermission("nations.staff.forcedisband");
+            boolean playerCondition = profile != null ? profile.getNationRank().equals(NationRank.leader().getName()) : staffCondition;
+
             if (nationName == null || nationName.isEmpty()) {
                 if (profile == null) {
                     Lang.NATION_MISSING_ARG.send(player, "%X%;Nation Name");
                     return;
-                } else {
-                    if (Nation.getFromName(nationName) == null) {
-                        Lang.NATION_DOES_NOT_EXIST.send(player);
-                        return;
-                    }
-                    nationName = profile.getNationId();
+                }
+                if (Nation.getFromName(nationName) == null) {
+                    Lang.NATION_DOES_NOT_EXIST.send(player);
+                    return;
                 }
             }
 
-            boolean staffCondition = user.getSettings().isBypassing() && player.hasPermission("nations.staff.forcedisband");
-            boolean playerCondition = profile != null ? profile.getNationRank().equals(NationRank.leader().getName()) : staffCondition;
-
-            if (staffCondition || playerCondition) {
-                disbandHandler.getConfirmations().put(player.getUniqueId(), nationName);
-                Lang.NATION_DISBAND_CONFIRM.send(player, "%NATION%;" +
-                        Nation.getFromId(nationName).getName());
-            } else {
-                Lang.NATION_NO_PERMISSION.send(player);
+            Nation nation = Nation.getFromName(nationName);
+            if (nation == null) {
+                Lang.NATION_DOES_NOT_EXIST.send(player);
+                return;
             }
+
+            if (!staffCondition && !playerCondition) {
+                Lang.NATION_NO_PERMISSION.send(player);
+                return;
+            }
+
+            disbandHandler.getConfirmations().put(player.getUniqueId(), nationName);
+            Lang.NATION_DISBAND_CONFIRM.send(player, "%NATION%;" + nation.getName());
+
         } else {
             if (nationName == null || nationName.isEmpty()) {
                 Lang.NATION_MISSING_ARG.send(sender, "%X%;Nation Name");
