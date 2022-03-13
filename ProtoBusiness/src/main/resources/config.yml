@@ -1,5 +1,3 @@
 # Configuration for ProtoBusiness
 
 market:
-  # Represents the time in ticks which the Market will process orders
-  refreshDelay: 10

@@ -168,6 +168,8 @@ public class MarketCommand extends BaseCommand {
         help.showHelp();
     }
 
+    // ----------------------------------------------------------------------------------------------------
+
     @AllArgsConstructor
     public enum Selection {
         MINERALS(Material.DIAMOND_PICKAXE),
