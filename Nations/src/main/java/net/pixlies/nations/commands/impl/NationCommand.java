@@ -27,6 +27,9 @@ public class NationCommand extends BaseCommand {
         help.showHelp();
     }
 
+    // -------------------------------------------------------------------------------------------------
+    //                                         /n create
+    // -------------------------------------------------------------------------------------------------
     @Subcommand("create")
     @Description("Create a nation")
     public void onCreate(Player player, String name) {
@@ -68,6 +71,9 @@ public class NationCommand extends BaseCommand {
         player.performCommand("nation gui");
     }
 
+    // -------------------------------------------------------------------------------------------------
+    //                                         /n rename
+    // -------------------------------------------------------------------------------------------------
     @Subcommand("rename")
     @Description("Rename a nation")
     public void onRename(CommandSender sender, String name, @Optional String nationName) {
@@ -139,6 +145,9 @@ public class NationCommand extends BaseCommand {
         }
     }
 
+    // -------------------------------------------------------------------------------------------------
+    //                                         /n disband
+    // -------------------------------------------------------------------------------------------------
     @Subcommand("disband")
     @Description("Disband a nation")
     public void onDisband(CommandSender sender, @Optional String nationName) {
@@ -189,6 +198,9 @@ public class NationCommand extends BaseCommand {
         }
     }
 
+    // -------------------------------------------------------------------------------------------------
+    //                                         /n disband confirm
+    // -------------------------------------------------------------------------------------------------
     @Subcommand("disband confirm")
     @Private
     @Description("Disband a nation confirm")
@@ -202,6 +214,7 @@ public class NationCommand extends BaseCommand {
         if (staffCondition || playerCondition) {
             if (disbandHandler.getConfirmations().containsKey(player.getUniqueId())) {
                 Nation nation = Nation.getFromId(disbandHandler.getConfirmations().get(player.getUniqueId()));
+                if (nation == null) return;
                 nation.disband(player);
             } else {
                 Lang.NATION_NO_NATION_TO_DISBAND.send(player);
@@ -211,6 +224,9 @@ public class NationCommand extends BaseCommand {
         }
     }
 
+    // -------------------------------------------------------------------------------------------------
+    //                                         /n disband cancel
+    // -------------------------------------------------------------------------------------------------
     @Subcommand("disband cancel")
     @Private
     @Description("Cancel a disbandment of a nation")
