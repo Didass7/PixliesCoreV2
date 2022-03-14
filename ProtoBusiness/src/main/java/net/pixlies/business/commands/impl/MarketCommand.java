@@ -8,7 +8,6 @@ import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
-import com.github.stefvanschie.inventoryframework.pane.component.ToggleButton;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
@@ -21,9 +20,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @CommandAlias("market|m|nasdaq|nyse|snp500")
 @CommandPermission("pixlies.business.market")
@@ -50,54 +46,50 @@ public class MarketCommand extends BaseCommand {
 
         // Selection pane
         StaticPane selectionPane = new StaticPane(0, 0, 1, 6);
-        List<ToggleButton> selectionButtons = new ArrayList<>();
+        final Selection[] viewing = { Selection.MINERALS };
+        String selected = "§aYou are viewing this tab!";
+        String notSelected = "§eClick to view this tab!";
         for (Selection s : Selection.values()) {
+
+            // ITEM STUFF
+
             String name = StringUtils.capitalize(s.name().toLowerCase().replace("_", " "));
-            Material material = s.getMaterial();
-
-            ItemBuilder builder = new ItemBuilder(material).addLoreLine(" ").addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-            ToggleButton button = new ToggleButton(0, s.ordinal(), 1, 1);
-            selectionButtons.add(button);
-
-            String viewing = "§aYou are viewing this tab!";
-            String notViewing = "§eClick to view this tab!";
-
-            if (s == Selection.MINERALS) {
-                button.toggle();
-                builder.setDisplayName("§b" + name).addLoreLine(viewing).setGlow(true);
-            } else builder.setDisplayName("§7" + name).addLoreLine(notViewing).setGlow(false);
-
+            ItemBuilder builder = new ItemBuilder(s.getMaterial())
+                    .setDisplayName("§b" + name)
+                    .addLoreLine(" ")
+                    .addLoreLine(selected)
+                    .setGlow(true)
+                    .addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
             GuiItem item = new GuiItem(builder.build());
+
+            // ON ITEM CLICK
+
             item.setAction(event -> {
-                if (button.isEnabled()) return;
 
-                // Disables the other enabled button
-                for (ToggleButton b : selectionButtons) {
-                    if (b.isEnabled()) {
-                        selectionButtons.remove(b);
-                        b.toggle();
-                        selectionButtons.add(b);
-                        builder.setDisplayName("§7" + name);
-                        builder.removeLoreLine(viewing);
-                        builder.addLoreLine(notViewing);
-                        builder.setGlow(false);
-                        // selectionPane.removeItem(0, b.getY());
-                        selectionPane.addItem(new GuiItem(builder.build()), 0, s.ordinal());
-                    }
-                }
+                if (s == viewing[0]) return;
 
-                // GUI shenanigans
-                button.toggle();
-                builder.setDisplayName("§b" + name);
-                builder.removeLoreLine(notViewing);
-                builder.addLoreLine(viewing);
-                builder.setGlow(true);
-                // selectionPane.removeItem(0, s.ordinal());
-                selectionPane.addItem(new GuiItem(builder.build()), 0, button.getY());
+                // DISABLING THE PREVIOUS BUTTON
 
-                // TODO switch to the correct market page
+                builder.setDisplayName("§7" + name)
+                        .removeLoreLine(selected)
+                        .addLoreLine(notSelected)
+                        .setGlow(false);
+                selectionPane.addItem(new GuiItem(builder.build()), 0, s.ordinal());
+
+                // ENABLING THE CLICKED BUTTON
+
+                builder.setDisplayName("§b" + name)
+                        .removeLoreLine(notSelected)
+                        .addLoreLine(selected)
+                        .setGlow(true);
+                selectionPane.addItem(new GuiItem(builder.build()), 0, Math.floorDiv(event.getSlot(), 9));
+
+                // TODO SHOWING THE MARKET PANE
+
+                viewing[0] = s;
 
                 gui.update();
+
             });
 
             selectionPane.addItem(item, 0, s.ordinal());
