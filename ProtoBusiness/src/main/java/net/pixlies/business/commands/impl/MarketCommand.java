@@ -12,7 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.handlers.impl.MarketHandler;
-import net.pixlies.core.entity.user.User;
+import net.pixlies.business.market.OrderItem;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.utils.ItemBuilder;
 import org.apache.commons.lang.StringUtils;
@@ -20,6 +20,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.concurrent.atomic.AtomicReference;
 
 @CommandAlias("market|m|nasdaq|nyse|snp500")
 @CommandPermission("pixlies.business.market")
@@ -31,24 +33,27 @@ public class MarketCommand extends BaseCommand {
     @Default
     @Description("Opens the market menu")
     public void onMarket(Player player) {
-        User user = User.get(player.getUniqueId());
+        final Selection[] viewing = { Selection.MINERALS };
 
-        // Create GUI
+        // CREATE GUI + BACKGROUND
+
         ChestGui gui = new ChestGui(6, "Market");
-
-        // Disable clicks
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
-        // Background
         OutlinePane background = new OutlinePane(0, 0, 9, 6, Pane.Priority.LOWEST);
         background.addItem(new GuiItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE)));
         background.setRepeat(true);
 
-        // Selection pane
+        // MARKET PANE
+
+        AtomicReference<StaticPane> marketPane = new AtomicReference<>(getMarketPane(viewing[0]));
+
+        // SELECTION PANE
+
         StaticPane selectionPane = new StaticPane(0, 0, 1, 6);
-        final Selection[] viewing = { Selection.MINERALS };
         String selected = "§aYou are viewing this tab!";
         String notSelected = "§eClick to view this tab!";
+
         for (Selection s : Selection.values()) {
 
             // ITEM STUFF
@@ -84,32 +89,29 @@ public class MarketCommand extends BaseCommand {
                         .setGlow(true);
                 selectionPane.addItem(new GuiItem(builder.build()), 0, Math.floorDiv(event.getSlot(), 9));
 
-                // TODO SHOWING THE MARKET PANE
+                // SHOWING THE NEW PANE
 
+                marketPane.set(getMarketPane(viewing[0]));
                 viewing[0] = s;
-
                 gui.update();
 
             });
 
             selectionPane.addItem(item, 0, s.ordinal());
+
         }
 
-        // Market pane
-        StaticPane marketPane = new StaticPane(2, 0, 7, 5);
-        // TODO market pane
+        // TODO: BOTTOM BAR PANE
 
-        // BottomBar pane
         StaticPane bottomBarPane = new StaticPane(2, 5, 4, 1);
-        // TODO bottom bar pane
 
-        // Add panes
+        // ADD PANES + SHOW GUI
+
         gui.addPane(background);
+        gui.addPane(marketPane.get());
         gui.addPane(selectionPane);
-        gui.addPane(marketPane);
         gui.addPane(bottomBarPane);
 
-        // Show GUI
         gui.show(player);
         gui.update();
     }
@@ -161,6 +163,22 @@ public class MarketCommand extends BaseCommand {
     }
 
     // ----------------------------------------------------------------------------------------------------
+
+    private StaticPane getMarketPane(Selection selection) {
+        StaticPane pane = new StaticPane(2, 0, 7, 5);
+        for (OrderItem item : OrderItem.getItemsOfPage(selection.ordinal())) {
+            String name = StringUtils.capitalize(item.name().toLowerCase().replace("_", " "));
+            ItemBuilder builder = new ItemBuilder(item.getMaterial())
+                    .setDisplayName("§b" + name)
+                    .addLoreLine("§7Lowest buy offer: §6" + "$") // TODO lowest buy price
+                    .addLoreLine("§7Lowest sell offer: §6" + "$") // TODO lowest sell price
+                    .addLoreLine(" ")
+                    .addLoreLine("§eClick to buy or sell");
+            // TODO on item click
+            pane.addItem(new GuiItem(builder.build()), item.getPosX(), item.getPosY());
+        }
+        return pane;
+    }
 
     @AllArgsConstructor
     public enum Selection {
