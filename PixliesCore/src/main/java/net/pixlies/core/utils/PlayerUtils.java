@@ -1,16 +1,17 @@
 package net.pixlies.core.utils;
 
 import net.pixlies.core.Main;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public final class PlayerUtils {
 
@@ -47,6 +48,14 @@ public final class PlayerUtils {
         player.setArrowsStuck(0);
         player.setRemainingAir(player.getMaximumAir());
         player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
+    }
+
+    public static ItemStack getSkull(UUID uuid) {
+        ItemStack skull = new ItemStack(Material.SKELETON_SKULL, 1);
+        SkullMeta meta = (SkullMeta) skull.getItemMeta();
+        meta.setOwningPlayer(Bukkit.getPlayer(uuid));
+        skull.setItemMeta(meta);
+        return skull;
     }
 
 }

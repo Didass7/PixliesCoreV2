@@ -13,8 +13,11 @@ import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.business.market.OrderItem;
+import net.pixlies.core.entity.user.User;
+import net.pixlies.core.entity.user.data.UserStats;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.utils.ItemBuilder;
+import net.pixlies.core.utils.PlayerUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -33,6 +36,8 @@ public class MarketCommand extends BaseCommand {
     @Default
     @Description("Opens the market menu")
     public void onMarket(Player player) {
+        User user = User.get(player.getUniqueId());
+        UserStats stats = user.getStats();
         final Selection[] viewing = { Selection.MINERALS };
 
         // CREATE GUI + BACKGROUND
@@ -101,9 +106,43 @@ public class MarketCommand extends BaseCommand {
 
         }
 
-        // TODO: BOTTOM BAR PANE
+        // BOTTOM BAR PANE
 
         StaticPane bottomBarPane = new StaticPane(2, 5, 4, 1);
+
+        // PROFILE STATS
+
+        ItemBuilder myProfileBuilder = new ItemBuilder(PlayerUtils.getSkull(player.getUniqueId()))
+                .setDisplayName("§6" + player.getName() + "'s stats")
+                .addLoreLine(" ")
+                .addLoreLine("§7Buy orders made: §b" + stats.getBuyOrdersMade())
+                .addLoreLine("§7Sell orders made: §b" + stats.getSellOrdersMade())
+                .addLoreLine("§7Money spent: §b" + stats.getMoneySpent())
+                .addLoreLine("§7Money gained: §b" + stats.getMoneyGained());
+        GuiItem myProfile = new GuiItem(myProfileBuilder.build());
+        selectionPane.addItem(myProfile, 3, 5);
+
+        // MARKET STATS
+
+        ItemBuilder marketStatsBuilder = new ItemBuilder(new ItemStack(Material.EMERALD))
+                .setDisplayName("§aMarket stats")
+                .addLoreLine(" ")
+                .addLoreLine("§7Buy orders made: §a" + instance.getStats().get("market.buyOrders", 0))
+                .addLoreLine("§7Sell orders made: §a" + instance.getStats().get("market.sellOrders", 0))
+                .addLoreLine("§7Money spent: §a" + instance.getStats().get("market.moneySpent", 0))
+                .addLoreLine("§7Money gained: §a" + instance.getStats().get("market.moneyGained", 0));
+        GuiItem marketStats = new GuiItem(marketStatsBuilder.build());
+        selectionPane.addItem(marketStats, 4, 5);
+
+        // MY ORDERS
+
+        ItemBuilder myOrdersBuilder = new ItemBuilder(new ItemStack(Material.BOOK))
+                .setDisplayName("§bMy orders")
+                .addLoreLine(" ")
+                .addLoreLine("§eClick to view your orders!");
+        GuiItem myOrders = new GuiItem(myOrdersBuilder.build());
+        myOrders.setAction(event -> openOrdersPane(player));
+        selectionPane.addItem(myOrders, 3, 5);
 
         // ADD PANES + SHOW GUI
 
@@ -179,6 +218,14 @@ public class MarketCommand extends BaseCommand {
         }
         return pane;
     }
+
+    // ----------------------------------------------------------------------------------------------------
+
+    private void openOrdersPane(Player player) {
+        // TODO
+    }
+
+    // ----------------------------------------------------------------------------------------------------
 
     @AllArgsConstructor
     public enum Selection {
