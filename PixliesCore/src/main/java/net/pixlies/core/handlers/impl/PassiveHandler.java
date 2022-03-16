@@ -1,14 +1,20 @@
 package net.pixlies.core.handlers.impl;
 
+import lombok.Getter;
 import lombok.val;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.handlers.Handler;
+import org.bukkit.block.Container;
 import org.bukkit.entity.Player;
+
+import java.util.*;
 
 public class PassiveHandler implements Handler {
 
     private static final Main instance = Main.getInstance();
+
+    private final @Getter Map<UUID, Container> silentChestPlayers = new HashMap<>();
 
     public void passive(Player player) {
 
