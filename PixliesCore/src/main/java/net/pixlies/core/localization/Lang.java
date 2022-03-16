@@ -127,6 +127,8 @@ public enum Lang {
     STAFFCHAT_DISABLED(Lang.STAFF, new HashMap<>()),
     STAFFCHAT_FORMAT(Lang.STAFF, new HashMap<>()),
 
+    STAFF_TIME_SET(Lang.STAFF, new HashMap<>()),
+
     // TELEPORTATION
     TPHERE_MESSAGE_SENDER(Lang.PIXLIES, new HashMap<>()),
     TPHERE_MESSAGE_TARGET(Lang.PIXLIES, new HashMap<>()),

@@ -81,6 +81,7 @@ public class PixliesCommandManager {
         register(new SpeedCommand(), false);
         register(new BypassCommand(), false);
         register(new StaffChatCommand(), false);
+        register(new TimeCommand(), false);
 
         // DEBUG
         register(new ModulesCommand(), false);

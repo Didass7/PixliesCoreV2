@@ -125,6 +125,8 @@ STAFFCHAT_ENABLED: "§7Staffchat is now §aenabled§7."
 STAFFCHAT_DISABLED: "§7Staffchat is now §cdisabled§7."
 STAFFCHAT_FORMAT: "§6%PLAYER%§8: §7%MESSAGE%"
 
+STAFF_TIME_SET: "§7The time has been set to §6%TIME%§7 in §6%WORLD%§7."
+
 # MODERATION
 MODERATION_GLOBAL_PVP_ON: ""
 MODERATION_GLOBAL_PVP_OFF: ""
