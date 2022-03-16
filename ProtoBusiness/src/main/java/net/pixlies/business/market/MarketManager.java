@@ -3,11 +3,10 @@ package net.pixlies.business.market;
 import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.core.entity.user.User;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Market manager
@@ -83,6 +82,26 @@ public class MarketManager {
         }
 
         // TODO reset money
+    }
+
+    public Map<Material, Order> getPlayerBuyOrders(UUID uuid) {
+        Map<Material, Order> map = new HashMap<>();
+        for (OrderBook book : books.values()) {
+            for (Order order : book.getBuyOrders()) {
+                if (order.getPlayerUUID() == uuid) map.put(book.getItem().getMaterial(), order);
+            }
+        }
+        return map;
+    }
+
+    public Map<Material, Order> getPlayerSellOrders(UUID uuid) {
+        Map<Material, Order> map = new HashMap<>();
+        for (OrderBook book : books.values()) {
+            for (Order order : book.getSellOrders()) {
+                if (order.getPlayerUUID() == uuid) map.put(book.getItem().getMaterial(), order);
+            }
+        }
+        return map;
     }
 
 }
