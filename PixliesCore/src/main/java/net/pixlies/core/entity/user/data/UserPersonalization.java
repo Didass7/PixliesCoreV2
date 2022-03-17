@@ -26,7 +26,13 @@ public class UserPersonalization {
      * @return The scoreboard type of the user.
      */
     public @Nullable ScoreboardType getScoreboardTypeAsEnum() {
-        return ScoreboardType.valueOf(scoreboardType);
+        if (scoreboardType == null) return null;
+        try {
+            return ScoreboardType.valueOf(scoreboardType);
+        } catch (IllegalArgumentException ignored) {
+
+        }
+        return null;
     }
 
     public static UserPersonalization getDefaults() {
