@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.PlayerInventory;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -21,9 +22,9 @@ public final class JoinItems {
             new LobbyItem(2, new ItemBuilder(Material.NETHERITE_HELMET)
                     .setDisplayName(CC.format("&dCosmetics"))
                     .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
-                    .build()) {
+                    .build(), true) {
                 @Override
-                public void onClick(PlayerInteractEvent event) {
+                public void onClick(@NotNull PlayerInteractEvent event) {
                     // TODO
                 }
             },
@@ -33,34 +34,16 @@ public final class JoinItems {
                     .setDisplayName(CC.format("&bServer Selector"))
                     .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
                     .setGlow()
-                    .build()) {
+                    .build(), true) {
                 @Override
-                public void onClick(PlayerInteractEvent event) {
+                public void onClick(@NotNull PlayerInteractEvent event) {
                     // TODO
                 }
             },
 
             // Visibility Toggle ON
-            new LobbyItem(6, new ItemBuilder(Material.LIME_DYE)
-                    .setDisplayName(CC.format("&aView Others"))
-                    .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
-                    .build()) {
-                @Override
-                public void onClick(PlayerInteractEvent event) {
-                    // TODO
-                }
-            },
-
-            // Visibility Toggle OFF
-            new LobbyItem(6, new ItemBuilder(Material.GRAY_DYE)
-                    .setDisplayName(CC.format("&7View Others"))
-                    .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
-                    .build()) {
-                @Override
-                public void onClick(PlayerInteractEvent event) {
-                    // TODO
-                }
-            }
+            getVanishItem(true),
+            getVanishItem(false)
 
     );
 
@@ -69,9 +52,40 @@ public final class JoinItems {
         inventory.clear();
 
         for (LobbyItem lobbyItem : lobbyItems) {
-            inventory.setItem(lobbyItem.getSlot(), lobbyItem.getItemStack());
+            if (lobbyItem.isGiveOnJoin()) {
+                inventory.setItem(lobbyItem.getSlot(), lobbyItem.getItemStack());
+            }
         }
 
     }
 
+    public static LobbyItem getVanishItem(boolean state) {
+
+        if (state) {
+            return new LobbyItem(6, new ItemBuilder(Material.LIME_DYE)
+                    .setDisplayName(CC.format("&aView Others"))
+                    .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
+                    .build(), true) {
+
+                @Override
+                public void onClick(@NotNull PlayerInteractEvent event) {
+                    // TODO
+                }
+
+            };
+        }
+
+        return new LobbyItem(6, new ItemBuilder(Material.GRAY_DYE)
+                .setDisplayName(CC.format("&7View Others"))
+                .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
+                .build(), false) {
+
+            @Override
+            public void onClick(@NotNull PlayerInteractEvent event) {
+                // TODO
+            }
+
+        };
+
+    }
 }

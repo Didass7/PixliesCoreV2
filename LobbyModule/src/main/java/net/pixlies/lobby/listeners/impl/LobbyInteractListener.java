@@ -8,6 +8,7 @@ import net.pixlies.lobby.utils.JoinItems;
 import net.pixlies.lobby.utils.LobbyItem;
 import net.pixlies.lobby.utils.LobbyUtils;
 import org.bukkit.Material;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,6 +16,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
@@ -53,6 +55,13 @@ public class LobbyInteractListener implements Listener {
     @EventHandler
     public void onPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
+        if (manager.isInBuildMode(player.getUniqueId())) return;
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onClick(InventoryClickEvent event) {
+        HumanEntity player = event.getWhoClicked();
         if (manager.isInBuildMode(player.getUniqueId())) return;
         event.setCancelled(true);
     }
