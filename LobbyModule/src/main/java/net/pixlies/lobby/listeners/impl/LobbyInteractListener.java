@@ -4,7 +4,10 @@ import com.destroystokyo.paper.event.player.PlayerAdvancementCriterionGrantEvent
 import io.papermc.paper.event.entity.EntityDamageItemEvent;
 import net.pixlies.lobby.Lobby;
 import net.pixlies.lobby.managers.LobbyManager;
+import net.pixlies.lobby.utils.JoinItems;
+import net.pixlies.lobby.utils.LobbyItem;
 import net.pixlies.lobby.utils.LobbyUtils;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,6 +17,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class LobbyInteractListener implements Listener {
 
@@ -25,6 +29,18 @@ public class LobbyInteractListener implements Listener {
         Player player = event.getPlayer();
         if (manager.isInBuildMode(player.getUniqueId())) return;
         event.setCancelled(true);
+
+        ItemStack item = event.getItem();
+        if (item == null) return;
+        if (item.getType() == Material.AIR) return;
+
+        for (LobbyItem lobbyItem : JoinItems.getLobbyItems()) {
+            ItemStack itemStack = lobbyItem.getItemStack();
+            if (itemStack.getType() == item.getType()) {
+                lobbyItem.onClick(event);
+                return;
+            }
+        }
     }
 
     @EventHandler

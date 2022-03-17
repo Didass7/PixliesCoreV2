@@ -31,7 +31,7 @@ public final class LobbyUtils {
         player.setGameMode(GameMode.ADVENTURE);
         player.teleport(instance.getLobbyManager().getSpawnLocation());
         player.setAllowFlight(player.hasPermission("pixlies.lobby.flight"));
-        player.getInventory().setHeldItemSlot(4);
+        player.getInventory().setHeldItemSlot(4); // Center of hotbar
         JoinItems.give(player);
     }
 
