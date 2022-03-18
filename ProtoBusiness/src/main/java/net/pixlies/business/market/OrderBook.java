@@ -1,7 +1,6 @@
 package net.pixlies.business.market;
 
-import dev.morphia.annotations.Entity;
-import dev.morphia.annotations.Id;
+import dev.morphia.annotations.*;
 import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.core.utils.TextUtils;
@@ -18,6 +17,9 @@ import java.util.concurrent.LinkedBlockingDeque;
  */
 @Getter
 @Entity("orderbooks")
+@Indexes(
+        @Index(fields = { @Field("bookId") })
+)
 public class OrderBook {
 
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();
@@ -99,7 +101,7 @@ public class OrderBook {
         else if (order.getOrderType() == Order.OrderType.SELL) sellOrders.remove(order);
         save();
     }
-    
+
     // --------------------------------------------------------------------------------------------
 
     public void save() {

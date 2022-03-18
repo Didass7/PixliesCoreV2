@@ -1,7 +1,6 @@
 package net.pixlies.nations.nations;
 
-import dev.morphia.annotations.Entity;
-import dev.morphia.annotations.Id;
+import dev.morphia.annotations.*;
 import lombok.*;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.events.PixliesCancellableEvent;
@@ -35,6 +34,9 @@ import java.util.*;
 @EqualsAndHashCode
 @AllArgsConstructor
 @Entity("nations")
+@Indexes(
+        @Index(fields = { @Field("nationsId") })
+)
 public class Nation {
 
     private static final Nations instance = Nations.getInstance();

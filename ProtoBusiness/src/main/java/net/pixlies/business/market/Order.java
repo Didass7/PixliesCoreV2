@@ -1,6 +1,5 @@
 package net.pixlies.business.market;
 
-import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;
 import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
@@ -12,11 +11,10 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Order class ready to be put in MongoDB because of @Entity
+ * Orders
  *
  * @author vPrototype_
  */
-@Entity("orders")
 @Getter
 public class Order {
 

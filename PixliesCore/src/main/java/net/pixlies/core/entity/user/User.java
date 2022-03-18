@@ -32,7 +32,7 @@ import java.util.*;
 @AllArgsConstructor
 @Entity("users")
 @Indexes(
-        @Index(fields = { @Field("uuid")})
+        @Index(fields = { @Field("uuid") })
 )
 public class User {
 
