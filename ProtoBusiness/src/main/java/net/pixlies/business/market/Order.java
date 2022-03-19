@@ -1,6 +1,6 @@
 package net.pixlies.business.market;
 
-import dev.morphia.annotations.Id;
+import dev.morphia.annotations.*;
 import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.core.utils.TextUtils;
@@ -16,6 +16,10 @@ import java.util.UUID;
  * @author vPrototype_
  */
 @Getter
+@Entity("orders")
+@Indexes(
+        @Index(fields = { @Field("orderId") })
+)
 public class Order {
 
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();

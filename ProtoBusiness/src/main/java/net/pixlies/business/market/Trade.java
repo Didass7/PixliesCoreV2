@@ -1,5 +1,6 @@
 package net.pixlies.business.market;
 
+import dev.morphia.annotations.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -14,9 +15,13 @@ import java.util.UUID;
  */
 @Getter
 @AllArgsConstructor
+@Entity("trades")
+@Indexes(
+        @Index(fields = { @Field("timestamp") })
+)
 public class Trade {
 
-    private int timestamp;
+    @Id private int timestamp;
     private double price;
     private int amount;
 
