@@ -11,7 +11,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.handlers.impl.MarketHandler;
-import net.pixlies.business.market.MarketManager;
 import net.pixlies.business.market.Order;
 import net.pixlies.business.market.OrderItem;
 import net.pixlies.business.market.Trade;
@@ -41,7 +40,6 @@ import java.util.concurrent.atomic.AtomicReference;
 public class MarketCommand extends BaseCommand {
 
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();
-    private final MarketManager marketManager = instance.getMarketManager();
     private final MarketHandler marketHandler = instance.getHandlerManager().getHandler(MarketHandler.class);
 
     @Default
@@ -77,12 +75,12 @@ public class MarketCommand extends BaseCommand {
     @Description("Resets the market statistics")
     public void onMarketReset(Player player, @Optional Player target) {
         if (target == null) {
-            marketManager.resetBooks();
+            instance.getMarketManager().resetBooks();
             Lang.MARKET_STATISTICS_RESET.broadcast("%PLAYER%;" + player.getName());
             player.playSound(player.getLocation(), "entity.experience_orb.pickup", 100, 1);
         } else {
             if (target.isOnline()) {
-                marketManager.resetPlayer(target);
+                instance.getMarketManager().resetPlayer(target);
                 Lang.MARKET_PLAYER_STATISTICS_RESET.send(target, "%PLAYER%;" + target.getName(), "%SENDER%;" + player.getName());
                 target.playSound(target.getLocation(), "entity.experience_orb.pickup", 100, 1);
             } else {
@@ -101,6 +99,10 @@ public class MarketCommand extends BaseCommand {
     private StaticPane getMarketPane(Selection selection) {
         StaticPane pane = new StaticPane(2, 0, 7, 5);
         pane.fillWith(new ItemStack(Material.AIR));
+        if (!selection.hasSeventhRow()) {
+            for (int y = 0; y < 6; y++) pane.addItem(new GuiItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE)), 6, y);
+        }
+
         for (OrderItem item : OrderItem.getItemsOfPage(selection.ordinal())) {
             String name = StringUtils.capitalize(item.name().toLowerCase().replace("_", " "));
             ItemBuilder builder = new ItemBuilder(item.getMaterial())
@@ -112,6 +114,7 @@ public class MarketCommand extends BaseCommand {
             // TODO: on item click
             pane.addItem(new GuiItem(builder.build()), item.getPosX(), item.getPosY());
         }
+
         return pane;
     }
 
@@ -129,8 +132,6 @@ public class MarketCommand extends BaseCommand {
     // ----------------------------------------------------------------------------------------------------
 
     private void openMarketPage(Player player) {
-
-        player.closeInventory();
 
         User user = User.get(player.getUniqueId());
         UserStats stats = user.getStats();
@@ -203,7 +204,7 @@ public class MarketCommand extends BaseCommand {
 
         // BOTTOM BAR PANE
 
-        StaticPane bottomBarPane = new StaticPane(2, 5, 4, 1);
+        StaticPane bottomBarPane = new StaticPane(3, 5, 4, 1);
 
         // PROFILE STATS
 
@@ -257,9 +258,9 @@ public class MarketCommand extends BaseCommand {
 
         // CREATE GUI + BACKGROUND
 
-        double temp = marketManager.getPlayerBuyOrders(player.getUniqueId()).size() / 9D;
+        double temp = instance.getMarketManager().getPlayerBuyOrders(player.getUniqueId()).size() / 9D;
         int buys = (int) (temp + (1 - temp % 1));
-        temp = marketManager.getPlayerSellOrders(player.getUniqueId()).size() / 9F;
+        temp = instance.getMarketManager().getPlayerSellOrders(player.getUniqueId()).size() / 9F;
         int sells = (int) (temp + (1 - temp % 1));
         int rows = 2 + buys + sells;
 
@@ -275,7 +276,7 @@ public class MarketCommand extends BaseCommand {
         buyOrdersPane.fillWith(new ItemStack(Material.AIR));
         int buyIndex = 1;
 
-        for (Map.Entry<Material, Order> entry : marketManager.getPlayerBuyOrders(player.getUniqueId()).entrySet()) {
+        for (Map.Entry<Material, Order> entry : instance.getMarketManager().getPlayerBuyOrders(player.getUniqueId()).entrySet()) {
 
             Material material = entry.getKey();
             Order order = entry.getValue();
@@ -340,7 +341,7 @@ public class MarketCommand extends BaseCommand {
 
         // SELL ORDERS PANE
 
-        StaticPane sellOrdersPane = new StaticPane(buys, 1, 7, sells);
+        StaticPane sellOrdersPane = new StaticPane(1, buys + 1, 7, sells);
         sellOrdersPane.fillWith(new ItemStack(Material.AIR));
 
         /*
@@ -411,22 +412,6 @@ public class MarketCommand extends BaseCommand {
 
          */
 
-        // SIDE PANE
-
-        StaticPane sidePane = new StaticPane(0, 1, 1, rows - 2);
-
-        ItemBuilder buyOrdersBuilder = new ItemBuilder(new ItemStack(Material.FILLED_MAP))
-                .setDisplayName("§aBuy orders")
-                .addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        GuiItem buyOrders = new GuiItem(buyOrdersBuilder.build());
-        sidePane.addItem(buyOrders, 0, 0);
-
-        ItemBuilder sellOrdersBuilder = new ItemBuilder(new ItemStack(Material.MAP))
-                .setDisplayName("§6Sell orders")
-                .addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        GuiItem sellOrders = new GuiItem(sellOrdersBuilder.build());
-        sidePane.addItem(sellOrders, 0, buys);
-
         // BOTTOM PANE
 
         StaticPane bottomPane = new StaticPane(4, rows - 1, 1, 1);
@@ -444,7 +429,6 @@ public class MarketCommand extends BaseCommand {
         gui.addPane(background);
         gui.addPane(buyOrdersPane);
         gui.addPane(sellOrdersPane);
-        gui.addPane(sidePane);
         gui.addPane(bottomPane);
 
         gui.show(player);
@@ -460,14 +444,20 @@ public class MarketCommand extends BaseCommand {
 
     @AllArgsConstructor
     public enum Selection {
-        MINERALS(Material.DIAMOND_PICKAXE),
-        FOODSTUFFS_AND_PLANTS(Material.GOLDEN_HOE),
-        BLOCKS(Material.IRON_SHOVEL),
-        MOB_DROPS(Material.NETHERITE_SWORD),
-        MISCELLANEOUS(Material.ARROW),
-        STOCKS_AND_BONDS(Material.PAPER);
+        MINERALS(Material.DIAMOND_PICKAXE, false),
+        FOODSTUFFS_AND_PLANTS(Material.GOLDEN_HOE, true),
+        BLOCKS(Material.IRON_SHOVEL, true),
+        MOB_DROPS(Material.NETHERITE_SWORD, false),
+        MISCELLANEOUS(Material.ARROW, false),
+        STOCKS_AND_BONDS(Material.PAPER, false);
 
         @Getter private final Material material;
+        @Getter private final boolean seventhRow;
+
+        // Lombok not being fun
+        public boolean hasSeventhRow() {
+            return seventhRow;
+        }
     }
 
 }

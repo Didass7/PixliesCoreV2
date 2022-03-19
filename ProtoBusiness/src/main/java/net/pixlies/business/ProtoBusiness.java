@@ -49,6 +49,8 @@ public class ProtoBusiness extends Module {
     @Override
     public void onDrop() {
         commandManager.unregisterAllCommands();
+
+        companyManager.backupAll();
         marketManager.backupAll();
 
         instance = null;
