@@ -96,6 +96,27 @@ public class MarketCommand extends BaseCommand {
 
     // ----------------------------------------------------------------------------------------------------
 
+    private ItemStack getSelectedItem(Selection s, String name) {
+        return new ItemBuilder(new ItemStack(s.getMaterial()))
+                .setDisplayName(s.getColor() + name)
+                .addLoreLine(" ")
+                .removeLoreLine("§eClick to view this tab!")
+                .addLoreLine("§aYou are viewing this tab!")
+                .setGlow(true)
+                .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
+                .build();
+    }
+
+    private ItemStack getUnselectedItem(Selection s, String name) {
+        return new ItemBuilder(new ItemStack(s.getMaterial()))
+                .setDisplayName(s.getColor() + name)
+                .addLoreLine(" ")
+                .removeLoreLine("§aYou are viewing this tab!")
+                .addLoreLine("§eClick to view this tab!")
+                .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
+                .build();
+    }
+
     private StaticPane getMarketPane(Selection selection) {
         StaticPane pane = new StaticPane(2, 0, 7, 5);
         pane.fillWith(new ItemStack(Material.AIR));
@@ -106,7 +127,7 @@ public class MarketCommand extends BaseCommand {
         for (OrderItem item : OrderItem.getItemsOfPage(selection.ordinal())) {
             String name = StringUtils.capitalize(item.name().toLowerCase().replace("_", " "));
             ItemBuilder builder = new ItemBuilder(item.getMaterial())
-                    .setDisplayName("§b" + name)
+                    .setDisplayName(selection.getColor() + name)
                     .addLoreLine("§7Lowest buy offer: §6" + "$") // TODO lowest buy price
                     .addLoreLine("§7Lowest sell offer: §6" + "$") // TODO lowest sell price
                     .addLoreLine(" ")
@@ -135,7 +156,7 @@ public class MarketCommand extends BaseCommand {
 
         User user = User.get(player.getUniqueId());
         UserStats stats = user.getStats();
-        final Selection[] viewing = { Selection.MINERALS };
+        final Selection[] viewing = { Selection.MINERALS, Selection.MINERALS };
 
         // CREATE GUI + BACKGROUND
 
@@ -152,47 +173,34 @@ public class MarketCommand extends BaseCommand {
         // SELECTION PANE
 
         StaticPane selectionPane = new StaticPane(0, 0, 1, 7);
-        String selected = "§aYou are viewing this tab!";
-        String notSelected = "§eClick to view this tab!";
 
         for (Selection s : Selection.values()) {
 
             // ITEM STUFF
 
-            String name = StringUtils.capitalize(s.name().toLowerCase().replace("_", " "));
-            ItemBuilder builder = new ItemBuilder(s.getMaterial())
-                    .setDisplayName("§b" + name)
-                    .addLoreLine(" ")
-                    .addLoreLine(selected)
-                    .setGlow(true)
-                    .addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-            GuiItem item = new GuiItem(builder.build());
+            GuiItem item = new GuiItem(s == Selection.MINERALS ?
+                    getSelectedItem(s, s.getName()) : getUnselectedItem(s, s.getName()));
 
             // ON ITEM CLICK
 
             item.setAction(event -> {
 
                 if (s == viewing[0]) return;
+                viewing[1] = viewing[0];
+                viewing[0] = s;
 
                 // DISABLING THE PREVIOUS BUTTON
 
-                builder.setDisplayName("§7" + name)
-                        .removeLoreLine(selected)
-                        .addLoreLine(notSelected)
-                        .setGlow(false);
-                selectionPane.addItem(new GuiItem(builder.build()), 0, s.ordinal());
+                selectionPane.addItem(new GuiItem(getUnselectedItem(viewing[1], viewing[1].getName())),
+                        0, viewing[1].ordinal());
 
                 // ENABLING THE CLICKED BUTTON
 
-                builder.setDisplayName("§b" + name)
-                        .removeLoreLine(notSelected)
-                        .addLoreLine(selected)
-                        .setGlow(true);
-                selectionPane.addItem(new GuiItem(builder.build()), 0, Math.floorDiv(event.getSlot(), 9));
+                selectionPane.addItem(new GuiItem(getSelectedItem(viewing[0], viewing[0].getName())),
+                        0, viewing[0].ordinal());
 
                 // SHOWING THE NEW PANE
 
-                viewing[0] = s;
                 marketPane.set(getMarketPane(viewing[0]));
                 gui.update();
 
@@ -444,19 +452,24 @@ public class MarketCommand extends BaseCommand {
 
     @AllArgsConstructor
     public enum Selection {
-        MINERALS(Material.DIAMOND_PICKAXE, false),
-        FOODSTUFFS_AND_PLANTS(Material.GOLDEN_HOE, true),
-        BLOCKS(Material.IRON_SHOVEL, true),
-        MOB_DROPS(Material.NETHERITE_SWORD, false),
-        MISCELLANEOUS(Material.ARROW, false),
-        STOCKS_AND_BONDS(Material.PAPER, false);
+        MINERALS(Material.DIAMOND_PICKAXE, "§b", false),
+        FOODSTUFFS_AND_PLANTS(Material.GOLDEN_HOE, "§e", true),
+        BLOCKS(Material.IRON_SHOVEL, "§a", true),
+        MOB_DROPS(Material.NETHERITE_SWORD, "§c", false),
+        MISCELLANEOUS(Material.ARROW, "§6", false),
+        STOCKS_AND_BONDS(Material.PAPER, "§d", false);
 
         @Getter private final Material material;
+        @Getter private final String color;
         @Getter private final boolean seventhRow;
 
         // Lombok not being fun
         public boolean hasSeventhRow() {
             return seventhRow;
+        }
+
+        public String getName() {
+            return StringUtils.capitalize(name().toLowerCase().replace("_", " "));
         }
     }
 
