@@ -84,24 +84,24 @@ public class MarketManager {
         // TODO reset money
     }
 
-    public Map<Material, Order> getPlayerBuyOrders(UUID uuid) {
-        Map<Material, Order> map = new HashMap<>();
+    public Map<Order, Material> getPlayerBuyOrders(UUID uuid) {
+        Map<Order, Material> map = new HashMap<>();
         for (OrderBook book : books.values()) {
             if (book.getBuyOrders() != null) {
                 for (Order order : book.getBuyOrders()) {
-                    if (order.getPlayerUUID() == uuid) map.put(book.getItem().getMaterial(), order);
+                    if (order.getPlayerUUID() == uuid) map.put(order, book.getItem().getMaterial());
                 }
             }
         }
         return map;
     }
 
-    public Map<Material, Order> getPlayerSellOrders(UUID uuid) {
-        Map<Material, Order> map = new HashMap<>();
+    public Map<Order, Material> getPlayerSellOrders(UUID uuid) {
+        Map<Order, Material> map = new HashMap<>();
         for (OrderBook book : books.values()) {
             if (book.getSellOrders() != null) {
                 for (Order order : book.getSellOrders()) {
-                    if (order.getPlayerUUID() == uuid) map.put(book.getItem().getMaterial(), order);
+                    if (order.getPlayerUUID() == uuid) map.put(order, book.getItem().getMaterial());
                 }
             }
         }

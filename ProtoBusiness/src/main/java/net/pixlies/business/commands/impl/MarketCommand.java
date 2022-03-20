@@ -5,6 +5,7 @@ import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import com.github.stefvanschie.inventoryframework.gui.GuiItem;
 import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
+import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import lombok.AllArgsConstructor;
@@ -14,20 +15,16 @@ import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.business.market.MarketItems;
 import net.pixlies.business.market.Order;
 import net.pixlies.business.market.OrderItem;
-import net.pixlies.business.market.Trade;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.entity.user.data.UserStats;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.utils.ItemBuilder;
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -108,7 +105,7 @@ public class MarketCommand extends BaseCommand {
             ItemBuilder builder = new ItemBuilder(item.getMaterial())
                     .setDisplayName(selection.getColor() + name)
                     .addLoreLine("§7Lowest buy offer: §6" + "$") // TODO lowest buy price
-                    .addLoreLine("§7Lowest sell offer: §6" + "$") // TODO lowest sell price
+                    .addLoreLine("§7Highest sell offer: §6" + "$") // TODO highest sell price
                     .addLoreLine(" ")
                     .addLoreLine("§eClick to buy or sell!");
             // TODO: on item click
@@ -116,17 +113,6 @@ public class MarketCommand extends BaseCommand {
         }
 
         return pane;
-    }
-
-    private ItemBuilder getFills(Order order, ItemBuilder builder) {
-        if (order.getVolume() != order.getAmount()) {
-            String percentage = "§a§lFILLED";
-            if (order.getVolume() != 0) {
-                percentage = "§8(§e" + Math.round((double) order.getVolume() / (double) order.getAmount() * 100) + "%§8)";
-            }
-            builder.addLoreLine("§7Filled: §a" + (order.getAmount() - order.getVolume()) + "§7/1 " + percentage);
-        }
-        return builder;
     }
 
     // ----------------------------------------------------------------------------------------------------
@@ -193,17 +179,11 @@ public class MarketCommand extends BaseCommand {
 
         StaticPane bottomPane = new StaticPane(3, 5, 4, 1);
 
-        // PROFILE STATS
-
         GuiItem myProfile = new GuiItem(MarketItems.getProfileStats(player));
         bottomPane.addItem(myProfile, 0, 0);
 
-        // MARKET STATS
-
         GuiItem marketStats = new GuiItem(MarketItems.getMarketStats());
         bottomPane.addItem(marketStats, 1, 0);
-
-        // MY ORDERS
 
         GuiItem myOrders = new GuiItem(MarketItems.getMyOrdersButton());
         myOrders.setAction(event -> openOrdersPage(player));
@@ -227,11 +207,9 @@ public class MarketCommand extends BaseCommand {
 
         // CREATE GUI + BACKGROUND
 
-        double temp = instance.getMarketManager().getPlayerBuyOrders(player.getUniqueId()).size() / 9D;
-        int buys = (int) (temp + (1 - temp % 1));
-        temp = instance.getMarketManager().getPlayerSellOrders(player.getUniqueId()).size() / 9F;
-        int sells = (int) (temp + (1 - temp % 1));
-        int rows = 2 + buys + sells;
+        Map<Order, Material> buys = instance.getMarketManager().getPlayerBuyOrders(player.getUniqueId());
+        Map<Order, Material> sells = instance.getMarketManager().getPlayerSellOrders(player.getUniqueId());
+        int rows = (int) Math.round(((buys.size() + sells.size()) / 7.0) + 0.5);
 
         ChestGui gui = new ChestGui(rows, "My orders");
         gui.setOnGlobalClick(event -> event.setCancelled(true));
@@ -239,79 +217,31 @@ public class MarketCommand extends BaseCommand {
         StaticPane background = new StaticPane(0, 0, 9, rows, Pane.Priority.LOWEST);
         background.fillWith(new ItemStack(Material.BLACK_STAINED_GLASS_PANE));
 
-        // BUY ORDERS PANE
+        // ORDERS PANE
 
-        StaticPane buyOrdersPane = new StaticPane(1, 1, 7, buys);
-        buyOrdersPane.fillWith(new ItemStack(Material.AIR));
-        int buyIndex = 1;
+        OutlinePane ordersPane = new OutlinePane(1, 1, 7, rows);
 
-        for (Map.Entry<Material, Order> entry : instance.getMarketManager().getPlayerBuyOrders(player.getUniqueId()).entrySet()) {
+        Map<Order, Material> orders;
+        orders = buys;
+        orders.putAll(sells);
 
-            Material material = entry.getKey();
-            Order order = entry.getValue();
+        for (Map.Entry<Order, Material> entry : orders.entrySet()) {
 
-            // ITEM STUFF
+            Order order = entry.getKey();
+            Material material = entry.getValue();
 
-            String name = StringUtils.capitalize(material.name().toLowerCase().replace("_", " "));
-            ItemBuilder builder = new ItemBuilder(new ItemStack(material))
-                    .setDisplayName("§a§lBUY§r§7: §f" + name)
-                    .addLoreLine("§8Worth " + order.getAmount() * order.getPrice() + "$") // TODO: taxes and tariffs
-                    .addLoreLine(" ")
-                    .addLoreLine("§7Order amount: §a" + order.getAmount() + "§8x");
-
-            // ORDER FILLED?
-
-            builder = getFills(order, builder);
-
-            builder.addLoreLine(" ")
-                    .addLoreLine("§7Price per unit: §6" + order.getPrice() + "$")
-                    .addLoreLine("§7Taxes: §bAMOUNT$ §8(§bPERCENT%§8)") // TODO: taxes and tariffs
-                    .addLoreLine(" ")
-                    .addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-
-            if (order.getVolume() == order.getAmount()) {
-
-                builder.addLoreLine("§eClick to view more options!");
-
-            } else {
-
-                builder.addLoreLine("§7Vendor(s):");
-
-                // TIME STUFF + TRADES LIST
-
-                for (Trade trade : order.getTrades()) {
-
-                    String sellerName = Objects.requireNonNull(Bukkit.getPlayer(trade.getSeller())).getName();
-
-                    long secondsTime = (System.currentTimeMillis() - trade.getTimestamp()) / 1000;
-                    String timestamp = secondsTime + "s";
-                    if (secondsTime > 60) timestamp = Math.round(secondsTime / 60.0) + "m";
-
-                    builder.addLoreLine("§8- §a" + trade.getAmount() + "§7x " + sellerName + " §8" + timestamp + " ago");
-
-                }
-
-                builder.addLoreLine(" ");
-                builder.addLoreLine("§aYou have §2" + (order.getAmount() - order.getVolume()) + " items§a to claim!");
-                builder.addLoreLine(" ");
-                builder.addLoreLine("§bRight-click to view more options!");
-                builder.addLoreLine("§eClick to claim items!");
-
-            }
-
-            // ON ITEM CLICK + ADD ITEM TO PANE
-
-            GuiItem item = new GuiItem(builder.build());
+            GuiItem item = new GuiItem(MarketItems.getOrderItem(material, order));
             item.setAction(event -> openOrderSettingsPage(player, order));
-            buyOrdersPane.addItem(item, buyIndex - (rows * 7), (buyIndex / 7 + (1 - buyIndex / 7 % 1)));
-            buyIndex++;
+            ordersPane.addItem(item);
 
         }
 
-        // SELL ORDERS PANE
+        // EMPTY SLOTS
 
-        StaticPane sellOrdersPane = new StaticPane(1, buys + 1, 7, sells);
-        sellOrdersPane.fillWith(new ItemStack(Material.AIR));
+        for (int i = 0; i < 7; i++) {
+            if (ordersPane.getItems().size() == rows * 7) break;
+            ordersPane.addItem(new GuiItem(new ItemStack(Material.AIR)));
+        }
 
         // BOTTOM PANE
 
@@ -323,8 +253,7 @@ public class MarketCommand extends BaseCommand {
         // ADD PANES + SHOW GUI
 
         gui.addPane(background);
-        gui.addPane(buyOrdersPane);
-        gui.addPane(sellOrdersPane);
+        gui.addPane(ordersPane);
         gui.addPane(bottomPane);
 
         gui.show(player);

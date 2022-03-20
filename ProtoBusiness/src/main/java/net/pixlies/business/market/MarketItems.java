@@ -6,10 +6,14 @@ import net.pixlies.core.entity.user.User;
 import net.pixlies.core.entity.user.data.UserStats;
 import net.pixlies.core.utils.ItemBuilder;
 import net.pixlies.core.utils.PlayerUtils;
+import org.apache.commons.lang.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.Objects;
 
 public final class MarketItems {
 
@@ -83,5 +87,74 @@ public final class MarketItems {
     }
 
     // MY ORDERS PAGE
+
+    public static ItemStack getOrderItem(Material material, Order order) {
+        String name = StringUtils.capitalize(material.name().toLowerCase().replace("_", " "));
+        Order.OrderType type = order.getOrderType();
+
+        // TOP INFO
+
+        ItemBuilder builder = new ItemBuilder(new ItemStack(material))
+                .setDisplayName((type == Order.OrderType.BUY ? "§a§lBUY" : "§6§lSELL") + "§r§7: §f" + name)
+                .addLoreLine("§8Worth " + order.getAmount() * order.getPrice() + "$") // TODO: taxes and tariffs
+                .addLoreLine(" ")
+                .addLoreLine("§7Order amount: §a" + order.getAmount() + "§8x");
+
+        // ORDER FILLS
+
+        if (order.getVolume() != order.getAmount()) {
+            String percentage = "§a§lFILLED";
+            if (order.getVolume() != 0) {
+                percentage = "§8(§e" + Math.round((double) order.getVolume() / (double) order.getAmount() * 100) + "%§8)";
+            }
+            builder.addLoreLine("§7Filled: §a" + (order.getAmount() - order.getVolume()) + "§7/1 " + percentage);
+        }
+
+        // PRICE + TAXES
+
+        builder.addLoreLine(" ").addLoreLine("§7Price per unit: §6" + order.getPrice() + "$");
+
+        if (type == Order.OrderType.BUY) {
+            builder.addLoreLine("§7Taxes: §bAMOUNT$ §8(§bPERCENT%§8)"); // TODO: taxes and tariffs
+        }
+
+        builder.addLoreLine(" ");
+
+        if (order.getVolume() == order.getAmount()) {
+            builder.addLoreLine("§eClick to view more options!");
+        } else {
+            builder.addLoreLine(type == Order.OrderType.BUY ? "§7Vendor(s):" : "§7Buyer(s):");
+
+            // TRADES LIST
+
+            for (Trade trade : order.getTrades()) {
+                long secondsTime = (System.currentTimeMillis() - trade.getTimestamp()) / 1000;
+                String timestamp = secondsTime + "s";
+                if (secondsTime > 60) timestamp = Math.round(secondsTime / 60.0) + "m";
+
+                if (type == Order.OrderType.BUY) {
+                    String sellerName = Objects.requireNonNull(Bukkit.getPlayer(trade.getSeller())).getName();
+                    builder.addLoreLine("§8- §a" + trade.getAmount() + "§7x " + sellerName + " §8" + timestamp + " ago");
+                } else {
+                    String takerName = Objects.requireNonNull(Bukkit.getPlayer(trade.getTaker())).getName();
+                    builder.addLoreLine("§8- §a" + trade.getAmount() + "§7x " + takerName + " §8" + timestamp + " ago");
+                }
+            }
+
+            // BOTTOM INFO
+
+            builder.addLoreLine(" ")
+                    .addLoreLine("§aYou have §2" + (order.getAmount() - order.getVolume()) + " items§a to claim!")
+                    .addLoreLine(" ");
+
+            if (type == Order.OrderType.BUY) {
+                builder.addLoreLine("§bRight-click to view more options!");
+            }
+
+            builder.addLoreLine(type == Order.OrderType.BUY ? "§eClick to claim items!" : "§eClick to claim coins!");
+        }
+
+        return builder.build();
+    }
 
 }
