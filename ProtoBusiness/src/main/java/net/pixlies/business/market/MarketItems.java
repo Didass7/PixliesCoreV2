@@ -38,8 +38,8 @@ public final class MarketItems {
                 .addLoreLine(" ")
                 .addLoreLine("§7Buy orders made: §b" + stats.getBuyOrdersMade())
                 .addLoreLine("§7Sell orders made: §b" + stats.getSellOrdersMade())
-                .addLoreLine("§7Money spent: §6" + stats.getMoneySpent())
-                .addLoreLine("§7Money gained: §6" + stats.getMoneyGained())
+                .addLoreLine("§7Money spent: §6" + stats.getMoneySpent() + " coins")
+                .addLoreLine("§7Money gained: §6" + stats.getMoneyGained() + " coins")
                 .build();
     }
 
@@ -49,8 +49,8 @@ public final class MarketItems {
                 .addLoreLine(" ")
                 .addLoreLine("§7Buy orders made: §a" + instance.getStats().get("market.buyOrders", 0))
                 .addLoreLine("§7Sell orders made: §a" + instance.getStats().get("market.sellOrders", 0))
-                .addLoreLine("§7Money spent: §6" + instance.getStats().get("market.moneySpent", 0))
-                .addLoreLine("§7Money gained: §6" + instance.getStats().get("market.moneyGained", 0))
+                .addLoreLine("§7Money spent: §6" + instance.getStats().get("market.moneySpent", 0) + " coins")
+                .addLoreLine("§7Money gained: §6" + instance.getStats().get("market.moneyGained", 0) + " coins")
                 .build();
     }
 
@@ -96,7 +96,7 @@ public final class MarketItems {
 
         ItemBuilder builder = new ItemBuilder(new ItemStack(material))
                 .setDisplayName((type == Order.OrderType.BUY ? "§a§lBUY" : "§6§lSELL") + "§r§7: §f" + name)
-                .addLoreLine("§8Worth " + order.getAmount() * order.getPrice() + "$") // TODO: taxes and tariffs
+                .addLoreLine("§8Worth " + order.getAmount() * order.getPrice() + " coins") // TODO: taxes and tariffs
                 .addLoreLine(" ")
                 .addLoreLine("§7Order amount: §a" + order.getAmount() + "§8x");
 
@@ -112,15 +112,15 @@ public final class MarketItems {
 
         // PRICE + TAXES
 
-        builder.addLoreLine(" ").addLoreLine("§7Price per unit: §6" + order.getPrice() + "$");
+        builder.addLoreLine(" ").addLoreLine("§7Price per unit: §6" + order.getPrice() + " coins");
 
         if (type == Order.OrderType.BUY) {
-            builder.addLoreLine("§7Taxes: §bAMOUNT$ §8(§bPERCENT%§8)"); // TODO: taxes and tariffs
+            builder.addLoreLine("§7Taxes: §bAMOUNT coins §8(§bPERCENT%§8)"); // TODO: taxes and tariffs
         }
 
         builder.addLoreLine(" ");
 
-        if (order.getVolume() == order.getAmount()) {
+        if (false /* TODO: see if there are goods to claim */) {
             builder.addLoreLine("§eClick to view more options!");
         } else {
             builder.addLoreLine(type == Order.OrderType.BUY ? "§7Vendor(s):" : "§7Buyer(s):");
@@ -155,6 +155,37 @@ public final class MarketItems {
         }
 
         return builder.build();
+    }
+
+    public static ItemStack getFlipOrderButton(Order order) {
+        return new ItemBuilder(new ItemStack(Material.NAME_TAG))
+                .setDisplayName("§aFlip order")
+                .addLoreLine(" ")
+                .addLoreLine("§7Directly create a new sell offer")
+                .addLoreLine("§7for §a" + (order.getAmount() - order.getVolume()) + "§8x §7items.")
+                .addLoreLine(" ")
+                .addLoreLine("§7Current unit price: §6" + order.getPrice() + " coins")
+                .addLoreLine(" ")
+                .addLoreLine("§eClick to pick a new price!")
+                .build();
+    }
+
+    public static ItemStack getCancelOrderButton(Order order, boolean cancellable) {
+        ItemBuilder builder = new ItemBuilder(new ItemStack(Material.RED_TERRACOTTA))
+                .setDisplayName("§cCancel order")
+                .addLoreLine(" ");
+        if (cancellable) {
+            if (order.getOrderType() == Order.OrderType.BUY) {
+                builder.addLoreLine("§7You will be refunded §6" + (order.getVolume() * order.getPrice()) + " coins§7.");
+            } else {
+                builder.addLoreLine("§7You will be refunded §a" + order.getVolume() + "§8x §7items.");
+            }
+            return builder.addLoreLine(" ").addLoreLine("§eClick to cancel!").build();
+        } else {
+            return builder.addLoreLine("§7Cannot cancel this order because")
+                    .addLoreLine("§7there are goods to claim!")
+                    .build();
+        }
     }
 
 }

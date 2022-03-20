@@ -104,8 +104,8 @@ public class MarketCommand extends BaseCommand {
             String name = StringUtils.capitalize(item.name().toLowerCase().replace("_", " "));
             ItemBuilder builder = new ItemBuilder(item.getMaterial())
                     .setDisplayName(selection.getColor() + name)
-                    .addLoreLine("§7Lowest buy offer: §6" + "$") // TODO lowest buy price
-                    .addLoreLine("§7Highest sell offer: §6" + "$") // TODO highest sell price
+                    .addLoreLine("§7Lowest buy offer: §6" + " coins") // TODO lowest buy price
+                    .addLoreLine("§7Highest sell offer: §6" + " coins") // TODO highest sell price
                     .addLoreLine(" ")
                     .addLoreLine("§eClick to buy or sell!");
             // TODO: on item click
@@ -231,7 +231,10 @@ public class MarketCommand extends BaseCommand {
             Material material = entry.getValue();
 
             GuiItem item = new GuiItem(MarketItems.getOrderItem(material, order));
-            item.setAction(event -> openOrderSettingsPage(player, order));
+            item.setAction(event -> {
+                // TODO: claim goods
+                openOrderSettingsPage(player, order);
+            });
             ordersPane.addItem(item);
 
         }
@@ -262,6 +265,57 @@ public class MarketCommand extends BaseCommand {
     }
 
     private void openOrderSettingsPage(Player player, Order order) {
+
+        player.closeInventory();
+
+        // CREATE GUI + BACKGROUND
+
+        ChestGui gui = new ChestGui(4, "Order options");
+        gui.setOnGlobalClick(event -> event.setCancelled(true));
+
+        StaticPane background = new StaticPane(0, 0, 9, 4, Pane.Priority.LOWEST);
+        background.fillWith(new ItemStack(Material.BLACK_STAINED_GLASS_PANE));
+
+        // OPTIONS PANE
+
+        StaticPane optionsPane = new StaticPane(2, 1, 5, 0);
+        boolean cancellable = false; // TODO: see if there are goods to claim
+        GuiItem cancel = new GuiItem(MarketItems.getCancelOrderButton(order, cancellable));
+
+        if (cancellable) {
+
+            // TODO: set cancel action
+            optionsPane.addItem(cancel, 1, 0);
+
+            GuiItem flip = new GuiItem(MarketItems.getFlipOrderButton(order));
+            // TODO: set flip action
+            optionsPane.addItem(flip, 5, 0);
+
+        } else {
+
+            optionsPane.addItem(cancel, 3, 0);
+
+        }
+
+        // BOTTOM PANE
+
+        StaticPane bottomPane = new StaticPane(4, 3, 1, 1);
+        GuiItem goBack = new GuiItem(MarketItems.getBackArrow("My orders"));
+        goBack.setAction(event -> openMarketPage(player));
+        bottomPane.addItem(goBack, 0, 0);
+
+        // ADD PANES + SHOW GUI
+
+        gui.addPane(background);
+        gui.addPane(optionsPane);
+        gui.addPane(bottomPane);
+
+        gui.show(player);
+        gui.update();
+
+    }
+
+    private void claimGoods(Player player, Order order) {
 
     }
 
