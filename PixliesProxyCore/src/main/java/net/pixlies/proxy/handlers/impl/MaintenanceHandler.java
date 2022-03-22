@@ -14,7 +14,8 @@ public class MaintenanceHandler implements Handler {
 
     private static final Proxy instance = Proxy.getInstance();
 
-    @Dependency Config settings;
+    private final Config config = instance.getConfig();
+    private final Config settings = instance.getSettingsConfig();
     private final List<UUID> whitelisted = new ArrayList<>();
 
     public MaintenanceHandler() {
@@ -59,7 +60,7 @@ public class MaintenanceHandler implements Handler {
     }
 
     public boolean isEnabled() {
-        return settings.getConfig().getBoolean("maintenance.enabled", false);
+        return config.getConfig().getBoolean("maintenance.enabled", false);
     }
 
 }

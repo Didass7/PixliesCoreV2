@@ -18,13 +18,13 @@ import java.util.List;
 public class AutoAnnounceHandler implements Handler {
 
     private static final Proxy instance = Proxy.getInstance();
-    private static final Config config = instance.getAutoAnnounceConfig();
+    private static final Config config = instance.getConfig();
 
     private final List<String> messages = new LinkedList<>();
 
     public @Nullable String getFirstAndReplace() {
         String message = messages.get(0);
-        String prefix = config.getConfig().getString("prefix", "");
+        String prefix = config.getConfig().getString("autoannounce.prefix", "");
         messages.remove(message);
         messages.add(message);
         return CC.format(prefix + message);
@@ -32,7 +32,7 @@ public class AutoAnnounceHandler implements Handler {
 
     public void loadMessages() {
         if (!this.isEnabled()) return;
-        List<String> messages = config.getConfig().getStringList("messages");
+        List<String> messages = config.getConfig().getStringList("autoannounce.messages");
         this.messages.clear();
         this.messages.addAll(messages);
     }
@@ -46,7 +46,7 @@ public class AutoAnnounceHandler implements Handler {
     }
 
     public boolean isEnabled() {
-        return config.getConfig().getBoolean("enabled", true);
+        return config.getConfig().getBoolean("autoannounce.enabled", true);
     }
 
 }

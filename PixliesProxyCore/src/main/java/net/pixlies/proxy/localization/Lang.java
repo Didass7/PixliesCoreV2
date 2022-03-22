@@ -7,6 +7,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.pixlies.proxy.Proxy;
 import net.pixlies.proxy.config.Config;
 import net.pixlies.proxy.utils.CC;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.HashMap;
@@ -78,39 +79,36 @@ public enum Lang {
         return PREFIX + getRaw("ENG");
     }
 
-    public boolean send(CommandSender sender) {
-        if (sender == null) return false;
+    public void send(@NotNull CommandSender sender) {
         sender.sendMessage(new TextComponent(get(sender)));
-        return true;
     }
 
-    public boolean sendWithLangName(CommandSender sender, String langName) {
+    public void sendWithLangName(@NotNull CommandSender sender, @NotNull String langName) {
         sender.sendMessage(new TextComponent(get(langName)));
-        return true;
     }
 
-    public void broadcast(String... placeholders) {
+    public void broadcast(@NotNull String... placeholders) {
         String message = replacePlaceholders(placeholders);
         instance.getProxy().broadcast(new TextComponent(message));
     }
 
-    public void broadcastPermission(String permission, String... placeholders) {
+    public void broadcastPermission(@NotNull String permission, @NotNull String... placeholders) {
         for (ProxiedPlayer player : instance.getProxy().getPlayers())
             if (player.hasPermission(permission))
                 send(player, placeholders);
         instance.getProxy().getConsole().sendMessage(new TextComponent(get()));
     }
 
-    public void kickPlayer(ProxiedPlayer player) {
+    public void kickPlayer(@NotNull ProxiedPlayer player) {
         player.disconnect(new TextComponent(get(player)));
     }
 
-    public void kickPlayer(ProxiedPlayer player, String... placeholders) {
+    public void kickPlayer(@NotNull ProxiedPlayer player, @NotNull String... placeholders) {
         String send = replacePlaceholders(player, placeholders);
         player.disconnect(new TextComponent(send));
     }
 
-    public void setLanguage(Map<String, String> languages) {
+    public void setLanguage(@NotNull Map<String, String> languages) {
         this.languages = languages;
     }
 

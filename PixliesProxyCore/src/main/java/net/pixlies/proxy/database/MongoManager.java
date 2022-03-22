@@ -1,6 +1,8 @@
 package net.pixlies.proxy.database;
 
 import com.mongodb.ConnectionString;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import dev.morphia.Datastore;
@@ -10,6 +12,7 @@ import lombok.Getter;
 import net.md_5.bungee.config.Configuration;
 import net.pixlies.proxy.Proxy;
 
+import java.sql.Connection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

@@ -25,10 +25,7 @@ public class Proxy extends Plugin {
     private HandlerManager handlerManager;
 
     private Config config;
-    private Config serverListConfig;
-    private Config autoAnnounceConfig;
     private Config settingsConfig;
-    private Config maintenanceConfig;
 
     @Override
     public void onEnable() {
@@ -38,10 +35,7 @@ public class Proxy extends Plugin {
 
         // CONFIGS
         config = new Config(new File(getDataFolder().getAbsolutePath() + "/config.yml"), "config.yml");
-        serverListConfig = new Config(new File(getDataFolder().getAbsolutePath() + "/features/serverlist.yml"), "features/serverlist.yml");
-        autoAnnounceConfig = new Config(new File(getDataFolder().getAbsolutePath() + "/features/autoannounce.yml"), "features/autoannounce.yml");
         settingsConfig = new Config(new File(getDataFolder().getAbsolutePath() + "/settings.yml"), "settings.yml");
-        maintenanceConfig = new Config(new File(getDataFolder().getAbsolutePath() + "/maintenance.yml"), "maintenance.yml");
 
         // LANGUAGE
         FileUtils.saveResource("languages/LANG_ENG.yml", false);

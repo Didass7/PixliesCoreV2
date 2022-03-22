@@ -1,8 +1,56 @@
 # Welcome to the config!
 mongo:
-  uri: "mongodb://"
+  uri: "mongodb://pixlies:2022/"
   user-database: "proxy-users"
 
 commands:
   lobby:
     server: 'Lobby'
+
+serverlist:
+  enabled: true
+
+  list:
+    description: |-
+      Description Line One
+      Description Line Two
+
+  playerlist:
+    message: |-
+      &3&lPixlies
+
+  maintenance:
+    message: '&cMaintenance'
+    protocol: 2
+
+  # The version message
+  version:
+    message: '&3&lPixlies&f&lEarth'
+
+maintenance:
+  enabled: true
+  message: |-
+    &c&lPixlies Maintenance
+
+    &cPixlies is currently in maintenance!
+    &cFor more information, join our Discord.
+
+    &cDiscord: pixlies.net/discord
+    &cSite: pixlies.net
+
+autoannounce:
+  # AUTO ANNOUNCE
+  enabled: true
+
+  # SECONDS
+  delay: 240
+
+  prefix: ""
+
+  # MESSAGES
+  messages:
+    - "&cMessage1"
+    - |-
+      Message2
+      Message2
+    - "AnotherMessage"
