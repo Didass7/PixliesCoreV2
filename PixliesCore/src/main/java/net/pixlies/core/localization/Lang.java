@@ -63,6 +63,7 @@ public enum Lang {
     PLAYER_BLOCKED_WORD_DISABLED(Lang.PIXLIES, new HashMap<>()),
 
     SLOWMODE_SET(Lang.PIXLIES, new HashMap<>()),
+    SLOWMODE_GET(Lang.PIXLIES, new HashMap<>()),
     SLOWMODE_OFF(Lang.PIXLIES, new HashMap<>()),
     SLOWMODE_MESSAGE(Lang.PIXLIES, new HashMap<>()),
 

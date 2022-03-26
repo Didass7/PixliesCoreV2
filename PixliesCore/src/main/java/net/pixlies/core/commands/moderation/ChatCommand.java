@@ -31,7 +31,7 @@ public class ChatCommand extends BaseCommand {
         chatHandler.setMuted(!chatMuted);
     }
 
-    @CommandAlias("clearchat")
+    @CommandAlias("clearchat|purgechat")
     @Subcommand("clear")
     @Description("Clear messages in chat")
     public void onClearChat(CommandSender sender) {
@@ -63,9 +63,16 @@ public class ChatCommand extends BaseCommand {
     }
 
     @Subcommand("slow")
-    @Description("Slows the chat down")
-    @CommandCompletion("@range:0-10")
-    public void onSlow(CommandSender sender, @Conditions("longLimits:min=0,max=10") long cooldown) {
+    @Description("Check the current chat delay")
+    @CommandCompletion("@empty")
+    public void onSlow(CommandSender sender) {
+        Lang.SLOWMODE_GET.send(sender, "%VALUE%;" + chatHandler.getSlowMode());
+    }
+
+    @Subcommand("slow set")
+    @Description("Set the current chat delay")
+    @CommandCompletion("@range:min=0,max=10")
+    public void onSlowSet(CommandSender sender, @Conditions("limits:min=0,max=10") Integer cooldown) {
         if (cooldown == 0) {
             chatHandler.setSlowMode(0);
             Lang.SLOWMODE_OFF.send(sender, "%PLAYER%;" + sender.getName());
@@ -77,7 +84,7 @@ public class ChatCommand extends BaseCommand {
 
     @Default
     @HelpCommand
-    @Description("Chat moderation")
+    @Description("A command to help with moderating the chat")
     public void onHelp(CommandHelp help) {
         help.showHelp();
     }

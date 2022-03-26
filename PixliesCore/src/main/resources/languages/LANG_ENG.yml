@@ -60,12 +60,17 @@ CHAT_UNMUTED: "§7The chat has been §aunmuted§7 by §6%PLAYER%§7."
 
 NO_ITEMS_FOUND_ON_PLAYER: "§7No items found on player §6%PLAYER%§7."
 
+SLOWMODE_SET: "§7The chat delay has been set to §6%VALUE%§7."
+SLOWMODE_GET: "§7The chat delay is currently set to §6%VALUE%§7."
+SLOWMODE_OFF: "§7The chat delay has been §cdisabled§7."
+SLOWMODE_MESSAGE: "§7You can talk again in §6%VALUE%§7 seconds."
+
 PLAYER_DOESNT_EXIST: "§cThis player does not exist or is not online!"
 
 NOT_HOLDING_ANYTHING: "§7You are not holding anything."
 
-SWEAR_FILTER_ON: "§7Swear filter has been §aenabled§7."
-SWEAR_FILTER_OFF: "§7Swear filter has been §cdisabled§7."
+SWEAR_FILTER_ON: "§7The swear filter has been §aenabled§7."
+SWEAR_FILTER_OFF: "§7The swear filter has been §cdisabled§7."
 
 ADDED_BLOCKED_WORD: ""
 REMOVED_BLOCKED_WORD: ""
