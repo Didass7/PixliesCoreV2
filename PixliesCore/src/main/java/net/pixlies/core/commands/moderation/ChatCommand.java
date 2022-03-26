@@ -39,7 +39,8 @@ public class ChatCommand extends BaseCommand {
             // Staff setting: bypass clearchat
             if (sender instanceof Player player) {
                 User user = User.get(player.getUniqueId());
-                if (user.getPersonalization().isBypassClearChat()) continue;
+                if (user.getPersonalization().isBypassClearChat() && player.hasPermission("pixlies.moderation.chat.exempt"))
+                    continue;
             }
 
             for (int i = 0; i < 150; i++) {
