@@ -8,6 +8,7 @@ import net.pixlies.core.commands.cosmetics.*;
 import net.pixlies.core.commands.moderation.*;
 import net.pixlies.core.commands.player.*;
 import net.pixlies.core.commands.staff.*;
+import net.pixlies.core.entity.Warp;
 import net.pixlies.core.entity.user.User;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -145,11 +146,20 @@ public class PixliesCommandManager {
                 } else {
                     World world = Bukkit.getWorld("world");
                     if (world == null) {
-                        throw new ConditionFailedException("You cant execute this command as console.");
+                        throw new ConditionFailedException("You can't execute this command as console.");
                     }
                     location = new Location(world, x, y, z);
                 }
                 return location;
+            });
+
+            contexts.registerContext(Warp.class, context -> {
+                String name = context.popFirstArg();
+                Warp warp = Warp.get(name);
+                if (warp == null && context.isOptional()) {
+                    return null;
+                }
+                throw new ConditionFailedException("That isn't a valid warp.");
             });
 
     }

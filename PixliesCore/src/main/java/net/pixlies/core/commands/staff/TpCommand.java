@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
  * Easier way to teleport around.
  * @author dynmie
  */
+// FIXME: LEGIT EVERYTHING, acs is being a complete idiot
 public class TpCommand extends BaseCommand {
 
     // CONSOLE

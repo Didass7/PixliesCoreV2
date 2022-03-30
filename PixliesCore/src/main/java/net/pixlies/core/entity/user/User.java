@@ -9,6 +9,7 @@ import lombok.Data;
 import net.kyori.adventure.text.Component;
 import net.pixlies.core.Main;
 import net.pixlies.core.economy.Wallet;
+import net.pixlies.core.entity.Warp;
 import net.pixlies.core.entity.user.data.PermissionProfile;
 import net.pixlies.core.entity.user.data.UserPersonalization;
 import net.pixlies.core.entity.user.data.UserSettings;
@@ -20,6 +21,7 @@ import net.pixlies.core.moderation.PunishmentType;
 import net.pixlies.core.scoreboard.ScoreboardType;
 import net.pixlies.core.utils.CC;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -392,8 +394,61 @@ public class User {
     }
 
     /**
+     * Teleports the user to a location with a timer if the player is online.
+     * Teleports instantly if the user is passive.
+     * @param location The location to teleport to
+     * @param timed If it should instantly teleport.
+     */
+    public void teleport(@NotNull Location location, boolean timed) {
+        // TODO: literally everything, fix this soon
+        if (!this.getAsOfflinePlayer().isOnline()) return;
+        Player player = this.getAsOfflinePlayer().getPlayer();
+        if (player == null) return;
+
+        if (timed) {
+            // do this soon
+        }
+
+        player.teleport(location); // FIXME: instant teleport, this isnt timed at all
+    }
+
+    /**
+     * @see User#teleport(Location, boolean)
+     * @param location The location to teleport to
+     */
+    public void teleport(@NotNull Location location) {
+        this.teleport(location, true);
+    }
+
+    /**
+     * @see User#teleport(Location, boolean)
+     * @param user The user to teleport to
+     */
+    public void teleport(@NotNull User user) {
+        OfflinePlayer player = user.getAsOfflinePlayer();
+        Location location = player.getLocation();
+        if (location == null) {
+            return;
+        }
+        this.teleport(location, true);
+    }
+
+    /**
+     * @see User#teleport(Location, boolean)
+     * @param warp The warp to teleport to
+     */
+    public void teleport(@NotNull Warp warp) {
+        Location location = warp.getAsBukkitLocation();
+        if (location == null) {
+            return;
+        }
+        this.teleport(location, true);
+    }
+
+
+    /**
      * Check if the user has any timers.
-     * @return True if has timers; False if no timers.
+     * @return True if it has timers; False if no timers.
      */
     public boolean hasTimers() {
         return allTimers.size() > 0;
