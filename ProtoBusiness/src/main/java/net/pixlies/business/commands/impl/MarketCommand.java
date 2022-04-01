@@ -16,6 +16,7 @@ import net.pixlies.business.market.MarketItems;
 import net.pixlies.business.market.orders.Order;
 import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.business.market.orders.OrderItem;
+import net.pixlies.business.market.orders.Trade;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.entity.user.data.UserStats;
 import net.pixlies.core.localization.Lang;
@@ -323,7 +324,39 @@ public class MarketCommand extends BaseCommand {
     }
 
     private void claimGoods(Player player, Order order) {
+        if (order.getOrderType() == Order.OrderType.BUY) {
+            OrderBook book = instance.getMarketManager().getBooks().get(order.getBookId());
+            Material material = book.getItem().getMaterial();
 
+            int items = 0;
+            for (Trade t : order.getTrades()) {
+                if (t.isClaimed()) continue;
+                items += t.getAmount();
+                t.claim();
+            }
+
+            for (int i = 1; i <= items; i++) player.getInventory().addItem(new ItemStack(material));
+
+            Lang.ORDER_ITEMS_CLAIMED.send(player, "%ITEMS%;" + items, "%AMOUNT%;" + order.getAmount(),
+                    "%ITEM%;" + book.getItem().getName());
+            player.playSound(player.getLocation(), "entity.experience_orb.pickup", 100, 1);
+        } else {
+            OrderBook book = instance.getMarketManager().getBooks().get(order.getBookId());
+
+            int coins = 0;
+            for (Trade t : order.getTrades()) {
+                if (t.isClaimed()) continue;
+                coins += t.getAmount() * t.getPrice();
+                t.claim();
+            }
+
+            User user = User.get(player.getUniqueId());
+            // TODO: add coins to wallet
+
+            Lang.ORDER_ITEMS_CLAIMED.send(player, "%COINS%" + coins, "%AMOUNT%;" + order.getAmount(),
+                    "%ITEM%;" + book.getItem().getName());
+            player.playSound(player.getLocation(), "entity.experience_orb.pickup", 100, 1);
+        }
     }
 
     // ----------------------------------------------------------------------------------------------------

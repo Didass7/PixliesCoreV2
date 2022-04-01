@@ -32,6 +32,10 @@ public class Trade {
 
     private boolean claimed;
 
+    public void claim() {
+        claimed = true;
+    }
+
     @Override
     public String toString() {
         String string = "t: " + timestamp + " | amount" + " @ " + price + "$ each - ";

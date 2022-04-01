@@ -258,3 +258,7 @@ MARKET_WAS_ALREADY_CLOSED: "§cThe market is already closed."
 
 MARKET_STATISTICS_RESET: "§7Market statistics have been §creset§7."
 MARKET_PLAYER_STATISTICS_RESET: "§7Market statistics for §6%PLAYER%§7 have been §creset§7 by §6%SENDER§7."
+
+ORDER_CANCELLED: "§7Your order for §a%AMOUNT%§8x §6%ITEM% §7was §ccancelled§7."
+ORDER_ITEMS_CLAIMED: "§7You claimed §b%ITEMS% items§7 from your §a%AMOUNT%§8x §6%ITEM% §7order."
+ORDER_COINS_CLAIMED: "§7You claimed §6%COINS% coins§7 from your §a%AMOUNT%§8x §6%ITEM% §7order."

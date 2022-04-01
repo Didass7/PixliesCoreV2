@@ -283,6 +283,8 @@ public enum Lang {
     MARKET_PLAYER_STATISTICS_RESET(Lang.MARKET, new HashMap<>()),
 
     ORDER_CANCELLED(Lang.MARKET, new HashMap<>()),
+    ORDER_ITEMS_CLAIMED(Lang.MARKET, new HashMap<>()),
+    ORDER_COINS_CLAIMED(Lang.MARKET, new HashMap<>()),
 
     // OTHER
     MUST_BE_A_PLAYER(Lang.PIXLIES, new HashMap<>()),
