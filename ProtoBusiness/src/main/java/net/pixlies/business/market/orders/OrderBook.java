@@ -1,4 +1,4 @@
-package net.pixlies.business.market;
+package net.pixlies.business.market.orders;
 
 import dev.morphia.annotations.*;
 import lombok.Getter;
