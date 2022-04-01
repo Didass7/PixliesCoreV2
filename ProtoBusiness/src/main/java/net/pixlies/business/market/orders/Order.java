@@ -1,4 +1,4 @@
-package net.pixlies.business.market;
+package net.pixlies.business.market.orders;
 
 import dev.morphia.annotations.*;
 import lombok.Getter;
@@ -24,7 +24,8 @@ public class Order {
 
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();
 
-    @Id private final @Getter String orderId;
+    @Id private final String orderId;
+    private final String bookId;
     private final int timestamp;
 
     private final OrderType orderType;
@@ -37,8 +38,9 @@ public class Order {
 
     private final @Getter List<Trade> trades;
 
-    public Order(OrderType type, int timestamp, boolean limitOrder, UUID uuid, double price, int amount) {
+    public Order(OrderType type, String bookId, int timestamp, boolean limitOrder, UUID uuid, double price, int amount) {
         orderId = TextUtils.generateId(7);
+        this.bookId = bookId;
         orderType = type;
         this.timestamp = timestamp;
         this.limitOrder = limitOrder;
@@ -47,6 +49,13 @@ public class Order {
         this.amount = amount;
         volume = amount;
         trades = new LinkedList<>();
+    }
+
+    public boolean isCancellable() {
+        for (Trade t : trades) {
+            if (!t.isClaimed()) return true;
+        }
+        return false;
     }
 
     public void increaseVolume(int amount) {
@@ -66,7 +75,7 @@ public class Order {
     }
 
     public enum OrderType {
-        BUY, SELL, CANCEL
+        BUY, SELL
     }
 
 }

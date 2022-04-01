@@ -2,6 +2,8 @@ package net.pixlies.business.market;
 
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.commands.impl.MarketCommand;
+import net.pixlies.business.market.orders.Order;
+import net.pixlies.business.market.orders.Trade;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.entity.user.data.UserStats;
 import net.pixlies.core.utils.ItemBuilder;
@@ -54,7 +56,7 @@ public final class MarketItems {
                 .build();
     }
 
-    public static ItemStack getMyOrdersButton() {
+    public static ItemStack getMyOrdersButton(Player player) {
         // TODO: show if I have items or coins to collect
         return new ItemBuilder(new ItemStack(Material.BOOK))
                 .setDisplayName("§bMy orders")
@@ -120,7 +122,7 @@ public final class MarketItems {
 
         builder.addLoreLine(" ");
 
-        if (false /* TODO: see if there are goods to claim */) {
+        if (order.getVolume() == order.getPrice()) {
             builder.addLoreLine("§eClick to view more options!");
         } else {
             builder.addLoreLine(type == Order.OrderType.BUY ? "§7Vendor(s):" : "§7Buyer(s):");
@@ -134,7 +136,7 @@ public final class MarketItems {
 
                 if (type == Order.OrderType.BUY) {
                     String sellerName = Objects.requireNonNull(Bukkit.getPlayer(trade.getSeller())).getName();
-                    builder.addLoreLine("§8- §a" + trade.getAmount() + "§7x " + sellerName + " §8" + timestamp + " ago");
+                    builder.addLoreLine("§8- §a" + trade.getAmount() + "§7x §f" + sellerName + " §8" + timestamp + " ago");
                 } else {
                     String takerName = Objects.requireNonNull(Bukkit.getPlayer(trade.getTaker())).getName();
                     builder.addLoreLine("§8- §a" + trade.getAmount() + "§7x " + takerName + " §8" + timestamp + " ago");
@@ -151,7 +153,9 @@ public final class MarketItems {
                 builder.addLoreLine("§bRight-click to view more options!");
             }
 
-            builder.addLoreLine(type == Order.OrderType.BUY ? "§eClick to claim items!" : "§eClick to claim coins!");
+            if (!order.isCancellable()) {
+                builder.addLoreLine(type == Order.OrderType.BUY ? "§eClick to claim items!" : "§eClick to claim coins!");
+            }
         }
 
         return builder.build();
@@ -170,22 +174,25 @@ public final class MarketItems {
                 .build();
     }
 
-    public static ItemStack getCancelOrderButton(Order order, boolean cancellable) {
+    public static ItemStack getCancelOrderButton(Order order) {
         ItemBuilder builder = new ItemBuilder(new ItemStack(Material.RED_TERRACOTTA))
                 .setDisplayName("§cCancel order")
                 .addLoreLine(" ");
-        if (cancellable) {
-            if (order.getOrderType() == Order.OrderType.BUY) {
-                builder.addLoreLine("§7You will be refunded §6" + (order.getVolume() * order.getPrice()) + " coins§7.");
-            } else {
-                builder.addLoreLine("§7You will be refunded §a" + order.getVolume() + "§8x §7items.");
-            }
-            return builder.addLoreLine(" ").addLoreLine("§eClick to cancel!").build();
+        if (order.getOrderType() == Order.OrderType.BUY) {
+            builder.addLoreLine("§7You will be refunded §6" + (order.getVolume() * order.getPrice()) + " coins§7.");
         } else {
-            return builder.addLoreLine("§7Cannot cancel this order because")
-                    .addLoreLine("§7there are goods to claim!")
-                    .build();
+            builder.addLoreLine("§7You will be refunded §a" + order.getVolume() + "§8x §7items.");
         }
+        return builder.addLoreLine(" ").addLoreLine("§eClick to cancel!").build();
+    }
+
+    public static ItemStack getCannotCancelOrderButton() {
+        return new ItemBuilder(new ItemStack(Material.RED_TERRACOTTA))
+                .setDisplayName("§cCancel order")
+                .addLoreLine(" ")
+                .addLoreLine("§7Cannot cancel this order because")
+                .addLoreLine("§7there are goods to claim!")
+                .build();
     }
 
 }

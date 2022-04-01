@@ -13,8 +13,10 @@ import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.business.market.MarketItems;
-import net.pixlies.business.market.Order;
-import net.pixlies.business.market.OrderItem;
+import net.pixlies.business.market.orders.Order;
+import net.pixlies.business.market.orders.OrderBook;
+import net.pixlies.business.market.orders.OrderItem;
+import net.pixlies.business.market.orders.Trade;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.entity.user.data.UserStats;
 import net.pixlies.core.localization.Lang;
@@ -24,7 +26,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Map;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -95,17 +97,19 @@ public class MarketCommand extends BaseCommand {
 
     private StaticPane getMarketPane(Selection selection) {
         StaticPane pane = new StaticPane(2, 0, 7, 5);
+
         pane.fillWith(new ItemStack(Material.AIR));
         if (!selection.hasSeventhRow()) {
             for (int y = 0; y < 6; y++) pane.addItem(new GuiItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE)), 6, y);
         }
 
         for (OrderItem item : OrderItem.getItemsOfPage(selection.ordinal())) {
-            String name = StringUtils.capitalize(item.name().toLowerCase().replace("_", " "));
+            OrderBook book = item.getBook();
+            assert book != null;
             ItemBuilder builder = new ItemBuilder(item.getMaterial())
-                    .setDisplayName(selection.getColor() + name)
-                    .addLoreLine("§7Lowest buy offer: §6" + " coins") // TODO lowest buy price
-                    .addLoreLine("§7Highest sell offer: §6" + " coins") // TODO highest sell price
+                    .setDisplayName(selection.getColor() + item.getName())
+                    .addLoreLine("§7Lowest buy offer: §6" + book.getLowestBuyPrice() + " coins")
+                    .addLoreLine("§7Highest sell offer: §6" + book.getHighestSellPrice() + " coins")
                     .addLoreLine(" ")
                     .addLoreLine("§eClick to buy or sell!");
             // TODO: on item click
@@ -185,7 +189,7 @@ public class MarketCommand extends BaseCommand {
         GuiItem marketStats = new GuiItem(MarketItems.getMarketStats());
         bottomPane.addItem(marketStats, 1, 0);
 
-        GuiItem myOrders = new GuiItem(MarketItems.getMyOrdersButton());
+        GuiItem myOrders = new GuiItem(MarketItems.getMyOrdersButton(player));
         myOrders.setAction(event -> openOrdersPage(player));
         bottomPane.addItem(myOrders, 3, 0);
 
@@ -207,8 +211,8 @@ public class MarketCommand extends BaseCommand {
 
         // CREATE GUI + BACKGROUND
 
-        Map<Order, Material> buys = instance.getMarketManager().getPlayerBuyOrders(player.getUniqueId());
-        Map<Order, Material> sells = instance.getMarketManager().getPlayerSellOrders(player.getUniqueId());
+        List<Order> buys = instance.getMarketManager().getPlayerBuyOrders(player.getUniqueId());
+        List<Order> sells = instance.getMarketManager().getPlayerSellOrders(player.getUniqueId());
         int rows = (int) Math.round(((buys.size() + sells.size()) / 7.0) + 0.5);
 
         ChestGui gui = new ChestGui(rows, "My orders");
@@ -221,14 +225,13 @@ public class MarketCommand extends BaseCommand {
 
         OutlinePane ordersPane = new OutlinePane(1, 1, 7, rows);
 
-        Map<Order, Material> orders;
+        List<Order> orders;
         orders = buys;
-        orders.putAll(sells);
+        orders.addAll(sells);
 
-        for (Map.Entry<Order, Material> entry : orders.entrySet()) {
+        for (Order order : orders) {
 
-            Order order = entry.getKey();
-            Material material = entry.getValue();
+            Material material = instance.getMarketManager().getBooks().get(order.getBookId()).getItem().getMaterial();
 
             GuiItem item = new GuiItem(MarketItems.getOrderItem(material, order));
             item.setAction(event -> {
@@ -279,12 +282,16 @@ public class MarketCommand extends BaseCommand {
         // OPTIONS PANE
 
         StaticPane optionsPane = new StaticPane(2, 1, 5, 0);
-        boolean cancellable = false; // TODO: see if there are goods to claim
-        GuiItem cancel = new GuiItem(MarketItems.getCancelOrderButton(order, cancellable));
 
-        if (cancellable) {
+        if (order.isCancellable()) {
 
-            // TODO: set cancel action
+            GuiItem cancel = new GuiItem(MarketItems.getCancelOrderButton(order));
+            cancel.setAction(event -> {
+                OrderBook book = instance.getMarketManager().getBooks().get(order.getBookId());
+                book.remove(order);
+                player.closeInventory();
+                Lang.ORDER_CANCELLED.send(player, "%AMOUNT%;" + order.getAmount(), "%ITEM%;" + book.getItem().getName());
+            });
             optionsPane.addItem(cancel, 1, 0);
 
             GuiItem flip = new GuiItem(MarketItems.getFlipOrderButton(order));
@@ -293,6 +300,7 @@ public class MarketCommand extends BaseCommand {
 
         } else {
 
+            GuiItem cancel = new GuiItem(MarketItems.getCannotCancelOrderButton());
             optionsPane.addItem(cancel, 3, 0);
 
         }
@@ -316,7 +324,39 @@ public class MarketCommand extends BaseCommand {
     }
 
     private void claimGoods(Player player, Order order) {
+        if (order.getOrderType() == Order.OrderType.BUY) {
+            OrderBook book = instance.getMarketManager().getBooks().get(order.getBookId());
+            Material material = book.getItem().getMaterial();
 
+            int items = 0;
+            for (Trade t : order.getTrades()) {
+                if (t.isClaimed()) continue;
+                items += t.getAmount();
+                t.claim();
+            }
+
+            for (int i = 1; i <= items; i++) player.getInventory().addItem(new ItemStack(material));
+
+            Lang.ORDER_ITEMS_CLAIMED.send(player, "%ITEMS%;" + items, "%AMOUNT%;" + order.getAmount(),
+                    "%ITEM%;" + book.getItem().getName());
+            player.playSound(player.getLocation(), "entity.experience_orb.pickup", 100, 1);
+        } else {
+            OrderBook book = instance.getMarketManager().getBooks().get(order.getBookId());
+
+            int coins = 0;
+            for (Trade t : order.getTrades()) {
+                if (t.isClaimed()) continue;
+                coins += t.getAmount() * t.getPrice();
+                t.claim();
+            }
+
+            User user = User.get(player.getUniqueId());
+            // TODO: add coins to wallet
+
+            Lang.ORDER_ITEMS_CLAIMED.send(player, "%COINS%" + coins, "%AMOUNT%;" + order.getAmount(),
+                    "%ITEM%;" + book.getItem().getName());
+            player.playSound(player.getLocation(), "entity.experience_orb.pickup", 100, 1);
+        }
     }
 
     // ----------------------------------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-package net.pixlies.business.market;
+package net.pixlies.business.market.orders;
 
 import dev.morphia.annotations.*;
 import lombok.AllArgsConstructor;
@@ -29,7 +29,13 @@ public class Trade {
     private UUID taker; // for sell orders
     private UUID buyer; // for buy orders
     private UUID seller; // for buy orders
-    
+
+    private boolean claimed;
+
+    public void claim() {
+        claimed = true;
+    }
+
     @Override
     public String toString() {
         String string = "t: " + timestamp + " | amount" + " @ " + price + "$ each - ";

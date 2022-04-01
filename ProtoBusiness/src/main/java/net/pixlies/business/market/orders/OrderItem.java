@@ -1,7 +1,9 @@
-package net.pixlies.business.market;
+package net.pixlies.business.market.orders;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import net.pixlies.business.ProtoBusiness;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Material;
 
 import java.util.ArrayList;
@@ -165,6 +167,8 @@ public enum OrderItem {
     TURTLE_EGG(Material.TURTLE_EGG, 4, 4, 2),
     NETHER_STAR(Material.NETHER_STAR, 4, 5, 2);
 
+    private static final ProtoBusiness instance = ProtoBusiness.getInstance();
+
     /**
      * Material of the item
      */
@@ -184,6 +188,25 @@ public enum OrderItem {
      * Position Y in its page
      */
     @Getter private final int posY;
+
+    /**
+     * Gets formatted name of the GUI item
+     * @return formatted name
+     */
+    public String getName() {
+        return StringUtils.capitalize(name().toLowerCase().replace("_", " "));
+    }
+
+    /**
+     * Gets the OrderBook of the GUI item
+     * @return OrderBook
+     */
+    public OrderBook getBook() {
+        for (OrderBook book : instance.getMarketManager().getBooks().values()) {
+            if (book.getItem() == this) return book;
+        }
+        return null;
+    }
 
     /**
      * Gets the items of a specific page
