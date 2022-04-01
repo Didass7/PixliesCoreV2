@@ -2,6 +2,7 @@ package net.pixlies.business.market;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import net.pixlies.business.ProtoBusiness;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Material;
 
@@ -166,6 +167,8 @@ public enum OrderItem {
     TURTLE_EGG(Material.TURTLE_EGG, 4, 4, 2),
     NETHER_STAR(Material.NETHER_STAR, 4, 5, 2);
 
+    private static final ProtoBusiness instance = ProtoBusiness.getInstance();
+
     /**
      * Material of the item
      */
@@ -192,6 +195,17 @@ public enum OrderItem {
      */
     public String getName() {
         return StringUtils.capitalize(name().toLowerCase().replace("_", " "));
+    }
+
+    /**
+     * Gets the OrderBook of the GUI item
+     * @return OrderBook
+     */
+    public OrderBook getBook() {
+        for (OrderBook book : instance.getMarketManager().getBooks().values()) {
+            if (book.getItem() == this) return book;
+        }
+        return null;
     }
 
     /**

@@ -54,7 +54,7 @@ public final class MarketItems {
                 .build();
     }
 
-    public static ItemStack getMyOrdersButton() {
+    public static ItemStack getMyOrdersButton(Player player) {
         // TODO: show if I have items or coins to collect
         return new ItemBuilder(new ItemStack(Material.BOOK))
                 .setDisplayName("§bMy orders")
@@ -120,7 +120,7 @@ public final class MarketItems {
 
         builder.addLoreLine(" ");
 
-        if (false /* TODO: see if there are goods to claim */) {
+        if (order.getVolume() == order.getPrice()) {
             builder.addLoreLine("§eClick to view more options!");
         } else {
             builder.addLoreLine(type == Order.OrderType.BUY ? "§7Vendor(s):" : "§7Buyer(s):");
@@ -151,7 +151,9 @@ public final class MarketItems {
                 builder.addLoreLine("§bRight-click to view more options!");
             }
 
-            builder.addLoreLine(type == Order.OrderType.BUY ? "§eClick to claim items!" : "§eClick to claim coins!");
+            if (!order.isCancellable()) {
+                builder.addLoreLine(type == Order.OrderType.BUY ? "§eClick to claim items!" : "§eClick to claim coins!");
+            }
         }
 
         return builder.build();

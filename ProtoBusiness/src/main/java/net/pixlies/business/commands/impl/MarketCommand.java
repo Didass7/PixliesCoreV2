@@ -25,7 +25,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Map;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -103,10 +103,12 @@ public class MarketCommand extends BaseCommand {
         }
 
         for (OrderItem item : OrderItem.getItemsOfPage(selection.ordinal())) {
+            OrderBook book = item.getBook();
+            assert book != null;
             ItemBuilder builder = new ItemBuilder(item.getMaterial())
                     .setDisplayName(selection.getColor() + item.getName())
-                    .addLoreLine("§7Lowest buy offer: §6" + " coins") // TODO lowest buy price
-                    .addLoreLine("§7Highest sell offer: §6" + " coins") // TODO highest sell price
+                    .addLoreLine("§7Lowest buy offer: §6" + book.getLowestBuyPrice() + " coins")
+                    .addLoreLine("§7Highest sell offer: §6" + book.getHighestSellPrice() + " coins")
                     .addLoreLine(" ")
                     .addLoreLine("§eClick to buy or sell!");
             // TODO: on item click
@@ -186,7 +188,7 @@ public class MarketCommand extends BaseCommand {
         GuiItem marketStats = new GuiItem(MarketItems.getMarketStats());
         bottomPane.addItem(marketStats, 1, 0);
 
-        GuiItem myOrders = new GuiItem(MarketItems.getMyOrdersButton());
+        GuiItem myOrders = new GuiItem(MarketItems.getMyOrdersButton(player));
         myOrders.setAction(event -> openOrdersPage(player));
         bottomPane.addItem(myOrders, 3, 0);
 
@@ -208,8 +210,8 @@ public class MarketCommand extends BaseCommand {
 
         // CREATE GUI + BACKGROUND
 
-        Map<Order, Material> buys = instance.getMarketManager().getPlayerBuyOrders(player.getUniqueId());
-        Map<Order, Material> sells = instance.getMarketManager().getPlayerSellOrders(player.getUniqueId());
+        List<Order> buys = instance.getMarketManager().getPlayerBuyOrders(player.getUniqueId());
+        List<Order> sells = instance.getMarketManager().getPlayerSellOrders(player.getUniqueId());
         int rows = (int) Math.round(((buys.size() + sells.size()) / 7.0) + 0.5);
 
         ChestGui gui = new ChestGui(rows, "My orders");
@@ -222,14 +224,13 @@ public class MarketCommand extends BaseCommand {
 
         OutlinePane ordersPane = new OutlinePane(1, 1, 7, rows);
 
-        Map<Order, Material> orders;
+        List<Order> orders;
         orders = buys;
-        orders.putAll(sells);
+        orders.addAll(sells);
 
-        for (Map.Entry<Order, Material> entry : orders.entrySet()) {
+        for (Order order : orders) {
 
-            Order order = entry.getKey();
-            Material material = entry.getValue();
+            Material material = instance.getMarketManager().getBooks().get(order.getBookId()).getItem().getMaterial();
 
             GuiItem item = new GuiItem(MarketItems.getOrderItem(material, order));
             item.setAction(event -> {
@@ -280,9 +281,8 @@ public class MarketCommand extends BaseCommand {
         // OPTIONS PANE
 
         StaticPane optionsPane = new StaticPane(2, 1, 5, 0);
-        boolean cancellable = false; // TODO: see if there are goods to claim
 
-        if (cancellable) {
+        if (order.isCancellable()) {
 
             GuiItem cancel = new GuiItem(MarketItems.getCancelOrderButton(order));
             cancel.setAction(event -> {

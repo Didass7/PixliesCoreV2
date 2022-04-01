@@ -51,6 +51,13 @@ public class Order {
         trades = new LinkedList<>();
     }
 
+    public boolean isCancellable() {
+        for (Trade t : trades) {
+            if (!t.isClaimed()) return true;
+        }
+        return false;
+    }
+
     public void increaseVolume(int amount) {
         volume += amount;
     }

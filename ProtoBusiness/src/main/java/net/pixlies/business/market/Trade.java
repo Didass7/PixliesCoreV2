@@ -29,7 +29,9 @@ public class Trade {
     private UUID taker; // for sell orders
     private UUID buyer; // for buy orders
     private UUID seller; // for buy orders
-    
+
+    private boolean claimed;
+
     @Override
     public String toString() {
         String string = "t: " + timestamp + " | amount" + " @ " + price + "$ each - ";
