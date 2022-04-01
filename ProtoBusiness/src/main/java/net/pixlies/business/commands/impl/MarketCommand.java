@@ -14,6 +14,7 @@ import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.business.market.MarketItems;
 import net.pixlies.business.market.Order;
+import net.pixlies.business.market.OrderBook;
 import net.pixlies.business.market.OrderItem;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.entity.user.data.UserStats;
@@ -95,15 +96,15 @@ public class MarketCommand extends BaseCommand {
 
     private StaticPane getMarketPane(Selection selection) {
         StaticPane pane = new StaticPane(2, 0, 7, 5);
+
         pane.fillWith(new ItemStack(Material.AIR));
         if (!selection.hasSeventhRow()) {
             for (int y = 0; y < 6; y++) pane.addItem(new GuiItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE)), 6, y);
         }
 
         for (OrderItem item : OrderItem.getItemsOfPage(selection.ordinal())) {
-            String name = StringUtils.capitalize(item.name().toLowerCase().replace("_", " "));
             ItemBuilder builder = new ItemBuilder(item.getMaterial())
-                    .setDisplayName(selection.getColor() + name)
+                    .setDisplayName(selection.getColor() + item.getName())
                     .addLoreLine("§7Lowest buy offer: §6" + " coins") // TODO lowest buy price
                     .addLoreLine("§7Highest sell offer: §6" + " coins") // TODO highest sell price
                     .addLoreLine(" ")
@@ -280,11 +281,16 @@ public class MarketCommand extends BaseCommand {
 
         StaticPane optionsPane = new StaticPane(2, 1, 5, 0);
         boolean cancellable = false; // TODO: see if there are goods to claim
-        GuiItem cancel = new GuiItem(MarketItems.getCancelOrderButton(order, cancellable));
 
         if (cancellable) {
 
-            // TODO: set cancel action
+            GuiItem cancel = new GuiItem(MarketItems.getCancelOrderButton(order));
+            cancel.setAction(event -> {
+                OrderBook book = instance.getMarketManager().getBooks().get(order.getBookId());
+                book.remove(order);
+                player.closeInventory();
+                Lang.ORDER_CANCELLED.send(player, "%AMOUNT%;" + order.getAmount(), "%ITEM%;" + book.getItem().getName());
+            });
             optionsPane.addItem(cancel, 1, 0);
 
             GuiItem flip = new GuiItem(MarketItems.getFlipOrderButton(order));
@@ -293,6 +299,7 @@ public class MarketCommand extends BaseCommand {
 
         } else {
 
+            GuiItem cancel = new GuiItem(MarketItems.getCannotCancelOrderButton());
             optionsPane.addItem(cancel, 3, 0);
 
         }

@@ -134,7 +134,7 @@ public final class MarketItems {
 
                 if (type == Order.OrderType.BUY) {
                     String sellerName = Objects.requireNonNull(Bukkit.getPlayer(trade.getSeller())).getName();
-                    builder.addLoreLine("§8- §a" + trade.getAmount() + "§7x " + sellerName + " §8" + timestamp + " ago");
+                    builder.addLoreLine("§8- §a" + trade.getAmount() + "§7x §f" + sellerName + " §8" + timestamp + " ago");
                 } else {
                     String takerName = Objects.requireNonNull(Bukkit.getPlayer(trade.getTaker())).getName();
                     builder.addLoreLine("§8- §a" + trade.getAmount() + "§7x " + takerName + " §8" + timestamp + " ago");
@@ -170,22 +170,25 @@ public final class MarketItems {
                 .build();
     }
 
-    public static ItemStack getCancelOrderButton(Order order, boolean cancellable) {
+    public static ItemStack getCancelOrderButton(Order order) {
         ItemBuilder builder = new ItemBuilder(new ItemStack(Material.RED_TERRACOTTA))
                 .setDisplayName("§cCancel order")
                 .addLoreLine(" ");
-        if (cancellable) {
-            if (order.getOrderType() == Order.OrderType.BUY) {
-                builder.addLoreLine("§7You will be refunded §6" + (order.getVolume() * order.getPrice()) + " coins§7.");
-            } else {
-                builder.addLoreLine("§7You will be refunded §a" + order.getVolume() + "§8x §7items.");
-            }
-            return builder.addLoreLine(" ").addLoreLine("§eClick to cancel!").build();
+        if (order.getOrderType() == Order.OrderType.BUY) {
+            builder.addLoreLine("§7You will be refunded §6" + (order.getVolume() * order.getPrice()) + " coins§7.");
         } else {
-            return builder.addLoreLine("§7Cannot cancel this order because")
-                    .addLoreLine("§7there are goods to claim!")
-                    .build();
+            builder.addLoreLine("§7You will be refunded §a" + order.getVolume() + "§8x §7items.");
         }
+        return builder.addLoreLine(" ").addLoreLine("§eClick to cancel!").build();
+    }
+
+    public static ItemStack getCannotCancelOrderButton() {
+        return new ItemBuilder(new ItemStack(Material.RED_TERRACOTTA))
+                .setDisplayName("§cCancel order")
+                .addLoreLine(" ")
+                .addLoreLine("§7Cannot cancel this order because")
+                .addLoreLine("§7there are goods to claim!")
+                .build();
     }
 
 }

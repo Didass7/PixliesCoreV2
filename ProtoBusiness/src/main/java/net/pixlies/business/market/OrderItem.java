@@ -2,6 +2,7 @@ package net.pixlies.business.market;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Material;
 
 import java.util.ArrayList;
@@ -184,6 +185,14 @@ public enum OrderItem {
      * Position Y in its page
      */
     @Getter private final int posY;
+
+    /**
+     * Gets formatted name of the GUI item
+     * @return formatted name
+     */
+    public String getName() {
+        return StringUtils.capitalize(name().toLowerCase().replace("_", " "));
+    }
 
     /**
      * Gets the items of a specific page

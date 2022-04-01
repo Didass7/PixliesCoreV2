@@ -7,8 +7,6 @@ import net.pixlies.core.utils.TextUtils;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingDeque;
 
 /**
  * Represents the order book for one item
@@ -31,14 +29,12 @@ public class OrderBook {
 
     private final List<Order> buyOrders;
     private final List<Order> sellOrders;
-    private final BlockingQueue<Order> queue;
 
     public OrderBook(OrderItem item) {
         this.item = item;
         bookId = TextUtils.generateId(7);
         buyOrders = new LinkedList<>();
         sellOrders = new LinkedList<>();
-        queue = new LinkedBlockingDeque<>();
     }
 
     // --------------------------------------------------------------------------------------------
