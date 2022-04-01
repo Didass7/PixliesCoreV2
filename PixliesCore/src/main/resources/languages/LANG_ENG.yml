@@ -232,6 +232,16 @@ PLAYER_KISS: "§7Mwah, §6%PLAYER%§7 just kissed §6%TARGET%§7!"
 
 PLAYER_WARP_OTHER: "§6%PLAYER%§7 has been warped to §6%TARGET%§7."
 
+PLAYER_BALANCE: "§7Your balance is %BALANCE%§7."
+PLAYER_BALANCE_OTHER: "§6%PLAYER%§7's balance is %BALANCE%§7."
+
+PLAYER_STATS: |-
+    §b§l%PLAYER%§8(%HOUSE%§8)§7's stats
+    §3⋙ §7Balance: %BALANCE%
+    §3⋙ §7PixlieScore: %SCORE%
+
+    §7§oMember since %JOINED%
+
 # Lobby
 LOBBY_BUILDMODE_TOGGLE: "§7You just %STATE% §7build-mode."
 

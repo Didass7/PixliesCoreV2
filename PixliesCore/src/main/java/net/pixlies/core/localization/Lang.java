@@ -250,6 +250,11 @@ public enum Lang {
 
     PLAYER_WARP_OTHER(Lang.PIXLIES, new HashMap<>()),
 
+    PLAYER_BALANCE(Lang.PIXLIES, new HashMap<>()),
+    PLAYER_BALANCE_OTHER(Lang.PIXLIES, new HashMap<>()),
+
+    PLAYER_STATS("", new HashMap<>()),
+
     // LOBBY
     LOBBY_BUILDMODE_TOGGLE(Lang.PIXLIES, new HashMap<>()),
 
