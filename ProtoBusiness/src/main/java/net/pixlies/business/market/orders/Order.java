@@ -2,6 +2,7 @@ package net.pixlies.business.market.orders;
 
 import dev.morphia.annotations.*;
 import lombok.Getter;
+import lombok.Setter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.core.utils.TextUtils;
 import org.bukkit.Bukkit;
@@ -26,19 +27,19 @@ public class Order {
 
     @Id private final String orderId;
     private final String bookId;
-    private final int timestamp;
+    private final long timestamp;
 
     private final OrderType orderType;
     private final boolean limitOrder;
 
     private final UUID playerUUID;
-    private final double price;
+    private @Setter double price;
     private final int amount;
     private int volume;
 
-    private final @Getter List<Trade> trades;
+    private final List<Trade> trades;
 
-    public Order(OrderType type, String bookId, int timestamp, boolean limitOrder, UUID uuid, double price, int amount) {
+    public Order(OrderType type, String bookId, long timestamp, boolean limitOrder, UUID uuid, double price, int amount) {
         orderId = TextUtils.generateId(7);
         this.bookId = bookId;
         orderType = type;

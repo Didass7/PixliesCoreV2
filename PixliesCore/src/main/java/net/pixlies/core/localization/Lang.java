@@ -290,6 +290,9 @@ public enum Lang {
     ORDER_CANCELLED(Lang.MARKET, new HashMap<>()),
     ORDER_ITEMS_CLAIMED(Lang.MARKET, new HashMap<>()),
     ORDER_COINS_CLAIMED(Lang.MARKET, new HashMap<>()),
+    ORDER_FLIPPED(Lang.MARKET, new HashMap<>()),
+
+    MARKET_NOT_A_VALID_PRICE(Lang.MARKET, new HashMap<>()),
 
     // OTHER
     MUST_BE_A_PLAYER(Lang.PIXLIES, new HashMap<>()),

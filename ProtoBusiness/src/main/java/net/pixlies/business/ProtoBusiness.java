@@ -7,6 +7,7 @@ import net.pixlies.business.configuration.Config;
 import net.pixlies.business.database.MongoManager;
 import net.pixlies.business.handlers.HandlerManager;
 import net.pixlies.business.handlers.RegisterHandlerManager;
+import net.pixlies.business.listeners.ListenerManager;
 import net.pixlies.business.market.MarketManager;
 import net.pixlies.core.modules.Module;
 
@@ -23,6 +24,7 @@ public class ProtoBusiness extends Module {
     private MongoManager mongoManager;
     private HandlerManager handlerManager;
     private CommandManager commandManager;
+    private ListenerManager listenerManager;
     private CompanyManager companyManager;
     private MarketManager marketManager;
 
@@ -44,6 +46,9 @@ public class ProtoBusiness extends Module {
 
         companyManager = new CompanyManager();
         marketManager = new MarketManager();
+
+        listenerManager = new ListenerManager();
+        listenerManager.registerAllListeners();
     }
 
     @Override

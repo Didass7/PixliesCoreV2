@@ -10,19 +10,19 @@ import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
 import net.pixlies.business.ProtoBusiness;
+import net.pixlies.business.handlers.impl.FlipOrderHandler;
 import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.business.market.MarketItems;
-import net.pixlies.business.market.orders.Order;
-import net.pixlies.business.market.orders.OrderBook;
-import net.pixlies.business.market.orders.OrderItem;
-import net.pixlies.business.market.orders.Trade;
+import net.pixlies.business.market.orders.*;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.entity.user.data.UserStats;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.utils.ItemBuilder;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Material;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -34,12 +34,13 @@ import java.util.concurrent.atomic.AtomicReference;
  *
  * @author vPrototype_
  */
-@CommandAlias("market|m|nasdaq|nyse|snp500")
+@CommandAlias("market|m|nasdaq|nyse|snp500|dowjones|ftse")
 @CommandPermission("pixlies.business.market")
 public class MarketCommand extends BaseCommand {
 
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();
     private final MarketHandler marketHandler = instance.getHandlerManager().getHandler(MarketHandler.class);
+    private final FlipOrderHandler flipOrderHandler = instance.getHandlerManager().getHandler(FlipOrderHandler.class);
 
     @Default
     @Description("Opens the market menu")
@@ -235,8 +236,11 @@ public class MarketCommand extends BaseCommand {
 
             GuiItem item = new GuiItem(MarketItems.getOrderItem(material, order));
             item.setAction(event -> {
-                // TODO: claim goods
-                openOrderSettingsPage(player, order);
+                if (order.isCancellable()) {
+                    openOrderSettingsPage(player, order);
+                } else {
+                    claimGoods(player, order);
+                }
             });
             ordersPane.addItem(item);
 
@@ -290,18 +294,41 @@ public class MarketCommand extends BaseCommand {
                 OrderBook book = instance.getMarketManager().getBooks().get(order.getBookId());
                 book.remove(order);
                 player.closeInventory();
+                player.playSound(player.getLocation(), "block.netherite_block.place", 100, 1);
                 Lang.ORDER_CANCELLED.send(player, "%AMOUNT%;" + order.getAmount(), "%ITEM%;" + book.getItem().getName());
             });
-            optionsPane.addItem(cancel, 1, 0);
-
-            GuiItem flip = new GuiItem(MarketItems.getFlipOrderButton(order));
-            // TODO: set flip action
-            optionsPane.addItem(flip, 5, 0);
+            optionsPane.addItem(cancel, 3, 0);
 
         } else {
 
             GuiItem cancel = new GuiItem(MarketItems.getCannotCancelOrderButton());
-            optionsPane.addItem(cancel, 3, 0);
+            optionsPane.addItem(cancel, 1, 0);
+
+            GuiItem flip = new GuiItem(MarketItems.getFlipOrderButton(order));
+            flip.setAction(event -> {
+                player.closeInventory();
+
+                // SIGN
+                player.getWorld().getBlockAt(player.getLocation()).setType(Material.BIRCH_WALL_SIGN);
+                Sign sign = (Sign) player.getWorld().getBlockAt(player.getLocation()).getState();
+                sign.line(1, Component.text("^^ Set a price ^^"));
+                sign.line(2, Component.text("Previous price:"));
+                sign.line(3, Component.text(order.getPrice() + " coins per unit"));
+                sign.update();
+
+                // AMOUNT
+                int amount = 0;
+                for (Trade t : order.getTrades()) {
+                    if (t.isClaimed()) continue;
+                    amount += t.getAmount();
+                    t.claim();
+                }
+
+                Order flippedOrder = new Order(Order.OrderType.SELL, order.getBookId(), System.currentTimeMillis(), false,
+                        player.getUniqueId(), 0.0, amount);
+                flipOrderHandler.addFlip(player.getUniqueId(), order, flippedOrder);
+            });
+            optionsPane.addItem(flip, 5, 0);
 
         }
 
@@ -324,10 +351,8 @@ public class MarketCommand extends BaseCommand {
     }
 
     private void claimGoods(Player player, Order order) {
+        OrderBook book = instance.getMarketManager().getBooks().get(order.getBookId());
         if (order.getOrderType() == Order.OrderType.BUY) {
-            OrderBook book = instance.getMarketManager().getBooks().get(order.getBookId());
-            Material material = book.getItem().getMaterial();
-
             int items = 0;
             for (Trade t : order.getTrades()) {
                 if (t.isClaimed()) continue;
@@ -335,14 +360,12 @@ public class MarketCommand extends BaseCommand {
                 t.claim();
             }
 
+            Material material = book.getItem().getMaterial();
             for (int i = 1; i <= items; i++) player.getInventory().addItem(new ItemStack(material));
 
             Lang.ORDER_ITEMS_CLAIMED.send(player, "%ITEMS%;" + items, "%AMOUNT%;" + order.getAmount(),
                     "%ITEM%;" + book.getItem().getName());
-            player.playSound(player.getLocation(), "entity.experience_orb.pickup", 100, 1);
         } else {
-            OrderBook book = instance.getMarketManager().getBooks().get(order.getBookId());
-
             int coins = 0;
             for (Trade t : order.getTrades()) {
                 if (t.isClaimed()) continue;
@@ -355,8 +378,8 @@ public class MarketCommand extends BaseCommand {
 
             Lang.ORDER_ITEMS_CLAIMED.send(player, "%COINS%" + coins, "%AMOUNT%;" + order.getAmount(),
                     "%ITEM%;" + book.getItem().getName());
-            player.playSound(player.getLocation(), "entity.experience_orb.pickup", 100, 1);
         }
+        player.playSound(player.getLocation(), "entity.experience_orb.pickup", 100, 1);
     }
 
     // ----------------------------------------------------------------------------------------------------

@@ -26,11 +26,11 @@ public class StatsCommand extends BaseCommand {
                 "%HOUSE%;" + requested.getStats().getHouse().getIcon(),
                 "%BALANCE%;" + requested.getServerCurrency().getFormattedBalance(),
                 "%SCORE%;" + scoreColor + requested.getStats().getCivilPoints(),
-                "%JOINED%;" + requested.getStats().getDateJoined(),
                 "%BUYS%;" + requested.getStats().getBuyOrdersMade(),
                 "%SELLS%;" + requested.getStats().getSellOrdersMade(),
                 "%SPENT%;" + requested.getStats().getMoneySpent(),
-                "%GAINED%;" + requested.getStats().getMoneyGained());
+                "%GAINED%;" + requested.getStats().getMoneyGained(),
+                "%JOINED%;" + requested.getStats().getDateJoined());
     }
 
 }
