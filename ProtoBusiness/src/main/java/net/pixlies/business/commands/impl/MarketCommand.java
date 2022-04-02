@@ -15,11 +15,12 @@ import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.handlers.impl.FlipOrderHandler;
 import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.business.market.MarketItems;
-import net.pixlies.business.market.orders.*;
+import net.pixlies.business.market.orders.Order;
+import net.pixlies.business.market.orders.OrderBook;
+import net.pixlies.business.market.orders.Trade;
+import net.pixlies.business.panes.MarketPane;
 import net.pixlies.core.entity.user.User;
-import net.pixlies.core.entity.user.data.UserStats;
 import net.pixlies.core.localization.Lang;
-import net.pixlies.core.utils.ItemBuilder;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
@@ -27,7 +28,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Handles all Market GUIs
@@ -96,36 +96,9 @@ public class MarketCommand extends BaseCommand {
 
     // ----------------------------------------------------------------------------------------------------
 
-    private StaticPane getMarketPane(Selection selection) {
-        StaticPane pane = new StaticPane(2, 0, 7, 5);
-
-        pane.fillWith(new ItemStack(Material.AIR));
-        if (!selection.hasSeventhRow()) {
-            for (int y = 0; y < 6; y++) pane.addItem(new GuiItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE)), 6, y);
-        }
-
-        for (OrderItem item : OrderItem.getItemsOfPage(selection.ordinal())) {
-            OrderBook book = item.getBook();
-            assert book != null;
-            ItemBuilder builder = new ItemBuilder(item.getMaterial())
-                    .setDisplayName(selection.getColor() + item.getName())
-                    .addLoreLine("§7Lowest buy offer: §6" + book.getLowestBuyPrice() + " coins")
-                    .addLoreLine("§7Highest sell offer: §6" + book.getHighestSellPrice() + " coins")
-                    .addLoreLine(" ")
-                    .addLoreLine("§eClick to buy or sell!");
-            // TODO: on item click
-            pane.addItem(new GuiItem(builder.build()), item.getPosX(), item.getPosY());
-        }
-
-        return pane;
-    }
-
-    // ----------------------------------------------------------------------------------------------------
-
     private void openMarketPage(Player player) {
 
-        User user = User.get(player.getUniqueId());
-        UserStats stats = user.getStats();
+        // Index 0 is the page currently being viewed, index 1 is the page which was previously being viewed
         final Selection[] viewing = { Selection.MINERALS, Selection.MINERALS };
 
         // CREATE GUI + BACKGROUND
@@ -138,7 +111,8 @@ public class MarketCommand extends BaseCommand {
 
         // MARKET PANE
 
-        AtomicReference<StaticPane> marketPane = new AtomicReference<>(getMarketPane(viewing[0]));
+        MarketPane marketPane = new MarketPane(2, 0, 7, 5);
+        marketPane.loadPage(Selection.MINERALS);
 
         // SELECTION PANE
 
@@ -171,7 +145,7 @@ public class MarketCommand extends BaseCommand {
 
                 // SHOWING THE NEW MARKET PAGE
 
-                marketPane.set(getMarketPane(viewing[0]));
+                marketPane.loadPage(viewing[0]);
                 gui.update();
 
             });
@@ -197,7 +171,7 @@ public class MarketCommand extends BaseCommand {
         // ADD PANES + SHOW GUI
 
         gui.addPane(background);
-        gui.addPane(marketPane.get());
+        gui.addPane(marketPane);
         gui.addPane(selectionPane);
         gui.addPane(bottomPane);
 
