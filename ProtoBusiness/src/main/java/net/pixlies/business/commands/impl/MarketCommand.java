@@ -208,8 +208,6 @@ public class MarketCommand extends BaseCommand {
             item.setAction(event -> {
                 if (order.isCancellable()) {
                     openOrderSettingsPage(player, order);
-                } else {
-                    claimGoods(player, order);
                 }
             });
             ordersPane.addItem(item);
@@ -264,7 +262,7 @@ public class MarketCommand extends BaseCommand {
             player.closeInventory();
             player.playSound(player.getLocation(), "block.netherite_block.place", 100, 1);
             Lang.ORDER_CANCELLED.send(player, "%AMOUNT%;" + order.getAmount(), "%ITEM%;" + book.getItem().getName());
-            // TODO: refund items
+            refundGoods(player, order);
         });
         cancelPane.addItem(cancel, 0, 0);
 
@@ -286,6 +284,20 @@ public class MarketCommand extends BaseCommand {
 
     }
 
+    private void refundGoods(Player player, Order order) {
+        OrderBook book = instance.getMarketManager().getBooks().get(order.getBookId());
+        if (order.getOrderType() == Order.OrderType.BUY) {
+            Material material = book.getItem().getMaterial();
+            for (int i = 0; i < order.getVolume(); i++) player.getInventory().addItem(new ItemStack(material));
+            Lang.ORDER_ITEMS_REFUNDED.send(player, "%AMOUNT%;" + order.getVolume(), "%ITEM%;" + book.getItem().getName());
+        } else {
+            User user = User.get(player.getUniqueId());
+            // TODO: add coins to wallet
+            Lang.ORDER_COINS_REFUNDED.send(player, "%COINS%" + (order.getVolume() * order.getPrice()));
+        }
+        player.playSound(player.getLocation(), "entity.experience_orb.pickup", 100, 1);
+    }
+
     private void claimGoods(Player player, Order order) {
         OrderBook book = instance.getMarketManager().getBooks().get(order.getBookId());
         if (order.getOrderType() == Order.OrderType.BUY) {
@@ -297,9 +309,9 @@ public class MarketCommand extends BaseCommand {
             }
 
             Material material = book.getItem().getMaterial();
-            for (int i = 1; i <= items; i++) player.getInventory().addItem(new ItemStack(material));
+            for (int i = 0; i < items; i++) player.getInventory().addItem(new ItemStack(material));
 
-            Lang.ORDER_ITEMS_CLAIMED.send(player, "%ITEMS%;" + items, "%AMOUNT%;" + order.getAmount(),
+            Lang.ORDER_ITEMS_CLAIMED.send(player, "%NUM%;" + items, "%AMOUNT%;" + order.getAmount(),
                     "%ITEM%;" + book.getItem().getName());
         } else {
             int coins = 0;

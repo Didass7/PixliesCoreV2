@@ -146,7 +146,7 @@ public final class MarketItems {
             // BOTTOM INFO
 
             if (order.isCancellable()) {
-                builder.addLoreLine("§bRight-click to view more options!");
+                builder.addLoreLine("§cClick to cancel!");
             } else {
                 builder.addLoreLine(" ")
                         .addLoreLine("§aYou have §2" + (order.getAmount() - order.getVolume()) + " items§a to claim!")
