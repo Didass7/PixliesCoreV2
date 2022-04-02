@@ -158,19 +158,6 @@ public final class MarketItems {
         return builder.build();
     }
 
-    public static ItemStack getFlipOrderButton(Order order) {
-        return new ItemBuilder(new ItemStack(Material.NAME_TAG))
-                .setDisplayName("§aFlip order")
-                .addLoreLine(" ")
-                .addLoreLine("§7Directly create a new sell offer")
-                .addLoreLine("§7for §a" + (order.getAmount() - order.getVolume()) + "§8x §7items.")
-                .addLoreLine(" ")
-                .addLoreLine("§7Current unit price: §6" + order.getPrice() + " coins")
-                .addLoreLine(" ")
-                .addLoreLine("§eClick to pick a new price!")
-                .build();
-    }
-
     public static ItemStack getCancelOrderButton(Order order) {
         ItemBuilder builder = new ItemBuilder(new ItemStack(Material.RED_TERRACOTTA))
                 .setDisplayName("§cCancel order")
