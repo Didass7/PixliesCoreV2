@@ -281,7 +281,7 @@ public class MarketCommand extends BaseCommand {
 
         StaticPane bottomPane = new StaticPane(4, 3, 1, 1);
         GuiItem goBack = new GuiItem(MarketItems.getBackArrow("My orders"));
-        goBack.setAction(event -> openMarketPage(player));
+        goBack.setAction(event -> openOrdersPage(player));
         bottomPane.addItem(goBack, 0, 0);
 
         // ADD PANES + SHOW GUI
@@ -299,7 +299,60 @@ public class MarketCommand extends BaseCommand {
 
     }
 
+    public void openPricePage(Player player, OrderItem item, Order.OrderType type, boolean limit) {
+       
+    }
+
     public void openConfirmOrderPage(Player player, Order order) {
+
+        player.closeInventory();
+
+        OrderBook book = instance.getMarketManager().getBooks().get(order.getBookId());
+        String itemName = book.getItem().getName();
+
+        // CREATE GUI + BACKGROUND
+
+        ChestGui gui = new ChestGui(4, "Confirm order");
+        gui.setOnGlobalClick(event -> event.setCancelled(true));
+
+        StaticPane background = new StaticPane(0, 0, 9, 4, Pane.Priority.LOWEST);
+        background.fillWith(new ItemStack(Material.BLACK_STAINED_GLASS_PANE));
+
+        // CONFIRM PANE
+
+        StaticPane confirmPane = new StaticPane(4, 1, 0, 0);
+
+        GuiItem confirm = new GuiItem(MarketItems.getConfirmOrderButton(order));
+        confirm.setAction(event -> {
+            switch (order.getOrderType()) {
+                case BUY -> {
+                    book.buy(order);
+                    Lang.BUY_ORDER_CREATED.send(player, "%AMOUNT%;" + order.getAmount(), "%ITEM%;" + itemName);
+                }
+                case SELL -> {
+                    book.sell(order);
+                    Lang.SELL_ORDER_CREATED.send(player, "%AMOUNT%;" + order.getAmount(), "%ITEM%;" + itemName);
+                }
+            }
+            player.playSound(player.getLocation(), "block.amethyst_block.break", 100, 1);
+        });
+        confirmPane.addItem(confirm, 0, 0);
+
+        // BOTTOM PANE
+
+        StaticPane bottomPane = new StaticPane(4, 3, 1, 1);
+        GuiItem goBack = new GuiItem(MarketItems.getBackArrow(itemName));
+        goBack.setAction(event -> openPricePage(player, book.getItem(), order.getOrderType(), order.isLimitOrder()));
+        bottomPane.addItem(goBack, 0, 0);
+
+        // ADD PANES + SHOW GUI
+
+        gui.addPane(background);
+        gui.addPane(confirmPane);
+        gui.addPane(bottomPane);
+
+        gui.show(player);
+        gui.update();
 
     }
 

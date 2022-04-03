@@ -287,6 +287,9 @@ public enum Lang {
     MARKET_STATISTICS_RESET(Lang.MARKET, new HashMap<>()),
     MARKET_PLAYER_STATISTICS_RESET(Lang.MARKET, new HashMap<>()),
 
+    BUY_ORDER_CREATED(Lang.MARKET, new HashMap<>()),
+    SELL_ORDER_CREATED(Lang.MARKET, new HashMap<>()),
+
     ORDER_CANCELLED(Lang.MARKET, new HashMap<>()),
     ORDER_ITEMS_REFUNDED(Lang.MARKET, new HashMap<>()),
     ORDER_COINS_REFUNDED(Lang.MARKET, new HashMap<>()),
