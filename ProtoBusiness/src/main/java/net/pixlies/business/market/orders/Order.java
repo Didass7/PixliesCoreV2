@@ -27,7 +27,7 @@ public class Order {
 
     @Id private final String orderId;
     private final String bookId;
-    private final long timestamp;
+    private @Setter long timestamp;
 
     private final OrderType orderType;
     private final boolean limitOrder;

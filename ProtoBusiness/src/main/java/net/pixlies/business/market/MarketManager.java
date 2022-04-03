@@ -108,4 +108,11 @@ public class MarketManager {
         return list;
     }
 
+    public OrderBook getBookFromItem(OrderItem item) {
+        for (OrderBook book : books.values()) {
+            if (book.getItem() == item) return book;
+        }
+        return null;
+    }
+
 }

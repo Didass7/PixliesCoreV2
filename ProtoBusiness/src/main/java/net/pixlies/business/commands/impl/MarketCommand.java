@@ -15,6 +15,7 @@ import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.business.market.MarketItems;
 import net.pixlies.business.market.orders.Order;
 import net.pixlies.business.market.orders.OrderBook;
+import net.pixlies.business.market.orders.OrderItem;
 import net.pixlies.business.market.orders.Trade;
 import net.pixlies.business.panes.MarketPane;
 import net.pixlies.core.entity.user.User;
@@ -35,6 +36,14 @@ import java.util.List;
 @CommandPermission("pixlies.business.market")
 public class MarketCommand extends BaseCommand {
 
+    /*
+     * SOUNDS
+     * - placed new order: block.amethyst_block.break
+     * - invalid/error: block.anvil.land
+     * - claimed goods: entity.experience_orb.pickup
+     * - cancelled order: block.netherite_block.place
+     */
+
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();
     private final MarketHandler marketHandler = instance.getHandlerManager().getHandler(MarketHandler.class);
 
@@ -48,8 +57,9 @@ public class MarketCommand extends BaseCommand {
     @CommandPermission("pixlies.business.market.gates")
     @Description("Opens the market to the public")
     public void onMarketOpen(Player player) {
-        if (marketHandler.isMarketOpen()) Lang.MARKET_WAS_ALREADY_OPEN.send(player);
-        else {
+        if (marketHandler.isMarketOpen()) {
+            Lang.MARKET_WAS_ALREADY_OPEN.send(player);
+        } else {
             marketHandler.setMarketOpen(true);
             Lang.MARKET_OPEN.broadcast();
         }
@@ -59,10 +69,11 @@ public class MarketCommand extends BaseCommand {
     @CommandPermission("pixlies.business.market.gates")
     @Description("Closes the market")
     public void onMarketClose(Player player) {
-        if (!marketHandler.isMarketOpen()) Lang.MARKET_WAS_ALREADY_CLOSED.send(player);
-        else {
+        if (marketHandler.isMarketOpen()) {
             marketHandler.setMarketOpen(false);
             Lang.MARKET_CLOSED.broadcast();
+        } else {
+            Lang.MARKET_WAS_ALREADY_CLOSED.send(player);
         }
     }
 
@@ -90,6 +101,8 @@ public class MarketCommand extends BaseCommand {
         help.showHelp();
     }
 
+    // ----------------------------------------------------------------------------------------------------
+    // GUI METHODS
     // ----------------------------------------------------------------------------------------------------
 
     private void openMarketPage(Player player) {
@@ -125,21 +138,18 @@ public class MarketCommand extends BaseCommand {
 
             item.setAction(event -> {
 
+                // SELECTIONS
+
                 if (s == viewing[0]) return;
                 viewing[1] = viewing[0];
                 viewing[0] = s;
 
-                // DISABLING THE PREVIOUS BUTTON
+                // BUTTON TEXT
 
                 selectionPane.addItem(new GuiItem(MarketItems.getUnselectedSelection(viewing[1], viewing[1].getName())),
                         0, viewing[1].ordinal());
-
-                // ENABLING THE CLICKED BUTTON
-
                 selectionPane.addItem(new GuiItem(MarketItems.getSelectedSelection(viewing[0], viewing[0].getName())),
                         0, viewing[0].ordinal());
-
-                // SHOWING THE NEW MARKET PAGE
 
                 marketPane.loadPage(viewing[0]);
                 gui.update();
@@ -180,11 +190,11 @@ public class MarketCommand extends BaseCommand {
 
         player.closeInventory();
 
-        // CREATE GUI + BACKGROUND
-
         List<Order> buys = instance.getMarketManager().getPlayerBuyOrders(player.getUniqueId());
         List<Order> sells = instance.getMarketManager().getPlayerSellOrders(player.getUniqueId());
         int rows = (int) Math.round(((buys.size() + sells.size()) / 7.0) + 0.5);
+
+        // CREATE GUI + BACKGROUND
 
         ChestGui gui = new ChestGui(rows, "My orders");
         gui.setOnGlobalClick(event -> event.setCancelled(true));
@@ -201,7 +211,6 @@ public class MarketCommand extends BaseCommand {
         orders.addAll(sells);
 
         for (Order order : orders) {
-
             Material material = instance.getMarketManager().getBooks().get(order.getBookId()).getItem().getMaterial();
 
             GuiItem item = new GuiItem(MarketItems.getOrderItem(material, order));
@@ -211,10 +220,9 @@ public class MarketCommand extends BaseCommand {
                 }
             });
             ordersPane.addItem(item);
-
         }
 
-        // EMPTY SLOTS
+        // FILL EMPTY SLOTS
 
         for (int i = 0; i < 7; i++) {
             if (ordersPane.getItems().size() == rows * 7) break;
@@ -224,6 +232,7 @@ public class MarketCommand extends BaseCommand {
         // BOTTOM PANE
 
         StaticPane bottomPane = new StaticPane(4, rows - 1, 1, 1);
+
         GuiItem goBack = new GuiItem(MarketItems.getBackArrow("Market"));
         goBack.setAction(event -> openMarketPage(player));
         bottomPane.addItem(goBack, 0, 0);
@@ -259,9 +268,11 @@ public class MarketCommand extends BaseCommand {
         cancel.setAction(event -> {
             OrderBook book = instance.getMarketManager().getBooks().get(order.getBookId());
             book.remove(order);
+
             player.closeInventory();
             player.playSound(player.getLocation(), "block.netherite_block.place", 100, 1);
             Lang.ORDER_CANCELLED.send(player, "%AMOUNT%;" + order.getAmount(), "%ITEM%;" + book.getItem().getName());
+
             refundGoods(player, order);
         });
         cancelPane.addItem(cancel, 0, 0);
@@ -283,6 +294,18 @@ public class MarketCommand extends BaseCommand {
         gui.update();
 
     }
+
+    public void openItemPage(Player player, OrderItem item) {
+
+    }
+
+    public void openConfirmOrderPage(Player player, Order order) {
+
+    }
+
+    // ----------------------------------------------------------------------------------------------------
+    // OTHER METHODS
+    // ----------------------------------------------------------------------------------------------------
 
     private void refundGoods(Player player, Order order) {
         OrderBook book = instance.getMarketManager().getBooks().get(order.getBookId());
@@ -330,6 +353,8 @@ public class MarketCommand extends BaseCommand {
         player.playSound(player.getLocation(), "entity.experience_orb.pickup", 100, 1);
     }
 
+    // ----------------------------------------------------------------------------------------------------
+    // SELECTION ENUM
     // ----------------------------------------------------------------------------------------------------
 
     @AllArgsConstructor
