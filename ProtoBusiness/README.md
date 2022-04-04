@@ -9,3 +9,4 @@
 - [ ] Chest shops
 - [ ] Shop NPCs
 - [ ] General economy commands
+- [ ] Add currency system
