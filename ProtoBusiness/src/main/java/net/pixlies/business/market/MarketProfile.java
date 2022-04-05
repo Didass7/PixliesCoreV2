@@ -5,7 +5,7 @@ import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
-import lombok.Getter;
+import lombok.Data;
 import net.kyori.adventure.text.Component;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.commands.impl.MarketCommand;
@@ -31,12 +31,14 @@ import java.util.UUID;
  *
  * @author vPrototype_
  */
+@Data
 public class MarketProfile {
 
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();
 
-    @Getter private final UUID uuid;
-    @Getter private Order tempOrder;
+    private final UUID uuid;
+    private Order tempOrder;
+    private String tempTitle;
 
     public MarketProfile(UUID uuid) {
         this.uuid = uuid;
@@ -295,10 +297,19 @@ public class MarketProfile {
 
         boolean emptyBuyCondition = type == Order.OrderType.BUY && book.getBuyOrders().isEmpty();
         boolean emptySellCondition = type == Order.OrderType.SELL && book.getSellOrders().isEmpty();
+        String finalPageTitle = pageTitle;
 
         GuiItem customPrice = new GuiItem(MarketItems.getCustomPriceButton());
         customPrice.setAction(event -> {
             player.closeInventory();
+
+            User user = User.get(player.getUniqueId());
+            MarketProfile profile = MarketProfile.get(user);
+            assert profile != null;
+            profile.setTempOrder(new Order(type, book.getBookId(), System.currentTimeMillis(), limit, player.getUniqueId(),
+                    0.0, amount));
+            profile.setTempTitle(finalPageTitle);
+
             player.getWorld().getBlockAt(player.getLocation()).setType(Material.BIRCH_WALL_SIGN);
             Sign sign = (Sign) player.getWorld().getBlockAt(player.getLocation()).getState();
             sign.line(1, Component.text("^^ -------- ^^"));
@@ -311,7 +322,6 @@ public class MarketProfile {
             pricesPane.addItem(customPrice, 2, 0);
         } else {
             GuiItem marketPrice = new GuiItem(MarketItems.getBestPriceButton(item, type));
-            String finalPageTitle = pageTitle;
             marketPrice.setAction(event -> {
                 player.closeInventory();
                 double price = type == Order.OrderType.BUY ? book.getLowestBuyPrice() : book.getHighestSellPrice();

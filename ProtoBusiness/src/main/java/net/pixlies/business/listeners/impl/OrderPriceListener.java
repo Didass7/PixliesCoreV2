@@ -1,6 +1,8 @@
 package net.pixlies.business.listeners.impl;
 
 import net.pixlies.business.ProtoBusiness;
+import net.pixlies.business.market.MarketProfile;
+import net.pixlies.business.market.orders.Order;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.localization.Lang;
 import org.apache.commons.lang.StringUtils;
@@ -24,7 +26,13 @@ public class OrderPriceListener implements Listener {
             String firstLine = String.valueOf(sign.line(0));
 
             if (StringUtils.isNumeric(firstLine)) {
-                // TODO
+                MarketProfile profile = MarketProfile.get(user);
+                assert profile != null;
+                Order order = profile.getTempOrder();
+                order.setPrice(Double.parseDouble(firstLine));
+                profile.openConfirmOrderPage(order, profile.getTempTitle());
+                profile.setTempOrder(null);
+                profile.setTempTitle(null);
             } else {
                 user.getExtras().remove("marketProfile");
                 Lang.MARKET_NOT_A_VALID_PRICE.send(player);
