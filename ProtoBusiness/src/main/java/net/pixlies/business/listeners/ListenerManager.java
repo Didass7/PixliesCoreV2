@@ -1,6 +1,7 @@
 package net.pixlies.business.listeners;
 
 import com.google.common.collect.ImmutableList;
+import net.pixlies.business.listeners.impl.OrderPriceListener;
 import net.pixlies.core.Main;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -9,7 +10,9 @@ public class ListenerManager {
 
     private static final Main instance = Main.getInstance();
 
-    private final ImmutableList<Listener> listeners = ImmutableList.of(); // No listeners yet
+    private final ImmutableList<Listener> listeners = ImmutableList.of(
+            new OrderPriceListener()
+    );
 
     public void registerAllListeners() {
         listeners.forEach(listener -> instance.getServer().getPluginManager().registerEvents(listener, instance));

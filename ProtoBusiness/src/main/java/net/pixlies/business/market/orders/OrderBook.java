@@ -46,7 +46,8 @@ public class OrderBook {
         for (Order order : buyOrders) {
             prices.add(order.getPrice());
         }
-        return Collections.min(prices);
+        if (prices.isEmpty()) return 0;
+        else return Collections.min(prices);
     }
 
     public double getHighestSellPrice() {
@@ -54,7 +55,8 @@ public class OrderBook {
         for (Order order : sellOrders) {
             prices.add(order.getPrice());
         }
-        return Collections.max(prices);
+        if (prices.isEmpty()) return 0;
+        else return Collections.max(prices);
     }
 
     public void buy(Order order) {

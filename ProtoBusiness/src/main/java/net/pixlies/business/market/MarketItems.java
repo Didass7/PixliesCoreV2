@@ -248,7 +248,7 @@ public final class MarketItems {
                 .build();
     }
 
-    public static ItemStack getBestPricePlusOneButton(OrderItem item, Order.OrderType type) {
+    public static ItemStack getChangedPriceButton(OrderItem item, Order.OrderType type) {
         OrderBook book = instance.getMarketManager().getBookFromItem(item);
         return new ItemBuilder(new ItemStack(Material.GOLD_NUGGET))
                 .setDisplayName(type == Order.OrderType.BUY ?
