@@ -251,6 +251,11 @@ public enum Lang {
     PLAYER_WARP(Lang.PIXLIES, new HashMap<>()),
     PLAYER_WARP_OTHER(Lang.PIXLIES, new HashMap<>()),
 
+    PLAYER_BALANCE(Lang.PIXLIES, new HashMap<>()),
+    PLAYER_BALANCE_OTHER(Lang.PIXLIES, new HashMap<>()),
+
+    PLAYER_STATS("", new HashMap<>()),
+
     // LOBBY
     LOBBY_BUILDMODE_TOGGLE(Lang.PIXLIES, new HashMap<>()),
 
@@ -282,6 +287,18 @@ public enum Lang {
 
     MARKET_STATISTICS_RESET(Lang.MARKET, new HashMap<>()),
     MARKET_PLAYER_STATISTICS_RESET(Lang.MARKET, new HashMap<>()),
+
+    BUY_ORDER_CREATED(Lang.MARKET, new HashMap<>()),
+    SELL_ORDER_CREATED(Lang.MARKET, new HashMap<>()),
+
+    ORDER_CANCELLED(Lang.MARKET, new HashMap<>()),
+    ORDER_ITEMS_REFUNDED(Lang.MARKET, new HashMap<>()),
+    ORDER_COINS_REFUNDED(Lang.MARKET, new HashMap<>()),
+    ORDER_ITEMS_CLAIMED(Lang.MARKET, new HashMap<>()),
+    ORDER_COINS_CLAIMED(Lang.MARKET, new HashMap<>()),
+    ORDER_FLIPPED(Lang.MARKET, new HashMap<>()),
+
+    MARKET_NOT_A_VALID_PRICE(Lang.MARKET, new HashMap<>()),
 
     // OTHER
     MUST_BE_A_PLAYER(Lang.PIXLIES, new HashMap<>()),

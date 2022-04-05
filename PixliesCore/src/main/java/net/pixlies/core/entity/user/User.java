@@ -58,6 +58,10 @@ public class User {
     private Map<String, Object> extras;
     private final @Transient Map<String, Timer> allTimers = new HashMap<>();
 
+    public Wallet getServerCurrency() {
+        return wallets.get("serverCurrency");
+    }
+
     public OfflinePlayer getAsOfflinePlayer() {
         return Bukkit.getOfflinePlayer(this.getUniqueId());
     }

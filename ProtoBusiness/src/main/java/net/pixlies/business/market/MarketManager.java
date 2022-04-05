@@ -2,8 +2,10 @@ package net.pixlies.business.market;
 
 import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
+import net.pixlies.business.market.orders.Order;
+import net.pixlies.business.market.orders.OrderBook;
+import net.pixlies.business.market.orders.OrderItem;
 import net.pixlies.core.entity.user.User;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -58,7 +60,6 @@ public class MarketManager {
         for (OrderBook book : books.values()) {
             book.getBuyOrders().clear();
             book.getSellOrders().clear();
-            book.getQueue().clear();
             book.save();
         }
     }
@@ -75,7 +76,6 @@ public class MarketManager {
 
         // Clear orders of that player
         for (OrderBook book : books.values()) {
-            book.getQueue().removeIf(order -> order.getPlayerUUID() == uuid);
             book.getBuyOrders().removeIf(order -> order.getPlayerUUID() == uuid);
             book.getSellOrders().removeIf(order -> order.getPlayerUUID() == uuid);
             book.save();
@@ -84,28 +84,35 @@ public class MarketManager {
         // TODO reset money
     }
 
-    public Map<Order, Material> getPlayerBuyOrders(UUID uuid) {
-        Map<Order, Material> map = new HashMap<>();
+    public List<Order> getPlayerBuyOrders(UUID uuid) {
+        List<Order> list = new LinkedList<>();
         for (OrderBook book : books.values()) {
             if (book.getBuyOrders() != null) {
                 for (Order order : book.getBuyOrders()) {
-                    if (order.getPlayerUUID() == uuid) map.put(order, book.getItem().getMaterial());
+                    if (order.getPlayerUUID() == uuid) list.add(order);
                 }
             }
         }
-        return map;
+        return list;
     }
 
-    public Map<Order, Material> getPlayerSellOrders(UUID uuid) {
-        Map<Order, Material> map = new HashMap<>();
+    public List<Order> getPlayerSellOrders(UUID uuid) {
+        List<Order> list = new LinkedList<>();
         for (OrderBook book : books.values()) {
             if (book.getSellOrders() != null) {
                 for (Order order : book.getSellOrders()) {
-                    if (order.getPlayerUUID() == uuid) map.put(order, book.getItem().getMaterial());
+                    if (order.getPlayerUUID() == uuid) list.add(order);
                 }
             }
         }
-        return map;
+        return list;
+    }
+
+    public OrderBook getBookFromItem(OrderItem item) {
+        for (OrderBook book : books.values()) {
+            if (book.getItem() == item) return book;
+        }
+        return null;
     }
 
 }

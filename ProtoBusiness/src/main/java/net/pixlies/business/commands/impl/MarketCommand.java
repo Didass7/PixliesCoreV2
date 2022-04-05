@@ -13,28 +13,36 @@ import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.business.market.MarketItems;
-import net.pixlies.business.market.Order;
-import net.pixlies.business.market.OrderItem;
+import net.pixlies.business.market.orders.Order;
+import net.pixlies.business.market.orders.OrderBook;
+import net.pixlies.business.market.orders.OrderItem;
+import net.pixlies.business.market.orders.Trade;
+import net.pixlies.business.panes.MarketPane;
 import net.pixlies.core.entity.user.User;
-import net.pixlies.core.entity.user.data.UserStats;
 import net.pixlies.core.localization.Lang;
-import net.pixlies.core.utils.ItemBuilder;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.List;
 
 /**
  * Handles all Market GUIs
  *
  * @author vPrototype_
  */
-@CommandAlias("market|m|nasdaq|nyse|snp500")
+@CommandAlias("market|m|nasdaq|nyse|snp500|dowjones|ftse")
 @CommandPermission("pixlies.business.market")
 public class MarketCommand extends BaseCommand {
+
+    /*
+     * SOUNDS
+     * - placed new order: block.amethyst_block.break
+     * - invalid/error: block.anvil.land
+     * - claimed goods: entity.experience_orb.pickup
+     * - cancelled order: block.netherite_block.place
+     */
 
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();
     private final MarketHandler marketHandler = instance.getHandlerManager().getHandler(MarketHandler.class);
@@ -49,8 +57,9 @@ public class MarketCommand extends BaseCommand {
     @CommandPermission("pixlies.business.market.gates")
     @Description("Opens the market to the public")
     public void onMarketOpen(Player player) {
-        if (marketHandler.isMarketOpen()) Lang.MARKET_WAS_ALREADY_OPEN.send(player);
-        else {
+        if (marketHandler.isMarketOpen()) {
+            Lang.MARKET_WAS_ALREADY_OPEN.send(player);
+        } else {
             marketHandler.setMarketOpen(true);
             Lang.MARKET_OPEN.broadcast();
         }
@@ -60,10 +69,11 @@ public class MarketCommand extends BaseCommand {
     @CommandPermission("pixlies.business.market.gates")
     @Description("Closes the market")
     public void onMarketClose(Player player) {
-        if (!marketHandler.isMarketOpen()) Lang.MARKET_WAS_ALREADY_CLOSED.send(player);
-        else {
+        if (marketHandler.isMarketOpen()) {
             marketHandler.setMarketOpen(false);
             Lang.MARKET_CLOSED.broadcast();
+        } else {
+            Lang.MARKET_WAS_ALREADY_CLOSED.send(player);
         }
     }
 
@@ -92,35 +102,12 @@ public class MarketCommand extends BaseCommand {
     }
 
     // ----------------------------------------------------------------------------------------------------
-
-    private StaticPane getMarketPane(Selection selection) {
-        StaticPane pane = new StaticPane(2, 0, 7, 5);
-        pane.fillWith(new ItemStack(Material.AIR));
-        if (!selection.hasSeventhRow()) {
-            for (int y = 0; y < 6; y++) pane.addItem(new GuiItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE)), 6, y);
-        }
-
-        for (OrderItem item : OrderItem.getItemsOfPage(selection.ordinal())) {
-            String name = StringUtils.capitalize(item.name().toLowerCase().replace("_", " "));
-            ItemBuilder builder = new ItemBuilder(item.getMaterial())
-                    .setDisplayName(selection.getColor() + name)
-                    .addLoreLine("§7Lowest buy offer: §6" + " coins") // TODO lowest buy price
-                    .addLoreLine("§7Highest sell offer: §6" + " coins") // TODO highest sell price
-                    .addLoreLine(" ")
-                    .addLoreLine("§eClick to buy or sell!");
-            // TODO: on item click
-            pane.addItem(new GuiItem(builder.build()), item.getPosX(), item.getPosY());
-        }
-
-        return pane;
-    }
-
+    // GUI METHODS
     // ----------------------------------------------------------------------------------------------------
 
     private void openMarketPage(Player player) {
 
-        User user = User.get(player.getUniqueId());
-        UserStats stats = user.getStats();
+        // Index 0 is the page currently being viewed, index 1 is the page which was previously being viewed
         final Selection[] viewing = { Selection.MINERALS, Selection.MINERALS };
 
         // CREATE GUI + BACKGROUND
@@ -133,7 +120,8 @@ public class MarketCommand extends BaseCommand {
 
         // MARKET PANE
 
-        AtomicReference<StaticPane> marketPane = new AtomicReference<>(getMarketPane(viewing[0]));
+        MarketPane marketPane = new MarketPane(2, 0, 7, 5);
+        marketPane.loadPage(Selection.MINERALS);
 
         // SELECTION PANE
 
@@ -150,23 +138,20 @@ public class MarketCommand extends BaseCommand {
 
             item.setAction(event -> {
 
+                // SELECTIONS
+
                 if (s == viewing[0]) return;
                 viewing[1] = viewing[0];
                 viewing[0] = s;
 
-                // DISABLING THE PREVIOUS BUTTON
+                // BUTTON TEXT
 
                 selectionPane.addItem(new GuiItem(MarketItems.getUnselectedSelection(viewing[1], viewing[1].getName())),
                         0, viewing[1].ordinal());
-
-                // ENABLING THE CLICKED BUTTON
-
                 selectionPane.addItem(new GuiItem(MarketItems.getSelectedSelection(viewing[0], viewing[0].getName())),
                         0, viewing[0].ordinal());
 
-                // SHOWING THE NEW MARKET PAGE
-
-                marketPane.set(getMarketPane(viewing[0]));
+                marketPane.loadPage(viewing[0]);
                 gui.update();
 
             });
@@ -185,14 +170,14 @@ public class MarketCommand extends BaseCommand {
         GuiItem marketStats = new GuiItem(MarketItems.getMarketStats());
         bottomPane.addItem(marketStats, 1, 0);
 
-        GuiItem myOrders = new GuiItem(MarketItems.getMyOrdersButton());
+        GuiItem myOrders = new GuiItem(MarketItems.getMyOrdersButton(player));
         myOrders.setAction(event -> openOrdersPage(player));
         bottomPane.addItem(myOrders, 3, 0);
 
         // ADD PANES + SHOW GUI
 
         gui.addPane(background);
-        gui.addPane(marketPane.get());
+        gui.addPane(marketPane);
         gui.addPane(selectionPane);
         gui.addPane(bottomPane);
 
@@ -205,11 +190,11 @@ public class MarketCommand extends BaseCommand {
 
         player.closeInventory();
 
-        // CREATE GUI + BACKGROUND
-
-        Map<Order, Material> buys = instance.getMarketManager().getPlayerBuyOrders(player.getUniqueId());
-        Map<Order, Material> sells = instance.getMarketManager().getPlayerSellOrders(player.getUniqueId());
+        List<Order> buys = instance.getMarketManager().getPlayerBuyOrders(player.getUniqueId());
+        List<Order> sells = instance.getMarketManager().getPlayerSellOrders(player.getUniqueId());
         int rows = (int) Math.round(((buys.size() + sells.size()) / 7.0) + 0.5);
+
+        // CREATE GUI + BACKGROUND
 
         ChestGui gui = new ChestGui(rows, "My orders");
         gui.setOnGlobalClick(event -> event.setCancelled(true));
@@ -221,25 +206,23 @@ public class MarketCommand extends BaseCommand {
 
         OutlinePane ordersPane = new OutlinePane(1, 1, 7, rows);
 
-        Map<Order, Material> orders;
+        List<Order> orders;
         orders = buys;
-        orders.putAll(sells);
+        orders.addAll(sells);
 
-        for (Map.Entry<Order, Material> entry : orders.entrySet()) {
-
-            Order order = entry.getKey();
-            Material material = entry.getValue();
+        for (Order order : orders) {
+            Material material = instance.getMarketManager().getBooks().get(order.getBookId()).getItem().getMaterial();
 
             GuiItem item = new GuiItem(MarketItems.getOrderItem(material, order));
             item.setAction(event -> {
-                // TODO: claim goods
-                openOrderSettingsPage(player, order);
+                if (order.isCancellable()) {
+                    openOrderSettingsPage(player, order);
+                }
             });
             ordersPane.addItem(item);
-
         }
 
-        // EMPTY SLOTS
+        // FILL EMPTY SLOTS
 
         for (int i = 0; i < 7; i++) {
             if (ordersPane.getItems().size() == rows * 7) break;
@@ -249,6 +232,7 @@ public class MarketCommand extends BaseCommand {
         // BOTTOM PANE
 
         StaticPane bottomPane = new StaticPane(4, rows - 1, 1, 1);
+
         GuiItem goBack = new GuiItem(MarketItems.getBackArrow("Market"));
         goBack.setAction(event -> openMarketPage(player));
         bottomPane.addItem(goBack, 0, 0);
@@ -276,38 +260,34 @@ public class MarketCommand extends BaseCommand {
         StaticPane background = new StaticPane(0, 0, 9, 4, Pane.Priority.LOWEST);
         background.fillWith(new ItemStack(Material.BLACK_STAINED_GLASS_PANE));
 
-        // OPTIONS PANE
+        // CANCEL PANE
 
-        StaticPane optionsPane = new StaticPane(2, 1, 5, 0);
-        boolean cancellable = false; // TODO: see if there are goods to claim
-        GuiItem cancel = new GuiItem(MarketItems.getCancelOrderButton(order, cancellable));
+        StaticPane cancelPane = new StaticPane(4, 1, 0, 0);
 
-        if (cancellable) {
+        GuiItem cancel = new GuiItem(MarketItems.getCancelOrderButton(order));
+        cancel.setAction(event -> {
+            OrderBook book = instance.getMarketManager().getBooks().get(order.getBookId());
+            book.remove(order);
 
-            // TODO: set cancel action
-            optionsPane.addItem(cancel, 1, 0);
+            player.closeInventory();
+            player.playSound(player.getLocation(), "block.netherite_block.place", 100, 1);
+            Lang.ORDER_CANCELLED.send(player, "%AMOUNT%;" + order.getAmount(), "%ITEM%;" + book.getItem().getName());
 
-            GuiItem flip = new GuiItem(MarketItems.getFlipOrderButton(order));
-            // TODO: set flip action
-            optionsPane.addItem(flip, 5, 0);
-
-        } else {
-
-            optionsPane.addItem(cancel, 3, 0);
-
-        }
+            refundGoods(player, order);
+        });
+        cancelPane.addItem(cancel, 0, 0);
 
         // BOTTOM PANE
 
         StaticPane bottomPane = new StaticPane(4, 3, 1, 1);
         GuiItem goBack = new GuiItem(MarketItems.getBackArrow("My orders"));
-        goBack.setAction(event -> openMarketPage(player));
+        goBack.setAction(event -> openOrdersPage(player));
         bottomPane.addItem(goBack, 0, 0);
 
         // ADD PANES + SHOW GUI
 
         gui.addPane(background);
-        gui.addPane(optionsPane);
+        gui.addPane(cancelPane);
         gui.addPane(bottomPane);
 
         gui.show(player);
@@ -315,10 +295,119 @@ public class MarketCommand extends BaseCommand {
 
     }
 
-    private void claimGoods(Player player, Order order) {
+    public void openItemPage(Player player, OrderItem item) {
 
     }
 
+    public void openPricePage(Player player, OrderItem item, Order.OrderType type, boolean limit) {
+       
+    }
+
+    public void openConfirmOrderPage(Player player, Order order) {
+
+        player.closeInventory();
+
+        OrderBook book = instance.getMarketManager().getBooks().get(order.getBookId());
+        String itemName = book.getItem().getName();
+
+        // CREATE GUI + BACKGROUND
+
+        ChestGui gui = new ChestGui(4, "Confirm order");
+        gui.setOnGlobalClick(event -> event.setCancelled(true));
+
+        StaticPane background = new StaticPane(0, 0, 9, 4, Pane.Priority.LOWEST);
+        background.fillWith(new ItemStack(Material.BLACK_STAINED_GLASS_PANE));
+
+        // CONFIRM PANE
+
+        StaticPane confirmPane = new StaticPane(4, 1, 0, 0);
+
+        GuiItem confirm = new GuiItem(MarketItems.getConfirmOrderButton(order));
+        confirm.setAction(event -> {
+            switch (order.getOrderType()) {
+                case BUY -> {
+                    book.buy(order);
+                    Lang.BUY_ORDER_CREATED.send(player, "%AMOUNT%;" + order.getAmount(), "%ITEM%;" + itemName);
+                }
+                case SELL -> {
+                    book.sell(order);
+                    Lang.SELL_ORDER_CREATED.send(player, "%AMOUNT%;" + order.getAmount(), "%ITEM%;" + itemName);
+                }
+            }
+            player.playSound(player.getLocation(), "block.amethyst_block.break", 100, 1);
+        });
+        confirmPane.addItem(confirm, 0, 0);
+
+        // BOTTOM PANE
+
+        StaticPane bottomPane = new StaticPane(4, 3, 1, 1);
+        GuiItem goBack = new GuiItem(MarketItems.getBackArrow(itemName));
+        goBack.setAction(event -> openPricePage(player, book.getItem(), order.getOrderType(), order.isLimitOrder()));
+        bottomPane.addItem(goBack, 0, 0);
+
+        // ADD PANES + SHOW GUI
+
+        gui.addPane(background);
+        gui.addPane(confirmPane);
+        gui.addPane(bottomPane);
+
+        gui.show(player);
+        gui.update();
+
+    }
+
+    // ----------------------------------------------------------------------------------------------------
+    // OTHER METHODS
+    // ----------------------------------------------------------------------------------------------------
+
+    private void refundGoods(Player player, Order order) {
+        OrderBook book = instance.getMarketManager().getBooks().get(order.getBookId());
+        if (order.getOrderType() == Order.OrderType.BUY) {
+            Material material = book.getItem().getMaterial();
+            for (int i = 0; i < order.getVolume(); i++) player.getInventory().addItem(new ItemStack(material));
+            Lang.ORDER_ITEMS_REFUNDED.send(player, "%AMOUNT%;" + order.getVolume(), "%ITEM%;" + book.getItem().getName());
+        } else {
+            User user = User.get(player.getUniqueId());
+            // TODO: add coins to wallet
+            Lang.ORDER_COINS_REFUNDED.send(player, "%COINS%" + (order.getVolume() * order.getPrice()));
+        }
+        player.playSound(player.getLocation(), "entity.experience_orb.pickup", 100, 1);
+    }
+
+    private void claimGoods(Player player, Order order) {
+        OrderBook book = instance.getMarketManager().getBooks().get(order.getBookId());
+        if (order.getOrderType() == Order.OrderType.BUY) {
+            int items = 0;
+            for (Trade t : order.getTrades()) {
+                if (t.isClaimed()) continue;
+                items += t.getAmount();
+                t.claim();
+            }
+
+            Material material = book.getItem().getMaterial();
+            for (int i = 0; i < items; i++) player.getInventory().addItem(new ItemStack(material));
+
+            Lang.ORDER_ITEMS_CLAIMED.send(player, "%NUM%;" + items, "%AMOUNT%;" + order.getAmount(),
+                    "%ITEM%;" + book.getItem().getName());
+        } else {
+            int coins = 0;
+            for (Trade t : order.getTrades()) {
+                if (t.isClaimed()) continue;
+                coins += t.getAmount() * t.getPrice();
+                t.claim();
+            }
+
+            User user = User.get(player.getUniqueId());
+            // TODO: add coins to wallet
+
+            Lang.ORDER_ITEMS_CLAIMED.send(player, "%COINS%" + coins, "%AMOUNT%;" + order.getAmount(),
+                    "%ITEM%;" + book.getItem().getName());
+        }
+        player.playSound(player.getLocation(), "entity.experience_orb.pickup", 100, 1);
+    }
+
+    // ----------------------------------------------------------------------------------------------------
+    // SELECTION ENUM
     // ----------------------------------------------------------------------------------------------------
 
     @AllArgsConstructor
