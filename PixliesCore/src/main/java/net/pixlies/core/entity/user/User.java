@@ -397,7 +397,7 @@ public class User {
      * Teleports the user to a location with a timer if the player is online.
      * Teleports instantly if the user is passive.
      * @param location The location to teleport to
-     * @param timed If it should instantly teleport.
+     * @param timed False if it should instantly teleport.
      */
     public void teleport(@NotNull Location location, boolean timed) {
         // TODO: literally everything, fix this soon
@@ -434,14 +434,30 @@ public class User {
     }
 
     /**
+     * Teleports the user to the spawn
+     * @param timed False if it should instantly teleport.
+     */
+    public void teleportToSpawn(boolean timed) {
+        Warp warp = Warp.getSpawn();
+        Location location = warp.getAsBukkitLocation();
+        this.teleport(location, timed);
+    }
+
+    /**
+     * @see User#teleportToSpawn(boolean)
+     */
+    public void teleportToSpawn() {
+        Warp warp = Warp.getSpawn();
+        Location location = warp.getAsBukkitLocation();
+        this.teleport(location, true);
+    }
+
+    /**
      * @see User#teleport(Location, boolean)
      * @param warp The warp to teleport to
      */
     public void teleport(@NotNull Warp warp) {
         Location location = warp.getAsBukkitLocation();
-        if (location == null) {
-            return;
-        }
         this.teleport(location, true);
     }
 

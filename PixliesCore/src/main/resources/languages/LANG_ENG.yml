@@ -230,6 +230,7 @@ PLAYER_PLAYTIME_OTHER: "§6%PLAYER%§7's playtime is §6%TIME%§7."
 
 PLAYER_KISS: "§7Mwah, §6%PLAYER%§7 just kissed §6%TARGET%§7!"
 
+PLAYER_WARP: "§7You have been warped to §6%TARGET%§7."
 PLAYER_WARP_OTHER: "§6%PLAYER%§7 has been warped to §6%TARGET%§7."
 
 # Lobby

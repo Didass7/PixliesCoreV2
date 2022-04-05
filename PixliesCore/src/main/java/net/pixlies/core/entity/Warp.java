@@ -59,6 +59,20 @@ public class Warp extends LazyLocation {
         );
     }
 
+    public static Warp getSpawn() {
+        Warp spawn = get(config.getString("warps.spawn.name"));
+        if (spawn == null) {
+            spawn = new Warp(
+                    config.getString("warps.spawn.name", "Spawn"),
+                    config.getString("warps.spawn.description", "No description."),
+                    Material.valueOf(config.getString("warps.spawn.material", "DIAMOND_SWORD")),
+                    new Location(Bukkit.getWorld("world"), 0, 0, 0)
+            );
+            spawn.save();
+        }
+        return spawn;
+    }
+
     public static Collection<Warp> getWarps() {
         Set<String> keys = config.getKeys(false);
         if (keys.isEmpty()) return Collections.emptyList();

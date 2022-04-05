@@ -11,11 +11,15 @@ import org.bukkit.World;
 @AllArgsConstructor
 public class LazyLocation {
 
-    private final String world;
-    private final double x, y, z;
-    private final float pitch, yaw;
+    private String world;
+    private double x, y, z;
+    private float pitch, yaw;
 
     public LazyLocation(Location location) {
+        setLocation(location);
+    }
+
+    public void setLocation(Location location) {
         this.world = location.getWorld().getName();
         this.x = location.getX();
         this.y = location.getY();

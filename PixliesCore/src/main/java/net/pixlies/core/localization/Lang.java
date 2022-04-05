@@ -248,6 +248,7 @@ public enum Lang {
 
     PLAYER_KISS(Lang.PIXLIES, new HashMap<>()),
 
+    PLAYER_WARP(Lang.PIXLIES, new HashMap<>()),
     PLAYER_WARP_OTHER(Lang.PIXLIES, new HashMap<>()),
 
     // LOBBY
