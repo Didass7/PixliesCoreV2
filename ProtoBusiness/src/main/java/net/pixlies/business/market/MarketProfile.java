@@ -137,8 +137,6 @@ public class MarketProfile {
         Player player = Bukkit.getPlayer(uuid);
         assert player != null;
 
-        player.closeInventory();
-
         List<Order> buys = instance.getMarketManager().getPlayerBuyOrders(player.getUniqueId());
         List<Order> sells = instance.getMarketManager().getPlayerSellOrders(player.getUniqueId());
         int rows = (int) Math.round(((buys.size() + sells.size()) / 7.0) + 0.5);
@@ -204,8 +202,6 @@ public class MarketProfile {
         Player player = Bukkit.getPlayer(uuid);
         assert player != null;
 
-        player.closeInventory();
-
         // CREATE GUI + BACKGROUND
 
         ChestGui gui = new ChestGui(4, "Order options");
@@ -216,14 +212,13 @@ public class MarketProfile {
 
         // CANCEL PANE
 
-        StaticPane cancelPane = new StaticPane(4, 1, 0, 0);
+        StaticPane cancelPane = new StaticPane(4, 1, 1, 1);
 
         GuiItem cancel = new GuiItem(MarketItems.getCancelOrderButton(order));
         cancel.setAction(event -> {
             OrderBook book = instance.getMarketManager().getBooks().get(order.getBookId());
             book.remove(order);
 
-            player.closeInventory();
             player.playSound(player.getLocation(), "block.netherite_block.place", 100, 1);
             Lang.ORDER_CANCELLED.send(player, "%AMOUNT%;" + order.getAmount(), "%ITEM%;" + book.getItem().getName());
 
@@ -254,9 +249,55 @@ public class MarketProfile {
         Player player = Bukkit.getPlayer(uuid);
         assert player != null;
 
-        player.closeInventory();
+        // CREATE GUI + BACKGROUND
 
-        // TODO
+        ChestGui gui = new ChestGui(4, item.getName());
+        gui.setOnGlobalClick(event -> event.setCancelled(true));
+
+        StaticPane background = new StaticPane(0, 0, 9, 4, Pane.Priority.LOWEST);
+        background.fillWith(new ItemStack(Material.BLACK_STAINED_GLASS_PANE));
+
+        // ITEM PANE
+
+        StaticPane itemPane = new StaticPane(4, 1, 1, 1);
+
+        GuiItem orderItem = new GuiItem(new ItemStack(item.getMaterial()));
+        itemPane.addItem(orderItem, 0, 0);
+
+        // TRANSACTIONS PANE
+
+        StaticPane transactionsPane = new StaticPane(1, 1, 7, 1);
+
+        GuiItem limitSell = new GuiItem(new ItemStack(item.getMaterial()));
+        GuiItem marketSell = new GuiItem(new ItemStack(item.getMaterial()));
+        GuiItem marketBuy = new GuiItem(new ItemStack(item.getMaterial()));
+        GuiItem limitBuy = new GuiItem(new ItemStack(item.getMaterial()));
+
+        for (GuiItem guiItem : transactionsPane.getItems()) {
+            // TODO: open amount sign menu
+        }
+
+        transactionsPane.addItem(limitSell, 0, 0);
+        transactionsPane.addItem(marketSell, 2, 0);
+        transactionsPane.addItem(marketBuy, 5, 0);
+        transactionsPane.addItem(limitBuy, 6, 0);
+
+        // BOTTOM PANE
+
+        StaticPane bottomPane = new StaticPane(4, 3, 1, 1);
+        GuiItem goBack = new GuiItem(MarketItems.getBackArrow("Market"));
+        goBack.setAction(event -> openMarketPage());
+        bottomPane.addItem(goBack, 0, 0);
+
+        // ADD PANES + SHOW GUI
+
+        gui.addPane(background);
+        gui.addPane(itemPane);
+        gui.addPane(transactionsPane);
+        gui.addPane(bottomPane);
+
+        gui.show(player);
+        gui.update();
 
     }
 
@@ -264,8 +305,6 @@ public class MarketProfile {
 
         Player player = Bukkit.getPlayer(uuid);
         assert player != null;
-
-        player.closeInventory();
 
         OrderBook book = instance.getMarketManager().getBookFromItem(item);
 
@@ -301,8 +340,6 @@ public class MarketProfile {
 
         GuiItem customPrice = new GuiItem(MarketItems.getCustomPriceButton());
         customPrice.setAction(event -> {
-            player.closeInventory();
-
             User user = User.get(player.getUniqueId());
             MarketProfile profile = MarketProfile.get(user);
             assert profile != null;
@@ -323,7 +360,6 @@ public class MarketProfile {
         } else {
             GuiItem marketPrice = new GuiItem(MarketItems.getBestPriceButton(item, type));
             marketPrice.setAction(event -> {
-                player.closeInventory();
                 double price = type == Order.OrderType.BUY ? book.getLowestBuyPrice() : book.getHighestSellPrice();
                 Order order = new Order(type, book.getBookId(), System.currentTimeMillis(), limit, player.getUniqueId(),
                         price, amount);
@@ -333,7 +369,6 @@ public class MarketProfile {
 
             GuiItem changedPrice = new GuiItem(MarketItems.getChangedPriceButton(item, type));
             changedPrice.setAction(event -> {
-                player.closeInventory();
                 double price = type == Order.OrderType.BUY ? book.getLowestBuyPrice() + 0.1 :
                         book.getHighestSellPrice() - 0.1;
                 Order order = new Order(type, book.getBookId(), System.currentTimeMillis(), limit, player.getUniqueId(),
@@ -368,8 +403,6 @@ public class MarketProfile {
         Player player = Bukkit.getPlayer(uuid);
         assert player != null;
 
-        player.closeInventory();
-
         OrderBook book = instance.getMarketManager().getBooks().get(order.getBookId());
         String itemName = book.getItem().getName();
 
@@ -383,7 +416,7 @@ public class MarketProfile {
 
         // CONFIRM PANE
 
-        StaticPane confirmPane = new StaticPane(4, 1, 0, 0);
+        StaticPane confirmPane = new StaticPane(4, 1, 1, 1);
 
         GuiItem confirm = new GuiItem(MarketItems.getConfirmOrderButton(order));
         confirm.setAction(event -> {
