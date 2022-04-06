@@ -11,6 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -59,14 +60,14 @@ public class Warp extends LazyLocation {
         );
     }
 
-    public static Warp getSpawn() {
-        Warp spawn = get(config.getString("warps.spawn.name"));
+    public static @NotNull Warp getSpawn() {
+        Warp spawn = get(config.getString("warps.spawn.name", "Spawn"));
         if (spawn == null) {
             spawn = new Warp(
                     config.getString("warps.spawn.name", "Spawn"),
                     config.getString("warps.spawn.description", "No description."),
                     Material.valueOf(config.getString("warps.spawn.material", "DIAMOND_SWORD")),
-                    new Location(Bukkit.getWorld("world"), 0, 0, 0)
+                    new Location(Bukkit.getWorlds().get(0), 0, 64, 0)
             );
             spawn.save();
         }

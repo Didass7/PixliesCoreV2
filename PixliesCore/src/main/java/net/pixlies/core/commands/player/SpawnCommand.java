@@ -8,10 +8,10 @@ import net.pixlies.core.entity.user.User;
 import net.pixlies.core.localization.Lang;
 import org.bukkit.entity.Player;
 
-@CommandAlias("spawn")
-@CommandPermission("pixlies.player.spawn")
 public class SpawnCommand extends BaseCommand {
 
+    @CommandAlias("spawn")
+    @CommandPermission("pixlies.player.spawn")
     public void onSpawn(Player player) {
         User user = User.get(player.getUniqueId());
         user.teleportToSpawn();
