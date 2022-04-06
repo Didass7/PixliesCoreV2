@@ -117,6 +117,7 @@ public class PixliesCommandManager {
         register(new RulesCommand(), false);
         register(new PlaytimeCommand(), false);
         register(new SpawnCommand(), false);
+        register(new WarpCommand(), false);
         register(new AfkCommand(), true);
         register(new SuicideCommand(), true);
 
