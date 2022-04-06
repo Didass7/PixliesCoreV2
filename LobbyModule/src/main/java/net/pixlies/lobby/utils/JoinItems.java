@@ -2,6 +2,7 @@ package net.pixlies.lobby.utils;
 
 import com.google.common.collect.ImmutableList;
 import lombok.Getter;
+import net.pixlies.core.entity.user.User;
 import net.pixlies.core.utils.CC;
 import net.pixlies.core.utils.ItemBuilder;
 import org.bukkit.Material;
@@ -42,8 +43,8 @@ public final class JoinItems {
             },
 
             // Visibility Toggle ON
-            getVanishItem(true),
-            getVanishItem(false)
+            getViewOtherItem(true),
+            getViewOtherItem(false)
 
     );
 
@@ -59,16 +60,20 @@ public final class JoinItems {
 
     }
 
-    public static LobbyItem getVanishItem(boolean state) {
+    public static LobbyItem getViewOtherItem(boolean state) {
 
         if (state) {
             return new LobbyItem(6, new ItemBuilder(Material.LIME_DYE)
-                    .setDisplayName(CC.format("&aView Others"))
+                    .setDisplayName(CC.format("&aView Others §8(Left Click)"))
                     .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
                     .build(), true) {
 
                 @Override
                 public void onClick(@NotNull PlayerInteractEvent event) {
+                    Player player = event.getPlayer();
+                    PlayerInventory inventory = player.getInventory();
+
+                    inventory.setItem(6, getViewOtherItem(false).getItemStack());
                     // TODO
                 }
 
@@ -76,12 +81,16 @@ public final class JoinItems {
         }
 
         return new LobbyItem(6, new ItemBuilder(Material.GRAY_DYE)
-                .setDisplayName(CC.format("&7View Others"))
+                .setDisplayName(CC.format("&7View Others §8(Left Click)"))
                 .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
                 .build(), false) {
 
             @Override
             public void onClick(@NotNull PlayerInteractEvent event) {
+                Player player = event.getPlayer();
+                PlayerInventory inventory = player.getInventory();
+
+                inventory.setItem(6, getViewOtherItem(true).getItemStack());
                 // TODO
             }
 

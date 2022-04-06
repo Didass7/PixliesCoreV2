@@ -19,6 +19,7 @@ public class LobbyManager {
     private final Config config = instance.getConfig();
 
     private Warp pvpWarp = Warp.get(config.getString("warps.pvp.name", "pvp"));
+    private List<UUID> rightClickTimedPlayers = new ArrayList<>();
 
     private final List<UUID> buildModePlayers = new ArrayList<>();
 

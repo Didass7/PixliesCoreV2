@@ -18,8 +18,10 @@ import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerChangedMainHandEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class LobbyInteractListener implements Listener {
@@ -55,6 +57,13 @@ public class LobbyInteractListener implements Listener {
 
     @EventHandler
     public void onPlace(BlockPlaceEvent event) {
+        Player player = event.getPlayer();
+        if (manager.isInBuildMode(player.getUniqueId())) return;
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onOffhand(PlayerSwapHandItemsEvent event) {
         Player player = event.getPlayer();
         if (manager.isInBuildMode(player.getUniqueId())) return;
         event.setCancelled(true);

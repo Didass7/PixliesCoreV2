@@ -1,5 +1,6 @@
 package net.pixlies.lobby.listeners.impl;
 
+import net.pixlies.core.entity.user.User;
 import net.pixlies.lobby.utils.LobbyUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,7 +13,11 @@ public class JoinListener implements Listener {
     public void onJoin(PlayerJoinEvent event) {
 
         Player player = event.getPlayer();
-        LobbyUtils.resetPlayer(player);
+        User user = User.get(player.getUniqueId());
+
+        if (!user.getSettings().isInStaffMode()) {
+            LobbyUtils.resetPlayer(player);
+        }
 
     }
 
