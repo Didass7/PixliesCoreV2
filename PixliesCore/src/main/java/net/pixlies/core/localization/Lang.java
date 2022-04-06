@@ -130,6 +130,8 @@ public enum Lang {
 
     STAFF_TIME_SET(Lang.STAFF, new HashMap<>()),
 
+    STAFF_SETSPAWN(Lang.PIXLIES, new HashMap<>()),
+
     // TELEPORTATION
     TPHERE_MESSAGE_SENDER(Lang.PIXLIES, new HashMap<>()),
     TPHERE_MESSAGE_TARGET(Lang.PIXLIES, new HashMap<>()),

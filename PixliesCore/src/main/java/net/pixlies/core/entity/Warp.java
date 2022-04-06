@@ -12,6 +12,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -26,7 +27,9 @@ import java.util.*;
 public class Warp extends LazyLocation {
 
     private static final Main instance = Main.getInstance();
-    private static final Config config = instance.getWarpsConfig();
+
+    private static final Config config = instance.getConfig();
+    private static final Config warpsConfig = instance.getWarpsConfig();
 
     private final String name;
     private final String description;
@@ -41,16 +44,16 @@ public class Warp extends LazyLocation {
 
 
     public void save() {
-        ConfigurationSection section = config.getConfigurationSection(name);
+        ConfigurationSection section = warpsConfig.getConfigurationSection(name);
         if (section == null)
-            section = config.createSection(name);
+            section = warpsConfig.createSection(name);
         section.set("description", description);
         section.set("material", material.name());
         section.set("location", getAsBukkitLocation());
     }
 
     public static Warp get(String name) {
-        ConfigurationSection section = config.getConfigurationSection(name);
+        ConfigurationSection section = warpsConfig.getConfigurationSection(name);
         if (section == null) return null;
         return new Warp(
                 name,
@@ -75,11 +78,11 @@ public class Warp extends LazyLocation {
     }
 
     public static Collection<Warp> getWarps() {
-        Set<String> keys = config.getKeys(false);
+        Set<String> keys = warpsConfig.getKeys(false);
         if (keys.isEmpty()) return Collections.emptyList();
         List<Warp> warps = new ArrayList<>();
         keys.forEach(key -> {
-            ConfigurationSection section = config.getConfigurationSection(key);
+            ConfigurationSection section = warpsConfig.getConfigurationSection(key);
             if (section == null) return;
             warps.add(new Warp(
                     key,

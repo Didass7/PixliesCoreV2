@@ -42,3 +42,9 @@ commands:
 
 scoreboard:
     enabled: true
+
+warps:
+    spawn:
+        name: "Spawn"
+        description: "The spawn."
+        material: "BEACON"
