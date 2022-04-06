@@ -1,5 +1,6 @@
 package net.pixlies.lobby.utils;
 
+import net.pixlies.core.entity.user.User;
 import net.pixlies.core.utils.PlayerUtils;
 import net.pixlies.lobby.Lobby;
 import net.pixlies.lobby.config.Config;
@@ -19,7 +20,10 @@ public final class LobbyUtils {
     private static final Config config = instance.getConfig();
 
     public static void resetPlayer(Player player) {
+        User user = User.get(player.getUniqueId());
+
         PlayerUtils.heal(player);
+        user.teleportToSpawn();
         player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
         player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, config.getInt("walkspeed.level", 1), false, false, false));
         player.setBedSpawnLocation(null, true);
@@ -29,8 +33,7 @@ public final class LobbyUtils {
         player.setInvulnerable(true);
         player.setFreezeTicks(0);
         player.setGameMode(GameMode.ADVENTURE);
-        player.teleport(instance.getLobbyManager().getSpawnLocation());
-        player.setAllowFlight(player.hasPermission("pixlies.lobby.flight"));
+        player.setAllowFlight(player.hasPermission("pixlies.lobby.flight")); // if player has permission/cosmetic to fly allow
         player.getInventory().setHeldItemSlot(4); // Center of hotbar
         JoinItems.give(player);
     }

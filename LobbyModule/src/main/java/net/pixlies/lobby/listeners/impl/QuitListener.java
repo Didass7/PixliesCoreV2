@@ -11,7 +11,7 @@ public class QuitListener implements Listener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
-        instance.getLobbyManager().removeBuildModePlayer(event.getPlayer().getUniqueId());
+        instance.getLobbyManager().removeBuildModePlayer(event.getPlayer());
     }
 
 }

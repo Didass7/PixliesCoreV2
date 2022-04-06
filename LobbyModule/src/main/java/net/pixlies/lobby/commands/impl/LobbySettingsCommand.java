@@ -16,13 +16,6 @@ public class LobbySettingsCommand extends BaseCommand {
 
     private static final Lobby lobby = Lobby.getInstance();
 
-    @Subcommand("setspawn")
-    @CommandPermission("pixlies.lobby.setspawn")
-    public void onSetSpawn(Player player) {
-        lobby.getLobbyManager().setSpawnLocation(player.getLocation());
-        player.sendMessage(Lang.PIXLIES + "§7The lobby spawn has been set to your current location.");
-    }
-
     @Subcommand("build")
     @CommandPermission("pixlies.lobby.build")
     public void onBuild(Player player) {
@@ -30,10 +23,10 @@ public class LobbySettingsCommand extends BaseCommand {
         UUID uuid = player.getUniqueId();
         if (manager.isInBuildMode(uuid)) {
             Lang.LOBBY_BUILDMODE_TOGGLE.send(player, "%STATE%;disabled");
-            manager.removeBuildModePlayer(uuid);
+            manager.removeBuildModePlayer(player);
         } else {
             Lang.LOBBY_BUILDMODE_TOGGLE.send(player, "%STATE%;enabled");
-            manager.addBuildModePlayer(uuid);
+            manager.addBuildModePlayer(player);
         }
     }
 

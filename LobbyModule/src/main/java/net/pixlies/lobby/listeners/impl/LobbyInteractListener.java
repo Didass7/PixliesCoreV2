@@ -2,6 +2,7 @@ package net.pixlies.lobby.listeners.impl;
 
 import com.destroystokyo.paper.event.player.PlayerAdvancementCriterionGrantEvent;
 import io.papermc.paper.event.entity.EntityDamageItemEvent;
+import net.pixlies.core.entity.user.User;
 import net.pixlies.lobby.Lobby;
 import net.pixlies.lobby.managers.LobbyManager;
 import net.pixlies.lobby.utils.JoinItems;
@@ -94,7 +95,10 @@ public class LobbyInteractListener implements Listener {
         Player player = event.getPlayer();
         if (manager.isInBuildMode(player.getUniqueId())) return;
         if (!(player.getLocation().getY() < 0)) return;
-        player.teleport(manager.getSpawnLocation());
+
+        User user = User.get(player.getUniqueId());
+        user.teleportToSpawn();
+
         LobbyUtils.resetPlayer(player);
     }
 
