@@ -50,6 +50,7 @@ public class Warp extends LazyLocation {
         section.set("description", description);
         section.set("material", material.name());
         section.set("location", getAsBukkitLocation());
+        config.save();
     }
 
     public static Warp get(String name) {
