@@ -10,6 +10,7 @@ import net.pixlies.core.commands.player.*;
 import net.pixlies.core.commands.staff.*;
 import net.pixlies.core.entity.Warp;
 import net.pixlies.core.entity.user.User;
+import net.pixlies.core.localization.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -157,12 +158,16 @@ public class PixliesCommandManager {
             });
 
             contexts.registerContext(Warp.class, context -> {
-                String name = context.popFirstArg();
+                // FIXME: case sensitive
+                String name = context.getFirstArg();
                 Warp warp = Warp.get(name);
-                if (warp == null && context.isOptional()) {
-                    return null;
+                if (warp == null) {
+                    if (context.isOptional()) {
+                        return null;
+                    }
+                    throw new ConditionFailedException(Lang.PIXLIES + "That isn't a valid warp.");
                 }
-                throw new ConditionFailedException("That isn't a valid warp.");
+                return warp;
             });
 
     }

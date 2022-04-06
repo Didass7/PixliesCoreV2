@@ -5,8 +5,14 @@ import co.aikar.commands.annotation.*;
 import net.pixlies.core.entity.Warp;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.localization.Lang;
+import net.pixlies.core.modules.Module;
+import net.pixlies.core.modules.ModuleDescription;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+
+import java.util.Collection;
+import java.util.Map;
+import java.util.StringJoiner;
 
 /**
  * Simple warp command
@@ -14,19 +20,25 @@ import org.bukkit.entity.Player;
  */
 public class WarpCommand extends BaseCommand {
 
-    @CommandAlias("warp")
+    @CommandAlias("warp|warps")
     @CommandPermission("pixlies.player.warp")
     @CommandCompletion("@empty")
+    @Syntax("<warp> <players>")
     public void onWarp(Player player, @Optional Warp warp, @Optional Player target) {
         if (warp == null) {
-            // TODO: some sort of gui system to view all available warps and some sort of token system
+            // TODO: some sort of gui system to view all available warps and some sort of economy system
             // here's a placeholder, remove this later
-            Warp.getWarps().forEach(w -> player.sendMessage(ChatColor.AQUA + w.getName() + " " + w.getDescription()));
+            Collection<Warp> warps = Warp.getWarps();
+            StringJoiner joiner = new StringJoiner("§8, ");
+            for (Warp w : warps) {
+                joiner.add("§f" + w.getName());
+            }
+            player.sendMessage("§7Warps [§b" + warps.size() + "§7]: " + joiner);
 
         } else {
 
             // PLAYER
-            if (target == null) {
+            if (player.getUniqueId().equals(target.getUniqueId())) {
                 User user = User.get(player.getUniqueId());
                 user.teleport(warp);
                 return;
