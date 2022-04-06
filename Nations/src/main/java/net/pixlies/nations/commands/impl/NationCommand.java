@@ -9,6 +9,7 @@ import net.pixlies.nations.Nations;
 import net.pixlies.nations.handlers.impl.NationDisbandHandler;
 import net.pixlies.nations.interfaces.NationProfile;
 import net.pixlies.nations.nations.Nation;
+import net.pixlies.nations.nations.ranks.NationPermission;
 import net.pixlies.nations.nations.ranks.NationRank;
 import net.pixlies.nations.utils.NationUtils;
 import org.apache.commons.lang.RandomStringUtils;
@@ -237,6 +238,27 @@ public class NationCommand extends BaseCommand {
         } else {
             Lang.NATION_NO_NATION_TO_DISBAND.send(player);
         }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+    //                                         /n description
+    // -------------------------------------------------------------------------------------------------
+    @Subcommand("description | desc | setdesc | setdescription")
+    @Description("Set your nations description")
+    public void onDescription(User user, String desc) {
+        if (!NationProfile.isInNation(user)) {
+            Lang.NOT_IN_NATION.send(user.getAsOfflinePlayer().getPlayer());
+            return;
+        }
+        NationProfile nProf = NationProfile.get(user);
+        Nation nation = nProf.getNation();
+        if (!NationPermission.CHANGE_DESCRIPTION.hasNationPermission(user)) {
+            Lang.NATION_NO_PERMISSION.send(user.getAsOfflinePlayer().getPlayer());
+            return;
+        }
+        //TODO: No-No words
+        nation.setDescription(desc);
+        nation.save();
     }
 
 }
