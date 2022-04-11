@@ -56,16 +56,11 @@ public class Warp extends LazyLocation {
     }
 
     public static Warp get(String name) {
-        ConfigurationSection section = warpsConfig.getConfigurationSection(name);
-        if (section == null) return null;
         for (Warp warp : Warp.getWarps()) {
-
             if (!warp.getName().equalsIgnoreCase(name)) {
                 continue;
             }
-
             return warp;
-
         }
         return null;
     }

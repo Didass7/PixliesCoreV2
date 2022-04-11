@@ -19,6 +19,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class PixliesCommandManager {
@@ -158,16 +159,18 @@ public class PixliesCommandManager {
             });
 
             contexts.registerContext(Warp.class, context -> {
-                // FIXME: case sensitive
                 String name = context.getFirstArg();
                 Warp warp = Warp.get(name);
+
                 if (warp == null) {
                     if (context.isOptional()) {
                         return null;
                     }
-                    throw new ConditionFailedException(Lang.PIXLIES + "That isn't a valid warp.");
+                    throw new ConditionFailedException(Lang.PIXLIES + "§7That isn't a valid warp.");
                 }
+
                 return warp;
+
             });
 
     }
