@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 import net.pixlies.core.Main;
 import net.pixlies.core.configuration.Config;
+import net.pixlies.core.utils.TextUtils;
 import net.pixlies.core.utils.location.LazyLocation;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -46,22 +47,27 @@ public class Warp extends LazyLocation {
     public void save() {
         ConfigurationSection section = warpsConfig.getConfigurationSection(name);
         if (section == null)
-            section = warpsConfig.createSection(name);
+            section = warpsConfig.createSection(UUID.randomUUID().toString());
+        section.set("name", name);
         section.set("description", description);
         section.set("material", material.name());
-        section.set("location", getAsBukkitLocation());
+        section.set("location", this.getAsBukkitLocation());
         warpsConfig.save();
     }
 
     public static Warp get(String name) {
         ConfigurationSection section = warpsConfig.getConfigurationSection(name);
         if (section == null) return null;
-        return new Warp(
-                name,
-                section.getString("description", "No description."),
-                Material.valueOf(section.getString("material", "BARRIER")),
-                section.getLocation("location", new Location(Bukkit.getWorld("world"), 0, 0, 0))
-        );
+        for (Warp warp : Warp.getWarps()) {
+
+            if (!warp.getName().equalsIgnoreCase(name)) {
+                continue;
+            }
+
+            return warp;
+
+        }
+        return null;
     }
 
     public static @NotNull Warp getSpawn() {
@@ -70,7 +76,7 @@ public class Warp extends LazyLocation {
             spawn = new Warp(
                     config.getString("warps.spawn.name", "Spawn"),
                     config.getString("warps.spawn.description", "No description."),
-                    Material.valueOf(config.getString("warps.spawn.material", "DIAMOND_SWORD")),
+                    Material.valueOf(config.getString("warps.spawn.material", "BEDROCK")),
                     new Location(Bukkit.getWorlds().get(0), 0, 64, 0)
             );
             spawn.save();
@@ -78,19 +84,28 @@ public class Warp extends LazyLocation {
         return spawn;
     }
 
-    public static Collection<Warp> getWarps() {
+    public static @NotNull Collection<Warp> getWarps() {
         Set<String> keys = warpsConfig.getKeys(false);
         if (keys.isEmpty()) return Collections.emptyList();
         List<Warp> warps = new ArrayList<>();
         keys.forEach(key -> {
+
             ConfigurationSection section = warpsConfig.getConfigurationSection(key);
             if (section == null) return;
+
+            String name = section.getString("name");
+            if (name == null) return;
+            String description = section.getString("description", "No description.");
+            Material material = Material.valueOf(section.getString("material", "BARRIER"));
+            Location location = section.getLocation("location", new Location(Bukkit.getWorlds().get(0), 0, 64, 0));
+
             warps.add(new Warp(
-                    key,
-                    section.getString("description", "No description."),
-                    Material.valueOf(section.getString("material", "BARRIER")),
-                    section.getLocation("location", new Location(Bukkit.getWorld("world"), 0, 0, 0))
+                    name,
+                    description,
+                    material,
+                    location
             ));
+
         });
         return warps;
     }
