@@ -47,7 +47,7 @@ public class Warp extends LazyLocation {
     public void save() {
         ConfigurationSection section = warpsConfig.getConfigurationSection(name);
         if (section == null)
-            section = warpsConfig.createSection(UUID.randomUUID().toString());
+            section = warpsConfig.createSection(name);
         section.set("name", name);
         section.set("description", description);
         section.set("material", material.name());
