@@ -5,7 +5,9 @@ import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.commands.impl.MarketCommand;
@@ -39,6 +41,7 @@ public class MarketProfile {
     private final UUID uuid;
     private Order tempOrder;
     private String tempTitle;
+    private byte signStage;
 
     public MarketProfile(UUID uuid) {
         this.uuid = uuid;
@@ -247,6 +250,7 @@ public class MarketProfile {
     public void openItemPage(OrderItem item) {
 
         Player player = Bukkit.getPlayer(uuid);
+        OrderBook book = instance.getMarketManager().getBookFromItem(item);
         assert player != null;
 
         // CREATE GUI + BACKGROUND
@@ -268,19 +272,26 @@ public class MarketProfile {
 
         StaticPane transactionsPane = new StaticPane(1, 1, 7, 1);
 
-        GuiItem limitSell = new GuiItem(new ItemStack(item.getMaterial()));
-        GuiItem marketSell = new GuiItem(new ItemStack(item.getMaterial()));
-        GuiItem marketBuy = new GuiItem(new ItemStack(item.getMaterial()));
-        GuiItem limitBuy = new GuiItem(new ItemStack(item.getMaterial()));
-
-        for (GuiItem guiItem : transactionsPane.getItems()) {
-            // TODO: open amount sign menu
+        for (ItemOptions i : ItemOptions.values()) {
+            GuiItem guiItem = i.getGuiItem(item);
+            assert guiItem != null;
+            guiItem.setAction(event -> {
+                User user = User.get(player.getUniqueId());
+                MarketProfile profile = MarketProfile.get(user);
+                assert profile != null;
+                Order temp = new Order(i.getType(), book.getBookId(), System.currentTimeMillis(), i.isLimit(), uuid, 0, 0);
+                profile.setTempOrder(temp);
+                profile.setTempTitle(item.getName());
+                
+                player.getWorld().getBlockAt(player.getLocation()).setType(Material.BIRCH_WALL_SIGN);
+                Sign sign = (Sign) player.getWorld().getBlockAt(player.getLocation()).getState();
+                sign.line(1, Component.text("^^ -------- ^^"));
+                sign.line(2, Component.text("Set an amount"));
+                sign.line(3, Component.text("(integer)"));
+                sign.update();
+            });
+            transactionsPane.addItem(guiItem, i.getX(), i.getY());
         }
-
-        transactionsPane.addItem(limitSell, 0, 0);
-        transactionsPane.addItem(marketSell, 2, 0);
-        transactionsPane.addItem(marketBuy, 5, 0);
-        transactionsPane.addItem(limitBuy, 6, 0);
 
         // BOTTOM PANE
 
@@ -518,6 +529,42 @@ public class MarketProfile {
     public static MarketProfile get(@NotNull User user) {
         if (!hasProfile(user)) return null;
         return (MarketProfile) user.getExtras().get("marketProfile");
+    }
+
+    // ----------------------------------------------------------------------------------------------------
+    // ITEM OPTIONS ENUM
+    // ----------------------------------------------------------------------------------------------------
+
+    @Getter
+    @AllArgsConstructor
+    public enum ItemOptions {
+        LIMIT_SELL(Order.OrderType.SELL, true, 0, 0),
+        MARKET_SELL(Order.OrderType.SELL, false, 2, 0),
+        MARKET_BUY(Order.OrderType.BUY, false, 5, 0),
+        LIMIT_BUY(Order.OrderType.BUY, true, 6, 0);
+
+        private final Order.OrderType type;
+        private final boolean limit;
+        private final int x;
+        private final int y;
+
+        public GuiItem getGuiItem(OrderItem item) {
+            switch (this) {
+                case LIMIT_SELL -> {
+                    return new GuiItem(MarketItems.getLimitSellButton(item));
+                }
+                case MARKET_SELL -> {
+                    return new GuiItem(MarketItems.getMarketSellButton(item));
+                }
+                case MARKET_BUY -> {
+                    return new GuiItem(MarketItems.getMarketBuyButton(item));
+                }
+                case LIMIT_BUY -> {
+                    return new GuiItem(MarketItems.getLimitBuyButton(item));
+                }
+            }
+            return null;
+        }
     }
 
 }

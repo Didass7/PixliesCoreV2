@@ -37,10 +37,15 @@ public class MarketCommand extends BaseCommand {
     @Default
     @Description("Opens the market menu")
     public void onMarket(Player player) {
-        User user = User.get(player.getUniqueId());
-        MarketProfile marketProfile = new MarketProfile(player.getUniqueId());
-        user.getExtras().put("marketProfile", marketProfile);
-        marketProfile.openMarketPage();
+        if (marketHandler.isMarketOpen()) {
+            User user = User.get(player.getUniqueId());
+            MarketProfile marketProfile = new MarketProfile(player.getUniqueId());
+            user.getExtras().put("marketProfile", marketProfile);
+            marketProfile.openMarketPage();
+        } else {
+            Lang.MARKET_IS_CLOSED.send(player);
+            player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
+        }
     }
 
     @Subcommand("open")

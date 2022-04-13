@@ -34,7 +34,7 @@ public class Order {
 
     private final UUID playerUUID;
     private @Setter double price;
-    private final int amount;
+    private @Setter int amount;
     private int volume;
 
     private final List<Trade> trades;

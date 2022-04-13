@@ -286,6 +286,7 @@ public enum Lang {
     MARKET_CLOSED(Lang.MARKET, new HashMap<>()),
     MARKET_WAS_ALREADY_OPEN(Lang.MARKET, new HashMap<>()),
     MARKET_WAS_ALREADY_CLOSED(Lang.MARKET, new HashMap<>()),
+    MARKET_IS_CLOSED(Lang.MARKET, new HashMap<>()),
 
     MARKET_STATISTICS_RESET(Lang.MARKET, new HashMap<>()),
     MARKET_PLAYER_STATISTICS_RESET(Lang.MARKET, new HashMap<>()),
@@ -301,6 +302,7 @@ public enum Lang {
     ORDER_FLIPPED(Lang.MARKET, new HashMap<>()),
 
     MARKET_NOT_A_VALID_PRICE(Lang.MARKET, new HashMap<>()),
+    MARKET_NOT_A_VALID_AMOUNT(Lang.MARKET, new HashMap<>()),
 
     // OTHER
     MUST_BE_A_PLAYER(Lang.PIXLIES, new HashMap<>()),
