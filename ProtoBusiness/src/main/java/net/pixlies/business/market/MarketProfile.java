@@ -22,10 +22,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -46,6 +48,20 @@ public class MarketProfile {
     public MarketProfile(UUID uuid) {
         this.uuid = uuid;
     }
+
+    public int getItemAmount(OrderItem item) {
+        Player player = Bukkit.getPlayer(uuid);
+        assert player != null;
+        Inventory inv = player.getInventory();
+        int num = 0;
+        for (int i = 0; i < inv.getSize(); i++) {
+            if (Objects.equals(inv.getItem(i), new ItemStack(item.getMaterial()))) {
+                num += Objects.requireNonNull(inv.getItem(i)).getAmount();
+            }
+        }
+        return num;
+    }
+
 
     // ----------------------------------------------------------------------------------------------------
     // GUI METHODS
@@ -273,7 +289,7 @@ public class MarketProfile {
         StaticPane transactionsPane = new StaticPane(1, 1, 7, 1);
 
         for (ItemOptions i : ItemOptions.values()) {
-            GuiItem guiItem = i.getGuiItem(item);
+            GuiItem guiItem = i.getGuiItem(player, item);
             assert guiItem != null;
             guiItem.setAction(event -> {
                 User user = User.get(player.getUniqueId());
@@ -374,7 +390,7 @@ public class MarketProfile {
         if (emptyBuyCondition || emptySellCondition) {
             pricesPane.addItem(customPrice, 2, 0);
         } else {
-            GuiItem marketPrice = new GuiItem(MarketItems.getBestPriceButton(item, type));
+            GuiItem marketPrice = new GuiItem(MarketItems.getBestPriceButton(item, type, amount));
             marketPrice.setAction(event -> {
                 double price = type == Order.OrderType.BUY ? book.getLowestBuyPrice() : book.getHighestSellPrice();
                 Order order = new Order(type, book.getBookId(), System.currentTimeMillis(), limit, player.getUniqueId(),
@@ -383,7 +399,7 @@ public class MarketProfile {
             });
             pricesPane.addItem(marketPrice, 0, 0);
 
-            GuiItem changedPrice = new GuiItem(MarketItems.getChangedPriceButton(item, type));
+            GuiItem changedPrice = new GuiItem(MarketItems.getChangedPriceButton(item, type, amount));
             changedPrice.setAction(event -> {
                 double price = type == Order.OrderType.BUY ? book.getLowestBuyPrice() + 0.1 :
                         book.getHighestSellPrice() - 0.1;
@@ -553,13 +569,15 @@ public class MarketProfile {
         private final int x;
         private final int y;
 
-        public GuiItem getGuiItem(OrderItem item) {
+        public GuiItem getGuiItem(Player player, OrderItem item) {
+            MarketProfile profile = MarketProfile.get(User.get(player.getUniqueId()));
+            assert profile != null;
             switch (this) {
                 case LIMIT_SELL -> {
-                    return new GuiItem(MarketItems.getLimitSellButton(item));
+                    return new GuiItem(MarketItems.getLimitSellButton(item, profile.getItemAmount(item)));
                 }
                 case MARKET_SELL -> {
-                    return new GuiItem(MarketItems.getMarketSellButton(item));
+                    return new GuiItem(MarketItems.getMarketSellButton(item, profile.getItemAmount(item)));
                 }
                 case MARKET_BUY -> {
                     return new GuiItem(MarketItems.getMarketBuyButton(item));

@@ -303,6 +303,7 @@ public enum Lang {
 
     MARKET_NOT_A_VALID_PRICE(Lang.MARKET, new HashMap<>()),
     MARKET_NOT_A_VALID_AMOUNT(Lang.MARKET, new HashMap<>()),
+    MARKET_NOT_ENOUGH_ITEMS(Lang.MARKET, new HashMap<>()),
 
     // OTHER
     MUST_BE_A_PLAYER(Lang.PIXLIES, new HashMap<>()),

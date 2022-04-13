@@ -180,14 +180,16 @@ public final class MarketItems {
                         "§aConfirm order §8(§6§lSELL§r§8)")
                 .addLoreLine("§f" + item.getName())
                 .addLoreLine(" ")
-                .addLoreLine("§7Amount: §b" + order.getAmount())
+                .addLoreLine("§7Amount: §b" + order.getAmount() + "§8x §b" + item.getName())
                 .addLoreLine("§7Price per unit: §6" + order.getPrice() + " coins")
                 .addLoreLine("§7Limit order: §d" + order.isLimitOrder())
                 .addLoreLine(" ")
-                .addLoreLine("§8ID: " + order.getOrderId())
+                .addLoreLine("§7§lTotal price: §6" + (order.getPrice() * order.getAmount()) + " coins")
                 .addLoreLine(" ")
+                .addLoreLine("§8ID: " + order.getOrderId())
                 .addLoreLine("§eClick to confirm order!")
                 .build();
+        // TODO: taxation, tariffs, and discounts
     }
 
     public static ItemStack getMarketBuyButton(OrderItem item) {
@@ -219,7 +221,7 @@ public final class MarketItems {
                 .build();
     }
 
-    public static ItemStack getMarketSellButton(OrderItem item) {
+    public static ItemStack getMarketSellButton(OrderItem item, int num) {
         OrderBook book = instance.getMarketManager().getBookFromItem(item);
         return new ItemBuilder(new ItemStack(Material.GOLD_INGOT))
                 .setDisplayName("§6§lMarket sell order")
@@ -228,12 +230,13 @@ public final class MarketItems {
                 .addLoreLine("§7order at a fixed price.")
                 .addLoreLine(" ")
                 .addLoreLine("§7Best price: §6" + book.getHighestSellPrice())
+                .addLoreLine("§7Inventory: §a" + num + " items")
                 .addLoreLine(" ")
                 .addLoreLine("§eClick to create!")
                 .build();
     }
 
-    public static ItemStack getLimitSellButton(OrderItem item) {
+    public static ItemStack getLimitSellButton(OrderItem item, int num) {
         OrderBook book = instance.getMarketManager().getBookFromItem(item);
         return new ItemBuilder(new ItemStack(Material.GOLD_BLOCK))
                 .setDisplayName("§6LIMIT sell order")
@@ -242,33 +245,43 @@ public final class MarketItems {
                 .addLoreLine("§7order with a minimum sell")
                 .addLoreLine("§7price.")
                 .addLoreLine(" ")
-                .addLoreLine(" ")
                 .addLoreLine("§7Best price: §6" + book.getHighestSellPrice())
+                .addLoreLine("§7Inventory: §a" + num + " items")
+                .addLoreLine(" ")
                 .addLoreLine("§eClick to create!")
                 .build();
     }
 
-    public static ItemStack getBestPriceButton(OrderItem item, Order.OrderType type) {
+    public static ItemStack getBestPriceButton(OrderItem item, Order.OrderType type, int amount) {
         OrderBook book = instance.getMarketManager().getBookFromItem(item);
-        return new ItemBuilder(new ItemStack(Material.CHEST))
+        return new ItemBuilder(new ItemStack(item.getMaterial()))
                 .setDisplayName("§eBest current price")
                 .addLoreLine(type == Order.OrderType.BUY ?
                         "§7Price: §6" + book.getLowestBuyPrice() + " coins" :
                         "§7Price: §6" + book.getHighestSellPrice() + " coins" )
                 .addLoreLine(" ")
+                .addLoreLine("§7Selling: §a" + amount + "§8x")
+                .addLoreLine(type == Order.OrderType.BUY ?
+                        "§7§lTotal price: §6" + (book.getLowestBuyPrice() * amount) + " coins" :
+                        "§7§lTotal price: §6" + (book.getHighestSellPrice() * amount) + " coins" )
+                .addLoreLine(" ")
                 .addLoreLine("§eClick to set!")
                 .build();
     }
 
-    public static ItemStack getChangedPriceButton(OrderItem item, Order.OrderType type) {
+    public static ItemStack getChangedPriceButton(OrderItem item, Order.OrderType type, int amount) {
         OrderBook book = instance.getMarketManager().getBookFromItem(item);
         return new ItemBuilder(new ItemStack(Material.GOLD_NUGGET))
                 .setDisplayName(type == Order.OrderType.BUY ?
-                        "§eBest current price + 0.1" :
-                        "§eBest current price - 0.1")
+                        "§eBest current price +0.1" :
+                        "§eBest current price -0.1")
                 .addLoreLine(type == Order.OrderType.BUY ?
                         "§7Price: §6" + (book.getLowestBuyPrice() + 0.1) + " coins" :
                         "§7Price: §6" + (book.getHighestSellPrice() - 0.1) + " coins" )
+                .addLoreLine(" ")
+                .addLoreLine(type == Order.OrderType.BUY ?
+                        "§7§lTotal price: §6" + ((book.getLowestBuyPrice() + 0.1) * amount) + " coins" :
+                        "§7§lTotal price: §6" + ((book.getHighestSellPrice() - 0.1 ) * amount) + " coins" )
                 .addLoreLine(" ")
                 .addLoreLine("§eClick to set!")
                 .build();

@@ -32,19 +32,29 @@ public class OrderSignsListener implements Listener {
                 case 1 -> { // CHECKING ON THE AMOUNT
                     if (StringUtils.isNumeric(firstLine)) {
                         Order order = profile.getTempOrder();
-                        order.setAmount(Integer.parseInt(firstLine));
                         OrderItem item = instance.getMarketManager().getBooks().get(order.getBookId()).getItem();
+
+                        if (Integer.parseInt(firstLine) > profile.getItemAmount(item)) {
+                            Lang.MARKET_NOT_ENOUGH_ITEMS.send(player);
+                            user.getExtras().remove("marketProfile");
+                            player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
+                            break;
+                        }
+
+                        order.setAmount(Integer.parseInt(firstLine));
                         profile.openPricePage(item, order.getOrderType(), order.isLimitOrder(), order.getAmount());
                         profile.setTempOrder(null);
                         profile.setTempTitle(null);
                     } else {
-                        user.getExtras().remove("marketProfile");
                         Lang.MARKET_NOT_A_VALID_AMOUNT.send(player);
+                        user.getExtras().remove("marketProfile");
                         player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
                     }
                 }
                 case 2 -> { // CHECKING ON THE PRICE
                     if (StringUtils.isNumeric(firstLine)) {
+                        // TODO: not enough money
+
                         Order order = profile.getTempOrder();
                         order.setPrice(Double.parseDouble(firstLine));
                         profile.openConfirmOrderPage(order, profile.getTempTitle());
