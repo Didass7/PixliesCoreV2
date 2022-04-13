@@ -454,10 +454,15 @@ public class MarketProfile {
         confirm.setAction(event -> {
             switch (order.getOrderType()) {
                 case BUY -> {
+                    // TODO: take money
+
                     book.buy(order);
                     Lang.BUY_ORDER_CREATED.send(player, "%AMOUNT%;" + order.getAmount(), "%ITEM%;" + itemName);
                 }
                 case SELL -> {
+                    OrderItem item = book.getItem();
+                    player.getInventory().removeItemAnySlot(new ItemStack(item.getMaterial(), getItemAmount(item)));
+
                     book.sell(order);
                     Lang.SELL_ORDER_CREATED.send(player, "%AMOUNT%;" + order.getAmount(), "%ITEM%;" + itemName);
                 }
