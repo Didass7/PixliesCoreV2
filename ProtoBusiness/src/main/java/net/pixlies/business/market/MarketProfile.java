@@ -279,10 +279,13 @@ public class MarketProfile {
                 User user = User.get(player.getUniqueId());
                 MarketProfile profile = MarketProfile.get(user);
                 assert profile != null;
+
+                profile.setSignStage((byte) 1);
+
                 Order temp = new Order(i.getType(), book.getBookId(), System.currentTimeMillis(), i.isLimit(), uuid, 0, 0);
                 profile.setTempOrder(temp);
                 profile.setTempTitle(item.getName());
-                
+
                 player.getWorld().getBlockAt(player.getLocation()).setType(Material.BIRCH_WALL_SIGN);
                 Sign sign = (Sign) player.getWorld().getBlockAt(player.getLocation()).getState();
                 sign.line(1, Component.text("^^ -------- ^^"));
@@ -357,6 +360,8 @@ public class MarketProfile {
             profile.setTempOrder(new Order(type, book.getBookId(), System.currentTimeMillis(), limit, player.getUniqueId(),
                     0.0, amount));
             profile.setTempTitle(finalPageTitle);
+
+            profile.setSignStage((byte) 2);
 
             player.getWorld().getBlockAt(player.getLocation()).setType(Material.BIRCH_WALL_SIGN);
             Sign sign = (Sign) player.getWorld().getBlockAt(player.getLocation()).getState();
