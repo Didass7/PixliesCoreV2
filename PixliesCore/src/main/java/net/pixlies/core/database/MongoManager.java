@@ -19,7 +19,7 @@ import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 
-import java.util.List;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,7 +43,7 @@ public class MongoManager {
             )
     );
 
-    private final UserCache userCache = new UserCache();
+        private final UserCache userCache = new UserCache();
 
     public MongoManager init() {
         Logger.getLogger("org.mongodb.driver").setLevel(Level.WARNING);

@@ -15,16 +15,17 @@ import java.util.function.BiConsumer;
 public class UserCache {
 
     private final Config config = Main.getInstance().getConfig();
-    private final JedisPool pool = new JedisPool(config.getString("redis.host"), config.getInt("redis.port"));
+    private final JedisPool pool = new JedisPool(config.getString("redis.host", "127.0.0.1"), config.getInt("redis.port", 6379));
     private final Gson gson = new Gson();
 
     public User get(UUID uuid) {
-        try(Jedis jedis = pool.getResource()) {
+        try (Jedis jedis = pool.getResource()) {
             return gson.fromJson(jedis.get("USER:" + uuid.toString()), User.class);
         }
     }
 
     public void put(UUID uuid, User user) {
+        this.remove(uuid);
         try (Jedis jedis = pool.getResource()) {
             jedis.set("USER:" + uuid.toString(), gson.toJson(user));
         } catch (Exception e) {
@@ -47,6 +48,7 @@ public class UserCache {
     }
 
     public void remove(UUID uuid) {
+        if (!containsKey(uuid)) return;
         try (Jedis jedis = pool.getResource()) {
             jedis.del("USER:" + uuid.toString());
         } catch (Exception e) {

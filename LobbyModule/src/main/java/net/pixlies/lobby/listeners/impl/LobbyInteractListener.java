@@ -22,6 +22,7 @@ import org.bukkit.event.player.PlayerChangedMainHandEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 public class LobbyInteractListener implements Listener {
@@ -31,6 +32,9 @@ public class LobbyInteractListener implements Listener {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
+
+        if (event.getHand() != EquipmentSlot.HAND) return;
+        
         Player player = event.getPlayer();
         if (manager.isInBuildMode(player.getUniqueId())) return;
         event.setCancelled(true);

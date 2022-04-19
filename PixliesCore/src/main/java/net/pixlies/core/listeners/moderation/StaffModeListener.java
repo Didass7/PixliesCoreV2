@@ -17,6 +17,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.inventory.EquipmentSlot;
 
 /**
  * @author Dynmie
@@ -121,6 +122,8 @@ public class StaffModeListener implements Listener {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
+
+        if (event.getHand() != EquipmentSlot.HAND) return;
 
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());

@@ -374,6 +374,7 @@ public class User {
 
     public void save() {
         instance.getDatabase().getUserCache().remove(getUniqueId());
+//        Bukkit.broadcastMessage("Added user " + getUniqueId() + " to cache");
         instance.getDatabase().getUserCache().put(getUniqueId(), this);
     }
 
@@ -533,6 +534,7 @@ public class User {
 
     public static @NotNull User getFromDatabase(UUID uuid) {
         User profile = instance.getDatabase().getDatastore().find(User.class).filter(Filters.gte("uuid", uuid.toString())).first();
+//        Bukkit.broadcastMessage("Using database for " + uuid); Used for testing
         if (profile == null) {
             profile = new User(
                     uuid.toString(),
@@ -555,6 +557,8 @@ public class User {
 
             instance.getLogger().info(CC.format("&bProfile for &6" + uuid + "&b created in Database."));
         }
+
+        instance.getDatabase().getUserCache().put(uuid, profile);
         return profile;
     }
 
