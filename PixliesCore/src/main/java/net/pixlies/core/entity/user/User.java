@@ -336,10 +336,12 @@ public class User {
                 0
         );
         getCurrentPunishments().put("marketRestrict", punishment);
+        save();
         return punishment;
     }
 
     public void unRestrict() {
+        save();
         getCurrentPunishments().remove("marketRestrict");
     }
 
