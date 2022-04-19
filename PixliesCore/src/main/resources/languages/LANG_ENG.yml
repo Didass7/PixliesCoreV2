@@ -84,6 +84,9 @@ PLAYER_TELEPORT_NO_PLAYERS: "§cThere is no one to teleport to."
 # PLACEHOLDERS: %X%, %Y%, %Z%
 LOCATION_FORMAT: "§dW: %WORLD%, X: %X%, Y: %Y%, Z: %Z%"
 
+# ADMIN
+WIPED_USERS: "§7Wiped the users database."
+
 # TODO: Finish messages and translations
 # STAFF
 STAFF_GOD_ON: ""

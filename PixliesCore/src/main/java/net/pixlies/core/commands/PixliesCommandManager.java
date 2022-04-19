@@ -4,6 +4,7 @@ import co.aikar.commands.*;
 import lombok.Getter;
 import net.pixlies.core.Main;
 import net.pixlies.core.commands.admin.ModulesCommand;
+import net.pixlies.core.commands.admin.WipeCommand;
 import net.pixlies.core.commands.cosmetics.*;
 import net.pixlies.core.commands.moderation.*;
 import net.pixlies.core.commands.player.*;
@@ -19,7 +20,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class PixliesCommandManager {
@@ -89,6 +89,7 @@ public class PixliesCommandManager {
 
         // DEBUG
         register(new ModulesCommand(), false);
+        register(new WipeCommand(), false);
 
         // COSMETICS
         register(new HealCommand(), false);
@@ -122,7 +123,7 @@ public class PixliesCommandManager {
         register(new WarpCommand(), false);
         register(new AfkCommand(), true);
         register(new SuicideCommand(), true);
-
+        register(new StatsCommand(), false);
     }
 
     private void registerContexts() {

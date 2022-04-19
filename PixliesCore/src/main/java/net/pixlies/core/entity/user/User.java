@@ -260,7 +260,6 @@ public class User {
             newReason = instance.getConfig().getString("moderation.defaultReason", "No reason given");
         }
 
-
         Punishment punishment = new Punishment(UUID.randomUUID().toString(),
                 PunishmentType.BLACKLIST.name(),
                 punisherUUID.toString(),
@@ -341,8 +340,8 @@ public class User {
     }
 
     public void unRestrict() {
-        save();
         getCurrentPunishments().remove("marketRestrict");
+        save();
     }
 
     /**
@@ -552,13 +551,13 @@ public class User {
 
     public static @NotNull User getFromDatabase(UUID uuid) {
         User profile = instance.getDatabase().getDatastore().find(User.class).filter(Filters.gte("uuid", uuid.toString())).first();
-//        Bukkit.broadcastMessage("Using database for " + uuid); Used for testing
+//      Bukkit.broadcastMessage("Using database for " + uuid); Used for testing
         if (profile == null) {
             profile = new User(
                     uuid.toString(),
                     System.currentTimeMillis(),
                     "NONE",
-                    "NONE",
+                    Objects.requireNonNull(Bukkit.getPlayer(uuid)).getName(),
                     Wallet.getDefaults(),
                     new ArrayList<>(),
                     new ArrayList<>(),
@@ -573,10 +572,13 @@ public class User {
 
             instance.getDatabase().getDatastore().save(profile);
 
-            instance.getLogger().info(CC.format("&bProfile for &6" + uuid + "&b created in Database."));
+            instance.getLogger().info(CC.format("&bProfile for &6" + uuid + "&b created in database."));
+
+            // DEBUG
+            instance.getLogger().info("extras is null: " + String.valueOf(profile.getExtras() == null));
         }
 
-        instance.getDatabase().getUserCache().put(uuid, profile);
+        profile.save();
         return profile;
     }
 

@@ -78,6 +78,9 @@ public enum Lang {
 
     LOCATION_FORMAT("", new HashMap<>()),
 
+    // ADMIN
+    WIPED_USERS(Lang.PIXLIES, new HashMap<>()),
+
     // STAFF
     STAFF_GOD_ON(Lang.PIXLIES, new HashMap<>()),
     STAFF_GOD_OFF(Lang.PIXLIES, new HashMap<>()),

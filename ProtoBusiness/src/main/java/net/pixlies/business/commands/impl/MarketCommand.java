@@ -104,7 +104,8 @@ public class MarketCommand extends BaseCommand {
     public void onMarketRestrict(Player player, Player target, @Optional String reason) {
         User user = User.get(target.getUniqueId());
 
-        if (reason == null) {
+        reason = reason.substring(target.getName().length());
+        if (reason.equals("")) {
             reason = pixlies.getConfig().getString("moderation.defaultReason", "No reason given");
         }
 
