@@ -8,6 +8,7 @@ import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.business.market.MarketProfile;
+import net.pixlies.core.Main;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.localization.Lang;
 import org.apache.commons.lang.StringUtils;
@@ -26,11 +27,12 @@ public class MarketCommand extends BaseCommand {
     /*
      * SOUNDS
      * - placed new order: block.amethyst_block.break
-     * - invalid/error: block.anvil.land
-     * - claimed goods: entity.experience_orb.pickup
+     * - invalid/error/restricted: block.anvil.land
+     * - claimed goods/unrestricted: entity.experience_orb.pickup
      * - cancelled order: block.netherite_block.place
      */
 
+    private static final Main pixlies = Main.getInstance();
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();
     private final MarketHandler marketHandler = instance.getHandlerManager().getHandler(MarketHandler.class);
 
@@ -39,6 +41,11 @@ public class MarketCommand extends BaseCommand {
     public void onMarket(Player player) {
         if (marketHandler.isMarketOpen()) {
             User user = User.get(player.getUniqueId());
+            if (user.getCurrentPunishments().containsKey("marketRestrict")) {
+                Lang.MARKET_PLAYER_IS_RESTRICTED.send(player);
+                player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
+                return;
+            }
             MarketProfile marketProfile = new MarketProfile(player.getUniqueId());
             user.getExtras().put("marketProfile", marketProfile);
             marketProfile.openMarketPage();
@@ -88,6 +95,33 @@ public class MarketCommand extends BaseCommand {
             } else {
                 Lang.PLAYER_DOESNT_EXIST.send(player);
             }
+        }
+    }
+
+    @Subcommand("restrict")
+    @CommandPermission("pixlies.business.market.restrict")
+    @Description("Restricts/unrestricts a player from accessing the market")
+    public void onMarketRestrict(Player player, Player target, @Optional String reason) {
+        User user = User.get(target.getUniqueId());
+
+        if (reason == null) {
+            reason = pixlies.getConfig().getString("moderation.defaultReason", "No reason given");
+        }
+
+        if (user.getCurrentPunishments().containsKey("marketRestrict")) {
+            if (target.isOnline()) {
+                Lang.MARKET_PLAYER_ALLOWED_TARGET.send(target);
+                target.playSound(target.getLocation(), "entity.experience_orb.pickup", 100, 1);
+            }
+            Lang.MARKET_PLAYER_ALLOWED_SENDER.send(player, "%PLAYER%;" + target.getName());
+            user.unRestrict();
+        } else {
+            if (target.isOnline()) {
+                Lang.MARKET_PLAYER_RESTRICTED_TARGET.send(target, "%PLAYER%;" + player.getName(), "%REASON%;" + reason);
+                target.playSound(target.getLocation(), "block.anvil.land", 100, 1);
+            }
+            Lang.MARKET_PLAYER_RESTRICTED_SENDER.send(player, "%PLAYER%;" + target.getName(), "%REASON%;" + reason);
+            user.marketRestrict(player, reason);
         }
     }
 

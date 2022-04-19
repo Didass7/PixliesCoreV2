@@ -73,7 +73,8 @@ public class OrderBook {
 
     private void processMarketOrder(Order initialOrder, List<Order> orders) {
         for (Order oppositeOrder : orders) {
-            if (initialOrder.getVolume() == 0) break; // Check if the order has been filled already
+            // Check if the order has been filled already
+            if (initialOrder.getVolume() == 0) break;
 
             // Check if the price matches
             if (oppositeOrder.getPrice() == initialOrder.getPrice()) {
@@ -90,7 +91,8 @@ public class OrderBook {
     private void processLimitOrder(Order initialOrder, List<Order> orders) {
         Order.OrderType type = initialOrder.getOrderType();
         for (Order oppositeOrder : orders) {
-            if (initialOrder.getVolume() == 0) break; // Check if the order has been filled already
+            // Check if the order has been filled already
+            if (initialOrder.getVolume() == 0) break;
 
             boolean buyCondition = type == Order.OrderType.BUY && oppositeOrder.getPrice() <= initialOrder.getPrice();
             boolean sellCondition = type == Order.OrderType.SELL && oppositeOrder.getPrice() >= initialOrder.getPrice();

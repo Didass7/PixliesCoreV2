@@ -291,3 +291,9 @@ ORDER_FLIPPED: "§7You created a new §bsell order§7 for §a%AMOUNT%§8x §f%IT
 MARKET_NOT_A_VALID_PRICE: "§cThis is not a valid price!"
 MARKET_NOT_A_VALID_AMOUNT: "§cThis is not a valid amount!"
 MARKET_NOT_ENOUGH_ITEMS: "§cYou don't have this many items!"
+
+MARKET_PLAYER_RESTRICTED_SENDER: "§7Player §6%PLAYER%§7 has been §crestricted§7 from accessing the market for §d\"%REASON%\"§7."
+MARKET_PLAYER_RESTRICTED_TARGET: "§7You have been §crestricted§7 from accessing the market by §6%PLAYER%§7 for §d\"%REASON%\"§7."
+MARKET_PLAYER_ALLOWED_SENDER: "§7Player §6%PLAYER%§7 is now §aallowed§7 to access the market."
+MARKET_PLAYER_ALLOWED_TARGET: "§7You are now allowed to §aaccess§7 the market."
+MARKET_PLAYER_IS_RESTRICTED: "§cYou are restricted from accessing the market."

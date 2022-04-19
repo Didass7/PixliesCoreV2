@@ -305,6 +305,12 @@ public enum Lang {
     MARKET_NOT_A_VALID_AMOUNT(Lang.MARKET, new HashMap<>()),
     MARKET_NOT_ENOUGH_ITEMS(Lang.MARKET, new HashMap<>()),
 
+    MARKET_PLAYER_RESTRICTED_SENDER(Lang.MARKET, new HashMap<>()),
+    MARKET_PLAYER_RESTRICTED_TARGET(Lang.MARKET, new HashMap<>()),
+    MARKET_PLAYER_ALLOWED_SENDER(Lang.MARKET, new HashMap<>()),
+    MARKET_PLAYER_ALLOWED_TARGET(Lang.MARKET, new HashMap<>()),
+    MARKET_PLAYER_IS_RESTRICTED(Lang.MARKET, new HashMap<>()),
+
     // OTHER
     MUST_BE_A_PLAYER(Lang.PIXLIES, new HashMap<>()),
     INVALID_COMMAND_SYNTAX(Lang.PIXLIES, new HashMap<>());

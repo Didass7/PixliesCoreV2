@@ -327,6 +327,22 @@ public class User {
         return true;
     }
 
+    public @NotNull Punishment marketRestrict(Player punisher, String reason) {
+        Punishment punishment = new Punishment(UUID.randomUUID().toString(),
+                PunishmentType.MARKET_RESTRICT.name(),
+                punisher.getUniqueId().toString(),
+                System.currentTimeMillis(),
+                reason,
+                0
+        );
+        getCurrentPunishments().put("marketRestrict", punishment);
+        return punishment;
+    }
+
+    public void unRestrict() {
+        getCurrentPunishments().remove("marketRestrict");
+    }
+
     /**
      * Kicks the user with the default reason.
      * @return true if success, false if failed
