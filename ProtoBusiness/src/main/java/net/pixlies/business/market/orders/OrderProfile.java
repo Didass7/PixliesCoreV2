@@ -1,4 +1,4 @@
-package net.pixlies.business.market;
+package net.pixlies.business.market.orders;
 
 import com.github.stefvanschie.inventoryframework.gui.GuiItem;
 import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
@@ -11,10 +11,7 @@ import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.commands.impl.MarketCommand;
-import net.pixlies.business.market.orders.Order;
-import net.pixlies.business.market.orders.OrderBook;
-import net.pixlies.business.market.orders.OrderItem;
-import net.pixlies.business.market.orders.Trade;
+import net.pixlies.business.market.MarketItems;
 import net.pixlies.business.panes.MarketPane;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.localization.Lang;
@@ -36,7 +33,7 @@ import java.util.UUID;
  * @author vPrototype_
  */
 @Data
-public class MarketProfile {
+public class OrderProfile {
 
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();
 
@@ -45,7 +42,7 @@ public class MarketProfile {
     private String tempTitle;
     private byte signStage;
 
-    public MarketProfile(UUID uuid) {
+    public OrderProfile(UUID uuid) {
         this.uuid = uuid;
     }
 
@@ -300,7 +297,7 @@ public class MarketProfile {
             assert guiItem != null;
             guiItem.setAction(event -> {
                 User user = User.get(player.getUniqueId());
-                MarketProfile profile = MarketProfile.get(user);
+                OrderProfile profile = OrderProfile.get(user);
                 assert profile != null;
 
                 profile.setSignStage((byte) 1);
@@ -378,7 +375,7 @@ public class MarketProfile {
         GuiItem customPrice = new GuiItem(MarketItems.getCustomPriceButton());
         customPrice.setAction(event -> {
             User user = User.get(player.getUniqueId());
-            MarketProfile profile = MarketProfile.get(user);
+            OrderProfile profile = OrderProfile.get(user);
             assert profile != null;
             profile.setTempOrder(new Order(type, book.getBookId(), System.currentTimeMillis(), limit, player.getUniqueId(),
                     0.0, amount));
@@ -556,12 +553,12 @@ public class MarketProfile {
     // ----------------------------------------------------------------------------------------------------
 
     public static boolean hasProfile(@NotNull User user) {
-        return user.getExtras().containsKey("marketProfile");
+        return user.getExtras().containsKey("orderProfile");
     }
 
-    public static MarketProfile get(@NotNull User user) {
+    public static OrderProfile get(@NotNull User user) {
         if (!hasProfile(user)) return null;
-        return (MarketProfile) user.getExtras().get("marketProfile");
+        return (OrderProfile) user.getExtras().get("orderProfile");
     }
 
     // ----------------------------------------------------------------------------------------------------
@@ -582,7 +579,7 @@ public class MarketProfile {
         private final int y;
 
         public GuiItem getGuiItem(Player player, OrderItem item) {
-            MarketProfile profile = MarketProfile.get(User.get(player.getUniqueId()));
+            OrderProfile profile = OrderProfile.get(User.get(player.getUniqueId()));
             assert profile != null;
             switch (this) {
                 case LIMIT_SELL -> {

@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.handlers.impl.MarketHandler;
-import net.pixlies.business.market.MarketProfile;
+import net.pixlies.business.market.orders.OrderProfile;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.localization.Lang;
@@ -46,9 +46,9 @@ public class MarketCommand extends BaseCommand {
                 player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
                 return;
             }
-            MarketProfile marketProfile = new MarketProfile(player.getUniqueId());
-            user.getExtras().put("marketProfile", marketProfile);
-            marketProfile.openMarketPage();
+            OrderProfile orderProfile = new OrderProfile(player.getUniqueId());
+            user.getExtras().put("orderProfile", orderProfile);
+            orderProfile.openMarketPage();
         } else {
             Lang.MARKET_IS_CLOSED.send(player);
             player.playSound(player.getLocation(), "block.anvil.land", 100, 1);

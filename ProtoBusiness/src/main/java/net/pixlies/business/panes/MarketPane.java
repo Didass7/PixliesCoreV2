@@ -4,7 +4,7 @@ import com.github.stefvanschie.inventoryframework.gui.GuiItem;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.commands.impl.MarketCommand;
-import net.pixlies.business.market.MarketProfile;
+import net.pixlies.business.market.orders.OrderProfile;
 import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.business.market.orders.OrderItem;
 import net.pixlies.core.entity.user.User;
@@ -46,7 +46,7 @@ public class MarketPane extends StaticPane {
             GuiItem guiItem = new GuiItem(builder.build());
             guiItem.setAction(event -> {
                 User user = User.get(uuid);
-                MarketProfile profile = (MarketProfile) user.getExtras().get("marketProfile");
+                OrderProfile profile = (OrderProfile) user.getExtras().get("orderProfile");
                 profile.openItemPage(item);
             });
             addItem(guiItem, item.getPosX(), item.getPosY());

@@ -68,6 +68,7 @@ public class OrderBook {
         instance.getStats().set("market.buyOrders", instance.getStats().getInt("market.buyOrders") + 1);
 
         buyOrders.add(order);
+        save();
         if (order.isLimitOrder()) processLimitOrder(order, sellOrders);
         else processMarketOrder(order, sellOrders);
     }
@@ -80,6 +81,7 @@ public class OrderBook {
         instance.getStats().set("market.sellOrders", instance.getStats().getInt("market.sellOrders") + 1);
 
         sellOrders.add(order);
+        save();
         if (order.isLimitOrder()) processLimitOrder(order, buyOrders);
         else processMarketOrder(order, buyOrders);
     }

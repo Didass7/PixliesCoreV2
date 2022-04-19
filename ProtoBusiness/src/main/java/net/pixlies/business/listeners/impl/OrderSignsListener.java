@@ -1,7 +1,7 @@
 package net.pixlies.business.listeners.impl;
 
 import net.pixlies.business.ProtoBusiness;
-import net.pixlies.business.market.MarketProfile;
+import net.pixlies.business.market.orders.OrderProfile;
 import net.pixlies.business.market.orders.Order;
 import net.pixlies.business.market.orders.OrderItem;
 import net.pixlies.core.entity.user.User;
@@ -22,10 +22,10 @@ public class OrderSignsListener implements Listener {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
 
-        if (user.getExtras().containsKey("marketProfile")) {
+        if (user.getExtras().containsKey("orderProfile")) {
             Sign sign = (Sign) event.getBlock();
             String firstLine = String.valueOf(sign.line(0));
-            MarketProfile profile = MarketProfile.get(user);
+            OrderProfile profile = OrderProfile.get(user);
             assert profile != null;
 
             switch (profile.getSignStage()) {
@@ -36,7 +36,7 @@ public class OrderSignsListener implements Listener {
 
                         if (Integer.parseInt(firstLine) > profile.getItemAmount(item)) {
                             Lang.MARKET_NOT_ENOUGH_ITEMS.send(player);
-                            user.getExtras().remove("marketProfile");
+                            user.getExtras().remove("orderProfile");
                             player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
                             break;
                         }
@@ -47,7 +47,7 @@ public class OrderSignsListener implements Listener {
                         profile.setTempTitle(null);
                     } else {
                         Lang.MARKET_NOT_A_VALID_AMOUNT.send(player);
-                        user.getExtras().remove("marketProfile");
+                        user.getExtras().remove("orderProfile");
                         player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
                     }
                 }
@@ -61,7 +61,7 @@ public class OrderSignsListener implements Listener {
                         profile.setTempOrder(null);
                         profile.setTempTitle(null);
                     } else {
-                        user.getExtras().remove("marketProfile");
+                        user.getExtras().remove("orderProfile");
                         Lang.MARKET_NOT_A_VALID_PRICE.send(player);
                         player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
                     }
