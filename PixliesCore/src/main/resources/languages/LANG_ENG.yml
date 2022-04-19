@@ -246,10 +246,7 @@ PLAYER_STATS: |-
     §3⋙ §7Balance: §6%BALANCE%
     §3⋙ §7PixliesScore: §a%SCORE%
     
-    §3⋙ §7Buy orders made: §a%BUYS%
-    §3⋙ §7Sell orders made: §a%SELLS%
-    §3⋙ §7Money spent: §6%SPENT%
-    §3⋙ §7Money gained: §6%GAINED%
+    §3⋙ §7To view market stats, do §d/market§7 and hover over your head icon.
     
     §7§oMember since %JOINED%
 

@@ -4,7 +4,7 @@
 market:
   buyOrders: 0
   sellOrders: 0
-  moneySpent: 0
-  moneyGained: 0
-
-  # TODO more to come
+  trades: 0
+  moneyTraded: 0
+  itemsTraded: 0
+  # TODO: more to come later

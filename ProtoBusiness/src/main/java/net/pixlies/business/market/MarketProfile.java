@@ -109,12 +109,19 @@ public class MarketProfile {
                 viewing[1] = viewing[0];
                 viewing[0] = s;
 
-                // BUTTON TEXT
+                // BUTTON LORE
 
                 selectionPane.addItem(new GuiItem(MarketItems.getUnselectedSelection(viewing[1], viewing[1].getName())),
                         0, viewing[1].ordinal());
                 selectionPane.addItem(new GuiItem(MarketItems.getSelectedSelection(viewing[0], viewing[0].getName())),
                         0, viewing[0].ordinal());
+
+                // GREEN GLASS
+
+                background.addItem(new GuiItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE)),
+                        1, viewing[1].ordinal());
+                background.addItem(new GuiItem(new ItemStack(Material.GREEN_STAINED_GLASS_PANE)),
+                        1, viewing[0].ordinal());
 
                 marketPane.loadPage(viewing[0], uuid);
                 gui.update();

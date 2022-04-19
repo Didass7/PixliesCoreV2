@@ -21,7 +21,7 @@ import java.util.UUID;
 )
 public class Trade {
 
-    @Id private int timestamp;
+    @Id private long timestamp;
     private double price;
     private int amount;
 

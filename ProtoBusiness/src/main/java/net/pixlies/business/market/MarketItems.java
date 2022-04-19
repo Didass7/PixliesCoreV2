@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.List;
 import java.util.Objects;
 
 public final class MarketItems {
@@ -41,8 +42,12 @@ public final class MarketItems {
                 .addLoreLine(" ")
                 .addLoreLine("§7Buy orders made: §b" + stats.getBuyOrdersMade())
                 .addLoreLine("§7Sell orders made: §b" + stats.getSellOrdersMade())
+                .addLoreLine("§7Trades made: §a" + stats.getTradesMade())
+                .addLoreLine(" ")
                 .addLoreLine("§7Money spent: §6" + stats.getMoneySpent() + " coins")
                 .addLoreLine("§7Money gained: §6" + stats.getMoneyGained() + " coins")
+                .addLoreLine("§7Items sold: §d" + stats.getMoneySpent() + " items")
+                .addLoreLine("§7Items bought: §d" + stats.getMoneyGained() + " items")
                 .build();
     }
 
@@ -50,20 +55,35 @@ public final class MarketItems {
         return new ItemBuilder(new ItemStack(Material.EMERALD))
                 .setDisplayName("§aMarket stats")
                 .addLoreLine(" ")
-                .addLoreLine("§7Buy orders made: §a" + instance.getStats().get("market.buyOrders", 0))
-                .addLoreLine("§7Sell orders made: §a" + instance.getStats().get("market.sellOrders", 0))
-                .addLoreLine("§7Money spent: §6" + instance.getStats().get("market.moneySpent", 0) + " coins")
-                .addLoreLine("§7Money gained: §6" + instance.getStats().get("market.moneyGained", 0) + " coins")
+                .addLoreLine("§7Buy orders made: §b" + instance.getStats().get("market.buyOrders", 0))
+                .addLoreLine("§7Sell orders made: §b" + instance.getStats().get("market.sellOrders", 0))
+                .addLoreLine("§7Trades made: §a" + instance.getStats().get("market.trades", 0))
+                .addLoreLine(" ")
+                .addLoreLine("§7Money traded: §6" + instance.getStats().get("market.moneyTraded", 0) + " coins")
+                .addLoreLine("§7Items traded: §d" + instance.getStats().get("market.itemsTraded", 0) + " items")
                 .build();
     }
 
     public static ItemStack getMyOrdersButton(Player player) {
-        // TODO: show if I have items or coins to collect
-        return new ItemBuilder(new ItemStack(Material.BOOK))
+        List<Order> orders = instance.getMarketManager().getPlayerBuyOrders(player.getUniqueId());
+        orders.addAll(instance.getMarketManager().getPlayerSellOrders(player.getUniqueId()));
+
+        boolean goods = false;
+        for (Order order : orders) {
+            if (!order.isCancellable()) {
+                goods = true;
+                break;
+            }
+        }
+
+        ItemBuilder builder = new ItemBuilder(new ItemStack(Material.BOOK))
                 .setDisplayName("§bMy orders")
-                .addLoreLine(" ")
-                .addLoreLine("§eClick to view your orders!")
-                .build();
+                .addLoreLine(" ");
+        if (goods) {
+            return builder.addLoreLine("§eClick to view your orders!").build();
+        } else {
+            return builder.addLoreLine("§aYou have items to claim!").addLoreLine("§eClick to view your orders!").build();
+        }
     }
 
     // MARKET PAGE SELECTION PANE

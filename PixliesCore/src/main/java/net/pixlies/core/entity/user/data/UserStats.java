@@ -21,9 +21,13 @@ public class UserStats {
 
     private int buyOrdersMade;
     private int sellOrdersMade;
+    private int tradesMade;
     private double moneySpent;
     private double moneyGained;
-    // TODO more stat options
+    private int itemsSold;
+    private int itemsBought;
+
+    // TODO: more to come later
 
     public static UserStats createNew() {
         return new UserStats(
@@ -32,6 +36,9 @@ public class UserStats {
                     for (House house : House.values())
                         put(house, 0);
                 }},
+                0,
+                0,
+                0,
                 0,
                 0,
                 0,
@@ -52,6 +59,34 @@ public class UserStats {
         }
 
         return House.NOT_DECIDED;
+    }
+
+    public void addBuy() {
+        buyOrdersMade += 1;
+    }
+
+    public void addSell() {
+        sellOrdersMade += 1;
+    }
+
+    public void addTrade() {
+        tradesMade += 1;
+    }
+
+    public void addMoneySpent(double money) {
+        moneySpent += money;
+    }
+
+    public void addMoneyGained(double money) {
+        moneyGained += money;
+    }
+
+    public void addItemsSold(int items) {
+        itemsSold += items;
+    }
+
+    public void addItemsBought(int items) {
+        itemsBought += items;
     }
 
 }

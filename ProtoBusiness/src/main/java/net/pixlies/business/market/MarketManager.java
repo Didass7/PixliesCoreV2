@@ -53,8 +53,9 @@ public class MarketManager {
         // Reset stats.yml
         instance.getStats().set("market.buyOrders", 0);
         instance.getStats().set("market.sellOrders", 0);
-        instance.getStats().set("market.moneySpent", 0);
-        instance.getStats().set("market.moneyGained", 0);
+        instance.getStats().set("market.trades", 0);
+        instance.getStats().set("market.moneyTraded", 0);
+        instance.getStats().set("market.itemsTraded", 0);
 
         // Clear all orders
         for (OrderBook book : books.values()) {
@@ -73,6 +74,9 @@ public class MarketManager {
         user.getStats().setSellOrdersMade(0);
         user.getStats().setMoneySpent(0);
         user.getStats().setMoneyGained(0);
+        user.getStats().setTradesMade(0);
+        user.getStats().setItemsSold(0);
+        user.getStats().setItemsBought(0);
 
         // Clear orders of that player
         for (OrderBook book : books.values()) {
