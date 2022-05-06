@@ -39,21 +39,6 @@ public class WorldCommand extends BaseCommand {
                 "%TARGET%;" + TextUtils.getLocationFormatted(location));
     }
 
-    @Subcommand("create")
-    @CommandPermission("pixlies.staff.world.create")
-    public void onCreate(CommandSender sender, String name, String type, String environment) {
-        WorldCreator wc = new WorldCreator(name);
-
-        //TODO: Nullchecks N' Stuffs
-        wc.environment(World.Environment.valueOf(environment));
-        wc.type(WorldType.valueOf(type));
-
-        World world = wc.createWorld();
-
-        if (sender instanceof Player player) player.teleport(world.getSpawnLocation());
-        //TODO: Send creation message
-    }
-
     @HelpCommand
     public void onHelp(CommandHelp help) {
         help.showHelp();
