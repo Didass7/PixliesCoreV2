@@ -4,6 +4,7 @@ import io.papermc.paper.event.player.AsyncChatEvent;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.nations.Nations;
 import net.pixlies.nations.handlers.impl.NationDisbandHandler;
+import net.pixlies.nations.nations.Nation;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,15 +21,23 @@ public class NationDisbandListener implements Listener {
 
         if (handler.getConfirmations().containsKey(player.getUniqueId())) {
             if (message.equals("confirm")) {
-                // TODO: disband sequence
 
                 String nationId = handler.getConfirmations().get(player.getUniqueId());
-                Lang.NATION_DISBANDED.broadcast("%NATION%;" + nationId);
+
+                Nation nation = Nation.getFromId(nationId);
+
+                if (nation == null) {
+                    return;
+                }
+
+                nation.disband(player);
+
             } else {
                 Lang.NATION_DISBAND_CANCELLED.send(player);
             }
             handler.getConfirmations().remove(player.getUniqueId());
         }
+
     }
 
 }
