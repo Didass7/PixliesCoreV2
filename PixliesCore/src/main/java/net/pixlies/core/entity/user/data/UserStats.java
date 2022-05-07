@@ -27,8 +27,6 @@ public class UserStats {
     private int itemsSold;
     private int itemsBought;
 
-    // TODO: more to come later
-
     public static UserStats createNew() {
         return new UserStats(
                 Main.getInstance().getCalendar().formatDateAndTime(),

@@ -15,6 +15,8 @@ import net.pixlies.business.market.MarketItems;
 import net.pixlies.business.panes.MarketPane;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.localization.Lang;
+import net.pixlies.nations.interfaces.NationProfile;
+import net.pixlies.nations.nations.Nation;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
@@ -450,15 +452,19 @@ public class OrderProfile {
         StaticPane background = new StaticPane(0, 0, 9, 4, Pane.Priority.LOWEST);
         background.fillWith(new ItemStack(Material.BLACK_STAINED_GLASS_PANE));
 
+        Nation nation = Objects.requireNonNull(NationProfile.get(User.get(player.getUniqueId()))).getNation();
+        double tax = nation.getTaxRate();
+
         // CONFIRM PANE
 
         StaticPane confirmPane = new StaticPane(4, 1, 1, 1);
 
-        GuiItem confirm = new GuiItem(MarketItems.getConfirmOrderButton(order));
+        GuiItem confirm = new GuiItem(MarketItems.getConfirmOrderButton(order, tax));
         confirm.setAction(event -> {
             switch (order.getOrderType()) {
                 case BUY -> {
-                    // TODO: take money
+                    double price = order.getAmount() * order.getPrice() * (1 + tax);
+                    // TODO: take money from wallet
 
                     book.buy(order);
                     Lang.BUY_ORDER_CREATED.send(player, "%AMOUNT%;" + order.getAmount(), "%ITEM%;" + itemName);

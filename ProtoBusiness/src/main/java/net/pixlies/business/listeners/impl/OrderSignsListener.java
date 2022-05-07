@@ -46,8 +46,8 @@ public class OrderSignsListener implements Listener {
                         profile.setTempOrder(null);
                         profile.setTempTitle(null);
                     } else {
-                        Lang.MARKET_NOT_A_VALID_AMOUNT.send(player);
                         user.getExtras().remove("orderProfile");
+                        Lang.MARKET_NOT_A_VALID_AMOUNT.send(player);
                         player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
                     }
                 }

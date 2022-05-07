@@ -48,6 +48,13 @@ public final class MarketItems {
                 .addLoreLine("§7Money gained: §6" + stats.getMoneyGained() + " coins")
                 .addLoreLine("§7Items sold: §d" + stats.getMoneySpent() + " items")
                 .addLoreLine("§7Items bought: §d" + stats.getMoneyGained() + " items")
+                .addLoreLine(" ")
+                /*
+                .addLoreLine("§7Item most sold: §3" + a)
+                .addLoreLine("§7Item most bought: §3" + a)
+                .addLoreLine("§7Coins most spent on: §c" + a)
+                .addLoreLine("§7Coins most gained on: §c" + a)
+                 */
                 .build();
     }
 
@@ -61,6 +68,17 @@ public final class MarketItems {
                 .addLoreLine(" ")
                 .addLoreLine("§7Money traded: §6" + instance.getStats().get("market.moneyTraded", 0) + " coins")
                 .addLoreLine("§7Items traded: §d" + instance.getStats().get("market.itemsTraded", 0) + " items")
+                .addLoreLine(" ")
+                /*
+                .addLoreLine("§7Item most sold: §3" + a)
+                .addLoreLine("§7Item most bought: §3" + a)
+                .addLoreLine("§7Coins most spent on: §c" + a)
+                .addLoreLine("§7Coins most gained on: §c" + a)
+                .addLoreLine(" ")
+                .addLoreLine("§7Most buy orders: §b" + a)
+                .addLoreLine("§7Most sell orders: §b" + a)
+                .addLoreLine("§7Most orders: §a" + a)
+                */
                 .build();
     }
 
@@ -134,15 +152,9 @@ public final class MarketItems {
             builder.addLoreLine("§7Filled: " + amount + percentage);
         }
 
-        // PRICE + TAXES
+        // PRICE
 
-        builder.addLoreLine(" ").addLoreLine("§7Price per unit: §6" + order.getPrice() + " coins");
-
-        if (type == Order.OrderType.BUY) {
-            builder.addLoreLine("§7Taxes: §bAMOUNT coins §8(§bPERCENT%§8)"); // TODO: taxes and tariffs
-        }
-
-        builder.addLoreLine(" ");
+        builder.addLoreLine(" ").addLoreLine("§7Price per unit: §6" + order.getPrice() + " coins").addLoreLine(" ");
 
         if (order.getVolume() == order.getAmount()) {
             builder.addLoreLine("§eClick to view more options!");
@@ -192,7 +204,7 @@ public final class MarketItems {
         return builder.addLoreLine(" ").addLoreLine("§eClick to cancel!").build();
     }
 
-    public static ItemStack getConfirmOrderButton(Order order) {
+    public static ItemStack getConfirmOrderButton(Order order, double tax) {
         OrderItem item = instance.getMarketManager().getBooks().get(order.getBookId()).getItem();
         return new ItemBuilder(new ItemStack(item.getMaterial()))
                 .setDisplayName(order.getOrderType() == Order.OrderType.BUY ?
@@ -204,12 +216,13 @@ public final class MarketItems {
                 .addLoreLine("§7Price per unit: §6" + order.getPrice() + " coins")
                 .addLoreLine("§7Limit order: §d" + order.isLimitOrder())
                 .addLoreLine(" ")
-                .addLoreLine("§7§lTotal price: §6" + (order.getPrice() * order.getAmount()) + " coins")
+                .addLoreLine("§7Tax: §c" + (tax * 100) + "%")
+                .addLoreLine("§7§lTotal price: §6" + (order.getPrice() * order.getAmount() * (1 + tax)) + " coins")
                 .addLoreLine(" ")
                 .addLoreLine("§8ID: " + order.getOrderId())
                 .addLoreLine("§eClick to confirm order!")
                 .build();
-        // TODO: taxation, tariffs, and discounts
+        // TODO: tariffs and discounts
     }
 
     public static ItemStack getMarketBuyButton(OrderItem item) {
