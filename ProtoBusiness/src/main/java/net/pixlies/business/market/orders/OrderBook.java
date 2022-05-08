@@ -65,8 +65,8 @@ public class OrderBook {
 
         buyOrders.add(order);
         save();
-        if (order.isLimitOrder()) processLimitOrder(order, sellOrders);
-        else processMarketOrder(order, sellOrders);
+
+        processLimitOrder(order, sellOrders);
     }
 
     public void sell(Order order) {
@@ -78,26 +78,7 @@ public class OrderBook {
 
         sellOrders.add(order);
         save();
-        if (order.isLimitOrder()) processLimitOrder(order, buyOrders);
-        else processMarketOrder(order, buyOrders);
-    }
-
-    private void processMarketOrder(Order initialOrder, List<Order> orders) {
-        for (Order matchingOrder : orders) {
-            // Check if the order has been filled already
-            if (initialOrder.getVolume() == 0) break;
-
-            // Check if the price matches
-            if (matchingOrder.getPrice() == initialOrder.getPrice()) {
-                int traded = Math.min(initialOrder.getVolume(), matchingOrder.getVolume());
-                initialOrder.decreaseVolume(traded);
-                matchingOrder.decreaseVolume(traded);
-                addTrade(initialOrder, matchingOrder, traded);
-            }
-        }
-
-        cleanUp();
-        save();
+        processLimitOrder(order, buyOrders);
     }
 
     private void processLimitOrder(Order initialOrder, List<Order> orders) {
