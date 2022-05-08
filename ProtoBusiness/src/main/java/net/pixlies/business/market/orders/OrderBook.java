@@ -44,18 +44,14 @@ public class OrderBook {
 
     public double getLowestBuyPrice() {
         List<Double> prices = new ArrayList<>();
-        for (Order order : buyOrders) {
-            prices.add(order.getPrice());
-        }
+        buyOrders.forEach(order -> prices.add(order.getPrice()));
         if (prices.isEmpty()) return 0;
         else return Collections.min(prices);
     }
 
     public double getHighestSellPrice() {
         List<Double> prices = new ArrayList<>();
-        for (Order order : sellOrders) {
-            prices.add(order.getPrice());
-        }
+        sellOrders.forEach(order -> prices.add(order.getPrice()));
         if (prices.isEmpty()) return 0;
         else return Collections.max(prices);
     }
