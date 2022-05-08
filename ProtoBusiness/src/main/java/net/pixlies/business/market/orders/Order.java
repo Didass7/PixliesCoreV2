@@ -30,7 +30,6 @@ public class Order {
     private @Setter long timestamp;
 
     private final OrderType orderType;
-    private final boolean limitOrder;
 
     private final UUID playerUUID;
     private @Setter double price;
@@ -39,12 +38,11 @@ public class Order {
 
     private final List<Trade> trades;
 
-    public Order(OrderType type, String bookId, long timestamp, boolean limitOrder, UUID uuid, double price, int amount) {
+    public Order(OrderType type, String bookId, long timestamp, UUID uuid, double price, int amount) {
         orderId = TextUtils.generateId(7);
         this.bookId = bookId;
         orderType = type;
         this.timestamp = timestamp;
-        this.limitOrder = limitOrder;
         playerUUID = uuid;
         this.price = price;
         this.amount = amount;
@@ -69,9 +67,7 @@ public class Order {
 
     @Override
     public String toString() {
-        if (limitOrder) return "t: " + timestamp + " | amount" + " @ " + price + "$ each (limit) | by " +
-                Bukkit.getOfflinePlayer(playerUUID).getName();
-        else return "t: " + timestamp + " | amount" + " @ " + price + "$ each | by " +
+        return "t: " + timestamp + " | amount" + " @ " + price + "$ each | by " +
                 Bukkit.getOfflinePlayer(playerUUID).getName();
     }
 

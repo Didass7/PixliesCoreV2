@@ -10,6 +10,8 @@ import net.pixlies.core.entity.user.User;
 import net.pixlies.core.entity.user.data.UserStats;
 import net.pixlies.core.utils.ItemBuilder;
 import net.pixlies.core.utils.PlayerUtils;
+import net.pixlies.nations.interfaces.NationProfile;
+import net.pixlies.nations.nations.Nation;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -137,11 +139,12 @@ public final class MarketItems {
 
         ItemBuilder builder = new ItemBuilder(new ItemStack(material))
                 .setDisplayName((type == Order.OrderType.BUY ? "§a§lBUY" : "§6§lSELL") + "§r§7: §f" + name)
-                .addLoreLine("§8Worth " + order.getAmount() * order.getPrice() + " coins") // TODO: taxes and tariffs
+                .addLoreLine("§8>> §b" + order.getAmount() + "§8x §b" + name)
                 .addLoreLine(" ")
-                .addLoreLine("§7Order amount: §a" + order.getAmount() + "§8x");
+                .addLoreLine("§7Price per unit: §6" + order.getPrice() + " coins");
 
-        // ORDER FILLS + AMOUNT
+
+        // ORDER FILLS
 
         if (order.getVolume() != order.getAmount()) {
             String percentage = "§a§lFILLED";
@@ -154,7 +157,11 @@ public final class MarketItems {
 
         // PRICE
 
-        builder.addLoreLine(" ").addLoreLine("§7Price per unit: §6" + order.getPrice() + " coins").addLoreLine(" ");
+        Nation nation = Objects.requireNonNull(NationProfile.get(User.get(order.getPlayerUUID()))).getNation();
+        double tax = nation.getTaxRate();
+
+        builder.addLoreLine("§7§lTotal price: §6" + (order.getPrice() * order.getAmount() * (1 + tax)) + " coins")
+                .addLoreLine(" ");
 
         if (order.getVolume() == order.getAmount()) {
             builder.addLoreLine("§eClick to view more options!");
@@ -210,76 +217,34 @@ public final class MarketItems {
                 .setDisplayName(order.getOrderType() == Order.OrderType.BUY ?
                         "§aConfirm order §8(§a§lBUY§r§8)" :
                         "§aConfirm order §8(§6§lSELL§r§8)")
-                .addLoreLine("§f" + item.getName())
+                .addLoreLine("§8>> §b" + order.getAmount() + "§8x §b" + item.getName())
                 .addLoreLine(" ")
-                .addLoreLine("§7Amount: §b" + order.getAmount() + "§8x §b" + item.getName())
                 .addLoreLine("§7Price per unit: §6" + order.getPrice() + " coins")
-                .addLoreLine("§7Limit order: §d" + order.isLimitOrder())
-                .addLoreLine(" ")
                 .addLoreLine("§7Tax: §c" + (tax * 100) + "%")
                 .addLoreLine("§7§lTotal price: §6" + (order.getPrice() * order.getAmount() * (1 + tax)) + " coins")
                 .addLoreLine(" ")
                 .addLoreLine("§8ID: " + order.getOrderId())
                 .addLoreLine("§eClick to confirm order!")
                 .build();
-        // TODO: tariffs and discounts
     }
 
-    public static ItemStack getMarketBuyButton(OrderItem item) {
+    public static ItemStack getBuyButton(OrderItem item) {
         OrderBook book = instance.getMarketManager().getBookFromItem(item);
         return new ItemBuilder(new ItemStack(Material.EMERALD))
-                .setDisplayName("§a§lMarket buy order")
-                .addLoreLine(" ")
-                .addLoreLine("§7A market order is an")
-                .addLoreLine("§7order at a fixed price.")
-                .addLoreLine(" ")
-                .addLoreLine("§7Best price: §6" + book.getLowestBuyPrice())
+                .setDisplayName("§aBuy order")
+                .addLoreLine("§7Best price per unit: §6" + book.getLowestBuyPrice())
                 .addLoreLine(" ")
                 .addLoreLine("§eClick to create!")
                 .build();
     }
 
-    public static ItemStack getLimitBuyButton(OrderItem item) {
-        OrderBook book = instance.getMarketManager().getBookFromItem(item);
-        return new ItemBuilder(new ItemStack(Material.EMERALD_BLOCK))
-                .setDisplayName("§aLIMIT buy order")
-                .addLoreLine(" ")
-                .addLoreLine("§7A limit buy order is an")
-                .addLoreLine("§7order with a maximum buy")
-                .addLoreLine("§7price.")
-                .addLoreLine(" ")
-                .addLoreLine("§7Best price: §6" + book.getLowestBuyPrice())
-                .addLoreLine(" ")
-                .addLoreLine("§eClick to create!")
-                .build();
-    }
-
-    public static ItemStack getMarketSellButton(OrderItem item, int num) {
+    public static ItemStack getSellButton(OrderItem item, int num) {
         OrderBook book = instance.getMarketManager().getBookFromItem(item);
         return new ItemBuilder(new ItemStack(Material.GOLD_INGOT))
-                .setDisplayName("§6§lMarket sell order")
-                .addLoreLine(" ")
-                .addLoreLine("§7A market order is an")
-                .addLoreLine("§7order at a fixed price.")
-                .addLoreLine(" ")
-                .addLoreLine("§7Best price: §6" + book.getHighestSellPrice())
+                .setDisplayName("§6Market sell order")
+                .addLoreLine("§7Best price per unit: §6" + book.getHighestSellPrice())
                 .addLoreLine("§7Inventory: §a" + num + " items")
-                .addLoreLine(" ")
-                .addLoreLine("§eClick to create!")
-                .build();
-    }
-
-    public static ItemStack getLimitSellButton(OrderItem item, int num) {
-        OrderBook book = instance.getMarketManager().getBookFromItem(item);
-        return new ItemBuilder(new ItemStack(Material.GOLD_BLOCK))
-                .setDisplayName("§6LIMIT sell order")
-                .addLoreLine(" ")
-                .addLoreLine("§7A limit buy order is an")
-                .addLoreLine("§7order with a minimum sell")
-                .addLoreLine("§7price.")
-                .addLoreLine(" ")
-                .addLoreLine("§7Best price: §6" + book.getHighestSellPrice())
-                .addLoreLine("§7Inventory: §a" + num + " items")
+                .addLoreLine("§7Best total price: §d" + (book.getHighestSellPrice() * num))
                 .addLoreLine(" ")
                 .addLoreLine("§eClick to create!")
                 .build();

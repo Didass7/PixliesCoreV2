@@ -304,7 +304,7 @@ public class OrderProfile {
 
                 profile.setSignStage((byte) 1);
 
-                Order temp = new Order(i.getType(), book.getBookId(), System.currentTimeMillis(), i.isLimit(), uuid, 0, 0);
+                Order temp = new Order(i.getType(), book.getBookId(), System.currentTimeMillis(), uuid, 0, 0);
                 profile.setTempOrder(temp);
                 profile.setTempTitle(item.getName());
 
@@ -337,7 +337,7 @@ public class OrderProfile {
 
     }
 
-    public void openPricePage(OrderItem item, Order.OrderType type, boolean limit, int amount) {
+    public void openPricePage(OrderItem item, Order.OrderType type, int amount) {
 
         Player player = Bukkit.getPlayer(uuid);
         assert player != null;
@@ -349,12 +349,10 @@ public class OrderProfile {
         String pageTitle = null;
         switch (type) {
             case BUY -> {
-                if (limit) pageTitle = "Limit buy: " + item.getName();
-                else pageTitle = "Market buy: " + item.getName();
+                pageTitle = "Buy: " + item.getName();
             }
             case SELL -> {
-                if (limit) pageTitle = "Limit sell: " + item.getName();
-                else pageTitle = "Market sell: " + item.getName();
+                pageTitle = "Sell: " + item.getName();
             }
         }
 
@@ -379,7 +377,7 @@ public class OrderProfile {
             User user = User.get(player.getUniqueId());
             OrderProfile profile = OrderProfile.get(user);
             assert profile != null;
-            profile.setTempOrder(new Order(type, book.getBookId(), System.currentTimeMillis(), limit, player.getUniqueId(),
+            profile.setTempOrder(new Order(type, book.getBookId(), System.currentTimeMillis(), player.getUniqueId(),
                     0.0, amount));
             profile.setTempTitle(finalPageTitle);
 
@@ -399,7 +397,7 @@ public class OrderProfile {
             GuiItem marketPrice = new GuiItem(MarketItems.getBestPriceButton(item, type, amount));
             marketPrice.setAction(event -> {
                 double price = type == Order.OrderType.BUY ? book.getLowestBuyPrice() : book.getHighestSellPrice();
-                Order order = new Order(type, book.getBookId(), System.currentTimeMillis(), limit, player.getUniqueId(),
+                Order order = new Order(type, book.getBookId(), System.currentTimeMillis(), player.getUniqueId(),
                         price, amount);
                 openConfirmOrderPage(order, finalPageTitle);
             });
@@ -409,7 +407,7 @@ public class OrderProfile {
             changedPrice.setAction(event -> {
                 double price = type == Order.OrderType.BUY ? book.getLowestBuyPrice() + 0.1 :
                         book.getHighestSellPrice() - 0.1;
-                Order order = new Order(type, book.getBookId(), System.currentTimeMillis(), limit, player.getUniqueId(),
+                Order order = new Order(type, book.getBookId(), System.currentTimeMillis(), player.getUniqueId(),
                         price, amount);
                 openConfirmOrderPage(order, finalPageTitle);
             });
@@ -485,8 +483,7 @@ public class OrderProfile {
 
         StaticPane bottomPane = new StaticPane(4, 3, 1, 1);
         GuiItem goBack = new GuiItem(MarketItems.getBackArrow(previous));
-        goBack.setAction(event -> openPricePage(book.getItem(), order.getOrderType(), order.isLimitOrder(),
-                order.getAmount()));
+        goBack.setAction(event -> openPricePage(book.getItem(), order.getOrderType(), order.getAmount()));
         bottomPane.addItem(goBack, 0, 0);
 
         // ADD PANES + SHOW GUI
@@ -574,13 +571,10 @@ public class OrderProfile {
     @Getter
     @AllArgsConstructor
     public enum ItemOptions {
-        LIMIT_SELL(Order.OrderType.SELL, true, 0, 0),
-        MARKET_SELL(Order.OrderType.SELL, false, 2, 0),
-        MARKET_BUY(Order.OrderType.BUY, false, 5, 0),
-        LIMIT_BUY(Order.OrderType.BUY, true, 6, 0);
+        BUY(Order.OrderType.BUY, 0, 0),
+        SELL(Order.OrderType.SELL, 6, 0);
 
         private final Order.OrderType type;
-        private final boolean limit;
         private final int x;
         private final int y;
 
@@ -588,18 +582,8 @@ public class OrderProfile {
             OrderProfile profile = OrderProfile.get(User.get(player.getUniqueId()));
             assert profile != null;
             switch (this) {
-                case LIMIT_SELL -> {
-                    return new GuiItem(MarketItems.getLimitSellButton(item, profile.getItemAmount(item)));
-                }
-                case MARKET_SELL -> {
-                    return new GuiItem(MarketItems.getMarketSellButton(item, profile.getItemAmount(item)));
-                }
-                case MARKET_BUY -> {
-                    return new GuiItem(MarketItems.getMarketBuyButton(item));
-                }
-                case LIMIT_BUY -> {
-                    return new GuiItem(MarketItems.getLimitBuyButton(item));
-                }
+                case BUY -> { return new GuiItem(MarketItems.getBuyButton(item)); }
+                case SELL -> { return new GuiItem(MarketItems.getSellButton(item, profile.getItemAmount(item))); }
             }
             return null;
         }
