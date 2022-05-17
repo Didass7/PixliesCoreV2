@@ -6,10 +6,7 @@ import net.pixlies.business.ProtoBusiness;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.utils.TextUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Represents the order book for one item
@@ -42,16 +39,16 @@ public class OrderBook {
 
     // --------------------------------------------------------------------------------------------
 
-    public double getLowestBuyPrice() {
+    public double getLowestBuyPrice(UUID matching) {
         List<Double> prices = new ArrayList<>();
-        buyOrders.forEach(order -> prices.add(order.getPrice()));
+        buyOrders.forEach(order -> prices.add(order.getPrice(matching)));
         if (prices.isEmpty()) return 0;
         else return Collections.min(prices);
     }
 
-    public double getHighestSellPrice() {
+    public double getHighestSellPrice(UUID matching) {
         List<Double> prices = new ArrayList<>();
-        sellOrders.forEach(order -> prices.add(order.getPrice()));
+        sellOrders.forEach(order -> prices.add(order.getPrice(matching)));
         if (prices.isEmpty()) return 0;
         else return Collections.max(prices);
     }
@@ -65,8 +62,7 @@ public class OrderBook {
 
         buyOrders.add(order);
         save();
-
-        processLimitOrder(order, sellOrders);
+        processOrder(order, sellOrders);
     }
 
     public void sell(Order order) {
@@ -77,18 +73,18 @@ public class OrderBook {
         instance.getStats().set("market.sellOrders", instance.getStats().getInt("market.sellOrders") + 1);
 
         sellOrders.add(order);
-        save();
-        processLimitOrder(order, buyOrders);
+        processOrder(order, buyOrders);
     }
 
-    private void processLimitOrder(Order initialOrder, List<Order> orders) {
+    private void processOrder(Order initialOrder, List<Order> orders) {
         Order.OrderType type = initialOrder.getOrderType();
         for (Order matchingOrder : orders) {
-            // Check if the order has been filled already
-            if (initialOrder.getVolume() == 0) break;
+            // Get relative prices
+            double initialPrice = initialOrder.getPrice(matchingOrder.getPlayerUUID());
+            double matchingPrice = matchingOrder.getPrice(initialOrder.getPlayerUUID());
 
-            boolean buyCondition = type == Order.OrderType.BUY && matchingOrder.getPrice() <= initialOrder.getPrice();
-            boolean sellCondition = type == Order.OrderType.SELL && matchingOrder.getPrice() >= initialOrder.getPrice();
+            boolean buyCondition = type == Order.OrderType.BUY && matchingPrice <= initialPrice;
+            boolean sellCondition = type == Order.OrderType.SELL && matchingPrice >= initialPrice;
 
             // Check if the price matches
             if (buyCondition || sellCondition) {
@@ -100,12 +96,12 @@ public class OrderBook {
         }
 
         cleanUp();
-        save();
     }
 
     private void addTrade(Order initialOrder, Order matchingOrder, int traded) {
         Order.OrderType type = initialOrder.getOrderType();
-        double price = matchingOrder.getPrice() * traded;
+        double price = matchingOrder.getPrice(initialOrder.getPlayerUUID());
+        double total = price * traded;
 
         instance.getStats().set("market.trades", instance.getStats().getInt("market.trades") + 1);
 
@@ -117,22 +113,22 @@ public class OrderBook {
         Trade trade = null;
         switch (type) {
             case BUY -> {
-                trade = new Trade(System.currentTimeMillis(), matchingOrder.getPrice(), traded, null, null, initialOrder.getPlayerUUID(), matchingOrder.getPlayerUUID(), false);
-                match.getStats().addMoneyGained(price);
+                trade = new Trade(System.currentTimeMillis(), price, traded, null, null, initialOrder.getPlayerUUID(), matchingOrder.getPlayerUUID(), false);
+                match.getStats().addMoneyGained(total);
                 match.getStats().addItemsSold(traded);
-                initial.getStats().addMoneySpent(price);
+                initial.getStats().addMoneySpent(total);
                 initial.getStats().addItemsBought(traded);
             }
             case SELL -> {
-                trade = new Trade(System.currentTimeMillis(), matchingOrder.getPrice(), traded, initialOrder.getPlayerUUID(), matchingOrder.getPlayerUUID(), null, null, false);
-                initial.getStats().addMoneyGained(price);
+                trade = new Trade(System.currentTimeMillis(), price, traded, initialOrder.getPlayerUUID(), matchingOrder.getPlayerUUID(), null, null, false);
+                initial.getStats().addMoneyGained(total);
                 initial.getStats().addItemsSold(traded);
-                match.getStats().addMoneySpent(price);
+                match.getStats().addMoneySpent(total);
                 match.getStats().addItemsBought(traded);
             }
         }
 
-        instance.getStats().set("market.moneyTraded", instance.getStats().getInt("market.moneyTraded") + price);
+        instance.getStats().set("market.moneyTraded", instance.getStats().getInt("market.moneyTraded") + total);
         instance.getStats().set("market.itemsTraded", instance.getStats().getInt("market.itemsTraded") + traded);
 
         initialOrder.getTrades().add(trade);

@@ -394,19 +394,19 @@ public class OrderProfile {
         if (emptyBuyCondition || emptySellCondition) {
             pricesPane.addItem(customPrice, 2, 0);
         } else {
-            GuiItem marketPrice = new GuiItem(MarketItems.getBestPriceButton(item, type, amount));
+            GuiItem marketPrice = new GuiItem(MarketItems.getBestPriceButton(uuid, item, type, amount));
             marketPrice.setAction(event -> {
-                double price = type == Order.OrderType.BUY ? book.getLowestBuyPrice() : book.getHighestSellPrice();
+                double price = type == Order.OrderType.BUY ? book.getLowestBuyPrice(uuid) : book.getHighestSellPrice(uuid);
                 Order order = new Order(type, book.getBookId(), System.currentTimeMillis(), player.getUniqueId(),
                         price, amount);
                 openConfirmOrderPage(order, finalPageTitle);
             });
             pricesPane.addItem(marketPrice, 0, 0);
 
-            GuiItem changedPrice = new GuiItem(MarketItems.getChangedPriceButton(item, type, amount));
+            GuiItem changedPrice = new GuiItem(MarketItems.getChangedPriceButton(uuid, item, type, amount));
             changedPrice.setAction(event -> {
-                double price = type == Order.OrderType.BUY ? book.getLowestBuyPrice() + 0.1 :
-                        book.getHighestSellPrice() - 0.1;
+                double price = type == Order.OrderType.BUY ? book.getLowestBuyPrice(uuid) + 0.1 :
+                        book.getHighestSellPrice(uuid) - 0.1;
                 Order order = new Order(type, book.getBookId(), System.currentTimeMillis(), player.getUniqueId(),
                         price, amount);
                 openConfirmOrderPage(order, finalPageTitle);
@@ -582,8 +582,8 @@ public class OrderProfile {
             OrderProfile profile = OrderProfile.get(User.get(player.getUniqueId()));
             assert profile != null;
             switch (this) {
-                case BUY -> { return new GuiItem(MarketItems.getBuyButton(item)); }
-                case SELL -> { return new GuiItem(MarketItems.getSellButton(item, profile.getItemAmount(item))); }
+                case BUY -> { return new GuiItem(MarketItems.getBuyButton(player.getUniqueId(), item)); }
+                case SELL -> { return new GuiItem(MarketItems.getSellButton(player.getUniqueId(), item, profile.getItemAmount(item))); }
             }
             return null;
         }

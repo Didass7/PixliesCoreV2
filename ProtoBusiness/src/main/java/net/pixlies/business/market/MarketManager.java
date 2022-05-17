@@ -12,6 +12,7 @@ import java.util.*;
 
 /**
  * Market manager
+ * 
  * @author vPrototype_
  */
 public class MarketManager {
@@ -19,6 +20,7 @@ public class MarketManager {
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();
 
     @Getter private final Map<String, OrderBook> books = new HashMap<>(); // ID, OrderBook
+    @Getter private final Map<String, Tariff> tariffs = new HashMap<>(); // ID, Tariff
 
     public MarketManager() {
         loadAll();
@@ -27,6 +29,9 @@ public class MarketManager {
     public void backupAll() {
         for (OrderBook book : books.values()) {
             book.backup();
+        }
+        for (Tariff tariff : tariffs.values()) {
+            tariff.backup();
         }
     }
 
@@ -37,6 +42,11 @@ public class MarketManager {
             for (OrderBook book : instance.getMongoManager().getDatastore().find(OrderBook.class).iterator().toList()) {
                 if (book.getBookId() != null) {
                     books.put(book.getBookId(), book);
+                }
+            }
+            for (Tariff tariff : instance.getMongoManager().getDatastore().find(Tariff.class).iterator().toList()) {
+                if (tariff.getTariffId() != null) {
+                    tariffs.put(tariff.getTariffId(), tariff);
                 }
             }
         }

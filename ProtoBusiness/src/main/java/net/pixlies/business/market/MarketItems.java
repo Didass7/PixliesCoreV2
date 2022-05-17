@@ -20,6 +20,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public final class MarketItems {
 
@@ -228,59 +229,62 @@ public final class MarketItems {
                 .build();
     }
 
-    public static ItemStack getBuyButton(OrderItem item) {
+    public static ItemStack getBuyButton(UUID playerUUID,  OrderItem item) {
         OrderBook book = instance.getMarketManager().getBookFromItem(item);
         return new ItemBuilder(new ItemStack(Material.EMERALD))
                 .setDisplayName("§aBuy order")
-                .addLoreLine("§7Best price per unit: §6" + book.getLowestBuyPrice())
+                .addLoreLine("§7Best price per unit: §6" + book.getLowestBuyPrice(playerUUID))
                 .addLoreLine(" ")
                 .addLoreLine("§eClick to create!")
                 .build();
     }
 
-    public static ItemStack getSellButton(OrderItem item, int num) {
+    public static ItemStack getSellButton(UUID playerUUID, OrderItem item, int num) {
         OrderBook book = instance.getMarketManager().getBookFromItem(item);
         return new ItemBuilder(new ItemStack(Material.GOLD_INGOT))
                 .setDisplayName("§6Market sell order")
-                .addLoreLine("§7Best price per unit: §6" + book.getHighestSellPrice())
+                .addLoreLine("§7Best price per unit: §6" + book.getHighestSellPrice(playerUUID))
                 .addLoreLine("§7Inventory: §a" + num + " items")
-                .addLoreLine("§7Best total price: §d" + (book.getHighestSellPrice() * num))
+                .addLoreLine("§7Best total price: §d" + (book.getHighestSellPrice(playerUUID) * num))
                 .addLoreLine(" ")
+                .addLoreLine("§8Tariffs already applied.")
                 .addLoreLine("§eClick to create!")
                 .build();
     }
 
-    public static ItemStack getBestPriceButton(OrderItem item, Order.OrderType type, int amount) {
+    public static ItemStack getBestPriceButton(UUID playerUUID, OrderItem item, Order.OrderType type, int amount) {
         OrderBook book = instance.getMarketManager().getBookFromItem(item);
         return new ItemBuilder(new ItemStack(item.getMaterial()))
                 .setDisplayName("§eBest current price")
                 .addLoreLine(type == Order.OrderType.BUY ?
-                        "§7Price: §6" + book.getLowestBuyPrice() + " coins" :
-                        "§7Price: §6" + book.getHighestSellPrice() + " coins" )
+                        "§7Price: §6" + book.getLowestBuyPrice(playerUUID) + " coins" :
+                        "§7Price: §6" + book.getHighestSellPrice(playerUUID) + " coins" )
                 .addLoreLine(" ")
                 .addLoreLine("§7Selling: §a" + amount + "§8x")
                 .addLoreLine(type == Order.OrderType.BUY ?
-                        "§7§lTotal price: §6" + (book.getLowestBuyPrice() * amount) + " coins" :
-                        "§7§lTotal price: §6" + (book.getHighestSellPrice() * amount) + " coins" )
+                        "§7§lTotal price: §6" + (book.getLowestBuyPrice(playerUUID) * amount) + " coins" :
+                        "§7§lTotal price: §6" + (book.getHighestSellPrice(playerUUID) * amount) + " coins" )
                 .addLoreLine(" ")
+                .addLoreLine("§8Tariffs already applied.")
                 .addLoreLine("§eClick to set!")
                 .build();
     }
 
-    public static ItemStack getChangedPriceButton(OrderItem item, Order.OrderType type, int amount) {
+    public static ItemStack getChangedPriceButton(UUID playerUUID, OrderItem item, Order.OrderType type, int amount) {
         OrderBook book = instance.getMarketManager().getBookFromItem(item);
         return new ItemBuilder(new ItemStack(Material.GOLD_NUGGET))
                 .setDisplayName(type == Order.OrderType.BUY ?
                         "§eBest current price +0.1" :
                         "§eBest current price -0.1")
                 .addLoreLine(type == Order.OrderType.BUY ?
-                        "§7Price: §6" + (book.getLowestBuyPrice() + 0.1) + " coins" :
-                        "§7Price: §6" + (book.getHighestSellPrice() - 0.1) + " coins" )
+                        "§7Price: §6" + (book.getLowestBuyPrice(playerUUID) + 0.1) + " coins" :
+                        "§7Price: §6" + (book.getHighestSellPrice(playerUUID) - 0.1) + " coins" )
                 .addLoreLine(" ")
                 .addLoreLine(type == Order.OrderType.BUY ?
-                        "§7§lTotal price: §6" + ((book.getLowestBuyPrice() + 0.1) * amount) + " coins" :
-                        "§7§lTotal price: §6" + ((book.getHighestSellPrice() - 0.1 ) * amount) + " coins" )
+                        "§7§lTotal price: §6" + ((book.getLowestBuyPrice(playerUUID) + 0.1) * amount) + " coins" :
+                        "§7§lTotal price: §6" + ((book.getHighestSellPrice(playerUUID) - 0.1 ) * amount) + " coins" )
                 .addLoreLine(" ")
+                .addLoreLine("§8Tariffs already applied.")
                 .addLoreLine("§eClick to set!")
                 .build();
     }

@@ -15,7 +15,6 @@ import net.pixlies.nations.nations.customization.GovernmentType;
 import net.pixlies.nations.nations.customization.Ideology;
 import net.pixlies.nations.nations.customization.NationConstitution;
 import net.pixlies.nations.nations.customization.Religion;
-import net.pixlies.nations.nations.market.MarketCase;
 import net.pixlies.nations.nations.ranks.NationRank;
 import net.pixlies.nations.utils.NationUtils;
 import org.bukkit.command.CommandSender;
@@ -64,9 +63,6 @@ public class Nation {
      */
     private @Getter @Setter double taxRate;
 
-    private @Getter Map<MarketCase, Double> tariffs;
-    private @Getter Map<MarketCase, Double> discounts;
-
     // CUSTOMIZATION
     private String govType;
     private String ideology;
@@ -94,6 +90,7 @@ public class Nation {
                   long created,
                   double politicalPower,
                   double money,
+                  double taxRate,
                   @NotNull GovernmentType govType,
                   @NotNull Ideology ideology,
                   @NotNull Religion religion,
@@ -110,9 +107,7 @@ public class Nation {
         this.created = created;
         this.politicalPower = politicalPower;
         this.money = money;
-        taxRate = 0.0;
-        tariffs = new HashMap<>();
-        discounts = new HashMap<>();
+        this.taxRate = taxRate;
         this.govType = govType.name();
         this.ideology = ideology.name();
         this.religion = religion.name();
@@ -138,6 +133,7 @@ public class Nation {
                 "",
                 leaderUUID,
                 System.currentTimeMillis(),
+                0.0,
                 0.0,
                 0.0,
                 GovernmentType.UNITARY,
