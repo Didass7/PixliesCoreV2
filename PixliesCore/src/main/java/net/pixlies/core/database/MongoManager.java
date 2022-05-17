@@ -19,7 +19,7 @@ import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 
-import java.util.*;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,7 +43,7 @@ public class MongoManager {
             )
     );
 
-        private final UserCache userCache = new UserCache();
+   private final UserCache userCache = new UserCache();
 
     public MongoManager init() {
         Logger.getLogger("org.mongodb.driver").setLevel(Level.WARNING);
@@ -67,6 +67,11 @@ public class MongoManager {
 
         instance.getLogger().info("Connected to MongoDB database.");
         return this;
+    }
+
+    public void cleanUsers() {
+        List<User> users = datastore.find(User.class).iterator().toList();
+        users.forEach(user -> datastore.delete(user));
     }
 
     private static String conf(String what) {

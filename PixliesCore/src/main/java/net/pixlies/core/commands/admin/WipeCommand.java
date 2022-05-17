@@ -5,9 +5,7 @@ import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Description;
-import dev.morphia.query.experimental.filters.Filters;
 import net.pixlies.core.Main;
-import net.pixlies.core.entity.user.User;
 import net.pixlies.core.localization.Lang;
 import org.bukkit.command.CommandSender;
 
@@ -20,10 +18,7 @@ public class WipeCommand extends BaseCommand {
     @Default
     @Description("Wipes the users database")
     public void onWipeUsers(CommandSender sender) {
-        for (User user : instance.getDatabase().getDatastore().find(User.class).iterator().toList()) {
-            String uuid = user.getUuid();
-            instance.getDatabase().getDatastore().find(User.class).filter(Filters.gte("uuid", uuid)).delete();
-        }
+        instance.getDatabase().cleanUsers();
         Lang.WIPED_USERS.send(sender);
     }
 

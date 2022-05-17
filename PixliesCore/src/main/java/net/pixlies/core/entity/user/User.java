@@ -551,7 +551,7 @@ public class User {
 
     public static @NotNull User getFromDatabase(UUID uuid) {
         User profile = instance.getDatabase().getDatastore().find(User.class).filter(Filters.gte("uuid", uuid.toString())).first();
-//        Bukkit.broadcastMessage("Using database for " + uuid);
+//      Bukkit.broadcastMessage("Using database for " + uuid);
 //      Used for testing
         if (profile == null) {
             profile = new User(
