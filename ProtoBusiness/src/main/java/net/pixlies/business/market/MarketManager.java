@@ -5,6 +5,7 @@ import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.market.orders.Order;
 import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.business.market.orders.OrderItem;
+import net.pixlies.business.market.orders.Tariff;
 import net.pixlies.core.entity.user.User;
 import org.bukkit.entity.Player;
 
@@ -12,7 +13,7 @@ import java.util.*;
 
 /**
  * Market manager
- * 
+ *
  * @author vPrototype_
  */
 public class MarketManager {

@@ -4,7 +4,6 @@ import dev.morphia.annotations.*;
 import lombok.Getter;
 import lombok.Setter;
 import net.pixlies.business.ProtoBusiness;
-import net.pixlies.business.market.Tariff;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.utils.TextUtils;
 import net.pixlies.nations.interfaces.NationProfile;
