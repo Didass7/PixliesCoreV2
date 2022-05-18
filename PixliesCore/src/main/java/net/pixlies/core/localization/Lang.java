@@ -17,6 +17,8 @@ import java.util.Objects;
 
 public enum Lang {
 
+    FETCHING(Lang.PIXLIES, new HashMap<>()),
+
     BAN_MESSAGE("", new HashMap<>()),
     KICK_MESSAGE("", new HashMap<>()),
     BLACKLIST_MESSAGE("", new HashMap<>()),
@@ -320,14 +322,17 @@ public enum Lang {
     PRICE_BEST_BUY("", new HashMap<>()),
     PRICE_BEST_SELL("", new HashMap<>()),
 
-    TARIFF_LIST_INCOMING(Lang.NATION, new HashMap<>()),
-    TARIFF_LIST_OUTGOING(Lang.NATION, new HashMap<>()),
+    TARIFF_LOCAL_INCOMING(Lang.NATION, new HashMap<>()),
+    TARIFF_LOCAL_OUTGOING(Lang.NATION, new HashMap<>()),
+    TARIFF_GLOBAL(Lang.NATION, new HashMap<>()),
     TARIFF_INCOMING_FORMAT("", new HashMap<>()),
     TARIFF_OUTGOING_FORMAT("", new HashMap<>()),
+    TARIFF_GLOBAL_FORMAT(Lang.NATION, new HashMap<>()),
 
     TARIFF_SET(Lang.NATION, new HashMap<>()),
     TARIFF_REMOVED(Lang.NATION, new HashMap<>()),
     TARIFF_DOES_NOT_EXIST(Lang.NATION, new HashMap<>()),
+    TARIFF_RATE_NOT_VALID(Lang.NATION, new HashMap<>()),
 
     // OTHER
     MUST_BE_A_PLAYER(Lang.PIXLIES, new HashMap<>()),

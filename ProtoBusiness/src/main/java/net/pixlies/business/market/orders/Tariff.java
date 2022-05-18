@@ -44,6 +44,10 @@ public class Tariff {
 
     private @Setter double rate;
 
+    public String getFormattedRate() {
+        return (rate * 100) + "%";
+    }
+
     public void save() {
         instance.getMarketManager().getTariffs().put(tariffId, this);
     }

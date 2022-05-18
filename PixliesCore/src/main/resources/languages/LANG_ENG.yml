@@ -1,3 +1,5 @@
+FETCHING: "§7Fetching... Please wait."
+
 BAN_MESSAGE: |-
   §cYou have been banned from PixliesNet.
   
@@ -304,11 +306,14 @@ PRICE_SUMMARY: "§7Here is the price summary for §d%ITEM%§7."
 PRICE_BEST_BUY: "§7Best buy offer: §6%PRICE% coins §8(%AMOUNT% offers)"
 PRICE_BEST_SELL: "§7Best sell offer: §6%PRICE% coins §8(%AMOUNT% offers)"
 
-TARIFF_LIST_INCOMING: "§6Tariffs affecting your nation"
-TARIFF_LIST_OUTGOING: "§bTariffs affecting other nations on your behalf"
-TARIFF_INCOMING_FORMAT: "§7> §7From §f%NATION%§7 at a rate of §a%RATE%§7"
-TARIFF_OUTGOING_FORMAT: "§7> §7To §f%NATION%§7 at a rate of §a%RATE%§7"
+TARIFF_LOCAL_INCOMING: "§7Here is a list of §6incoming tariffs§7 to your nation:"
+TARIFF_LOCAL_OUTGOING: "§7Here is a list of §boutgoing tariffs§7 to other nations:"
+TARIFF_GLOBAL: "§7Here is a list of all §6tariffs§7:"
+TARIFF_INCOMING_FORMAT: "§8> §7From §f%NATION%§7 at a rate of §a%RATE%§7"
+TARIFF_OUTGOING_FORMAT: "§8> §To §f%NATION%§7 at a rate of §a%RATE%§7"
+TARIFF_GLOBAL_FORMAT: "§8> §7From §b%FROM%§7 to §6%TO%§7 at a rate of §d%RATE%§7"
 
 TARIFF_SET: "§7Tariff set for §6%NATION%§7 at a rate of §a%RATE%§7."
 TARIFF_REMOVED: "§7Tariff removed from §6%NATION%§7."
 TARIFF_DOES_NOT_EXIST: "§7No tariff exists from your nation on the specified nation."
+TARIFF_RATE_NOT_VALID: "§cThe rate must be a decimal number ranging from 0.01 to %MAX%."

@@ -10,8 +10,11 @@ import net.pixlies.core.localization.Lang;
 import net.pixlies.nations.interfaces.NationProfile;
 import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.ranks.NationPermission;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @CommandAlias("tariff|tariffs|trf")
@@ -25,12 +28,36 @@ public class TariffCommand extends BaseCommand {
     public void onTariffLocal(Player player) {
         if (!NationProfile.isInNation(User.get(player.getUniqueId()))) return;
 
+        String nationsId = Objects.requireNonNull(NationProfile.get(User.get(player.getUniqueId()))).getNationId();
+        List<Tariff> incoming = new ArrayList<>();
+        List<Tariff> outgoing = new ArrayList<>();
+        for (Tariff t : instance.getMarketManager().getTariffs().values()) {
+            if (Objects.equals(t.getFrom(), nationsId)) incoming.add(t);
+            else if (Objects.equals(t.getTo(), nationsId)) outgoing.add(t);
+        }
+
+        Lang.TARIFF_LOCAL_INCOMING.send(player);
+        incoming.forEach(t -> {
+            String from = Objects.requireNonNull(Nation.getFromId(t.getFrom())).getName();
+            Lang.TARIFF_INCOMING_FORMAT.send(player, "%NATION%;" + from, "%RATE%;" + t.getFormattedRate());
+        });
+
+        Lang.TARIFF_LOCAL_OUTGOING.send(player);
+        outgoing.forEach(t -> {
+            String to = Objects.requireNonNull(Nation.getFromId(t.getTo())).getName();
+            Lang.TARIFF_OUTGOING_FORMAT.send(player, "%NATION%;" + to, "%RATE%;" + t.getFormattedRate());
+        });
     }
 
     @Subcommand("global")
     @Description("Retrieve the list of all incoming and outgoing tariffs")
-    public void onTariffGlobal(Player player) {
-
+    public void onTariffGlobal(CommandSender sender) {
+        Lang.TARIFF_GLOBAL.send(sender);
+        for (Tariff t : instance.getMarketManager().getTariffs().values()) {
+            Lang.TARIFF_GLOBAL_FORMAT.send(sender, "%FROM%;" + Objects.requireNonNull(Nation.getFromId(t.getTo())).getName(),
+                    "%TO%;" + Objects.requireNonNull(Nation.getFromId(t.getTo())).getName(),
+                    "%RATE%;" + t.getFormattedRate());
+        }
     }
 
     @Subcommand("set")
@@ -40,6 +67,13 @@ public class TariffCommand extends BaseCommand {
         if (!NationProfile.isInNation(user)) return;
 
         if (NationPermission.MANAGE_TARIFFS.hasNationPermission(user) || user.getSettings().isBypassing()) {
+            double maxRate = instance.getConfig().getDouble("tariffMaxRate");
+            if (rate > maxRate || rate < 0.01) {
+                Lang.TARIFF_RATE_NOT_VALID.send(player, "%MAX%;" + maxRate);
+                player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
+                return;
+            }
+
             String fromId = Objects.requireNonNull(NationProfile.get(user)).getNationId();
             String toId = Objects.requireNonNull(Nation.getFromName(to)).getNationsId();
             Tariff tariff = new Tariff(fromId, toId, rate);
