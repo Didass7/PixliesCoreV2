@@ -221,4 +221,11 @@ public enum OrderItem {
         return list;
     }
 
+    public static OrderItem getFromMaterial(Material mat) {
+        for (OrderItem i : OrderItem.values()) {
+            if (i.getMaterial() == mat) return i;
+        }
+        return null;
+    }
+
 }

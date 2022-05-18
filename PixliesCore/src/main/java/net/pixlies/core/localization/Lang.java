@@ -314,6 +314,12 @@ public enum Lang {
     MARKET_PLAYER_ALLOWED_TARGET(Lang.MARKET, new HashMap<>()),
     MARKET_PLAYER_IS_RESTRICTED(Lang.MARKET, new HashMap<>()),
 
+    ITEM_NOT_ON_MARKET(Lang.MARKET, new HashMap<>()),
+
+    PRICE_SUMMARY(Lang.MARKET, new HashMap<>()),
+    PRICE_BEST_BUY("", new HashMap<>()),
+    PRICE_BEST_SELL("", new HashMap<>()),
+
     // OTHER
     MUST_BE_A_PLAYER(Lang.PIXLIES, new HashMap<>()),
     INVALID_COMMAND_SYNTAX(Lang.PIXLIES, new HashMap<>());

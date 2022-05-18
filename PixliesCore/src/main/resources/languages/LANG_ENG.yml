@@ -297,3 +297,9 @@ MARKET_PLAYER_RESTRICTED_TARGET: "§7You have been §crestricted§7 from accessi
 MARKET_PLAYER_ALLOWED_SENDER: "§7Player §6%PLAYER%§7 is now §aallowed§7 to access the market."
 MARKET_PLAYER_ALLOWED_TARGET: "§7You are now allowed to §aaccess§7 the market."
 MARKET_PLAYER_IS_RESTRICTED: "§cYou are restricted from accessing the market."
+
+ITEM_NOT_ON_MARKET: "§cThis item is not on the market!"
+
+PRICE_SUMMARY: "§7Here is the price summary for §d%ITEM%§7."
+PRICE_BEST_BUY: "§7Best buy offer: §6%PRICE% coins §8(%AMOUNT% offers)"
+PRICE_BEST_SELL: "§7Best sell offer: §6%PRICE% coins §8(%AMOUNT% offers)"
