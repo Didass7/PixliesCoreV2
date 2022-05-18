@@ -7,6 +7,7 @@ import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.business.market.orders.OrderItem;
 import net.pixlies.business.market.orders.Tariff;
 import net.pixlies.core.entity.user.User;
+import net.pixlies.nations.nations.Nation;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -123,9 +124,23 @@ public class MarketManager {
         return list;
     }
 
-    public OrderBook getBookFromItem(OrderItem item) {
+    public OrderBook getBook(OrderItem item) {
         for (OrderBook book : books.values()) {
             if (book.getItem() == item) return book;
+        }
+        return null;
+    }
+
+    /**
+     * Gets the tariff ID from the two Nation names
+     * @param from Name of the nation applying the tariff
+     * @param to Name of the nation affected by the tariff
+     */
+    public String getTariffId(String from, String to) {
+        for (Tariff t : tariffs.values()) {
+            boolean fromCond = Objects.equals(t.getFrom(), Objects.requireNonNull(Nation.getFromName(from)).getNationsId());
+            boolean toCond = Objects.equals(t.getTo(), Objects.requireNonNull(Nation.getFromName(to)).getNationsId());
+            if (fromCond && toCond) return t.getTariffId();
         }
         return null;
     }

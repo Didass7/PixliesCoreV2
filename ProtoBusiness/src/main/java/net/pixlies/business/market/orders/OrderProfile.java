@@ -272,7 +272,7 @@ public class OrderProfile {
     public void openItemPage(OrderItem item) {
 
         Player player = Bukkit.getPlayer(uuid);
-        OrderBook book = instance.getMarketManager().getBookFromItem(item);
+        OrderBook book = instance.getMarketManager().getBook(item);
         assert player != null;
 
         // CREATE GUI + BACKGROUND
@@ -342,7 +342,7 @@ public class OrderProfile {
         Player player = Bukkit.getPlayer(uuid);
         assert player != null;
 
-        OrderBook book = instance.getMarketManager().getBookFromItem(item);
+        OrderBook book = instance.getMarketManager().getBook(item);
 
         // PAGE TITLE
 

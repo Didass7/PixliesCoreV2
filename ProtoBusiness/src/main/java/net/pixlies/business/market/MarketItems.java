@@ -230,7 +230,7 @@ public final class MarketItems {
     }
 
     public static ItemStack getBuyButton(UUID playerUUID,  OrderItem item) {
-        OrderBook book = instance.getMarketManager().getBookFromItem(item);
+        OrderBook book = instance.getMarketManager().getBook(item);
         return new ItemBuilder(new ItemStack(Material.EMERALD))
                 .setDisplayName("§aBuy order")
                 .addLoreLine("§7Best price per unit: §6" + book.getLowestBuyPrice(playerUUID))
@@ -240,7 +240,7 @@ public final class MarketItems {
     }
 
     public static ItemStack getSellButton(UUID playerUUID, OrderItem item, int num) {
-        OrderBook book = instance.getMarketManager().getBookFromItem(item);
+        OrderBook book = instance.getMarketManager().getBook(item);
         return new ItemBuilder(new ItemStack(Material.GOLD_INGOT))
                 .setDisplayName("§6Market sell order")
                 .addLoreLine("§7Best price per unit: §6" + book.getHighestSellPrice(playerUUID))
@@ -253,7 +253,7 @@ public final class MarketItems {
     }
 
     public static ItemStack getBestPriceButton(UUID playerUUID, OrderItem item, Order.OrderType type, int amount) {
-        OrderBook book = instance.getMarketManager().getBookFromItem(item);
+        OrderBook book = instance.getMarketManager().getBook(item);
         return new ItemBuilder(new ItemStack(item.getMaterial()))
                 .setDisplayName("§eBest current price")
                 .addLoreLine(type == Order.OrderType.BUY ?
@@ -271,7 +271,7 @@ public final class MarketItems {
     }
 
     public static ItemStack getChangedPriceButton(UUID playerUUID, OrderItem item, Order.OrderType type, int amount) {
-        OrderBook book = instance.getMarketManager().getBookFromItem(item);
+        OrderBook book = instance.getMarketManager().getBook(item);
         return new ItemBuilder(new ItemStack(Material.GOLD_NUGGET))
                 .setDisplayName(type == Order.OrderType.BUY ?
                         "§eBest current price +0.1" :

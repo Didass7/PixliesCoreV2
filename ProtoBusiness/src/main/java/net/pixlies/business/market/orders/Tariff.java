@@ -4,10 +4,10 @@ import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Field;
 import dev.morphia.annotations.Index;
 import dev.morphia.annotations.Indexes;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import net.pixlies.business.ProtoBusiness;
+import net.pixlies.core.utils.TextUtils;
 
 /**
  * Tariff class
@@ -15,7 +15,6 @@ import net.pixlies.business.ProtoBusiness;
  * @author vPrototype_
  */
 @Getter
-@AllArgsConstructor
 @Entity("tariffs")
 @Indexes(
         @Index(fields = { @Field("tariffId") })
@@ -23,6 +22,13 @@ import net.pixlies.business.ProtoBusiness;
 public class Tariff {
 
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();
+
+    public Tariff(String fromId, String toId, double rate) {
+        tariffId = TextUtils.generateId(7);
+        from = fromId;
+        to = toId;
+        this.rate = rate;
+    }
 
     private final String tariffId;
 

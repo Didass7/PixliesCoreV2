@@ -43,8 +43,8 @@ public enum NationPermission {
     CHUNK_MENU,
 
     MANAGE_ELECTIONS,
-    MANAGE_TAX
-    ;
+    MANAGE_TAX,
+    MANAGE_TARIFFS;
 
     public boolean hasPermission(CommandSender sender) {
         if (!(sender instanceof Player)) return true;

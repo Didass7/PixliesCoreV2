@@ -320,6 +320,15 @@ public enum Lang {
     PRICE_BEST_BUY("", new HashMap<>()),
     PRICE_BEST_SELL("", new HashMap<>()),
 
+    TARIFF_LIST_INCOMING(Lang.NATION, new HashMap<>()),
+    TARIFF_LIST_OUTGOING(Lang.NATION, new HashMap<>()),
+    TARIFF_INCOMING_FORMAT("", new HashMap<>()),
+    TARIFF_OUTGOING_FORMAT("", new HashMap<>()),
+
+    TARIFF_SET(Lang.NATION, new HashMap<>()),
+    TARIFF_REMOVED(Lang.NATION, new HashMap<>()),
+    TARIFF_DOES_NOT_EXIST(Lang.NATION, new HashMap<>()),
+
     // OTHER
     MUST_BE_A_PLAYER(Lang.PIXLIES, new HashMap<>()),
     INVALID_COMMAND_SYNTAX(Lang.PIXLIES, new HashMap<>());

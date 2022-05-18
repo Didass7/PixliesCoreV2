@@ -27,7 +27,7 @@ public class PriceCommand extends BaseCommand {
             Lang.ITEM_NOT_ON_MARKET.send(player);
             player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
         } else {
-            OrderBook book = instance.getMarketManager().getBookFromItem(item);
+            OrderBook book = instance.getMarketManager().getBook(item);
             Lang.PRICE_SUMMARY.send(player, "%ITEM%;" + item.getName());
             Lang.PRICE_BEST_BUY.send(player, "%PRICE%;" + book.getLowestBuyPrice(player.getUniqueId()),
                     "%AMOUNT%;" + book.getBuyOrders().size());

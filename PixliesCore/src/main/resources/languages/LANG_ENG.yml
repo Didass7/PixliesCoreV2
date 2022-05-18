@@ -303,3 +303,12 @@ ITEM_NOT_ON_MARKET: "§cThis item is not on the market!"
 PRICE_SUMMARY: "§7Here is the price summary for §d%ITEM%§7."
 PRICE_BEST_BUY: "§7Best buy offer: §6%PRICE% coins §8(%AMOUNT% offers)"
 PRICE_BEST_SELL: "§7Best sell offer: §6%PRICE% coins §8(%AMOUNT% offers)"
+
+TARIFF_LIST_INCOMING: "§6Tariffs affecting your nation"
+TARIFF_LIST_OUTGOING: "§bTariffs affecting other nations on your behalf"
+TARIFF_INCOMING_FORMAT: "§7> §7From §f%NATION%§7 at a rate of §a%RATE%§7"
+TARIFF_OUTGOING_FORMAT: "§7> §7To §f%NATION%§7 at a rate of §a%RATE%§7"
+
+TARIFF_SET: "§7Tariff set for §6%NATION%§7 at a rate of §a%RATE%§7."
+TARIFF_REMOVED: "§7Tariff removed from §6%NATION%§7."
+TARIFF_DOES_NOT_EXIST: "§7No tariff exists from your nation on the specified nation."

@@ -330,7 +330,6 @@ public class Nation {
     //                                        STATIC METHODS
     // -------------------------------------------------------------------------------------------------
 
-
     public static @Nullable Nation getFromId(String id) {
         return instance.getNationManager().getNations().get(id);
     }
