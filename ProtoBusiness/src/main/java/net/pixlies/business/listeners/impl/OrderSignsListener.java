@@ -42,7 +42,7 @@ public class OrderSignsListener implements Listener {
                         }
 
                         order.setAmount(Integer.parseInt(firstLine));
-                        profile.openPricePage(item, order.getOrderType(), order.getAmount());
+                        profile.openPricePage(item, order.getType(), order.getAmount());
                         profile.setTempOrder(null);
                         profile.setTempTitle(null);
                     } else {

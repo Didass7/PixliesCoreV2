@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -36,14 +37,30 @@ public class Trade {
         claimed = true;
     }
 
-    @Override
-    public String toString() {
-        String string = "t: " + timestamp + " | amount" + " @ " + price + "$ each - ";
-        if (provider == null && taker == null) return string.concat("buyer: " + Bukkit.getOfflinePlayer(buyer).getName() +
-                ", seller: " + Bukkit.getOfflinePlayer(seller).getName());
-        if (buyer == null && seller == null) return string.concat("provider: " + Bukkit.getOfflinePlayer(provider).getName() +
-                ", taker: " + Bukkit.getOfflinePlayer(taker).getName());
-        return "error";
+    public String toString(double originalPrice) {
+        // TIMESTAMP
+        long secondsTime = (System.currentTimeMillis() - timestamp) / 1000;
+        String timestamp = secondsTime + "s";
+        if (secondsTime > 60) timestamp = Math.round(secondsTime / 60.0) + "m";
+
+        // BUY ORDERS
+        if (provider == null) {
+            String name = Objects.requireNonNull(Bukkit.getPlayer(seller)).getName();
+            return "§8- §a" + amount + "§7x §f" + name + " §8" + timestamp + " ago";
+        }
+
+        // SELL ORDERS
+        if (buyer == null) {
+            String name = Objects.requireNonNull(Bukkit.getPlayer(taker)).getName();
+            if (price == originalPrice) {
+                return "§8- §a" + amount + "§7x §f" + name + " §8" + timestamp + " ago";
+            } else {
+                double tariff = (price / originalPrice - 1) * 100;
+                return "§8- §a" + amount + "§7x §f" + name + " §8" + timestamp + " ago §7(tariffed §d" + "%§7)";
+            }
+        }
+
+        return null;
     }
 
 }

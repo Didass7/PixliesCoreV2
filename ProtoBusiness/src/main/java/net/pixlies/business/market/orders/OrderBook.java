@@ -5,6 +5,7 @@ import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.utils.TextUtils;
+import org.bukkit.Bukkit;
 
 import java.util.*;
 
@@ -33,11 +34,29 @@ public class OrderBook {
     public OrderBook(OrderItem item) {
         this.item = item;
         bookId = TextUtils.generateId(7);
-        buyOrders = new LinkedList<>();
-        sellOrders = new LinkedList<>();
+        buyOrders = new ArrayList<>();
+        sellOrders = new ArrayList<>();
     }
 
     // --------------------------------------------------------------------------------------------
+
+    public List<String> getRecentOrders(Order.Type type, OrderItem item, UUID uuid) {
+        List<String> list = new ArrayList<>();
+        OrderBook book = item.getBook();
+        assert book != null;
+
+        List<Order> orders;
+        if (type == Order.Type.BUY) orders = book.getBuyOrders();
+        else orders = book.getSellOrders();
+
+        for (Order o : orders) {
+            if (list.size() == 8) break;
+            String playerName = Objects.requireNonNull(Bukkit.getPlayer(o.getPlayerUUID())).getName();
+            list.add("§8- §a" + o.getAmount() + "§8x§7 at §6" + o.getPrice(uuid) + "§7 each from §b" + playerName);
+        }
+
+        return list;
+    }
 
     public double getLowestBuyPrice(UUID matching) {
         List<Double> prices = new ArrayList<>();
@@ -77,14 +96,14 @@ public class OrderBook {
     }
 
     private void processOrder(Order initialOrder, List<Order> orders) {
-        Order.OrderType type = initialOrder.getOrderType();
+        Order.Type type = initialOrder.getType();
         for (Order matchingOrder : orders) {
             // Get relative prices
             double initialPrice = initialOrder.getPrice(matchingOrder.getPlayerUUID());
             double matchingPrice = matchingOrder.getPrice(initialOrder.getPlayerUUID());
 
-            boolean buyCondition = type == Order.OrderType.BUY && matchingPrice <= initialPrice;
-            boolean sellCondition = type == Order.OrderType.SELL && matchingPrice >= initialPrice;
+            boolean buyCondition = type == Order.Type.BUY && matchingPrice <= initialPrice;
+            boolean sellCondition = type == Order.Type.SELL && matchingPrice >= initialPrice;
 
             // Check if the price matches
             if (buyCondition || sellCondition) {
@@ -99,7 +118,7 @@ public class OrderBook {
     }
 
     private void addTrade(Order initialOrder, Order matchingOrder, int traded) {
-        Order.OrderType type = initialOrder.getOrderType();
+        Order.Type type = initialOrder.getType();
         double price = matchingOrder.getPrice(initialOrder.getPlayerUUID());
         double total = price * traded;
 
@@ -144,8 +163,8 @@ public class OrderBook {
     }
 
     public void remove(Order order) {
-        if (order.getOrderType() == Order.OrderType.BUY) buyOrders.remove(order);
-        else if (order.getOrderType() == Order.OrderType.SELL) sellOrders.remove(order);
+        if (order.getType() == Order.Type.BUY) buyOrders.remove(order);
+        else if (order.getType() == Order.Type.SELL) sellOrders.remove(order);
         save();
     }
 

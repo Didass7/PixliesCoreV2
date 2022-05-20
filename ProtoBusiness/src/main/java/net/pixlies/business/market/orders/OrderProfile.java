@@ -337,7 +337,7 @@ public class OrderProfile {
 
     }
 
-    public void openPricePage(OrderItem item, Order.OrderType type, int amount) {
+    public void openPricePage(OrderItem item, Order.Type type, int amount) {
 
         Player player = Bukkit.getPlayer(uuid);
         assert player != null;
@@ -368,8 +368,8 @@ public class OrderProfile {
 
         StaticPane pricesPane = new StaticPane(2, 1, 5, 0);
 
-        boolean emptyBuyCondition = type == Order.OrderType.BUY && book.getBuyOrders().isEmpty();
-        boolean emptySellCondition = type == Order.OrderType.SELL && book.getSellOrders().isEmpty();
+        boolean emptyBuyCondition = type == Order.Type.BUY && book.getBuyOrders().isEmpty();
+        boolean emptySellCondition = type == Order.Type.SELL && book.getSellOrders().isEmpty();
         String finalPageTitle = pageTitle;
 
         GuiItem customPrice = new GuiItem(MarketItems.getCustomPriceButton());
@@ -396,7 +396,7 @@ public class OrderProfile {
         } else {
             GuiItem marketPrice = new GuiItem(MarketItems.getBestPriceButton(uuid, item, type, amount));
             marketPrice.setAction(event -> {
-                double price = type == Order.OrderType.BUY ? book.getLowestBuyPrice(uuid) : book.getHighestSellPrice(uuid);
+                double price = type == Order.Type.BUY ? book.getLowestBuyPrice(uuid) : book.getHighestSellPrice(uuid);
                 Order order = new Order(type, book.getBookId(), System.currentTimeMillis(), player.getUniqueId(),
                         price, amount);
                 openConfirmOrderPage(order, finalPageTitle);
@@ -405,7 +405,7 @@ public class OrderProfile {
 
             GuiItem changedPrice = new GuiItem(MarketItems.getChangedPriceButton(uuid, item, type, amount));
             changedPrice.setAction(event -> {
-                double price = type == Order.OrderType.BUY ? book.getLowestBuyPrice(uuid) + 0.1 :
+                double price = type == Order.Type.BUY ? book.getLowestBuyPrice(uuid) + 0.1 :
                         book.getHighestSellPrice(uuid) - 0.1;
                 Order order = new Order(type, book.getBookId(), System.currentTimeMillis(), player.getUniqueId(),
                         price, amount);
@@ -459,7 +459,7 @@ public class OrderProfile {
 
         GuiItem confirm = new GuiItem(MarketItems.getConfirmOrderButton(order, tax));
         confirm.setAction(event -> {
-            switch (order.getOrderType()) {
+            switch (order.getType()) {
                 case BUY -> {
                     double price = order.getAmount() * order.getPrice() * (1 + tax);
                     // TODO: take money from wallet
@@ -483,7 +483,7 @@ public class OrderProfile {
 
         StaticPane bottomPane = new StaticPane(4, 3, 1, 1);
         GuiItem goBack = new GuiItem(MarketItems.getBackArrow(previous));
-        goBack.setAction(event -> openPricePage(book.getItem(), order.getOrderType(), order.getAmount()));
+        goBack.setAction(event -> openPricePage(book.getItem(), order.getType(), order.getAmount()));
         bottomPane.addItem(goBack, 0, 0);
 
         // ADD PANES + SHOW GUI
@@ -505,7 +505,7 @@ public class OrderProfile {
         Player player = Bukkit.getPlayer(uuid);
         assert player != null;
         OrderBook book = instance.getMarketManager().getBooks().get(order.getBookId());
-        if (order.getOrderType() == Order.OrderType.BUY) {
+        if (order.getType() == Order.Type.BUY) {
             Material material = book.getItem().getMaterial();
             for (int i = 0; i < order.getVolume(); i++) player.getInventory().addItem(new ItemStack(material));
             Lang.ORDER_ITEMS_REFUNDED.send(player, "%AMOUNT%;" + order.getVolume(), "%ITEM%;" + book.getItem().getName());
@@ -521,7 +521,7 @@ public class OrderProfile {
         Player player = Bukkit.getPlayer(uuid);
         assert player != null;
         OrderBook book = instance.getMarketManager().getBooks().get(order.getBookId());
-        if (order.getOrderType() == Order.OrderType.BUY) {
+        if (order.getType() == Order.Type.BUY) {
             int items = 0;
             for (Trade t : order.getTrades()) {
                 if (t.isClaimed()) continue;
@@ -571,10 +571,10 @@ public class OrderProfile {
     @Getter
     @AllArgsConstructor
     public enum ItemOptions {
-        BUY(Order.OrderType.BUY, 0, 0),
-        SELL(Order.OrderType.SELL, 6, 0);
+        BUY(Order.Type.BUY, 0, 0),
+        SELL(Order.Type.SELL, 6, 0);
 
-        private final Order.OrderType type;
+        private final Order.Type type;
         private final int x;
         private final int y;
 

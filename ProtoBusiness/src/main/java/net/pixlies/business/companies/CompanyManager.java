@@ -25,9 +25,8 @@ public class CompanyManager {
 
     public void loadAll() {
         for (Company company : instance.getMongoManager().getDatastore().find(Company.class).iterator().toList()) {
-            if (company.getCompanyId() != null) {
-                companies.put(company.getCompanyId(), company);
-            }
+            if (company.getCompanyId() == null) break;
+            companies.put(company.getCompanyId(), company);
         }
     }
 

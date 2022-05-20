@@ -32,7 +32,7 @@ public class Order {
     private final String bookId;
     private @Setter long timestamp;
 
-    private final OrderType orderType;
+    private final Type type;
 
     private final UUID playerUUID;
     private @Setter double price;
@@ -41,10 +41,10 @@ public class Order {
 
     private final List<Trade> trades;
 
-    public Order(OrderType type, String bookId, long timestamp, UUID uuid, double price, int amount) {
+    public Order(Type type, String bookId, long timestamp, UUID uuid, double price, int amount) {
         orderId = TextUtils.generateId(7);
         this.bookId = bookId;
-        orderType = type;
+        this.type = type;
         this.timestamp = timestamp;
         playerUUID = uuid;
         this.price = price;
@@ -78,10 +78,6 @@ public class Order {
         return false;
     }
 
-    public void increaseVolume(int amount) {
-        volume += amount;
-    }
-
     public void decreaseVolume(int amount) {
         volume -= amount;
     }
@@ -92,7 +88,7 @@ public class Order {
                 Bukkit.getOfflinePlayer(playerUUID).getName();
     }
 
-    public enum OrderType {
+    public enum Type {
         BUY, SELL
     }
 

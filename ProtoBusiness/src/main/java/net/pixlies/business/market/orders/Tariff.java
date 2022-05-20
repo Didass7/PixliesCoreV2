@@ -42,7 +42,7 @@ public class Tariff {
      */
     private final String to;
 
-    private @Setter double rate;
+    @Setter private double rate;
 
     public String getFormattedRate() {
         return (rate * 100) + "%";
