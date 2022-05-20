@@ -61,7 +61,6 @@ public class OrderProfile {
         return num;
     }
 
-
     // ----------------------------------------------------------------------------------------------------
     // GUI METHODS
     // ----------------------------------------------------------------------------------------------------
@@ -248,6 +247,7 @@ public class OrderProfile {
             Lang.ORDER_CANCELLED.send(player, "%AMOUNT%;" + order.getAmount(), "%ITEM%;" + book.getItem().getName());
 
             refundGoods(order);
+            player.closeInventory();
         });
         cancelPane.addItem(cancel, 0, 0);
 
@@ -476,6 +476,7 @@ public class OrderProfile {
                 }
             }
             player.playSound(player.getLocation(), "block.amethyst_block.break", 100, 1);
+            openOrdersPage();
         });
         confirmPane.addItem(confirm, 0, 0);
 
@@ -504,14 +505,15 @@ public class OrderProfile {
     private void refundGoods(Order order) {
         Player player = Bukkit.getPlayer(uuid);
         assert player != null;
+        User user = User.get(uuid);
         OrderBook book = instance.getMarketManager().getBooks().get(order.getBookId());
         if (order.getType() == Order.Type.BUY) {
             Material material = book.getItem().getMaterial();
             for (int i = 0; i < order.getVolume(); i++) player.getInventory().addItem(new ItemStack(material));
             Lang.ORDER_ITEMS_REFUNDED.send(player, "%AMOUNT%;" + order.getVolume(), "%ITEM%;" + book.getItem().getName());
         } else {
-            User user = User.get(player.getUniqueId());
             // TODO: add coins to wallet
+            user.save();
             Lang.ORDER_COINS_REFUNDED.send(player, "%COINS%" + (order.getVolume() * order.getPrice()));
         }
         player.playSound(player.getLocation(), "entity.experience_orb.pickup", 100, 1);
@@ -520,6 +522,7 @@ public class OrderProfile {
     private void claimGoods(Order order) {
         Player player = Bukkit.getPlayer(uuid);
         assert player != null;
+        User user = User.get(uuid);
         OrderBook book = instance.getMarketManager().getBooks().get(order.getBookId());
         if (order.getType() == Order.Type.BUY) {
             int items = 0;
@@ -542,8 +545,8 @@ public class OrderProfile {
                 t.claim();
             }
 
-            User user = User.get(player.getUniqueId());
             // TODO: add coins to wallet
+            user.save();
 
             Lang.ORDER_ITEMS_CLAIMED.send(player, "%COINS%" + coins, "%AMOUNT%;" + order.getAmount(),
                     "%ITEM%;" + book.getItem().getName());

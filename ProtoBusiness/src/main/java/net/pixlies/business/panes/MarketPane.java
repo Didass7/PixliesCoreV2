@@ -2,11 +2,10 @@ package net.pixlies.business.panes;
 
 import com.github.stefvanschie.inventoryframework.gui.GuiItem;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
-import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.commands.impl.MarketCommand;
-import net.pixlies.business.market.orders.OrderProfile;
 import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.business.market.orders.OrderItem;
+import net.pixlies.business.market.orders.OrderProfile;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.utils.ItemBuilder;
 import org.bukkit.Material;
@@ -18,8 +17,6 @@ import java.util.Map;
 import java.util.UUID;
 
 public class MarketPane extends StaticPane {
-
-    private static final ProtoBusiness instance = ProtoBusiness.getInstance();
 
     @NotNull private final Map<Map.Entry<Integer, Integer>, GuiItem> items;
 

@@ -22,50 +22,48 @@ public class OrderSignsListener implements Listener {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
 
-        if (user.getExtras().containsKey("orderProfile")) {
-            Sign sign = (Sign) event.getBlock();
-            String firstLine = String.valueOf(sign.line(0));
-            OrderProfile profile = OrderProfile.get(user);
-            assert profile != null;
+        if (!user.getExtras().containsKey("orderProfile")) return;
 
-            switch (profile.getSignStage()) {
-                case 1 -> { // CHECKING ON THE AMOUNT
-                    if (StringUtils.isNumeric(firstLine)) {
-                        Order order = profile.getTempOrder();
-                        OrderItem item = instance.getMarketManager().getBooks().get(order.getBookId()).getItem();
+        Sign sign = (Sign) event.getBlock();
+        String firstLine = String.valueOf(sign.line(0));
+        OrderProfile profile = OrderProfile.get(user);
+        assert profile != null;
 
-                        if (Integer.parseInt(firstLine) > profile.getItemAmount(item)) {
-                            Lang.MARKET_NOT_ENOUGH_ITEMS.send(player);
-                            user.getExtras().remove("orderProfile");
-                            player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
-                            break;
-                        }
+        if (!StringUtils.isNumeric(firstLine)) {
+            player.closeInventory();
+            Lang.MARKET_NOT_A_VALID_AMOUNT.send(player);
+            player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
+        }
 
-                        order.setAmount(Integer.parseInt(firstLine));
-                        profile.openPricePage(item, order.getType(), order.getAmount());
-                        profile.setTempOrder(null);
-                        profile.setTempTitle(null);
-                    } else {
-                        user.getExtras().remove("orderProfile");
-                        Lang.MARKET_NOT_A_VALID_AMOUNT.send(player);
-                        player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
-                    }
+        switch (profile.getSignStage()) {
+
+            // CHECKING ON THE AMOUNT
+            case 1 -> {
+                Order order = profile.getTempOrder();
+                OrderItem item = instance.getMarketManager().getBooks().get(order.getBookId()).getItem();
+
+                if (Integer.parseInt(firstLine) > profile.getItemAmount(item)) {
+                    Lang.MARKET_NOT_ENOUGH_ITEMS.send(player);
+                    user.getExtras().remove("orderProfile");
+                    player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
+                    break;
                 }
-                case 2 -> { // CHECKING ON THE PRICE
-                    if (StringUtils.isNumeric(firstLine)) {
-                        // TODO: not enough money
 
-                        Order order = profile.getTempOrder();
-                        order.setPrice(Double.parseDouble(firstLine));
-                        profile.openConfirmOrderPage(order, profile.getTempTitle());
-                        profile.setTempOrder(null);
-                        profile.setTempTitle(null);
-                    } else {
-                        user.getExtras().remove("orderProfile");
-                        Lang.MARKET_NOT_A_VALID_PRICE.send(player);
-                        player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
-                    }
-                }
+                order.setAmount(Integer.parseInt(firstLine));
+                profile.openPricePage(item, order.getType(), order.getAmount());
+                profile.setTempOrder(null);
+                profile.setTempTitle(null);
+            }
+
+            // CHECKING ON THE PRICE
+            case 2 -> {
+                // TODO: not enough money
+
+                Order order = profile.getTempOrder();
+                order.setPrice(Double.parseDouble(firstLine));
+                profile.openConfirmOrderPage(order, profile.getTempTitle());
+                profile.setTempOrder(null);
+                profile.setTempTitle(null);
             }
         }
     }
