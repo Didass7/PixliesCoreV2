@@ -5,9 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.core.entity.user.User;
+import net.pixlies.core.localization.Lang;
 import net.pixlies.core.utils.TextUtils;
 import net.pixlies.nations.interfaces.NationProfile;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -82,10 +84,20 @@ public class Order {
         volume -= amount;
     }
 
-    @Override
-    public String toString() {
-        return "t: " + timestamp + " | amount" + " @ " + price + "$ each | by " +
-                Bukkit.getOfflinePlayer(playerUUID).getName();
+    public void sendNotification() {
+        Player player = Bukkit.getPlayer(playerUUID);
+
+        // If player is offline
+        if (player == null) {
+            User user = User.get(playerUUID);
+            user.getNotifs().add(this);
+            return;
+        }
+
+        OrderItem item = instance.getMarketManager().getBooks().get(bookId).getItem();
+        if (type == Type.BUY) Lang.BUY_ORDER_FILLED.send(player, "%NUM%;" + amount, "%ITEM%;" + item.getName());
+        else Lang.SELL_ORDER_FILLED.send(player, "%NUM%;" + amount, "%ITEM%;" + item.getName());
+        player.playSound(player.getLocation(), "entity.experience_orb.pickup", 100, 1);
     }
 
     public enum Type {

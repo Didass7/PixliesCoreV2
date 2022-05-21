@@ -302,6 +302,9 @@ MARKET_PLAYER_IS_RESTRICTED: "§cYou are restricted from accessing the market."
 
 ITEM_NOT_ON_MARKET: "§cThis item is not on the market!"
 
+BUY_ORDER_FILLED: "§7Your §bbuy order§7 for §a%NUM%§8x §f%ITEM%§7 was §aFILLED§7!"
+SELL_ORDER_FILLED: "§7Your §6sell order§7 for §a%NUM%§8x §f%ITEM%§7 was §aFILLED§7!"
+
 PRICE_SUMMARY: "§7Here is the price summary for §d%ITEM%§7."
 PRICE_BEST_BUY: "§7Best buy offer: §6%PRICE% coins §8(%AMOUNT% offers)"
 PRICE_BEST_SELL: "§7Best sell offer: §6%PRICE% coins §8(%AMOUNT% offers)"

@@ -56,6 +56,7 @@ public class User {
     private String lang;
     private PermissionProfile permissionProfile;
     private Map<String, Object> extras;
+    private List<Object> notifs;
     private final @Transient Map<String, Timer> allTimers = new HashMap<>();
 
     public Wallet getServerCurrency() {
@@ -568,7 +569,8 @@ public class User {
                     UserSettings.getDefaults(),
                     "ENG",
                     new PermissionProfile(new ArrayList<>(), new ArrayList<>()),
-                    new HashMap<>()
+                    new HashMap<>(),
+                    new ArrayList<>()
             );
 
             instance.getDatabase().getDatastore().save(profile);

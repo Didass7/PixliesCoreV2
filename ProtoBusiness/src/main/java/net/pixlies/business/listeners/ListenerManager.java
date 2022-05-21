@@ -2,6 +2,7 @@ package net.pixlies.business.listeners;
 
 import com.google.common.collect.ImmutableList;
 import net.pixlies.business.listeners.impl.InventoryCloseListener;
+import net.pixlies.business.listeners.impl.JoinNotifyListener;
 import net.pixlies.business.listeners.impl.OrderSignsListener;
 import net.pixlies.core.Main;
 import org.bukkit.event.HandlerList;
@@ -13,7 +14,8 @@ public class ListenerManager {
 
     private final ImmutableList<Listener> listeners = ImmutableList.of(
             new OrderSignsListener(),
-            new InventoryCloseListener()
+            new InventoryCloseListener(),
+            new JoinNotifyListener()
     );
 
     public void registerAllListeners() {

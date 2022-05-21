@@ -318,6 +318,9 @@ public enum Lang {
 
     ITEM_NOT_ON_MARKET(Lang.MARKET, new HashMap<>()),
 
+    BUY_ORDER_FILLED(Lang.MARKET, new HashMap<>()),
+    SELL_ORDER_FILLED(Lang.MARKET, new HashMap<>()),
+
     PRICE_SUMMARY(Lang.MARKET, new HashMap<>()),
     PRICE_BEST_BUY("", new HashMap<>()),
     PRICE_BEST_SELL("", new HashMap<>()),
