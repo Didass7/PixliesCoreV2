@@ -1,4 +1,4 @@
-package net.pixlies.business.companies;
+package net.pixlies.business.companies.customization;
 
 public enum Industry {
 

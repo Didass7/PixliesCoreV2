@@ -5,6 +5,7 @@ import dev.morphia.annotations.Id;
 import lombok.Getter;
 import lombok.Setter;
 import net.pixlies.business.ProtoBusiness;
+import net.pixlies.business.companies.customization.Industry;
 import net.pixlies.core.utils.TextUtils;
 
 import java.util.ArrayList;

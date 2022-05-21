@@ -1,6 +1,9 @@
 package net.pixlies.nations.interfaces;
 
 import dev.morphia.annotations.Entity;
+import dev.morphia.annotations.Field;
+import dev.morphia.annotations.Index;
+import dev.morphia.annotations.Indexes;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import net.pixlies.core.entity.user.User;
@@ -21,7 +24,10 @@ import java.util.UUID;
  */
 @Data
 @AllArgsConstructor
-@Entity
+@Entity("nationProfiles")
+@Indexes(
+        @Index(fields = { @Field("uuid") })
+)
 public class NationProfile {
 
     // -------------------------------------------------------------------------------------------------
