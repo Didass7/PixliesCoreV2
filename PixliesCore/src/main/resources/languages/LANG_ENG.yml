@@ -313,7 +313,11 @@ TARIFF_INCOMING_FORMAT: "§8> §7From §f%NATION%§7 at a rate of §a%RATE%§7"
 TARIFF_OUTGOING_FORMAT: "§8> §To §f%NATION%§7 at a rate of §a%RATE%§7"
 TARIFF_GLOBAL_FORMAT: "§8> §7From §b%FROM%§7 to §6%TO%§7 at a rate of §d%RATE%§7"
 
-TARIFF_SET: "§7Tariff set for §6%NATION%§7 at a rate of §a%RATE%§7."
-TARIFF_REMOVED: "§7Tariff removed from §6%NATION%§7."
+INCOMING_TARIFF_SET: "§7Tariff set for §6%NATION%§7 at a rate of §a%RATE%§7."
+INCOMING_TARIFF_REMOVED: "§7Tariff removed from §6%NATION%§7."
+OUTGOING_TARIFF_SET: "§6%NATION%§7 added a tariff on this nation at a rate of §a%RATE%§7."
+OUTGOING_TARIFF_REMOVED: "§6%NATION%§7 removed its tariff from this nation."
+
 TARIFF_DOES_NOT_EXIST: "§7No tariff exists from your nation on the specified nation."
 TARIFF_RATE_NOT_VALID: "§cThe rate must be a decimal number ranging from 0.01 to %MAX%."
+NO_TARIFFS_FOUND: "§cNo tariffs were found."

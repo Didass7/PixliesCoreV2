@@ -50,10 +50,10 @@ public enum NationPermission {
         if (!(sender instanceof Player)) return true;
         User user = User.get(((Player) sender).getUniqueId());
         if (user.getSettings().isBypassing()) return true;
-        return hasNationPermission(user);
+        return hasPermission(user);
     }
 
-    public boolean hasNationPermission(User user) {
+    public boolean hasPermission(User user) {
         NationProfile profile = NationProfile.get(user);
         if (profile == null) return false;
         if (user.getSettings().isBypassing()) return true;

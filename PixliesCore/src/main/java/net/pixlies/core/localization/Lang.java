@@ -329,10 +329,14 @@ public enum Lang {
     TARIFF_OUTGOING_FORMAT("", new HashMap<>()),
     TARIFF_GLOBAL_FORMAT(Lang.NATION, new HashMap<>()),
 
-    TARIFF_SET(Lang.NATION, new HashMap<>()),
-    TARIFF_REMOVED(Lang.NATION, new HashMap<>()),
     TARIFF_DOES_NOT_EXIST(Lang.NATION, new HashMap<>()),
     TARIFF_RATE_NOT_VALID(Lang.NATION, new HashMap<>()),
+    NO_TARIFFS_FOUND(Lang.NATION, new HashMap<>()),
+
+    INCOMING_TARIFF_SET(Lang.NATION, new HashMap<>()),
+    INCOMING_TARIFF_REMOVED(Lang.NATION, new HashMap<>()),
+    OUTGOING_TARIFF_SET(Lang.NATION, new HashMap<>()),
+    OUTGOING_TARIFF_REMOVED(Lang.NATION, new HashMap<>()),
 
     // OTHER
     MUST_BE_A_PLAYER(Lang.PIXLIES, new HashMap<>()),

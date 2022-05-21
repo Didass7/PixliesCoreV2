@@ -252,7 +252,7 @@ public class NationCommand extends BaseCommand {
         }
         NationProfile nProf = NationProfile.get(user);
         Nation nation = nProf.getNation();
-        if (!NationPermission.CHANGE_DESCRIPTION.hasNationPermission(user)) {
+        if (!NationPermission.CHANGE_DESCRIPTION.hasPermission(user)) {
             Lang.NATION_NO_PERMISSION.send(user.getAsOfflinePlayer().getPlayer());
             return;
         }
