@@ -286,7 +286,7 @@ public enum Lang {
     NATION_CANNOT_RENAME(Lang.NATION, new HashMap<>()),
     NOT_IN_NATION(Lang.NATION, new HashMap<>()),
 
-    // PROTOBUSINESS
+    // MARKET [PROTOBUSINESS]
     MARKET_OPEN(Lang.MARKET, new HashMap<>()),
     MARKET_CLOSED(Lang.MARKET, new HashMap<>()),
     MARKET_WAS_ALREADY_OPEN(Lang.MARKET, new HashMap<>()),
@@ -325,6 +325,20 @@ public enum Lang {
     PRICE_BEST_BUY("", new HashMap<>()),
     PRICE_BEST_SELL("", new HashMap<>()),
 
+    // CHALLENGES [PROTOBUSINESS]
+    BUY_ORDER("", new HashMap<>()),
+    SELL_ORDER("", new HashMap<>()),
+    BUY_ORDER_UNIT_50("", new HashMap<>()),
+    BUY_ORDER_64_ITEMS("", new HashMap<>()),
+    BUY_ORDER_500_ITEMS("", new HashMap<>()),
+
+    SOLD_100_ITEMS("", new HashMap<>()),
+    GAINED_350_COINS("", new HashMap<>()),
+    ORDERED_ALL_ITEMS("", new HashMap<>()),
+
+    CHALLENGE_COMPLETED(Lang.MARKET, new HashMap<>()),
+
+    // TARIFFS [PROTOBUSINESS]
     TARIFF_LOCAL_INCOMING(Lang.NATION, new HashMap<>()),
     TARIFF_LOCAL_OUTGOING(Lang.NATION, new HashMap<>()),
     TARIFF_GLOBAL(Lang.NATION, new HashMap<>()),

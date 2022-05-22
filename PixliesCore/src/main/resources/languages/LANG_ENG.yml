@@ -309,6 +309,18 @@ PRICE_SUMMARY: "§7Here is the price summary for §d%ITEM%§7."
 PRICE_BEST_BUY: "§7Best buy offer: §6%PRICE% coins §8(%AMOUNT% offers)"
 PRICE_BEST_SELL: "§7Best sell offer: §6%PRICE% coins §8(%AMOUNT% offers)"
 
+BUY_ORDER: "Have a filled buy order"
+SELL_ORDER: "Have a filled sell order"
+BUY_ORDER_UNIT_50: "Have a filled buy order with a minimum unit price of 50 coins"
+BUY_ORDER_64_ITEMS: "Have a filled buy order for at least 64 items"
+BUY_ORDER_500_ITEMS: "Have a filled buy order for at least 500 items"
+
+SOLD_100_ITEMS: "Have sold 100 items"
+GAINED_350_COINS: "Have gained 350 coins"
+ORDERED_ALL_ITEMS: "Have gotten filled orders for every item"
+
+CHALLENGE_COMPLETED: "§aChallenge completed: §f%CHALLENGE%"
+
 TARIFF_LOCAL_INCOMING: "§7Here is a list of §6incoming tariffs§7 to your nation:"
 TARIFF_LOCAL_OUTGOING: "§7Here is a list of §boutgoing tariffs§7 to other nations:"
 TARIFF_GLOBAL: "§7Here is a list of all §6tariffs§7:"

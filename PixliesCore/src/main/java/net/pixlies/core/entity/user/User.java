@@ -57,6 +57,7 @@ public class User {
     private PermissionProfile permissionProfile;
     private Map<String, Object> extras;
     private List<Object> notifs;
+    private List<Object> completedChallenges;
     private final @Transient Map<String, Timer> allTimers = new HashMap<>();
 
     public Wallet getServerCurrency() {
@@ -553,7 +554,6 @@ public class User {
     public static @NotNull User getFromDatabase(UUID uuid) {
         User profile = instance.getDatabase().getDatastore().find(User.class).filter(Filters.gte("uuid", uuid.toString())).first();
 //      Bukkit.broadcastMessage("Using database for " + uuid);
-//      Used for testing
         if (profile == null) {
             profile = new User(
                     uuid.toString(),
@@ -570,6 +570,7 @@ public class User {
                     "ENG",
                     new PermissionProfile(new ArrayList<>(), new ArrayList<>()),
                     new HashMap<>(),
+                    new ArrayList<>(),
                     new ArrayList<>()
             );
 

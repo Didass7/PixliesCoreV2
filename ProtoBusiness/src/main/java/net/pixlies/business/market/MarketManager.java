@@ -90,6 +90,9 @@ public class MarketManager {
         user.getStats().setItemsSold(0);
         user.getStats().setItemsBought(0);
 
+        user.getNotifs().clear();
+        user.getCompletedChallenges().clear();
+
         // Clear orders of that player
         for (OrderBook book : books.values()) {
             book.getBuyOrders().removeIf(order -> order.getPlayerUUID() == uuid);
@@ -98,6 +101,8 @@ public class MarketManager {
         }
 
         // TODO reset money
+
+        user.save();
     }
 
     public List<Order> getPlayerBuyOrders(UUID uuid) {
