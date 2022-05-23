@@ -46,9 +46,9 @@ public enum Challenge {
 
         // BOSSBAR
         TextComponent bossbarText = Component.text(getMessage(player) + " ", NamedTextColor.WHITE)
-                .append(Component.text("[", NamedTextColor.GRAY))
+                .append(Component.text("[", NamedTextColor.DARK_GRAY))
                 .append(Component.text("✔", NamedTextColor.GREEN, TextDecoration.BOLD))
-                .append(Component.text("]", NamedTextColor.GRAY));
+                .append(Component.text("]", NamedTextColor.DARK_GRAY));
         BossBar bossbar = BossBar.bossBar(bossbarText, 1, BossBar.Color.GREEN, BossBar.Overlay.PROGRESS);
         player.showBossBar(bossbar);
 

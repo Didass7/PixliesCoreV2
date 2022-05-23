@@ -338,6 +338,10 @@ public enum Lang {
 
     CHALLENGE_COMPLETED(Lang.MARKET, new HashMap<>()),
 
+    CHALLENGE_LIST(Lang.MARKET, new HashMap<>()),
+    CHALLENGE_COMPLETE_FORMAT("", new HashMap<>()),
+    CHALLENGE_INCOMPLETE_FORMAT("", new HashMap<>()),
+
     // TARIFFS [PROTOBUSINESS]
     TARIFF_LOCAL_INCOMING(Lang.NATION, new HashMap<>()),
     TARIFF_LOCAL_OUTGOING(Lang.NATION, new HashMap<>()),

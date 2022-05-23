@@ -2,10 +2,7 @@ package net.pixlies.business.commands;
 
 import co.aikar.commands.BaseCommand;
 import com.google.common.collect.ImmutableList;
-import net.pixlies.business.commands.impl.CompanyCommand;
-import net.pixlies.business.commands.impl.MarketCommand;
-import net.pixlies.business.commands.impl.PriceCommand;
-import net.pixlies.business.commands.impl.TariffCommand;
+import net.pixlies.business.commands.impl.*;
 import net.pixlies.core.Main;
 
 public class CommandManager {
@@ -14,7 +11,8 @@ public class CommandManager {
             new CompanyCommand(),
             new MarketCommand(),
             new PriceCommand(),
-            new TariffCommand()
+            new TariffCommand(),
+            new ChallengeCommand()
     );
 
     public void registerAllCommands() {
