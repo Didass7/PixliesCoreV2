@@ -58,7 +58,7 @@ public class User {
     private Map<String, Object> extras;
     private List<Object> notifs;
     private List<Object> completedChallenges;
-    private final @Transient Map<String, Timer> allTimers = new HashMap<>();
+    private @Transient Map<String, Timer> allTimers;
 
     public Wallet getServerCurrency() {
         return wallets.get("serverCurrency");
@@ -534,7 +534,8 @@ public class User {
      * @see User
      */
     public static @NotNull User get(UUID uuid) {
-        return instance.getDatabase().getUserCache().getOrDefault(uuid, getFromDatabase(uuid));
+        if (!instance.getDatabase().getUserCache().containsKey(uuid)) return getFromDatabase(uuid);
+        return instance.getDatabase().getUserCache().get(uuid);
     }
 
     public static @NotNull Collection<User> getAllUsers() {
@@ -571,7 +572,8 @@ public class User {
                     new PermissionProfile(new ArrayList<>(), new ArrayList<>()),
                     new HashMap<>(),
                     new ArrayList<>(),
-                    new ArrayList<>()
+                    new ArrayList<>(),
+                    new HashMap<>()
             );
 
             instance.getDatabase().getDatastore().save(profile);

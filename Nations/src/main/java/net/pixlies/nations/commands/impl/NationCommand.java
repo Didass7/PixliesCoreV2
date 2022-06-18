@@ -207,7 +207,7 @@ public class NationCommand extends BaseCommand {
     @Description("Disband a nation confirm")
     public void onDisbandConfirm(Player player) {
         User user = User.get(player.getUniqueId());
-        NationProfile profile = (NationProfile) user.getExtras().get("nationsProfile");
+        NationProfile profile = NationProfile.get(user);
 
         boolean staffCondition = user.getSettings().isBypassing() && player.hasPermission("nations.staff.forcedisband");
         boolean playerCondition = profile.getNationRank().equals(NationRank.leader().getName());
@@ -243,7 +243,7 @@ public class NationCommand extends BaseCommand {
     // -------------------------------------------------------------------------------------------------
     //                                         /n description
     // -------------------------------------------------------------------------------------------------
-    @Subcommand("description | desc | setdesc | setdescription")
+    @Subcommand("description|desc|setdesc|setdescription")
     @Description("Set your nations description")
     public void onDescription(User user, String desc) {
         if (!NationProfile.isInNation(user)) {
