@@ -4,8 +4,10 @@ import com.google.gson.Gson;
 import com.mongodb.lang.Nullable;
 import dev.morphia.annotations.*;
 import dev.morphia.query.experimental.filters.Filters;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.pixlies.core.Main;
 import net.pixlies.core.economy.Wallet;
@@ -55,10 +57,25 @@ public class User {
     private UserSettings settings;
     private String lang;
     private PermissionProfile permissionProfile;
-    private Map<String, Object> extras;
-    private List<Object> notifs;
-    private List<Object> completedChallenges;
+    @Getter(AccessLevel.NONE) private Map<String, Object> extras;
+    @Getter(AccessLevel.NONE) private List<Object> notifs;
+    @Getter(AccessLevel.NONE) private List<Object> completedChallenges;
     private @Transient Map<String, Timer> allTimers;
+
+    public Map<String, Object> getExtras() {
+        if (extras == null) return new HashMap<>();
+        return extras;
+    }
+
+    public List<Object> getNotifs() {
+        if (notifs == null) return new ArrayList<>();
+        return notifs;
+    }
+
+    public List<Object> getCompletedChallenges() {
+        if (completedChallenges == null) return new ArrayList<>();
+        return completedChallenges;
+    }
 
     public Wallet getServerCurrency() {
         return wallets.get("serverCurrency");

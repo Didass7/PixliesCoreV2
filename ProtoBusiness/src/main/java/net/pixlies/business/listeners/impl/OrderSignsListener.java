@@ -33,6 +33,9 @@ public class OrderSignsListener implements Listener {
             player.closeInventory();
             Lang.MARKET_NOT_A_VALID_AMOUNT.send(player);
             player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
+            user.getExtras().remove("orderProfile");
+            user.save();
+            return;
         }
 
         switch (profile.getSignStage()) {
@@ -43,9 +46,10 @@ public class OrderSignsListener implements Listener {
                 OrderItem item = instance.getMarketManager().getBooks().get(order.getBookId()).getItem();
 
                 if (Integer.parseInt(firstLine) > profile.getItemAmount(item)) {
+                    player.closeInventory();
                     Lang.MARKET_NOT_ENOUGH_ITEMS.send(player);
-                    user.getExtras().remove("orderProfile");
                     player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
+                    user.getExtras().remove("orderProfile");
                     break;
                 }
 
@@ -66,6 +70,8 @@ public class OrderSignsListener implements Listener {
                 profile.setTempTitle(null);
             }
         }
+
+        user.save();
     }
 
 }

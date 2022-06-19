@@ -112,9 +112,13 @@ public class OrderBook {
                 matchingOrder.decreaseVolume(traded);
                 addTrade(initialOrder, matchingOrder, traded);
 
-                // Sends message to player if order is filled
-                if (initialOrder.getVolume() == 0) initialOrder.sendNotification();
-                if (matchingOrder.getVolume() == 0) matchingOrder.sendNotification();
+                // Notifications and challenges
+                if (initialOrder.getVolume() == 0) {
+                    initialOrder.sendNotification();
+                }
+                if (matchingOrder.getVolume() == 0) {
+                    matchingOrder.sendNotification();
+                }
             }
         }
 

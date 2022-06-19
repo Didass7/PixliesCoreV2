@@ -298,15 +298,11 @@ public class OrderProfile {
             GuiItem guiItem = i.getGuiItem(player, item);
             assert guiItem != null;
             guiItem.setAction(event -> {
-                User user = User.get(player.getUniqueId());
-                OrderProfile profile = OrderProfile.get(user);
-                assert profile != null;
-
-                profile.setSignStage((byte) 1);
+                signStage = (byte) 1;
 
                 Order temp = new Order(i.getType(), book.getBookId(), System.currentTimeMillis(), uuid, 0, 0);
-                profile.setTempOrder(temp);
-                profile.setTempTitle(item.getName());
+                tempOrder = temp;
+                tempTitle = item.getName();
 
                 player.getWorld().getBlockAt(player.getLocation()).setType(Material.BIRCH_WALL_SIGN);
                 Sign sign = (Sign) player.getWorld().getBlockAt(player.getLocation()).getState();
@@ -374,14 +370,9 @@ public class OrderProfile {
 
         GuiItem customPrice = new GuiItem(MarketItems.getCustomPriceButton());
         customPrice.setAction(event -> {
-            User user = User.get(player.getUniqueId());
-            OrderProfile profile = OrderProfile.get(user);
-            assert profile != null;
-            profile.setTempOrder(new Order(type, book.getBookId(), System.currentTimeMillis(), player.getUniqueId(),
-                    0.0, amount));
-            profile.setTempTitle(finalPageTitle);
-
-            profile.setSignStage((byte) 2);
+            tempOrder = new Order(type, book.getBookId(), System.currentTimeMillis(), player.getUniqueId(), 0.0, amount);
+            tempTitle = finalPageTitle;
+            signStage = (byte) 2;
 
             player.getWorld().getBlockAt(player.getLocation()).setType(Material.BIRCH_WALL_SIGN);
             Sign sign = (Sign) player.getWorld().getBlockAt(player.getLocation()).getState();

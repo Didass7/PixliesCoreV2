@@ -1,5 +1,6 @@
 package net.pixlies.business.market;
 
+import dev.morphia.query.Query;
 import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.market.orders.Order;
@@ -25,7 +26,9 @@ public class MarketManager {
     @Getter private final Map<String, Tariff> tariffs = new HashMap<>(); // ID, Tariff
 
     public MarketManager() {
-        loadAll();
+        // hardReset();
+        loadBooks();
+        loadTariffs();
     }
 
     public void backupAll() {
@@ -37,27 +40,27 @@ public class MarketManager {
         }
     }
 
-    public void loadAll() {
-        if (instance.getMongoManager().getDatastore().find(OrderBook.class).iterator().toList().isEmpty()) {
-            initializeBooks();
-        } else {
-            for (OrderBook book : instance.getMongoManager().getDatastore().find(OrderBook.class).iterator().toList()) {
-                if (book.getBookId() != null) {
-                    books.put(book.getBookId(), book);
-                }
-            }
-            for (Tariff tariff : instance.getMongoManager().getDatastore().find(Tariff.class).iterator().toList()) {
-                if (tariff.getTariffId() != null) {
-                    tariffs.put(tariff.getTariffId(), tariff);
-                }
-            }
-        }
-    }
+    public void hardReset() {
+        Query<OrderBook> query = instance.getMongoManager().getDatastore().find(OrderBook.class);
+        query.delete();
 
-    public void initializeBooks() {
         for (OrderItem item : OrderItem.values()) {
             OrderBook book = new OrderBook(item);
             books.put(book.getBookId(), book);
+        }
+    }
+
+    public void loadBooks() {
+        Query<OrderBook> query = instance.getMongoManager().getDatastore().find(OrderBook.class);
+        for (OrderBook book : query.iterator().toList()) {
+            books.put(book.getBookId(), book);
+        }
+    }
+
+    public void loadTariffs() {
+        Query<Tariff> query = instance.getMongoManager().getDatastore().find(Tariff.class);
+        for (Tariff tariff : query.iterator().toList()) {
+            tariffs.put(tariff.getTariffId(), tariff);
         }
     }
 

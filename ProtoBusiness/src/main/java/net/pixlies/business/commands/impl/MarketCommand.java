@@ -48,6 +48,7 @@ public class MarketCommand extends BaseCommand {
             }
             OrderProfile orderProfile = new OrderProfile(player.getUniqueId());
             user.getExtras().put("orderProfile", orderProfile);
+            user.save();
             orderProfile.openMarketPage();
         } else {
             Lang.MARKET_IS_CLOSED.send(player);
@@ -139,10 +140,9 @@ public class MarketCommand extends BaseCommand {
     public enum Selection {
         MINERALS(Material.DIAMOND_PICKAXE, "§b", false),
         FOODSTUFFS_AND_PLANTS(Material.GOLDEN_HOE, "§e", true),
-        BLOCKS(Material.IRON_SHOVEL, "§a", true),
+        BLOCKS(Material.IRON_SHOVEL, "§d", true),
         MOB_DROPS(Material.NETHERITE_SWORD, "§c", false),
-        MISCELLANEOUS(Material.ARROW, "§6", false),
-        STOCKS_AND_BONDS(Material.PAPER, "§d", false);
+        MISCELLANEOUS(Material.ARROW, "§6", false);
 
         @Getter private final Material material;
         @Getter private final String color;

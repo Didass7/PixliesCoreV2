@@ -15,6 +15,7 @@ public class InventoryCloseListener implements Listener {
         User user = User.get(player.getUniqueId());
         if (OrderProfile.hasProfile(user)) {
             user.getExtras().remove("orderProfile");
+            user.save();
         }
     }
 
