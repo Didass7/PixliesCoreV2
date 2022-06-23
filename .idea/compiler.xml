@@ -9,8 +9,8 @@
         <outputRelativeToContentRoot value="true" />
         <module name="DiploMaurice" />
         <module name="core" />
-        <module name="PixliesFun" />
         <module name="ProtoBusiness" />
+        <module name="PixliesFun" />
         <module name="MiniMick" />
         <module name="PixliesProxyCore" />
         <module name="LobbyModule" />

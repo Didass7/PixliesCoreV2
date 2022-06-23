@@ -18,8 +18,12 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/Nations/pom.xml" />
-        <option value="$PROJECT_DIR$/PixliesCore/pom.xml" />
+        <option value="$PROJECT_DIR$/ProtoBusiness/pom.xml" />
+        <option value="$PROJECT_DIR$/PixliesProxyCore/pom.xml" />
+        <option value="$PROJECT_DIR$/PixliesFun/pom.xml" />
+        <option value="$PROJECT_DIR$/MiniMick/pom.xml" />
+        <option value="$PROJECT_DIR$/LobbyModule/pom.xml" />
+        <option value="$PROJECT_DIR$/DiploMaurice/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
