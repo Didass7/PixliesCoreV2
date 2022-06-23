@@ -11,7 +11,7 @@ import net.pixlies.business.market.orders.OrderProfile;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.localization.Lang;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -39,21 +39,26 @@ public class MarketCommand extends BaseCommand {
     @Default
     @Description("Opens the market menu")
     public void onMarket(Player player) {
-        if (marketHandler.isMarketOpen()) {
-            User user = User.get(player.getUniqueId());
-            if (user.getCurrentPunishments().containsKey("marketRestrict")) {
-                Lang.MARKET_PLAYER_IS_RESTRICTED.send(player);
-                player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
-                return;
-            }
-            OrderProfile orderProfile = new OrderProfile(player.getUniqueId());
-            user.getExtras().put("orderProfile", orderProfile);
-            user.save();
-            orderProfile.openMarketPage();
-        } else {
+        if (!marketHandler.isMarketOpen()) {
             Lang.MARKET_IS_CLOSED.send(player);
             player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
+            return;
         }
+
+        User user = User.get(player.getUniqueId());
+        if (user.getCurrentPunishments().containsKey("marketRestrict")) {
+            Lang.MARKET_PLAYER_IS_RESTRICTED.send(player);
+            player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
+            return;
+        }
+
+        OrderProfile orderProfile = new OrderProfile(player.getUniqueId());
+        user.getExtras().put("orderProfile", orderProfile);
+        user.save();
+
+        if (User.get(player.getUniqueId()).getExtras().containsKey("orderProfile")) player.sendMessage("OrderProfile exists! onMarket()");
+
+        orderProfile.openMarketPage();
     }
 
     @Subcommand("open")
@@ -62,22 +67,22 @@ public class MarketCommand extends BaseCommand {
     public void onMarketOpen(Player player) {
         if (marketHandler.isMarketOpen()) {
             Lang.MARKET_WAS_ALREADY_OPEN.send(player);
-        } else {
-            marketHandler.setMarketOpen(true);
-            Lang.MARKET_OPEN.broadcast();
+            return;
         }
+        marketHandler.setMarketOpen(true);
+        Lang.MARKET_OPEN.broadcast();
     }
 
     @Subcommand("close")
     @CommandPermission("pixlies.business.market.gates")
     @Description("Closes the market")
     public void onMarketClose(Player player) {
-        if (marketHandler.isMarketOpen()) {
-            marketHandler.setMarketOpen(false);
-            Lang.MARKET_CLOSED.broadcast();
-        } else {
+        if (!marketHandler.isMarketOpen()) {
             Lang.MARKET_WAS_ALREADY_CLOSED.send(player);
+            return;
         }
+        marketHandler.setMarketOpen(false);
+        Lang.MARKET_CLOSED.broadcast();
     }
 
     @Subcommand("reset")
@@ -136,25 +141,30 @@ public class MarketCommand extends BaseCommand {
     // SELECTION ENUM
     // ----------------------------------------------------------------------------------------------------
 
+    @Getter
     @AllArgsConstructor
     public enum Selection {
-        MINERALS(Material.DIAMOND_PICKAXE, "§b", false),
-        FOODSTUFFS_AND_PLANTS(Material.GOLDEN_HOE, "§e", true),
-        BLOCKS(Material.IRON_SHOVEL, "§d", true),
-        MOB_DROPS(Material.NETHERITE_SWORD, "§c", false),
-        MISCELLANEOUS(Material.ARROW, "§6", false);
+        MINERALS(Material.DIAMOND_PICKAXE, "§b", false, false),
+        FOODSTUFFS_AND_PLANTS(Material.GOLDEN_HOE, "§e", true, true),
+        BLOCKS(Material.IRON_SHOVEL, "§d", true, true),
+        MOB_DROPS(Material.NETHERITE_SWORD, "§c", false, true),
+        MISCELLANEOUS(Material.ARROW, "§6", false, false);
 
-        @Getter private final Material material;
-        @Getter private final String color;
-        @Getter private final boolean seventhRow;
+        private final Material material;
+        private final String color;
+        private final boolean seventhColumn;
+        private final boolean fifthRow;
 
-        // Lombok not being fun
-        public boolean hasSeventhRow() {
-            return seventhRow;
+        public boolean hasSeventhColumn() {
+            return seventhColumn;
+        }
+
+        public boolean hasFifthRow() {
+            return fifthRow;
         }
 
         public String getName() {
-            return StringUtils.capitalize(name().toLowerCase().replace("_", " "));
+            return WordUtils.capitalize(name().toLowerCase().replace("_", " "));
         }
     }
 

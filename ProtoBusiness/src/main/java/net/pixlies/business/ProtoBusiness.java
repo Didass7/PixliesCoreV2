@@ -8,7 +8,6 @@ import net.pixlies.business.handlers.HandlerManager;
 import net.pixlies.business.handlers.RegisterHandlerManager;
 import net.pixlies.business.listeners.ListenerManager;
 import net.pixlies.business.market.MarketManager;
-import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.core.modules.Module;
 import org.bukkit.Bukkit;
 
@@ -46,9 +45,6 @@ public class ProtoBusiness extends Module {
 
         marketManager = new MarketManager();
         Bukkit.getLogger().warning("Books loaded: " + marketManager.getBooks().size());
-        for (OrderBook book : marketManager.getBooks().values()) {
-            Bukkit.getLogger().warning(book.getItem().getName());
-        }
 
         listenerManager = new ListenerManager();
         listenerManager.registerAllListeners();

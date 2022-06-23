@@ -3,7 +3,7 @@ package net.pixlies.business.market.orders;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.Material;
 
 import java.util.ArrayList;
@@ -61,19 +61,19 @@ public enum OrderItem {
     ENCHANTED_GOLDEN_APPLE(Material.ENCHANTED_GOLDEN_APPLE, 1, 4, 1),
     MILK_BUCKET(Material.MILK_BUCKET, 1, 5, 1),
     HONEY_BOTTLE(Material.HONEY_BOTTLE, 1, 6, 1),
-    PORKCHOP(Material.REDSTONE, 1, 0, 2),
-    COOKED_PORKCHOP(Material.LAPIS_LAZULI, 1, 1, 2),
-    BEEF(Material.AMETHYST_SHARD, 1, 2, 2),
-    COOKED_BEEF(Material.AMETHYST_BLOCK, 1, 3, 2),
-    CHICKEN(Material.DIAMOND, 1, 4, 2),
-    COOKED_CHICKEN(Material.EMERALD, 1, 5, 2),
+    PORKCHOP(Material.PORKCHOP, 1, 0, 2),
+    COOKED_PORKCHOP(Material.COOKED_PORKCHOP, 1, 1, 2),
+    BEEF(Material.BEEF, 1, 2, 2),
+    COOKED_BEEF(Material.COOKED_BEEF, 1, 3, 2),
+    CHICKEN(Material.CHICKEN, 1, 4, 2),
+    COOKED_CHICKEN(Material.COOKED_CHICKEN, 1, 5, 2),
     SWEET_BERRIES(Material.SWEET_BERRIES, 1, 6, 2),
-    MUTTON(Material.QUARTZ, 1, 0, 3),
-    COOKED_MUTTON(Material.QUARTZ_BLOCK, 1, 1, 3),
-    RABBIT(Material.OBSIDIAN, 1, 2, 3),
-    COOKED_RABBIT(Material.NETHERITE_SCRAP, 1, 3, 3),
-    RED_MUSHROOM(Material.NETHERITE_INGOT, 1, 4, 3),
-    BROWN_MUSHROOM(Material.GLOWSTONE_DUST, 1, 5, 3),
+    MUTTON(Material.MUTTON, 1, 0, 3),
+    COOKED_MUTTON(Material.COOKED_MUTTON, 1, 1, 3),
+    RABBIT(Material.RABBIT, 1, 2, 3),
+    COOKED_RABBIT(Material.COOKED_RABBIT, 1, 3, 3),
+    RED_MUSHROOM(Material.RED_MUSHROOM, 1, 4, 3),
+    BROWN_MUSHROOM(Material.BROWN_MUSHROOM, 1, 5, 3),
     GLOW_BERRIES(Material.GLOW_BERRIES, 1, 6, 3),
     COD(Material.COD, 1, 0, 4),
     SALMON(Material.SALMON, 1, 1, 4),
@@ -196,7 +196,7 @@ public enum OrderItem {
      * @return formatted name
      */
     public String getName() {
-        return StringUtils.capitalize(name().toLowerCase().replace("_", " "));
+        return WordUtils.capitalize(name().toLowerCase().replace("_", " "));
     }
 
     /**
