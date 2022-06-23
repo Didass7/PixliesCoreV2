@@ -6,7 +6,6 @@ import net.pixlies.business.commands.impl.MarketCommand;
 import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.business.market.orders.OrderItem;
 import net.pixlies.business.market.orders.OrderProfile;
-import net.pixlies.core.entity.user.User;
 import net.pixlies.core.utils.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -25,10 +24,15 @@ public class MarketPane extends StaticPane {
         items = new HashMap<>(length * height);
     }
 
-    public void loadPage(MarketCommand.Selection page, UUID uuid) {
+    public void loadPage(MarketCommand.Selection page, UUID uuid, OrderProfile profile) {
         fillWith(new ItemStack(Material.AIR));
-        if (!page.hasSeventhRow()) {
-            for (int y = 0; y < 6; y++) addItem(new GuiItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE)), 6, y);
+
+        if (!page.hasFifthRow()) {
+            for (int x = 0; x < 7; x++) addItem(new GuiItem(new ItemStack(Material.AIR)), x, 4);
+        }
+
+        if (!page.hasSeventhColumn()) {
+            for (int y = 0; y < 5; y++) addItem(new GuiItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE)), 6, y);
         }
 
         for (OrderItem item : OrderItem.getItemsOfPage(page.ordinal())) {
@@ -41,11 +45,7 @@ public class MarketPane extends StaticPane {
                     .addLoreLine(" ")
                     .addLoreLine("§eClick to buy or sell!");
             GuiItem guiItem = new GuiItem(builder.build());
-            guiItem.setAction(event -> {
-                User user = User.get(uuid);
-                OrderProfile profile = (OrderProfile) user.getExtras().get("orderProfile");
-                profile.openItemPage(item);
-            });
+            guiItem.setAction(event -> profile.openItemPage(item));
             addItem(guiItem, item.getPosX(), item.getPosY());
         }
     }

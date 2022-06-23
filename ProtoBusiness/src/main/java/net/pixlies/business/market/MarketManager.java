@@ -26,14 +26,15 @@ public class MarketManager {
     @Getter private final Map<String, Tariff> tariffs = new HashMap<>(); // ID, Tariff
 
     public MarketManager() {
-        // hardReset();
-        loadBooks();
+        // TODO: fix OrderBooks thing
+        hardReset();
+        // loadBooks();
         loadTariffs();
     }
 
     public void backupAll() {
         for (OrderBook book : books.values()) {
-            book.backup();
+            instance.getMongoManager().getDatastore().save(book);
         }
         for (Tariff tariff : tariffs.values()) {
             tariff.backup();

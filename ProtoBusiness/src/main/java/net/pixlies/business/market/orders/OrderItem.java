@@ -145,6 +145,8 @@ public enum OrderItem {
     BONE_BLOCK(Material.BONE_BLOCK, 3, 1, 3),
     SHULKER_SHELL(Material.SHULKER_SHELL, 3, 2, 3),
     SHULKER_BOX(Material.SHULKER_BOX, 3, 3, 3),
+    BAMBOO(Material.BAMBOO, 3, 4, 3),
+    GOAT_HORN(Material.GOAT_HORN, 3, 5, 3),
 
     // MISCELLANEOUS
 

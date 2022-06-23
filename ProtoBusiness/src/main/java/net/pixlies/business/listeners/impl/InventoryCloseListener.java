@@ -13,7 +13,9 @@ public class InventoryCloseListener implements Listener {
     public void onClose(InventoryCloseEvent event) {
         Player player = (Player) event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (OrderProfile.hasProfile(user)) {
+        boolean closeReason = event.getReason() == InventoryCloseEvent.Reason.CANT_USE ||
+                event.getReason() == InventoryCloseEvent.Reason.PLAYER;
+        if (closeReason && OrderProfile.hasProfile(user)) {
             user.getExtras().remove("orderProfile");
             user.save();
         }

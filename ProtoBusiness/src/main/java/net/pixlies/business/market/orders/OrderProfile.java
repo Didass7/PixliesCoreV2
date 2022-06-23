@@ -21,6 +21,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -28,6 +30,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 /**
  * Market profile
@@ -70,6 +73,8 @@ public class OrderProfile {
         Player player = Bukkit.getPlayer(uuid);
         assert player != null;
 
+        if (hasProfile(User.get(uuid))) player.sendMessage("A MarketProfile exists.");
+
         // Index 0 is the page currently being viewed, index 1 is the page which was previously being viewed
         final MarketCommand.Selection[] viewing = { MarketCommand.Selection.MINERALS, MarketCommand.Selection.MINERALS };
 
@@ -84,48 +89,51 @@ public class OrderProfile {
         // MARKET PANE
 
         MarketPane marketPane = new MarketPane(2, 0, 7, 5);
-        marketPane.loadPage(MarketCommand.Selection.MINERALS, uuid);
+        marketPane.loadPage(MarketCommand.Selection.MINERALS, uuid, this);
+        background.addItem(new GuiItem(new ItemStack(Material.GREEN_STAINED_GLASS_PANE)), 1, 0);
 
         // SELECTION PANE
 
-        StaticPane selectionPane = new StaticPane(0, 0, 1, 7);
+        StaticPane selectionPane = new StaticPane(0, 0, 1, 5);
 
         for (MarketCommand.Selection s : MarketCommand.Selection.values()) {
 
             // ITEM STUFF
 
-            GuiItem item = new GuiItem(s == MarketCommand.Selection.MINERALS ? MarketItems.getSelectedSelection(s, s.getName()) :
+            GuiItem item = new GuiItem(s == MarketCommand.Selection.MINERALS ?
+                    MarketItems.getSelectedSelection(s, s.getName()) :
                     MarketItems.getUnselectedSelection(s, s.getName()));
 
             // ON ITEM CLICK
 
-            item.setAction(event -> {
+            Consumer<InventoryClickEvent> selectionClick = new Consumer<InventoryClickEvent>() {
+                @Override
+                public void accept(InventoryClickEvent inventoryClickEvent) {
 
-                // SELECTIONS
+                    if (s == viewing[0]) return;
+                    viewing[1] = viewing[0];
+                    viewing[0] = s;
 
-                if (s == viewing[0]) return;
-                viewing[1] = viewing[0];
-                viewing[0] = s;
+                    GuiItem unSelected = new GuiItem(MarketItems.getUnselectedSelection(viewing[1], viewing[1].getName()));
+                    GuiItem selected = new GuiItem(MarketItems.getSelectedSelection(viewing[0], viewing[0].getName()));
+                    unSelected.setAction(this);
+                    selected.setAction(this);
 
-                // BUTTON LORE
+                    selectionPane.addItem(unSelected, 0, viewing[1].ordinal());
+                    selectionPane.addItem(selected, 0, viewing[0].ordinal());
 
-                selectionPane.addItem(new GuiItem(MarketItems.getUnselectedSelection(viewing[1], viewing[1].getName())),
-                        0, viewing[1].ordinal());
-                selectionPane.addItem(new GuiItem(MarketItems.getSelectedSelection(viewing[0], viewing[0].getName())),
-                        0, viewing[0].ordinal());
+                    background.addItem(new GuiItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE)),
+                            1, viewing[1].ordinal());
+                    background.addItem(new GuiItem(new ItemStack(Material.GREEN_STAINED_GLASS_PANE)),
+                            1, viewing[0].ordinal());
 
-                // GREEN GLASS
+                    marketPane.loadPage(viewing[0], uuid, OrderProfile.this);
+                    gui.update();
 
-                background.addItem(new GuiItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE)),
-                        1, viewing[1].ordinal());
-                background.addItem(new GuiItem(new ItemStack(Material.GREEN_STAINED_GLASS_PANE)),
-                        1, viewing[0].ordinal());
+                }
+            };
 
-                marketPane.loadPage(viewing[0], uuid);
-                gui.update();
-
-            });
-
+            item.setAction(selectionClick);
             selectionPane.addItem(item, 0, s.ordinal());
 
         }
@@ -247,7 +255,7 @@ public class OrderProfile {
             Lang.ORDER_CANCELLED.send(player, "%AMOUNT%;" + order.getAmount(), "%ITEM%;" + book.getItem().getName());
 
             refundGoods(order);
-            player.closeInventory();
+            player.closeInventory(InventoryCloseEvent.Reason.CANT_USE);
         });
         cancelPane.addItem(cancel, 0, 0);
 
@@ -300,8 +308,7 @@ public class OrderProfile {
             guiItem.setAction(event -> {
                 signStage = (byte) 1;
 
-                Order temp = new Order(i.getType(), book.getBookId(), System.currentTimeMillis(), uuid, 0, 0);
-                tempOrder = temp;
+                tempOrder = new Order(i.getType(), book.getBookId(), System.currentTimeMillis(), uuid, 0, 0);
                 tempTitle = item.getName();
 
                 player.getWorld().getBlockAt(player.getLocation()).setType(Material.BIRCH_WALL_SIGN);
