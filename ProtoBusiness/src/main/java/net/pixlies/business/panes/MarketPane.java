@@ -27,6 +27,10 @@ public class MarketPane extends StaticPane {
     public void loadPage(MarketCommand.Selection page, UUID uuid, OrderProfile profile) {
         fillWith(new ItemStack(Material.AIR));
 
+        if (!page.hasFourthRow()) {
+            for (int x = 0; x < 7; x++) addItem(new GuiItem(new ItemStack(Material.AIR)), x, 3);
+        }
+
         if (!page.hasFifthRow()) {
             for (int x = 0; x < 7; x++) addItem(new GuiItem(new ItemStack(Material.AIR)), x, 4);
         }
