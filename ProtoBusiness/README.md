@@ -1,12 +1,10 @@
 # ProtoBusiness
 
 ## Checklist
-- [ ] Item & stock market
-- [ ] Companies
-- [ ] Stocks
-- [ ] Bonds
-- [ ] Taxation, tariffs, and discounts
-- [ ] Chest shops
+- [X] Item market
+- [X] Taxation
+- [X] Tariffs
 - [ ] Shop NPCs
 - [ ] General economy commands
-- [ ] Currency system
+- [ ] Challenges
+- [ ] BUG FIXING
