@@ -410,7 +410,6 @@ public class User {
 
     public void save() {
         instance.getDatabase().getUserCache().remove(getUniqueId());
-//        Bukkit.broadcastMessage("Added user " + getUniqueId() + " to cache");
         instance.getDatabase().getUserCache().put(getUniqueId(), this);
     }
 
