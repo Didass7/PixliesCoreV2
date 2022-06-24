@@ -73,7 +73,8 @@ public class OrderProfile {
         Player player = Bukkit.getPlayer(uuid);
         assert player != null;
 
-        if (hasProfile(User.get(uuid))) player.sendMessage("A MarketProfile exists.");
+        if (User.get(uuid).getExtras().get("orderProfile") instanceof OrderProfile) player.sendMessage("orderprofile is good");
+        else player.sendMessage(User.get(uuid).getExtras().get("orderProfile").toString());
 
         // Index 0 is the page currently being viewed, index 1 is the page which was previously being viewed
         final MarketCommand.Selection[] viewing = { MarketCommand.Selection.MINERALS, MarketCommand.Selection.MINERALS };
@@ -161,6 +162,8 @@ public class OrderProfile {
 
         gui.show(player);
         gui.update();
+
+        player.playSound(player.getLocation(), "entity.experience_orb.pickup", 100, 1);
 
     }
 

@@ -63,17 +63,17 @@ public class User {
     private @Transient Map<String, Timer> allTimers;
 
     public Map<String, Object> getExtras() {
-        if (extras == null) return new HashMap<>();
+        if (extras == null) extras = new HashMap<>();
         return extras;
     }
 
     public List<Object> getNotifs() {
-        if (notifs == null) return new ArrayList<>();
+        if (notifs == null) notifs = new ArrayList<>();
         return notifs;
     }
 
     public List<Object> getCompletedChallenges() {
-        if (completedChallenges == null) return new ArrayList<>();
+        if (completedChallenges == null) completedChallenges = new ArrayList<>();
         return completedChallenges;
     }
 

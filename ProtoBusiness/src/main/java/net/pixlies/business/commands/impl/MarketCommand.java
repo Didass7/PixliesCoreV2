@@ -15,6 +15,8 @@ import org.apache.commons.lang.WordUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
+import java.util.Objects;
+
 /**
  * Market command
  *
@@ -52,13 +54,10 @@ public class MarketCommand extends BaseCommand {
             return;
         }
 
-        OrderProfile orderProfile = new OrderProfile(player.getUniqueId());
-        user.getExtras().put("orderProfile", orderProfile);
+        user.getExtras().put("orderProfile", new OrderProfile(player.getUniqueId()));
         user.save();
 
-        if (User.get(player.getUniqueId()).getExtras().containsKey("orderProfile")) player.sendMessage("OrderProfile exists! onMarket()");
-
-        orderProfile.openMarketPage();
+        Objects.requireNonNull(OrderProfile.get(user)).openMarketPage();
     }
 
     @Subcommand("open")

@@ -44,7 +44,7 @@ public class ProtoBusiness extends Module {
         commandManager.registerAllCommands();
 
         marketManager = new MarketManager();
-        Bukkit.getLogger().warning("Books loaded: " + marketManager.getBooks().size());
+        Bukkit.getLogger().warning("[Business] OrderBooks loaded: " + marketManager.getBooks().size());
 
         listenerManager = new ListenerManager();
         listenerManager.registerAllListeners();
