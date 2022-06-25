@@ -8,7 +8,6 @@ import net.pixlies.core.Main;
 public class CommandManager {
 
     private final ImmutableList<BaseCommand> commands = ImmutableList.of(
-            new CompanyCommand(),
             new MarketCommand(),
             new PriceCommand(),
             new TariffCommand(),
