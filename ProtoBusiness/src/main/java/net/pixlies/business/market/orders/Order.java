@@ -4,6 +4,7 @@ import dev.morphia.annotations.*;
 import lombok.Getter;
 import lombok.Setter;
 import net.pixlies.business.ProtoBusiness;
+import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.utils.TextUtils;
@@ -29,6 +30,7 @@ import java.util.UUID;
 public class Order {
 
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();
+    private final MarketHandler marketHandler = instance.getHandlerManager().getHandler(MarketHandler.class);
 
     @Id private final String orderId;
     private final String bookId;
@@ -89,8 +91,7 @@ public class Order {
 
         // If player is offline
         if (player == null) {
-            User user = User.get(playerUUID);
-            user.getNotifs().add(this);
+            marketHandler.getNotifs().put(playerUUID.toString(), this);
             return;
         }
 

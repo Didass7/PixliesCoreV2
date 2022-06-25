@@ -3,6 +3,7 @@ package net.pixlies.business.market;
 import dev.morphia.query.Query;
 import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
+import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.business.market.orders.Order;
 import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.business.market.orders.OrderItem;
@@ -21,6 +22,7 @@ import java.util.*;
 public class MarketManager {
 
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();
+    private final MarketHandler marketHandler = instance.getHandlerManager().getHandler(MarketHandler.class);
 
     @Getter private final Map<String, OrderBook> books = new HashMap<>(); // ID, OrderBook
     @Getter private final Map<String, Tariff> tariffs = new HashMap<>(); // ID, Tariff
@@ -94,8 +96,8 @@ public class MarketManager {
         user.getStats().setItemsSold(0);
         user.getStats().setItemsBought(0);
 
-        user.getNotifs().clear();
-        user.getCompletedChallenges().clear();
+        marketHandler.getChallenges().removeAll(uuid.toString());
+        marketHandler.getNotifs().removeAll(uuid.toString());
 
         // Clear orders of that player
         for (OrderBook book : books.values()) {

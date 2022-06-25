@@ -8,6 +8,8 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.title.Title;
+import net.pixlies.business.ProtoBusiness;
+import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.localization.Lang;
 import org.bukkit.entity.Player;
@@ -29,6 +31,9 @@ public enum Challenge {
 
     private final Lang message;
     private final @Getter int xpGained;
+
+    private static final ProtoBusiness instance = ProtoBusiness.getInstance();
+    private static final MarketHandler marketHandler = instance.getHandlerManager().getHandler(MarketHandler.class);
 
     public String getMessage(Player player) {
         return message.get(player);
@@ -57,7 +62,7 @@ public enum Challenge {
         player.playSound(player.getLocation(), "ui.toast.challenge_complete", 50, 1);
         Lang.CHALLENGE_COMPLETED.send(player, "%CHALLENGE%;" + getMessage(player));
 
-        User.get(player.getUniqueId()).getCompletedChallenges().add(this);
+        marketHandler.getChallenges().put(player.getUniqueId().toString(), this);
     }
 
 }

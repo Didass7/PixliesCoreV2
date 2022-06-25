@@ -58,23 +58,11 @@ public class User {
     private String lang;
     private PermissionProfile permissionProfile;
     @Getter(AccessLevel.NONE) private Map<String, Object> extras;
-    @Getter(AccessLevel.NONE) private List<Object> notifs;
-    @Getter(AccessLevel.NONE) private List<Object> completedChallenges;
     private @Transient Map<String, Timer> allTimers;
 
     public Map<String, Object> getExtras() {
         if (extras == null) extras = new HashMap<>();
         return extras;
-    }
-
-    public List<Object> getNotifs() {
-        if (notifs == null) notifs = new ArrayList<>();
-        return notifs;
-    }
-
-    public List<Object> getCompletedChallenges() {
-        if (completedChallenges == null) completedChallenges = new ArrayList<>();
-        return completedChallenges;
     }
 
     public Wallet getServerCurrency() {
@@ -587,8 +575,6 @@ public class User {
                     "ENG",
                     new PermissionProfile(new ArrayList<>(), new ArrayList<>()),
                     new HashMap<>(),
-                    new ArrayList<>(),
-                    new ArrayList<>(),
                     new HashMap<>()
             );
 

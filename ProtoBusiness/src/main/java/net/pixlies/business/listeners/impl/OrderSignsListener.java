@@ -1,6 +1,7 @@
 package net.pixlies.business.listeners.impl;
 
 import net.pixlies.business.ProtoBusiness;
+import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.business.market.orders.OrderProfile;
 import net.pixlies.business.market.orders.Order;
 import net.pixlies.business.market.orders.OrderItem;
@@ -17,17 +18,17 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 public class OrderSignsListener implements Listener {
 
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();
+    private final MarketHandler marketHandler = instance.getHandlerManager().getHandler(MarketHandler.class);
 
     @EventHandler
     public void onSignChange(SignChangeEvent event) {
         Player player = event.getPlayer();
-        User user = User.get(player.getUniqueId());
 
-        if (!user.getExtras().containsKey("orderProfile")) return;
+        if (!marketHandler.getProfiles().containsKey(player.getUniqueId().toString())) return;
 
         Sign sign = (Sign) event.getBlock();
         String firstLine = String.valueOf(sign.line(0));
-        OrderProfile profile = OrderProfile.get(user);
+        OrderProfile profile = OrderProfile.get(player.getUniqueId());
         assert profile != null;
 
         if (!StringUtils.isNumeric(firstLine)) {

@@ -16,6 +16,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * Market command
@@ -54,10 +55,10 @@ public class MarketCommand extends BaseCommand {
             return;
         }
 
-        user.getExtras().put("orderProfile", new OrderProfile(player.getUniqueId()));
-        user.save();
+        UUID uuid = player.getUniqueId();
+        marketHandler.getProfiles().put(uuid.toString(), new OrderProfile(uuid));
 
-        Objects.requireNonNull(OrderProfile.get(user)).openMarketPage();
+        Objects.requireNonNull(OrderProfile.get(player.getUniqueId())).openMarketPage();
     }
 
     @Subcommand("open")

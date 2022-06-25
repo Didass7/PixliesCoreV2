@@ -11,6 +11,7 @@ import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.commands.impl.MarketCommand;
+import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.business.market.MarketItems;
 import net.pixlies.business.panes.MarketPane;
 import net.pixlies.core.entity.user.User;
@@ -41,6 +42,7 @@ import java.util.function.Consumer;
 public class OrderProfile {
 
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();
+    private static final MarketHandler marketHandler = instance.getHandlerManager().getHandler(MarketHandler.class);
 
     private final UUID uuid;
     private Order tempOrder;
@@ -72,9 +74,6 @@ public class OrderProfile {
 
         Player player = Bukkit.getPlayer(uuid);
         assert player != null;
-
-        if (User.get(uuid).getExtras().get("orderProfile") instanceof OrderProfile) player.sendMessage("orderprofile is good");
-        else player.sendMessage(User.get(uuid).getExtras().get("orderProfile").toString());
 
         // Index 0 is the page currently being viewed, index 1 is the page which was previously being viewed
         final MarketCommand.Selection[] viewing = { MarketCommand.Selection.MINERALS, MarketCommand.Selection.MINERALS };
@@ -559,13 +558,13 @@ public class OrderProfile {
     // STATIC METHODS
     // ----------------------------------------------------------------------------------------------------
 
-    public static boolean hasProfile(@NotNull User user) {
-        return user.getExtras().containsKey("orderProfile");
+    public static boolean hasProfile(UUID uuid) {
+        return marketHandler.getProfiles().containsKey(uuid.toString());
     }
 
-    public static OrderProfile get(@NotNull User user) {
-        if (!hasProfile(user)) return null;
-        return (OrderProfile) user.getExtras().get("orderProfile");
+    public static OrderProfile get(UUID uuid) {
+        if (!hasProfile(uuid)) return null;
+        return marketHandler.getProfiles().get(uuid.toString());
     }
 
     // ----------------------------------------------------------------------------------------------------
@@ -583,7 +582,7 @@ public class OrderProfile {
         private final int y;
 
         public GuiItem getGuiItem(Player player, OrderItem item) {
-            OrderProfile profile = OrderProfile.get(User.get(player.getUniqueId()));
+            OrderProfile profile = OrderProfile.get(player.getUniqueId());
             assert profile != null;
             switch (this) {
                 case BUY -> { return new GuiItem(MarketItems.getBuyButton(player.getUniqueId(), item)); }
