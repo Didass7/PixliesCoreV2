@@ -75,7 +75,7 @@ public class NationCommand extends BaseCommand {
     // -------------------------------------------------------------------------------------------------
     //                                         /n rename
     // -------------------------------------------------------------------------------------------------
-    @Subcommand("rename")
+    @Subcommand("rename|name")
     @Description("Rename a nation")
     public void onRename(CommandSender sender, String name, @Optional String nationName) {
         // If sender is player
