@@ -308,6 +308,8 @@ public class OrderProfile {
             GuiItem guiItem = i.getGuiItem(player, item);
             assert guiItem != null;
             guiItem.setAction(event -> {
+                player.closeInventory();
+
                 signStage = (byte) 1;
 
                 tempOrder = new Order(i.getType(), book.getBookId(), System.currentTimeMillis(), uuid, 0, 0);

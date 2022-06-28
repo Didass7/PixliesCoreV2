@@ -221,11 +221,12 @@ public final class MarketItems {
     public static ItemStack getBuyButton(UUID playerUUID, OrderItem item) {
         OrderBook book = instance.getMarketManager().getBook(item);
         ItemBuilder builder = new ItemBuilder(new ItemStack(Material.EMERALD))
-                .setDisplayName("§aBuy order")
+                .setDisplayName("§aBuy Order")
                 .addLoreLine("§7Best price per unit: §6" + book.getLowestBuyPrice(playerUUID))
                 .addLoreLine(" ");
         for (String s : book.getRecentOrders(Order.Type.BUY, item, playerUUID)) builder.addLoreLine(s);
         return builder.addLoreLine(" ")
+                .addLoreLine("§8This is a limit order.")
                 .addLoreLine("§eClick to create!")
                 .build();
     }
@@ -233,7 +234,7 @@ public final class MarketItems {
     public static ItemStack getSellButton(UUID playerUUID, OrderItem item, int num) {
         OrderBook book = instance.getMarketManager().getBook(item);
         ItemBuilder builder = new ItemBuilder(new ItemStack(Material.GOLD_INGOT))
-                .setDisplayName("§6Market sell order")
+                .setDisplayName("§6Sell Order")
                 .addLoreLine("§7Best price per unit: §6" + book.getHighestSellPrice(playerUUID))
                 .addLoreLine("§7Inventory: §a" + num + " items")
                 .addLoreLine("§7Best total price: §d" + (book.getHighestSellPrice(playerUUID) * num))
@@ -241,6 +242,7 @@ public final class MarketItems {
         for (String s : book.getRecentOrders(Order.Type.SELL, item, playerUUID)) builder.addLoreLine(s);
         return builder.addLoreLine(" ")
                 .addLoreLine("§8Tariffs already applied.")
+                .addLoreLine("§8This is a limit order.")
                 .addLoreLine("§eClick to create!")
                 .build();
     }

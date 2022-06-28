@@ -147,7 +147,7 @@ public class MarketCommand extends BaseCommand {
         MINERALS(Material.DIAMOND_PICKAXE, "§b", false, true, false),
         FOODSTUFFS_AND_PLANTS(Material.GOLDEN_HOE, "§e", true, true, true),
         BLOCKS(Material.IRON_SHOVEL, "§d", true, true, true),
-        MOB_DROPS(Material.NETHERITE_SWORD, "§c", false, true, true),
+        MOB_DROPS(Material.NETHERITE_SWORD, "§c", false, true, false),
         MISCELLANEOUS(Material.ARROW, "§6", false, false, false);
 
         private final Material material;
