@@ -23,10 +23,6 @@
 
     <repositories>
         <repository>
-            <id>nexus</id>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
-        </repository>
-        <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/public/</url>
         </repository>
@@ -34,9 +30,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>xyz.jpenilla</groupId>
-            <artifactId>reflection-remapper</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
+            <groupId>com.github.cryptomorin</groupId>
+            <artifactId>XSeries</artifactId>
+            <version>8.8.0</version>
         </dependency>
         <dependency>
             <groupId>org.purpurmc.purpur</groupId>
