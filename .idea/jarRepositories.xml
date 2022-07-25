@@ -57,6 +57,11 @@
       <option name="url" value="https://hub.spigotmc.org/nexus/content/repositories/public/" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="bukkit-repo" />
+      <option name="name" value="bukkit-repo" />
+      <option name="url" value="http://repo.bukkit.org/content/groups/public/" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="papermc-repo" />
       <option name="name" value="papermc-repo" />
       <option name="url" value="https://papermc.io/repo/repository/maven-public/" />
