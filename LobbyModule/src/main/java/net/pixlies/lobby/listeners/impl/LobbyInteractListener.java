@@ -83,7 +83,8 @@ public class LobbyInteractListener implements Listener {
         for (LobbyItem lobbyItem : JoinItems.getLobbyItems()) {
             ItemStack itemStack = lobbyItem.getItemStack();
             if (itemStack.getType() == item.getType()) {
-                if (lobbyItem.getSlot() == 6) {
+                // disable right click on hide player item
+                if (lobbyItem.getSlot() == JoinItems.getViewOtherItem(false).getSlot() || lobbyItem.getSlot() == JoinItems.getViewOtherItem(true).getSlot()){
                     if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)
                         return;
                 }
