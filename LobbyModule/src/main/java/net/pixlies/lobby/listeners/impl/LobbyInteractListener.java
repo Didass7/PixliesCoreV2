@@ -72,12 +72,21 @@ public class LobbyInteractListener implements Listener {
 
 
         ItemStack item = event.getItem();
+        User user = User.get(player.getUniqueId());
         if (item == null) return;
         if (item.getType() == Material.AIR) return;
+
+        if (user.getSettings().isInStaffMode()) {
+            return;
+        }
 
         for (LobbyItem lobbyItem : JoinItems.getLobbyItems()) {
             ItemStack itemStack = lobbyItem.getItemStack();
             if (itemStack.getType() == item.getType()) {
+                if (lobbyItem.getSlot() == 6) {
+                    if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)
+                        return;
+                }
                 lobbyItem.onClick(event);
                 return;
             }
@@ -138,10 +147,15 @@ public class LobbyInteractListener implements Listener {
     @EventHandler
     public void onMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
+        User user = User.get(player.getUniqueId());
+
+        if (user.getSettings().isInStaffMode()) {
+            return;
+        }
+
         if (lobbyManager.isInBuildMode(player.getUniqueId())) return;
         if (!(player.getLocation().getY() < 0)) return;
 
-        User user = User.get(player.getUniqueId());
         user.teleportToSpawn();
 
         LobbyUtils.resetPlayer(player);

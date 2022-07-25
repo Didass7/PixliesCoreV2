@@ -22,6 +22,10 @@ public final class LobbyUtils {
     public static void resetPlayer(Player player) {
         User user = User.get(player.getUniqueId());
 
+        if (user.getSettings().isInStaffMode()) {
+            return;
+        }
+
         PlayerUtils.heal(player);
         user.teleportToSpawn();
         player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));

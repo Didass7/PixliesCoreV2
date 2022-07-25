@@ -14,10 +14,7 @@ public class JoinListener implements Listener {
 
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-
-        if (!user.getSettings().isInStaffMode()) {
-            LobbyUtils.resetPlayer(player);
-        }
+        LobbyUtils.resetPlayer(player);
 
     }
 
