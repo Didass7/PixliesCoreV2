@@ -5,6 +5,7 @@ import net.pixlies.core.modules.Module;
 import net.pixlies.lobby.commands.CommandManager;
 import net.pixlies.lobby.config.Config;
 import net.pixlies.lobby.listeners.ListenerManager;
+import net.pixlies.lobby.managers.GrapplingHookManager;
 import net.pixlies.lobby.managers.JumpPadManager;
 import net.pixlies.lobby.managers.LobbyManager;
 import net.pixlies.lobby.managers.QueueManager;
@@ -22,6 +23,7 @@ public class Lobby extends Module {
     ListenerManager listenerManager;
     PluginMessagingManager pluginMessagingManager;
     JumpPadManager jumpPadManager;
+    GrapplingHookManager grapplingHookManager;
     QueueManager queueManager;
 
     @Override
@@ -36,6 +38,7 @@ public class Lobby extends Module {
         // MANAGERS
         lobbyManager = new LobbyManager();
         jumpPadManager = new JumpPadManager();
+        grapplingHookManager = new GrapplingHookManager();
         queueManager = new QueueManager();
 
         // PLUGIN MESSAGES

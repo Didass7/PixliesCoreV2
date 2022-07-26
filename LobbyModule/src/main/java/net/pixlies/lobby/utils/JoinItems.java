@@ -42,9 +42,17 @@ public final class JoinItems {
                 }
             },
 
-            // Visibility Toggle ON
-            getViewOtherItem(true),
-            getViewOtherItem(false)
+            // Grappling Hook
+            new LobbyItem(6, new ItemBuilder(Material.FISHING_ROD)
+                    .setDisplayName(CC.format("&6Grappling Hook"))
+                    .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
+                    .build(), true) {
+
+                @Override
+                public void onClick(@NotNull PlayerInteractEvent event) {
+                    // TODO
+                }
+            }
 
     );
 
@@ -60,41 +68,4 @@ public final class JoinItems {
 
     }
 
-    public static LobbyItem getViewOtherItem(boolean state) {
-
-        if (state) {
-            return new LobbyItem(6, new ItemBuilder(Material.LIME_DYE)
-                    .setDisplayName(CC.format("&aView Others §8(Left Click)"))
-                    .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
-                    .build(), true) {
-
-                @Override
-                public void onClick(@NotNull PlayerInteractEvent event) {
-                    Player player = event.getPlayer();
-                    PlayerInventory inventory = player.getInventory();
-
-                    inventory.setItem(6, getViewOtherItem(false).getItemStack());
-                    // TODO
-                }
-
-            };
-        }
-
-        return new LobbyItem(6, new ItemBuilder(Material.GRAY_DYE)
-                .setDisplayName(CC.format("&7View Others §8(Left Click)"))
-                .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
-                .build(), false) {
-
-            @Override
-            public void onClick(@NotNull PlayerInteractEvent event) {
-                Player player = event.getPlayer();
-                PlayerInventory inventory = player.getInventory();
-
-                inventory.setItem(6, getViewOtherItem(true).getItemStack());
-                // TODO
-            }
-
-        };
-
-    }
 }
