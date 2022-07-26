@@ -1,5 +1,7 @@
 package net.pixlies.core.utils;
 
+import com.destroystokyo.paper.profile.PlayerProfile;
+import com.destroystokyo.paper.profile.ProfileProperty;
 import lombok.SneakyThrows;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -11,10 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.*;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class ItemBuilder {
 
@@ -131,6 +130,18 @@ public class ItemBuilder {
 
     public ItemBuilder setSkullOwner(UUID uuid) {
         ((SkullMeta) meta).setOwningPlayer(Bukkit.getOfflinePlayer(uuid));
+        return this;
+    }
+
+    public ItemBuilder setSkullTexture(String texture) {
+
+        SkullMeta itemMeta = (SkullMeta) meta;
+
+        PlayerProfile profile = Bukkit.createProfile(UUID.randomUUID(), null);
+        Set<ProfileProperty> properties = profile.getProperties();
+        properties.add(new ProfileProperty("textures", texture));
+        itemMeta.setPlayerProfile(profile);
+
         return this;
     }
 
