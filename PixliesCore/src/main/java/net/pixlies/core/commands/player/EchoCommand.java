@@ -1,21 +1,26 @@
 package net.pixlies.core.commands.player;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.CommandCompletion;
-import co.aikar.commands.annotation.CommandPermission;
-import co.aikar.commands.annotation.Default;
+import co.aikar.commands.CommandHelp;
+import co.aikar.commands.annotation.*;
+import net.pixlies.core.localization.Lang;
 import net.pixlies.core.utils.CC;
 import org.bukkit.command.CommandSender;
 
 @CommandPermission("pixlies.player.echo")
 public class EchoCommand extends BaseCommand {
 
-    @Default
     @CommandAlias("echo")
     @CommandCompletion("@empty")
-    public void onEcho(CommandSender sender, String text) {
-        sender.sendMessage(CC.format(text));
+    @Syntax("<message>")
+    @Description("Echo a message")
+    public void onBroadcast(CommandSender sender, String message) {
+        sender.sendMessage(CC.format(message));
+    }
+
+    @Default
+    public void onHelp(CommandHelp help) {
+        help.showHelp();
     }
 
 }
