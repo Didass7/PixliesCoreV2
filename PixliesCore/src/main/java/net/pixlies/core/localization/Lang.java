@@ -146,7 +146,6 @@ public enum Lang {
     TPASK_ACCEPTED_MESSAGE_TARGET(Lang.PIXLIES, new HashMap<>()),
     TPACCEPT_NOBODY(Lang.PIXLIES, new HashMap<>()),
     TPACCEPT_PLAYER_NOT_ONLINE(Lang.PIXLIES, new HashMap<>()),
-    TPALL_BROADCAST(Lang.PIXLIES, new HashMap<>()),
     RETURNED_TO_PREVIOUS_LOCATION(Lang.PIXLIES, new HashMap<>()),
     TPBACK_NO_LOCATION(Lang.PIXLIES, new HashMap<>()),
 
