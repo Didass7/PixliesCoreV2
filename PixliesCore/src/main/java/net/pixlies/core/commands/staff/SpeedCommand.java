@@ -102,6 +102,7 @@ public class SpeedCommand extends BaseCommand {
         throw new ConditionFailedException(MessageKeys.PERMISSION_DENIED);
     }
 
+    @Default
     @HelpCommand
     public void onHelp(CommandHelp help){
         help.showHelp();
