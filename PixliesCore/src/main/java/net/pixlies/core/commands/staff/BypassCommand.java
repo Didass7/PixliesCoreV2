@@ -33,7 +33,7 @@ public class BypassCommand extends BaseCommand {
     }
 
     @CommandPermission("pixlies.moderation.bypass.other")
-    @Description("Toggle another player's staff bypass bypass status")
+    @Description("Toggle another player's staff bypass status")
     @Subcommand("other")
     public void onBypass(CommandSender sender, Player player) {
         User user = User.get(player.getUniqueId());

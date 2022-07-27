@@ -4,7 +4,6 @@ import co.aikar.commands.*;
 import lombok.Getter;
 import net.pixlies.core.Main;
 import net.pixlies.core.commands.admin.ModulesCommand;
-import net.pixlies.core.commands.admin.WipeCommand;
 import net.pixlies.core.commands.cosmetics.*;
 import net.pixlies.core.commands.moderation.*;
 import net.pixlies.core.commands.player.*;
@@ -90,7 +89,6 @@ public class PixliesCommandManager {
 
         // DEBUG
         register(new ModulesCommand(), false);
-        register(new WipeCommand(), false);
 
         // COSMETICS
         register(new HealCommand(), false);

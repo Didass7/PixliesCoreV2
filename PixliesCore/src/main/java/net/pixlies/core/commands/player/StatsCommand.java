@@ -3,9 +3,11 @@ package net.pixlies.core.commands.player;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Default;
+import co.aikar.commands.annotation.Syntax;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.localization.Lang;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -13,7 +15,8 @@ import org.bukkit.entity.Player;
 public class StatsCommand extends BaseCommand {
 
     @Default
-    public void onStats(CommandSender sender, Player player) {
+    @Syntax("[player]")
+    public void onStats(CommandSender sender, OfflinePlayer player) {
         User requested = User.get(player.getUniqueId());
 
         ChatColor scoreColor = ChatColor.YELLOW;
