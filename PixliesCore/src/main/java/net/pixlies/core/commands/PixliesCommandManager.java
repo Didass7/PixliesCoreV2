@@ -61,7 +61,6 @@ public class PixliesCommandManager {
         register(new VanishCommand(), false);
         register(new TpHereCommand(), false);
         register(new TpAskCommand(), false);
-        register(new TpAllCommand(), false);
         register(new TpAcceptCommand(), false);
         register(new TpBackCommand(), false);
         register(new BlacklistCommand(), false);
