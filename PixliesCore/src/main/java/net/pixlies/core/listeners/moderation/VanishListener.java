@@ -22,8 +22,10 @@ public class VanishListener implements Listener {
         User user = User.get(player.getUniqueId());
 
         // STAFF
-        if (user.getPersonalization().isJoinVanish() && player.hasPermission("pixlies.moderation.vanish")) {
-            handler.vanish(player);
+        if (user.getSettings().isVanished() && player.hasPermission("pixlies.moderation.vanish")) {
+            handler.vanish(player, false);
+        } else if (user.getPersonalization().isJoinVanish() && player.hasPermission("pixlies.moderation.vanish")) {
+            handler.vanish(player, true);
         }
 
         // NOT STAFF
@@ -37,8 +39,8 @@ public class VanishListener implements Listener {
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (!user.getSettings().isVanished()) return;
-        handler.unvanish(player);
+        if (user.getSettings().isVanished()) return;
+        handler.unvanish(player, false);
     }
 
     @EventHandler

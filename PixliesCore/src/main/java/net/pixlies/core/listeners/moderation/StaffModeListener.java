@@ -144,12 +144,12 @@ public class StaffModeListener implements Listener {
             }
 
             case LIME_DYE -> {
-                vanishHandler.unvanish(player);
+                vanishHandler.unvanish(player, true);
                 player.getInventory().setItem(8, StaffModeHandler.getVanishItem(false));
             }
 
             case GRAY_DYE -> {
-                vanishHandler.vanish(player);
+                vanishHandler.vanish(player, true);
                 player.getInventory().setItem(8, StaffModeHandler.getVanishItem(true));
             }
 

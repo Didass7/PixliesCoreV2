@@ -18,12 +18,14 @@ public class VanishHandler implements Handler {
 
     private final PassiveHandler handler = instance.getHandlerManager().getHandler(PassiveHandler.class);
 
-    public boolean vanish(Player player) {
+    public boolean vanish(Player player, boolean withEvent) {
 
         // EVENT
-        val event = new VanishStatusChangeEvent(player, VanishStatusChangeEvent.VanishState.VANISH);
-        EventUtils.callEvent(event);
-        if (event.isCancelled()) return false;
+        if (withEvent) {
+            val event = new VanishStatusChangeEvent(player, VanishStatusChangeEvent.VanishState.VANISH);
+            EventUtils.callEvent(event);
+            if (event.isCancelled()) return false;
+        }
 
         User user = User.get(player.getUniqueId());
 
@@ -49,12 +51,14 @@ public class VanishHandler implements Handler {
         return true;
     }
 
-    public boolean unvanish(Player player) {
+    public boolean unvanish(Player player, boolean withEvent) {
 
         // EVENT
-        val event = new VanishStatusChangeEvent(player, VanishStatusChangeEvent.VanishState.UNVANISH);
-        EventUtils.callEvent(event);
-        if (event.isCancelled()) return false;
+        if (withEvent) {
+            val event = new VanishStatusChangeEvent(player, VanishStatusChangeEvent.VanishState.UNVANISH);
+            EventUtils.callEvent(event);
+            if (event.isCancelled()) return false;
+        }
 
         User user = User.get(player.getUniqueId());
 
@@ -79,11 +83,17 @@ public class VanishHandler implements Handler {
         return true;
     }
 
+    /**
+     * Change vanish states with the event called.
+     * @see VanishStatusChangeEvent
+     * @param player The player to vanish
+     * @param state True for on, False for off
+     */
     public void setVanished(Player player, boolean state) {
         if (state) {
-            vanish(player);
+            vanish(player, true);
         } else {
-            unvanish(player);
+            unvanish(player, true);
         }
     }
 
