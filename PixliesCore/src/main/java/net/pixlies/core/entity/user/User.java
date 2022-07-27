@@ -373,6 +373,7 @@ public class User {
 
     public void removeNickName() {
         nickName = null;
+        save();
     }
 
     public String getNickName() {
