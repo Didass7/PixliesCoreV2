@@ -12,6 +12,7 @@ import net.pixlies.core.commands.staff.*;
 import net.pixlies.core.entity.Warp;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.localization.Lang;
+import net.pixlies.core.utils.CC;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -191,10 +192,10 @@ public class PixliesCommandManager {
                 return;
             }
             if (context.hasConfig("min") && context.getConfigValue("min", 0) > value) {
-                throw new ConditionFailedException("Min value must be " + context.getConfigValue("min", 0));
+                throw new ConditionFailedException(Lang.PIXLIES + CC.format("&7You can only enter a minimum value of &6" + context.getConfigValue("min", 0) + "."));
             }
             if (context.hasConfig("max") && context.getConfigValue("max", 3) < value) {
-                throw new ConditionFailedException("Max value must be " + context.getConfigValue("max", 3));
+                throw new ConditionFailedException(Lang.PIXLIES + CC.format("&7You can only enter a maximum value of &6 " + context.getConfigValue("max", 3) + "."));
             }
         });
     }
