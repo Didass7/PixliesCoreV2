@@ -24,12 +24,12 @@
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongo-java-driver</artifactId>
-            <version>3.12.10</version>
+            <version>3.12.11</version>
         </dependency>
         <dependency>
             <groupId>com.github.stefvanschie.inventoryframework</groupId>
             <artifactId>IF</artifactId>
-            <version>0.10.5</version>
+            <version>0.10.6</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
@@ -44,7 +44,7 @@
         <dependency>
             <groupId>org.ocpsoft.prettytime</groupId>
             <artifactId>prettytime</artifactId>
-            <version>5.0.2.Final</version>
+            <version>5.0.3.Final</version>
         </dependency>
         <dependency>
             <groupId>commons-lang</groupId>
