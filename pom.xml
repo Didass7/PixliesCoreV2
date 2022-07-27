@@ -58,6 +58,10 @@
             <id>purpur</id>
             <url>https://repo.purpurmc.org/snapshots</url>
         </repository>
+        <repository>
+            <id>aikar</id>
+            <url>https://repo.aikar.co/content/groups/aikar/</url>
+        </repository>
     </repositories>
 
     <build>

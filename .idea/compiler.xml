@@ -14,6 +14,7 @@
         <module name="MiniMick" />
         <module name="PixliesProxyCore" />
         <module name="LobbyModule" />
+        <module name="Nations" />
         <module name="PixliesCore" />
       </profile>
     </annotationProcessing>
