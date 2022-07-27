@@ -6,6 +6,9 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 public class TextUtils {
 
     public static String getGameModeFormatted(GameMode mode) {
@@ -28,12 +31,15 @@ public class TextUtils {
      */
     public static String getLocationFormatted(Location location) {
 
+        DecimalFormat formatter = new DecimalFormat("#.###");
+        formatter.setRoundingMode(RoundingMode.CEILING);
+
         String format = Lang.LOCATION_FORMAT.getRaw("ENG");
 
         String world = location.getWorld().getName();
-        String xPos = String.valueOf(location.getX());
-        String yPos = String.valueOf(location.getY());
-        String zPos = String.valueOf(location.getZ());
+        String xPos = String.valueOf(formatter.format(location.getX()));
+        String yPos = String.valueOf(formatter.format(location.getY()));
+        String zPos = String.valueOf(formatter.format(location.getZ()));
 
         return format.replace("%WORLD%", world)
                 .replace("%X%", xPos)
