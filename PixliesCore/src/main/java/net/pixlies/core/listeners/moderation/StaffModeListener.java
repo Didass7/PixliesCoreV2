@@ -10,6 +10,7 @@ import net.pixlies.core.utils.PlayerUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -28,9 +29,8 @@ public class StaffModeListener implements Listener {
     private final StaffModeHandler staffModeHandler = instance.getHandlerManager().getHandler(StaffModeHandler.class);
     private final VanishHandler vanishHandler = instance.getHandlerManager().getHandler(VanishHandler.class);
 
-    @EventHandler
-    public void onJoin(PlayerJoinEvent event) {
-        if (instance.isLobbyServer()) return;
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onJoin(PlayerLoginEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
         if (user.getSettings().isInStaffMode()) {
@@ -44,7 +44,6 @@ public class StaffModeListener implements Listener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
-        if (instance.isLobbyServer()) return;
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
         if (!user.getSettings().isInStaffMode()) return;

@@ -1,6 +1,8 @@
 package net.pixlies.lobby.utils;
 
+import net.pixlies.core.Main;
 import net.pixlies.core.entity.user.User;
+import net.pixlies.core.handlers.impl.staffmode.StaffModeHandler;
 import net.pixlies.core.modules.configuration.ModuleConfig;
 import net.pixlies.core.utils.PlayerUtils;
 import net.pixlies.lobby.Lobby;
@@ -23,29 +25,33 @@ public final class LobbyUtils {
     private static final ModuleConfig config = instance.getConfig();
 
     public static void resetPlayer(Player player) {
-        User user = User.get(player.getUniqueId());
+        resetPlayer(player, false);
+    }
 
-        if (user.getSettings().isInStaffMode()) {
-            return;
-        }
+    public static void resetPlayer(Player player, boolean firstJoin) {
+        User user = User.get(player.getUniqueId());
 
         PlayerUtils.heal(player);
         user.teleportToSpawn();
         player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
         player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, config.getInt("walkspeed.level", 1), false, false, false));
         player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 80, Integer.MAX_VALUE,false, false, false)); // 5 seconds
-        //noinspection deprecation
-        player.sendTitle(JOIN_TITLE, JOIN_SUBTITLE);
         player.setBedSpawnLocation(null, true);
         player.setExp(0);
         player.setHealth(Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue());
-        player.setFoodLevel(20);
-        player.setInvulnerable(true);
-        player.setFireTicks(0);
-        player.setFreezeTicks(0);
         player.setGameMode(GameMode.ADVENTURE);
         player.setAllowFlight(player.hasPermission("pixlies.lobby.flight")); // if player has permission/cosmetic to fly allow
         player.getInventory().setHeldItemSlot(4); // Center of hotbar
+        //noinspection deprecation
+        player.sendTitle(JOIN_TITLE, JOIN_SUBTITLE);
+
+        if (user.getSettings().isInStaffMode()) {
+            if (!firstJoin) {
+                Main.getInstance().getHandlerManager().getHandler(StaffModeHandler.class).enableWithoutUpdate(player, user);
+            }
+            return;
+        }
+
         JoinItems.give(player);
     }
 

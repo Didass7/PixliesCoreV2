@@ -28,7 +28,7 @@ public class PixliesCommandManager {
     private final List<BaseCommand> registeredCommands = new ArrayList<>();
 
     private @Getter final PaperCommandManager pcm;
-    private final boolean limitedCommands = instance.getConfig().getBoolean("commands.limitedCommands", false);
+    private final boolean limitedCommands = instance.isLobbyServer();
 
     public PixliesCommandManager() {
 
@@ -68,7 +68,7 @@ public class PixliesCommandManager {
         register(new KickCommand(), false);
 
         // STAFF
-        register(new StaffModeCommand(), true);
+        register(new StaffModeCommand(), false);
         register(new GodCommand(), false);
         register(new WorldCommand(), false);
         register(new GamemodeCommand(), false);

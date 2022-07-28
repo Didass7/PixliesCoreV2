@@ -19,6 +19,7 @@ public class BlackListListener implements Listener {
 
         if (!user.isBlacklisted()) return;
         Punishment punishment = user.getBlacklist();
+        if (punishment == null) return;
 
         String message = Lang.BLACKLIST_MESSAGE.get(player)
                 .replace("%REASON%", punishment.getReason())
