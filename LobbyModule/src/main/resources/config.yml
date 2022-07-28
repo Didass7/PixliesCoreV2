@@ -6,3 +6,7 @@ warps:
 
 walkspeed:
   level: 1
+
+servers:
+  Earth:
+    max-players: 200

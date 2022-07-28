@@ -62,6 +62,10 @@
             <id>aikar</id>
             <url>https://repo.aikar.co/content/groups/aikar/</url>
         </repository>
+            <repository>
+                <id>placeholderapi</id>
+                <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+            </repository>
     </repositories>
 
     <build>

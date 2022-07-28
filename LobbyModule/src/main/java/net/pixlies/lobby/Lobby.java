@@ -34,6 +34,18 @@ public class Lobby extends JavaPlugin implements Module {
         // INSTANCE
         instance = this;
 
+        // DEPENDENCY CHECK
+        if (this.getServer().getPluginManager().getPlugin("PixliesCore") == null) {
+            getLogger().severe("PixliesCore is not loaded. Please make sure PixliesCore is installed on the target server.");
+            this.getServer().getPluginManager().disablePlugin(this);
+        }
+
+        if (this.getServer().getPluginManager().getPlugin("PlaceholderAPI") == null) {
+            getLogger().severe("PlaceholderAPI is not loaded. Please make sure PlaceholderAPI is installed on the target server.");
+            this.getServer().getPluginManager().disablePlugin(this);
+        }
+
+
         // CONFIG
         config = new ModuleConfig(this, new File(getDataFolder().getAbsolutePath(), "config.yml"), "config.yml");
 
