@@ -33,8 +33,13 @@ public class StaffModeListener implements Listener {
         if (instance.isLobbyServer()) return;
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (!user.getSettings().isInStaffMode()) return;
-        staffModeHandler.enableWithoutUpdate(player, User.get(player.getUniqueId()));
+        if (user.getSettings().isInStaffMode()) {
+            if (player.hasPermission("pixlies.moderation.staffmode")) {
+                staffModeHandler.enableWithoutUpdate(player, User.get(player.getUniqueId()));
+                return;
+            }
+            staffModeHandler.disable(player);
+        }
     }
 
     @EventHandler
