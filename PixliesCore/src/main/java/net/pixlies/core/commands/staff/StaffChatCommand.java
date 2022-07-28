@@ -28,10 +28,10 @@ public class StaffChatCommand extends BaseCommand {
 
             if (user.getSettings().isInStaffChat()) {
                 user.getSettings().setInStaffChat(false);
-                Lang.STAFFCHAT_DISABLED.send(player);
+                Lang.STAFF_CHAT_DISABLED.send(player);
             } else {
                 user.getSettings().setInStaffChat(true);
-                Lang.STAFFCHAT_ENABLED.send(player);
+                Lang.STAFF_CHAT_ENABLED.send(player);
             }
 
         } else {

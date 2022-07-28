@@ -23,7 +23,7 @@ public class StaffChatListener extends PixliesIncomingMessageListener {
         String name = stream.readUTF();
         String m = stream.readUTF(); // message
 
-        Lang.STAFFCHAT_FORMAT.broadcastPermission("pixlies.staff.staffchat", "%PLAYER%;" + name, "%MESSAGE%;" + m);
+        Lang.STAFF_CHAT_FORMAT.broadcastPermission("pixlies.staff.staffchat", "%PLAYER%;" + name, "%MESSAGE%;" + m);
 
     }
 
