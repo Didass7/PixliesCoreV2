@@ -21,7 +21,7 @@ public class TpCommand extends BaseCommand {
     @Default
     @CommandPermission("pixlies.staff.tp")
     @Syntax("<x> <y> <z>")
-    @Description("Teleport a player to another player")
+    @Description("Teleport to another location")
     @CommandCompletion("@players @players @players")
     public void onTp(CommandSender sender, String[] args) {
         switch (args.length) {
