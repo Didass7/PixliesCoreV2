@@ -76,7 +76,7 @@ public final class JoinItems {
                             .addLoreLine(CC.format("&7The only Earth without global warming."))
                             .addLoreLine(CC.format(PlaceholderAPI.setPlaceholders(player, "&7Online: %bungee_earth%/" + config.getInt("servers.Earth.max-players", 200))))
                             .addLoreLine("")
-                            .addLoreLine(CC.format("&aClick to join!"))
+                            .addLoreLine(CC.format("&aClick to join the queue!"))
                             // earth head texture
                             .setSkullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmRkZTU5NGRlYWQ4OGIzNWJjMjFhZDFhYjIzOGRjYWU0MTEyNTNlMzRhNTg1ZDkyNTI1OGNlNjc0YzY0MjYxNyJ9fX0=")
                             .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
@@ -100,7 +100,7 @@ public final class JoinItems {
                             .addLoreLine(CC.format("&7The only place where we can be free."))
                             .addLoreLine(CC.format(PlaceholderAPI.setPlaceholders(player, "&7Online: %bungee_development%/" + config.getInt("servers.Earth.max-players", 200))))
                             .addLoreLine("")
-                            .addLoreLine(CC.format("&aClick to join!"))
+                            .addLoreLine(CC.format("&aClick to join the queue!"))
                             // gaming computer head texture
                             .setSkullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjhiY2NkOGQ5MTZhMTk2MGVkMzA0Zjk5ZDgxYjliZTY3NmFjODIxYjFhMWMzNTZiMzgwODMwNTc1YTQ0NDRlMyJ9fX0=")
                             .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
@@ -118,7 +118,7 @@ public final class JoinItems {
                             .addLoreLine("")
                             .addLoreLine(CC.format("&aClick for more info!"))
                             .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
-                            .build());
+                            .build(), e -> player.performCommand("discord"));
                     pane.addItem(aboutBook, 6, 2);
 
                     gui.addPane(pane);
