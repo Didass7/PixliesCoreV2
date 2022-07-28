@@ -1,13 +1,9 @@
 package net.pixlies.lobby.utils;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextColor;
-import net.kyori.adventure.title.Title;
 import net.pixlies.core.entity.user.User;
-import net.pixlies.core.utils.CC;
+import net.pixlies.core.modules.ModuleConfig;
 import net.pixlies.core.utils.PlayerUtils;
 import net.pixlies.lobby.Lobby;
-import net.pixlies.lobby.config.Config;
 import org.bukkit.GameMode;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
@@ -24,7 +20,7 @@ public final class LobbyUtils {
     public static final String JOIN_SUBTITLE = "§7Welcome!";
 
     private static final Lobby instance = Lobby.getInstance();
-    private static final Config config = instance.getConfig();
+    private static final ModuleConfig config = instance.getConfig();
 
     public static void resetPlayer(Player player) {
         User user = User.get(player.getUniqueId());
@@ -38,6 +34,7 @@ public final class LobbyUtils {
         player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
         player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, config.getInt("walkspeed.level", 1), false, false, false));
         player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 80, Integer.MAX_VALUE,false, false, false)); // 5 seconds
+        //noinspection deprecation
         player.sendTitle(JOIN_TITLE, JOIN_SUBTITLE);
         player.setBedSpawnLocation(null, true);
         player.setExp(0);

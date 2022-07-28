@@ -1,7 +1,0 @@
-{
-  "name": "LobbyModule",
-  "authors": ["TAMaurice", "MickMMars", "Dynmie", "vPrototype_"],
-  "version": "1.0",
-  "main": "net.pixlies.lobby.Lobby",
-  "icon": "redstone_block"
-}

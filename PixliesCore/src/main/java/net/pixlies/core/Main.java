@@ -10,7 +10,6 @@ import net.pixlies.core.handlers.RegisterHandlerManager;
 import net.pixlies.core.handlers.impl.ScoreboardHandler;
 import net.pixlies.core.listeners.ListenerManager;
 import net.pixlies.core.localization.Lang;
-import net.pixlies.core.modules.ModuleManager;
 import net.pixlies.core.pluginmessaging.PixliesPluginMessageManager;
 import net.pixlies.core.pluginmessaging.PluginMessageRegisterManager;
 import net.pixlies.core.runnables.RunnableManager;
@@ -29,7 +28,6 @@ public class Main extends JavaPlugin {
     @Getter private HandlerManager handlerManager;
     @Getter private PixliesPluginMessageManager pluginMessageManager;
     @Getter private PluginMessageRegisterManager pluginMessageRegisterManager;
-    @Getter private ModuleManager moduleManager;
     @Getter private PixliesCommandManager commandManager;
     @Getter private RunnableManager runnableManager;
     @Getter private PixliesCalendar calendar;
@@ -71,7 +69,6 @@ public class Main extends JavaPlugin {
         Lang.init();
 
         // HANDLERS
-        moduleManager = new ModuleManager();
         handlerManager = new HandlerManager();
         runnableManager = new RunnableManager();
         pluginMessageManager = new PixliesPluginMessageManager();
@@ -93,9 +90,6 @@ public class Main extends JavaPlugin {
         // MESSAGING
         pluginMessageRegisterManager.registerAll();
 
-        // MODULES
-        moduleManager.loadModules();
-
         // RUNNABLES
         runnableRegisterManager = new RunnableRegisterManager();
         runnableRegisterManager.runAll();
@@ -110,7 +104,6 @@ public class Main extends JavaPlugin {
         runnableRegisterManager.stopAll();
         pluginMessageRegisterManager.unregisterAll();
         calendar.stopRunner();
-        moduleManager.unloadModules();
         handlerManager.getHandler(ScoreboardHandler.class).unload();
         instance = null;
     }

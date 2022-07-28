@@ -3,7 +3,6 @@ package net.pixlies.core.commands;
 import co.aikar.commands.*;
 import lombok.Getter;
 import net.pixlies.core.Main;
-import net.pixlies.core.commands.admin.ModulesCommand;
 import net.pixlies.core.commands.cosmetics.*;
 import net.pixlies.core.commands.moderation.*;
 import net.pixlies.core.commands.player.*;
@@ -85,9 +84,6 @@ public class PixliesCommandManager {
         register(new StaffChatCommand(), false);
         register(new TimeCommand(), false);
         register(new SetSpawnCommand(), false);
-
-        // DEBUG
-        register(new ModulesCommand(), false);
 
         // COSMETICS
         register(new HealCommand(), false);

@@ -1,0 +1,8 @@
+name: MiniMick
+version: 1.0.0
+description: The brain behind the lobby.
+api-version: 1.19
+authors: [MickMMars]
+website: www.pixlies.net
+main: net.pixlies.minimick.MiniMick
+prefix: Lobby

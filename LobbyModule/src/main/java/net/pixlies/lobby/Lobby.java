@@ -2,23 +2,25 @@ package net.pixlies.lobby;
 
 import lombok.Getter;
 import net.pixlies.core.modules.Module;
+import net.pixlies.core.modules.ModuleConfig;
 import net.pixlies.lobby.commands.CommandManager;
-import net.pixlies.lobby.config.Config;
 import net.pixlies.lobby.listeners.ListenerManager;
 import net.pixlies.lobby.managers.GrapplingHookManager;
 import net.pixlies.lobby.managers.JumpPadManager;
 import net.pixlies.lobby.managers.LobbyManager;
 import net.pixlies.lobby.managers.QueueManager;
 import net.pixlies.lobby.messaging.PluginMessagingManager;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 
 @Getter
-public class Lobby extends Module {
+public class Lobby extends JavaPlugin implements Module {
 
     @Getter private static Lobby instance;
 
-    Config config;
+    ModuleConfig config;
     LobbyManager lobbyManager;
     ListenerManager listenerManager;
     PluginMessagingManager pluginMessagingManager;
@@ -27,13 +29,13 @@ public class Lobby extends Module {
     QueueManager queueManager;
 
     @Override
-    public void onLoad() {
+    public void onEnable() {
 
         // INSTANCE
         instance = this;
 
         // CONFIG
-        config = new Config(new File(this.getModuleFolder().getAbsolutePath(), "config.yml"), "config.yml");
+        config = new ModuleConfig(this, new File(getDataFolder().getAbsolutePath(), "config.yml"), "config.yml");
 
         // MANAGERS
         lobbyManager = new LobbyManager();
@@ -54,10 +56,16 @@ public class Lobby extends Module {
     }
 
     @Override
-    public void onDrop() {
+    public void onDisable() {
         listenerManager.unregisterAll();
         pluginMessagingManager.unregisterAll();
         instance = null;
+    }
+
+    @NotNull
+    @Override
+    public JavaPlugin getJavaPlugin() {
+        return this;
     }
 
 }

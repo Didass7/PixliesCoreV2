@@ -1,52 +1,40 @@
 package net.pixlies.core.modules;
 
-import lombok.Getter;
-import net.pixlies.core.Main;
+import org.apache.commons.lang.Validate;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
+import javax.annotation.Nonnull;
 import java.util.logging.Logger;
 
-public abstract class Module {
+public interface Module {
 
-    @Getter private ModuleDescription description;
-    @Getter private File moduleFolder;
-    @Getter private Logger logger;
-
-    public void init(ModuleDescription description) {
-        this.description = description;
-        moduleFolder = new File(Main.getInstance().getDataFolder().getAbsolutePath() + File.separator + "modules" + File.separator + description.getName());
-        logger = Logger.getLogger(description.getName());
+    default @Nonnull String getName() {
+        return getJavaPlugin().getName();
     }
 
-    public InputStream getResource(@NotNull String string) {
-        try {
-            URL url = this.getClass().getClassLoader().getResource(string);
+    default @Nullable Logger getLogger() {
+        return getJavaPlugin().getLogger();
+    }
 
-            if (url == null) {
-                return null;
-            } else {
-                URLConnection connection = url.openConnection();
-                connection.setUseCaches(false);
-                return connection.getInputStream();
-            }
+    default @Nonnull String getPluginVersion() {
+        return getJavaPlugin().getDescription().getVersion();
+    }
 
-        } catch (IOException e) {
-            return null;
+    default boolean hasDependency(@Nonnull String dependency) {
+        Validate.notNull(dependency, "The dependency cannot be null");
+
+        if (getJavaPlugin().getName().equalsIgnoreCase(dependency)) {
+            return true;
         }
+
+        PluginDescriptionFile description = getJavaPlugin().getDescription();
+        return description.getDepend().contains(dependency) || description.getSoftDepend().contains(dependency);
     }
 
-    public void onLoad() {
-
-    }
-
-    public void onDrop() {
-
-    }
+    @NotNull
+    JavaPlugin getJavaPlugin();
 
 }

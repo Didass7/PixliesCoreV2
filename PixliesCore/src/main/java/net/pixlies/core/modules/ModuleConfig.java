@@ -1,10 +1,10 @@
-package net.pixlies.nations.configuration;
+package net.pixlies.core.modules;
 
-import net.pixlies.nations.Nations;
-import net.pixlies.nations.handlers.Handler;
+import net.pixlies.core.utils.CC;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,14 +13,23 @@ import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
-public class Config extends YamlConfiguration implements Handler {
+/**
+ * Cool little module config class
+ * @author dynmie
+ */
+public class ModuleConfig extends YamlConfiguration {
 
-    private static final Nations instance = Nations.getInstance();
-
+    private final JavaPlugin instance;
     private final File file;
     private final String localDefaultsName;
 
-    public Config(File file, String localDefaultsName) {
+    /**
+     * Nice config.
+     * @param file The path where you want to save your config.
+     * @param localDefaultsName The local file in the jar file.
+     */
+    public ModuleConfig(JavaPlugin instance, File file, String localDefaultsName) {
+        this.instance = instance;
         this.file = file;
         this.localDefaultsName = localDefaultsName;
         try {
@@ -35,7 +44,8 @@ public class Config extends YamlConfiguration implements Handler {
         createIfNotExists();
     }
 
-    public Config(File file) {
+    public ModuleConfig(JavaPlugin instance, File file) {
+        this.instance = instance;
         this.file = file;
         this.localDefaultsName = null;
         createIfNotExists();
@@ -59,9 +69,7 @@ public class Config extends YamlConfiguration implements Handler {
         }
     }
 
-
     public void createIfNotExists() {
-
         if (file.exists()) {
             reload();
             return;
@@ -78,7 +86,14 @@ public class Config extends YamlConfiguration implements Handler {
             e.printStackTrace();
             instance.getLogger().warning("Failed to create " + file.getName() + ".");
         }
+    }
 
+    public String getStringFormatted(String key) {
+        return CC.format(getString(key));
+    }
+
+    public String getStringFormatted(String key, String defaults) {
+        return CC.format(getString(key, defaults));
     }
 
 }

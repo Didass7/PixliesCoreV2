@@ -1,9 +1,9 @@
 name: Nations
 version: 2.0.0
-description: Nations module for Pixlies Core
-api-version: 1.18
-softdepend: [PixliesCore]
+description: Nations module for PixliesCore
+api-version: 1.19
+depend: [PixliesCore]
 authors: [MickMMars, TAMaurice, vPrototype_, Dynmie]
 website: www.pixlies.net
 main: net.pixlies.nations.Nations
-prefix: Core
+prefix: Nations

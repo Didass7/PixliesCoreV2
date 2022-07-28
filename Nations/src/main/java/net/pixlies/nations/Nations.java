@@ -4,23 +4,25 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.Getter;
 import net.pixlies.core.modules.Module;
+import net.pixlies.core.modules.ModuleConfig;
 import net.pixlies.nations.commands.CommandManager;
-import net.pixlies.nations.configuration.Config;
 import net.pixlies.nations.database.MongoManager;
 import net.pixlies.nations.listeners.ListenerManager;
 import net.pixlies.nations.handlers.HandlerManager;
 import net.pixlies.nations.handlers.RegisterHandlerManager;
 import net.pixlies.nations.nations.NationManager;
 import net.pixlies.nations.runnables.RunnableManager;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 
 @Getter
-public class Nations extends Module {
+public class Nations extends JavaPlugin implements Module {
 
     @Getter private static Nations instance;
 
-    private Config config;
+    private ModuleConfig config;
 
     private HandlerManager handlerManager;
     private ListenerManager listenerManager;
@@ -40,7 +42,7 @@ public class Nations extends Module {
         instance = this;
 
         // CONFIGURATION
-        config = new Config(new File(this.getModuleFolder(), "config.yml"), "config.yml");
+        config = new ModuleConfig(this, new File(this.getDataFolder(), "config.yml"), "config.yml");
 
         // HANDLERS & MANAGERS
         mongoManager = new MongoManager();
@@ -63,7 +65,7 @@ public class Nations extends Module {
     }
 
     @Override
-    public void onDrop() {
+    public void onDisable() {
 
         // COMMANDS & LISTENERS
         listenerManager.unregisterAllListeners();
@@ -74,4 +76,9 @@ public class Nations extends Module {
 
     }
 
+    @NotNull
+    @Override
+    public JavaPlugin getJavaPlugin() {
+        return this;
+    }
 }

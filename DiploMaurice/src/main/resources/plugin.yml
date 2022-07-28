@@ -1,0 +1,9 @@
+name: DiploMaurice
+version: 1.0.0
+description: ''
+depend: [PixliesCore]
+api-version: 1.19
+authors: [TAMaurice]
+website: www.pixlies.net
+main: net.pixlies.diplomaurice.DiploMaurice
+prefix: DiploMaurice

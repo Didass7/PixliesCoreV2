@@ -2,29 +2,31 @@ package net.pixlies.diplomaurice;
 
 import net.pixlies.diplomaurice.listeners.ListenerLoader;
 import net.pixlies.core.modules.Module;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.activity.ActivityType;
 import org.javacord.api.entity.user.UserStatus;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class DiploMaurice extends Module {
+public class DiploMaurice extends JavaPlugin implements Module {
     private static DiploMaurice instance;
     private String token;
 
     @Override
-    public void onLoad() {
+    public void onEnable() {
         instance = this;
         init();
         new Thread(this::start);
     }
 
     @Override
-    public void onDrop() {
+    public void onDisable() {
         instance = null;
     }
 
@@ -50,4 +52,11 @@ public class DiploMaurice extends Module {
             e.printStackTrace();
         }
     }
+
+    @NotNull
+    @Override
+    public JavaPlugin getJavaPlugin() {
+        return this;
+    }
+
 }

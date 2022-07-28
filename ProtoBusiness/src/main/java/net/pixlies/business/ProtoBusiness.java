@@ -2,24 +2,26 @@ package net.pixlies.business;
 
 import lombok.Getter;
 import net.pixlies.business.commands.CommandManager;
-import net.pixlies.business.configuration.Config;
 import net.pixlies.business.database.MongoManager;
 import net.pixlies.business.handlers.HandlerManager;
 import net.pixlies.business.handlers.RegisterHandlerManager;
 import net.pixlies.business.listeners.ListenerManager;
 import net.pixlies.business.market.MarketManager;
 import net.pixlies.core.modules.Module;
+import net.pixlies.core.modules.ModuleConfig;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 
 @Getter
-public class ProtoBusiness extends Module {
+public class ProtoBusiness extends JavaPlugin implements Module {
 
     @Getter private static ProtoBusiness instance;
 
-    private Config config;
-    private Config stats;
+    private ModuleConfig config;
+    private ModuleConfig stats;
 
     private MongoManager mongoManager;
     private HandlerManager handlerManager;
@@ -28,11 +30,11 @@ public class ProtoBusiness extends Module {
     private MarketManager marketManager;
 
     @Override
-    public void onLoad() {
+    public void onEnable() {
         instance = this;
 
-        config = new Config(new File(this.getModuleFolder(), "config.yml"), "config.yml");
-        stats = new Config(new File(this.getModuleFolder(), "stats.yml"), "stats.yml");
+        config = new ModuleConfig(this, new File(this.getDataFolder(), "config.yml"), "config.yml");
+        stats = new ModuleConfig(this, new File(this.getDataFolder(), "stats.yml"), "stats.yml");
 
         handlerManager = new HandlerManager();
         new RegisterHandlerManager().registerAllHandlers();
@@ -51,12 +53,18 @@ public class ProtoBusiness extends Module {
     }
 
     @Override
-    public void onDrop() {
+    public void onDisable() {
         commandManager.unregisterAllCommands();
 
         marketManager.backupAll();
 
         instance = null;
+    }
+
+    @NotNull
+    @Override
+    public JavaPlugin getJavaPlugin() {
+        return this;
     }
 
 }
