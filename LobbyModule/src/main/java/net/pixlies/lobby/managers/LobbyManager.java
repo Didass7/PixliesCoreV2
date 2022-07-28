@@ -1,7 +1,7 @@
 package net.pixlies.lobby.managers;
 
 import net.pixlies.core.entity.Warp;
-import net.pixlies.core.modules.ModuleConfig;
+import net.pixlies.core.modules.configuration.ModuleConfig;
 import net.pixlies.lobby.Lobby;
 import net.pixlies.lobby.utils.LobbyUtils;
 import org.bukkit.Location;

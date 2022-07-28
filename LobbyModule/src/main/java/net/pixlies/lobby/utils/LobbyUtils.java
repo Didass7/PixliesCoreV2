@@ -1,7 +1,7 @@
 package net.pixlies.lobby.utils;
 
 import net.pixlies.core.entity.user.User;
-import net.pixlies.core.modules.ModuleConfig;
+import net.pixlies.core.modules.configuration.ModuleConfig;
 import net.pixlies.core.utils.PlayerUtils;
 import net.pixlies.lobby.Lobby;
 import org.bukkit.GameMode;

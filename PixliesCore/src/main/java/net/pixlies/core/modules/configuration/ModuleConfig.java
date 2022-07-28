@@ -1,4 +1,4 @@
-package net.pixlies.core.modules;
+package net.pixlies.core.modules.configuration;
 
 import net.pixlies.core.utils.CC;
 import org.apache.commons.io.FileUtils;

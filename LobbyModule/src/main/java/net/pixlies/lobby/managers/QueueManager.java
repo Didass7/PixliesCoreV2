@@ -2,7 +2,7 @@ package net.pixlies.lobby.managers;
 
 import lombok.Getter;
 import net.pixlies.core.Main;
-import net.pixlies.core.modules.ModuleConfig;
+import net.pixlies.core.modules.configuration.ModuleConfig;
 import net.pixlies.lobby.Lobby;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;

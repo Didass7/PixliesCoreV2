@@ -8,7 +8,7 @@ import net.pixlies.business.handlers.RegisterHandlerManager;
 import net.pixlies.business.listeners.ListenerManager;
 import net.pixlies.business.market.MarketManager;
 import net.pixlies.core.modules.Module;
-import net.pixlies.core.modules.ModuleConfig;
+import net.pixlies.core.modules.configuration.ModuleConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;

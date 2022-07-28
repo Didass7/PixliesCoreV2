@@ -5,7 +5,7 @@ import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.core.Main;
-import net.pixlies.core.modules.ModuleConfig;
+import net.pixlies.core.modules.configuration.ModuleConfig;
 
 @Getter
 public class MongoManager {

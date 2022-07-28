@@ -3,7 +3,7 @@ package net.pixlies.nations.database;
 import dev.morphia.Datastore;
 import lombok.Getter;
 import net.pixlies.core.Main;
-import net.pixlies.core.modules.ModuleConfig;
+import net.pixlies.core.modules.configuration.ModuleConfig;
 import net.pixlies.nations.Nations;
 import net.pixlies.nations.nations.Nation;
 

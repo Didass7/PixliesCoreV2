@@ -2,7 +2,7 @@ package net.pixlies.lobby;
 
 import lombok.Getter;
 import net.pixlies.core.modules.Module;
-import net.pixlies.core.modules.ModuleConfig;
+import net.pixlies.core.modules.configuration.ModuleConfig;
 import net.pixlies.lobby.commands.CommandManager;
 import net.pixlies.lobby.listeners.ListenerManager;
 import net.pixlies.lobby.managers.GrapplingHookManager;
