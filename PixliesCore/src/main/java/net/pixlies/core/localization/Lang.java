@@ -129,11 +129,11 @@ public enum Lang {
     STAFF_SUDO_CHAT(Lang.PIXLIES, new HashMap<>()),
     STAFF_SUDO_CANNOT(Lang.PIXLIES, new HashMap<>()),
 
-    STAFFCHAT_ENABLED(Lang.STAFF, new HashMap<>()),
-    STAFFCHAT_DISABLED(Lang.STAFF, new HashMap<>()),
-    STAFFCHAT_FORMAT(Lang.STAFF, new HashMap<>()),
+    STAFF_CHAT_ENABLED(Lang.STAFF, new HashMap<>()),
+    STAFF_CHAT_DISABLED(Lang.STAFF, new HashMap<>()),
+    STAFF_CHAT_FORMAT(Lang.STAFF, new HashMap<>()),
 
-    STAFF_TIME_SET(Lang.STAFF, new HashMap<>()),
+    STAFF_TIME_SET(Lang.PIXLIES, new HashMap<>()),
 
     STAFF_SETSPAWN(Lang.PIXLIES, new HashMap<>()),
 
@@ -285,7 +285,7 @@ public enum Lang {
     NATION_CANNOT_RENAME(Lang.NATION, new HashMap<>()),
     NOT_IN_NATION(Lang.NATION, new HashMap<>()),
 
-    // MARKET [PROTOBUSINESS]
+    // MARKET [PROTOBUSINESS] @vPrototype_ please make a separate lang for protobusiness.
     MARKET_OPEN(Lang.MARKET, new HashMap<>()),
     MARKET_CLOSED(Lang.MARKET, new HashMap<>()),
     MARKET_WAS_ALREADY_OPEN(Lang.MARKET, new HashMap<>()),
@@ -365,17 +365,17 @@ public enum Lang {
     private final String PREFIX;
     private @Getter Map<String, String> languages;
 
-    public static final String PIXLIES = "§x§4§e§d§e§d§b§lP§x§4§8§c§b§c§8§lI§x§4§2§b§7§b§5§lX§x§3§c§a§4§a§2§lL§x§3§5§9§0§8§f§lI§x§2§f§7§d§7§c§lE§x§2§9§6§9§6§9§lS §8| ";
-    public static final String EARTH = "§x§2§E§D§C§3§E§lE§x§3§0§C§A§3§E§lA§x§3§1§B§F§3§E§lR§x§3§8§B§2§4§3§lT§x§3§7§A§3§4§1§lH §8| ";
-    public static final String NATION = "§x§2§F§D§1§E§5§lN§x§3§4§C§6§D§8§lA§x§3§7§B§A§C§A§lT§x§3§5§B§0§B§F§lI§x§3§3§A§3§B§0§lO§x§3§2§9§9§A§5§lN §8| ";
-    public static final String MARKET = "§x§1§f§c§a§7§3§lM§x§0§0§b§e§8§d§lA§x§0§0§b§0§a§0§lR§x§0§0§a§1§a§9§lK§x§0§0§9§1§a§9§lE§x§1§b§8§1§9§f§lT §8| ";
-    public static final String DISCORD = "§3DISCORD §8| ";
-    public static final String POLL = "§x§1§6§a§7§e§7§lP§x§1§a§8§d§c§7§lO§x§1§a§7§5§a§8§lL§x§1§6§5§d§8§a§lL §8| ";
-    public static final String WAR = "§x§f§f§2§b§2§bW§x§e§b§2§1§2§1A§x§d§9§1§a§1§aR §8| ";
-    public static final String PM = "§x§a§8§1§1§c§eP§x§a§4§0§8§a§4M §8| ";
+    public static final String PIXLIES = "§x§4§e§d§e§d§b§lP§x§4§8§c§b§c§8§lI§x§4§2§b§7§b§5§lX§x§3§c§a§4§a§2§lL§x§3§5§9§0§8§f§lI§x§2§f§7§d§7§c§lE§x§2§9§6§9§6§9§lS §8| §7";
+    public static final String EARTH = "§x§2§E§D§C§3§E§lE§x§3§0§C§A§3§E§lA§x§3§1§B§F§3§E§lR§x§3§8§B§2§4§3§lT§x§3§7§A§3§4§1§lH §8| §7";
+    public static final String NATION = "§x§2§F§D§1§E§5§lN§x§3§4§C§6§D§8§lA§x§3§7§B§A§C§A§lT§x§3§5§B§0§B§F§lI§x§3§3§A§3§B§0§lO§x§3§2§9§9§A§5§lN §8| §7";
+    public static final String MARKET = "§x§1§f§c§a§7§3§lM§x§0§0§b§e§8§d§lA§x§0§0§b§0§a§0§lR§x§0§0§a§1§a§9§lK§x§0§0§9§1§a§9§lE§x§1§b§8§1§9§f§lT §8| §7";
+    public static final String DISCORD = "§9§lDISCORD §8| ";
+    public static final String POLL = "§x§1§6§a§7§e§7§lP§x§1§a§8§d§c§7§lO§x§1§a§7§5§a§8§lL§x§1§6§5§d§8§a§lL §8| §7";
+    public static final String WAR = "§x§f§f§2§b§2§bW§x§e§b§2§1§2§1A§x§d§9§1§a§1§aR §8| §7";
+    public static final String PM = "§x§a§8§1§1§c§eP§x§a§4§0§8§a§4M §8| §7";
     public static final String COMMAND = "§x§f§f§a§a§0§0C§x§d§4§8§d§0§0§M§x§a§9§6§f§0§0§D §8| ";
-    public static final String BROADCAST = "§x§f§f§5§5§5§5§lB§x§f§4§4§a§4§a§lR§x§e§a§4§0§4§0§lO§x§d§f§3§5§3§5§lA§x§d§5§2§b§2§b§lD§x§c§a§2§0§2§0§lC§x§b§f§1§5§1§5§lA§x§b§5§0§b§0§b§lS§x§a§a§0§0§0§0§lT §8| ";
-    public static final String STAFF = "§x§0§0§a§a§a§a§lS§x§0§0§8§0§a§a§lT§x§0§0§5§5§a§a§lA§x§0§0§2§b§a§a§lF§x§0§0§0§0§a§a§lF §8| §7";
+    public static final String BROADCAST = "§x§f§f§5§5§5§5§lB§x§f§4§4§a§4§a§lR§x§e§a§4§0§4§0§lO§x§d§f§3§5§3§5§lA§x§d§5§2§b§2§b§lD§x§c§a§2§0§2§0§lC§x§b§f§1§5§1§5§lA§x§b§5§0§b§0§b§lS§x§a§a§0§0§0§0§lT §8| §7";
+    public static final String STAFF = "§x§4§e§d§e§d§b§lS§x§4§5§c§1§b§f§lT§x§3§c§a§4§a§2§lA§x§3§2§8§6§8§6§lF§x§2§9§6§9§6§9§lF §8| §7";
 
     Lang(String PREFIX, Map<String, String> languages) {
         this.PREFIX = PREFIX;

@@ -136,9 +136,9 @@ STAFF_SUDO_COMMAND: "§7You have forced §6%PLAYER%§7 to run §6/%MESSAGE%§7."
 STAFF_SUDO_CHAT: "§7You have forced §6%PLAYER%§7 to say §6%MESSAGE%§7."
 STAFF_SUDO_CANNOT: "§7You cannot sudo that player."
 
-STAFFCHAT_ENABLED: "§7Staffchat is now §aenabled§7."
-STAFFCHAT_DISABLED: "§7Staffchat is now §cdisabled§7."
-STAFFCHAT_FORMAT: "§6%PLAYER%§8: §7%MESSAGE%"
+STAFF_CHAT_ENABLED: "§7Staff chat is now enabled."
+STAFF_CHAT_DISABLED: "§7Staff chat is now disabled."
+STAFF_CHAT_FORMAT: "§6%PLAYER%§8: §7%MESSAGE%"
 
 STAFF_TIME_SET: "§7The time has been set to §6%TIME%§7 in §6%WORLD%§7."
 
