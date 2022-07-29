@@ -7,6 +7,7 @@ import net.pixlies.core.configuration.Config;
 import net.pixlies.core.database.MongoManager;
 import net.pixlies.core.handlers.HandlerManager;
 import net.pixlies.core.handlers.RegisterHandlerManager;
+import net.pixlies.core.handlers.impl.PixlieMojiHandler;
 import net.pixlies.core.handlers.impl.ScoreboardHandler;
 import net.pixlies.core.listeners.ListenerManager;
 import net.pixlies.core.localization.Lang;
@@ -45,6 +46,14 @@ public class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+
+        // DEPENDENCY CHECK
+        this.getDescription().getDepend().forEach(pluginName -> {
+            if (this.getServer().getPluginManager().getPlugin(pluginName) == null) {
+                getLogger().severe(pluginName + " is not loaded. Please make sure " + pluginName + " is installed on the target server.");
+                this.getServer().getPluginManager().disablePlugin(this);
+            }
+        });
 
         // CONFIGURATION
         config =            new Config(new File(getDataFolder().getAbsolutePath() + "/config.yml"), "config.yml");
@@ -93,6 +102,9 @@ public class Main extends JavaPlugin {
         // RUNNABLES
         runnableRegisterManager = new RunnableRegisterManager();
         runnableRegisterManager.runAll();
+
+        // CHAT
+        handlerManager.getHandler(PixlieMojiHandler.class).loadEmojis();
 
         // SCOREBOARD
 //      handlerManager.getHandler(ScoreboardHandler.class).load();

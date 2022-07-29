@@ -22,8 +22,8 @@ public class JoinQuitListener implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (user.getSettings().isVanished()) {
-            event.joinMessage(Component.empty());
+        if (user.getSettings().isPassive()) {
+            event.joinMessage(null);
             return;
         }
         event.joinMessage(Component.text(config.getStringFormatted("joinQuit.joinMessage")
@@ -34,7 +34,7 @@ public class JoinQuitListener implements Listener {
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (user.getSettings().isVanished()) {
+        if (user.getSettings().isPassive()) {
             event.quitMessage(null);
             return;
         }

@@ -4,7 +4,7 @@ import lombok.Getter;
 import net.pixlies.core.Main;
 import net.pixlies.core.listeners.cosmetics.PollListener;
 import net.pixlies.core.listeners.cosmetics.SitListener;
-import net.pixlies.core.listeners.cosmetics.chatformatting.ChatFormattingListener;
+import net.pixlies.core.listeners.cosmetics.ChatFormattingListener;
 import net.pixlies.core.listeners.moderation.*;
 import net.pixlies.core.listeners.player.AfkListener;
 import net.pixlies.core.listeners.player.JoinQuitListener;
