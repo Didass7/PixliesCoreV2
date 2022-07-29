@@ -2,6 +2,7 @@ package net.pixlies.core.listeners;
 
 import lombok.Getter;
 import net.pixlies.core.Main;
+import net.pixlies.core.entity.user.User;
 import net.pixlies.core.listeners.cosmetics.PollListener;
 import net.pixlies.core.listeners.cosmetics.SitListener;
 import net.pixlies.core.listeners.cosmetics.ChatFormattingListener;
@@ -11,6 +12,7 @@ import net.pixlies.core.listeners.player.JoinQuitListener;
 import net.pixlies.core.listeners.player.SocialSpyListener;
 import net.pixlies.core.listeners.player.TeleportListener;
 import net.pixlies.core.listeners.staff.StaffChatListener;
+import net.pixlies.core.listeners.user.UserListener;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 
@@ -41,6 +43,7 @@ public class ListenerManager {
         add(new BlackListListener());
         add(new FreezeListener());
         add(new StaffChatListener());
+        add(new UserListener());
     }};
 
     public static void registerAllListeners() {

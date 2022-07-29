@@ -58,7 +58,7 @@ public class User {
     private String lang;
     private PermissionProfile permissionProfile;
     @Getter(AccessLevel.NONE) private Map<String, Object> extras;
-    private @Transient Map<String, Timer> allTimers;
+    private final @Transient Map<String, Timer> allTimers = new HashMap<>();
 
     public Map<String, Object> getExtras() {
         if (extras == null) extras = new HashMap<>();
@@ -400,6 +400,7 @@ public class User {
     public void save() {
         instance.getDatabase().getUserCache().remove(getUniqueId());
         instance.getDatabase().getUserCache().put(getUniqueId(), this);
+        backup();
     }
 
     /**
@@ -564,8 +565,8 @@ public class User {
             profile = new User(
                     uuid.toString(),
                     System.currentTimeMillis(),
-                    "NONE",
-                    Objects.requireNonNull(Bukkit.getPlayer(uuid)).getName(),
+                    null,
+                    null,
                     Wallet.getDefaults(),
                     new ArrayList<>(),
                     new ArrayList<>(),
@@ -575,15 +576,13 @@ public class User {
                     UserSettings.getDefaults(),
                     "ENG",
                     new PermissionProfile(new ArrayList<>(), new ArrayList<>()),
-                    new HashMap<>(),
                     new HashMap<>()
             );
 
-            instance.getDatabase().getDatastore().save(profile);
+            profile.save();
             instance.getLogger().info(CC.format("&bProfile for &6" + uuid + "&b created in database."));
+            return profile;
 
-            // DEBUG
-            instance.getLogger().info("extras is null: " + String.valueOf(profile.getExtras() == null));
         }
 
         profile.save();

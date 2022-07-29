@@ -7,6 +7,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import dev.morphia.Datastore;
 import dev.morphia.Morphia;
+import dev.morphia.mapping.MapperOptions;
 import lombok.Getter;
 import net.pixlies.core.Main;
 import net.pixlies.core.economy.Wallet;
@@ -19,7 +20,10 @@ import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,7 +47,7 @@ public class MongoManager {
             )
     );
 
-   private final UserCache userCache = new UserCache();
+    private final Map<UUID, User> userCache = new HashMap<>();
 
     public MongoManager init() {
         Logger.getLogger("org.mongodb.driver").setLevel(Level.WARNING);
@@ -57,21 +61,18 @@ public class MongoManager {
                         builder.hosts(List.of(new ServerAddress(conf("database.host"), Integer.parseInt(conf("database.port"))))))
                 .build();
 
-        client = MongoClients.create(
-                settings
-        );
+        client = MongoClients.create(settings);
 
-        datastore = Morphia.createDatastore(client, conf("database.database"));
+        datastore = Morphia.createDatastore(client, conf("database.database"), MapperOptions.builder()
+                .storeEmpties(true)
+                .build());
+        datastore.ensureIndexes();
+
 
         datastore.getMapper().map(User.class);
 
         instance.getLogger().info("Connected to MongoDB database.");
         return this;
-    }
-
-    public void cleanUsers() {
-        List<User> users = datastore.find(User.class).iterator().toList();
-        users.forEach(user -> datastore.delete(user));
     }
 
     private static String conf(String what) {
