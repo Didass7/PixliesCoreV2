@@ -25,6 +25,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.EquipmentSlot;
@@ -175,6 +176,26 @@ public class LobbyInteractListener implements Listener {
     @EventHandler
     public void onMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
+        User user = User.get(player.getUniqueId());
+
+        if (user.getSettings().isInStaffMode()) {
+            return;
+        }
+
+        if (lobbyManager.isInBuildMode(player.getUniqueId())) return;
+        if (!(player.getLocation().getY() < 0)) return;
+
+        user.teleportToSpawn();
+
+        LobbyUtils.resetPlayer(player);
+    }
+
+    @EventHandler
+    public void onHungerChange(FoodLevelChangeEvent event) {
+        if (!(event.getEntity() instanceof Player player)) {
+            return;
+        }
+
         User user = User.get(player.getUniqueId());
 
         if (user.getSettings().isInStaffMode()) {
