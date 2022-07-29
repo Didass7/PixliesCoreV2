@@ -27,7 +27,7 @@ public class RenameCommand extends BaseCommand {
             return;
         }
         String name = player.hasPermission("pixlies.cosmetics.rename.color") ? CC.format(message) : message;
-        meta.displayName(Component.text(name));
+        meta.setDisplayName(name);
         item.setItemMeta(meta);
         Lang.COSMETICS_RENAME_ITEM.send(player, "%MESSAGE%;" + name);
     }
