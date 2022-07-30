@@ -195,19 +195,9 @@ public class LobbyInteractListener implements Listener {
         if (!(event.getEntity() instanceof Player player)) {
             return;
         }
-
         User user = User.get(player.getUniqueId());
-
-        if (user.getSettings().isInStaffMode()) {
-            return;
-        }
-
         if (lobbyManager.isInBuildMode(player.getUniqueId())) return;
-        if (!(player.getLocation().getY() < 0)) return;
-
-        user.teleportToSpawn();
-
-        LobbyUtils.resetPlayer(player);
+        event.setCancelled(true);
     }
 
     @EventHandler
