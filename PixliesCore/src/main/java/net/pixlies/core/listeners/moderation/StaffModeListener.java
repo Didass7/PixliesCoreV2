@@ -30,7 +30,7 @@ public class StaffModeListener implements Listener {
     private final VanishHandler vanishHandler = instance.getHandlerManager().getHandler(VanishHandler.class);
 
     @EventHandler(priority = EventPriority.HIGH)
-    public void onJoin(PlayerLoginEvent event) {
+    public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
         if (user.getSettings().isInStaffMode()) {
