@@ -57,7 +57,7 @@ CHAT_MUTED_FORMAT: "§cLa fonction de chat est suspendue au moment."
 CHAT_MUTED: "§7Le chat a été §csuspendu§7 par §6%PLAYER%§7."
 CHAT_UNMUTED: "§7Le chat a été §cdébranché§7 par §6%PLAYER%§7."
 
-// I STOPPED HERE!!!
+# I STOPPED HERE!!!
 
 NO_ITEMS_FOUND_ON_PLAYER: "§7No items found on player §6%PLAYER%§7."
 
