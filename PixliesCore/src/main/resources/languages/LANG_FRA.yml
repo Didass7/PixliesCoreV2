@@ -1,49 +1,77 @@
+FETCHING: "§7Récupérant... Attendez s.v.p"
+
 BAN_MESSAGE: |-
-  §7Tu es banni/e de §3Pixlies§fNet§7.
+  §cTu as été banni(e) de PixliesNet.
   
-  §7Raison: §c%REASON%
+  §7Par: §6%EXECUTOR%
+  §7Pourquoi: §c%REASON%
   §7Duration: §b%DURATION%
   
-  §7ID: §f%BAN_ID%
-
+  §9Discord: &7https://pixlies.net/discord
 BLACKLIST_MESSAGE: |-
-  §7Tu as été mis sur une liste noire permanente de §3Pixlies§fNet§7.
+  §cTu as été permanentément mis(e) sur la liste noire de PixliesNet.
+  §7Il n'est pas possible de protester cet décision.
   
-  §7Raison: §c%REASON%
+  §7Par: §6%EXECUTOR%
+  §7Pourquoi: §c%REASON%
   
-  §7ID: §f%BAN_ID%
+  §9Discord: &7https://pixlies.net/discord
+KICK_MESSAGE: |-
+  §cTu as été jeté de PixliesNet.
+  
+  §7Par: §6%EXECUTOR%
+  §7Pourquoi: §c%REASON%
+  
+  §9Discord: &7https://pixlies.net/discord
+BANNED_PLAYER_TRIED_TO_JOIN: '§c%PLAYER%§7 a voulu rejoigner, mais il/elle est banni(e) maintenant.'
 
-BANNED_PLAYER_TRIED_TO_JOIN: '§c%PLAYER%§7 a voulu rejoigner, mais il/elle est banni/e.'
+PLAYER_PERMANENTLY_BANNED: '§6%PLAYER%§7 a permanantement été banni(e) par §6%EXECUTOR%§7 pour §c"%REASON%"§7.'
+PLAYER_UNBANNED: '§6%PLAYER%§7 a liberé par §6%EXECUTOR%§7.'
+PLAYER_TEMPORARILY_BANNED: '§6%PLAYER%§7 a temporairement été banni(e) par §6%EXECUTOR%§7 pour §c"%REASON%"§7 pendant §c%TIME%.'
 
-PLAYER_PERMANENTLY_BANNED: '§6%PLAYER%§7 a été banni/e de §6%EXECUTOR%§7 pour §c"%REASON%"§7.'
-PLAYER_UNBANNED: '§6%PLAYER%§7 a été libéré/e de §6%EXECUTOR%§7.'
-PLAYER_TEMPORARILY_BANNED: '§6%PLAYER%§7 a été banni/e temporairement de §6%EXECUTOR%§7 pour §c"%REASON%"§7 pendant §c%TIME%.'
+PLAYER_BLACKLISTED: '§6%PLAYER%§7 a permanentement été mis(e) sur la liste noire par §6%EXECUTOR%§7 pour §c"%REASON%"§7.'
+PLAYER_UNBLACKLISTED: '§6%PLAYER%§7 a été pris(e) de la liste noire par §6%EXECUTOR%§7.'
 
-# Proto, I need your help, I can't do this alone!
-# - Maurice
+PLAYER_KICKED: '§6%PLAYER%§7 a été jeté par §6%EXECUTOR%§7 pour §c"%REASON%"§7.'
 
-PLAYER_BLACKLISTED: '§6%PLAYER%§7 was permanently blacklisted by §6%EXECUTOR%§7 for §c"%REASON%"§7.'
-PLAYER_UNBLACKLISTED: '§6%PLAYER%§7 was unblacklisted by §6%EXECUTOR%§7.'
+PLAYER_PERMANENTLY_MUTED: '§6%PLAYER%§7 a été mis(e) en sourdine par §6%EXECUTOR%§7 pour §c"%REASON%"§7.'
+PLAYER_UNMUTED: '§6%PLAYER%§7 a été débloqué(e) par §6%EXECUTOR%§7.'
+PLAYER_TEMPORARILY_MUTED: '§6%PLAYER%§7 a été mis(e) en sourdine par §6%EXECUTOR%§7 pour §c"%REASON%"§7 pendant §c%TIME%.'
+MUTE_MESSAGE: "§cTu ne peux pas parler pendant ta mise en sourdine."
+MUTED_PLAYER_TRIED_TO_TALK: "§6%PLAYER% §7a voulu parler, mais a été mis(e) en sourdine!"
 
-PLAYER_PERMANENTLY_MUTED: '§6%PLAYER%§7 was muted by §6%EXECUTOR%§7 for §c"%REASON%"§7.'
-PLAYER_UNMUTED: '§6%PLAYER%§7 was unmuted by §6%EXECUTOR%§7.'
-PLAYER_TEMPORARILY_MUTED: '§6%PLAYER%§7 was muted by §6%EXECUTOR%§7 for §c"%REASON%"§7 for §c%TIME%.'
-MUTE_MESSAGE: "§cYou cannot talk while muted."
-MUTED_PLAYER_TRIED_TO_TALK: "§6%PLAYER% §7tried to talk, but they are muted!"
+PLAYER_NOT_MUTED: "§7Ce joueur/Cette joueuse n'est pas mis(e) en sourdine."
+PLAYER_NOT_BLACKLISTED: "§7Ce joueur/Cette joueuse n'est pas sur la liste noire."
+PLAYER_NOT_BANNED: "§7Ce joueur/Cette joueuse n'est pas banni(e)."
 
-CHAT_CLEARED: "§7The chat was cleared by §6%PLAYER%§7."
-CHAT_MUTED_FORMAT: "§cThe chat function is disabled at the moment."
-CHAT_MUTED: "§7The chat has been §cmuted§7 by §6%PLAYER%§7."
-CHAT_UNMUTED: "§7The chat has been §aunmuted§7 by §6%PLAYER%§7."
+PLAYER_ALREADY_MUTED: "§7Ce joueur/Cette joueuse est déjà mis(e) en sourdine."
+PLAYER_ALREADY_BLACKLISTED: "§7Ce joueur/Cette joueuse est déjà sur la liste noire."
+PLAYER_ALREADY_BANNED: "§7Ce joueur/Cette joueuse a été déjà banni(e)."
+
+SETTING_CHANGED: "§7Le paramètre %SETTING%§7 est maintenant %STATE%§7."
+
+NOT_A_NUMBER: "§7Ce n'est pas un numéro valid."
+
+CHAT_CLEARED: "§7Le chat a été vidé par §6%PLAYER%§7."
+CHAT_MUTED_FORMAT: "§cLa fonction de chat est suspendue au moment."
+CHAT_MUTED: "§7Le chat a été §csuspendu§7 par §6%PLAYER%§7."
+CHAT_UNMUTED: "§7Le chat a été §cdébranché§7 par §6%PLAYER%§7."
+
+// I STOPPED HERE!!!
 
 NO_ITEMS_FOUND_ON_PLAYER: "§7No items found on player §6%PLAYER%§7."
 
-PLAYER_DOESNT_EXIST: "§cThis player does not exist!"
+SLOWMODE_SET: "§7The chat delay has been set to §6%VALUE%§7."
+SLOWMODE_GET: "§7The chat delay is currently set to §6%VALUE%§7."
+SLOWMODE_OFF: "§7The chat delay has been §cdisabled§7."
+SLOWMODE_MESSAGE: "§7You can talk again in §6%VALUE%§7 seconds."
+
+PLAYER_DOESNT_EXIST: "§cThis player does not exist or is not online!"
 
 NOT_HOLDING_ANYTHING: "§7You are not holding anything."
 
-SWEAR_FILTER_ON: "§7Swear filter has been §aenabled§7."
-SWEAR_FILTER_OFF: "§7Swear filter has been §cdisabled§7."
+SWEAR_FILTER_ON: "§7The swear filter has been §aenabled§7."
+SWEAR_FILTER_OFF: "§7The swear filter has been §cdisabled§7."
 
 ADDED_BLOCKED_WORD: ""
 REMOVED_BLOCKED_WORD: ""
@@ -57,6 +85,9 @@ PLAYER_TELEPORT_NO_PLAYERS: "§cThere is no one to teleport to."
 # PLACEHOLDERS: %X%, %Y%, %Z%
 LOCATION_FORMAT: "§dW: %WORLD%, X: %X%, Y: %Y%, Z: %Z%"
 
+# ADMIN
+WIPED_USERS: "§7Wiped the users database."
+
 # TODO: Finish messages and translations
 # STAFF
 STAFF_GOD_ON: ""
@@ -67,9 +98,13 @@ STAFF_RANDOM_TELEPORT_OTHER: "§6%PLAYER%§7 has been randomly teleported to §6
 
 STAFF_STAFFMODE_ON: "§7You have enabled staff mode."
 STAFF_STAFFMODE_OFF: "§7You have disabled staff mode."
-STAFF_SETTING_CHANGED: "§7The staff setting %SETTING%§7 is now %STATE%§7."
-STAFF_STAFFMODE_ON_OTHER: "§7%PLAYER% has enabled staff mode."
-STAFF_STAFFMODE_OFF_OTHER: "§7%PLAYER% has disabled staff mode."
+STAFF_STAFFMODE_ON_OTHER: "§6%PLAYER%§7 has enabled staff mode."
+STAFF_STAFFMODE_OFF_OTHER: "§6%PLAYER%§7 has disabled staff mode."
+
+STAFF_BYPASS_ON: "§7You have enabled bypass mode."
+STAFF_BYPASS_OFF: "§7You have disabled bypass mode."
+STAFF_BYPASS_ON_OTHER: "§6%PLAYER%§7 has enabled staff mode."
+STAFF_BYPASS_OFF_OTHER: "§6%PLAYER%§7 has disabled staff mode."
 
 STAFF_GAMEMODE_CHANGED_SELF: "§7You just changed your gamemode to %GAMEMODE%§7!"
 STAFF_GAMEMODE_CHANGED_OTHERS: "§6%CHANGER% §7just changed §6%TARGET%§7's gamemode to %GAMEMODE%§7!"
@@ -96,6 +131,30 @@ STAFF_SPEED_WALK_GET_OTHER: "§6%PLAYER%'s§7 walk speed is §6%SPEED%§7."
 STAFF_SPEED_RESET: "§7Your speed has been reset."
 STAFF_SPEED_RESET_OTHER: "§6%PLAYER%§7's speed has been reset."
 
+STAFF_SUDO_COMMAND: "§7You have forced §6%PLAYER%§7 to run §6/%MESSAGE%§7."
+STAFF_SUDO_CHAT: "§7You have forced §6%PLAYER%§7 to say §6%MESSAGE%§7."
+STAFF_SUDO_CANNOT: "§7You cannot sudo that player."
+
+STAFF_CHAT_ENABLED: "§7Staff chat is now enabled."
+STAFF_CHAT_DISABLED: "§7Staff chat is now disabled."
+STAFF_CHAT_FORMAT: "§6%PLAYER%§8: §7%MESSAGE%"
+
+STAFF_TIME_SET: "§7The time has been set to §6%TIME%§7 in §6%WORLD%§7."
+
+STAFF_SETSPAWN: "§7The spawn has been set to §6%TARGET%§7."
+
+# TELEPORTATION
+TPHERE_MESSAGE_SENDER: "§7You have sent §6%PLAYER%§7 a teleport request."
+TPHERE_MESSAGE_TARGET: "§6%PLAYER%§7 has sent you a teleport request to teleport to them. Type §d/tpaccept§7 to accept."
+TPASK_MESSAGE_SENDER: "§7You have sent §6%PLAYER%§7 a teleport request."
+TPASK_MESSAGE_TARGET: "§6%PLAYER%§7 has sent you a teleport request. Type §d/tpaccept§7 to accept."
+TPASK_ACCEPTED_MESSAGE_SENDER: "§6%PLAYER%§7 has accepted your teleport request."
+TPASK_ACCEPTED_MESSAGE_TARGET: "§7You have accepted §6%PLAYER%§7's teleport request."
+TPACCEPT_NOBODY: "§7Nobody accepted your teleport request."
+TPACCEPT_PLAYER_NOT_ONLINE: "§7That player isn't online."
+RETURNED_TO_PREVIOUS_LOCATION: "§7Returned to previous location."
+TPBACK_NO_LOCATION: "§7There isn't a location to teleport back to."
+
 # MODERATION
 MODERATION_GLOBAL_PVP_ON: ""
 MODERATION_GLOBAL_PVP_OFF: ""
@@ -114,6 +173,18 @@ MODERATION_COMMANDSPY_OFF: "§7You have disabled command spy."
 MODERATION_COMMANDSPY_ON_OTHER: "§6%PLAYER% §7has enabled command spy."
 MODERATION_COMMANDSPY_OFF_OTHER: "§7%PLAYER% §7has disabled command spy."
 MODERATION_COMMANDSPY_FORMAT: "§6%PLAYER%§7: %MESSAGE%"
+
+MODERATION_FREEZE_ON: "§6%PLAYER%§7 is now frozen."
+MODERATION_FREEZE_OFF: "§6%PLAYER%§7 is no longer frozen."
+MODERATION_CANNOT_FREEZE: "§7That player cannot be frozen."
+MODERATION_FREEZE_UNFREEZE: "§7You are no longer frozen."
+MODERATION_FREEZE_FREEZE: "§cYou were frozen by %PLAYER%§c."
+MODERATION_FREEZE_MESSAGE: "§6%PLAYER%§7 was frozen by §6%EXECUTOR%§7."
+MODERATION_FREEZE_ACTIONBAR: "§cYou are currently frozen."
+
+MODERATION_CANNOT_KICK: "§7You cannot kick that player."
+MODERATION_CANNOT_BAN: "§7You cannot ban that player."
+MODERATION_CANNOT_MUTE: "§You cannot mute that player."
 
 # COSMETICS
 COSMETICS_HEALED_SELF: "§7You just healed yourself!"
@@ -139,7 +210,25 @@ COSMETICS_NICKNAME_OTHER: "§7You have changed §6%PLAYER%§7's nickname to §6%
 COSMETICS_CANNOT_NICKNAME: "§7You cannot set this as a nickname."
 
 COSMETICS_HAT_CANNOT_SET: "§7You cannot set this as a hat."
+COSMETICS_HAT_ALREADY_HAVE: "§7You already have something as your hat."
 COSMETICS_HAT_SET: "§7You now have a hat!"
+
+# POLLS
+CREATING_POLL: "§7Creating poll with the question: §6%QUESTION%"
+ENTER_POLL_OPTION: "§7Please enter the §a#%NUMBER%§7 poll option."
+HOW_TO_CANCEL_POLL: "§7You can cancel the poll by typing §ccancel§7."
+POLL_CANCELLED: "§7You §ccancelled§7 this poll."
+ADDED_POLL_OPTION: "§7Added the §a#%NUMBER%§7 poll option: §a%OPTION%§7."
+HOW_TO_END_POLL_CREATION: "§7You can finish up this poll by typing §afinish§7."
+ALREADY_CREATING_POLL: "§cYou are already creating a poll!"
+
+POLL_DOES_NOT_EXIST: "§cThe poll with the id §6%ID%§c does not exist."
+POLL_VIEW_INFO: "§7Here is the information regarding the §6%ID%§7 poll."
+POLL_LIST_INFO: "§7Here are the current polls."
+POLL_OPTION_DOES_NOT_EXIST: "§cThere is no poll option with that number."
+REGISTERED_VOTE: "§7You have §avoted§7 for option §6#%OPTION%§7."
+POLL_RESULTS_INFO: "§7Here are the results of the §6%ID%§7 poll."
+POLL_SHOW_QUESTION: "§7Question: §6%QUESTION%"
 
 # PLAYER
 PLAYER_MESSAGE_FORMAT_TO: "§8(§7To §6%PLAYER%§8) §f%MESSAGE%"
@@ -162,10 +251,107 @@ PLAYER_AFK_OFF_BROADCAST: "§6%PLAYER%§7 is no longer AFK."
 PLAYER_PLAYTIME: "§7Your playtime is §6%TIME%§7."
 PLAYER_PLAYTIME_OTHER: "§6%PLAYER%§7's playtime is §6%TIME%§7."
 
+PLAYER_KISS: "§7Mwah, §6%PLAYER%§7 just kissed §6%TARGET%§7!"
+
+PLAYER_WARP: "§7You have been warped to §6%TARGET%§7."
+PLAYER_WARP_OTHER: "§6%PLAYER%§7 has been warped to §6%TARGET%§7."
+
+PLAYER_BALANCE: "§7Your balance is %BALANCE%§7."
+PLAYER_BALANCE_OTHER: "§6%PLAYER%§7's balance is %BALANCE%§7."
+
+PLAYER_STATS: |-
+    §b§l%PLAYER%§7's §r§8(§d%HOUSE%§8) §7stats
+    §3⋙ §7Balance: §6%BALANCE%
+    §3⋙ §7PixliesScore: §a%SCORE%
+    
+    §3⋙ §7To view market stats, do §d/market§7 and hover over your head icon.
+    
+    §7§oMember since %JOINED%
 # Lobby
 LOBBY_BUILDMODE_TOGGLE: "§7You just %STATE% §7build-mode."
 
 # NATIONS
-NATION_NAME_INVALID: "§cThe name you chose for your future nation is not alpha-numeric."
-ALREADY_IN_NATION: "§cYou are already in an nation. §7/n leave"
+NATION_NAME_INVALID: "§cYou cannot name your nation this."
+ALREADY_IN_NATION: "§cYou are already in an nation. §7Use /n leave to leave your nation."
+NOT_IN_NATION: "§cYou are not in a nation!"
 NATION_FORMED: "§6%PLAYER% §7just formed the nation of §b%NATION%§7, a new Era is born!"
+NATION_DISBAND_CONFIRM: "§7Are you §c§lsure §7you want to disband §b%NATION%§7? If so, use §c/n disband confirm"
+NATION_DISBAND_CANCELLED: "§7You have cancelled your disband request."
+NATION_DISBANDED: "§7The nation §6%NATION%§7 has been disbanded by §6%PLAYER%§7."
+NATION_RENAME: "§7The nation §6%NATION%§7 has been renamed to §6%NEW%§7 by §6%PLAYER%§7."
+NATION_CANNOT_RENAME: "§7You cannot set that as your nation name."
+NATION_NO_PERMISSION: "§7Your nation rank is too low to use this command."
+NATION_NO_NATION_TO_DISBAND: "§cYou haven't selected a nation to disband."
+NATION_MISSING_ARG: "§7A §b%X% §7must be provided, in order to process this command."
+NATION_DOES_NOT_EXIST: "§cThat nation doesn't exist."
+
+# PROTOBUSINESS
+MARKET_OPEN: "§7The market is now §aopen§7 for business!"
+MARKET_CLOSED: "§7The market is now §cclosed§7!"
+MARKET_WAS_ALREADY_OPEN: "§cThe market is already open."
+MARKET_WAS_ALREADY_CLOSED: "§cThe market is already closed."
+MARKET_IS_CLOSED: "§cThe market is closed. Please wait a few business days!"
+
+MARKET_STATISTICS_RESET: "§7Market statistics have been §creset§7."
+MARKET_PLAYER_STATISTICS_RESET: "§7Market statistics for §6%PLAYER%§7 have been §creset§7 by §6%SENDER§7."
+
+BUY_ORDER_CREATED: "§7You created a §abuy §7order for §a%AMOUNT%§8x §f%ITEM%§7."
+SELL_ORDER_CREATED: "§7You created a §6sell §7order for §a%AMOUNT%§8x §f%ITEM%§7."
+
+ORDER_CANCELLED: "§7Your order for §a%AMOUNT%§8x §6%ITEM% §7was §ccancelled§7."
+ORDER_ITEMS_REFUNDED: "§7You were refunded §a%AMOUNT%§8x §f%ITEM%§7."
+ORDER_COINS_REFUNDED: "§7You were refunded §6%COINS% coins§7."
+ORDER_ITEMS_CLAIMED: "§7You claimed §b%NUM% items§7 from your §a%AMOUNT%§8x §f%ITEM% §7order."
+ORDER_COINS_CLAIMED: "§7You claimed §6%COINS% coins§7 from your §a%AMOUNT%§8x §f%ITEM% §7order."
+ORDER_FLIPPED: "§7You created a new §bsell order§7 for §a%AMOUNT%§8x §f%ITEM%§7 for §6%COINS% coins §7each!"
+
+MARKET_NOT_A_VALID_PRICE: "§cThis is not a valid price!"
+MARKET_NOT_A_VALID_AMOUNT: "§cThis is not a valid amount!"
+MARKET_NOT_ENOUGH_ITEMS: "§cYou don't have this many items!"
+
+MARKET_PLAYER_RESTRICTED_SENDER: "§7Player §6%PLAYER%§7 has been §crestricted§7 from accessing the market for §d\"%REASON%\"§7."
+MARKET_PLAYER_RESTRICTED_TARGET: "§7You have been §crestricted§7 from accessing the market by §6%PLAYER%§7 for §d\"%REASON%\"§7."
+MARKET_PLAYER_ALLOWED_SENDER: "§7Player §6%PLAYER%§7 is now §aallowed§7 to access the market."
+MARKET_PLAYER_ALLOWED_TARGET: "§7You are now allowed to §aaccess§7 the market."
+MARKET_PLAYER_IS_RESTRICTED: "§cYou are restricted from accessing the market."
+
+ITEM_NOT_ON_MARKET: "§cThis item is not on the market!"
+
+BUY_ORDER_FILLED: "§7Your §bbuy order§7 for §a%NUM%§8x §f%ITEM%§7 was §aFILLED§7!"
+SELL_ORDER_FILLED: "§7Your §6sell order§7 for §a%NUM%§8x §f%ITEM%§7 was §aFILLED§7!"
+
+PRICE_SUMMARY: "§7Here is the price summary for §d%ITEM%§7."
+PRICE_BEST_BUY: "§7Best buy offer: §6%PRICE% coins §8(%AMOUNT% offers)"
+PRICE_BEST_SELL: "§7Best sell offer: §6%PRICE% coins §8(%AMOUNT% offers)"
+
+BUY_ORDER: "Have a filled buy order"
+SELL_ORDER: "Have a filled sell order"
+BUY_ORDER_UNIT_50: "Have a filled buy order with a minimum unit price of 50 coins"
+BUY_ORDER_64_ITEMS: "Have a filled buy order for at least 64 items"
+BUY_ORDER_500_ITEMS: "Have a filled buy order for at least 500 items"
+
+SOLD_100_ITEMS: "Have sold 100 items"
+GAINED_350_COINS: "Have gained 350 coins"
+ORDERED_ALL_ITEMS: "Have gotten filled orders for every item"
+
+CHALLENGE_COMPLETED: "§aChallenge completed: §f%CHALLENGE%"
+
+CHALLENGE_LIST: "§7Here are all market challenges."
+CHALLENGE_COMPLETE_FORMAT: "§8> §7%CHALLENGE% §8[§a§l✔§r§8]"
+CHALLENGE_INCOMPLETE_FORMAT: "§8> §b%CHALLENGE% §8[§c§l✖§r§8]"
+
+TARIFF_LOCAL_INCOMING: "§7Here is a list of §6incoming tariffs§7 to your nation:"
+TARIFF_LOCAL_OUTGOING: "§7Here is a list of §boutgoing tariffs§7 to other nations:"
+TARIFF_GLOBAL: "§7Here is a list of all §6tariffs§7:"
+TARIFF_INCOMING_FORMAT: "§8> §7From §f%NATION%§7 at a rate of §a%RATE%§7"
+TARIFF_OUTGOING_FORMAT: "§8> §To §f%NATION%§7 at a rate of §a%RATE%§7"
+TARIFF_GLOBAL_FORMAT: "§8> §7From §b%FROM%§7 to §6%TO%§7 at a rate of §d%RATE%§7"
+
+INCOMING_TARIFF_SET: "§7Tariff set for §6%NATION%§7 at a rate of §a%RATE%§7."
+INCOMING_TARIFF_REMOVED: "§7Tariff removed from §6%NATION%§7."
+OUTGOING_TARIFF_SET: "§6%NATION%§7 added a tariff on this nation at a rate of §a%RATE%§7."
+OUTGOING_TARIFF_REMOVED: "§6%NATION%§7 removed its tariff from this nation."
+
+TARIFF_DOES_NOT_EXIST: "§7No tariff exists from your nation on the specified nation."
+TARIFF_RATE_NOT_VALID: "§cThe rate must be a decimal number ranging from 0.01 to %MAX%."
+NO_TARIFFS_FOUND: "§cNo tariffs were found."
