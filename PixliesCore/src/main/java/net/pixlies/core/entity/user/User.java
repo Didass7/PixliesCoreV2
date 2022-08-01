@@ -12,7 +12,6 @@ import net.kyori.adventure.text.Component;
 import net.pixlies.core.Main;
 import net.pixlies.core.economy.Wallet;
 import net.pixlies.core.entity.Warp;
-import net.pixlies.core.entity.user.data.PermissionProfile;
 import net.pixlies.core.entity.user.data.UserPersonalization;
 import net.pixlies.core.entity.user.data.UserSettings;
 import net.pixlies.core.entity.user.data.UserStats;
@@ -56,7 +55,6 @@ public class User {
     private UserPersonalization personalization;
     private UserSettings settings;
     private String lang;
-    private PermissionProfile permissionProfile;
     @Getter(AccessLevel.NONE) private Map<String, Object> extras;
     private final @Transient Map<String, Timer> allTimers = new HashMap<>();
 
@@ -560,7 +558,6 @@ public class User {
 
     public static @NotNull User getFromDatabase(UUID uuid) {
         User profile = instance.getDatabase().getDatastore().find(User.class).filter(Filters.gte("uuid", uuid.toString())).first();
-//      Bukkit.broadcastMessage("Using database for " + uuid);
         if (profile == null) {
             profile = new User(
                     uuid.toString(),
@@ -575,7 +572,6 @@ public class User {
                     UserPersonalization.getDefaults(),
                     UserSettings.getDefaults(),
                     "ENG",
-                    new PermissionProfile(new ArrayList<>(), new ArrayList<>()),
                     new HashMap<>()
             );
 
@@ -585,9 +581,25 @@ public class User {
 
         }
 
-        profile.save();
+        // Null check in case there's an older User version
+        User user = new User(
+                profile.uuid, // id, can't be null in the first place
+                profile.joined,
+                profile.discordId, // nullable
+                profile.nickName, // nullable
+                profile.wallets == null ? Wallet.getDefaults() : profile.wallets,
+                profile.knownUsernames == null ? new ArrayList<>() : profile.knownUsernames,
+                profile.blockedUsers  == null ? new ArrayList<>() : profile.blockedUsers,
+                profile.stats == null ? UserStats.createNew() : profile.stats,
+                profile.currentPunishments == null ? new HashMap<>() : profile.currentPunishments,
+                profile.personalization == null ? UserPersonalization.getDefaults() : profile.personalization,
+                profile.settings == null ? UserSettings.getDefaults() : profile.settings,
+                profile.lang == null ? "ENG" : profile.lang,
+                profile.extras == null ? new HashMap<>() : profile.extras
+        );
 
-        return profile;
+        user.save();
+        return user;
     }
 
 }

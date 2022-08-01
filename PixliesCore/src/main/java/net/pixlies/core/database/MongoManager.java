@@ -12,7 +12,6 @@ import lombok.Getter;
 import net.pixlies.core.Main;
 import net.pixlies.core.economy.Wallet;
 import net.pixlies.core.entity.user.User;
-import net.pixlies.core.entity.user.data.PermissionProfile;
 import net.pixlies.core.entity.user.data.UserPersonalization;
 import net.pixlies.core.entity.user.data.UserSettings;
 import net.pixlies.core.moderation.Punishment;
@@ -41,7 +40,6 @@ public class MongoManager {
                             .register(UserSettings.class)
                             .register(Wallet.class)
                             .register(UserPersonalization.class)
-                            .register(PermissionProfile.class)
                             .register(Punishment.class)
                             .build()
             )
