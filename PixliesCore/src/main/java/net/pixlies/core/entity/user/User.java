@@ -362,7 +362,7 @@ public class User {
     }
 
     public void setNickName(String name) {
-        if (nickName.equals(getAsOfflinePlayer().getName())) {
+        if (name.equals(getAsOfflinePlayer().getName())) {
             nickName = null;
             save();
             return;
