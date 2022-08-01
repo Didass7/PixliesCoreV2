@@ -18,7 +18,8 @@ public class RegisterHandlerManager {
             PollHandler.class,
             PixlieMojiHandler.class,
             FreezeHandler.class,
-            StaffChatHandler.class
+            StaffChatHandler.class,
+            TimerHandler.class
     );
 
     public void registerAllHandlers() {

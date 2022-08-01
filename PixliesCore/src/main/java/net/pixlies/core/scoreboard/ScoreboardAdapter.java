@@ -3,6 +3,7 @@ package net.pixlies.core.scoreboard;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.entity.user.timers.Timer;
+import net.pixlies.core.handlers.impl.TimerHandler;
 import net.pixlies.core.lib.io.github.thatkawaiisam.assemble.AssembleAdapter;
 import net.pixlies.core.utils.TextUtils;
 import org.bukkit.entity.Player;
@@ -16,6 +17,7 @@ import java.util.*;
 public class ScoreboardAdapter implements AssembleAdapter {
 
     private static final Main instance = Main.getInstance();
+    private static final TimerHandler timerHandler = instance.getHandlerManager().getHandler(TimerHandler.class);
 
     private static final Map<UUID, Integer> scoreboardFrames = new HashMap<>();
 
@@ -171,8 +173,16 @@ public class ScoreboardAdapter implements AssembleAdapter {
 
         }
 
-        if (user.hasTimers()) {
+        if (user.hasTimers() || timerHandler.hasGlobalTimers()) {
             lines.add("");
+
+            // GLOBAL TIMERS
+            for (Timer timer : timerHandler.getGlobalTimers()) {
+                lines.add(timer.getColor().toString() + "§l" + timer.getDisplayName() + "§8: §7" + timer.getRemainingFormatted());
+                // §c§lCombat§8: §700:00:00
+            }
+
+            // USER TIMERS
             for (Timer timer : user.getTimers()) {
                 lines.add(timer.getColor().toString() + "§l" + timer.getDisplayName() + "§8: §7" + timer.getRemainingFormatted());
                 // §c§lCombat§8: §700:00:00
