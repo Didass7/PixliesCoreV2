@@ -185,10 +185,10 @@ public class PixliesCommandManager {
                 return;
             }
             if (context.hasConfig("min") && context.getConfigValue("min", 0) > value) {
-                throw new ConditionFailedException(Lang.PIXLIES + CC.format("&7You can only enter a minimum value of &6" + context.getConfigValue("min", 0) + "."));
+                throw new ConditionFailedException(Lang.PIXLIES + CC.format("&7You can only enter a minimum value of &6" + context.getConfigValue("min", 0) + "&7."));
             }
             if (context.hasConfig("max") && context.getConfigValue("max", 3) < value) {
-                throw new ConditionFailedException(Lang.PIXLIES + CC.format("&7You can only enter a maximum value of &6 " + context.getConfigValue("max", 3) + "."));
+                throw new ConditionFailedException(Lang.PIXLIES + CC.format("&7You can only enter a maximum value of &6" + context.getConfigValue("max", 3) + "&7."));
             }
         });
     }
