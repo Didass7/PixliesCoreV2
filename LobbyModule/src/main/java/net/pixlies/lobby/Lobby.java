@@ -1,6 +1,8 @@
 package net.pixlies.lobby;
 
 import lombok.Getter;
+import net.pixlies.core.Main;
+import net.pixlies.core.handlers.impl.ScoreboardHandler;
 import net.pixlies.core.modules.Module;
 import net.pixlies.core.modules.configuration.ModuleConfig;
 import net.pixlies.core.pluginmessaging.PixliesPluginMessageManager;
@@ -11,6 +13,7 @@ import net.pixlies.lobby.managers.JumpPadManager;
 import net.pixlies.lobby.managers.LobbyManager;
 import net.pixlies.lobby.managers.QueueManager;
 import net.pixlies.lobby.messaging.PluginMessagingRegisterManager;
+import net.pixlies.lobby.scoreboard.ScoreboardAdapter;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -67,6 +70,8 @@ public class Lobby extends JavaPlugin implements Module {
         listenerManager.registerAll();
         new CommandManager().registerAll();
 
+        // SCOREBOARD
+        Main.getInstance().getHandlerManager().getHandler(ScoreboardHandler.class).load(new ScoreboardAdapter());
 
     }
 

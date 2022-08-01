@@ -106,9 +106,6 @@ public class Main extends JavaPlugin {
         // CHAT
         handlerManager.getHandler(PixlieMojiHandler.class).loadEmojis();
 
-        // SCOREBOARD
-        handlerManager.getHandler(ScoreboardHandler.class).load();
-
     }
 
     @Override
