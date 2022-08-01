@@ -6,9 +6,13 @@ import net.pixlies.core.handlers.impl.staffmode.StaffModeHandler;
 import net.pixlies.core.modules.configuration.ModuleConfig;
 import net.pixlies.core.utils.PlayerUtils;
 import net.pixlies.lobby.Lobby;
+import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
 import org.bukkit.GameMode;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -44,6 +48,18 @@ public final class LobbyUtils {
         player.getInventory().setHeldItemSlot(4); // Center of hotbar
         //noinspection deprecation
         player.sendTitle(JOIN_TITLE, JOIN_SUBTITLE);
+
+        Firework firework = player.getWorld().spawn(player.getLocation(), Firework.class);
+        firework.setTicksToDetonate(60);
+
+        FireworkMeta meta = firework.getFireworkMeta();
+        meta.addEffect(FireworkEffect.builder()
+                .flicker(true)
+                .trail(true)
+                .withColor(Color.AQUA)
+                .with(FireworkEffect.Type.STAR)
+                .build());
+        firework.setFireworkMeta(meta);
 
         if (user.getSettings().isInStaffMode()) {
             if (!firstJoin) {
