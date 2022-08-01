@@ -8,10 +8,10 @@ import net.pixlies.lobby.messaging.impl.LeaveQueueListener;
 import net.pixlies.lobby.messaging.impl.PlayerQueueListener;
 import net.pixlies.lobby.messaging.impl.QueueListener;
 
-public class PluginMessagingManager {
+public class PluginMessagingRegisterManager {
 
-    private static final Main pixlies = Main.getInstance();
-    private static final PixliesPluginMessageManager manager = pixlies.getPluginMessageManager();
+    private static final Main instance = Main.getInstance();
+    private static final PixliesPluginMessageManager manager = instance.getPluginMessageManager();
 
     private final ImmutableList<PixliesIncomingMessageListener> listeners = ImmutableList.of(
             new QueueListener(),

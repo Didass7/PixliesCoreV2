@@ -80,7 +80,7 @@ public class Main extends JavaPlugin {
         // HANDLERS
         handlerManager = new HandlerManager();
         runnableManager = new RunnableManager();
-        pluginMessageManager = new PixliesPluginMessageManager();
+        pluginMessageManager = new PixliesPluginMessageManager(this); // for modules to use as well
         pluginMessageRegisterManager = new PluginMessageRegisterManager();
         new RegisterHandlerManager().registerAllHandlers();
 

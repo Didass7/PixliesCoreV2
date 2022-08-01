@@ -3,13 +3,14 @@ package net.pixlies.lobby;
 import lombok.Getter;
 import net.pixlies.core.modules.Module;
 import net.pixlies.core.modules.configuration.ModuleConfig;
+import net.pixlies.core.pluginmessaging.PixliesPluginMessageManager;
 import net.pixlies.lobby.commands.CommandManager;
 import net.pixlies.lobby.listeners.ListenerManager;
 import net.pixlies.lobby.managers.GrapplingHookManager;
 import net.pixlies.lobby.managers.JumpPadManager;
 import net.pixlies.lobby.managers.LobbyManager;
 import net.pixlies.lobby.managers.QueueManager;
-import net.pixlies.lobby.messaging.PluginMessagingManager;
+import net.pixlies.lobby.messaging.PluginMessagingRegisterManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,7 +24,8 @@ public class Lobby extends JavaPlugin implements Module {
     ModuleConfig config;
     LobbyManager lobbyManager;
     ListenerManager listenerManager;
-    PluginMessagingManager pluginMessagingManager;
+    PluginMessagingRegisterManager pluginMessagingRegisterManager;
+    PixliesPluginMessageManager pluginMessageManager;
     JumpPadManager jumpPadManager;
     GrapplingHookManager grapplingHookManager;
     QueueManager queueManager;
@@ -56,8 +58,9 @@ public class Lobby extends JavaPlugin implements Module {
         queueManager = new QueueManager();
 
         // PLUGIN MESSAGES
-        pluginMessagingManager = new PluginMessagingManager();
-        pluginMessagingManager.registerAll();
+        pluginMessageManager = new PixliesPluginMessageManager(this);
+        pluginMessagingRegisterManager = new PluginMessagingRegisterManager();
+        pluginMessagingRegisterManager.registerAll();
 
         // COMMANDS & LISTENERS
         listenerManager = new ListenerManager();
@@ -70,7 +73,7 @@ public class Lobby extends JavaPlugin implements Module {
     @Override
     public void onDisable() {
         listenerManager.unregisterAll();
-        pluginMessagingManager.unregisterAll();
+        pluginMessagingRegisterManager.unregisterAll();
         instance = null;
     }
 

@@ -1,6 +1,6 @@
 package net.pixlies.core.pluginmessaging;
 
-import net.pixlies.core.Main;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.Messenger;
 
 /**
@@ -9,8 +9,13 @@ import org.bukkit.plugin.messaging.Messenger;
  */
 public class PixliesPluginMessageManager {
 
-    private static final Main instance = Main.getInstance();
-    private static final Messenger messenger = instance.getServer().getMessenger();
+    private final JavaPlugin instance;
+    private final Messenger messenger;
+
+    public PixliesPluginMessageManager(JavaPlugin instance) {
+        this.instance = instance;
+        this.messenger = instance.getServer().getMessenger();
+    }
 
     /**
      * Register an outgoing channel.
