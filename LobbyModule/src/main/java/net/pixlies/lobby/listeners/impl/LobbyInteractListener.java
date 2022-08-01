@@ -14,18 +14,13 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.FishHook;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockDamageEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.block.*;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.EquipmentSlot;
@@ -167,10 +162,39 @@ public class LobbyInteractListener implements Listener {
     }
 
     @EventHandler
-    public void onHurtSad(EntityDamageItemEvent event) {
+    public void onHurtItem(EntityDamageItemEvent event) {
         if (!(event.getEntity() instanceof Player player)) return;
         if (lobbyManager.isInBuildMode(player.getUniqueId())) return;
         event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onEntityTarget(EntityTargetEvent event) {
+        if (!(event.getEntity() instanceof Player player)) return;
+        if (lobbyManager.isInBuildMode(player.getUniqueId())) return;
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
+        if (!(event.getEntity() instanceof Player player)) return;
+        if (lobbyManager.isInBuildMode(player.getUniqueId())) return;
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onEntityDamageByBlock(EntityDamageByBlockEvent event) {
+        if (!(event.getEntity() instanceof Player player)) return;
+        if (lobbyManager.isInBuildMode(player.getUniqueId())) return;
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onDie(PlayerDeathEvent event) {
+        Player player = event.getPlayer();
+        if (lobbyManager.isInBuildMode(player.getUniqueId())) return;
+        event.setCancelled(true);
+        LobbyUtils.resetPlayer(player);
     }
 
     @EventHandler
@@ -195,8 +219,12 @@ public class LobbyInteractListener implements Listener {
         if (!(event.getEntity() instanceof Player player)) {
             return;
         }
-        User user = User.get(player.getUniqueId());
         if (lobbyManager.isInBuildMode(player.getUniqueId())) return;
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onPhysics(BlockPhysicsEvent event) {
         event.setCancelled(true);
     }
 
