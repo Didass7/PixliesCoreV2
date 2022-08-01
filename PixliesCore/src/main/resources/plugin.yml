@@ -13,3 +13,4 @@ libraries:
     - com.github.stefvanschie.inventoryframework:IF:0.10.0
     - commons-io:commons-io:2.11.0
     - org.ocpsoft.prettytime:prettytime:5.0.2.Final
+    - joda-time:joda-time:jar:2.10.14

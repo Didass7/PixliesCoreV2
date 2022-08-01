@@ -500,7 +500,7 @@ public class User {
      * @return True if it has timers; False if no timers.
      */
     public boolean hasTimers() {
-        return allTimers.size() > 0;
+        return getTimers().size() > 0;
     }
 
     /**

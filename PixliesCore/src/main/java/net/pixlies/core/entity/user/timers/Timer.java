@@ -3,8 +3,10 @@ package net.pixlies.core.entity.user.timers;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.bukkit.ChatColor;
+import org.joda.time.Duration;
+import org.joda.time.format.PeriodFormatter;
+import org.joda.time.format.PeriodFormatterBuilder;
 
-import java.text.SimpleDateFormat;
 import java.util.UUID;
 
 /**
@@ -14,6 +16,27 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 public class Timer {
+
+    private final PeriodFormatter aboveMinuteFormatter = new PeriodFormatterBuilder()
+            .minimumPrintedDigits(2)
+            .printZeroRarelyFirst()
+            .appendDays()
+            .appendSeparator(":")
+            .appendHours()
+            .appendSeparator(":")
+            .printZeroAlways()
+            .appendMinutes()
+            .appendSeparator(":")
+            .appendSeconds()
+            .toFormatter();
+
+    private final PeriodFormatter belowMinuteFormatter = new PeriodFormatterBuilder()
+            .minimumPrintedDigits(2)
+            .printZeroAlways()
+            .appendSeconds()
+            .appendSeparator(".")
+            .appendMillis3Digit()
+            .toFormatter();
 
     private final UUID uniqueId = UUID.randomUUID();
     private ChatColor color;
@@ -26,14 +49,14 @@ public class Timer {
      * @return True if completed; False if ongoing.
      */
     public boolean isExpired() {
-        return startTime < getEndTime();
+        return System.currentTimeMillis() > getEndTime();
     }
 
     /**
      * Reset the timer.
      */
     public void reset() {
-        long newStartTime = System.currentTimeMillis();
+        startTime = System.currentTimeMillis();
     }
 
     /**
@@ -49,7 +72,13 @@ public class Timer {
      * @return Formatted duration
      */
     public String getRemainingFormatted() {
-        return new SimpleDateFormat("hh:mm:ss").format(getEndTime());
+        long remaining = getTimeRemaining();
+        Duration duration = new Duration(remaining);
+        if (remaining < 60000) { // 1 hour
+            String formatted = belowMinuteFormatter.print(duration.toPeriod().normalizedStandard()); // mm:ss.SS
+            return formatted.substring(0, formatted.length() - 1);
+        }
+        return aboveMinuteFormatter.print(duration.toPeriod().normalizedStandard()); // dd:hh:mm:ss
     }
 
     /**
@@ -59,7 +88,7 @@ public class Timer {
      */
     public long getTimeRemaining() {
         if (isExpired()) return 0;
-        return getEndTime() - startTime;
+        return getEndTime() - System.currentTimeMillis();
     }
 
 }
