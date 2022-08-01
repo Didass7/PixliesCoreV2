@@ -513,14 +513,6 @@ public class User {
     }
 
     /**
-     * Add the timer to the timer list
-     * @param timer The timer to add
-     */
-    public void addGlobalTimer(Timer timer) {
-        allTimers.put(timer.getUniqueId().toString(), timer);
-    }
-
-    /**
      * Set the scoreboard scoreboardType for the user.
      * @param scoreboardType The scoreboard scoreboardType
      * @see ScoreboardType
