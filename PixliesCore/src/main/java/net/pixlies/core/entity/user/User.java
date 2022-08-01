@@ -56,7 +56,7 @@ public class User {
     private UserSettings settings;
     private String lang;
     @Getter(AccessLevel.NONE) private Map<String, Object> extras;
-    private final @Transient Map<String, Timer> allTimers = new HashMap<>();
+    private final transient Map<String, Timer> allTimers = new HashMap<>();
 
     public Map<String, Object> getExtras() {
         if (extras == null) extras = new HashMap<>();
@@ -362,6 +362,11 @@ public class User {
     }
 
     public void setNickName(String name) {
+        if (nickName.equals(getAsOfflinePlayer().getName())) {
+            nickName = null;
+            save();
+            return;
+        }
         if (name.length() > 16 || name.isEmpty()) {
             throw new IllegalArgumentException("Illegal nickname. Current length: " + name.length());
         }

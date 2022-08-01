@@ -27,6 +27,7 @@ public class ScoreboardHandler implements Handler {
     public void unload() {
         if (assemble == null) return;
         assemble.cleanup();
+        assemble = null;
     }
 
 }

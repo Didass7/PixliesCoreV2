@@ -107,7 +107,7 @@ public class Main extends JavaPlugin {
         handlerManager.getHandler(PixlieMojiHandler.class).loadEmojis();
 
         // SCOREBOARD
-//      handlerManager.getHandler(ScoreboardHandler.class).load();
+        handlerManager.getHandler(ScoreboardHandler.class).load();
 
     }
 
