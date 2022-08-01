@@ -2,6 +2,7 @@ package net.pixlies.lobby.listeners.impl;
 
 import com.destroystokyo.paper.event.player.PlayerAdvancementCriterionGrantEvent;
 import io.papermc.paper.event.entity.EntityDamageItemEvent;
+import io.papermc.paper.event.entity.EntityInsideBlockEvent;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.lobby.Lobby;
 import net.pixlies.lobby.managers.GrapplingHookManager;
@@ -216,6 +217,15 @@ public class LobbyInteractListener implements Listener {
 
     @EventHandler
     public void onHungerChange(FoodLevelChangeEvent event) {
+        if (!(event.getEntity() instanceof Player player)) {
+            return;
+        }
+        if (lobbyManager.isInBuildMode(player.getUniqueId())) return;
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onSuffocate(EntityInsideBlockEvent event) {
         if (!(event.getEntity() instanceof Player player)) {
             return;
         }

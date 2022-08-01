@@ -1,6 +1,7 @@
 package net.pixlies.core.listeners.moderation;
 
 import com.destroystokyo.paper.event.player.PlayerAdvancementCriterionGrantEvent;
+import io.papermc.paper.event.entity.EntityInsideBlockEvent;
 import net.kyori.adventure.text.Component;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.user.User;
@@ -40,6 +41,14 @@ public class PassiveListener implements Listener {
 
     @EventHandler
     public void onEntityTarget(EntityTargetEvent event) {
+        if (!(event.getEntity() instanceof Player player)) return;
+        User user = User.get(player.getUniqueId());
+        if (!user.getSettings().isPassive()) return;
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onSuffocate(EntityInsideBlockEvent event) {
         if (!(event.getEntity() instanceof Player player)) return;
         User user = User.get(player.getUniqueId());
         if (!user.getSettings().isPassive()) return;
