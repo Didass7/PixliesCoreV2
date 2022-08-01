@@ -33,8 +33,4 @@ public class TimerHandler implements Handler {
         return allGlobalTimers.containsKey(identifier);
     }
 
-    public void addGlobalTimer(Timer timer) {
-        allGlobalTimers.put(timer.getUniqueId().toString(), timer);
-    }
-
 }
