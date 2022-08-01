@@ -2,6 +2,7 @@ package net.pixlies.lobby.listeners.impl;
 
 import com.destroystokyo.paper.event.player.PlayerAdvancementCriterionGrantEvent;
 import io.papermc.paper.event.entity.EntityDamageItemEvent;
+import io.papermc.paper.event.player.PlayerItemFrameChangeEvent;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.lobby.Lobby;
 import net.pixlies.lobby.managers.GrapplingHookManager;
@@ -116,6 +117,12 @@ public class LobbyInteractListener implements Listener {
         event.setCancelled(true);
     }
 
+    @EventHandler
+    public void onItemFrame(PlayerItemFrameChangeEvent event) {
+        Player player = event.getPlayer();
+        if (lobbyManager.isInBuildMode(player.getUniqueId())) return;
+        event.setCancelled(true);
+    }
 
     @EventHandler
     public void onBreak(BlockBreakEvent event) {

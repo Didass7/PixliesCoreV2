@@ -2,13 +2,13 @@ package net.pixlies.core.listeners.moderation;
 
 import com.destroystokyo.paper.event.player.PlayerAdvancementCriterionGrantEvent;
 import io.papermc.paper.event.entity.EntityInsideBlockEvent;
+import io.papermc.paper.event.player.PlayerItemFrameChangeEvent;
 import net.kyori.adventure.text.Component;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.handlers.impl.PassiveHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
-import org.bukkit.block.Chest;
 import org.bukkit.block.Container;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -19,7 +19,6 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -89,6 +88,14 @@ public class PassiveListener implements Listener {
 
     @EventHandler
     public void onAdvancement(PlayerAdvancementCriterionGrantEvent event) {
+        Player player = event.getPlayer();
+        User user = User.get(player.getUniqueId());
+        if (!user.getSettings().isPassive()) return;
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onItemFrame(PlayerItemFrameChangeEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
         if (!user.getSettings().isPassive()) return;
