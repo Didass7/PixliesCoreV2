@@ -5,7 +5,7 @@ import net.pixlies.core.entity.user.User;
 import net.pixlies.core.entity.user.timers.Timer;
 import net.pixlies.core.handlers.impl.TimerHandler;
 import net.pixlies.core.lib.io.github.thatkawaiisam.assemble.AssembleAdapter;
-import net.pixlies.core.utils.TextUtils;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -54,9 +54,9 @@ public abstract class PixliesScoreboardAdapter implements AssembleAdapter {
             // TODO: make this look pretty
             lines.add("");
             lines.add("§3§lStaff");
-            lines.add("§3Staff Mode§8: " + (isInStaffMode ? "§aEnabled" : "§cDisabled"));
-            lines.add("§3Vanish§8: " + (vanished ? "§aEnabled" : "§cDisabled"));
-            lines.add("§3Game Mode§8: " + TextUtils.getGameModeFormatted(player.getGameMode()));
+            lines.add("§bStaff Mode§7: " + (isInStaffMode ? "Enabled" : "Disabled"));
+            lines.add("§bVanish§7: " + (vanished ? "Enabled" : "Disabled"));
+            lines.add("§bGame Mode§7: " + getGameModeFormat(player.getGameMode()));
 
         }
 
@@ -107,5 +107,13 @@ public abstract class PixliesScoreboardAdapter implements AssembleAdapter {
     public abstract @NotNull List<String> getStandard(Player player);
 
     public abstract @NotNull List<Timer> getExtraTimers(Player player);
+    private static String getGameModeFormat(GameMode mode) {
+        return switch(mode) {
+            case CREATIVE -> "Creative";
+            case SURVIVAL -> "Survival";
+            case ADVENTURE -> "Adventure";
+            case SPECTATOR -> "Spectator";
+        };
+    }
 
 }
