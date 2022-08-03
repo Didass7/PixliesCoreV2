@@ -13,6 +13,7 @@ import net.pixlies.core.Main;
 import net.pixlies.core.economy.Wallet;
 import net.pixlies.core.entity.Warp;
 import net.pixlies.core.entity.user.timers.Timer;
+import net.pixlies.core.entity.user.timers.impl.TeleportTimer;
 import net.pixlies.core.house.House;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.moderation.Punishment;
@@ -24,6 +25,7 @@ import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.ocpsoft.prettytime.PrettyTime;
 
@@ -434,20 +436,12 @@ public class User {
     }
 
     /**
-     * Updates the timers list. Will purge all expired timers.
+     * Updates the timers list.
      * Use this to get timers.
      * @return All non-expired timers
      */
     public Collection<Timer> getTimers() {
         if (allTimers.isEmpty()) return Collections.emptyList();
-        for (Map.Entry<String, Timer> entry : allTimers.entrySet()) {
-            String identifier = entry.getKey();
-            Timer timer = entry.getValue();
-            if (!timer.isExpired()) {
-                continue;
-            }
-            allTimers.remove(identifier);
-        }
         List<Timer> timers = new ArrayList<>(allTimers.values());
         timers.sort(Comparator.comparing(Timer::getDisplayName));
         return timers;
@@ -460,16 +454,50 @@ public class User {
      * @param timed False if it should instantly teleport.
      */
     public void teleport(@NotNull Location location, boolean timed) {
-        // TODO: literally everything, fix this soon
         if (!this.getAsOfflinePlayer().isOnline()) return;
         Player player = this.getAsOfflinePlayer().getPlayer();
         if (player == null) return;
 
-        if (timed) {
-            // do this soon
+        if (timed && !bypassing && !passive && Main.getInstance().getConfig().getBoolean("warpSettings.timedTeleports", true)) {
+            TeleportTimer timer = new TeleportTimer(System.currentTimeMillis());
+            allTimers.put(TeleportTimer.ID, timer);
+
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+
+                    if (allTimers.get(TeleportTimer.ID) == null) {
+                        cancel();
+                    }
+
+                    if (timer.isExpired()) {
+                        allTimers.remove(TeleportTimer.ID);
+                        player.teleport(location);
+                        cancel();
+                    }
+
+                }
+            }.runTaskTimer(Main.getInstance(), 1, 1);
+
+            return;
         }
 
-        player.teleport(location); // FIXME: instant teleport, this isnt timed at all
+        player.teleport(location);
+    }
+
+    /**
+     * Cancel an active teleportation timer.
+     */
+    public void cancelTeleport() {
+        allTimers.remove(TeleportTimer.ID);
+    }
+
+    /**
+     * Check if the user is currently teleporting with a timer.
+     * @return True if the user is teleporting, false if the user is not.
+     */
+    public boolean isTeleporting() {
+        return allTimers.containsKey(TeleportTimer.ID);
     }
 
     /**

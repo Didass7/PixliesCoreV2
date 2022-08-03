@@ -46,16 +46,18 @@ public abstract class PixliesScoreboardAdapter implements AssembleAdapter {
         User user = User.get(player.getUniqueId());
         ScoreboardType scoreboardType = user.getScoreboardType();
 
-        if (user.isPassive()) {
+        if (user.isPassive() || user.isBypassing()) {
 
             boolean isInStaffMode = user.isInStaffMode();
             boolean vanished = user.isVanished();
+            boolean bypassing = user.isBypassing();
 
             // TODO: make this look pretty
             lines.add("");
             lines.add("§3§lStaff");
             lines.add("§bStaff Mode§7: " + (isInStaffMode ? "Enabled" : "Disabled"));
             lines.add("§bVanish§7: " + (vanished ? "Enabled" : "Disabled"));
+            lines.add("§bBypass§7: " + (bypassing ? "Enabled" : "Disabled"));
             lines.add("§bGame Mode§7: " + getGameModeFormat(player.getGameMode()));
 
         }
@@ -76,19 +78,19 @@ public abstract class PixliesScoreboardAdapter implements AssembleAdapter {
 
             // GLOBAL TIMERS
             for (Timer timer : timerHandler.getGlobalTimers()) {
-                lines.add(timer.getColor().toString() + "§l" + timer.getDisplayName() + "§8: §7" + timer.getRemainingFormatted());
+                lines.add(timer.getColor().toString() + "§l" + timer.getDisplayName() + "§7: §f" + timer.getRemainingFormatted());
                 // §c§lCombat§8: §700:00:00
             }
 
             // EXTRA TIMERS
             for (Timer timer : extraTimers) {
-                lines.add(timer.getColor().toString() + "§l" + timer.getDisplayName() + "§8: §7" + timer.getRemainingFormatted());
+                lines.add(timer.getColor().toString() + "§l" + timer.getDisplayName() + "§7: §f" + timer.getRemainingFormatted());
                 // §c§lCombat§8: §700:00:00
             }
 
             // USER TIMERS
             for (Timer timer : user.getTimers()) {
-                lines.add(timer.getColor().toString() + "§l" + timer.getDisplayName() + "§8: §7" + timer.getRemainingFormatted());
+                lines.add(timer.getColor().toString() + "§l" + timer.getDisplayName() + "§7: §f" + timer.getRemainingFormatted());
                 // §c§lCombat§8: §700:00:00
             }
 

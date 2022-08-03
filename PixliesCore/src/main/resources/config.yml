@@ -48,6 +48,9 @@ commands:
 scoreboard:
     enabled: true
 
+warpSettings:
+    timedTeleports: true
+
 warps:
     spawn:
         name: "Spawn"

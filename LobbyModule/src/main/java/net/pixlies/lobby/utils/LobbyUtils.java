@@ -36,10 +36,9 @@ public final class LobbyUtils {
         User user = User.get(player.getUniqueId());
 
         PlayerUtils.heal(player);
-        user.teleportToSpawn();
+        user.teleportToSpawn(false);
         player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
         player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, config.getInt("walkspeed.level", 1), false, false, false));
-        player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 80, Integer.MAX_VALUE,false, false, false)); // 5 seconds
         player.setBedSpawnLocation(null, true);
         player.setExp(0);
         player.setHealth(Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue());

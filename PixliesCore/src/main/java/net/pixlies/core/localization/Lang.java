@@ -148,6 +148,7 @@ public enum Lang {
     TPACCEPT_PLAYER_NOT_ONLINE(Lang.PIXLIES, new HashMap<>()),
     RETURNED_TO_PREVIOUS_LOCATION(Lang.PIXLIES, new HashMap<>()),
     TPBACK_NO_LOCATION(Lang.PIXLIES, new HashMap<>()),
+    TP_CANCEL(Lang.PIXLIES, new HashMap<>()),
 
     // MODERATION
     MODERATION_GLOBAL_PVP_ON(Lang.PIXLIES, new HashMap<>()),

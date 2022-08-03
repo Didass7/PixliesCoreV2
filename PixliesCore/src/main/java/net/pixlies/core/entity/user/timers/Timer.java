@@ -31,18 +31,18 @@ public class Timer {
             .toFormatter();
 
     private final PeriodFormatter belowMinuteFormatter = new PeriodFormatterBuilder()
-            .minimumPrintedDigits(2)
+            .minimumPrintedDigits(1)
             .printZeroAlways()
             .appendSeconds()
             .appendSeparator(".")
             .appendMillis3Digit()
             .toFormatter();
 
-    private final UUID uniqueId = UUID.randomUUID();
+    private final UUID identifier = UUID.randomUUID();
     private ChatColor color;
     private String displayName;
     private long startTime;
-    private final long duration;
+    private long duration;
 
     /**
      * Check if the timer has finished.
@@ -50,6 +50,10 @@ public class Timer {
      */
     public boolean isExpired() {
         return System.currentTimeMillis() > getEndTime();
+    }
+
+    public void expire() {
+        duration = 0;
     }
 
     /**
@@ -74,9 +78,9 @@ public class Timer {
     public String getRemainingFormatted() {
         long remaining = getTimeRemaining();
         Duration duration = new Duration(remaining);
-        if (remaining < 60000) { // 1 hour
+        if (remaining < 60000) { // 1 minute
             String formatted = belowMinuteFormatter.print(duration.toPeriod().normalizedStandard()); // mm:ss.SS
-            return formatted.substring(0, formatted.length() - 1);
+            return formatted.substring(0, formatted.length() - 2);
         }
         return aboveMinuteFormatter.print(duration.toPeriod().normalizedStandard()); // dd:hh:mm:ss
     }
