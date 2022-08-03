@@ -7,7 +7,6 @@ import net.pixlies.core.utils.CC;
 import net.pixlies.core.utils.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -56,7 +55,7 @@ public class TpCommand extends BaseCommand {
                     // SENDER TP PLAYER TO PLAYER
                     Player player = Bukkit.getPlayer(args[0]);
                     Player target = Bukkit.getPlayer(args[1]);
-                    if (player == null || target == null || player.equals(sender) || target.equals(sender)) {
+                    if (player == null || target == null) {
                         if (!(sender instanceof Player)) {
                             throw new ConditionFailedException(MessageKeys.NOT_ALLOWED_ON_CONSOLE);
                         }
@@ -65,7 +64,7 @@ public class TpCommand extends BaseCommand {
 
                     player.teleport(target);
                     Lang.STAFF_TELEPORT_PLAYER_TO_TARGET.send(sender,
-                            "%PLAYER%;" + target.getName(),
+                            "%PLAYER%;" + player.getName(),
                             "%TARGET%;" + target.getName());
                     return;
                 }
