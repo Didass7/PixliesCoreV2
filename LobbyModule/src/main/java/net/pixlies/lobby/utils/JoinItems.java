@@ -76,7 +76,7 @@ public final class JoinItems {
                             .addLoreLine(CC.format("&7The only Earth without global warming."))
                             .addLoreLine(CC.format(PlaceholderAPI.setPlaceholders(player, "&7Online: %bungee_earth%/" + config.getInt("servers.Earth.max-players", 200))))
                             .addLoreLine("")
-                            .addLoreLine(CC.format("&aClick to join the queue!"))
+                            .addLoreLine(CC.format("&aLeft Click&7 to join the queue!"))
                             // earth head texture
                             .setSkullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmRkZTU5NGRlYWQ4OGIzNWJjMjFhZDFhYjIzOGRjYWU0MTEyNTNlMzRhNTg1ZDkyNTI1OGNlNjc0YzY0MjYxNyJ9fX0=")
                             .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
@@ -89,7 +89,7 @@ public final class JoinItems {
                             .setDisplayName(CC.format("&cPvP"))
                             .addLoreLine(CC.format("&7Warp to the PvP arena."))
                             .addLoreLine("")
-                            .addLoreLine(CC.format("&aClick to warp!"))
+                            .addLoreLine(CC.format("&aLeft Click&7 to warp!"))
                             .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
                             .build(), e -> player.performCommand("pvp"));
                     pane.addItem(pvpHead, 2, 2);
@@ -100,7 +100,7 @@ public final class JoinItems {
                             .addLoreLine(CC.format("&7The only place where we can be free."))
                             .addLoreLine(CC.format(PlaceholderAPI.setPlaceholders(player, "&7Online: %bungee_development%/" + config.getInt("servers.Earth.max-players", 200))))
                             .addLoreLine("")
-                            .addLoreLine(CC.format("&aClick to join the queue!"))
+                            .addLoreLine(CC.format("&aLeft Click&7 to join the queue!"))
                             // gaming computer head texture
                             .setSkullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjhiY2NkOGQ5MTZhMTk2MGVkMzA0Zjk5ZDgxYjliZTY3NmFjODIxYjFhMWMzNTZiMzgwODMwNTc1YTQ0NDRlMyJ9fX0=")
                             .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
@@ -116,11 +116,12 @@ public final class JoinItems {
                             .setDisplayName(CC.format("&6Info"))
                             .addLoreLine(CC.format("&7Join our Discord at pixlies.net/discord."))
                             .addLoreLine("")
-                            .addLoreLine(CC.format("&aClick for more info!"))
+                            .addLoreLine(CC.format("&aLeft Click&7 for more info!"))
                             .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
                             .build(), e -> player.performCommand("discord"));
                     pane.addItem(aboutBook, 6, 2);
 
+                    pane.setOnClick(e -> e.getWhoClicked().closeInventory());
                     gui.addPane(pane);
                     gui.show(event.getPlayer());
 
