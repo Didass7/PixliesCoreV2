@@ -31,6 +31,11 @@ public class ActionBarRunnable extends PixliesRunnable {
             if (user.isVanished()) {
                 if (user.isInStaffMode()) return;
                 player.sendActionBar(Component.text(Lang.MODERATION_VANISH_NO_ONE_CAN_SEE.get(player)));
+                return;
+            }
+            if (user.isBypassing()) {
+                if (user.isInStaffMode()) return;
+                player.sendActionBar(Component.text(Lang.STAFF_BYPASS_ACTIONBAR.get(player)));
             }
         });
     }
