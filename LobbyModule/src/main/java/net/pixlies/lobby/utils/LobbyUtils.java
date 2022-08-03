@@ -48,23 +48,25 @@ public final class LobbyUtils {
         //noinspection deprecation
         player.sendTitle(JOIN_TITLE, JOIN_SUBTITLE);
 
-        Firework firework = player.getWorld().spawn(player.getLocation(), Firework.class);
-        firework.setTicksToDetonate(60);
-
-        FireworkMeta meta = firework.getFireworkMeta();
-        meta.addEffect(FireworkEffect.builder()
-                .flicker(true)
-                .trail(true)
-                .withColor(Color.AQUA)
-                .with(FireworkEffect.Type.STAR)
-                .build());
-        firework.setFireworkMeta(meta);
-
         if (user.isInStaffMode()) {
             if (!firstJoin) {
                 Main.getInstance().getHandlerManager().getHandler(StaffModeHandler.class).enableWithoutUpdate(player, user);
             }
             return;
+        }
+
+        if (!user.isPassive()) {
+            Firework firework = player.getWorld().spawn(player.getLocation(), Firework.class);
+            firework.setTicksToDetonate(60);
+
+            FireworkMeta meta = firework.getFireworkMeta();
+            meta.addEffect(FireworkEffect.builder()
+                    .flicker(true)
+                    .trail(true)
+                    .withColor(Color.AQUA)
+                    .with(FireworkEffect.Type.STAR)
+                    .build());
+            firework.setFireworkMeta(meta);
         }
 
         JoinItems.give(player);
