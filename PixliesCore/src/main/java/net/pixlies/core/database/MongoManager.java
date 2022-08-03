@@ -12,8 +12,6 @@ import lombok.Getter;
 import net.pixlies.core.Main;
 import net.pixlies.core.economy.Wallet;
 import net.pixlies.core.entity.user.User;
-import net.pixlies.core.entity.user.data.UserPersonalization;
-import net.pixlies.core.entity.user.data.UserSettings;
 import net.pixlies.core.moderation.Punishment;
 import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
@@ -37,9 +35,7 @@ public class MongoManager {
             MongoClientSettings.getDefaultCodecRegistry(),
             CodecRegistries.fromProviders(
                     PojoCodecProvider.builder()
-                            .register(UserSettings.class)
                             .register(Wallet.class)
-                            .register(UserPersonalization.class)
                             .register(Punishment.class)
                             .build()
             )

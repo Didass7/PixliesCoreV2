@@ -22,9 +22,9 @@ public class VanishListener implements Listener {
         User user = User.get(player.getUniqueId());
 
         // STAFF
-        if (user.getSettings().isVanished() && player.hasPermission("pixlies.moderation.vanish")) {
+        if (user.isVanished() && player.hasPermission("pixlies.moderation.vanish")) {
             handler.vanish(player, false);
-        } else if (user.getPersonalization().isJoinVanish() && player.hasPermission("pixlies.moderation.vanish")) {
+        } else if (user.isJoinVanish() && player.hasPermission("pixlies.moderation.vanish")) {
             handler.vanish(player, true);
         }
 
@@ -39,7 +39,7 @@ public class VanishListener implements Listener {
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (user.getSettings().isVanished()) return;
+        if (user.isVanished()) return;
         handler.unvanish(player, false);
     }
 
@@ -47,7 +47,7 @@ public class VanishListener implements Listener {
     public void onWorldChange(PlayerChangedWorldEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (!user.getSettings().isVanished()) return;
+        if (!user.isVanished()) return;
         instance.getServer().getOnlinePlayers().forEach(target -> {
             if (target.hasPermission("pixlies.moderation.vanish.exempt")) return;
             target.hidePlayer(instance, player);
@@ -58,7 +58,7 @@ public class VanishListener implements Listener {
     public void onCropTrample(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (!user.getSettings().isVanished()) return;
+        if (!user.isVanished()) return;
         if (event.getAction() != Action.PHYSICAL) return;
         if (event.getClickedBlock() == null) return;
         if (event.getClickedBlock().getType() != Material.FARMLAND) return;
@@ -69,7 +69,7 @@ public class VanishListener implements Listener {
     public void onItemPickup(PlayerAttemptPickupItemEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (!user.getSettings().isVanished()) return;
+        if (!user.isVanished()) return;
         event.setCancelled(true);
     }
 

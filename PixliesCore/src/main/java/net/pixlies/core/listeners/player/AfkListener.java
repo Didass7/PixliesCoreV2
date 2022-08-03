@@ -15,7 +15,7 @@ public class AfkListener implements Listener {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
 
-        if (user.getSettings().isPassive()) return;
+        if (user.isPassive()) return;
 
         if (event.isGoingAfk()) {
             Lang.PLAYER_AFK_ON_BROADCAST.broadcast("%PLAYER%;" + player.getName());

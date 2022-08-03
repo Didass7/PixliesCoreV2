@@ -74,7 +74,7 @@ public class OrderBook {
 
     public void buy(Order order) {
         User user = User.get(order.getPlayerUUID());
-        user.getStats().addBuy();
+        user.addBuy();
         user.save();
 
         instance.getStats().set("market.buyOrders", instance.getStats().getInt("market.buyOrders") + 1);
@@ -86,7 +86,7 @@ public class OrderBook {
 
     public void sell(Order order) {
         User user = User.get(order.getPlayerUUID());
-        user.getStats().addSell();
+        user.addSell();
         user.save();
 
         instance.getStats().set("market.sellOrders", instance.getStats().getInt("market.sellOrders") + 1);
@@ -134,24 +134,24 @@ public class OrderBook {
 
         User initial = User.get(initialOrder.getPlayerUUID());
         User match = User.get(matchingOrder.getPlayerUUID());
-        initial.getStats().addTrade();
-        match.getStats().addTrade();
+        initial.addTrade();
+        match.addTrade();
 
         Trade trade = null;
         switch (type) {
             case BUY -> {
                 trade = new Trade(System.currentTimeMillis(), price, traded, null, null, initialOrder.getPlayerUUID(), matchingOrder.getPlayerUUID(), false);
-                match.getStats().addMoneyGained(total);
-                match.getStats().addItemsSold(traded);
-                initial.getStats().addMoneySpent(total);
-                initial.getStats().addItemsBought(traded);
+                match.addMoneyGained(total);
+                match.addItemsSold(traded);
+                initial.addMoneySpent(total);
+                initial.addItemsBought(traded);
             }
             case SELL -> {
                 trade = new Trade(System.currentTimeMillis(), price, traded, initialOrder.getPlayerUUID(), matchingOrder.getPlayerUUID(), null, null, false);
-                initial.getStats().addMoneyGained(total);
-                initial.getStats().addItemsSold(traded);
-                match.getStats().addMoneySpent(total);
-                match.getStats().addItemsBought(traded);
+                initial.addMoneyGained(total);
+                initial.addItemsSold(traded);
+                match.addMoneySpent(total);
+                match.addItemsBought(traded);
             }
         }
 

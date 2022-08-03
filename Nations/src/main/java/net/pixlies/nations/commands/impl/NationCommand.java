@@ -93,7 +93,7 @@ public class NationCommand extends BaseCommand {
                     return;
                 }
 
-                boolean staffCondition = user.getSettings().isBypassing() && player.hasPermission("nations.staff.forcerename");
+                boolean staffCondition = user.isBypassing() && player.hasPermission("nations.staff.forcerename");
                 boolean playerCondition = profile.getNationRank().equals(NationRank.leader().getName());
 
                 if (!(staffCondition || playerCondition)) {
@@ -114,7 +114,7 @@ public class NationCommand extends BaseCommand {
                     return;
                 }
 
-                boolean staffCondition = user.getSettings().isBypassing() && player.hasPermission("nations.staff.forcerename");
+                boolean staffCondition = user.isBypassing() && player.hasPermission("nations.staff.forcerename");
 
                 if (!staffCondition) {
                     Lang.NATION_NO_PERMISSION.send(player);
@@ -156,7 +156,7 @@ public class NationCommand extends BaseCommand {
             User user = User.get(player.getUniqueId());
             NationProfile profile = NationProfile.get(user);
 
-            boolean staffCondition = user.getSettings().isBypassing() && player.hasPermission("nations.staff.forcedisband");
+            boolean staffCondition = user.isBypassing() && player.hasPermission("nations.staff.forcedisband");
             boolean playerCondition = profile != null ? profile.getNationRank().equals(NationRank.leader().getName()) : staffCondition;
 
             if (nationName == null || nationName.isEmpty()) {
@@ -209,7 +209,7 @@ public class NationCommand extends BaseCommand {
         User user = User.get(player.getUniqueId());
         NationProfile profile = NationProfile.get(user);
 
-        boolean staffCondition = user.getSettings().isBypassing() && player.hasPermission("nations.staff.forcedisband");
+        boolean staffCondition = user.isBypassing() && player.hasPermission("nations.staff.forcedisband");
         boolean playerCondition = profile.getNationRank().equals(NationRank.leader().getName());
 
         if (staffCondition || playerCondition) {

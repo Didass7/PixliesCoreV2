@@ -49,14 +49,14 @@ public enum NationPermission {
     public boolean hasPermission(CommandSender sender) {
         if (!(sender instanceof Player)) return true;
         User user = User.get(((Player) sender).getUniqueId());
-        if (user.getSettings().isBypassing()) return true;
+        if (user.isBypassing()) return true;
         return hasPermission(user);
     }
 
     public boolean hasPermission(User user) {
         NationProfile profile = NationProfile.get(user);
         if (profile == null) return false;
-        if (user.getSettings().isBypassing()) return true;
+        if (user.isBypassing()) return true;
         if (profile.isLeader()) return true;
         NationRank rank = profile.getRank();
         return rank.getPermissions().contains(this.name());

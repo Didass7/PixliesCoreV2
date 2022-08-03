@@ -40,7 +40,7 @@ public class LockCommand extends BaseCommand {
 
         if (container.has(key, PersistentDataType.PrimitivePersistentDataType.STRING)) {
 
-            if (!ownerUuid.equals(player.getUniqueId().toString()) || !(user.getSettings().isBypassing() && player.hasPermission("pixlies.staff.lockedchests"))) {
+            if (!ownerUuid.equals(player.getUniqueId().toString()) || !(user.isBypassing() && player.hasPermission("pixlies.staff.lockedchests"))) {
                 Lang.CHEST_BELONGS_TO_OTHER.send(player, "%PLAYER%;" + user.getNickName());
                 return;
             }

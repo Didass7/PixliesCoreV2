@@ -7,7 +7,6 @@ import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.business.market.orders.OrderItem;
 import net.pixlies.business.market.orders.Trade;
 import net.pixlies.core.entity.user.User;
-import net.pixlies.core.entity.user.data.UserStats;
 import net.pixlies.core.utils.ItemBuilder;
 import net.pixlies.core.utils.PlayerUtils;
 import net.pixlies.nations.interfaces.NationProfile;
@@ -37,19 +36,18 @@ public final class MarketItems {
 
     public static ItemStack getProfileStats(Player player) {
         User user = User.get(player.getUniqueId());
-        UserStats stats = user.getStats();
 
         return new ItemBuilder(PlayerUtils.getSkull(player.getUniqueId()))
                 .setDisplayName("§6" + player.getName() + "'s stats")
                 .addLoreLine(" ")
-                .addLoreLine("§7Buy orders made: §b" + stats.getBuyOrdersMade())
-                .addLoreLine("§7Sell orders made: §b" + stats.getSellOrdersMade())
-                .addLoreLine("§7Trades made: §a" + stats.getTradesMade())
+                .addLoreLine("§7Buy orders made: §b" + user.getBuyOrdersMade())
+                .addLoreLine("§7Sell orders made: §b" + user.getSellOrdersMade())
+                .addLoreLine("§7Trades made: §a" + user.getTradesMade())
                 .addLoreLine(" ")
-                .addLoreLine("§7Money spent: §6" + stats.getMoneySpent() + " coins")
-                .addLoreLine("§7Money gained: §6" + stats.getMoneyGained() + " coins")
-                .addLoreLine("§7Items sold: §d" + stats.getMoneySpent() + " items")
-                .addLoreLine("§7Items bought: §d" + stats.getMoneyGained() + " items")
+                .addLoreLine("§7Money spent: §6" + user.getMoneySpent() + " coins")
+                .addLoreLine("§7Money gained: §6" + user.getMoneyGained() + " coins")
+                .addLoreLine("§7Items sold: §d" + user.getMoneySpent() + " items")
+                .addLoreLine("§7Items bought: §d" + user.getMoneyGained() + " items")
                 .addLoreLine(" ")
                 /*
                 .addLoreLine("§7Item most sold: §3" + a)

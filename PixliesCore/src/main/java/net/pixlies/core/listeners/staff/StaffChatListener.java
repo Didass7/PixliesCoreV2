@@ -24,7 +24,7 @@ public class StaffChatListener implements Listener {
         User user = User.get(player.getUniqueId());
         String message = LegacyComponentSerializer.legacyAmpersand().serialize(event.message());
 
-        if (!user.getSettings().isInStaffChat()) {
+        if (!user.isInStaffChat()) {
             return;
         }
 

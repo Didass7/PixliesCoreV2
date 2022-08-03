@@ -30,7 +30,7 @@ public class VanishHandler implements Handler {
         User user = User.get(player.getUniqueId());
 
         // IF VANISHED RETURN
-        if (user.getSettings().isVanished()) return false;
+        if (user.isVanished()) return false;
 
         // LOOP PLAYERS
         for (Player target : instance.getServer().getOnlinePlayers()) {
@@ -40,12 +40,12 @@ public class VanishHandler implements Handler {
         }
 
         // SET PASSIVE
-        if (!user.getSettings().isPassive()) {
+        if (!user.isPassive()) {
             handler.setPassive(player, true);
         }
 
         // SET VANISHED
-        user.getSettings().setVanished(true);
+        user.setVanished(true);
         user.save();
 
         return true;
@@ -63,7 +63,7 @@ public class VanishHandler implements Handler {
         User user = User.get(player.getUniqueId());
 
         // IF IS UNVANISHED RETURN
-        if (!user.getSettings().isVanished()) return false;
+        if (!user.isVanished()) return false;
 
         player.setAllowFlight(player.hasPermission("pixlies.fly"));
         for (Player target : instance.getServer().getOnlinePlayers()) {
@@ -72,12 +72,12 @@ public class VanishHandler implements Handler {
         }
 
         // IF STAFF MODE IS NOT ENABLED, DISABLE PASSIVE
-        if (!user.getSettings().isInStaffMode()) {
+        if (!user.isInStaffMode()) {
             handler.setPassive(player, false);
         }
 
         // SET VANISHED FALSE
-        user.getSettings().setVanished(false);
+        user.setVanished(false);
         user.save();
 
         return true;
@@ -102,7 +102,7 @@ public class VanishHandler implements Handler {
         instance.getDatabase().getUserCache().forEach((uuid, user) -> {
             Player player = instance.getServer().getPlayer(uuid);
             if (player == null) return;
-            if (!user.getSettings().isVanished()) return;
+            if (!user.isVanished()) return;
             players.add(player);
         });
         return players;

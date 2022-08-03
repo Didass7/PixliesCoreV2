@@ -61,7 +61,7 @@ public final class LobbyUtils {
                 .build());
         firework.setFireworkMeta(meta);
 
-        if (user.getSettings().isInStaffMode()) {
+        if (user.isInStaffMode()) {
             if (!firstJoin) {
                 Main.getInstance().getHandlerManager().getHandler(StaffModeHandler.class).enableWithoutUpdate(player, user);
             }

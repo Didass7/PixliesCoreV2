@@ -88,13 +88,13 @@ public class MarketManager {
         User user = User.get(uuid);
 
         // Reset player stats
-        user.getStats().setBuyOrdersMade(0);
-        user.getStats().setSellOrdersMade(0);
-        user.getStats().setMoneySpent(0);
-        user.getStats().setMoneyGained(0);
-        user.getStats().setTradesMade(0);
-        user.getStats().setItemsSold(0);
-        user.getStats().setItemsBought(0);
+        user.setBuyOrdersMade(0);
+        user.setSellOrdersMade(0);
+        user.setMoneySpent(0);
+        user.setMoneyGained(0);
+        user.setTradesMade(0);
+        user.setItemsSold(0);
+        user.setItemsBought(0);
 
         marketHandler.getChallenges().removeAll(uuid.toString());
         marketHandler.getNotifs().removeAll(uuid.toString());

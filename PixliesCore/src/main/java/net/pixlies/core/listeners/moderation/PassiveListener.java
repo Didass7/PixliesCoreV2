@@ -34,7 +34,7 @@ public class PassiveListener implements Listener {
     public void onFoodChange(FoodLevelChangeEvent event) {
         if (!(event.getEntity() instanceof Player player)) return;
         User user = User.get(player.getUniqueId());
-        if (!user.getSettings().isPassive()) return;
+        if (!user.isPassive()) return;
         event.setCancelled(true);
     }
 
@@ -42,7 +42,7 @@ public class PassiveListener implements Listener {
     public void onEntityTarget(EntityTargetEvent event) {
         if (!(event.getEntity() instanceof Player player)) return;
         User user = User.get(player.getUniqueId());
-        if (!user.getSettings().isPassive()) return;
+        if (!user.isPassive()) return;
         event.setCancelled(true);
     }
 
@@ -50,7 +50,7 @@ public class PassiveListener implements Listener {
     public void onSuffocate(EntityInsideBlockEvent event) {
         if (!(event.getEntity() instanceof Player player)) return;
         User user = User.get(player.getUniqueId());
-        if (!user.getSettings().isPassive()) return;
+        if (!user.isPassive()) return;
         event.setCancelled(true);
     }
 
@@ -58,7 +58,7 @@ public class PassiveListener implements Listener {
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
         if (!(event.getEntity() instanceof Player player)) return;
         User user = User.get(player.getUniqueId());
-        if (!user.getSettings().isPassive()) return;
+        if (!user.isPassive()) return;
         event.setCancelled(true);
     }
 
@@ -66,7 +66,7 @@ public class PassiveListener implements Listener {
     public void onEntityDamageByBlock(EntityDamageByBlockEvent event) {
         if (!(event.getEntity() instanceof Player player)) return;
         User user = User.get(player.getUniqueId());
-        if (!user.getSettings().isPassive()) return;
+        if (!user.isPassive()) return;
         event.setCancelled(true);
     }
 
@@ -74,7 +74,7 @@ public class PassiveListener implements Listener {
     public void onDamage(EntityDamageEvent event) {
         if (!(event.getEntity() instanceof Player player)) return;
         User user = User.get(player.getUniqueId());
-        if (!user.getSettings().isPassive()) return;
+        if (!user.isPassive()) return;
         event.setCancelled(true);
     }
 
@@ -82,7 +82,7 @@ public class PassiveListener implements Listener {
     public void onDie(PlayerDeathEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (!user.getSettings().isPassive()) return;
+        if (!user.isPassive()) return;
         event.setCancelled(true);
     }
 
@@ -90,7 +90,7 @@ public class PassiveListener implements Listener {
     public void onAdvancement(PlayerAdvancementCriterionGrantEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (!user.getSettings().isPassive()) return;
+        if (!user.isPassive()) return;
         event.setCancelled(true);
     }
 
@@ -98,7 +98,7 @@ public class PassiveListener implements Listener {
     public void onItemFrame(PlayerItemFrameChangeEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (!user.getSettings().isPassive()) return;
+        if (!user.isPassive()) return;
         event.setCancelled(true);
     }
 
@@ -111,7 +111,7 @@ public class PassiveListener implements Listener {
         User user = User.get(player.getUniqueId());
         Map<UUID, Container> scp = passiveHandler.getSilentChestPlayers();
         UUID uuid = player.getUniqueId();
-        if (!user.getSettings().isPassive()) return;
+        if (!user.isPassive()) return;
         if (!event.getAction().isRightClick()) return;
 
         Block block = event.getClickedBlock();

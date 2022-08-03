@@ -28,8 +28,8 @@ public class ActionBarRunnable extends PixliesRunnable {
                 player.sendActionBar(Component.text(Lang.MODERATION_FREEZE_ACTIONBAR.get(player)));
                 return;
             }
-            if (user.getSettings().isVanished()) {
-                if (user.getSettings().isInStaffMode()) return;
+            if (user.isVanished()) {
+                if (user.isInStaffMode()) return;
                 player.sendActionBar(Component.text(Lang.MODERATION_VANISH_NO_ONE_CAN_SEE.get(player)));
             }
         });

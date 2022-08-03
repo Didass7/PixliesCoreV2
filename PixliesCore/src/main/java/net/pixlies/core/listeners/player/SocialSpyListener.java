@@ -19,7 +19,7 @@ public class SocialSpyListener implements Listener {
         // Staff setting: socialspy
         for (Player p : Bukkit.getServer().getOnlinePlayers()) {
             User msgUser = User.get(p.getUniqueId());
-            if (msgUser.getPersonalization().isSocialSpyEnabled()) {
+            if (msgUser.isSocialSpyEnabled()) {
                 Lang.PLAYER_MESSAGE_SOCIALSPY.send(p, "%PLAYER%;" + sender.getName(), "%TARGET%;" + target.getName());
             }
         }

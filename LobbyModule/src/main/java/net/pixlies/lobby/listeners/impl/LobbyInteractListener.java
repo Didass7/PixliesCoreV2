@@ -78,7 +78,7 @@ public class LobbyInteractListener implements Listener {
         if (item == null) return;
         if (item.getType() == Material.AIR) return;
 
-        if (user.getSettings().isInStaffMode()) {
+        if (user.isInStaffMode()) {
             return;
         }
 
@@ -202,7 +202,7 @@ public class LobbyInteractListener implements Listener {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
 
-        if (user.getSettings().isInStaffMode()) {
+        if (user.isInStaffMode()) {
             return;
         }
 

@@ -31,18 +31,18 @@ public class StaffModeHandler implements Handler {
     public void enable(Player player) {
         User user = User.get(player.getUniqueId());
         if (EventUtils.callCancelable(new StaffModeStatusChangeEvent(player, user, StaffModeStatusChangeEvent.StaffModeStatus.ENABLE)).isCancelled()) return;
-        if (user.getSettings().isInStaffMode()) return;
+        if (user.isInStaffMode()) return;
         enableWithoutUpdate(player, user);
-        user.getSettings().setInStaffMode(true);
+        user.setInStaffMode(true);
         user.save();
     }
 
     public void disable(Player player) {
         User user = User.get(player.getUniqueId());
         if (EventUtils.callCancelable(new StaffModeStatusChangeEvent(player, user, StaffModeStatusChangeEvent.StaffModeStatus.DISABLE)).isCancelled()) return;
-        if (!user.getSettings().isInStaffMode()) return;
+        if (!user.isInStaffMode()) return;
         disableWithoutUpdate(player, user);
-        user.getSettings().setInStaffMode(false);
+        user.setInStaffMode(false);
         user.save();
     }
 
@@ -54,7 +54,7 @@ public class StaffModeHandler implements Handler {
     }
 
     public void disableWithoutUpdate(Player player, User user) {
-        if (!user.getSettings().isVanished()) {
+        if (!user.isVanished()) {
             passiveHandler.setPassive(player, false);
         }
         loadItems(player);
@@ -67,7 +67,7 @@ public class StaffModeHandler implements Handler {
         ItemStack freeze = getFreezeItem();
         ItemStack compass = getTeleportItem();
         ItemStack randomTeleporter = getRandomTeleportItem();
-        ItemStack vanish = getVanishItem(user.getSettings().isVanished());
+        ItemStack vanish = getVanishItem(user.isVanished());
 
         // LOAD INVENTORY
         Inventory inventory =  player.getInventory();

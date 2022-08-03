@@ -7,7 +7,6 @@ import co.aikar.commands.MessageKeys;
 import co.aikar.commands.annotation.*;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.localization.Lang;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /**
@@ -26,12 +25,12 @@ public class BypassCommand extends BaseCommand {
 
         if (player.getUniqueId().equals(target.getUniqueId())) {
             User user = User.get(player.getUniqueId());
-            if (user.getSettings().isBypassing()) {
-                user.getSettings().setBypassing(false);
+            if (user.isBypassing()) {
+                user.setBypassing(false);
                 user.save();
                 Lang.STAFF_BYPASS_OFF.send(player);
             } else {
-                user.getSettings().setBypassing(true);
+                user.setBypassing(true);
                 user.save();
                 Lang.STAFF_BYPASS_ON.send(player);
             }
@@ -40,13 +39,13 @@ public class BypassCommand extends BaseCommand {
 
         if (player.hasPermission("pixlies.moderation.bypass.other")) {
             User user = User.get(target.getUniqueId());
-            if (user.getSettings().isBypassing()) {
-                user.getSettings().setBypassing(false);
+            if (user.isBypassing()) {
+                user.setBypassing(false);
                 user.save();
                 Lang.STAFF_BYPASS_OFF.send(target); // To alert the player that their bypass is now off
                 Lang.STAFF_BYPASS_OFF_OTHER.send(player, "%PLAYER%;" + target.getName());
             } else {
-                user.getSettings().setBypassing(true);
+                user.setBypassing(true);
                 user.save();
                 Lang.STAFF_BYPASS_ON.send(target); // To alert the player that their bypass is now on
                 Lang.STAFF_BYPASS_ON_OTHER.send(player, "%PLAYER%;" + target);

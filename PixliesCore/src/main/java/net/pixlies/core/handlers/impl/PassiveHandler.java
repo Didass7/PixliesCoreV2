@@ -27,7 +27,7 @@ public class PassiveHandler implements Handler {
         player.setCollidable(false);
 
         // SET PASSIVE
-        user.getSettings().setPassive(true);
+        user.setPassive(true);
         user.save();
 
     }
@@ -43,7 +43,7 @@ public class PassiveHandler implements Handler {
         player.setCollidable(true);
 
         // SET PASSIVE
-        user.getSettings().setPassive(false);
+        user.setPassive(false);
         user.save();
 
     }

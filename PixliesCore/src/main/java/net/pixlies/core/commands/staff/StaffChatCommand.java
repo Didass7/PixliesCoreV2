@@ -26,11 +26,11 @@ public class StaffChatCommand extends BaseCommand {
         if (message == null) {
             User user = User.get(player.getUniqueId());
 
-            if (user.getSettings().isInStaffChat()) {
-                user.getSettings().setInStaffChat(false);
+            if (user.isInStaffChat()) {
+                user.setInStaffChat(false);
                 Lang.STAFF_CHAT_DISABLED.send(player);
             } else {
-                user.getSettings().setInStaffChat(true);
+                user.setInStaffChat(true);
                 Lang.STAFF_CHAT_ENABLED.send(player);
             }
 

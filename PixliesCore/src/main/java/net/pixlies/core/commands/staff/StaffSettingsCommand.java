@@ -86,11 +86,11 @@ public class StaffSettingsCommand extends BaseCommand {
 
                 // Actual functionality
                 switch (newItem.getType()) {
-                    case COMMAND_BLOCK -> user.getPersonalization().setCommandSpyEnabled(button.isEnabled());
-                    case PAPER -> user.getPersonalization().setSocialSpyEnabled(button.isEnabled());
-                    case NAME_TAG -> user.getPersonalization().setViewBannedJoins(button.isEnabled());
-                    case BARRIER -> user.getPersonalization().setViewMutedChat(button.isEnabled());
-                    case MAP -> user.getPersonalization().setBypassClearChat(button.isEnabled());
+                    case COMMAND_BLOCK -> user.setCommandSpyEnabled(button.isEnabled());
+                    case PAPER -> user.setSocialSpyEnabled(button.isEnabled());
+                    case NAME_TAG -> user.setViewBannedJoins(button.isEnabled());
+                    case BARRIER -> user.setViewMutedChat(button.isEnabled());
+                    case MAP -> user.setBypassClearChat(button.isEnabled());
                 }
                 user.save();
 
@@ -116,11 +116,11 @@ public class StaffSettingsCommand extends BaseCommand {
 
     private static boolean isSettingEnabled(User user, StaffSetting s) {
         return switch (s) {
-            case COMMANDSPY -> user.getPersonalization().isCommandSpyEnabled();
-            case SOCIALSPY -> user.getPersonalization().isSocialSpyEnabled();
-            case MUTESPY -> user.getPersonalization().isViewMutedChat();
-            case BANSPY -> user.getPersonalization().isViewBannedJoins();
-            case BYPASSCLEARCHAT -> user.getPersonalization().isBypassClearChat();
+            case COMMANDSPY -> user.isCommandSpyEnabled();
+            case SOCIALSPY -> user.isSocialSpyEnabled();
+            case MUTESPY -> user.isViewMutedChat();
+            case BANSPY -> user.isViewBannedJoins();
+            case BYPASSCLEARCHAT -> user.isBypassClearChat();
         };
     }
 

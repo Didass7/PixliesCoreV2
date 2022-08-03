@@ -22,7 +22,7 @@ public class JoinQuitListener implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (user.getSettings().isPassive()) {
+        if (user.isPassive()) {
             event.joinMessage(null);
             return;
         }
@@ -34,7 +34,7 @@ public class JoinQuitListener implements Listener {
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (user.getSettings().isPassive()) {
+        if (user.isPassive()) {
             event.quitMessage(null);
             return;
         }

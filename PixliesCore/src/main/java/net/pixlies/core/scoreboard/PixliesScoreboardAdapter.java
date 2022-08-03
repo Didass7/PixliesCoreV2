@@ -46,10 +46,10 @@ public abstract class PixliesScoreboardAdapter implements AssembleAdapter {
         User user = User.get(player.getUniqueId());
         ScoreboardType scoreboardType = user.getScoreboardType();
 
-        if (user.getSettings().isPassive()) {
+        if (user.isPassive()) {
 
-            boolean isInStaffMode = user.getSettings().isInStaffMode();
-            boolean vanished = user.getSettings().isVanished();
+            boolean isInStaffMode = user.isInStaffMode();
+            boolean vanished = user.isVanished();
 
             // TODO: make this look pretty
             lines.add("");

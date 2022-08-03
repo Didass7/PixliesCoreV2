@@ -34,7 +34,7 @@ public class SitCommand extends BaseCommand {
 
         User user = User.get(player.getUniqueId());
 
-        if (relative.getType() == Material.AIR || player.isInWater() || player.isFrozen() || user.getSettings().isPassive()) {
+        if (relative.getType() == Material.AIR || player.isInWater() || player.isFrozen() || user.isPassive()) {
             Lang.COSMETICS_CANNOT_SIT_HERE.send(player);
             return;
         }

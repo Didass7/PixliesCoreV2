@@ -91,7 +91,7 @@ public class TariffCommand extends BaseCommand {
         double maxRate = instance.getConfig().getDouble("tariffMaxRate");
 
         boolean notInNation = !NationProfile.isInNation(user);
-        boolean noPermission = !NationPermission.MANAGE_TARIFFS.hasPermission(user) && !user.getSettings().isBypassing();
+        boolean noPermission = !NationPermission.MANAGE_TARIFFS.hasPermission(user) && !user.isBypassing();
         boolean nationNull = from == null;
         boolean rateNotValid = rate > maxRate || rate < 0.01;
 
@@ -125,7 +125,7 @@ public class TariffCommand extends BaseCommand {
         String from = Objects.requireNonNull(NationProfile.get(user)).getNation().getName();
 
         boolean notInNation = !NationProfile.isInNation(user);
-        boolean noPermission = !NationPermission.MANAGE_TARIFFS.hasPermission(user) && !user.getSettings().isBypassing();
+        boolean noPermission = !NationPermission.MANAGE_TARIFFS.hasPermission(user) && !user.isBypassing();
         boolean tariffNull = instance.getMarketManager().getTariffId(from, to) == null;
 
         if (notInNation) Lang.NOT_IN_NATION.send(player);

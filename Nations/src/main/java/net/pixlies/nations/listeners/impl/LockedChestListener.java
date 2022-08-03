@@ -40,7 +40,7 @@ public class LockedChestListener implements Listener {
         String ownerUuid = container.get(key, PersistentDataType.PrimitivePersistentDataType.STRING);
         if (ownerUuid == null) return;
 
-        if (ownerUuid.equals(player.getUniqueId().toString()) || !(user.getSettings().isBypassing() && player.hasPermission("pixlies.staff.lockedchests"))) return;
+        if (ownerUuid.equals(player.getUniqueId().toString()) || !(user.isBypassing() && player.hasPermission("pixlies.staff.lockedchests"))) return;
 
         player.playSound(player.getLocation(), "block.chest.locked", Float.MAX_VALUE, 1);
         Lang.CHEST_BELONGS_TO_OTHER.send(player);

@@ -21,7 +21,7 @@ public class TeleportListener implements Listener {
         Player player = event.getPlayer();
         Location loc = event.getFrom();
         User user = User.get(player.getUniqueId());
-        if (user.getSettings().isPassive()) return;
+        if (user.isPassive()) return;
         tpHandler.setBackLocation(player.getUniqueId(), loc);
     }
 
@@ -36,7 +36,7 @@ public class TeleportListener implements Listener {
     public void onDeath(PlayerDeathEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (user.getSettings().isPassive()) return;
+        if (user.isPassive()) return;
         tpHandler.setBackLocation(player.getUniqueId(), player.getLocation());
     }
 

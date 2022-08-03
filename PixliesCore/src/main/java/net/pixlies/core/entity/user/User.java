@@ -12,10 +12,8 @@ import net.kyori.adventure.text.Component;
 import net.pixlies.core.Main;
 import net.pixlies.core.economy.Wallet;
 import net.pixlies.core.entity.Warp;
-import net.pixlies.core.entity.user.data.UserPersonalization;
-import net.pixlies.core.entity.user.data.UserSettings;
-import net.pixlies.core.entity.user.data.UserStats;
 import net.pixlies.core.entity.user.timers.Timer;
+import net.pixlies.core.house.House;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.moderation.Punishment;
 import net.pixlies.core.moderation.PunishmentType;
@@ -50,10 +48,39 @@ public class User {
     private Map<String, Wallet> wallets;
     private List<String> knownUsernames;
     private List<UUID> blockedUsers;
-    private UserStats stats;
+
+    // STATS
+    private String dateJoined; // In Pixlies DateAndTime
+    private Map<House, Integer> houses; // House & House XPs
+    private int civilPoints; // Range: -100 to 100
+    private int buyOrdersMade;
+    private int sellOrdersMade;
+    private int tradesMade;
+    private double moneySpent;
+    private double moneyGained;
+    private int itemsSold;
+    private int itemsBought;
+
+    // PUNISHMENT
     private Map<String, Punishment> currentPunishments;
-    private UserPersonalization personalization;
-    private UserSettings settings;
+
+    // PERSONALIZATION
+    private boolean commandSpyEnabled;
+    private boolean socialSpyEnabled;
+    private boolean viewMutedChat;
+    private boolean viewBannedJoins;
+    private boolean bypassClearChat;
+    private boolean joinVanish;
+    private String scoreboardType;
+
+    // SETTINGS
+    private boolean inStaffMode;
+    private boolean bypassing;
+    private boolean vanished;
+    private boolean passive;
+    private boolean inStaffChat;
+
+    // LANG
     private String lang;
     @Getter(AccessLevel.NONE) private Map<String, Object> extras;
     private final transient Map<String, Timer> allTimers = new HashMap<>();
@@ -518,7 +545,7 @@ public class User {
      * @see ScoreboardType
      */
     public void setScoreboardType(@NotNull ScoreboardType scoreboardType) {
-        this.getPersonalization().setScoreboardType(scoreboardType.name());
+        this.scoreboardType = scoreboardType.name();
     }
 
     /**
@@ -527,11 +554,55 @@ public class User {
      * @see ScoreboardType
      */
     public @NotNull ScoreboardType getScoreboardType() {
-        ScoreboardType scoreboardType = this.getPersonalization().getScoreboardTypeAsEnum();
-        if (scoreboardType == null) {
+        try {
+            return ScoreboardType.valueOf(scoreboardType);
+        } catch (IllegalArgumentException e) {
             return ScoreboardType.STANDARD;
         }
-        return scoreboardType;
+    }
+
+    // STATS
+
+    public House getHouse() {
+        int max = Collections.max(houses.values());
+
+        if (max < 200) return House.NOT_DECIDED;
+
+        for (Map.Entry<House, Integer> entry : houses.entrySet()) {
+            if (entry.getValue()==max) {
+                return entry.getKey();
+            }
+        }
+
+        return House.NOT_DECIDED;
+    }
+
+    public void addBuy() {
+        buyOrdersMade += 1;
+    }
+
+    public void addSell() {
+        sellOrdersMade += 1;
+    }
+
+    public void addTrade() {
+        tradesMade += 1;
+    }
+
+    public void addMoneySpent(double money) {
+        moneySpent += money;
+    }
+
+    public void addMoneyGained(double money) {
+        moneyGained += money;
+    }
+
+    public void addItemsSold(int items) {
+        itemsSold += items;
+    }
+
+    public void addItemsBought(int items) {
+        itemsBought += items;
     }
 
     // STATICS - it's not static abuse if you use it properly.
@@ -547,13 +618,9 @@ public class User {
         return instance.getDatabase().getUserCache().get(uuid);
     }
 
-    public static @NotNull Collection<User> getAllUsers() {
-        return instance.getDatabase().getUserCache().values();
-    }
-
     public static @NotNull Collection<User> getOnlineUsers() {
         List<User> users = new ArrayList<>();
-        for (User user : getAllUsers()) {
+        for (User user : instance.getDatabase().getUserCache().values()) {
             if (!user.getAsOfflinePlayer().isOnline())
                 continue;
             users.add(user);
@@ -572,10 +639,32 @@ public class User {
                     Wallet.getDefaults(),
                     new ArrayList<>(),
                     new ArrayList<>(),
-                    UserStats.createNew(),
+                    Main.getInstance().getCalendar().formatDateAndTime(),
+                    new HashMap<>() {{
+                        for (House house : House.values())
+                            put(house, 0);
+                    }},
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
                     new HashMap<>(),
-                    UserPersonalization.getDefaults(),
-                    UserSettings.getDefaults(),
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    ScoreboardType.STANDARD.name(),
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
                     "ENG",
                     new HashMap<>()
             );
@@ -594,11 +683,32 @@ public class User {
                 profile.nickName, // nullable
                 profile.wallets == null ? Wallet.getDefaults() : profile.wallets,
                 profile.knownUsernames == null ? new ArrayList<>() : profile.knownUsernames,
-                profile.blockedUsers  == null ? new ArrayList<>() : profile.blockedUsers,
-                profile.stats == null ? UserStats.createNew() : profile.stats,
+                profile.blockedUsers == null ? new ArrayList<>() : profile.blockedUsers,
+                profile.dateJoined == null ? Main.getInstance().getCalendar().formatDate() : profile.dateJoined,
+                profile.houses == null ? new HashMap<>() {{
+                    for (House house : House.values()) put(house, 0);
+                }} : profile.houses,
+                profile.civilPoints,
+                profile.buyOrdersMade,
+                profile.sellOrdersMade,
+                profile.tradesMade,
+                profile.moneySpent,
+                profile.moneyGained,
+                profile.itemsSold,
+                profile.itemsBought,
                 profile.currentPunishments == null ? new HashMap<>() : profile.currentPunishments,
-                profile.personalization == null ? UserPersonalization.getDefaults() : profile.personalization,
-                profile.settings == null ? UserSettings.getDefaults() : profile.settings,
+                profile.commandSpyEnabled,
+                profile.socialSpyEnabled,
+                profile.viewMutedChat,
+                profile.viewBannedJoins,
+                profile.bypassClearChat,
+                profile.joinVanish,
+                profile.scoreboardType == null ? ScoreboardType.STANDARD.name() : profile.scoreboardType,
+                profile.inStaffMode,
+                profile.bypassing,
+                profile.vanished,
+                profile.passive,
+                profile.inStaffChat,
                 profile.lang == null ? "ENG" : profile.lang,
                 profile.extras == null ? new HashMap<>() : profile.extras
         );

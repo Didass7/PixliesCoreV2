@@ -19,7 +19,7 @@ public class VanishCommand extends BaseCommand {
     @CommandCompletion("@players")
     public void onVanish(CommandSender sender, Player target) {
         User user = User.get(target.getUniqueId());
-        boolean vanished = user.getSettings().isVanished();
+        boolean vanished = user.isVanished();
         if (vanished) {
             handler.setVanished(target, false);
             Lang.MODERATION_VANISH_OFF_OTHER.send(sender, "%PLAYER%;" + target.getName());
@@ -32,7 +32,7 @@ public class VanishCommand extends BaseCommand {
     @Default
     public void onVanish(Player player) {
         User user = User.get(player.getUniqueId());
-        boolean vanished = user.getSettings().isVanished();
+        boolean vanished = user.isVanished();
         if (vanished) {
             handler.setVanished(player, false);
             Lang.MODERATION_VANISH_OFF.send(player);
