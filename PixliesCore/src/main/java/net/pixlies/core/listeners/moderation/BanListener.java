@@ -23,6 +23,7 @@ public class BanListener implements Listener {
         Punishment punishment = user.getBan();
 
         String banMessage = Lang.BAN_MESSAGE.get(event.getPlayer())
+                .replace("%EXECUTOR%", punishment.getPunisher())
                 .replace("%REASON%", punishment.getReason())
                 .replace("%BAN_ID%", punishment.getID());
 

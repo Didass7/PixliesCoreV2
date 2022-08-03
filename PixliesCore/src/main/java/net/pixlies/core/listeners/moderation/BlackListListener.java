@@ -22,6 +22,7 @@ public class BlackListListener implements Listener {
         if (punishment == null) return;
 
         String message = Lang.BLACKLIST_MESSAGE.get(player)
+                .replace("%EXECUTOR%", punishment.getPunisher())
                 .replace("%REASON%", punishment.getReason())
                 .replace("%BAN_ID%", punishment.getID());
 
