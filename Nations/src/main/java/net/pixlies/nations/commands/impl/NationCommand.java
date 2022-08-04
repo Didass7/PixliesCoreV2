@@ -151,6 +151,8 @@ public class NationCommand extends BaseCommand {
     // -------------------------------------------------------------------------------------------------
     @Subcommand("disband")
     @Description("Disband a nation")
+    @Syntax("")
+    @CommandCompletion("")
     public void onDisband(CommandSender sender, @Optional String nationName) {
 
         // PLAYER
@@ -165,7 +167,7 @@ public class NationCommand extends BaseCommand {
             }
 
             boolean staffCondition = user.isBypassing() && player.hasPermission("nations.staff.forcedisband");
-            boolean playerCondition = profile.getNationRank() != null && profile.getNationRank().equals(NationRank.getLeaderRank().getName());
+            boolean playerCondition = profile.isNationLeader();
 
             // :: /nation disband
             if (nationName == null || nationName.isEmpty()) {
@@ -176,7 +178,7 @@ public class NationCommand extends BaseCommand {
                     return;
                 }
 
-                if (!staffCondition || !playerCondition) {
+                if (!(staffCondition || playerCondition)) {
                     // NO PERMISSION TO DISBAND
                     Lang.NATION_NO_PERMISSION.send(player);
                     return;
@@ -188,7 +190,23 @@ public class NationCommand extends BaseCommand {
                     Lang.NOT_IN_NATION.send(player);
                     return;
                 }
-                nation.disband(player);
+
+                NationDisbandTimer timer = new NationDisbandTimer(System.currentTimeMillis(), nationName);
+                user.getAllTimers().put(NationDisbandTimer.ID, timer);
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        if (!user.getAllTimers().containsKey(NationDisbandTimer.ID)) {
+                            cancel();
+                        }
+                        if (timer.isExpired()) {
+                            user.getAllTimers().remove(NationDisbandTimer.ID);
+                            cancel();
+                        }
+                    }
+                }.runTaskTimer(instance, 1, 1);
+
+                Lang.NATION_DISBAND_CONFIRM.send(player, "%NATION%;" + nation.getName());
                 return;
 
             }
@@ -210,6 +228,9 @@ public class NationCommand extends BaseCommand {
             new BukkitRunnable() {
                 @Override
                 public void run() {
+                    if (!user.getAllTimers().containsKey(NationDisbandTimer.ID)) {
+                        cancel();
+                    }
                     if (!staffCondition) { // runnable, can be false
                         user.getAllTimers().remove(NationDisbandTimer.ID);
                         cancel();
@@ -251,7 +272,7 @@ public class NationCommand extends BaseCommand {
         NationProfile profile = NationProfile.get(player.getUniqueId());
 
         boolean staffCondition = user.isBypassing() && player.hasPermission("nations.staff.forcedisband");
-        boolean playerCondition = profile.getNationRank() != null && profile.getNationRank().equals(NationRank.getLeaderRank().getName());
+        boolean playerCondition = profile.isNationLeader();
 
         if (staffCondition || playerCondition) {
             if (user.getAllTimers().containsKey(NationDisbandTimer.ID)) {
@@ -318,7 +339,7 @@ public class NationCommand extends BaseCommand {
                     return;
                 }
 
-                if (!staffCondition || !playerCondition) {
+                if (!(staffCondition || playerCondition)) {
                     // NO PERMISSION TO DESC
                     Lang.NATION_NO_PERMISSION.send(player);
                     return;
