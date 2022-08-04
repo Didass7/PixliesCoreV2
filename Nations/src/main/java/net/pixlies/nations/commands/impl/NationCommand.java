@@ -231,7 +231,7 @@ public class NationCommand extends BaseCommand {
                     if (!user.getAllTimers().containsKey(NationDisbandTimer.ID)) {
                         cancel();
                     }
-                    if (!staffCondition) { // runnable, can be false
+                    if (!user.isBypassing()) { // runnable, can be false
                         user.getAllTimers().remove(NationDisbandTimer.ID);
                         cancel();
                         return;
