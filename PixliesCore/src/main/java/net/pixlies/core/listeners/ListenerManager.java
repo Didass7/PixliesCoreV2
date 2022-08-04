@@ -41,6 +41,7 @@ public class ListenerManager {
         add(new StaffChatListener());
         add(new UserListener());
         add(new RespawnListener());
+        add(new SpeedListener());
     }};
 
     public static void registerAllListeners() {
