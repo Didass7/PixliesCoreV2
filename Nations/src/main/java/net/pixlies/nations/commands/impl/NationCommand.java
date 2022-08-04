@@ -191,7 +191,7 @@ public class NationCommand extends BaseCommand {
                     return;
                 }
 
-                NationDisbandTimer timer = new NationDisbandTimer(System.currentTimeMillis(), nationName);
+                NationDisbandTimer timer = new NationDisbandTimer(System.currentTimeMillis(), nation.getNationId());
                 user.getAllTimers().put(NationDisbandTimer.ID, timer);
                 new BukkitRunnable() {
                     @Override
@@ -223,7 +223,7 @@ public class NationCommand extends BaseCommand {
                 return;
             }
 
-            NationDisbandTimer timer = new NationDisbandTimer(System.currentTimeMillis(), nationName);
+            NationDisbandTimer timer = new NationDisbandTimer(System.currentTimeMillis(), nation.getNationId());
             user.getAllTimers().put(NationDisbandTimer.ID, timer);
             new BukkitRunnable() {
                 @Override
@@ -266,7 +266,7 @@ public class NationCommand extends BaseCommand {
     // -------------------------------------------------------------------------------------------------
     @Subcommand("disband confirm")
     @Private
-    @Description("Disband a nation confirm")
+    @Description("Confirm disbanding a nation")
     public void onDisbandConfirm(Player player) {
         User user = User.get(player.getUniqueId());
         NationProfile profile = NationProfile.get(player.getUniqueId());
