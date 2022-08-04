@@ -54,7 +54,7 @@ public enum NationPermission {
     }
 
     public boolean hasPermission(NationProfile profile) {
-        if (profile.isInNation()) return false;
+        if (!profile.isInNation()) return false;
         if (profile.isNationLeader()) return true;
         NationRank rank = profile.getRank();
         if (rank == null) return false;

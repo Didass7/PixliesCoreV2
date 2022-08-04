@@ -6,7 +6,6 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
-import net.pixlies.core.entity.user.User;
 import net.pixlies.core.utils.CC;
 import net.pixlies.nations.Nations;
 import net.pixlies.nations.interfaces.profile.ChatType;
@@ -83,7 +82,7 @@ public class NationProfile {
     }
 
     public void setNation(Nation nation) {
-        nationId = nation.getNationsId();
+        nationId = nation.getNationId();
     }
 
     public Nation getNation() {

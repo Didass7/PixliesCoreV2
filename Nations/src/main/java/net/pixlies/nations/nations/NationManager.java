@@ -10,12 +10,7 @@ public class NationManager {
 
     private static final Nations instance = Nations.getInstance();
 
-    @Getter private final Map<String, Nation> nations = new HashMap<>(); // ID, Nation
-    @Getter private final Map<String, String> nameNations = new HashMap<>(); // Name, ID
-
-    public NationManager() {
-        loadAll();
-    }
+    private final @Getter Map<String, Nation> nations = new HashMap<>(); // ID, Nation
 
     public void backupAll() {
         for (Nation nation : nations.values()) {
@@ -25,9 +20,8 @@ public class NationManager {
 
     public void loadAll() {
         for (Nation nation : instance.getMongoManager().getDatastore().find(Nation.class).iterator().toList()) {
-            if (nation.getNationsId() != null) {
-                nations.put(nation.getNationsId(), nation);
-                nameNations.put(nation.getName(), nation.getNationsId());
+            if (nation.getNationId() != null) {
+                nations.put(nation.getNationId(), nation);
             }
         }
     }

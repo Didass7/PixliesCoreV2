@@ -2,7 +2,7 @@ name: Nations
 version: 2.0.0
 description: Nations module for PixliesCore
 api-version: 1.19
-depend: [PixliesCore]
+depend: [PixliesCore, PlaceholderAPI]
 authors: [MickMMars, TAMaurice, vPrototype_, Dynmie]
 website: www.pixlies.net
 main: net.pixlies.nations.Nations

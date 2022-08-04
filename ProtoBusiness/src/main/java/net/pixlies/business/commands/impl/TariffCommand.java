@@ -109,7 +109,7 @@ public class TariffCommand extends BaseCommand {
         }
 
         String fromId = profile.getNationId();
-        String toId = Objects.requireNonNull(Nation.getFromName(to)).getNationsId();
+        String toId = Objects.requireNonNull(Nation.getFromName(to)).getNationId();
         Tariff tariff = new Tariff(fromId, toId, rate);
 
         instance.getMarketManager().getTariffs().put(tariff.getTariffId(), tariff);

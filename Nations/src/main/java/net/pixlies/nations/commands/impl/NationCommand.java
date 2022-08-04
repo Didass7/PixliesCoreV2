@@ -43,12 +43,12 @@ public class NationCommand extends BaseCommand {
         }
 
         // CHECKS IF NATION WITH SAME NAME ALREADY EXISTS
-        if (instance.getNationManager().getNameNations().containsKey(name)) {
+        if (Nation.getFromName(name) != null) {
             Lang.NATION_NAME_ALREADY_EXISTS.send(player, "%NAME%;" + name);
             return;
         }
 
-        String id = RandomStringUtils.randomAlphanumeric(7);
+        String id = RandomStringUtils.randomAlphanumeric(32);
 
         // CHECKS IF NATION WITH SAME ID ALREADY EXISTS
         if (instance.getNationManager().getNations().containsKey(id)) {
@@ -297,7 +297,7 @@ public class NationCommand extends BaseCommand {
     // -------------------------------------------------------------------------------------------------
     //                                         /n description
     // -------------------------------------------------------------------------------------------------
-    @Subcommand("description|desc|setdesc|setdescription")
+    @Subcommand("description")
     @Description("Set your nations description")
     public void onDescription(CommandSender sender, String desc, @Optional String nationName) {
 

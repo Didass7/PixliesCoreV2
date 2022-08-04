@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.handlers.impl.MarketHandler;
-import net.pixlies.core.entity.user.User;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.utils.TextUtils;
 import net.pixlies.nations.interfaces.NationProfile;
@@ -62,8 +61,8 @@ public class Order {
 
 
 
-        String from = NationProfile.get(playerUUID).getNation().getNationsId();
-        String to = NationProfile.get(matchingUUID).getNation().getNationsId();
+        String from = NationProfile.get(playerUUID).getNation().getNationId();
+        String to = NationProfile.get(matchingUUID).getNation().getNationId();
         double rate = 0;
 
         // Checks the tariffs list and sees if there are any that match

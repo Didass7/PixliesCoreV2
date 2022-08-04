@@ -1,6 +1,7 @@
 package net.pixlies.nations.nations;
 
 import dev.morphia.annotations.*;
+import io.sentry.util.ApplyScopeUtils;
 import lombok.*;
 import net.pixlies.core.events.PixliesCancellableEvent;
 import net.pixlies.core.localization.Lang;
@@ -15,6 +16,8 @@ import net.pixlies.nations.nations.customization.NationConstitution;
 import net.pixlies.nations.nations.customization.Religion;
 import net.pixlies.nations.nations.ranks.NationRank;
 import net.pixlies.nations.utils.NationUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -34,7 +37,7 @@ import java.util.*;
 @AllArgsConstructor
 @Entity("nations")
 @Indexes(
-        @Index(fields = { @Field("nationsId") })
+        @Index(fields = { @Field("nationId") })
 )
 public class Nation {
 
@@ -45,7 +48,7 @@ public class Nation {
     // -------------------------------------------------------------------------------------------------
 
     // INFO
-    @Id private @Getter @Setter String nationsId;
+    @Id private @Getter @Setter String nationId;
     private @Getter @Setter String name;
     private @Getter String description;
     private @Getter @Setter String motd;
@@ -81,7 +84,7 @@ public class Nation {
     //                                         CONSTRUCTOR
     // -------------------------------------------------------------------------------------------------
 
-    public Nation(@NotNull String nationsId,
+    public Nation(@NotNull String nationId,
                   @NotNull String name,
                   @NotNull String description,
                   @NotNull String motd,
@@ -98,7 +101,7 @@ public class Nation {
                   @NotNull List<UUID> memberUUIDs,
                   @NotNull List<NationChunk> claims
     ) {
-        this.nationsId = nationsId;
+        this.nationId = nationId;
         this.name = name;
         this.description = description;
         this.motd = motd;
@@ -143,7 +146,17 @@ public class Nation {
                         add(nc.getDefaultValue());
                     }
                 }},
-                new HashMap<>(),
+                new HashMap<>() {{
+                    NationRank leader = NationRank.getLeaderRank();
+                    NationRank admin = NationRank.getAdminRank();
+                    NationRank member = NationRank.getMemberRank();
+                    NationRank newbie = NationRank.getNewbieRank();
+
+                    put(leader.getName(), leader);
+                    put(admin.getName(), admin);
+                    put(member.getName(), member);
+                    put(newbie.getName(), newbie);
+                }},
                 new ArrayList<>(),
                 new ArrayList<>()
         );
@@ -191,7 +204,7 @@ public class Nation {
         return Religion.valueOf(this.religion);
     }
 
-    public List<UUID> getMembers() {
+    public Collection<UUID> getMembers() {
         List<UUID> returner = new ArrayList<>();
         for (String s : memberUUIDs)
             returner.add(UUID.fromString(s));
@@ -209,6 +222,17 @@ public class Nation {
         this.description = description;
         save();
         // TODO: CHANGE DESC BROADCAST
+    }
+
+    public Collection<UUID> getOnlineMembers() {
+        List<UUID> onlinePlayers = new ArrayList<>();
+        for (UUID uuid : getMembers()) {
+            OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
+            if (offlinePlayer.isOnline()) {
+                onlinePlayers.add(uuid);
+            }
+        }
+        return onlinePlayers;
     }
 
     // -------------------------------------------------------------------------------------------------
@@ -239,8 +263,7 @@ public class Nation {
     }
 
     public void save() {
-        instance.getNationManager().getNations().put(nationsId, this);
-        instance.getNationManager().getNameNations().put(name, nationsId);
+        instance.getNationManager().getNations().put(nationId, this);
         backup();
     }
 
@@ -285,9 +308,7 @@ public class Nation {
             profile.leaveNation();
         }
 
-        instance.getNationManager().getNameNations().remove(name);
-        instance.getNationManager().getNations().remove(nationsId);
-
+        instance.getNationManager().getNations().remove(nationId);
         instance.getMongoManager().getDatastore().delete(this);
 
         if (disbander != null) {
@@ -307,12 +328,9 @@ public class Nation {
 
     public void rename(@Nullable CommandSender sender, @NotNull String newName) {
 
-        if (newName.length() > 16 || newName.isEmpty() || newName.matches("^[a-zA-Z0-9_-]*$") ) {
+        if (!NationUtils.nameValid(name)) {
             throw new IllegalArgumentException("Illegal nation name: " + newName);
         }
-
-        instance.getNationManager().getNameNations().remove(this.name);
-        instance.getNationManager().getNameNations().put(newName, nationsId);
 
         if (sender != null) {
             Lang.NATION_RENAME.broadcast("%NATION%;" + name, "%NEW%;" + newName, "%PLAYER%;" + sender.getName());
@@ -335,12 +353,22 @@ public class Nation {
     //                                        STATIC METHODS
     // -------------------------------------------------------------------------------------------------
 
-    public static Nation getFromId(@NotNull String id) {
-        return instance.getNationManager().getNations().get(id);
+    public static @Nullable Nation getFromId(String id) {
+        if (id == null) return null;
+        for (Map.Entry<String, Nation> entry : instance.getNationManager().getNations().entrySet()) {
+            String nationId = entry.getKey();
+            Nation nation = entry.getValue();
+            if (nationId.equals(id)) return nation;
+        }
+        return null;
     }
 
-    public static Nation getFromName(@NotNull String name) {
-        return instance.getNationManager().getNations().get(instance.getNationManager().getNameNations().get(name));
+    public static @Nullable Nation getFromName(String name) {
+        if (name == null) return null;
+        for (Nation nation : instance.getNationManager().getNations().values()) {
+            if (nation.getName().equals(name)) return nation;
+        }
+        return null;
     }
 
 }

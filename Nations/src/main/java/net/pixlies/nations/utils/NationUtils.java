@@ -1,7 +1,5 @@
 package net.pixlies.nations.utils;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.util.Random;
 
 /**
@@ -26,9 +24,10 @@ public class NationUtils {
     }
 
     public static boolean nameValid(String name) {
-        if (!StringUtils.isAlphanumeric(name)) return false;
-        if (name.equalsIgnoreCase("confirm")) return false;
-        return name.length() <= 16 && name.matches("^[a-zA-Z0-9_-]*$");
+        if (name == null) return false;
+        if (name.length() > 16 || name.length() < 4) return false;
+        if (!name.matches("^[a-zA-Z0-9_-]*$")) return false;
+        return !name.equalsIgnoreCase("confirm");
     }
 
 }

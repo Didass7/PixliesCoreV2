@@ -149,8 +149,8 @@ public class MarketManager {
      */
     public String getTariffId(String from, String to) {
         for (Tariff t : tariffs.values()) {
-            boolean fromCond = Objects.equals(t.getFrom(), Objects.requireNonNull(Nation.getFromName(from)).getNationsId());
-            boolean toCond = Objects.equals(t.getTo(), Objects.requireNonNull(Nation.getFromName(to)).getNationsId());
+            boolean fromCond = Objects.equals(t.getFrom(), Objects.requireNonNull(Nation.getFromName(from)).getNationId());
+            boolean toCond = Objects.equals(t.getTo(), Objects.requireNonNull(Nation.getFromName(to)).getNationId());
             if (fromCond && toCond) return t.getTariffId();
         }
         return null;
