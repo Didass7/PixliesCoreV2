@@ -1,8 +1,8 @@
 package net.pixlies.nations.listeners.impl;
 
-import net.pixlies.core.Main;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.localization.Lang;
+import net.pixlies.nations.Nations;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -17,7 +17,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 public class LockedChestListener implements Listener {
 
-    private static final Main instance = Main.getInstance();
+    private static final Nations instance = Nations.getInstance();
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {

@@ -34,13 +34,13 @@ public class NationRank {
     }*/
 
     // Newbie has no permissions
-    public static NationRank newbie() {
+    public static NationRank getNewbieRank() {
         List<String> perms = new ArrayList<>();
         return new NationRank("newbie", "§a*", 1, perms);
     }
 
     // Member has a few basic permissions
-    public static NationRank member() {
+    public static NationRank getMemberRank() {
         List<String> perms = new ArrayList<>();
         perms.add(NationPermission.INVITE.name());
         perms.add(NationPermission.BUILD.name());
@@ -50,8 +50,8 @@ public class NationRank {
     }
 
     // Admin has quite a few perms
-    public static NationRank admin() {
-        List<String> perms = new ArrayList<>(member().permissions);
+    public static NationRank getAdminRank() {
+        List<String> perms = new ArrayList<>(getMemberRank().permissions);
         perms.add(NationPermission.INVITE.name());
         perms.add(NationPermission.KICK.name());
         perms.add(NationPermission.MANAGE_SETTLEMENTS.name());
@@ -65,7 +65,7 @@ public class NationRank {
     }
 
     // Leader has all them perms
-    public static NationRank leader() {
+    public static NationRank getLeaderRank() {
         List<String> perms = new ArrayList<>();
         Arrays.stream(NationPermission.values()).forEach(perm -> perms.add(perm.name()));
         return new NationRank("leader", "§6★", 127, perms);

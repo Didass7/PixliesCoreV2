@@ -155,7 +155,7 @@ public final class MarketItems {
 
         // PRICE
 
-        Nation nation = Objects.requireNonNull(NationProfile.get(User.get(order.getPlayerUUID()))).getNation();
+        Nation nation = NationProfile.get(order.getPlayerUUID()).getNation();
         double tax = nation.getTaxRate();
 
         builder.addLoreLine("§7§lTotal price: §6" + (order.getPrice() * order.getAmount() * (1 + tax)) + " coins")

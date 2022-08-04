@@ -1,3 +1,10 @@
+mongo:
+  host: "0.0.0.0"
+  port: "27017"
+  user: ""
+  password: ""
+  database: ""
+
 save:
   # In ticks
   period: 12000

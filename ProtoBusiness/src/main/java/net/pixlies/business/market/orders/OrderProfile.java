@@ -452,7 +452,7 @@ public class OrderProfile {
         StaticPane background = new StaticPane(0, 0, 9, 4, Pane.Priority.LOWEST);
         background.fillWith(new ItemStack(Material.BLACK_STAINED_GLASS_PANE));
 
-        Nation nation = Objects.requireNonNull(NationProfile.get(User.get(player.getUniqueId()))).getNation();
+        Nation nation = NationProfile.get(player.getUniqueId()).getNation();
         double tax = nation.getTaxRate();
 
         // CONFIRM PANE

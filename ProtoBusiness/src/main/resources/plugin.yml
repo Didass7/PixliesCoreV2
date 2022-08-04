@@ -2,7 +2,7 @@ name: ProtoBusiness
 version: 1.0.0
 description: Me and missy is so very busy busy making money
 api-version: 1.19
-depend:  [PixliesCore]
+depend:  [PixliesCore, Nations]
 authors: [vPrototype_, NeedlessMemeing]
 website: www.pixlies.net
 main: net.pixlies.business.ProtoBusiness

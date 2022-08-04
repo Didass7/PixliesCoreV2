@@ -28,13 +28,15 @@ public class TariffCommand extends BaseCommand {
     @Subcommand("local")
     @Description("Retrieve the list of incoming and outgoing tariffs for your nation")
     public void onTariffLocal(Player player) {
-        if (!NationProfile.isInNation(User.get(player.getUniqueId()))) {
+        NationProfile profile = NationProfile.get(player.getUniqueId());
+
+        if (!profile.isInNation()) {
             Lang.NOT_IN_NATION.send(player);
             player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
             return;
         }
 
-        String nationsId = Objects.requireNonNull(NationProfile.get(User.get(player.getUniqueId()))).getNationId();
+        String nationsId = profile.getNationId();
         List<Tariff> incoming = new ArrayList<>();
         List<Tariff> outgoing = new ArrayList<>();
         for (Tariff t : instance.getMarketManager().getTariffs().values()) {
@@ -87,11 +89,12 @@ public class TariffCommand extends BaseCommand {
     @Description("Set a tariff for a nation")
     public void onTariffSet(Player player, String to, double rate) {
         User user = User.get(player.getUniqueId());
+        NationProfile profile = NationProfile.get(player.getUniqueId());
         Nation from = Nation.getFromName(to);
         double maxRate = instance.getConfig().getDouble("tariffMaxRate");
 
-        boolean notInNation = !NationProfile.isInNation(user);
-        boolean noPermission = !NationPermission.MANAGE_TARIFFS.hasPermission(user) && !user.isBypassing();
+        boolean notInNation = !profile.isInNation();
+        boolean noPermission = !NationPermission.MANAGE_TARIFFS.hasPermission(player) && !user.isBypassing();
         boolean nationNull = from == null;
         boolean rateNotValid = rate > maxRate || rate < 0.01;
 
@@ -105,7 +108,7 @@ public class TariffCommand extends BaseCommand {
             return;
         }
 
-        String fromId = Objects.requireNonNull(NationProfile.get(user)).getNationId();
+        String fromId = profile.getNationId();
         String toId = Objects.requireNonNull(Nation.getFromName(to)).getNationsId();
         Tariff tariff = new Tariff(fromId, toId, rate);
 
@@ -122,10 +125,11 @@ public class TariffCommand extends BaseCommand {
     @Description("Remove a tariff from a nation")
     public void onTariffRemove(Player player, String to) {
         User user = User.get(player.getUniqueId());
-        String from = Objects.requireNonNull(NationProfile.get(user)).getNation().getName();
+        NationProfile profile = NationProfile.get(player.getUniqueId());
+        String from = profile.getNation().getName();
 
-        boolean notInNation = !NationProfile.isInNation(user);
-        boolean noPermission = !NationPermission.MANAGE_TARIFFS.hasPermission(user) && !user.isBypassing();
+        boolean notInNation = !profile.isInNation();
+        boolean noPermission = !NationPermission.MANAGE_TARIFFS.hasPermission(player) && !user.isBypassing();
         boolean tariffNull = instance.getMarketManager().getTariffId(from, to) == null;
 
         if (notInNation) Lang.NOT_IN_NATION.send(player);

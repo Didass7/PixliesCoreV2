@@ -152,8 +152,7 @@ public class NationChunk {
         JsonArray accessors = data.getAsJsonArray("accessors");
         for (JsonElement accessor : accessors) {
             UUID uuid = UUID.fromString(accessor.getAsString());
-            User user = User.get(uuid);
-            NationProfile profile = NationProfile.get(user);
+            NationProfile profile = NationProfile.get(uuid);
             returner.add(profile);
         }
         this.setJsonData(data);

@@ -1,12 +1,14 @@
 package net.pixlies.nations.interfaces;
 
-import dev.morphia.annotations.Entity;
-import dev.morphia.annotations.Field;
-import dev.morphia.annotations.Index;
-import dev.morphia.annotations.Indexes;
+import dev.morphia.annotations.*;
+import dev.morphia.query.experimental.filters.Filters;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import net.pixlies.core.entity.user.User;
+import net.pixlies.core.utils.CC;
+import net.pixlies.nations.Nations;
 import net.pixlies.nations.interfaces.profile.ChatType;
 import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.ranks.NationRank;
@@ -30,42 +32,58 @@ import java.util.UUID;
 )
 public class NationProfile {
 
+    private static final Nations instance = Nations.getInstance();
+
     // -------------------------------------------------------------------------------------------------
     //                                              DATA
     // -------------------------------------------------------------------------------------------------
 
     // Player
-    private String uuid;
+    private @Id String uuid;
+    private long lastLogin;
 
     // Nations
-    private String nationId;
-    private String nationRank;
-    private String profileChatType;
+    private @Nullable String nationId;
+    private @Nullable String nationRank;
+    private @Getter(AccessLevel.NONE) String profileChatType;
 
     // -------------------------------------------------------------------------------------------------
     //                                            METHODS
     // -------------------------------------------------------------------------------------------------
 
-    public boolean isLeader() {
-        Nation nation = Nation.getFromId(nationId);
-        NationRank rank = nation.getRanks().get(nationRank);
-        return rank.getPriority() == 666;
+    public boolean isNationLeader() {
+        Nation nation = getNation();
+        if (nation == null) return false;
+        return nation.getLeaderUUID().toString().equals(uuid);
     }
 
-    public NationRank getRank() {
-        return Nation.getFromId(nationId).getRanks().get(nationRank);
+    public @Nullable NationRank getRank() {
+        Nation nation = getNation();
+        if (nation == null) return null;
+
+        return getNation().getRanks().getOrDefault(nationRank, NationRank.getNewbieRank());
     }
 
     /**
      * Get the nation chat type
+     *
      * @return nation chat type
      */
     public ChatType getChatType() {
-        return ChatType.valueOf(profileChatType);
+        try {
+            return ChatType.valueOf(profileChatType);
+        } catch (IllegalArgumentException e) {
+            return ChatType.GLOBAL;
+        }
     }
 
     public void setChatType(ChatType chatType) {
         this.profileChatType = chatType.name();
+        save();
+    }
+
+    public void setNation(Nation nation) {
+        nationId = nation.getNationsId();
     }
 
     public Nation getNation() {
@@ -73,25 +91,39 @@ public class NationProfile {
     }
 
     /**
-     * Removes the nation information from a user.
+     * Check if the profile is in a nation.
      *
-     * @return true if success, false if failed.
+     * @return True if the profile is indeed in a nation.
      */
-    public boolean leaveNation() {
-        User user = User.get(getUniqueId());
+    public boolean isInNation() {
+        return getNation() != null;
+    }
 
-        if (!isInNation(user)) return false;
+    public void save() {
+        instance.getMongoManager().getProfileCache().put(getUniqueId(), this);
+        backup();
+    }
 
-        NationProfile profile = get(user);
-        if (profile == null) return false;
-        Nation nation = Nation.getFromId(profile.getNationId());
+    public void backup() {
+        instance.getMongoManager().getDatastore().save(this);
+    }
 
-        nation.getMemberUUIDs().remove(user.getUuid());
+    /**
+     * Removes the nation information from a user.
+     */
+    public void leaveNation() {
+
+        if (!isInNation()) return;
+        Nation nation = getNation();
+        if (nation == null) return;
+
+        nationId = null;
+        nationRank = null;
+        profileChatType = ChatType.GLOBAL.name();
+        save();
+
+        nation.getMemberUUIDs().remove(uuid);
         nation.save();
-
-        user.getExtras().remove("nationsProfile");
-        user.save();
-        return true;
     }
 
     public UUID getUniqueId() {
@@ -102,25 +134,39 @@ public class NationProfile {
     //                                          STATIC METHODS
     // -------------------------------------------------------------------------------------------------
 
-    /**
-     * Check if player is in a nation by checking their extras variable for a "nationsProfile" object.
-     *
-     * @param user Expects a valid "User" object of the player
-     * @see User
-     */
-    public static boolean isInNation(@NotNull User user) {
-        return user.getExtras().containsKey("nationsProfile");
+    public static @NotNull NationProfile get(UUID uuid) {
+        if (!instance.getMongoManager().getProfileCache().containsKey(uuid)) return getFromDatabase(uuid);
+        return instance.getMongoManager().getProfileCache().get(uuid);
     }
 
-    /**
-     * Get a users NationProfile
-     *
-     * @param user Expects a valid "User" object of the player
-     * @return If user is not in a nation: null; If he is: A valid NationProfile object
-     */
-    public static @Nullable NationProfile get(@NotNull User user) {
-        if (!isInNation(user)) return null;
-        return (NationProfile) user.getExtras().get("nationsProfile");
+    private static NationProfile getFromDatabase(UUID uuid) {
+
+        NationProfile profile = instance.getMongoManager().getDatastore().find(NationProfile.class).filter(Filters.gte("uuid", uuid.toString())).first();
+        if (profile == null) {
+            profile = new NationProfile(
+                    uuid.toString(),
+                    System.currentTimeMillis(),
+                    null,
+                    null,
+                    ChatType.GLOBAL.toString()
+            );
+
+            profile.save();
+            instance.getLogger().info(CC.format("&bNationProfile for &6" + uuid + "&b created in database."));
+            return profile;
+        }
+
+        // NULL CHECK
+        NationProfile checkProfile = new NationProfile(
+                profile.uuid,
+                profile.lastLogin,
+                profile.nationId,
+                profile.nationRank,
+                profile.profileChatType == null ? ChatType.GLOBAL.name() : profile.profileChatType
+        );
+
+        checkProfile.save();
+        return checkProfile;
     }
 
 }

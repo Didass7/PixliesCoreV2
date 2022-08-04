@@ -7,6 +7,7 @@ import net.pixlies.core.modules.Module;
 import net.pixlies.core.modules.configuration.ModuleConfig;
 import net.pixlies.nations.commands.CommandManager;
 import net.pixlies.nations.database.MongoManager;
+import net.pixlies.nations.interfaces.NationProfile;
 import net.pixlies.nations.listeners.ListenerManager;
 import net.pixlies.nations.handlers.HandlerManager;
 import net.pixlies.nations.handlers.RegisterHandlerManager;
@@ -16,6 +17,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 @Getter
 public class Nations extends JavaPlugin implements Module {
@@ -37,7 +41,7 @@ public class Nations extends JavaPlugin implements Module {
             .create();
 
     @Override
-    public void onLoad() {
+    public void onEnable() {
 
         instance = this;
 
@@ -61,6 +65,9 @@ public class Nations extends JavaPlugin implements Module {
         // COMMANDS
         commandManager = new CommandManager();
         commandManager.registerAllCommands();
+
+        // LOADING
+        nationManager.loadAll();
 
     }
 

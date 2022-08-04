@@ -60,8 +60,10 @@ public class Order {
     public double getPrice(UUID matchingUUID) {
         if (playerUUID == matchingUUID) return price;
 
-        String from = Objects.requireNonNull(NationProfile.get(User.get(playerUUID))).getNation().getNationsId();
-        String to = Objects.requireNonNull(NationProfile.get(User.get(matchingUUID))).getNation().getNationsId();
+
+
+        String from = NationProfile.get(playerUUID).getNation().getNationsId();
+        String to = NationProfile.get(matchingUUID).getNation().getNationsId();
         double rate = 0;
 
         // Checks the tariffs list and sees if there are any that match

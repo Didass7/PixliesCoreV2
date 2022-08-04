@@ -2,14 +2,12 @@ package net.pixlies.nations.nations;
 
 import dev.morphia.annotations.*;
 import lombok.*;
-import net.pixlies.core.entity.user.User;
 import net.pixlies.core.events.PixliesCancellableEvent;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.utils.EventUtils;
 import net.pixlies.nations.Nations;
 import net.pixlies.nations.events.impl.NationDisbandEvent;
 import net.pixlies.nations.interfaces.NationProfile;
-import net.pixlies.nations.interfaces.profile.ChatType;
 import net.pixlies.nations.nations.chunk.NationChunk;
 import net.pixlies.nations.nations.customization.GovernmentType;
 import net.pixlies.nations.nations.customization.Ideology;
@@ -18,6 +16,7 @@ import net.pixlies.nations.nations.customization.Religion;
 import net.pixlies.nations.nations.ranks.NationRank;
 import net.pixlies.nations.utils.NationUtils;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -48,7 +47,7 @@ public class Nation {
     // INFO
     @Id private @Getter @Setter String nationsId;
     private @Getter @Setter String name;
-    private @Getter @Setter String description;
+    private @Getter String description;
     private @Getter @Setter String motd;
     private String leaderUUID;
     private @Getter @Setter long created;
@@ -129,7 +128,7 @@ public class Nation {
         this(
                 nationId,
                 name,
-                NationUtils.randomDesc(),
+                NationUtils.randomDescription(),
                 "",
                 leaderUUID,
                 System.currentTimeMillis(),
@@ -158,6 +157,7 @@ public class Nation {
 
     public void setLeaderUUID(UUID uuid) {
         this.leaderUUID = uuid.toString();
+        save();
     }
 
     public UUID getLeaderUUID() {
@@ -166,6 +166,7 @@ public class Nation {
 
     public void setGovType(GovernmentType type) {
         this.govType = type.name();
+        save();
     }
 
     public GovernmentType getGovType() {
@@ -174,6 +175,7 @@ public class Nation {
 
     public void setIdeology(Ideology type) {
         this.ideology = type.name();
+        save();
     }
 
     public Ideology getIdeology() {
@@ -182,6 +184,7 @@ public class Nation {
 
     public void setReligion(Religion type) {
         this.religion = type.name();
+        save();
     }
 
     public Religion getReligion() {
@@ -202,16 +205,22 @@ public class Nation {
         return !motd.equals("");
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+        save();
+        // TODO: CHANGE DESC BROADCAST
+    }
+
     // -------------------------------------------------------------------------------------------------
     //                                            METHODS
     // -------------------------------------------------------------------------------------------------
 
     public Nation create(@Nullable CommandSender sender) {
         ranks.clear();
-        ranks.put("leader", NationRank.leader());
-        ranks.put("admin", NationRank.admin());
-        ranks.put("member", NationRank.member());
-        ranks.put("newbie", NationRank.newbie());
+        ranks.put("leader", NationRank.getLeaderRank());
+        ranks.put("admin", NationRank.getAdminRank());
+        ranks.put("member", NationRank.getMemberRank());
+        ranks.put("newbie", NationRank.getNewbieRank());
 
         if (sender != null) {
             Lang.NATION_FORMED.broadcast("%NATION%;" + this.getName(), "%PLAYER%;" + sender.getName());
@@ -232,6 +241,7 @@ public class Nation {
     public void save() {
         instance.getNationManager().getNations().put(nationsId, this);
         instance.getNationManager().getNameNations().put(name, nationsId);
+        backup();
     }
 
     public void backup() {
@@ -242,26 +252,23 @@ public class Nation {
         constitutionValues.set(law, option);
     }
 
-    public void addMember(User user, String rank) {
+    public void addMember(Player player, String rank) {
         // ADD TO MEMBER LIST
-        memberUUIDs.add(user.getUuid());
+        memberUUIDs.add(player.getUniqueId().toString());
         save();
 
         // MAKE A VARIABLE TO STORE THE RANK NAME
         String rankToAddIn = rank;
 
-        // CHECK IF RANK EXISTS; IF NOT TAKE NEWBIE
-        if (!ranks.containsKey(rankToAddIn)) rankToAddIn = NationRank.newbie().getName();
+        // CHECK IF RANK EXISTS; IF NOT TAKE NEWBIE LOL
+        if (!ranks.containsKey(rankToAddIn)) rankToAddIn = NationRank.getNewbieRank().getName();
 
         // CREATE A NEW NATIONPROFILE INSTANCE; ASSIGN TO PLAYER AND STORE IT
-        NationProfile nProfile = new NationProfile(
-                user.getUuid(),
-                nationsId,
-                ChatType.PUBLIC.name(),
-                rankToAddIn
-        );
-        user.getExtras().put("nationsProfile", nProfile);
-        user.save();
+        NationProfile profile = NationProfile.get(player.getUniqueId());
+        profile.setNation(this);
+        profile.setNationRank(rank);
+        profile.save();
+
     }
 
     /**
@@ -274,10 +281,8 @@ public class Nation {
         if (event.isCancelled()) return false;
 
         for (UUID member : getMembers()) {
-            User memberUser = User.get(member);
-            NationProfile profile = NationProfile.get(memberUser);
-            if (profile != null)
-                profile.leaveNation();
+            NationProfile profile = NationProfile.get(member);
+            profile.leaveNation();
         }
 
         instance.getNationManager().getNameNations().remove(name);
@@ -330,11 +335,11 @@ public class Nation {
     //                                        STATIC METHODS
     // -------------------------------------------------------------------------------------------------
 
-    public static @Nullable Nation getFromId(String id) {
+    public static Nation getFromId(@NotNull String id) {
         return instance.getNationManager().getNations().get(id);
     }
 
-    public static @Nullable Nation getFromName(String name) {
+    public static Nation getFromName(@NotNull String name) {
         return instance.getNationManager().getNations().get(instance.getNationManager().getNameNations().get(name));
     }
 

@@ -11,7 +11,7 @@ import java.util.Random;
  */
 public class NationUtils {
 
-    public static String randomDesc() {
+    public static String randomDescription() {
         String[] arr = new String[] {
             "No description yet",
             "Use /n description to change me!",
@@ -27,6 +27,7 @@ public class NationUtils {
 
     public static boolean nameValid(String name) {
         if (!StringUtils.isAlphanumeric(name)) return false;
+        if (name.equalsIgnoreCase("confirm")) return false;
         return name.length() <= 16 && name.matches("^[a-zA-Z0-9_-]*$");
     }
 

@@ -47,18 +47,17 @@ public enum NationPermission {
     MANAGE_TARIFFS;
 
     public boolean hasPermission(CommandSender sender) {
-        if (!(sender instanceof Player)) return true;
-        User user = User.get(((Player) sender).getUniqueId());
+        if (!(sender instanceof Player player)) return true;
+        User user = User.get(player.getUniqueId());
         if (user.isBypassing()) return true;
-        return hasPermission(user);
+        return hasPermission(NationProfile.get(player.getUniqueId()));
     }
 
-    public boolean hasPermission(User user) {
-        NationProfile profile = NationProfile.get(user);
-        if (profile == null) return false;
-        if (user.isBypassing()) return true;
-        if (profile.isLeader()) return true;
+    public boolean hasPermission(NationProfile profile) {
+        if (profile.isInNation()) return false;
+        if (profile.isNationLeader()) return true;
         NationRank rank = profile.getRank();
+        if (rank == null) return false;
         return rank.getPermissions().contains(this.name());
     }
 
