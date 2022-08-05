@@ -1,17 +1,17 @@
-package net.pixlies.proxy.listeners.impl;
+package net.pixlies.proxy.listeners.impl.server;
 
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ServerKickEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.event.EventHandler;
-import net.pixlies.proxy.Proxy;
+import net.pixlies.proxy.PixliesProxy;
 
 import java.util.concurrent.TimeUnit;
 
 public class ServerKickListener implements Listener {
 
-    private static final Plugin plugin = Proxy.getInstance();
+    private static final Plugin plugin = PixliesProxy.getInstance();
 
     @EventHandler
     public void onKick(final ServerKickEvent event) {

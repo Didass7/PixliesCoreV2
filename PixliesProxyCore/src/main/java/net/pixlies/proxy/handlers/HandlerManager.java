@@ -1,6 +1,6 @@
 package net.pixlies.proxy.handlers;
 
-import net.pixlies.proxy.Proxy;
+import net.pixlies.proxy.PixliesProxy;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class HandlerManager {
 
-    private static final Proxy instance = Proxy.getInstance();
+    private static final PixliesProxy instance = PixliesProxy.getInstance();
 
     private final Map<Class<? extends Handler>, Handler> handlers = new HashMap<>();
 

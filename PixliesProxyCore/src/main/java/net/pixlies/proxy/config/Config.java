@@ -4,7 +4,7 @@ import lombok.Getter;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
-import net.pixlies.proxy.Proxy;
+import net.pixlies.proxy.PixliesProxy;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,7 +18,7 @@ import java.nio.file.StandardCopyOption;
 */
 public class Config {
 
-    private static final Proxy instance = Proxy.getInstance();
+    private static final PixliesProxy instance = PixliesProxy.getInstance();
 
     @Getter private Configuration config = new Configuration();
     private final File file;

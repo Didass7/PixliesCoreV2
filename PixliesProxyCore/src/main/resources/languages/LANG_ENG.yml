@@ -1,6 +1,7 @@
 # PLAYER
-PLAYER_SERVER_CONNECTED: "&7You have been connected to the server &d%SERVER%&7."
-PLAYER_SERVER_CONNECTED_OTHER: "&6%PLAYER%&7 has been connected to the server &d%SERVER%&7."
+PLAYER_SERVER_CONNECTING: "&7Connecting to &d%SERVER%&7..."
+PLAYER_SERVER_ALREADY_CONNECTED: "&7You are already connected to &d%SERVER%&7!"
+PLAYER_SERVER_CONNECTING_OTHER: "&6%PLAYER%&7 is now connecting to &d%SERVER%&7."
 PLAYER_SERVER_NOT_EXIST: "&7That server does not exist."
 PLAYER_SERVER_CANNOT_CONNECT: "&7You cannot connect to that server."
 PLAYER_SERVER_CANNOT_CONNECT_OTHER: "&6%PLAYER%&7 cannot connect to that server."

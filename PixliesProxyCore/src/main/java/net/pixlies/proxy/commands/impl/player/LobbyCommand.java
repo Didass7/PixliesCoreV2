@@ -6,7 +6,7 @@ import co.aikar.commands.annotation.*;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.pixlies.proxy.Proxy;
+import net.pixlies.proxy.PixliesProxy;
 import net.pixlies.proxy.config.Config;
 import net.pixlies.proxy.localization.Lang;
 
@@ -17,7 +17,7 @@ import net.pixlies.proxy.localization.Lang;
 @CommandAlias("lobby|hub")
 public class LobbyCommand extends BaseCommand {
 
-    private static final Proxy instance = Proxy.getInstance();
+    private static final PixliesProxy instance = PixliesProxy.getInstance();
     private final Config config = instance.getConfig();
 
     @Default
@@ -27,8 +27,11 @@ public class LobbyCommand extends BaseCommand {
             Lang.PLAYER_SERVER_NOT_EXIST.send(player);
             return;
         }
+        if (player.getServer().getInfo().equals(serverInfo)) {
+            Lang.PLAYER_SERVER_ALREADY_CONNECTED.send(player, "%SERVER%;" + serverInfo.getName());
+        }
+        Lang.PLAYER_SERVER_CONNECTING.send(player, "%SERVER%;" + serverInfo.getName());
         player.connect(serverInfo);
-        Lang.PLAYER_SERVER_CONNECTED.send(player, "%SERVER%;" + serverInfo.getName());
     }
 
     @CommandCompletion("@players")
@@ -39,8 +42,11 @@ public class LobbyCommand extends BaseCommand {
             Lang.PLAYER_SERVER_NOT_EXIST.send(player);
             return;
         }
+        if (player.getServer().getInfo().equals(serverInfo)) {
+            Lang.PLAYER_SERVER_ALREADY_CONNECTED.send(player, "%SERVER%;" + serverInfo.getName());
+        }
+        Lang.PLAYER_SERVER_CONNECTING.send(player, "%SERVER%;" + serverInfo.getName());
         player.connect(serverInfo);
-        Lang.PLAYER_SERVER_CONNECTED.send(player, "%SERVER%;" + serverInfo.getName());
     }
 
     @HelpCommand

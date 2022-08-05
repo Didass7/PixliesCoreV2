@@ -1,18 +1,20 @@
 package net.pixlies.proxy.database;
 
-import com.mongodb.ConnectionString;
-import com.mongodb.MongoClientSettings;
-import com.mongodb.MongoClientURI;
+import com.mongodb.*;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import dev.morphia.Datastore;
 import dev.morphia.Morphia;
 import dev.morphia.mapping.MapperOptions;
 import lombok.Getter;
-import net.md_5.bungee.config.Configuration;
-import net.pixlies.proxy.Proxy;
+import net.pixlies.proxy.PixliesProxy;
+import net.pixlies.proxy.config.Config;
+import net.pixlies.proxy.entity.ProxyProfile;
 
-import java.sql.Connection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,31 +24,44 @@ import java.util.logging.Logger;
  */
 public class MongoManager {
 
-    private static final Proxy instance = Proxy.getInstance();
+    private static final PixliesProxy instance = PixliesProxy.getInstance();
     private final Logger logger = instance.getLogger();
-    private final Configuration config = instance.getConfig().getConfig();
+    private final Config config = instance.getConfig();
 
-    @Getter private MongoClient client;
-    @Getter private Datastore userDatastore;
+    private @Getter MongoClient client;
+    private @Getter Datastore datastore;
+    private final @Getter Map<UUID, ProxyProfile> profileCache = new HashMap<>();
 
     public MongoManager() {
         Logger.getLogger("org.mongodb.driver").setLevel(Level.WARNING);
     }
 
     public void init() {
+        Logger.getLogger("org.mongodb.driver").setLevel(Level.WARNING);
+        instance.getLogger().info("Connecting to MongoDB...");
 
-        String uri = config.getString("mongo.host", "mongodb://localhost:27017");
-        String userDatabase = config.getString("mongo.user-database", "proxy-users");
+        MongoCredential credential = MongoCredential.createCredential(conf("mongo.user"), conf("mongo.database"), conf("mongo.password").toCharArray());
 
-        ConnectionString connection = new ConnectionString(uri);
+        MongoClientSettings settings = MongoClientSettings.builder()
+                .credential(credential)
+                .applyToClusterSettings(builder ->
+                        builder.hosts(List.of(new ServerAddress(conf("mongo.host"), Integer.parseInt(conf("mongo.port"))))))
+                .build();
 
-        logger.info("Attempting Mongo connection...");
-        client = MongoClients.create(connection);
+        client = MongoClients.create(settings);
 
-        MapperOptions options = MapperOptions.DEFAULT;
-        userDatastore = Morphia.createDatastore(client, userDatabase, options);
-        userDatastore.ensureIndexes();
+        datastore = Morphia.createDatastore(client, conf("mongo.database"), MapperOptions.builder()
+                .storeEmpties(true)
+                .build());
+        datastore.ensureIndexes();
 
+        datastore.getMapper().map(ProxyProfile.class);
+
+        instance.getLogger().info("Connected to MongoDB database.");
+    }
+
+    private String conf(String what) {
+        return config.getConfig().getString(what);
     }
 
 }

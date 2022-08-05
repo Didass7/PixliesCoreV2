@@ -1,7 +1,10 @@
 # Welcome to the config!
 mongo:
-  uri: "mongodb://pixlies:2022/"
-  user-database: "proxy-users"
+  host: "0.0.0.0"
+  port: "27017"
+  user: ""
+  password: ""
+  database: ""
 
 commands:
   lobby:

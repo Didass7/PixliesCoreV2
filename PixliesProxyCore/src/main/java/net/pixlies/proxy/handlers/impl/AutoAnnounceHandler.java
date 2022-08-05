@@ -1,6 +1,6 @@
 package net.pixlies.proxy.handlers.impl;
 
-import net.pixlies.proxy.Proxy;
+import net.pixlies.proxy.PixliesProxy;
 import net.pixlies.proxy.config.Config;
 import net.pixlies.proxy.handlers.Handler;
 import net.pixlies.proxy.utils.CC;
@@ -17,12 +17,13 @@ import java.util.List;
  */
 public class AutoAnnounceHandler implements Handler {
 
-    private static final Proxy instance = Proxy.getInstance();
+    private static final PixliesProxy instance = PixliesProxy.getInstance();
     private static final Config config = instance.getConfig();
 
     private final List<String> messages = new LinkedList<>();
 
     public @Nullable String getFirstAndReplace() {
+        if (messages.isEmpty()) return null;
         String message = messages.get(0);
         String prefix = config.getConfig().getString("autoannounce.prefix", "");
         messages.remove(message);
@@ -31,7 +32,7 @@ public class AutoAnnounceHandler implements Handler {
     }
 
     public void loadMessages() {
-        if (!this.isEnabled()) return;
+        if (!this.isAutoAnnounceEnabled()) return;
         List<String> messages = config.getConfig().getStringList("autoannounce.messages");
         this.messages.clear();
         this.messages.addAll(messages);
@@ -45,7 +46,7 @@ public class AutoAnnounceHandler implements Handler {
         return messages;
     }
 
-    public boolean isEnabled() {
+    public boolean isAutoAnnounceEnabled() {
         return config.getConfig().getBoolean("autoannounce.enabled", true);
     }
 

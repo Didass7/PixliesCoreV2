@@ -6,39 +6,45 @@ import co.aikar.commands.annotation.*;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.pixlies.proxy.Proxy;
+import net.pixlies.proxy.PixliesProxy;
 import net.pixlies.proxy.localization.Lang;
 
-@CommandAlias("server")
+@CommandAlias("server|pserver")
 @CommandPermission("pixlies.server")
 public class ServerCommand extends BaseCommand {
 
-    private static final Proxy instance = Proxy.getInstance();
+    private static final PixliesProxy instance = PixliesProxy.getInstance();
 
     @CommandPermission("pixlies.server.others")
     @CommandCompletion("@players")
-    @Syntax("<player> <server>")
-    @Description("Connect a player to a server.")
-    public void onServer(CommandSender sender, ProxiedPlayer player, ServerInfo serverInfo) {
-        if (!serverInfo.canAccess(player)) {
-            Lang.PLAYER_SERVER_CANNOT_CONNECT_OTHER.send(sender, "%PLAYER%;" + player.getName());
+    @Syntax("<server> <player>")
+    @Description("Connect a target to a server.")
+    public void onServer(CommandSender sender, ServerInfo serverInfo, ProxiedPlayer target) {
+        if (target.getServer().getInfo().equals(serverInfo)) {
+            Lang.PLAYER_SERVER_ALREADY_CONNECTED.send(target, "%SERVER%;" + serverInfo.getName());
+        }
+        if (!serverInfo.canAccess(target)) {
+            Lang.PLAYER_SERVER_CANNOT_CONNECT_OTHER.send(sender, "%PLAYER%;" + target.getName());
             return;
         }
-        player.connect(serverInfo);
-        Lang.PLAYER_SERVER_CONNECTED_OTHER.send(sender, "%PLAYER%;" + player.getName(), "%SERVER%;" + serverInfo.getName());
-        Lang.PLAYER_SERVER_CONNECTED.send(player, "%SERVER%;" + serverInfo.getName());
+        Lang.PLAYER_SERVER_CONNECTING_OTHER.send(sender, "%PLAYER%;" + target.getName(), "%SERVER%;" + serverInfo.getName());
+        Lang.PLAYER_SERVER_CONNECTING.send(target, "%SERVER%;" + serverInfo.getName());
+        target.connect(serverInfo);
     }
 
     @CommandCompletion("@players")
     @Syntax("<server>")
     @Description("Connect to a server.")
     public void onServer(ProxiedPlayer player, ServerInfo serverInfo) {
+        if (player.getServer().getInfo().equals(serverInfo)) {
+            Lang.PLAYER_SERVER_ALREADY_CONNECTED.send(player, "%SERVER%;" + serverInfo.getName());
+        }
         if (!serverInfo.canAccess(player)) {
             Lang.PLAYER_SERVER_CANNOT_CONNECT.send(player);
             return;
         }
+        Lang.PLAYER_SERVER_CONNECTING.send(player, "%SERVER%;" + serverInfo.getName());
         player.connect(serverInfo);
-        Lang.PLAYER_SERVER_CONNECTED.send(player, "%SERVER%;" + serverInfo.getName());
     }
 
     @Default

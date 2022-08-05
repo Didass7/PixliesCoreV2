@@ -7,6 +7,7 @@ import net.pixlies.proxy.config.Config;
 import net.pixlies.proxy.database.MongoManager;
 import net.pixlies.proxy.handlers.HandlerManager;
 import net.pixlies.proxy.handlers.RegisterHandlerManager;
+import net.pixlies.proxy.handlers.impl.AutoAnnounceHandler;
 import net.pixlies.proxy.listeners.ListenerManager;
 import net.pixlies.proxy.localization.Lang;
 import net.pixlies.proxy.runnables.RunnableManager;
@@ -15,9 +16,9 @@ import net.pixlies.proxy.utils.FileUtils;
 import java.io.File;
 
 @Getter
-public class Proxy extends Plugin {
+public class PixliesProxy extends Plugin {
 
-    @Getter private static Proxy instance;
+    @Getter private static PixliesProxy instance;
 
     private MongoManager mongoManager;
     private CommandManager commandManager;
@@ -25,7 +26,6 @@ public class Proxy extends Plugin {
     private HandlerManager handlerManager;
 
     private Config config;
-    private Config settingsConfig;
 
     @Override
     public void onEnable() {
@@ -35,10 +35,9 @@ public class Proxy extends Plugin {
 
         // CONFIGS
         config = new Config(new File(getDataFolder().getAbsolutePath() + "/config.yml"), "config.yml");
-        settingsConfig = new Config(new File(getDataFolder().getAbsolutePath() + "/settings.yml"), "settings.yml");
 
         // LANGUAGE
-        FileUtils.saveResource("languages/LANG_ENG.yml", false);
+        FileUtils.saveResource("languages/LANG_ENG.yml", true);
         Lang.init();
 
         // MANAGERS & HANDLERS
@@ -55,6 +54,8 @@ public class Proxy extends Plugin {
         // LISTENERS
         listenerManager = new ListenerManager();
         listenerManager.registerAll();
+
+        handlerManager.getHandler(AutoAnnounceHandler.class).loadMessages();
 
     }
 
