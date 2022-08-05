@@ -16,6 +16,7 @@ import java.util.Map;
 
 public enum Lang {
 
+    // NATIONS
     NATION_NAME_INVALID(Lang.NATION),
     NATION_FORMED(Lang.NATION),
     ALREADY_IN_NATION(Lang.NATION),

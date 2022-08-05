@@ -1,9 +1,7 @@
 package net.pixlies.nations.listeners;
 
 import com.google.common.collect.ImmutableList;
-import net.pixlies.core.Main;
 import net.pixlies.nations.Nations;
-import net.pixlies.nations.listeners.impl.LockedChestListener;
 import net.pixlies.nations.listeners.impl.NationProfileListener;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -13,7 +11,6 @@ public class ListenerManager {
     private static final Nations instance = Nations.getInstance();
 
     private final ImmutableList<Listener> listeners = ImmutableList.of(
-            new LockedChestListener(),
             new NationProfileListener()
     );
 
