@@ -161,10 +161,12 @@ public class LobbyInteractListener implements Listener {
 
     @EventHandler
     public void onHurtSad(EntityDamageByEntityEvent event) {
-        if (!(event.getEntity() instanceof Player player)) return;
-        if (!(event.getDamager() instanceof Player damager)) return;
-        if (lobbyManager.isInBuildMode(player.getUniqueId())) return;
-        if (lobbyManager.isInBuildMode(damager.getUniqueId())) return;
+        if (event.getEntity() instanceof Player player) {
+            if (lobbyManager.isInBuildMode(player.getUniqueId())) return;
+        }
+        if (event.getDamager() instanceof Player damager) {
+            if (lobbyManager.isInBuildMode(damager.getUniqueId())) return;
+        }
         event.setCancelled(true);
     }
 
