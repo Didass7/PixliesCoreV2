@@ -29,6 +29,7 @@ public class LobbyCommand extends BaseCommand {
         }
         if (player.getServer().getInfo().equals(serverInfo)) {
             Lang.PLAYER_SERVER_ALREADY_CONNECTED.send(player, "%SERVER%;" + serverInfo.getName());
+            return;
         }
         Lang.PLAYER_SERVER_CONNECTING.send(player, "%SERVER%;" + serverInfo.getName());
         player.connect(serverInfo);
@@ -44,6 +45,7 @@ public class LobbyCommand extends BaseCommand {
         }
         if (player.getServer().getInfo().equals(serverInfo)) {
             Lang.PLAYER_SERVER_ALREADY_CONNECTED.send(player, "%SERVER%;" + serverInfo.getName());
+            return;
         }
         Lang.PLAYER_SERVER_CONNECTING.send(player, "%SERVER%;" + serverInfo.getName());
         player.connect(serverInfo);

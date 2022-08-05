@@ -22,6 +22,7 @@ public class ServerCommand extends BaseCommand {
     public void onServer(CommandSender sender, ServerInfo serverInfo, ProxiedPlayer target) {
         if (target.getServer().getInfo().equals(serverInfo)) {
             Lang.PLAYER_SERVER_ALREADY_CONNECTED.send(target, "%SERVER%;" + serverInfo.getName());
+            return;
         }
         if (!serverInfo.canAccess(target)) {
             Lang.PLAYER_SERVER_CANNOT_CONNECT_OTHER.send(sender, "%PLAYER%;" + target.getName());
@@ -38,6 +39,7 @@ public class ServerCommand extends BaseCommand {
     public void onServer(ProxiedPlayer player, ServerInfo serverInfo) {
         if (player.getServer().getInfo().equals(serverInfo)) {
             Lang.PLAYER_SERVER_ALREADY_CONNECTED.send(player, "%SERVER%;" + serverInfo.getName());
+            return;
         }
         if (!serverInfo.canAccess(player)) {
             Lang.PLAYER_SERVER_CANNOT_CONNECT.send(player);
