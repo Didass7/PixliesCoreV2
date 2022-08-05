@@ -151,6 +151,10 @@ public enum Lang {
     TPBACK_NO_LOCATION(Lang.PIXLIES, new HashMap<>()),
     TP_CANCEL(Lang.PIXLIES, new HashMap<>()),
 
+    // COMBAT
+    COMBAT_TELEPORT(Lang.PIXLIES, new HashMap<>()),
+    COMBAT_HIT(Lang.PIXLIES, new HashMap<>()),
+
     // MODERATION
     MODERATION_GLOBAL_PVP_ON(Lang.PIXLIES, new HashMap<>()),
     MODERATION_GLOBAL_PVP_OFF(Lang.PIXLIES, new HashMap<>()),

@@ -24,7 +24,7 @@ public class ListenerManager {
         add(new MuteListener());
         add(new ChatModerationListener());
         add(new ChatFormattingListener());
-        add(new GlobalPvpListener());
+//        add(new GlobalPvpListener()); TODO: bugged
         add(new SlowModeListener());
         add(new JoinQuitListener());
         add(new CommandSpyListener());
@@ -42,6 +42,7 @@ public class ListenerManager {
         add(new UserListener());
         add(new RespawnListener());
         add(new SpeedListener());
+        add(new CombatListener());
     }};
 
     public static void registerAllListeners() {

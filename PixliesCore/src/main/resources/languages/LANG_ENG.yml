@@ -91,8 +91,8 @@ WIPED_USERS: "§7Wiped the users database."
 
 # TODO: Finish messages and translations
 # STAFF
-STAFF_GOD_ON: ""
-STAFF_GOD_OFF: ""
+STAFF_GOD_ON: "§7God has been enabled."
+STAFF_GOD_OFF: "§7God has been disabled."
 
 STAFF_RANDOM_TELEPORT: "§7You have been randomly teleported to §6%TARGET%§7."
 STAFF_RANDOM_TELEPORT_OTHER: "§6%PLAYER%§7 has been randomly teleported to §6%TARGET%§7."
@@ -157,6 +157,10 @@ TPACCEPT_PLAYER_NOT_ONLINE: "§7That player isn't online."
 RETURNED_TO_PREVIOUS_LOCATION: "§7Returned to previous location."
 TPBACK_NO_LOCATION: "§7There isn't a location to teleport back to."
 TP_CANCEL: "§7Teleportation has been cancelled."
+
+# COMBAT
+COMBAT_TELEPORT: "§7You cannot teleport right now because you are currently in combat."
+COMBAT_HIT: "§7You are now in combat!"
 
 # MODERATION
 MODERATION_GLOBAL_PVP_ON: ""

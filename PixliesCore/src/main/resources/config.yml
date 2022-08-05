@@ -51,6 +51,9 @@ scoreboard:
 warpSettings:
     timedTeleports: true
 
+combat:
+    timer: true
+
 warps:
     spawn:
         name: "Spawn"
