@@ -31,7 +31,7 @@ public class TariffCommand extends BaseCommand {
         NationProfile profile = NationProfile.get(player.getUniqueId());
 
         if (!profile.isInNation()) {
-            Lang.NOT_IN_NATION.send(player);
+            net.pixlies.nations.locale.Lang.NOT_IN_NATION.send(player);
             player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
             return;
         }
@@ -98,9 +98,9 @@ public class TariffCommand extends BaseCommand {
         boolean nationNull = from == null;
         boolean rateNotValid = rate > maxRate || rate < 0.01;
 
-        if (notInNation) Lang.NOT_IN_NATION.send(player);
-        if (noPermission) Lang.NATION_NO_PERMISSION.send(player);
-        if (nationNull) Lang.NATION_DOES_NOT_EXIST.send(player);
+        if (notInNation) net.pixlies.nations.locale.Lang.NOT_IN_NATION.send(player);
+        if (noPermission) net.pixlies.nations.locale.Lang.NATION_NO_PERMISSION.send(player);
+        if (nationNull) net.pixlies.nations.locale.Lang.NATION_DOES_NOT_EXIST.send(player);
         if (rateNotValid) Lang.TARIFF_RATE_NOT_VALID.send(player, "%MAX%;" + maxRate);
 
         if (notInNation || noPermission || nationNull || rateNotValid) {
@@ -132,8 +132,8 @@ public class TariffCommand extends BaseCommand {
         boolean noPermission = !NationPermission.MANAGE_TARIFFS.hasPermission(player) && !user.isBypassing();
         boolean tariffNull = instance.getMarketManager().getTariffId(from, to) == null;
 
-        if (notInNation) Lang.NOT_IN_NATION.send(player);
-        if (noPermission) Lang.NATION_NO_PERMISSION.send(player);
+        if (notInNation) net.pixlies.nations.locale.Lang.NOT_IN_NATION.send(player);
+        if (noPermission) net.pixlies.nations.locale.Lang.NATION_NO_PERMISSION.send(player);
         if (tariffNull) Lang.TARIFF_DOES_NOT_EXIST.send(player);
 
         if (notInNation || noPermission || tariffNull) {

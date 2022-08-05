@@ -1,14 +1,13 @@
 package net.pixlies.nations.nations;
 
 import dev.morphia.annotations.*;
-import io.sentry.util.ApplyScopeUtils;
 import lombok.*;
 import net.pixlies.core.events.PixliesCancellableEvent;
-import net.pixlies.core.localization.Lang;
 import net.pixlies.core.utils.EventUtils;
 import net.pixlies.nations.Nations;
 import net.pixlies.nations.events.impl.NationDisbandEvent;
 import net.pixlies.nations.interfaces.NationProfile;
+import net.pixlies.nations.locale.Lang;
 import net.pixlies.nations.nations.chunk.NationChunk;
 import net.pixlies.nations.nations.customization.GovernmentType;
 import net.pixlies.nations.nations.customization.Ideology;

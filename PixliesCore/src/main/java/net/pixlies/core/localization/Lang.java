@@ -271,26 +271,6 @@ public enum Lang {
     // LOBBY
     LOBBY_BUILDMODE_TOGGLE(Lang.PIXLIES, new HashMap<>()),
 
-    // NATIONS
-    NATION_FORMED(Lang.NATION, new HashMap<>()),
-    ALREADY_IN_NATION(Lang.NATION, new HashMap<>()),
-    NATION_NAME_INVALID(Lang.NATION, new HashMap<>()),
-    NATION_NAME_ALREADY_EXISTS(Lang.NATION, new HashMap<>()),
-    NATION_ID_ALREADY_EXISTS(Lang.NATION, new HashMap<>()),
-
-    NATION_NO_PERMISSION(Lang.NATION, new HashMap<>()),
-
-    NATION_DISBANDED(Lang.NATION, new HashMap<>()),
-    NATION_DISBAND_CONFIRM(Lang.NATION, new HashMap<>()),
-    NATION_DISBAND_CANCELLED(Lang.NATION, new HashMap<>()),
-    NATION_NO_NATION_TO_DISBAND(Lang.NATION, new HashMap<>()),
-    NATION_MISSING_ARG(Lang.NATION, new HashMap<>()),
-    NATION_DOES_NOT_EXIST(Lang.NATION, new HashMap<>()),
-
-    NATION_RENAME(Lang.NATION, new HashMap<>()),
-    NATION_CANNOT_RENAME(Lang.NATION, new HashMap<>()),
-    NOT_IN_NATION(Lang.NATION, new HashMap<>()),
-
     // MARKET [PROTOBUSINESS] @vPrototype_ please make a separate lang for protobusiness.
     MARKET_OPEN(Lang.MARKET, new HashMap<>()),
     MARKET_CLOSED(Lang.MARKET, new HashMap<>()),
