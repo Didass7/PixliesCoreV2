@@ -14,7 +14,7 @@ public class AutoAnnounceRunnable extends PixliesRunnable {
     private final AutoAnnounceHandler handler = instance.getHandlerManager().getHandler(AutoAnnounceHandler.class);
 
     public AutoAnnounceRunnable() {
-        super(1, 1, TimeUnit.SECONDS);
+        super(instance.getHandlerManager().getHandler(AutoAnnounceHandler.class).getDelay(), instance.getHandlerManager().getHandler(AutoAnnounceHandler.class).getDelay(), TimeUnit.SECONDS);
     }
 
     @Override

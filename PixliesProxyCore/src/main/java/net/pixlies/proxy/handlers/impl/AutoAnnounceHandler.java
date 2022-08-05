@@ -38,6 +38,10 @@ public class AutoAnnounceHandler implements Handler {
         this.messages.addAll(messages);
     }
 
+    public int getDelay() {
+        return config.getConfig().getInt("autoannounce.delay", 240);
+    }
+
     /**
      * Get all loaded messages
      * @return all loaded messages
