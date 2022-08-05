@@ -47,6 +47,7 @@ public class WarpCommand extends BaseCommand {
                     return;
                 }
                 if (user.isTeleporting()) {
+                    user.cancelTeleport();
                     Lang.TP_CANCEL.send(player);
                     return;
                 }

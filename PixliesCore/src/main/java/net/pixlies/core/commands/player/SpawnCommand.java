@@ -21,6 +21,7 @@ public class SpawnCommand extends BaseCommand {
         }
 
         if (user.isTeleporting()) {
+            user.cancelTeleport();
             Lang.TP_CANCEL.send(player);
             return;
         }
