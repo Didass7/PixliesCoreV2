@@ -36,6 +36,8 @@ public class CombatListener implements Listener {
             return;
         }
 
+        if (victim.getUniqueId().equals(damager.getUniqueId())) return;
+
         User victimUser = User.get(victim.getUniqueId());
         User damagerUser = User.get(damager.getUniqueId());
 
