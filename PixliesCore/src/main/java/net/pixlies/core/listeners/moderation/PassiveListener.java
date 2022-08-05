@@ -17,6 +17,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerPickupArrowEvent;
 import org.bukkit.inventory.Inventory;
 
 import java.util.Map;
@@ -80,6 +81,14 @@ public class PassiveListener implements Listener {
 
     @EventHandler
     public void onDie(PlayerDeathEvent event) {
+        Player player = event.getPlayer();
+        User user = User.get(player.getUniqueId());
+        if (!user.isPassive()) return;
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onArrowPickup(PlayerPickupArrowEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
         if (!user.isPassive()) return;
