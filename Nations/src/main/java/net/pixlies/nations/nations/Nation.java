@@ -13,6 +13,7 @@ import net.pixlies.nations.nations.customization.GovernmentType;
 import net.pixlies.nations.nations.customization.Ideology;
 import net.pixlies.nations.nations.customization.NationConstitution;
 import net.pixlies.nations.nations.customization.Religion;
+import net.pixlies.nations.nations.ranks.NationPermission;
 import net.pixlies.nations.nations.ranks.NationRank;
 import net.pixlies.nations.utils.NationUtils;
 import org.bukkit.Bukkit;
@@ -47,12 +48,14 @@ public class Nation {
     // -------------------------------------------------------------------------------------------------
 
     // INFO
-    @Id private @Getter @Setter String nationId;
+    @Id
+    private @Getter @Setter String nationId;
     private @Getter @Setter String name;
     private @Getter String description;
     private @Getter @Setter String motd;
     private String leaderUUID;
     private @Getter @Setter long created;
+    private final @Getter boolean systemNation;
 
     // DATA
     private @Getter @Setter double politicalPower;
@@ -89,6 +92,7 @@ public class Nation {
                   @NotNull String motd,
                   @NotNull UUID leaderUUID,
                   long created,
+                  boolean systemNation,
                   double politicalPower,
                   double money,
                   double taxRate,
@@ -106,6 +110,7 @@ public class Nation {
         this.motd = motd;
         this.leaderUUID = leaderUUID.toString();
         this.created = created;
+        this.systemNation = systemNation;
         this.politicalPower = politicalPower;
         this.money = money;
         this.taxRate = taxRate;
@@ -122,8 +127,9 @@ public class Nation {
 
     /**
      * Creates a nation with default settings.
-     * @param nationId The nation ID
-     * @param name the name of the nation
+     *
+     * @param nationId   The nation ID
+     * @param name       the name of the nation
      * @param leaderUUID the leader's UUID
      */
     public Nation(@NotNull String nationId, @NotNull String name, @NotNull UUID leaderUUID) {
@@ -134,13 +140,14 @@ public class Nation {
                 "",
                 leaderUUID,
                 System.currentTimeMillis(),
+                false,
                 0.0,
                 0.0,
                 0.0,
                 GovernmentType.UNITARY,
                 Ideology.TRIBAL,
                 Religion.SECULAR,
-                new ArrayList<>(){{
+                new ArrayList<>() {{
                     for (NationConstitution nc : NationConstitution.values()) {
                         add(nc.getDefaultValue());
                     }
@@ -168,8 +175,10 @@ public class Nation {
     // MANUAL GETTER AND SETTERS
 
     public void setLeaderUUID(UUID uuid) {
+        if (systemNation) return;
         this.leaderUUID = uuid.toString();
         save();
+        backup();
     }
 
     public UUID getLeaderUUID() {
@@ -177,8 +186,10 @@ public class Nation {
     }
 
     public void setGovType(GovernmentType type) {
+        if (systemNation) return;
         this.govType = type.name();
         save();
+        backup();
     }
 
     public GovernmentType getGovType() {
@@ -186,8 +197,10 @@ public class Nation {
     }
 
     public void setIdeology(Ideology type) {
+        if (systemNation) return;
         this.ideology = type.name();
         save();
+        backup();
     }
 
     public Ideology getIdeology() {
@@ -195,8 +208,10 @@ public class Nation {
     }
 
     public void setReligion(Religion type) {
+        if (systemNation) return;
         this.religion = type.name();
         save();
+        backup();
     }
 
     public Religion getReligion() {
@@ -218,8 +233,10 @@ public class Nation {
     }
 
     public void setDescription(String description) {
+        if (systemNation) return;
         this.description = description;
         save();
+        backup();
         // TODO: CHANGE DESC BROADCAST
     }
 
@@ -230,6 +247,15 @@ public class Nation {
             if (offlinePlayer.isOnline()) {
                 onlinePlayers.add(uuid);
             }
+        }
+        return onlinePlayers;
+    }
+
+    public Collection<Player> getOnlineMembersAsPlayer() {
+        List<Player> onlinePlayers = new ArrayList<>();
+        for (UUID uuid : getMembers()) {
+            Player player = Bukkit.getPlayer(uuid);
+            if (player != null) onlinePlayers.add(player);
         }
         return onlinePlayers;
     }
@@ -255,15 +281,18 @@ public class Nation {
 
     /**
      * Silently create a nation.
+     *
      * @return the nation
      */
     public Nation create() {
         return this.create(null);
     }
 
+    /**
+     * Backup will NOT be run! Make sure you back up manually!
+     */
     public void save() {
         instance.getNationManager().getNations().put(nationId, this);
-        backup();
     }
 
     public void backup() {
@@ -271,10 +300,16 @@ public class Nation {
     }
 
     private void editConstitution(byte law, int option) {
+        if (systemNation) return;
         constitutionValues.set(law, option);
     }
 
     public void addMember(Player player, String rank) {
+        if (systemNation) return;
+
+        NationProfile profile = NationProfile.get(player.getUniqueId());
+        if (profile.isInNation()) return;
+
         // ADD TO MEMBER LIST
         memberUUIDs.add(player.getUniqueId().toString());
         save();
@@ -285,8 +320,7 @@ public class Nation {
         // CHECK IF RANK EXISTS; IF NOT TAKE NEWBIE LOL
         if (!ranks.containsKey(rankToAddIn)) rankToAddIn = NationRank.getNewbieRank().getName();
 
-        // CREATE A NEW NATIONPROFILE INSTANCE; ASSIGN TO PLAYER AND STORE IT
-        NationProfile profile = NationProfile.get(player.getUniqueId());
+        // ASSIGN TO PLAYER AND STORE IT
         profile.setNation(this);
         profile.setNationRank(rank);
         profile.save();
@@ -295,12 +329,14 @@ public class Nation {
 
     /**
      * Disband the nation
+     *
      * @param disbander the disbander
      */
-    public boolean disband(@Nullable CommandSender disbander) {
+    public void disband(@Nullable CommandSender disbander) {
+        if (systemNation) return;
 
         PixliesCancellableEvent event = EventUtils.callCancelable(new NationDisbandEvent(this));
-        if (event.isCancelled()) return false;
+        if (event.isCancelled()) return;
 
         for (UUID member : getMembers()) {
             NationProfile profile = NationProfile.get(member);
@@ -314,8 +350,6 @@ public class Nation {
             Lang.NATION_DISBANDED.broadcast("%NATION%;" + name, "%PLAYER%;" + disbander.getName());
         }
 
-        return true;
-
     }
 
     /**
@@ -326,6 +360,7 @@ public class Nation {
     }
 
     public void rename(@Nullable CommandSender sender, @NotNull String newName) {
+        if (systemNation) return;
 
         if (!NationUtils.nameValid(name)) {
             throw new IllegalArgumentException("Illegal nation name: " + newName);
@@ -342,10 +377,31 @@ public class Nation {
 
     /**
      * Shortened rename, will not broadcast.
+     *
      * @param newName the new name
      */
     public void rename(@NotNull String newName) {
         this.rename(null, newName);
+    }
+
+    /**
+     * Broadcasts a message to all Nation members with a permission
+     * @param message The message to broadcast
+     * @param permission The permission
+     */
+    public void broadcastNationMembers(String message, @Nullable NationPermission permission) {
+        getOnlineMembersAsPlayer().forEach(player -> {
+            if (permission != null) {
+                if (!permission.hasPermission(NationProfile.get(player.getUniqueId()))) {
+                    return;
+                }
+            }
+            player.sendMessage(message);
+        });
+    }
+
+    public void broadcastNationMembers(String message) {
+        this.broadcastNationMembers(message, null);
     }
 
     // -------------------------------------------------------------------------------------------------
@@ -365,9 +421,53 @@ public class Nation {
     public static @Nullable Nation getFromName(String name) {
         if (name == null) return null;
         for (Nation nation : instance.getNationManager().getNations().values()) {
-            if (nation.getName().equals(name)) return nation;
+            if (nation.getName().equalsIgnoreCase(name)) return nation;
         }
         return null;
+    }
+
+    public static Nation getNullCheckedNation(Nation nation) {
+        return new Nation(
+                nation.nationId,
+                nation.name,
+                nation.description == null ? "" : nation.description,
+                nation.motd == null ? "" : nation.motd,
+                nation.leaderUUID,
+                nation.created,
+                nation.systemNation,
+                nation.politicalPower,
+                nation.money,
+                nation.taxRate,
+                nation.govType,
+                nation.ideology,
+                nation.religion,
+                nation.constitutionValues,
+                nation.ranks == null ? new HashMap<>() : nation.ranks,
+                nation.memberUUIDs == null ? new ArrayList<>() : nation.memberUUIDs,
+                nation.claims == null ? new ArrayList<>() : nation.claims
+        );
+    }
+
+    public static @NotNull Nation createSystemNation(String id) {
+        return new Nation(
+                id,
+                id,
+                NationUtils.randomDescription(),
+                "",
+                UUID.randomUUID(),
+                System.currentTimeMillis(),
+                true,
+                0.0,
+                0.0,
+                0.0,
+                GovernmentType.UNITARY,
+                Ideology.TRIBAL,
+                Religion.SECULAR,
+                new ArrayList<>(),
+                new HashMap<>(),
+                new ArrayList<>(),
+                new ArrayList<>()
+        );
     }
 
 }

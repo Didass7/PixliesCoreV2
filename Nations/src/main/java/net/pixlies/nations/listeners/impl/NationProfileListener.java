@@ -14,12 +14,19 @@ public class NationProfileListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
+        // REMOVE OLD PROFILE FROM CACHE TO UPDATE INFO
+        instance.getMongoManager().getProfileCache().remove(event.getPlayer().getUniqueId());
+
+        // ADD PROFILE
         NationProfile profile = NationProfile.get(event.getPlayer().getUniqueId());
+
+        // SET LAST LOGIN TO NATIONS
         profile.setLastLogin(System.currentTimeMillis());
     }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
+        // REMOVE FROM CACHE
         Player player = event.getPlayer();
         instance.getMongoManager().getProfileCache().remove(player.getUniqueId());
     }

@@ -8,3 +8,6 @@ mongo:
 save:
   # In ticks
   period: 12000
+
+nations:
+  world: "world"

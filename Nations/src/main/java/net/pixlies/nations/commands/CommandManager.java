@@ -13,6 +13,7 @@ public class CommandManager {
     );
 
     public void registerAllCommands() {
+        Main.getInstance().getCommandManager().getPcm().getCommandReplacements().addReplacement("nationscommand", "nation|nations|n|faction|factions|f|country|countries");
         commands.forEach(command -> Main.getInstance().getCommandManager().register(command, true));
     }
 

@@ -1,19 +1,15 @@
 package net.pixlies.nations.nations.chunk;
 
-import co.aikar.commands.lib.util.Table;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import dev.morphia.annotations.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import net.pixlies.core.entity.user.User;
+import lombok.EqualsAndHashCode;
 import net.pixlies.nations.Nations;
 import net.pixlies.nations.interfaces.NationProfile;
 import net.pixlies.nations.nations.Nation;
+import org.bukkit.Chunk;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -26,53 +22,56 @@ import java.util.*;
 @Entity
 @Data
 @AllArgsConstructor
+@EqualsAndHashCode
 public class NationChunk {
     private static final Nations instance = Nations.getInstance();
 
-    @Getter private static Map<String, Table<Integer, Integer, NationChunk>> table = new HashMap<>(); // World, X, Y, NationChunk
-
-    private String nationId, world;
-    private int x, z;
+    private String nationId;
+    private String world;
+    private int x;
+    private int z;
     private NationChunkType type;
-    private String data;
+    private List<String> accessors; // UUID of accessors
 
-    public void claim(boolean claim) {
-        Table<Integer, Integer, NationChunk> rst = table.get(world);
-        rst.put(x, z, this);
-        table.put(world, rst);
-
+    /**
+     * Claims a chunk
+     * Backup will not be called.
+     * @see Nation#save()
+     * @see Nation#backup()
+     * @param log Logs the claim.
+     */
+    public void claim(boolean log) {
         Nation nation = Nation.getFromId(nationId);
         if (nation == null)
             return;
 
-        if (!nation.getClaims().contains(this)) {
-            nation.getClaims().add(this);
-            nation.save();
-        }
+        nation.getClaims().remove(this);
+        nation.getClaims().add(this);
+        nation.save();
 
-        if (claim)
+        if (log)
             instance.getLogger().info("§b" + type.name() + "-Chunk claimed at §e" + x + "§8, §e " + z + "§bfor §e" + nation.getName());
     }
 
     /**
      * Unclaim this chunk.
-     */
+     * Backup will not be called.
+     * @see Nation#save()
+     * @see Nation#backup()
+     **/
     public void unclaim() {
-        if (table.get(world) == null) return;
-
         Nation nation = Nation.getFromId(nationId);
         if (nation == null)
             return;
-
-        Table<Integer, Integer, NationChunk> rst = table.get(world);
 
         if (nation.getClaims().contains(this)) {
             nation.getClaims().remove(this);
             nation.save();
         }
+    }
 
-        rst.remove(x, z);
-        table.put(world, rst);
+    public @Nullable Nation getNation() {
+        return Nation.getFromId(nationId);
     }
 
     /**
@@ -87,13 +86,10 @@ public class NationChunk {
         nation.getClaims().remove(this);
         nation.save();
 
-        JsonObject data = this.getJsonData();
-        JsonArray accessors = data.has("accessors") ? data.getAsJsonArray("accessors") : new JsonArray();
         accessors.add(profile.getUuid());
-        data.add("accessors", accessors);
-        this.setJsonData(data);
 
         claim(false);
+        nation.backup();
     }
 
     /**
@@ -102,26 +98,14 @@ public class NationChunk {
      * @param profile the profile to revoke access to
      */
     public void revokeAccess(@NotNull NationProfile profile) {
-        JsonObject data = this.getJsonData();
-        if (!data.has("accessors")) return;
-
         Nation nation = Nation.getFromId(nationId);
         if (nation == null)
             return;
-        nation.getClaims().remove(this);
-        nation.save();
 
-        JsonArray accessors = data.getAsJsonArray("accessors");
-        for (JsonElement accessor : accessors) {
-            if (!accessor.getAsString().equals(profile.getUniqueId().toString())) {
-                return;
-            }
-            accessors.remove(accessor);
-        }
-        data.add("accessors", accessors);
-        this.setJsonData(data);
+        accessors.remove(profile.getUuid());
 
         claim(false);
+        nation.backup();
     }
 
     /**
@@ -130,42 +114,39 @@ public class NationChunk {
      * @param profile the profile to check access
      */
     public boolean hasAccess(@NotNull NationProfile profile) {
-        for (NationProfile toCheck : this.getAccessors()) {
-            if (profile.getUniqueId().equals(toCheck.getUniqueId())) {
-                return true;
+        return accessors.contains(profile.getUuid());
+    }
+
+    public static @Nullable NationChunk getClaimAt(String world, int x, int z) {
+        for (Nation nation : instance.getNationManager().getNations().values()) {
+            for (NationChunk nationChunk : nation.getClaims()) {
+                if (nationChunk.getX() == x && nationChunk.getZ() == z && nationChunk.getWorld().equalsIgnoreCase(world)) {
+                    return nationChunk;
+                }
             }
         }
-        return false;
+        return null;
     }
 
-    /**
-     * Gets all the accessors in a chunk
-     * @see NationProfile
-     * @return a list of all chunk accessors
-     */
-    public @NotNull List<NationProfile> getAccessors() {
-        List<NationProfile> returner = new ArrayList<>();
+    public static @Nullable NationChunk getClaimFromChunk(Chunk chunk) {
+        return getClaimAt(chunk.getWorld().toString(), chunk.getX(), chunk.getZ());
+    }
 
-        JsonObject data = this.getJsonData();
-        if (!data.has("accessors")) return returner;
-
-        JsonArray accessors = data.getAsJsonArray("accessors");
-        for (JsonElement accessor : accessors) {
-            UUID uuid = UUID.fromString(accessor.getAsString());
-            NationProfile profile = NationProfile.get(uuid);
-            returner.add(profile);
+    public static ClaimType getClaimType(String world, int x, int z) {
+        NationChunk chunk = getClaimAt(world, x, z);
+        if (chunk == null) {
+            return ClaimType.WILDERNESS;
         }
-        this.setJsonData(data);
-
-        return returner;
-    }
-
-    public JsonObject getJsonData() {
-        return JsonParser.parseString(data).getAsJsonObject();
-    }
-
-    public void setJsonData(JsonObject data) {
-        this.data = data.getAsString();
+        Nation nation = chunk.getNation();
+        if (nation == null) {
+            return ClaimType.WILDERNESS;
+        }
+        return switch (nation.getNationId()) {
+            case "warp" -> ClaimType.WARP;
+            case "warzone" -> ClaimType.WARZONE;
+            case "spawn" -> ClaimType.SPAWN;
+            default -> ClaimType.NORMAL;
+        };
     }
 
 }

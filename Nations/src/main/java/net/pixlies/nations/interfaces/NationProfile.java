@@ -45,6 +45,7 @@ public class NationProfile {
     private @Nullable String nationId;
     private @Nullable String nationRank;
     private @Getter(AccessLevel.NONE) String profileChatType;
+    private @Getter(AccessLevel.NONE) boolean autoClaim;
 
     // -------------------------------------------------------------------------------------------------
     //                                            METHODS
@@ -89,6 +90,23 @@ public class NationProfile {
         return Nation.getFromId(nationId);
     }
 
+    public boolean isAutoClaiming() {
+        if (!isInNation()) {
+            if (autoClaim) {
+                autoClaim = false;
+                save();
+            }
+            return false;
+        }
+        return autoClaim;
+    }
+
+    public void setAutoClaiming(boolean value) {
+        if (!isInNation()) return;
+        autoClaim = value;
+        save();
+    }
+
     /**
      * Check if the profile is in a nation.
      *
@@ -123,6 +141,8 @@ public class NationProfile {
 
         nation.getMemberUUIDs().remove(uuid);
         nation.save();
+        nation.backup();
+
     }
 
     public UUID getUniqueId() {
@@ -147,7 +167,8 @@ public class NationProfile {
                     System.currentTimeMillis(),
                     null,
                     null,
-                    ChatType.GLOBAL.toString()
+                    ChatType.GLOBAL.toString(),
+                    false
             );
 
             profile.save();
@@ -161,7 +182,8 @@ public class NationProfile {
                 profile.lastLogin,
                 profile.nationId,
                 profile.nationRank,
-                profile.profileChatType == null ? ChatType.GLOBAL.name() : profile.profileChatType
+                profile.profileChatType == null ? ChatType.GLOBAL.name() : profile.profileChatType,
+                false
         );
 
         checkProfile.save();

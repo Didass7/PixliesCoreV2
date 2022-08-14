@@ -1,4 +1,4 @@
-package net.pixlies.nations.placeholders;
+package net.pixlies.nations.integrations;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import net.pixlies.core.utils.CC;

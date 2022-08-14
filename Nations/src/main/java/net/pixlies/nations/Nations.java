@@ -14,7 +14,7 @@ import net.pixlies.nations.handlers.HandlerManager;
 import net.pixlies.nations.handlers.RegisterHandlerManager;
 import net.pixlies.nations.locale.Lang;
 import net.pixlies.nations.nations.NationManager;
-import net.pixlies.nations.placeholders.NationsPlaceholderExpansion;
+import net.pixlies.nations.integrations.NationsPlaceholderExpansion;
 import net.pixlies.nations.runnables.RunnableManager;
 import net.pixlies.nations.scoreboard.ScoreboardAdapter;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -85,7 +85,7 @@ public class Nations extends JavaPlugin implements Module {
         new NationsPlaceholderExpansion().register();
 
         // LOADING
-        nationManager.loadAll();
+        nationManager.refreshNations();
 
     }
 
