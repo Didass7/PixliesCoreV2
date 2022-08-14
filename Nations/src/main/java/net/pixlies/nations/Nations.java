@@ -12,7 +12,7 @@ import net.pixlies.nations.database.MongoManager;
 import net.pixlies.nations.listeners.ListenerManager;
 import net.pixlies.nations.handlers.HandlerManager;
 import net.pixlies.nations.handlers.RegisterHandlerManager;
-import net.pixlies.nations.locale.Lang;
+import net.pixlies.nations.locale.NationsLang;
 import net.pixlies.nations.nations.NationManager;
 import net.pixlies.nations.integrations.NationsPlaceholderExpansion;
 import net.pixlies.nations.runnables.RunnableManager;
@@ -58,7 +58,7 @@ public class Nations extends JavaPlugin implements Module {
 
         // LANGUAGE
         saveResource("languages/LANG_ENG.yml", true);
-        Lang.load();
+        NationsLang.load();
 
         // HANDLERS & MANAGERS
         mongoManager = new MongoManager();

@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.handlers.impl.MarketHandler;
-import net.pixlies.core.localization.Lang;
+import net.pixlies.business.locale.MarketLang;
 import net.pixlies.core.utils.TextUtils;
 import net.pixlies.nations.interfaces.NationProfile;
 import org.bukkit.Bukkit;
@@ -97,8 +97,8 @@ public class Order {
         }
 
         OrderItem item = instance.getMarketManager().getBooks().get(bookId).getItem();
-        if (type == Type.BUY) Lang.BUY_ORDER_FILLED.send(player, "%NUM%;" + amount, "%ITEM%;" + item.getName());
-        else Lang.SELL_ORDER_FILLED.send(player, "%NUM%;" + amount, "%ITEM%;" + item.getName());
+        if (type == Type.BUY) MarketLang.BUY_ORDER_FILLED.send(player, "%NUM%;" + amount, "%ITEM%;" + item.getName());
+        else MarketLang.SELL_ORDER_FILLED.send(player, "%NUM%;" + amount, "%ITEM%;" + item.getName());
         player.playSound(player.getLocation(), "entity.experience_orb.pickup", 100, 1);
     }
 

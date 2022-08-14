@@ -2,11 +2,10 @@ package net.pixlies.business.listeners.impl;
 
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.handlers.impl.MarketHandler;
+import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.orders.OrderProfile;
 import net.pixlies.business.market.orders.Order;
 import net.pixlies.business.market.orders.OrderItem;
-import net.pixlies.core.entity.user.User;
-import net.pixlies.core.localization.Lang;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -33,7 +32,7 @@ public class OrderSignsListener implements Listener {
 
         if (!StringUtils.isNumeric(firstLine)) {
             player.closeInventory(InventoryCloseEvent.Reason.CANT_USE);
-            Lang.MARKET_NOT_A_VALID_AMOUNT.send(player);
+            MarketLang.MARKET_NOT_A_VALID_AMOUNT.send(player);
             player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
             return;
         }
@@ -47,7 +46,7 @@ public class OrderSignsListener implements Listener {
 
                 if (Integer.parseInt(firstLine) > profile.getItemAmount(item)) {
                     player.closeInventory(InventoryCloseEvent.Reason.CANT_USE);
-                    Lang.MARKET_NOT_ENOUGH_ITEMS.send(player);
+                    MarketLang.MARKET_NOT_ENOUGH_ITEMS.send(player);
                     player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
                     break;
                 }

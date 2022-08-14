@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.handlers.impl.MarketHandler;
+import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.orders.OrderProfile;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.user.User;
@@ -43,14 +44,14 @@ public class MarketCommand extends BaseCommand {
     @Description("Opens the market menu")
     public void onMarket(Player player) {
         if (!marketHandler.isMarketOpen()) {
-            Lang.MARKET_IS_CLOSED.send(player);
+            MarketLang.MARKET_IS_CLOSED.send(player);
             player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
             return;
         }
 
         User user = User.get(player.getUniqueId());
         if (user.getCurrentPunishments().containsKey("marketRestrict")) {
-            Lang.MARKET_PLAYER_IS_RESTRICTED.send(player);
+            MarketLang.MARKET_PLAYER_IS_RESTRICTED.send(player);
             player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
             return;
         }
@@ -66,11 +67,11 @@ public class MarketCommand extends BaseCommand {
     @Description("Opens the market to the public")
     public void onMarketOpen(Player player) {
         if (marketHandler.isMarketOpen()) {
-            Lang.MARKET_WAS_ALREADY_OPEN.send(player);
+            MarketLang.MARKET_WAS_ALREADY_OPEN.send(player);
             return;
         }
         marketHandler.setMarketOpen(true);
-        Lang.MARKET_OPEN.broadcast();
+        MarketLang.MARKET_OPEN.broadcast();
     }
 
     @Subcommand("close")
@@ -78,11 +79,11 @@ public class MarketCommand extends BaseCommand {
     @Description("Closes the market")
     public void onMarketClose(Player player) {
         if (!marketHandler.isMarketOpen()) {
-            Lang.MARKET_WAS_ALREADY_CLOSED.send(player);
+            MarketLang.MARKET_WAS_ALREADY_CLOSED.send(player);
             return;
         }
         marketHandler.setMarketOpen(false);
-        Lang.MARKET_CLOSED.broadcast();
+        MarketLang.MARKET_CLOSED.broadcast();
     }
 
     @Subcommand("reset")
@@ -91,12 +92,12 @@ public class MarketCommand extends BaseCommand {
     public void onMarketReset(Player player, @Optional Player target) {
         if (target == null) {
             instance.getMarketManager().resetBooks();
-            Lang.MARKET_STATISTICS_RESET.broadcast("%PLAYER%;" + player.getName());
+            MarketLang.MARKET_STATISTICS_RESET.broadcast("%PLAYER%;" + player.getName());
             player.playSound(player.getLocation(), "entity.experience_orb.pickup", 100, 1);
         } else {
             if (target.isOnline()) {
                 instance.getMarketManager().resetPlayer(target);
-                Lang.MARKET_PLAYER_STATISTICS_RESET.send(target, "%PLAYER%;" + target.getName(), "%SENDER%;" + player.getName());
+                MarketLang.MARKET_PLAYER_STATISTICS_RESET.send(target, "%PLAYER%;" + target.getName(), "%SENDER%;" + player.getName());
                 target.playSound(target.getLocation(), "entity.experience_orb.pickup", 100, 1);
             } else {
                 Lang.PLAYER_DOESNT_EXIST.send(player);
@@ -117,17 +118,17 @@ public class MarketCommand extends BaseCommand {
 
         if (user.getCurrentPunishments().containsKey("marketRestrict")) {
             if (target.isOnline()) {
-                Lang.MARKET_PLAYER_ALLOWED_TARGET.send(target);
+                MarketLang.MARKET_PLAYER_ALLOWED_TARGET.send(target);
                 target.playSound(target.getLocation(), "entity.experience_orb.pickup", 100, 1);
             }
-            Lang.MARKET_PLAYER_ALLOWED_SENDER.send(player, "%PLAYER%;" + target.getName());
+            MarketLang.MARKET_PLAYER_ALLOWED_SENDER.send(player, "%PLAYER%;" + target.getName());
             user.unRestrict();
         } else {
             if (target.isOnline()) {
-                Lang.MARKET_PLAYER_RESTRICTED_TARGET.send(target, "%PLAYER%;" + player.getName(), "%REASON%;" + reason);
+                MarketLang.MARKET_PLAYER_RESTRICTED_TARGET.send(target, "%PLAYER%;" + player.getName(), "%REASON%;" + reason);
                 target.playSound(target.getLocation(), "block.anvil.land", 100, 1);
             }
-            Lang.MARKET_PLAYER_RESTRICTED_SENDER.send(player, "%PLAYER%;" + target.getName(), "%REASON%;" + reason);
+            MarketLang.MARKET_PLAYER_RESTRICTED_SENDER.send(player, "%PLAYER%;" + target.getName(), "%REASON%;" + reason);
             user.marketRestrict(player, reason);
         }
     }

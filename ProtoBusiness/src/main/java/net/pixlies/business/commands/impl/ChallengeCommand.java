@@ -7,9 +7,8 @@ import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Description;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.handlers.impl.MarketHandler;
+import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.Challenge;
-import net.pixlies.core.entity.user.User;
-import net.pixlies.core.localization.Lang;
 import org.bukkit.entity.Player;
 
 @CommandAlias("challenge|challenges")
@@ -22,13 +21,13 @@ public class ChallengeCommand extends BaseCommand {
     @Default
     @Description("Gets a list of all market challenges")
     public void onChallenge(Player player) {
-        Lang.CHALLENGE_LIST.send(player);
+        MarketLang.CHALLENGE_LIST.send(player);
         for (Challenge c : Challenge.values()) {
             if (marketHandler.getChallenges().containsEntry(player.getUniqueId().toString(), c)) {
-                Lang.CHALLENGE_COMPLETE_FORMAT.send(player, "%CHALLENGE%;" + c.getMessage(player));
+                MarketLang.CHALLENGE_COMPLETE_FORMAT.send(player, "%CHALLENGE%;" + c.getMessage(player));
                 return;
             }
-            Lang.CHALLENGE_INCOMPLETE_FORMAT.send(player, "%CHALLENGE%;" + c.getMessage(player));
+            MarketLang.CHALLENGE_INCOMPLETE_FORMAT.send(player, "%CHALLENGE%;" + c.getMessage(player));
         }
     }
 

@@ -10,8 +10,7 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.title.Title;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.handlers.impl.MarketHandler;
-import net.pixlies.core.entity.user.User;
-import net.pixlies.core.localization.Lang;
+import net.pixlies.business.locale.MarketLang;
 import org.bukkit.entity.Player;
 
 import java.time.Duration;
@@ -19,17 +18,17 @@ import java.time.Duration;
 @AllArgsConstructor
 public enum Challenge {
 
-    BUY_ORDER(Lang.BUY_ORDER, 100),
-    SELL_ORDER(Lang.SELL_ORDER, 100),
-    BUY_ORDER_UNIT_50(Lang.BUY_ORDER_UNIT_50, 1000),
-    BUY_ORDER_64_ITEMS(Lang.BUY_ORDER_64_ITEMS, 1000),
-    BUY_ORDER_500_ITEMS(Lang.BUY_ORDER_500_ITEMS, 2000),
+    BUY_ORDER(MarketLang.BUY_ORDER, 100),
+    SELL_ORDER(MarketLang.SELL_ORDER, 100),
+    BUY_ORDER_UNIT_50(MarketLang.BUY_ORDER_UNIT_50, 1000),
+    BUY_ORDER_64_ITEMS(MarketLang.BUY_ORDER_64_ITEMS, 1000),
+    BUY_ORDER_500_ITEMS(MarketLang.BUY_ORDER_500_ITEMS, 2000),
 
-    SOLD_100_ITEMS(Lang.SOLD_100_ITEMS, 3000),
-    GAINED_350_COINS(Lang.GAINED_350_COINS, 3000),
-    ORDERED_ALL_ITEMS(Lang.ORDERED_ALL_ITEMS, 20000);
+    SOLD_100_ITEMS(MarketLang.SOLD_100_ITEMS, 3000),
+    GAINED_350_COINS(MarketLang.GAINED_350_COINS, 3000),
+    ORDERED_ALL_ITEMS(MarketLang.ORDERED_ALL_ITEMS, 20000);
 
-    private final Lang message;
+    private final MarketLang message;
     private final @Getter int xpGained;
 
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();
@@ -60,7 +59,7 @@ public enum Challenge {
         // OTHER
         player.giveExp(xpGained);
         player.playSound(player.getLocation(), "ui.toast.challenge_complete", 50, 1);
-        Lang.CHALLENGE_COMPLETED.send(player, "%CHALLENGE%;" + getMessage(player));
+        MarketLang.CHALLENGE_COMPLETED.send(player, "%CHALLENGE%;" + getMessage(player));
 
         marketHandler.getChallenges().put(player.getUniqueId().toString(), this);
     }

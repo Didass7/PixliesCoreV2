@@ -4,7 +4,7 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import net.pixlies.nations.Nations;
 import net.pixlies.nations.interfaces.NationProfile;
-import net.pixlies.nations.locale.Lang;
+import net.pixlies.nations.locale.NationsLang;
 import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.ranks.NationRank;
 import net.pixlies.nations.utils.NationUtils;
@@ -28,13 +28,13 @@ public class NationCreateCommand extends BaseCommand {
 
         // CHECKS IF USER IS IN NATION ALREADY
         if (profile.isInNation()) {
-            Lang.ALREADY_IN_NATION.send(player);
+            NationsLang.ALREADY_IN_NATION.send(player);
             return;
         }
 
         // CHECKS IF NATION WITH SAME NAME ALREADY EXISTS
         if (Nation.getFromName(name) != null) {
-            Lang.NATION_NAME_ALREADY_EXISTS.send(player, "%NAME%;" + name);
+            NationsLang.NATION_NAME_ALREADY_EXISTS.send(player, "%NAME%;" + name);
             return;
         }
 
@@ -42,13 +42,13 @@ public class NationCreateCommand extends BaseCommand {
 
         // CHECKS IF NATION WITH SAME ID ALREADY EXISTS
         if (instance.getNationManager().getNations().containsKey(id)) {
-            Lang.NATION_ID_ALREADY_EXISTS.send(player, "%NAME%;" + name);
+            NationsLang.NATION_ID_ALREADY_EXISTS.send(player, "%NAME%;" + name);
             return;
         }
 
         // CHECKS IF NATION NAME IS ALPHANUMERIC
         if (!NationUtils.nameValid(name)) {
-            Lang.NATION_NAME_INVALID.send(player);
+            NationsLang.NATION_NAME_INVALID.send(player);
             return;
         }
 

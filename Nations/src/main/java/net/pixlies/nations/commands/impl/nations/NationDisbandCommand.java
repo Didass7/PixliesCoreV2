@@ -7,7 +7,7 @@ import co.aikar.commands.annotation.*;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.nations.Nations;
 import net.pixlies.nations.interfaces.NationProfile;
-import net.pixlies.nations.locale.Lang;
+import net.pixlies.nations.locale.NationsLang;
 import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.timers.impl.NationDisbandTimer;
 import org.bukkit.command.CommandSender;
@@ -36,7 +36,7 @@ public class NationDisbandCommand extends BaseCommand {
 
             if (user.getAllTimers().containsKey(NationDisbandTimer.ID)) {
                 user.getAllTimers().remove(NationDisbandTimer.ID);
-                Lang.NATION_DISBAND_CANCELLED.send(player);
+                NationsLang.NATION_DISBAND_CANCELLED.send(player);
                 return;
             }
 
@@ -48,20 +48,20 @@ public class NationDisbandCommand extends BaseCommand {
 
                 // NOT IN NATION
                 if (!profile.isInNation()) {
-                    Lang.NOT_IN_NATION.send(player);
+                    NationsLang.NOT_IN_NATION.send(player);
                     return;
                 }
 
                 if (!(staffCondition || playerCondition)) {
                     // NO PERMISSION TO DISBAND
-                    Lang.NATION_NO_PERMISSION.send(player);
+                    NationsLang.NATION_NO_PERMISSION.send(player);
                     return;
                 }
 
                 // STAFF OR PLAYER DISBAND
                 Nation nation = profile.getNation();
                 if (nation == null) {
-                    Lang.NOT_IN_NATION.send(player);
+                    NationsLang.NOT_IN_NATION.send(player);
                     return;
                 }
 
@@ -80,7 +80,7 @@ public class NationDisbandCommand extends BaseCommand {
                     }
                 }.runTaskTimer(instance, 1, 1);
 
-                Lang.NATION_DISBAND_CONFIRM.send(player, "%NATION%;" + nation.getName());
+                NationsLang.NATION_DISBAND_CONFIRM.send(player, "%NATION%;" + nation.getName());
                 return;
 
             }
@@ -92,7 +92,7 @@ public class NationDisbandCommand extends BaseCommand {
 
             Nation nation = Nation.getFromName(nationName);
             if (nation == null) {
-                Lang.NATION_DOES_NOT_EXIST.send(player);
+                NationsLang.NATION_DOES_NOT_EXIST.send(player);
                 return;
             }
 
@@ -116,17 +116,17 @@ public class NationDisbandCommand extends BaseCommand {
                 }
             }.runTaskTimer(instance, 1, 1);
 
-            Lang.NATION_DISBAND_CONFIRM.send(player, "%NATION%;" + nation.getName());
+            NationsLang.NATION_DISBAND_CONFIRM.send(player, "%NATION%;" + nation.getName());
 
         } else {
             // CONSOLE
             if (nationName == null || nationName.isEmpty()) {
-                Lang.NATION_MISSING_ARG.send(sender, "%X%;Nation Name");
+                NationsLang.NATION_MISSING_ARG.send(sender, "%X%;Nation Name");
                 return;
             }
             Nation nation = Nation.getFromName(nationName);
             if (nation == null) {
-                Lang.NATION_DOES_NOT_EXIST.send(sender);
+                NationsLang.NATION_DOES_NOT_EXIST.send(sender);
                 return;
             }
 
@@ -152,22 +152,22 @@ public class NationDisbandCommand extends BaseCommand {
 
                 if (!(user.getAllTimers().get(NationDisbandTimer.ID) instanceof NationDisbandTimer timer)) {
                     user.getAllTimers().remove(NationDisbandTimer.ID);
-                    Lang.NATION_NO_NATION_TO_DISBAND.send(player);
+                    NationsLang.NATION_NO_NATION_TO_DISBAND.send(player);
                     return;
                 }
                 user.getAllTimers().remove(NationDisbandTimer.ID);
 
                 Nation nation = Nation.getFromId(timer.getNationToDisband());
                 if (nation == null) {
-                    Lang.NATION_NO_NATION_TO_DISBAND.send(player);
+                    NationsLang.NATION_NO_NATION_TO_DISBAND.send(player);
                     return;
                 }
                 nation.disband(player);
             } else {
-                Lang.NATION_NO_NATION_TO_DISBAND.send(player);
+                NationsLang.NATION_NO_NATION_TO_DISBAND.send(player);
             }
         } else {
-            Lang.NATION_NO_PERMISSION.send(player);
+            NationsLang.NATION_NO_PERMISSION.send(player);
         }
 
     }
@@ -182,9 +182,9 @@ public class NationDisbandCommand extends BaseCommand {
         User user = User.get(player.getUniqueId());
         if (user.getAllTimers().containsKey(NationDisbandTimer.ID)) {
             user.getAllTimers().remove(NationDisbandTimer.ID);
-            Lang.NATION_DISBAND_CANCELLED.send(player);
+            NationsLang.NATION_DISBAND_CANCELLED.send(player);
         } else {
-            Lang.NATION_NO_NATION_TO_DISBAND.send(player);
+            NationsLang.NATION_NO_NATION_TO_DISBAND.send(player);
         }
     }
 

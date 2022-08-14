@@ -4,10 +4,11 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import net.pixlies.business.ProtoBusiness;
+import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.orders.Tariff;
 import net.pixlies.core.entity.user.User;
-import net.pixlies.core.localization.Lang;
 import net.pixlies.nations.interfaces.NationProfile;
+import net.pixlies.nations.locale.NationsLang;
 import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.ranks.NationPermission;
 import org.bukkit.Bukkit;
@@ -31,7 +32,7 @@ public class TariffCommand extends BaseCommand {
         NationProfile profile = NationProfile.get(player.getUniqueId());
 
         if (!profile.isInNation()) {
-            net.pixlies.nations.locale.Lang.NOT_IN_NATION.send(player);
+            NationsLang.NOT_IN_NATION.send(player);
             player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
             return;
         }
@@ -45,24 +46,24 @@ public class TariffCommand extends BaseCommand {
         }
 
         if (incoming.isEmpty() && outgoing.isEmpty()) {
-            Lang.NO_TARIFFS_FOUND.send(player);
+            MarketLang.NO_TARIFFS_FOUND.send(player);
             player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
             return;
         }
 
         if (!incoming.isEmpty()) {
-            Lang.TARIFF_LOCAL_INCOMING.send(player);
+            MarketLang.TARIFF_LOCAL_INCOMING.send(player);
             incoming.forEach(t -> {
                 String from = Objects.requireNonNull(Nation.getFromId(t.getFrom())).getName();
-                Lang.TARIFF_INCOMING_FORMAT.send(player, "%NATION%;" + from, "%RATE%;" + t.getFormattedRate());
+                MarketLang.TARIFF_INCOMING_FORMAT.send(player, "%NATION%;" + from, "%RATE%;" + t.getFormattedRate());
             });
         }
 
         if (!outgoing.isEmpty()) {
-            Lang.TARIFF_LOCAL_OUTGOING.send(player);
+            MarketLang.TARIFF_LOCAL_OUTGOING.send(player);
             outgoing.forEach(t -> {
                 String to = Objects.requireNonNull(Nation.getFromId(t.getTo())).getName();
-                Lang.TARIFF_OUTGOING_FORMAT.send(player, "%NATION%;" + to, "%RATE%;" + t.getFormattedRate());
+                MarketLang.TARIFF_OUTGOING_FORMAT.send(player, "%NATION%;" + to, "%RATE%;" + t.getFormattedRate());
             });
         }
     }
@@ -71,15 +72,15 @@ public class TariffCommand extends BaseCommand {
     @Description("Retrieve the list of all incoming and outgoing tariffs")
     public void onTariffGlobal(CommandSender sender) {
         if (instance.getMarketManager().getTariffs().isEmpty()) {
-            Lang.NO_TARIFFS_FOUND.send(sender);
+            MarketLang.NO_TARIFFS_FOUND.send(sender);
             Player player = Objects.requireNonNull(Bukkit.getPlayer(sender.getName()));
             player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
             return;
         }
 
-        Lang.TARIFF_GLOBAL.send(sender);
+        MarketLang.TARIFF_GLOBAL.send(sender);
         for (Tariff t : instance.getMarketManager().getTariffs().values()) {
-            Lang.TARIFF_GLOBAL_FORMAT.send(sender, "%FROM%;" + Objects.requireNonNull(Nation.getFromId(t.getTo())).getName(),
+            MarketLang.TARIFF_GLOBAL_FORMAT.send(sender, "%FROM%;" + Objects.requireNonNull(Nation.getFromId(t.getTo())).getName(),
                     "%TO%;" + Objects.requireNonNull(Nation.getFromId(t.getTo())).getName(),
                     "%RATE%;" + t.getFormattedRate());
         }
@@ -98,10 +99,10 @@ public class TariffCommand extends BaseCommand {
         boolean nationNull = from == null;
         boolean rateNotValid = rate > maxRate || rate < 0.01;
 
-        if (notInNation) net.pixlies.nations.locale.Lang.NOT_IN_NATION.send(player);
-        if (noPermission) net.pixlies.nations.locale.Lang.NATION_NO_PERMISSION.send(player);
-        if (nationNull) net.pixlies.nations.locale.Lang.NATION_DOES_NOT_EXIST.send(player);
-        if (rateNotValid) Lang.TARIFF_RATE_NOT_VALID.send(player, "%MAX%;" + maxRate);
+        if (notInNation) NationsLang.NOT_IN_NATION.send(player);
+        if (noPermission) NationsLang.NATION_NO_PERMISSION.send(player);
+        if (nationNull) NationsLang.NATION_DOES_NOT_EXIST.send(player);
+        if (rateNotValid) MarketLang.TARIFF_RATE_NOT_VALID.send(player, "%MAX%;" + maxRate);
 
         if (notInNation || noPermission || nationNull || rateNotValid) {
             player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
@@ -114,10 +115,10 @@ public class TariffCommand extends BaseCommand {
 
         instance.getMarketManager().getTariffs().put(tariff.getTariffId(), tariff);
         for (UUID uuid : from.getMembers()) {
-            Lang.INCOMING_TARIFF_SET.send(Bukkit.getPlayer(uuid), "%NATION%;" + to, "%RATE%;" + rate);
+            MarketLang.INCOMING_TARIFF_SET.send(Bukkit.getPlayer(uuid), "%NATION%;" + to, "%RATE%;" + rate);
         }
         for (UUID uuid : Objects.requireNonNull(Nation.getFromName(to)).getMembers()) {
-            Lang.OUTGOING_TARIFF_SET.send(Bukkit.getPlayer(uuid), "%NATION%;" + from.getName(), "%RATE%;" + rate);
+            MarketLang.OUTGOING_TARIFF_SET.send(Bukkit.getPlayer(uuid), "%NATION%;" + from.getName(), "%RATE%;" + rate);
         }
     }
 
@@ -132,9 +133,9 @@ public class TariffCommand extends BaseCommand {
         boolean noPermission = !NationPermission.MANAGE_TARIFFS.hasPermission(player) && !user.isBypassing();
         boolean tariffNull = instance.getMarketManager().getTariffId(from, to) == null;
 
-        if (notInNation) net.pixlies.nations.locale.Lang.NOT_IN_NATION.send(player);
-        if (noPermission) net.pixlies.nations.locale.Lang.NATION_NO_PERMISSION.send(player);
-        if (tariffNull) Lang.TARIFF_DOES_NOT_EXIST.send(player);
+        if (notInNation) NationsLang.NOT_IN_NATION.send(player);
+        if (noPermission) NationsLang.NATION_NO_PERMISSION.send(player);
+        if (tariffNull) MarketLang.TARIFF_DOES_NOT_EXIST.send(player);
 
         if (notInNation || noPermission || tariffNull) {
             player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
@@ -143,10 +144,10 @@ public class TariffCommand extends BaseCommand {
 
         instance.getMarketManager().getTariffs().remove(instance.getMarketManager().getTariffId(from, to));
         for (UUID uuid : Objects.requireNonNull(Nation.getFromName(from)).getMembers()) {
-            Lang.INCOMING_TARIFF_REMOVED.send(Bukkit.getPlayer(uuid), "%NATION%;" + to);
+            MarketLang.INCOMING_TARIFF_REMOVED.send(Bukkit.getPlayer(uuid), "%NATION%;" + to);
         }
         for (UUID uuid : Objects.requireNonNull(Nation.getFromName(to)).getMembers()) {
-            Lang.OUTGOING_TARIFF_REMOVED.send(Bukkit.getPlayer(uuid), "%NATION%;" + from);
+            MarketLang.OUTGOING_TARIFF_REMOVED.send(Bukkit.getPlayer(uuid), "%NATION%;" + from);
         }
     }
 

@@ -7,7 +7,7 @@ import net.pixlies.core.utils.EventUtils;
 import net.pixlies.nations.Nations;
 import net.pixlies.nations.events.impl.NationDisbandEvent;
 import net.pixlies.nations.interfaces.NationProfile;
-import net.pixlies.nations.locale.Lang;
+import net.pixlies.nations.locale.NationsLang;
 import net.pixlies.nations.nations.chunk.NationChunk;
 import net.pixlies.nations.nations.customization.GovernmentType;
 import net.pixlies.nations.nations.customization.Ideology;
@@ -272,7 +272,7 @@ public class Nation {
         ranks.put("newbie", NationRank.getNewbieRank());
 
         if (sender != null) {
-            Lang.NATION_FORMED.broadcast("%NATION%;" + this.getName(), "%PLAYER%;" + sender.getName());
+            NationsLang.NATION_FORMED.broadcast("%NATION%;" + this.getName(), "%PLAYER%;" + sender.getName());
         }
 
         save();
@@ -347,7 +347,7 @@ public class Nation {
         instance.getMongoManager().getDatastore().delete(this);
 
         if (disbander != null) {
-            Lang.NATION_DISBANDED.broadcast("%NATION%;" + name, "%PLAYER%;" + disbander.getName());
+            NationsLang.NATION_DISBANDED.broadcast("%NATION%;" + name, "%PLAYER%;" + disbander.getName());
         }
 
     }
@@ -367,7 +367,7 @@ public class Nation {
         }
 
         if (sender != null) {
-            Lang.NATION_RENAME.broadcast("%NATION%;" + name, "%NEW%;" + newName, "%PLAYER%;" + sender.getName());
+            NationsLang.NATION_RENAME.broadcast("%NATION%;" + name, "%NEW%;" + newName, "%PLAYER%;" + sender.getName());
         }
 
         this.name = newName;

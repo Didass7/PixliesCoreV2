@@ -14,43 +14,43 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum Lang {
+public enum NationsLang {
 
     // NATIONS
-    NATION_NAME_INVALID(Lang.NATION),
-    NATION_FORMED(Lang.NATION),
-    ALREADY_IN_NATION(Lang.NATION),
-    NATION_NAME_ALREADY_EXISTS(Lang.NATION),
-    NATION_ID_ALREADY_EXISTS(Lang.NATION),
-    NATION_NO_PERMISSION(Lang.NATION),
-    NATION_DISBANDED(Lang.NATION),
-    NATION_DISBAND_CONFIRM(Lang.NATION),
-    NATION_DISBAND_CANCELLED(Lang.NATION),
-    NATION_NO_NATION_TO_DISBAND(Lang.NATION),
-    NATION_MISSING_ARG(Lang.NATION),
-    NATION_DOES_NOT_EXIST(Lang.NATION),
-    NATION_RENAME(Lang.NATION),
-    NOT_IN_NATION(Lang.NATION),
+    NATION_NAME_INVALID(NationsLang.NATION),
+    NATION_FORMED(NationsLang.NATION),
+    ALREADY_IN_NATION(NationsLang.NATION),
+    NATION_NAME_ALREADY_EXISTS(NationsLang.NATION),
+    NATION_ID_ALREADY_EXISTS(NationsLang.NATION),
+    NATION_NO_PERMISSION(NationsLang.NATION),
+    NATION_DISBANDED(NationsLang.NATION),
+    NATION_DISBAND_CONFIRM(NationsLang.NATION),
+    NATION_DISBAND_CANCELLED(NationsLang.NATION),
+    NATION_NO_NATION_TO_DISBAND(NationsLang.NATION),
+    NATION_MISSING_ARG(NationsLang.NATION),
+    NATION_DOES_NOT_EXIST(NationsLang.NATION),
+    NATION_RENAME(NationsLang.NATION),
+    NOT_IN_NATION(NationsLang.NATION),
 
-    NATION_WILDERNESS_TITLE(Lang.NATION),
-    NATION_WILDERNESS_SUBTITLE(Lang.NATION),
-    NATION_SPAWN_TITLE(Lang.NATION),
-    NATION_SPAWN_SUBTITLE(Lang.NATION),
-    NATION_WARP_TITLE(Lang.NATION),
-    NATION_WARP_SUBTITLE(Lang.NATION),
-    NATION_WARZONE_TITLE(Lang.NATION),
-    NATION_WARZONE_SUBTITLE(Lang.NATION),
+    NATION_WILDERNESS_TITLE(NationsLang.NATION),
+    NATION_WILDERNESS_SUBTITLE(NationsLang.NATION),
+    NATION_SPAWN_TITLE(NationsLang.NATION),
+    NATION_SPAWN_SUBTITLE(NationsLang.NATION),
+    NATION_WARP_TITLE(NationsLang.NATION),
+    NATION_WARP_SUBTITLE(NationsLang.NATION),
+    NATION_WARZONE_TITLE(NationsLang.NATION),
+    NATION_WARZONE_SUBTITLE(NationsLang.NATION),
 
-    NATION_SAME_TITLE_COLOUR(Lang.NATION),
-    NATION_ALLY_TITLE_COLOUR(Lang.NATION),
-    NATION_OTHER_TITLE_COLOUR(Lang.NATION),
-    NATION_SUBTITLE_COLOUR(Lang.NATION),
+    NATION_SAME_TITLE_COLOUR(NationsLang.NATION),
+    NATION_ALLY_TITLE_COLOUR(NationsLang.NATION),
+    NATION_OTHER_TITLE_COLOUR(NationsLang.NATION),
+    NATION_SUBTITLE_COLOUR(NationsLang.NATION),
 
-    NATION_CLAIM_MESSAGE(Lang.NATION),
-    NATION_CLAIM_MESSAGE_ANNOUNCE(Lang.NATION),
-    NATION_CLAIM_ALREADY_CLAIMED(Lang.NATION),
-    NATION_CLAIM_AUTO_ENABLED(Lang.NATION),
-    NATION_CLAIM_AUTO_DISABLED(Lang.NATION),
+    NATION_CLAIM_MESSAGE(NationsLang.NATION),
+    NATION_CLAIM_MESSAGE_ANNOUNCE(NationsLang.NATION),
+    NATION_CLAIM_ALREADY_CLAIMED(NationsLang.NATION),
+    NATION_CLAIM_AUTO_ENABLED(NationsLang.NATION),
+    NATION_CLAIM_AUTO_DISABLED(NationsLang.NATION),
 
     CHUNK_LOCATION_FORMAT("");
 
@@ -59,7 +59,7 @@ public enum Lang {
     private final String prefix;
     private @Getter @NotNull Map<String, String> languages = new HashMap<>();
 
-    Lang(String prefix) {
+    NationsLang(String prefix) {
         this.prefix = CC.format(prefix);
     }
 
@@ -153,7 +153,7 @@ public enum Lang {
                 continue;
             YamlConfiguration cfg = YamlConfiguration.loadConfiguration(file);
             String langName = file.getName().replace("LANG_", "").replace(".yml", "").toUpperCase();
-            for (Lang l : values()) {
+            for (NationsLang l : values()) {
                 Map<String, String> map = new HashMap<>(l.languages);
                 map.put(langName, cfg.getString(l.name()));
                 l.setLanguage(map);

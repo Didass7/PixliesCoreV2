@@ -12,10 +12,10 @@ import net.kyori.adventure.text.Component;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.commands.impl.MarketCommand;
 import net.pixlies.business.handlers.impl.MarketHandler;
+import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.MarketItems;
 import net.pixlies.business.panes.MarketPane;
 import net.pixlies.core.entity.user.User;
-import net.pixlies.core.localization.Lang;
 import net.pixlies.nations.interfaces.NationProfile;
 import net.pixlies.nations.nations.Nation;
 import org.bukkit.Bukkit;
@@ -26,7 +26,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Objects;
@@ -254,7 +253,7 @@ public class OrderProfile {
             book.remove(order);
 
             player.playSound(player.getLocation(), "block.netherite_block.place", 100, 1);
-            Lang.ORDER_CANCELLED.send(player, "%AMOUNT%;" + order.getAmount(), "%ITEM%;" + book.getItem().getName());
+            MarketLang.ORDER_CANCELLED.send(player, "%AMOUNT%;" + order.getAmount(), "%ITEM%;" + book.getItem().getName());
 
             refundGoods(order);
             player.closeInventory(InventoryCloseEvent.Reason.CANT_USE);
@@ -467,14 +466,14 @@ public class OrderProfile {
                     // TODO: take money from wallet
 
                     book.buy(order);
-                    Lang.BUY_ORDER_CREATED.send(player, "%AMOUNT%;" + order.getAmount(), "%ITEM%;" + itemName);
+                    MarketLang.BUY_ORDER_CREATED.send(player, "%AMOUNT%;" + order.getAmount(), "%ITEM%;" + itemName);
                 }
                 case SELL -> {
                     OrderItem item = book.getItem();
                     player.getInventory().removeItemAnySlot(new ItemStack(item.getMaterial(), getItemAmount(item)));
 
                     book.sell(order);
-                    Lang.SELL_ORDER_CREATED.send(player, "%AMOUNT%;" + order.getAmount(), "%ITEM%;" + itemName);
+                    MarketLang.SELL_ORDER_CREATED.send(player, "%AMOUNT%;" + order.getAmount(), "%ITEM%;" + itemName);
                 }
             }
             player.playSound(player.getLocation(), "block.amethyst_block.break", 100, 1);
@@ -512,11 +511,11 @@ public class OrderProfile {
         if (order.getType() == Order.Type.BUY) {
             Material material = book.getItem().getMaterial();
             for (int i = 0; i < order.getVolume(); i++) player.getInventory().addItem(new ItemStack(material));
-            Lang.ORDER_ITEMS_REFUNDED.send(player, "%AMOUNT%;" + order.getVolume(), "%ITEM%;" + book.getItem().getName());
+            MarketLang.ORDER_ITEMS_REFUNDED.send(player, "%AMOUNT%;" + order.getVolume(), "%ITEM%;" + book.getItem().getName());
         } else {
             // TODO: add coins to wallet
             user.save();
-            Lang.ORDER_COINS_REFUNDED.send(player, "%COINS%" + (order.getVolume() * order.getPrice()));
+            MarketLang.ORDER_COINS_REFUNDED.send(player, "%COINS%" + (order.getVolume() * order.getPrice()));
         }
         player.playSound(player.getLocation(), "entity.experience_orb.pickup", 100, 1);
     }
@@ -537,7 +536,7 @@ public class OrderProfile {
             Material material = book.getItem().getMaterial();
             for (int i = 0; i < items; i++) player.getInventory().addItem(new ItemStack(material));
 
-            Lang.ORDER_ITEMS_CLAIMED.send(player, "%NUM%;" + items, "%AMOUNT%;" + order.getAmount(),
+            MarketLang.ORDER_ITEMS_CLAIMED.send(player, "%NUM%;" + items, "%AMOUNT%;" + order.getAmount(),
                     "%ITEM%;" + book.getItem().getName());
         } else {
             int coins = 0;
@@ -550,7 +549,7 @@ public class OrderProfile {
             // TODO: add coins to wallet
             user.save();
 
-            Lang.ORDER_ITEMS_CLAIMED.send(player, "%COINS%" + coins, "%AMOUNT%;" + order.getAmount(),
+            MarketLang.ORDER_ITEMS_CLAIMED.send(player, "%COINS%" + coins, "%AMOUNT%;" + order.getAmount(),
                     "%ITEM%;" + book.getItem().getName());
         }
         player.playSound(player.getLocation(), "entity.experience_orb.pickup", 100, 1);

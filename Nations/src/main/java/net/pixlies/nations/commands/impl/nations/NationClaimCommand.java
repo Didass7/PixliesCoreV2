@@ -7,7 +7,7 @@ import co.aikar.commands.annotation.Optional;
 import co.aikar.commands.annotation.Subcommand;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.nations.interfaces.NationProfile;
-import net.pixlies.nations.locale.Lang;
+import net.pixlies.nations.locale.NationsLang;
 import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.chunk.NationChunk;
 import net.pixlies.nations.nations.chunk.NationChunkType;
@@ -38,25 +38,25 @@ public class NationClaimCommand extends BaseCommand {
 
             // NOT IN NATION
             if (!profile.isInNation()) {
-                Lang.NOT_IN_NATION.send(player);
+                NationsLang.NOT_IN_NATION.send(player);
                 return;
             }
 
             if (!(staffCondition || playerCondition)) {
                 // NO PERMISSION TO DISBAND
-                Lang.NATION_NO_PERMISSION.send(player);
+                NationsLang.NATION_NO_PERMISSION.send(player);
                 return;
             }
 
             // STAFF OR PLAYER DISBAND
             Nation nation = profile.getNation();
             if (nation == null) {
-                Lang.NOT_IN_NATION.send(player);
+                NationsLang.NOT_IN_NATION.send(player);
                 return;
             }
 
             if (NationChunk.getClaimAt(player.getWorld().getName(), player.getChunk().getX(), player.getChunk().getZ()) != null) {
-                Lang.NATION_CLAIM_ALREADY_CLAIMED.send(player);
+                NationsLang.NATION_CLAIM_ALREADY_CLAIMED.send(player);
                 return;
             }
 
@@ -71,14 +71,14 @@ public class NationClaimCommand extends BaseCommand {
             chunk.claim(true);
             nation.backup();
 
-            Lang.NATION_CLAIM_MESSAGE.send(player,
+            NationsLang.NATION_CLAIM_MESSAGE.send(player,
                     "%LOCATION%;" + NationTextUtils.getChunkLocationFormatted(chunk.getX(), chunk.getZ()),
                     "%NATION%;" + nation.getName()
             );
 
             nation.getOnlineMembersAsPlayer().forEach((p) -> {
                 if (player.equals(p)) return;
-                Lang.NATION_CLAIM_MESSAGE.send(p,
+                NationsLang.NATION_CLAIM_MESSAGE.send(p,
                         "%PLAYER%;" + player.getName(),
                         "%LOCATION%;" + NationTextUtils.getChunkLocationFormatted(chunk.getX(), chunk.getZ())
                 );
@@ -90,18 +90,18 @@ public class NationClaimCommand extends BaseCommand {
 
         // :: /nation claim one <NATION>
         if (!staffCondition) {
-            Lang.NATION_NO_PERMISSION.send(player);
+            NationsLang.NATION_NO_PERMISSION.send(player);
             return;
         }
 
         Nation nation = Nation.getFromName(nationName);
         if (nation == null) {
-            Lang.NATION_DOES_NOT_EXIST.send(player);
+            NationsLang.NATION_DOES_NOT_EXIST.send(player);
             return;
         }
 
         if (NationChunk.getClaimAt(player.getWorld().getName(), player.getChunk().getX(), player.getChunk().getZ()) != null) {
-            Lang.NATION_CLAIM_ALREADY_CLAIMED.send(player);
+            NationsLang.NATION_CLAIM_ALREADY_CLAIMED.send(player);
             return;
         }
 
@@ -116,14 +116,14 @@ public class NationClaimCommand extends BaseCommand {
         chunk.claim(true);
         nation.backup();
 
-        Lang.NATION_CLAIM_MESSAGE.send(player,
+        NationsLang.NATION_CLAIM_MESSAGE.send(player,
                 "%LOCATION%;" + NationTextUtils.getChunkLocationFormatted(chunk.getX(), chunk.getZ()),
                 "%NATION%;" + nation.getName()
         );
 
         nation.getOnlineMembersAsPlayer().forEach((p) -> {
             if (player.equals(p)) return;
-            Lang.NATION_CLAIM_MESSAGE.send(p,
+            NationsLang.NATION_CLAIM_MESSAGE.send(p,
                     "%PLAYER%;" + player.getName(),
                     "%LOCATION%;" + NationTextUtils.getChunkLocationFormatted(chunk.getX(), chunk.getZ())
             );

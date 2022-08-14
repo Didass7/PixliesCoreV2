@@ -4,7 +4,7 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.nations.interfaces.NationProfile;
-import net.pixlies.nations.locale.Lang;
+import net.pixlies.nations.locale.NationsLang;
 import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.ranks.NationPermission;
 import net.pixlies.nations.utils.NationUtils;
@@ -33,7 +33,7 @@ public class NationRenameCommand extends BaseCommand {
 
                 nation = profile.getNation();
                 if (nation == null) {
-                    Lang.NOT_IN_NATION.send(player);
+                    NationsLang.NOT_IN_NATION.send(player);
                     return;
                 }
 
@@ -41,12 +41,12 @@ public class NationRenameCommand extends BaseCommand {
                 boolean playerCondition = NationPermission.CHANGE_NAME.hasPermission(sender);
 
                 if (!(staffCondition || playerCondition)) {
-                    Lang.NATION_NO_PERMISSION.send(player);
+                    NationsLang.NATION_NO_PERMISSION.send(player);
                     return;
                 }
 
                 if (!NationUtils.nameValid(name)) {
-                    Lang.NATION_NAME_INVALID.send(sender);
+                    NationsLang.NATION_NAME_INVALID.send(sender);
                     return;
                 }
             } else {
@@ -54,13 +54,13 @@ public class NationRenameCommand extends BaseCommand {
 
                 boolean staffCondition = user.isBypassing() && player.hasPermission("nations.staff.forcerename");
                 if (!staffCondition) {
-                    Lang.NATION_NO_PERMISSION.send(player);
+                    NationsLang.NATION_NO_PERMISSION.send(player);
                     return;
                 }
 
                 nation = Nation.getFromName(nationName);
                 if (nation == null) {
-                    Lang.NATION_DOES_NOT_EXIST.send(player);
+                    NationsLang.NATION_DOES_NOT_EXIST.send(player);
                     return;
                 }
 
@@ -71,18 +71,18 @@ public class NationRenameCommand extends BaseCommand {
         } else {
             // If sender is not player
             if (nationName == null || nationName.isEmpty()) {
-                Lang.NATION_MISSING_ARG.send(sender, "%X%;Nation Name");
+                NationsLang.NATION_MISSING_ARG.send(sender, "%X%;Nation Name");
                 return;
             }
 
             if (!NationUtils.nameValid(name)) {
-                Lang.NATION_NAME_INVALID.send(sender);
+                NationsLang.NATION_NAME_INVALID.send(sender);
                 return;
             }
 
             Nation nation = Nation.getFromName(nationName);
             if (nation == null) {
-                Lang.NATION_DOES_NOT_EXIST.send(sender);
+                NationsLang.NATION_DOES_NOT_EXIST.send(sender);
                 return;
             }
 

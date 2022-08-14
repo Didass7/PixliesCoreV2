@@ -1,0 +1,70 @@
+# PROTOBUSINESS
+MARKET_OPEN: "§7The market is now §aopen§7 for business!"
+MARKET_CLOSED: "§7The market is now §cclosed§7!"
+MARKET_WAS_ALREADY_OPEN: "§cThe market is already open."
+MARKET_WAS_ALREADY_CLOSED: "§cThe market is already closed."
+MARKET_IS_CLOSED: "§cThe market is closed. Please wait a few business days!"
+
+MARKET_STATISTICS_RESET: "§7Market statistics have been §creset§7."
+MARKET_PLAYER_STATISTICS_RESET: "§7Market statistics for §6%PLAYER%§7 have been §creset§7 by §6%SENDER§7."
+
+BUY_ORDER_CREATED: "§7You created a §abuy §7order for §a%AMOUNT%§8x §f%ITEM%§7."
+SELL_ORDER_CREATED: "§7You created a §6sell §7order for §a%AMOUNT%§8x §f%ITEM%§7."
+
+ORDER_CANCELLED: "§7Your order for §a%AMOUNT%§8x §6%ITEM% §7was §ccancelled§7."
+ORDER_ITEMS_REFUNDED: "§7You were refunded §a%AMOUNT%§8x §f%ITEM%§7."
+ORDER_COINS_REFUNDED: "§7You were refunded §6%COINS% coins§7."
+ORDER_ITEMS_CLAIMED: "§7You claimed §b%NUM% items§7 from your §a%AMOUNT%§8x §f%ITEM% §7order."
+ORDER_COINS_CLAIMED: "§7You claimed §6%COINS% coins§7 from your §a%AMOUNT%§8x §f%ITEM% §7order."
+ORDER_FLIPPED: "§7You created a new §bsell order§7 for §a%AMOUNT%§8x §f%ITEM%§7 for §6%COINS% coins §7each!"
+
+MARKET_NOT_A_VALID_PRICE: "§cThis is not a valid price!"
+MARKET_NOT_A_VALID_AMOUNT: "§cThis is not a valid amount!"
+MARKET_NOT_ENOUGH_ITEMS: "§cYou don't have this many items!"
+
+MARKET_PLAYER_RESTRICTED_SENDER: "§7Player §6%PLAYER%§7 has been §crestricted§7 from accessing the market for §d\"%REASON%\"§7."
+MARKET_PLAYER_RESTRICTED_TARGET: "§7You have been §crestricted§7 from accessing the market by §6%PLAYER%§7 for §d\"%REASON%\"§7."
+MARKET_PLAYER_ALLOWED_SENDER: "§7Player §6%PLAYER%§7 is now §aallowed§7 to access the market."
+MARKET_PLAYER_ALLOWED_TARGET: "§7You are now allowed to §aaccess§7 the market."
+MARKET_PLAYER_IS_RESTRICTED: "§cYou are restricted from accessing the market."
+
+ITEM_NOT_ON_MARKET: "§cThis item is not on the market!"
+
+BUY_ORDER_FILLED: "§7Your §bbuy order§7 for §a%NUM%§8x §f%ITEM%§7 was §aFILLED§7!"
+SELL_ORDER_FILLED: "§7Your §6sell order§7 for §a%NUM%§8x §f%ITEM%§7 was §aFILLED§7!"
+
+PRICE_SUMMARY: "§7Here is the price summary for §d%ITEM%§7."
+PRICE_BEST_BUY: "§7Best buy offer: §6%PRICE% coins §8(%AMOUNT% offers)"
+PRICE_BEST_SELL: "§7Best sell offer: §6%PRICE% coins §8(%AMOUNT% offers)"
+
+BUY_ORDER: "Have a filled buy order"
+SELL_ORDER: "Have a filled sell order"
+BUY_ORDER_UNIT_50: "Have a filled buy order with a minimum unit price of 50 coins"
+BUY_ORDER_64_ITEMS: "Have a filled buy order for at least 64 items"
+BUY_ORDER_500_ITEMS: "Have a filled buy order for at least 500 items"
+
+SOLD_100_ITEMS: "Have sold 100 items"
+GAINED_350_COINS: "Have gained 350 coins"
+ORDERED_ALL_ITEMS: "Have gotten filled orders for every item"
+
+CHALLENGE_COMPLETED: "§aChallenge completed: §f%CHALLENGE%"
+
+CHALLENGE_LIST: "§7Here are all market challenges."
+CHALLENGE_COMPLETE_FORMAT: "§8> §7%CHALLENGE% §8[§a§l✔§r§8]"
+CHALLENGE_INCOMPLETE_FORMAT: "§8> §b%CHALLENGE% §8[§c§l✖§r§8]"
+
+TARIFF_LOCAL_INCOMING: "§7Here is a list of §6incoming tariffs§7 to your nation:"
+TARIFF_LOCAL_OUTGOING: "§7Here is a list of §boutgoing tariffs§7 to other nations:"
+TARIFF_GLOBAL: "§7Here is a list of all §6tariffs§7:"
+TARIFF_INCOMING_FORMAT: "§8> §7From §f%NATION%§7 at a rate of §a%RATE%§7"
+TARIFF_OUTGOING_FORMAT: "§8> §To §f%NATION%§7 at a rate of §a%RATE%§7"
+TARIFF_GLOBAL_FORMAT: "§8> §7From §b%FROM%§7 to §6%TO%§7 at a rate of §d%RATE%§7"
+
+INCOMING_TARIFF_SET: "§7Tariff set for §6%NATION%§7 at a rate of §a%RATE%§7."
+INCOMING_TARIFF_REMOVED: "§7Tariff removed from §6%NATION%§7."
+OUTGOING_TARIFF_SET: "§6%NATION%§7 added a tariff on this nation at a rate of §a%RATE%§7."
+OUTGOING_TARIFF_REMOVED: "§6%NATION%§7 removed its tariff from this nation."
+
+TARIFF_DOES_NOT_EXIST: "§7No tariff exists from your nation on the specified nation."
+TARIFF_RATE_NOT_VALID: "§cThe rate must be a decimal number ranging from 0.01 to %MAX%."
+NO_TARIFFS_FOUND: "§cNo tariffs were found."

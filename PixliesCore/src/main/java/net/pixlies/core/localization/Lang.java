@@ -265,92 +265,13 @@ public enum Lang {
     PLAYER_STATS("", new HashMap<>()),
 
     // LOBBY
-    LOBBY_BUILDMODE_TOGGLE(Lang.PIXLIES, new HashMap<>()),
-
-    // MARKET [PROTOBUSINESS] @vPrototype_ please make a separate lang for protobusiness.
-    MARKET_OPEN(Lang.MARKET, new HashMap<>()),
-    MARKET_CLOSED(Lang.MARKET, new HashMap<>()),
-    MARKET_WAS_ALREADY_OPEN(Lang.MARKET, new HashMap<>()),
-    MARKET_WAS_ALREADY_CLOSED(Lang.MARKET, new HashMap<>()),
-    MARKET_IS_CLOSED(Lang.MARKET, new HashMap<>()),
-
-    MARKET_STATISTICS_RESET(Lang.MARKET, new HashMap<>()),
-    MARKET_PLAYER_STATISTICS_RESET(Lang.MARKET, new HashMap<>()),
-
-    BUY_ORDER_CREATED(Lang.MARKET, new HashMap<>()),
-    SELL_ORDER_CREATED(Lang.MARKET, new HashMap<>()),
-
-    ORDER_CANCELLED(Lang.MARKET, new HashMap<>()),
-    ORDER_ITEMS_REFUNDED(Lang.MARKET, new HashMap<>()),
-    ORDER_COINS_REFUNDED(Lang.MARKET, new HashMap<>()),
-    ORDER_ITEMS_CLAIMED(Lang.MARKET, new HashMap<>()),
-    ORDER_COINS_CLAIMED(Lang.MARKET, new HashMap<>()),
-    ORDER_FLIPPED(Lang.MARKET, new HashMap<>()),
-
-    MARKET_NOT_A_VALID_PRICE(Lang.MARKET, new HashMap<>()),
-    MARKET_NOT_A_VALID_AMOUNT(Lang.MARKET, new HashMap<>()),
-    MARKET_NOT_ENOUGH_ITEMS(Lang.MARKET, new HashMap<>()),
-
-    MARKET_PLAYER_RESTRICTED_SENDER(Lang.MARKET, new HashMap<>()),
-    MARKET_PLAYER_RESTRICTED_TARGET(Lang.MARKET, new HashMap<>()),
-    MARKET_PLAYER_ALLOWED_SENDER(Lang.MARKET, new HashMap<>()),
-    MARKET_PLAYER_ALLOWED_TARGET(Lang.MARKET, new HashMap<>()),
-    MARKET_PLAYER_IS_RESTRICTED(Lang.MARKET, new HashMap<>()),
-
-    ITEM_NOT_ON_MARKET(Lang.MARKET, new HashMap<>()),
-
-    BUY_ORDER_FILLED(Lang.MARKET, new HashMap<>()),
-    SELL_ORDER_FILLED(Lang.MARKET, new HashMap<>()),
-
-    PRICE_SUMMARY(Lang.MARKET, new HashMap<>()),
-    PRICE_BEST_BUY("", new HashMap<>()),
-    PRICE_BEST_SELL("", new HashMap<>()),
-
-    // CHALLENGES [PROTOBUSINESS]
-    BUY_ORDER("", new HashMap<>()),
-    SELL_ORDER("", new HashMap<>()),
-    BUY_ORDER_UNIT_50("", new HashMap<>()),
-    BUY_ORDER_64_ITEMS("", new HashMap<>()),
-    BUY_ORDER_500_ITEMS("", new HashMap<>()),
-
-    SOLD_100_ITEMS("", new HashMap<>()),
-    GAINED_350_COINS("", new HashMap<>()),
-    ORDERED_ALL_ITEMS("", new HashMap<>()),
-
-    CHALLENGE_COMPLETED(Lang.MARKET, new HashMap<>()),
-
-    CHALLENGE_LIST(Lang.MARKET, new HashMap<>()),
-    CHALLENGE_COMPLETE_FORMAT("", new HashMap<>()),
-    CHALLENGE_INCOMPLETE_FORMAT("", new HashMap<>()),
-
-    // TARIFFS [PROTOBUSINESS]
-    TARIFF_LOCAL_INCOMING(Lang.NATION, new HashMap<>()),
-    TARIFF_LOCAL_OUTGOING(Lang.NATION, new HashMap<>()),
-    TARIFF_GLOBAL(Lang.NATION, new HashMap<>()),
-    TARIFF_INCOMING_FORMAT("", new HashMap<>()),
-    TARIFF_OUTGOING_FORMAT("", new HashMap<>()),
-    TARIFF_GLOBAL_FORMAT(Lang.NATION, new HashMap<>()),
-
-    TARIFF_DOES_NOT_EXIST(Lang.NATION, new HashMap<>()),
-    TARIFF_RATE_NOT_VALID(Lang.NATION, new HashMap<>()),
-    NO_TARIFFS_FOUND(Lang.NATION, new HashMap<>()),
-
-    INCOMING_TARIFF_SET(Lang.NATION, new HashMap<>()),
-    INCOMING_TARIFF_REMOVED(Lang.NATION, new HashMap<>()),
-    OUTGOING_TARIFF_SET(Lang.NATION, new HashMap<>()),
-    OUTGOING_TARIFF_REMOVED(Lang.NATION, new HashMap<>()),
-
-    // OTHER
-    MUST_BE_A_PLAYER(Lang.PIXLIES, new HashMap<>()),
-    INVALID_COMMAND_SYNTAX(Lang.PIXLIES, new HashMap<>());
+    LOBBY_BUILDMODE_TOGGLE(Lang.PIXLIES, new HashMap<>());
 
     private final String PREFIX;
     private @Getter Map<String, String> languages;
 
     public static final String PIXLIES = "§x§4§e§d§e§d§b§lP§x§4§8§c§b§c§8§lI§x§4§2§b§7§b§5§lX§x§3§c§a§4§a§2§lL§x§3§5§9§0§8§f§lI§x§2§f§7§d§7§c§lE§x§2§9§6§9§6§9§lS§8 | §7";
     public static final String EARTH = "§x§2§E§D§C§3§E§lE§x§3§0§C§A§3§E§lA§x§3§1§B§F§3§E§lR§x§3§8§B§2§4§3§lT§x§3§7§A§3§4§1§lH§8 | §7";
-    public static final String NATION = "§x§2§F§D§1§E§5§lN§x§3§4§C§6§D§8§lA§x§3§7§B§A§C§A§lT§x§3§5§B§0§B§F§lI§x§3§3§A§3§B§0§lO§x§3§2§9§9§A§5§lN§8 | §7";
-    public static final String MARKET = "§x§1§f§c§a§7§3§lM§x§0§0§b§e§8§d§lA§x§0§0§b§0§a§0§lR§x§0§0§a§1§a§9§lK§x§0§0§9§1§a§9§lE§x§1§b§8§1§9§f§lT§8 | §7";
     public static final String DISCORD = "§9§lDISCORD§8 | ";
     public static final String POLL = "§x§1§6§a§7§e§7§lP§x§1§a§8§d§c§7§lO§x§1§a§7§5§a§8§lL§x§1§6§5§d§8§a§lL §8| §7";
     public static final String WAR = "§x§f§f§2§b§2§bW§x§e§b§2§1§2§1A§x§d§9§1§a§1§aR§8 | §7";

@@ -6,6 +6,7 @@ import net.pixlies.business.database.MongoManager;
 import net.pixlies.business.handlers.HandlerManager;
 import net.pixlies.business.handlers.RegisterHandlerManager;
 import net.pixlies.business.listeners.ListenerManager;
+import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.MarketManager;
 import net.pixlies.core.modules.Module;
 import net.pixlies.core.modules.configuration.ModuleConfig;
@@ -36,6 +37,9 @@ public class ProtoBusiness extends JavaPlugin implements Module {
         config = new ModuleConfig(this, new File(this.getDataFolder(), "config.yml"), "config.yml");
         stats = new ModuleConfig(this, new File(this.getDataFolder(), "stats.yml"), "stats.yml");
 
+        this.saveResource("languages/LANG_ENG.yml", true);
+        MarketLang.load();
+
         handlerManager = new HandlerManager();
         new RegisterHandlerManager().registerAllHandlers();
 
@@ -46,7 +50,7 @@ public class ProtoBusiness extends JavaPlugin implements Module {
         commandManager.registerAllCommands();
 
         marketManager = new MarketManager();
-        Bukkit.getLogger().warning("[Business] OrderBooks loaded: " + marketManager.getBooks().size());
+        Bukkit.getLogger().warning("OrderBooks loaded: " + marketManager.getBooks().size());
 
         listenerManager = new ListenerManager();
         listenerManager.registerAllListeners();
