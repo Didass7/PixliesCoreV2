@@ -3,6 +3,7 @@ package net.pixlies.core.commands.moderation;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
+import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import net.pixlies.core.localization.Lang;
 import org.bukkit.entity.Player;
 
@@ -13,8 +14,9 @@ public class InventorySeeCommand extends BaseCommand {
     @Default
     @CommandCompletion("@empty")
     @Syntax("<target>")
-    public void onInventorySee(Player player, Player target) {
-        if (!player.hasPermission("pixlies.moderation.invsee.self") || player.getUniqueId().equals(target.getUniqueId())) {
+    public void onInventorySee(Player player, OnlinePlayer onlinePlayer) {
+        Player target = onlinePlayer.getPlayer();
+        if (player.getUniqueId().equals(target.getUniqueId())) {
             Lang.CANNOT_USE_ON_SELF.send(player);
             return;
         }
