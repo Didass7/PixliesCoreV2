@@ -4,14 +4,14 @@ BAN_MESSAGE: |-
   §7Reason: §c%REASON%
   §7Duration: §b%DURATION%
   
-  §7ID: §f%BAN_ID%
+  §7ID: §f%ID%
 
 BLACKLIST_MESSAGE: |-
   §7You are permanently blacklisted from §3Pixlies§fNet§7.
   
   §7Reason: §c%REASON%
   
-  §7ID: §f%BAN_ID%
+  §7ID: §f%ID%
 
 BANNED_PLAYER_TRIED_TO_JOIN: '§c%PLAYER%§7 tried to join, but is currently banned.'
 

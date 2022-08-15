@@ -24,7 +24,7 @@ public class BlackListListener implements Listener {
         String message = Lang.BLACKLIST_MESSAGE.get(player)
                 .replace("%EXECUTOR%", punishment.getPunisher())
                 .replace("%REASON%", punishment.getReason())
-                .replace("%BAN_ID%", punishment.getID());
+                .replace("%ID%", punishment.getPunisherName());
 
         Lang.BANNED_PLAYER_TRIED_TO_JOIN.broadcast("pixlies.moderation.logs", "%PLAYER%;" + player.getName());
         event.disallow(PlayerLoginEvent.Result.KICK_BANNED, Component.text(message));

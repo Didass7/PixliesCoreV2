@@ -4,7 +4,7 @@ BAN_MESSAGE: |-
   §7دلیل: §c%REASON%
   §7زمان: §b%DURATION%
 
-  §7Ban-ID: §f%BAN_ID%
+  §7Ban-ID: §f%ID%
 
 BANNED_PLAYER_TRIED_TO_JOIN: '§6%PLAYER% §7میخاست بازی کنه ولی بلکلیست شده!'
 PLAYER_PERMANENTLY_BANNED: '§6%PLAYER% §7wurde von §6%EXECUTOR% $7gebannt wegen §c"%REASON%"'

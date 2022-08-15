@@ -1,9 +1,11 @@
-package net.pixlies.core.events.impl.moderation;
+package net.pixlies.core.events.impl.player;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import net.pixlies.core.entity.user.User;
+import net.pixlies.core.Main;
+import net.pixlies.core.handlers.impl.MessageHandler;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -11,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 @Getter
 @RequiredArgsConstructor
-public class StaffModeStatusChangeEvent extends Event {
+public class PixliesSenderMessagePlayerEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();
 
@@ -26,12 +28,14 @@ public class StaffModeStatusChangeEvent extends Event {
 
     private @Setter boolean cancelled = false;
 
-    private final Player player;
-    private final User user;
-    private final StaffModeStatus status;
+    private final MessageHandler messageHandler = Main.getInstance().getHandlerManager().getHandler(MessageHandler.class);
 
-    public enum StaffModeStatus {
-        ENABLE, DISABLE
+    private final CommandSender sender;
+    private final Player target;
+    private final MessageType type;
+
+    public enum MessageType {
+        MESSAGE, REPLY
     }
 
 }

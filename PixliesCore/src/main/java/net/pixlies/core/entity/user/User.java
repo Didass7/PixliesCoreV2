@@ -138,6 +138,7 @@ public class User {
                 UUID.randomUUID().toString(),
                 PunishmentType.MUTE.name(),
                 punisherUUID.toString(),
+                punisher.getName(),
                 System.currentTimeMillis(),
                 newReason,
                 0
@@ -174,7 +175,7 @@ public class User {
             newReason = instance.getConfig().getString("moderation.defaultReason", "No reason given");
         }
 
-        Punishment punishment = new Punishment(UUID.randomUUID().toString(), PunishmentType.MUTE.name(), punisherUUID.toString(), System.currentTimeMillis(), newReason, duration + System.currentTimeMillis());
+        Punishment punishment = new Punishment(UUID.randomUUID().toString(), PunishmentType.MUTE.name(), punisherUUID.toString(), punisher.getName(), System.currentTimeMillis(), newReason, duration + System.currentTimeMillis());
         currentPunishments.put("mute", punishment);
         if (silent)
             Lang.PLAYER_TEMPORARILY_MUTED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason, "%TIME%;" + new PrettyTime().format(new Date(punishment.getUntil())));
@@ -208,7 +209,7 @@ public class User {
             newReason = instance.getConfig().getString("moderation.defaultReason", "No reason given");
         }
 
-        Punishment punishment = new Punishment(UUID.randomUUID().toString(), PunishmentType.BAN.name(), punisherUUID.toString(), System.currentTimeMillis(), newReason, 0);
+        Punishment punishment = new Punishment(UUID.randomUUID().toString(), PunishmentType.BAN.name(), punisherUUID.toString(), punisher.getName(), System.currentTimeMillis(), newReason, 0);
         currentPunishments.put("ban", punishment);
         if (silent)
             Lang.PLAYER_PERMANENTLY_BANNED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason);
@@ -218,7 +219,8 @@ public class User {
             Player player = getAsOfflinePlayer().getPlayer();
             String message = Lang.BAN_MESSAGE.get(player)
                     .replace("%REASON%", punishment.getReason())
-                    .replace("%BAN_ID%", punishment.getID())
+                    .replace("%EXECUTOR%", punisher.getName())
+                    .replace("%ID%", punishment.getPunishmentId())
                     .replace("%DURATION%", "§4§lPERMANENT!");
 
             player.kick(Component.text(message));
@@ -237,7 +239,16 @@ public class User {
             newReason = instance.getConfig().getString("moderation.defaultReason", "No reason given");
         }
 
-        Punishment punishment = new Punishment(UUID.randomUUID().toString(), PunishmentType.BAN.name(), punisherUUID.toString(), System.currentTimeMillis(), newReason, duration + System.currentTimeMillis());
+        Punishment punishment = new Punishment(
+                UUID.randomUUID().toString(),
+                PunishmentType.BAN.name(),
+                punisherUUID.toString(),
+                punisher.getName(),
+                System.currentTimeMillis(),
+                newReason,
+                duration + System.currentTimeMillis()
+        );
+
         currentPunishments.put("ban", punishment);
         if (silent)
             Lang.PLAYER_TEMPORARILY_BANNED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason, "%TIME%;" + new PrettyTime().format(new Date(punishment.getUntil())));
@@ -248,7 +259,8 @@ public class User {
             Player player = getAsOfflinePlayer().getPlayer();
             String message = Lang.BAN_MESSAGE.get(player)
                     .replace("%REASON%", punishment.getReason())
-                    .replace("%BAN_ID%", punishment.getID())
+                    .replace("%EXECUTOR%", punisher.getName())
+                    .replace("%ID%", punishment.getPunishmentId())
                     .replace("%DURATION%", new PrettyTime().format(new Date(punishment.getUntil())));
 
             player.kick(Component.text(message));
@@ -298,6 +310,7 @@ public class User {
         Punishment punishment = new Punishment(UUID.randomUUID().toString(),
                 PunishmentType.BLACKLIST.name(),
                 punisherUUID.toString(),
+                punisher.getName(),
                 System.currentTimeMillis(),
                 newReason,
                 0
@@ -313,7 +326,8 @@ public class User {
             Player player = getAsOfflinePlayer().getPlayer();
             String message = Lang.BLACKLIST_MESSAGE.get(player)
                     .replace("%REASON%", punishment.getReason())
-                    .replace("%BAN_ID%", punishment.getID());
+                    .replace("%EXECUTOR%", punisher.getName())
+                    .replace("%ID%", punishment.getPunishmentId());
             player.kick(Component.text(message));
         }
         save();
@@ -351,6 +365,7 @@ public class User {
         }
         String kickMessage = Lang.KICK_MESSAGE.get(player);
         kickMessage = kickMessage
+                .replace("%EXECUTOR%", sender.getName())
                 .replace("%REASON%",  kickReason);
         player.kick(Component.text(kickMessage));
         if (silent) {
@@ -361,23 +376,23 @@ public class User {
         return true;
     }
 
-    public @NotNull Punishment marketRestrict(Player punisher, String reason) {
-        Punishment punishment = new Punishment(UUID.randomUUID().toString(),
-                PunishmentType.MARKET_RESTRICT.name(),
-                punisher.getUniqueId().toString(),
-                System.currentTimeMillis(),
-                reason,
-                0
-        );
-        getCurrentPunishments().put("marketRestrict", punishment);
-        save();
-        return punishment;
-    }
-
-    public void unRestrict() {
-        getCurrentPunishments().remove("marketRestrict");
-        save();
-    }
+//    public @NotNull Punishment marketRestrict(Player punisher, String reason) {
+//        Punishment punishment = new Punishment(UUID.randomUUID().toString(),
+//                PunishmentType.MARKET_RESTRICT.name(),
+//                punisher.getUniqueId().toString(),
+//                System.currentTimeMillis(),
+//                reason,
+//                0
+//        );
+//        getCurrentPunishments().put("marketRestrict", punishment);
+//        save();
+//        return punishment;
+//    }
+//
+//    public void unRestrict() {
+//        getCurrentPunishments().remove("marketRestrict");
+//        save();
+//    }
 
     /**
      * Kicks the user with the default reason.

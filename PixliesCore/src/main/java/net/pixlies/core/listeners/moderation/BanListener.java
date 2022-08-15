@@ -23,9 +23,9 @@ public class BanListener implements Listener {
         Punishment punishment = user.getBan();
 
         String banMessage = Lang.BAN_MESSAGE.get(event.getPlayer())
-                .replace("%EXECUTOR%", punishment.getPunisher())
+                .replace("%EXECUTOR%", punishment.getPunisherName())
                 .replace("%REASON%", punishment.getReason())
-                .replace("%BAN_ID%", punishment.getID());
+                .replace("%ID%", punishment.getPunishmentId());
 
         if (punishment.getUntil() == 0) {
             banMessage = banMessage.replace("%DURATION%", "§4§lPERMANENT!");

@@ -14,6 +14,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 public class TeleportListener implements Listener {
@@ -40,10 +41,14 @@ public class TeleportListener implements Listener {
     @EventHandler
     public void onDeath(PlayerDeathEvent event) {
         Player player = event.getPlayer();
+        tpHandler.setBackLocation(player.getUniqueId(), player.getLocation());
+    }
+
+    @EventHandler
+    public void onRespawn(PlayerRespawnEvent event) {
+        Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
         user.cancelTeleport();
-        if (user.isPassive()) return;
-        tpHandler.setBackLocation(player.getUniqueId(), player.getLocation());
     }
 
     @EventHandler

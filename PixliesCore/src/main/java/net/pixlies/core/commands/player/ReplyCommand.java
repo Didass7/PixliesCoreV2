@@ -8,7 +8,7 @@ import co.aikar.commands.annotation.Syntax;
 import lombok.val;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.user.User;
-import net.pixlies.core.events.impl.player.SenderMessagePlayerEvent;
+import net.pixlies.core.events.impl.player.PixliesSenderMessagePlayerEvent;
 import net.pixlies.core.handlers.impl.MessageHandler;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.utils.EventUtils;
@@ -37,8 +37,8 @@ public class ReplyCommand extends BaseCommand {
             return;
         }
 
-        val event = new SenderMessagePlayerEvent(player, target, SenderMessagePlayerEvent.MessageType.REPLY);
-        EventUtils.callEvent(event);
+        val event = new PixliesSenderMessagePlayerEvent(player, target, PixliesSenderMessagePlayerEvent.MessageType.REPLY);
+        EventUtils.call(event);
         if (event.isCancelled()) return;
 
         Lang.PLAYER_MESSAGE_FORMAT_TO.send(player, "%PLAYER%;" + target.getName(), "%MESSAGE%;" + message);

@@ -21,8 +21,6 @@ public class ChatHandler implements Handler {
     @Getter private volatile long slowMode = instance.getSettings().getLong("chat.slowmode", 0L);
     private final Map<UUID, Long> slowModePlayers = new ConcurrentHashMap<>();
 
-    private final List<String> blockedWords = instance.getConfig().getStringList("blockedWords");
-
     public void setSlowMode(long value) {
         slowMode = value;
         instance.getSettings().set("chat.slowmode", value);
@@ -63,39 +61,6 @@ public class ChatHandler implements Handler {
     public void setPlayerCooldown(UUID uuid, long value) {
         slowModePlayers.remove(uuid);
         slowModePlayers.put(uuid, value);
-    }
-
-    public boolean isBlocked(String message) {
-        String[] args = message.split(" ");
-        for (String arg : args) {
-
-            for (String word : blockedWords) {
-                // if the arg equals the blocked word return true
-                if (arg.equalsIgnoreCase(word)) return true;
-            }
-
-        }
-        return false;
-    }
-
-    public boolean blockWord(String word) {
-        String[] args = word.split(" ");
-        if (args[0] == null) return false;
-        if (blockedWords.contains(args[0])) return false;
-        blockedWords.add(args[0]);
-        config.set("blockedWords", blockedWords);
-        config.save();
-        return true;
-    }
-
-    public boolean unblockWord(String word) {
-        String[] args = word.split(" ");
-        if (args[0] == null) return false;
-        if (blockedWords.contains(args[0])) return false;
-        blockedWords.remove(args[0]);
-        config.set("blockedWords", blockedWords);
-        config.save();
-        return true;
     }
 
 }

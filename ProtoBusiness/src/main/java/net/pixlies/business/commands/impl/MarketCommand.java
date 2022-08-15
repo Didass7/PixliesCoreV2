@@ -122,14 +122,14 @@ public class MarketCommand extends BaseCommand {
                 target.playSound(target.getLocation(), "entity.experience_orb.pickup", 100, 1);
             }
             MarketLang.MARKET_PLAYER_ALLOWED_SENDER.send(player, "%PLAYER%;" + target.getName());
-            user.unRestrict();
+//            user.unRestrict(); TODO
         } else {
             if (target.isOnline()) {
                 MarketLang.MARKET_PLAYER_RESTRICTED_TARGET.send(target, "%PLAYER%;" + player.getName(), "%REASON%;" + reason);
                 target.playSound(target.getLocation(), "block.anvil.land", 100, 1);
             }
             MarketLang.MARKET_PLAYER_RESTRICTED_SENDER.send(player, "%PLAYER%;" + target.getName(), "%REASON%;" + reason);
-            user.marketRestrict(player, reason);
+//            user.marketRestrict(player, reason);
         }
     }
 

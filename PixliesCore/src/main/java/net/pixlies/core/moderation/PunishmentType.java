@@ -6,6 +6,6 @@ public enum PunishmentType {
     MUTE,
     WARN,
     BLACKLIST,
-    MARKET_RESTRICT
+//    MARKET_RESTRICT
 
 }

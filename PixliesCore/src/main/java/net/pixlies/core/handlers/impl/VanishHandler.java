@@ -23,7 +23,7 @@ public class VanishHandler implements Handler {
         // EVENT
         if (withEvent) {
             val event = new VanishStatusChangeEvent(player, VanishStatusChangeEvent.VanishState.VANISH);
-            EventUtils.callEvent(event);
+            EventUtils.call(event);
             if (event.isCancelled()) return false;
         }
 
@@ -56,7 +56,7 @@ public class VanishHandler implements Handler {
         // EVENT
         if (withEvent) {
             val event = new VanishStatusChangeEvent(player, VanishStatusChangeEvent.VanishState.UNVANISH);
-            EventUtils.callEvent(event);
+            EventUtils.call(event);
             if (event.isCancelled()) return false;
         }
 

@@ -60,10 +60,6 @@ public enum Lang {
     CHAT_UNMUTED(Lang.PIXLIES, new HashMap<>()),
     CHAT_MUTED_FORMAT(Lang.PIXLIES, new HashMap<>()),
 
-    ADDED_BLOCKED_WORD(Lang.PIXLIES, new HashMap<>()),
-    REMOVED_BLOCKED_WORD(Lang.PIXLIES, new HashMap<>()),
-    PLAYER_BLOCKED_WORD_DISABLED(Lang.PIXLIES, new HashMap<>()),
-
     SLOWMODE_SET(Lang.PIXLIES, new HashMap<>()),
     SLOWMODE_GET(Lang.PIXLIES, new HashMap<>()),
     SLOWMODE_OFF(Lang.PIXLIES, new HashMap<>()),

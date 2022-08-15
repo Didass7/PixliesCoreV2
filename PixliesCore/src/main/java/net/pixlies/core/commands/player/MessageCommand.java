@@ -8,7 +8,7 @@ import co.aikar.commands.annotation.Syntax;
 import lombok.val;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.user.User;
-import net.pixlies.core.events.impl.player.SenderMessagePlayerEvent;
+import net.pixlies.core.events.impl.player.PixliesSenderMessagePlayerEvent;
 import net.pixlies.core.handlers.impl.MessageHandler;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.utils.EventUtils;
@@ -33,8 +33,8 @@ public class MessageCommand extends BaseCommand {
             handler.setReplyTarget(player.getUniqueId(), target.getUniqueId());
         }
 
-        val event = new SenderMessagePlayerEvent(sender, target, SenderMessagePlayerEvent.MessageType.MESSAGE);
-        EventUtils.callEvent(event);
+        val event = new PixliesSenderMessagePlayerEvent(sender, target, PixliesSenderMessagePlayerEvent.MessageType.MESSAGE);
+        EventUtils.call(event);
         if (event.isCancelled()) return;
 
         String msgToSend = message.substring(target.getName().length());

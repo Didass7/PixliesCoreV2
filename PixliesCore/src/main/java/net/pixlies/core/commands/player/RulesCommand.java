@@ -13,7 +13,7 @@ public class RulesCommand extends BaseCommand {
 
     @CommandAlias("rules")
     public void onRules(CommandSender sender) {
-        Lang.PLAYER_RULES_MESSAGE.send(sender, "%MESSAGE%;" + config.getString("links.rules", " "));
+        Lang.PLAYER_RULES_MESSAGE.send(sender, "%MESSAGE%;" + config.getString("links.rules", ""));
     }
 
 }

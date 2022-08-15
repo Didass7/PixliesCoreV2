@@ -10,11 +10,12 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 
 public class CombatListener implements Listener {
 
     @EventHandler
-    public void onDeath(PlayerDeathEvent event) {
+    public void onRespawn(PlayerRespawnEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
         user.setInCombat(false);

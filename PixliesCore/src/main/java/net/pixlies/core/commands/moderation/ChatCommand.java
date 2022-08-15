@@ -50,29 +50,15 @@ public class ChatCommand extends BaseCommand {
         Lang.CHAT_CLEARED.broadcast("%PLAYER%;" + sender.getName());
     }
 
-    @Subcommand("toggleword")
-    @Description("Toggle the usage of a certain word in chat")
-    public void onToggleWord(CommandSender sender, String word) {
-        if (chatHandler.isBlocked(word)) {
-            chatHandler.unblockWord(word);
-            Lang.REMOVED_BLOCKED_WORD.send(sender);
-        } else {
-            chatHandler.blockWord(word);
-            Lang.ADDED_BLOCKED_WORD.send(sender);
-        }
-    }
-
     @Subcommand("slow")
-    @Description("Check the current chat delay")
-    @CommandCompletion("@empty")
-    public void onSlow(CommandSender sender) {
-        Lang.SLOWMODE_GET.send(sender, "%VALUE%;" + chatHandler.getSlowMode());
-    }
+    @Description("Check or set the chat delay")
+    @CommandCompletion("@empty @range:0-10")
+    public void onSlow(CommandSender sender, @Optional @Conditions("limits:min=0,max=10") Integer cooldown) {
+        if (cooldown == null) {
+            Lang.SLOWMODE_GET.send(sender, "%VALUE%;" + chatHandler.getSlowMode());
+            return;
+        }
 
-    @Subcommand("slow set")
-    @Description("Set the current chat delay")
-    @CommandCompletion("@range:min=0,max=10")
-    public void onSlowSet(CommandSender sender, @Conditions("limits:min=0,max=10") Integer cooldown) {
         if (cooldown == 0) {
             chatHandler.setSlowMode(0);
             Lang.SLOWMODE_OFF.send(sender, "%PLAYER%;" + sender.getName());
@@ -80,6 +66,7 @@ public class ChatCommand extends BaseCommand {
             chatHandler.setSlowMode(cooldown);
             Lang.SLOWMODE_SET.send(sender, "%PLAYER%" + sender.getName(), "%VALUE%;" + cooldown);
         }
+
     }
 
     @Default

@@ -25,7 +25,7 @@ public class BlacklistCommand extends BaseCommand {
         String blacklistReason = instance.getConfig().getString("moderation.defaultReason", "No reason given");
 
         if (reason != null && !reason.isEmpty()) {
-            blacklistReason = reason.replace("-s", "");
+            blacklistReason = reason.replaceFirst("-s", "");
             if (reason.endsWith("-s") || reason.startsWith("-s"))
                 silent = true;
         }

@@ -2,7 +2,6 @@ package net.pixlies.nations.nations;
 
 import dev.morphia.annotations.*;
 import lombok.*;
-import net.pixlies.core.events.PixliesCancellableEvent;
 import net.pixlies.core.utils.EventUtils;
 import net.pixlies.nations.Nations;
 import net.pixlies.nations.events.impl.NationDisbandEvent;
@@ -335,7 +334,8 @@ public class Nation {
     public void disband(@Nullable CommandSender disbander) {
         if (systemNation) return;
 
-        PixliesCancellableEvent event = EventUtils.callCancelable(new NationDisbandEvent(this));
+        NationDisbandEvent event = new NationDisbandEvent(this);
+        EventUtils.call(event);
         if (event.isCancelled()) return;
 
         for (UUID member : getMembers()) {

@@ -30,7 +30,11 @@ public class StaffModeHandler implements Handler {
 
     public void enable(Player player) {
         User user = User.get(player.getUniqueId());
-        if (EventUtils.callCancelable(new StaffModeStatusChangeEvent(player, user, StaffModeStatusChangeEvent.StaffModeStatus.ENABLE)).isCancelled()) return;
+
+        StaffModeStatusChangeEvent event = new StaffModeStatusChangeEvent(player, user, StaffModeStatusChangeEvent.StaffModeStatus.ENABLE);
+        EventUtils.call(event);
+        if (event.isCancelled()) return;
+
         if (user.isInStaffMode()) return;
         enableWithoutUpdate(player, user);
         user.setInStaffMode(true);
@@ -39,7 +43,11 @@ public class StaffModeHandler implements Handler {
 
     public void disable(Player player) {
         User user = User.get(player.getUniqueId());
-        if (EventUtils.callCancelable(new StaffModeStatusChangeEvent(player, user, StaffModeStatusChangeEvent.StaffModeStatus.DISABLE)).isCancelled()) return;
+
+        StaffModeStatusChangeEvent event = new StaffModeStatusChangeEvent(player, user, StaffModeStatusChangeEvent.StaffModeStatus.DISABLE);
+        EventUtils.call(event);
+        if (event.isCancelled()) return;
+
         if (!user.isInStaffMode()) return;
         disableWithoutUpdate(player, user);
         user.setInStaffMode(false);

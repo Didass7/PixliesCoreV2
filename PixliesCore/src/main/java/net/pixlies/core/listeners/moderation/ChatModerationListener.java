@@ -28,12 +28,6 @@ public class ChatModerationListener implements Listener {
             return;
         }
 
-        // Checks for blocked words
-        if (chatHandler.isBlocked(message)) {
-            Lang.PLAYER_BLOCKED_WORD_DISABLED.send(player);
-            event.setCancelled(true);
-        }
-
     }
 
 }

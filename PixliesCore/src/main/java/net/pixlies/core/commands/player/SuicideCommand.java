@@ -13,8 +13,8 @@ public class SuicideCommand extends BaseCommand {
     @Default
     @Description("Commit die")
     public void onSuicide(Player player) {
-        Lang.PLAYER_SUICIDE.send(player);
         player.setHealth(0);
+        Lang.PLAYER_SUICIDE.send(player);
     }
 
     @HelpCommand
