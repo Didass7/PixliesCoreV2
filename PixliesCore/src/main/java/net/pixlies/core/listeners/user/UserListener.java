@@ -1,13 +1,8 @@
 package net.pixlies.core.listeners.user;
 
-import com.mongodb.client.FindIterable;
-import dev.morphia.query.Query;
 import lombok.val;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.user.User;
-import net.pixlies.core.utils.CC;
-import org.bson.Document;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -19,9 +14,10 @@ public class UserListener implements Listener {
 
     private final Main instance = Main.getInstance();
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+        instance.getDatabase().getUserCache().remove(player.getUniqueId());
         User.get(player.getUniqueId()); // load the user
     }
 
@@ -30,7 +26,7 @@ public class UserListener implements Listener {
         val uuid = event.getPlayer().getUniqueId();
         val user = User.get(uuid);
         user.backup();
-        instance.getServer().getScheduler().runTaskLater(instance, () -> instance.getDatabase().getUserCache().remove(user.getUniqueId()), 3);
+        instance.getDatabase().getUserCache().remove(uuid);
     }
 
 }
