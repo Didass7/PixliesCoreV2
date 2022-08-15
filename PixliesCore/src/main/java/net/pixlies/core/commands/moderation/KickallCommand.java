@@ -2,7 +2,6 @@ package net.pixlies.core.commands.moderation;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
-import net.kyori.adventure.text.Component;
 import net.pixlies.core.Main;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.utils.CC;
@@ -20,23 +19,26 @@ public class KickallCommand extends BaseCommand {
     @Description("Kick all players")
     @CommandCompletion("@empty")
     public void onKickAll(CommandSender sender) {
-        sender.sendMessage(CC.format(Lang.PIXLIES + "&7Are you sure you want to kick all players? Type \"&c/kickall confirm [reason]\"&7 to confirm."));
+        sender.sendMessage(CC.format(Lang.PIXLIES + "&7Are you sure you want to kick all players? Type &c\"/kickall confirm [reason]\"&7 to confirm."));
     }
 
     @Private
     @Subcommand("confirm")
+    @CommandCompletion("@empty")
     @Syntax("[reason]")
     public void onConfirm(CommandSender sender, @Optional String reason) {
         String newReason = reason == null ? instance.getConfig().getString("moderation.defaultReason", "No reason given") : reason;
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (player.hasPermission("pixlies.moderation.kick.exempt")) continue;
-            player.kick(Component.text(Lang.KICK_MESSAGE.get()
+            //noinspection deprecation
+            player.kickPlayer(Lang.KICK_MESSAGE.get()
+                    .replace("%EXECUTOR%", sender.getName())
                     .replace("%REASON%", newReason)
-            ));
+            );
         }
 
-        Lang.MODERATION_ISSUED_KICKALL.broadcast("%PLAYER%;" + sender.getName(), "%REASON%;" + reason);
+        Lang.MODERATION_ISSUED_KICKALL.broadcast("%PLAYER%;" + sender.getName(), "%REASON%;" + newReason);
     }
 
 }
