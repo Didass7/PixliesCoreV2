@@ -3,6 +3,7 @@ package net.pixlies.core.commands.staff;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
+import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.utils.TextUtils;
 import org.bukkit.GameMode;
@@ -18,7 +19,7 @@ public class GamemodeCommand extends BaseCommand {
     @CommandPermission("pixlies.staff.gamemode.creative")
     @Description("Change your gamemode to creative")
     @CommandCompletion("@players")
-    public void onCreative(Player player, @Optional Player target) {
+    public void onCreative(Player player, @Optional OnlinePlayer target) {
         changeGameMode(player, target, GameMode.CREATIVE);
     }
 
@@ -27,7 +28,7 @@ public class GamemodeCommand extends BaseCommand {
     @CommandPermission("pixlies.staff.gamemode.survival")
     @Description("Change your gamemode to survival")
     @CommandCompletion("@players")
-    public void onSurvival(Player player, @Optional Player target) {
+    public void onSurvival(Player player, @Optional OnlinePlayer target) {
         changeGameMode(player, target, GameMode.SURVIVAL);
     }
 
@@ -36,7 +37,7 @@ public class GamemodeCommand extends BaseCommand {
     @CommandPermission("pixlies.staff.gamemode.adventure")
     @Description("Change your gamemode to adventure")
     @CommandCompletion("@players")
-    public void onAdventure(Player player, @Optional Player target) {
+    public void onAdventure(Player player, @Optional OnlinePlayer target) {
         changeGameMode(player, target, GameMode.ADVENTURE);
     }
 
@@ -45,7 +46,7 @@ public class GamemodeCommand extends BaseCommand {
     @CommandPermission("pixlies.staff.gamemode.spectator")
     @Description("Change your gamemode to spectator")
     @CommandCompletion("@players")
-    public void onSpectator(Player player, @Optional Player target) {
+    public void onSpectator(Player player, @Optional OnlinePlayer target) {
         changeGameMode(player, target, GameMode.SPECTATOR);
     }
 
@@ -62,14 +63,14 @@ public class GamemodeCommand extends BaseCommand {
         help.showHelp();
     }
 
-    private void changeGameMode(Player player, Player target, GameMode gameMode) {
-        if (target == null || target.getUniqueId().equals(player.getUniqueId())) {
+    private void changeGameMode(Player player, OnlinePlayer target, GameMode gameMode) {
+        if (target == null || target.getPlayer().getUniqueId().equals(player.getUniqueId())) {
             player.setGameMode(gameMode);
             Lang.STAFF_GAMEMODE_CHANGED_SELF.send(player, "%GAMEMODE%;" + TextUtils.getGameModeFormatted(gameMode));
         } else {
-            target.setGameMode(gameMode);
-            Lang.STAFF_GAMEMODE_CHANGED_OTHERS.send(player, "%GAMEMODE%;" + TextUtils.getGameModeFormatted(gameMode), "%TARGET%;" + target.getName(), "%CHANGER%;" + player.getName());
-            Lang.STAFF_GAMEMODE_CHANGED_OTHERS.send(target, "%GAMEMODE%;" + TextUtils.getGameModeFormatted(gameMode), "%TARGET%;" + target.getName(), "%CHANGER%;" + player.getName());
+            target.getPlayer().setGameMode(gameMode);
+            Lang.STAFF_GAMEMODE_CHANGED_OTHERS.send(player, "%GAMEMODE%;" + TextUtils.getGameModeFormatted(gameMode), "%TARGET%;" + target.getPlayer().getName(), "%CHANGER%;" + player.getName());
+            Lang.STAFF_GAMEMODE_CHANGED_OTHERS.send(target.getPlayer(), "%GAMEMODE%;" + TextUtils.getGameModeFormatted(gameMode), "%TARGET%;" + target.getPlayer().getName(), "%CHANGER%;" + player.getName());
         }
     }
 
