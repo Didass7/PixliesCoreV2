@@ -328,6 +328,12 @@ public enum Lang {
             }
             player.sendMessage(s);
         }
+
+        String senderString = get();
+        for (Map.Entry<String, String> entry : placeholders.entrySet()) {
+            senderString = senderString.replace(entry.getKey(), entry.getValue());
+        }
+        Bukkit.getConsoleSender().sendMessage(senderString);
     }
 
     public void broadcast(Map<String, String> placeholders, String permission) {
@@ -339,22 +345,30 @@ public enum Lang {
             }
             player.sendMessage(s);
         }
+
+        String senderString = get();
+        for (Map.Entry<String, String> entry : placeholders.entrySet()) {
+            senderString = senderString.replace(entry.getKey(), entry.getValue());
+        }
+        Bukkit.getConsoleSender().sendMessage(senderString);
     }
 
     public void broadcast(String... placeholders) {
         for (Player player : Bukkit.getOnlinePlayers())
             send(player, placeholders);
+        send(Bukkit.getConsoleSender(), placeholders);
     }
 
     public void broadcastPermission(String permission, String... placeholders) {
         for (Player player : Bukkit.getOnlinePlayers())
             if (player.hasPermission(permission))
                 send(player, placeholders);
+        send(Bukkit.getConsoleSender(), placeholders);
     }
 
     public void kickPlayer(CommandSender sender) {
         Player player = (Player) sender;
-        player.kick(Component.text(get(sender)));
+        player.kickPlayer(get(sender));
     }
 
     public void kickPlayer(CommandSender sender, String... placeholders) {
@@ -364,7 +378,7 @@ public enum Lang {
             String[] pSplit = s.split(";");
             send = send.replace(pSplit[0], pSplit[1]);
         }
-        player.kick(Component.text(send));
+        player.kickPlayer(send);
     }
 
     public void setLanguage(Map<String, String> languages) {
