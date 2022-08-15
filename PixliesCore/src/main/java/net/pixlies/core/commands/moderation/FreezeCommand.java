@@ -1,11 +1,13 @@
 package net.pixlies.core.commands.moderation;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.CommandPermission;
+import co.aikar.commands.InvalidCommandArgument;
+import co.aikar.commands.MessageKeys;
+import co.aikar.commands.annotation.*;
 import net.pixlies.core.Main;
 import net.pixlies.core.handlers.impl.FreezeHandler;
 import net.pixlies.core.localization.Lang;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -15,7 +17,15 @@ public class FreezeCommand extends BaseCommand {
 
     @CommandAlias("freeze|ss")
     @CommandPermission("pixlies.moderation.freeze")
-    public void onFreeze(CommandSender sender, Player target) {
+    @CommandCompletion("@players")
+    @Syntax("<player>")
+    public void onFreeze(CommandSender sender, @Single String string) {
+
+        Player target = Bukkit.getPlayer(string);
+        if (target == null) {
+            throw new InvalidCommandArgument(MessageKeys.COULD_NOT_FIND_PLAYER, "{search}", string);
+        }
+
         if (handler.isFrozen(target.getUniqueId())) {
             handler.unfreeze(target);
             Lang.MODERATION_FREEZE_OFF.send(sender, "%PLAYER%;" + target.getName());
