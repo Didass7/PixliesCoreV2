@@ -21,9 +21,8 @@ public class VanishCommand extends BaseCommand {
     @CommandCompletion("@players")
     @CommandPermission("pixlies.moderation.vanish")
     public void onVanish(CommandSender sender, @Optional @Single String starget) {
-        Player target = Bukkit.getPlayer(starget);
 
-        if (target == null) {
+        if (starget == null) {
             if (!(sender instanceof Player player)) {
                 throw new InvalidCommandArgument();
             }
@@ -42,6 +41,11 @@ public class VanishCommand extends BaseCommand {
 
         if (!sender.hasPermission("pixlies.moderation.vanish.other")) {
             throw new ConditionFailedException(MessageKeys.PERMISSION_DENIED_PARAMETER);
+        }
+
+        Player target = Bukkit.getPlayer(starget);
+        if (target == null) {
+            throw new ConditionFailedException(MessageKeys.COULD_NOT_FIND_PLAYER, "{search}", starget);
         }
 
         User user = User.get(target.getUniqueId());
