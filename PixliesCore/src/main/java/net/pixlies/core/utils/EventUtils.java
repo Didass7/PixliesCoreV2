@@ -10,10 +10,6 @@ public final class EventUtils {
 
     private EventUtils() {}
 
-    public static void callAsync(Event event) {
-        Bukkit.getScheduler().runTaskAsynchronously(instance, () -> instance.getServer().getPluginManager().callEvent(event));
-    }
-
     public static void call(Event event) {
         instance.getServer().getPluginManager().callEvent(event);
     }
