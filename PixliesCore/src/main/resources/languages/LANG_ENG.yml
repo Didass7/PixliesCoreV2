@@ -139,7 +139,7 @@ STAFF_SUDO_CANNOT: "§7You cannot sudo that player."
 
 STAFF_CHAT_ENABLED: "§7Staff chat is now enabled."
 STAFF_CHAT_DISABLED: "§7Staff chat is now disabled."
-STAFF_CHAT_FORMAT: "§6%PLAYER%§8: §7%MESSAGE%"
+STAFF_CHAT_FORMAT: "§8(§a%SERVER%§8) §6%PLAYER%§8: §7%MESSAGE%"
 
 STAFF_TIME_SET: "§7The time has been set to §6%TIME%§7 in §6%WORLD%§7."
 
