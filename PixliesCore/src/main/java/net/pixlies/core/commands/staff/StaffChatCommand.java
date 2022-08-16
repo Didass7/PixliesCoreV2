@@ -12,15 +12,16 @@ import org.bukkit.entity.Player;
  * Staffchat command
  * @author vPrototype_
  */
-@CommandAlias("staffchat|sc")
+
 @CommandPermission("pixlies.staff.staffchat")
 public class StaffChatCommand extends BaseCommand {
 
     private static final Main instance = Main.getInstance();
     private final StaffChatHandler scHandler = instance.getHandlerManager().getHandler(StaffChatHandler.class);
 
-    @Default
-    @Description("Toggle staffchat or send a message in staffchat")
+    @CommandAlias("staffchat|sc")
+    @Syntax("[message]")
+    @Description("Toggle your staff chat or send a message to all staff members.")
     public void onStaffChat(Player player, @Optional String message) {
 
         if (message == null) {

@@ -75,7 +75,7 @@ public class RedisManager {
 
     }
 
-    public void requestObject(String channel, JsonObject jsonObject) {
+    public void request(String channel, JsonObject jsonObject) {
         try (Jedis jedis = jedisPool.getResource()) {
             if (isAuthenticated()) {
                 jedis.auth(password);
@@ -105,13 +105,13 @@ public class RedisManager {
      * @param identifier The identifier for the object. ("StaffChat")
      * @param jsonToSend The JSON data to send.
      */
-    public static void request(String identifier, JsonObject jsonToSend) {
+    public static void sendRequest(String identifier, JsonObject jsonToSend) {
         JsonObject jsonObject = new JsonObject();
 
         jsonObject.addProperty("identifier", identifier);
         jsonObject.add("data", jsonToSend);
 
-        Main.getInstance().getRedisManager().requestObject(Main.getInstance().getRedisManager().getChannel(), jsonObject);
+        Main.getInstance().getRedisManager().request(Main.getInstance().getRedisManager().getChannel(), jsonObject);
     }
 
 }

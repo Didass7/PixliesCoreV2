@@ -2,7 +2,6 @@ package net.pixlies.core.pluginmessaging;
 
 import com.google.common.collect.ImmutableList;
 import net.pixlies.core.Main;
-import net.pixlies.core.pluginmessaging.impl.staff.StaffChatListener;
 
 public class PluginMessageRegisterManager {
 
@@ -10,11 +9,9 @@ public class PluginMessageRegisterManager {
     private static final PixliesPluginMessageManager manager = instance.getPluginMessageManager();
 
     private final ImmutableList<PixliesIncomingMessageListener> listeners = ImmutableList.of(
-            new StaffChatListener()
     );
 
     private final ImmutableList<String> outgoingChannels = ImmutableList.of(
-            "pixlies:staffchat"
     );
 
     public void registerAll() {
