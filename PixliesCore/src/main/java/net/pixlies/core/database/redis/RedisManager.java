@@ -52,7 +52,7 @@ public class RedisManager {
 
                 String identifier = jsonObject.get("identifier").getAsString();
                 JsonObject data = jsonObject.get("data").getAsJsonObject();
-                RedisPacketReceiveEvent event = new RedisPacketReceiveEvent(identifier, data);
+                RedisMessageReceiveEvent event = new RedisMessageReceiveEvent(identifier, data);
 
                 instance.getServer().getScheduler().runTask(instance, () -> EventUtils.call(event));
 

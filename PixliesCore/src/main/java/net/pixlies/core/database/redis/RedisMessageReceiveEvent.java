@@ -8,7 +8,7 @@ import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
 @AllArgsConstructor
-public class RedisPacketReceiveEvent extends Event {
+public class RedisMessageReceiveEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();
 
