@@ -141,6 +141,9 @@ STAFF_CHAT_ENABLED: "§7Staff chat is now enabled."
 STAFF_CHAT_DISABLED: "§7Staff chat is now disabled."
 STAFF_CHAT_FORMAT: "§8(§a%SERVER%§8) §6%PLAYER%§8: §7%MESSAGE%"
 
+STAFF_SERVER_JOIN_FORMAT: "§6%PLAYER%§7 joined §a%SERVER%§7."
+STAFF_SERVER_QUIT_FORMAT: "§6%PLAYER%§7 left §a%SERVER%§7."
+
 STAFF_TIME_SET: "§7The time has been set to §6%TIME%§7 in §6%WORLD%§7."
 
 STAFF_SETSPAWN: "§7The spawn has been set to §6%TARGET%§7."

@@ -1,7 +1,6 @@
 package net.pixlies.core.localization;
 
 import lombok.Getter;
-import net.kyori.adventure.text.Component;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.utils.CC;
@@ -129,6 +128,9 @@ public enum Lang {
     STAFF_CHAT_ENABLED(Lang.STAFF, new HashMap<>()),
     STAFF_CHAT_DISABLED(Lang.STAFF, new HashMap<>()),
     STAFF_CHAT_FORMAT(Lang.STAFF, new HashMap<>()),
+
+    STAFF_SERVER_JOIN_FORMAT(Lang.STAFF, new HashMap<>()),
+    STAFF_SERVER_QUIT_FORMAT(Lang.STAFF, new HashMap<>()),
 
     STAFF_TIME_SET(Lang.PIXLIES, new HashMap<>()),
 

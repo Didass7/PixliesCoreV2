@@ -8,6 +8,7 @@ import net.pixlies.core.listeners.cosmetics.SitListener;
 import net.pixlies.core.listeners.moderation.*;
 import net.pixlies.core.listeners.player.*;
 import net.pixlies.core.listeners.staff.StaffChatListener;
+import net.pixlies.core.listeners.staff.StaffJoinQuitListener;
 import net.pixlies.core.listeners.user.UserListener;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
@@ -39,6 +40,7 @@ public class ListenerManager {
         add(new BlackListListener());
         add(new FreezeListener());
         add(new StaffChatListener());
+        add(new StaffJoinQuitListener());
         add(new UserListener());
         add(new RespawnListener());
         add(new SpeedListener());

@@ -67,12 +67,12 @@ public class Main extends JavaPlugin {
         saveIfNotExists("staffmode/persist.yml");
 
         // LANGUAGE
-        saveIfNotExists("languages/LANG_GER.yml");
-        saveIfNotExists("languages/LANG_ENG.yml");
-        saveIfNotExists("languages/LANG_FRA.yml");
-        saveIfNotExists("languages/LANG_ARM.yml");
-        saveIfNotExists("languages/LANG_LUX.yml");
-        saveIfNotExists("languages/LANG_PER.yml");
+        saveResource("languages/LANG_GER.yml", true);
+        saveResource("languages/LANG_ENG.yml", true);
+        saveResource("languages/LANG_FRA.yml", true);
+        saveResource("languages/LANG_ARM.yml", true);
+        saveResource("languages/LANG_LUX.yml", true);
+        saveResource("languages/LANG_PER.yml", true);
         Lang.init();
 
         // HANDLERS
@@ -108,6 +108,10 @@ public class Main extends JavaPlugin {
         calendar.stopRunner();
         handlerManager.getHandler(ScoreboardHandler.class).unload();
         instance = null;
+    }
+
+    public String getServerName() {
+        return config.getString("server.name", "");
     }
 
 }
