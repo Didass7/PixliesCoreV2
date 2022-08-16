@@ -12,8 +12,6 @@ import net.pixlies.core.handlers.impl.PixlieMojiHandler;
 import net.pixlies.core.handlers.impl.ScoreboardHandler;
 import net.pixlies.core.listeners.ListenerManager;
 import net.pixlies.core.localization.Lang;
-import net.pixlies.core.pluginmessaging.PixliesPluginMessageManager;
-import net.pixlies.core.pluginmessaging.PluginMessageRegisterManager;
 import net.pixlies.core.runnables.RunnableManager;
 import net.pixlies.core.runnables.RunnableRegisterManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -29,8 +27,6 @@ public class Main extends JavaPlugin {
     @Getter private MongoManager database;
     @Getter private RedisManager redisManager;
     @Getter private HandlerManager handlerManager;
-    @Getter private PixliesPluginMessageManager pluginMessageManager;
-    @Getter private PluginMessageRegisterManager pluginMessageRegisterManager;
     @Getter private PixliesCommandManager commandManager;
     @Getter private RunnableManager runnableManager;
     @Getter private PixliesCalendar calendar;
@@ -82,8 +78,6 @@ public class Main extends JavaPlugin {
         // HANDLERS
         handlerManager = new HandlerManager();
         runnableManager = new RunnableManager();
-        pluginMessageManager = new PixliesPluginMessageManager(this); // for modules to use as well
-        pluginMessageRegisterManager = new PluginMessageRegisterManager();
         new RegisterHandlerManager().registerAllHandlers();
 
         // DATABASE
@@ -99,9 +93,6 @@ public class Main extends JavaPlugin {
         ListenerManager.registerAllListeners();
         commandManager = new PixliesCommandManager();
 
-        // MESSAGING
-        pluginMessageRegisterManager.registerAll();
-
         // RUNNABLES
         runnableRegisterManager = new RunnableRegisterManager();
         runnableRegisterManager.runAll();
@@ -114,7 +105,6 @@ public class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         runnableRegisterManager.stopAll();
-        pluginMessageRegisterManager.unregisterAll();
         calendar.stopRunner();
         handlerManager.getHandler(ScoreboardHandler.class).unload();
         instance = null;

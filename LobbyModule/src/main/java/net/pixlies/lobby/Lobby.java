@@ -5,14 +5,12 @@ import net.pixlies.core.Main;
 import net.pixlies.core.handlers.impl.ScoreboardHandler;
 import net.pixlies.core.modules.Module;
 import net.pixlies.core.modules.configuration.ModuleConfig;
-import net.pixlies.core.pluginmessaging.PixliesPluginMessageManager;
 import net.pixlies.lobby.commands.CommandManager;
 import net.pixlies.lobby.listeners.ListenerManager;
 import net.pixlies.lobby.managers.GrapplingHookManager;
 import net.pixlies.lobby.managers.JumpPadManager;
 import net.pixlies.lobby.managers.LobbyManager;
 import net.pixlies.lobby.managers.QueueManager;
-import net.pixlies.lobby.messaging.PluginMessagingRegisterManager;
 import net.pixlies.lobby.scoreboard.ScoreboardAdapter;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -27,8 +25,6 @@ public class Lobby extends JavaPlugin implements Module {
     ModuleConfig config;
     LobbyManager lobbyManager;
     ListenerManager listenerManager;
-    PluginMessagingRegisterManager pluginMessagingRegisterManager;
-    PixliesPluginMessageManager pluginMessageManager;
     JumpPadManager jumpPadManager;
     GrapplingHookManager grapplingHookManager;
     QueueManager queueManager;
@@ -60,11 +56,6 @@ public class Lobby extends JavaPlugin implements Module {
         grapplingHookManager = new GrapplingHookManager();
         queueManager = new QueueManager();
 
-        // PLUGIN MESSAGES
-        pluginMessageManager = new PixliesPluginMessageManager(this);
-        pluginMessagingRegisterManager = new PluginMessagingRegisterManager();
-        pluginMessagingRegisterManager.registerAll();
-
         // COMMANDS & LISTENERS
         listenerManager = new ListenerManager();
         listenerManager.registerAll();
@@ -78,7 +69,6 @@ public class Lobby extends JavaPlugin implements Module {
     @Override
     public void onDisable() {
         listenerManager.unregisterAll();
-        pluginMessagingRegisterManager.unregisterAll();
         instance = null;
     }
 
