@@ -5,6 +5,7 @@ import net.pixlies.core.calendar.PixliesCalendar;
 import net.pixlies.core.commands.PixliesCommandManager;
 import net.pixlies.core.configuration.Config;
 import net.pixlies.core.database.MongoManager;
+import net.pixlies.core.database.redis.RedisManager;
 import net.pixlies.core.handlers.HandlerManager;
 import net.pixlies.core.handlers.RegisterHandlerManager;
 import net.pixlies.core.handlers.impl.PixlieMojiHandler;
@@ -26,6 +27,7 @@ public class Main extends JavaPlugin {
     @Getter private static Main instance;
 
     @Getter private MongoManager database;
+    @Getter private RedisManager redisManager;
     @Getter private HandlerManager handlerManager;
     @Getter private PixliesPluginMessageManager pluginMessageManager;
     @Getter private PluginMessageRegisterManager pluginMessageRegisterManager;
@@ -86,6 +88,7 @@ public class Main extends JavaPlugin {
 
         // DATABASE
         database = new MongoManager().init();
+        redisManager = new RedisManager().init();
 
         // PIXLIES CALENDAR
         String[] date = calendarConfig.getString("date", "0/0/0").split("/");

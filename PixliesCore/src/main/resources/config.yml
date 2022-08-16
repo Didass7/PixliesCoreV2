@@ -9,8 +9,14 @@ database:
     nations-collection: "nation"
 
 redis:
+    pubsub:
+        channel: "PixliesCore"
     host: "localhost"
+    password: ""
     port: 6379
+
+server:
+    name: ""
 
 moderation:
     defaultReason: "No reason given."
