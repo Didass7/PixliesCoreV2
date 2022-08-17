@@ -18,6 +18,7 @@ public class QueueSettingsCommand extends BaseCommand {
 
     @Subcommand("pause")
     @Syntax("<queue>")
+    @CommandCompletion("Earth")
     @Description("Pauses a queue.")
     public void onPause(CommandSender sender, @Single String queueName) {
         Queue queue = manager.getQueue(queueName);
@@ -32,6 +33,7 @@ public class QueueSettingsCommand extends BaseCommand {
 
     @Subcommand("resume")
     @Syntax("<queue>")
+    @CommandCompletion("Earth")
     @Description("Resumes a queue.")
     public void onResume(CommandSender sender, @Single String queueName) {
         Queue queue = manager.getQueue(queueName);
@@ -42,6 +44,21 @@ public class QueueSettingsCommand extends BaseCommand {
 
         queue.setPaused(false);
         Lang.PLAYER_QUEUE_SETTINGS_COMMAND_PAUSE_DISABLED.send(sender, "%SERVER%;" + queue.getName());
+    }
+
+    @Subcommand("limit")
+    @Syntax("<queue>")
+    @CommandCompletion("Earth")
+    @Description("Limits the maximum amount of players for a queue.")
+    public void onLimit(CommandSender sender, String queueName, @Conditions("limits:min=-1,max=400") Integer maximum) {
+        Queue queue = manager.getQueue(queueName);
+        if (queue == null) {
+            Lang.PLAYER_QUEUE_NOT_EXIST.send(sender, "%SERVER%;" + queueName);
+            return;
+        }
+
+        queue.setLimit(maximum);
+        Lang.PLAYER_QUEUE_SETTINGS_COMMAND_LIMIT_SET.send(sender, "%SERVER%;" + queue.getName(), "%LIMIT%;" + maximum);
     }
 
     @HelpCommand

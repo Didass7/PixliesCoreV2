@@ -42,7 +42,9 @@ public class QueueManager {
 
     public @Nullable QueuePlayer getQueuePlayer(UUID uuid) {
         for (Queue queue : queues.values()) {
-            return queue.getQueuePlayer(uuid);
+            QueuePlayer queuePlayer = queue.getQueuePlayer(uuid);
+            if (queuePlayer == null) continue;
+            return queuePlayer;
         }
         return null;
     }

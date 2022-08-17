@@ -1,22 +1,26 @@
 package net.pixlies.proxy.queue;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
+import net.pixlies.proxy.PixliesProxy;
+import net.pixlies.proxy.config.Config;
 
 import java.util.PriorityQueue;
 import java.util.UUID;
 
-@Data
+@ToString
+@EqualsAndHashCode
 @AllArgsConstructor
 public class Queue {
+    private static final PixliesProxy instance = PixliesProxy.getInstance();
+    private static final Config config = instance.getConfig();
 
-    private String name;
+    private @Getter String name;
 
-    private boolean paused;
-    private int limit;
+    private @Getter boolean paused;
 
-    private final PriorityQueue<ProxyQueuePlayer> queuedPlayers = new PriorityQueue<>(ProxyQueuePlayer::compareTo);
+    private @Getter int limit;
 
+    private final @Getter PriorityQueue<ProxyQueuePlayer> queuedPlayers = new PriorityQueue<>(ProxyQueuePlayer::compareTo);
     public ProxyQueuePlayer getQueuePlayer(UUID uuid) {
         return queuedPlayers.stream().filter(p -> p.getUuid().equals(uuid)).findFirst().orElse(null);
     }
@@ -33,5 +37,16 @@ public class Queue {
         return queuedPlayers.size();
     }
 
+    public void setPaused(boolean paused) {
+        config.getConfig().set("queues." + name + ".paused", paused);
+        config.save();
+        this.paused = paused;
+    }
+
+    public void setLimit(int limit) {
+        config.getConfig().set("queues." + name + ".limit", limit);
+        config.save();
+        this.limit = limit;
+    }
 
 }

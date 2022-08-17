@@ -17,8 +17,10 @@ public class QueueRunnable extends PixliesRunnable {
     private static final QueueManager manager = instance.getQueueManager();
 
     public QueueRunnable() {
-        super(10, 5, TimeUnit.SECONDS);
+        super(10, 2, TimeUnit.SECONDS);
     }
+
+    private int times = 0;
 
     @Override
     public void run() {
@@ -28,6 +30,8 @@ public class QueueRunnable extends PixliesRunnable {
             if (queue.isPaused()) continue;
             ServerInfo info = instance.getProxy().getServerInfo(queue.getName());
 
+            if (queue.getLimit() == 0) continue;
+            if (info.getPlayers().size() >= queue.getLimit() && queue.getLimit() != -1) continue;
 
             ProxyQueuePlayer queuePlayer = queue.getQueuedPlayers().peek();
             if (queuePlayer == null) continue;
@@ -47,8 +51,11 @@ public class QueueRunnable extends PixliesRunnable {
             Lang.PLAYER_SERVER_CONNECTING.send(player, "%SERVER%;" + info.getName());
         }
 
-
-        manager.requestQueueUpdate();
+        times++;
+        if (times > 5) {
+            manager.requestQueueUpdate();
+            times = 0;
+        }
 
     }
 

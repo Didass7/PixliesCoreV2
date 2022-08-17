@@ -11,6 +11,7 @@ import net.pixlies.proxy.commands.impl.player.ServerCommand;
 import net.pixlies.proxy.commands.impl.queue.QueueSettingsCommand;
 import net.pixlies.proxy.commands.impl.staff.MaintenanceCommand;
 import net.pixlies.proxy.localization.Lang;
+import net.pixlies.proxy.utils.CC;
 
 /**
  * @author Dynmie
@@ -56,12 +57,27 @@ public class CommandManager {
         // TODO
     }
 
+    public void registerConditions() {
+        manager.getCommandConditions().addCondition(Integer.class, "limits", (context, execution, value) -> {
+            if (value == null) {
+                return;
+            }
+            if (context.hasConfig("min") && context.getConfigValue("min", 0) > value) {
+                throw new ConditionFailedException(Lang.PIXLIES + CC.format("&7You can only enter a minimum value of &6" + context.getConfigValue("min", 0) + "&7."));
+            }
+            if (context.hasConfig("max") && context.getConfigValue("max", 3) < value) {
+                throw new ConditionFailedException(Lang.PIXLIES + CC.format("&7You can only enter a maximum value of &6" + context.getConfigValue("max", 3) + "&7."));
+            }
+        });
+    }
+
     public void registerAll() {
         manager.enableUnstableAPI("help");
         manager.enableUnstableAPI("brigadier");
 
         registerContexts();
         registerCompletions();
+        registerConditions();
         registerCommands();
     }
 

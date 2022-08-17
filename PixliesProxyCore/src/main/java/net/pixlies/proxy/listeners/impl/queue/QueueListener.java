@@ -46,14 +46,14 @@ public class QueueListener implements Listener {
                 }
 
                 if (priority == 100) {
-                    if (player != null) {
-                        ServerInfo info = instance.getProxy().getServerInfo(queue.getName());
-                        if (info != null) {
-                            player.connect(info);
-                            Lang.PLAYER_SERVER_CONNECTING.send(player);
-                            return;
-                        }
-                    }
+                    if (player == null) break;
+                    ServerInfo info = instance.getProxy().getServerInfo(queue.getName());
+                    if (info == null) break;
+                    if (!info.canAccess(player)) break;
+
+                    player.connect(info);
+                    Lang.PLAYER_SERVER_CONNECTING.send(player, "%SERVER%;" + info.getName());
+                    return;
                 }
 
                 manager.addPlayerToQueue(server, new ProxyQueuePlayer(uuid, priority, System.currentTimeMillis()));

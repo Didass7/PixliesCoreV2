@@ -17,7 +17,7 @@ public class QueueMessageRunnable extends PixliesRunnable {
     private static final QueueManager manager = instance.getQueueManager();
 
     public QueueMessageRunnable() {
-        super(1, 5, TimeUnit.MINUTES);
+        super(1, 1, TimeUnit.MINUTES);
     }
 
     @Override

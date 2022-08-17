@@ -11,6 +11,7 @@ import net.pixlies.lobby.managers.GrapplingHookManager;
 import net.pixlies.lobby.managers.JumpPadManager;
 import net.pixlies.lobby.managers.LobbyManager;
 import net.pixlies.lobby.managers.QueueManager;
+import net.pixlies.lobby.runnables.RunnableManager;
 import net.pixlies.lobby.scoreboard.ScoreboardAdapter;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -28,6 +29,7 @@ public class Lobby extends JavaPlugin implements Module {
     JumpPadManager jumpPadManager;
     GrapplingHookManager grapplingHookManager;
     QueueManager queueManager;
+    RunnableManager runnableManager;
 
     @Override
     public void onEnable() {
@@ -55,11 +57,13 @@ public class Lobby extends JavaPlugin implements Module {
         jumpPadManager = new JumpPadManager();
         grapplingHookManager = new GrapplingHookManager();
         queueManager = new QueueManager();
+        runnableManager = new RunnableManager();
 
         // COMMANDS & LISTENERS
         listenerManager = new ListenerManager();
         listenerManager.registerAll();
         new CommandManager().registerAll();
+        runnableManager.registerAll();
 
         // SCOREBOARD
         Main.getInstance().getHandlerManager().getHandler(ScoreboardHandler.class).load(new ScoreboardAdapter());
@@ -69,6 +73,7 @@ public class Lobby extends JavaPlugin implements Module {
     @Override
     public void onDisable() {
         listenerManager.unregisterAll();
+        runnableManager.unregisterAll();
         instance = null;
     }
 

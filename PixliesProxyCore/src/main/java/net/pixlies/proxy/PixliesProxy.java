@@ -45,10 +45,10 @@ public class PixliesProxy extends Plugin {
         Lang.init();
 
         // MANAGERS & HANDLERS
-        mongoManager = new MongoManager();
-        mongoManager.init();
         redisManager = new RedisManager();
+        mongoManager = new MongoManager();
         redisManager.init();
+        mongoManager.init();
         queueManager = new QueueManager();
         handlerManager = new HandlerManager();
         new RegisterHandlerManager().registerAll();

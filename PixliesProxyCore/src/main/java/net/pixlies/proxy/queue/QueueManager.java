@@ -1,6 +1,7 @@
 package net.pixlies.proxy.queue;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import lombok.Getter;
 import net.md_5.bungee.config.Configuration;
@@ -59,6 +60,7 @@ public class QueueManager {
         Queue queue = getQueueFromPlayer(uuid);
         if (queue == null) return null;
         queue.removeQueuePlayer(uuid);
+        this.requestQueueUpdate();
         return queue;
     }
 
@@ -66,6 +68,7 @@ public class QueueManager {
         Queue queue = getQueue(server);
         if (queue == null) return null;
         queue.getQueuedPlayers().add(queuePlayer);
+        this.requestQueueUpdate();
         return queue;
     }
 
@@ -96,9 +99,11 @@ public class QueueManager {
     public void requestQueueUpdate() {
         JsonObject jsonObject = new JsonObject();
 
+        JsonArray jsonQueuesssss = new JsonArray(); // yes the ssssssss's are necessssary for the code to function
+        // FOR EACH QUEUE
         for (Map.Entry<String, Queue> entry : queues.entrySet()) {
 
-            String id = entry.getKey();
+//            String id = entry.getKey();
             Queue queue = entry.getValue();
 
             JsonObject jsonQueue = new JsonObject();
@@ -121,9 +126,10 @@ public class QueueManager {
             }
             jsonQueue.add("queuedPlayers", jsonQueuedPlayers);
 
-            jsonObject.add(id, jsonQueue);
+            jsonQueuesssss.add(jsonQueue);
 
         }
+        jsonObject.add("queues", jsonQueuesssss);
 
         RedisManager.sendRequest("Queue.QueueUpdate", jsonObject);
     }

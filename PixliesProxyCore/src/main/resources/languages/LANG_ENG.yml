@@ -1,5 +1,5 @@
 # PLAYER
-PLAYER_SERVER_CONNECTING: "§7Now connecting to §d%SERVER%§7..."
+PLAYER_SERVER_CONNECTING: "§7Now connecting to §a%SERVER%§7..."
 PLAYER_SERVER_ALREADY_CONNECTED: "§7You are already connected to §a%SERVER%§7!"
 PLAYER_SERVER_CONNECTING_OTHER: "§6%PLAYER%§7 is now connecting to §a%SERVER%§7."
 PLAYER_SERVER_NOT_EXIST: "§7That server does not exist."
@@ -18,3 +18,4 @@ PLAYER_QUEUE_UPDATE_MESSAGE: "§7You are currently in queue for §a%SERVER%§7. 
 
 PLAYER_QUEUE_SETTINGS_COMMAND_PAUSE_ENABLED: "§7The queue for §a%SERVER%§7 is now paused."
 PLAYER_QUEUE_SETTINGS_COMMAND_PAUSE_DISABLED: "§7The queue for §a%SERVER%§7 has resumed."
+PLAYER_QUEUE_SETTINGS_COMMAND_LIMIT_SET: "§7The queue limit for §a%SERVER%§7 is now set to §d%LIMIT%§7."
