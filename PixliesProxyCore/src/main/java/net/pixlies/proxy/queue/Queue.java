@@ -12,6 +12,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Queue {
     private static final PixliesProxy instance = PixliesProxy.getInstance();
+    private static final QueueManager manager = instance.getQueueManager();
     private static final Config config = instance.getConfig();
 
     private @Getter String name;
@@ -41,12 +42,14 @@ public class Queue {
         config.getConfig().set("queues." + name + ".paused", paused);
         config.save();
         this.paused = paused;
+        manager.requestQueueUpdate();
     }
 
     public void setLimit(int limit) {
         config.getConfig().set("queues." + name + ".limit", limit);
         config.save();
         this.limit = limit;
+        manager.requestQueueUpdate();
     }
 
 }

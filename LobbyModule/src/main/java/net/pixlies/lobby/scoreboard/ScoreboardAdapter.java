@@ -5,6 +5,9 @@ import net.pixlies.core.entity.user.timers.Timer;
 import net.pixlies.core.scoreboard.PixliesScoreboardAdapter;
 import net.pixlies.core.utils.CC;
 import net.pixlies.lobby.Lobby;
+import net.pixlies.lobby.managers.QueueManager;
+import net.pixlies.lobby.managers.queue.Queue;
+import net.pixlies.lobby.managers.queue.QueuePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,6 +16,7 @@ import java.util.*;
 public class ScoreboardAdapter extends PixliesScoreboardAdapter {
 
     private static final Lobby instance = Lobby.getInstance();
+    private static final QueueManager queueManager = instance.getQueueManager();
 
     private static final Map<UUID, Integer> scoreboardFrames = new HashMap<>();
     private static String[] frames(Player player) {
@@ -69,11 +73,32 @@ public class ScoreboardAdapter extends PixliesScoreboardAdapter {
     @NotNull
     @Override
     public List<String> getStandard(Player player) {
-        return new ArrayList<>() {{
-            add(CC.format("&3&lLobby"));
-            add(CC.format("&bOnline&7: " + instance.getServer().getOnlinePlayers().size() + "/" + instance.getServer().getMaxPlayers()));
-            add(CC.format("&bTotal&7: " + PlaceholderAPI.setPlaceholders(player, "%bungee_total%")));
-        }};
+
+        List<String> lines = new ArrayList<>();
+
+        lines.add(CC.format("&3&lLobby"));
+        lines.add(CC.format("&bOnline&7: " + instance.getServer().getOnlinePlayers().size() + "/" + instance.getServer().getMaxPlayers()));
+        lines.add(CC.format("&bTotal&7: " + PlaceholderAPI.setPlaceholders(player, "%bungee_total%")));
+
+        if (queueManager.isInQueue(player.getUniqueId())) {
+            Queue queue = queueManager.getQueueFromPlayer(player.getUniqueId());
+            if (queue != null) {
+                QueuePlayer queuePlayer = queue.getQueuePlayer(player.getUniqueId());
+                if (queuePlayer != null) {
+
+                    lines.add("");
+                    lines.add("&3&lQueue");
+                    lines.add("&bServer&7: " + getPausedFullColor(queue) + queue.getName());
+                    lines.add("&bPosition&7: " + queuePlayer.getPosition() + "/" + queue.getSize());
+                } // tree of death, ik
+            }
+        }
+
+        return lines;
+    }
+
+    private static @NotNull String getPausedFullColor(Queue queue) {
+        return (queue.isPaused() ? "&c" : (queue.isOneMoreFull() ? "&e" : ""));
     }
 
     @NotNull

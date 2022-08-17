@@ -25,4 +25,8 @@ public class Queue {
         return queuedPlayers.size();
     }
 
+    public boolean isOneMoreFull() {
+        return queuedPlayers.size() - 1 >= limit;
+    }
+
 }

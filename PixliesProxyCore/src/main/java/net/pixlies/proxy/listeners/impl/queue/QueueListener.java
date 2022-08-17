@@ -87,7 +87,6 @@ public class QueueListener implements Listener {
     @EventHandler
     public void onDisconnect(ServerDisconnectEvent event) {
         manager.removePlayerFromQueue(event.getPlayer().getUniqueId());
-        manager.requestQueueUpdate();
     }
 
 }
