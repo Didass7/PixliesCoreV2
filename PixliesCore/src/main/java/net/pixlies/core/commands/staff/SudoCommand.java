@@ -1,10 +1,8 @@
 package net.pixlies.core.commands.staff;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.CommandPermission;
-import co.aikar.commands.annotation.Default;
-import co.aikar.commands.annotation.Description;
+import co.aikar.commands.annotation.*;
+import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import net.pixlies.core.localization.Lang;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -13,14 +11,16 @@ import org.bukkit.entity.Player;
  * Cool sudo command
  * @author Dynmie
  */
-@CommandAlias("sudo")
-@CommandPermission("pixlies.staff.sudo")
+
 public class SudoCommand extends BaseCommand {
 
-    @Default
+    @CommandAlias("sudo")
+    @CommandPermission("pixlies.staff.sudo")
+    @Syntax("<player> <command>")
     @Description("Sudo a player")
-    public void onSudo(CommandSender sender, Player target, String text) {
+    public void onSudo(CommandSender sender, OnlinePlayer onlinePlayer, String text) {
 
+        Player target = onlinePlayer.getPlayer();
         if (target.hasPermission("pixlies.staff.sudo.exempt")) {
             Lang.STAFF_SUDO_CANNOT.send(sender);
             return;

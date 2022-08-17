@@ -12,7 +12,7 @@ public class LeaveQueueCommand extends BaseCommand {
 
     private static final QueueManager manager = Lobby.getInstance().getQueueManager();
 
-    @CommandAlias("leavequeue")
+    @CommandAlias("leavequeue|unplay")
     @CommandCompletion("@empty")
     @Syntax("<server>")
     public void onLeaveQueue(Player player) {
