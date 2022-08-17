@@ -47,9 +47,9 @@ public class QueueSettingsCommand extends BaseCommand {
     }
 
     @Subcommand("limit")
-    @Syntax("<queue>")
+    @Syntax("<queue> <limit>")
     @CommandCompletion("Earth")
-    @Description("Limits the maximum amount of players for a queue.")
+    @Description("Limits the maximum amount of players for a server.")
     public void onLimit(CommandSender sender, String queueName, @Conditions("limits:min=-1,max=400") Integer maximum) {
         Queue queue = manager.getQueue(queueName);
         if (queue == null) {
