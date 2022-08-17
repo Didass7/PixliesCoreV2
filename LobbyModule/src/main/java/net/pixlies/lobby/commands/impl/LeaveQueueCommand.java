@@ -1,26 +1,24 @@
 package net.pixlies.lobby.commands.impl;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.*;
-import net.pixlies.core.localization.Lang;
-import net.pixlies.core.utils.CC;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandCompletion;
+import co.aikar.commands.annotation.Syntax;
 import net.pixlies.lobby.Lobby;
 import net.pixlies.lobby.managers.QueueManager;
 import org.bukkit.entity.Player;
 
-public class PlayCommand extends BaseCommand {
+public class LeaveQueueCommand extends BaseCommand {
 
     private static final QueueManager manager = Lobby.getInstance().getQueueManager();
 
-    @CommandAlias("play|join|queue|joinserver")
+    @CommandAlias("leavequeue")
     @CommandCompletion("@empty")
     @Syntax("<server>")
-    public void onPlay(Player player, @Single String server) {
+    public void onLeaveQueue(Player player) {
 
-        manager.addPlayerToQueue(player, server);
+        manager.removePlayerFromQueue(player);
 
     }
 
 }
-
-

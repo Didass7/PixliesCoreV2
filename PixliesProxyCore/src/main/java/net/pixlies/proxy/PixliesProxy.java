@@ -5,11 +5,13 @@ import net.md_5.bungee.api.plugin.Plugin;
 import net.pixlies.proxy.commands.CommandManager;
 import net.pixlies.proxy.config.Config;
 import net.pixlies.proxy.database.MongoManager;
+import net.pixlies.proxy.database.redis.RedisManager;
 import net.pixlies.proxy.handlers.HandlerManager;
 import net.pixlies.proxy.handlers.RegisterHandlerManager;
 import net.pixlies.proxy.handlers.impl.AutoAnnounceHandler;
 import net.pixlies.proxy.listeners.ListenerManager;
 import net.pixlies.proxy.localization.Lang;
+import net.pixlies.proxy.queue.QueueManager;
 import net.pixlies.proxy.runnables.RunnableManager;
 import net.pixlies.proxy.utils.FileUtils;
 
@@ -21,6 +23,8 @@ public class PixliesProxy extends Plugin {
     @Getter private static PixliesProxy instance;
 
     private MongoManager mongoManager;
+    private RedisManager redisManager;
+    private QueueManager queueManager;
     private CommandManager commandManager;
     private ListenerManager listenerManager;
     private HandlerManager handlerManager;
@@ -43,6 +47,9 @@ public class PixliesProxy extends Plugin {
         // MANAGERS & HANDLERS
         mongoManager = new MongoManager();
         mongoManager.init();
+        redisManager = new RedisManager();
+        redisManager.init();
+        queueManager = new QueueManager();
         handlerManager = new HandlerManager();
         new RegisterHandlerManager().registerAll();
         new RunnableManager().runAll();
@@ -56,6 +63,7 @@ public class PixliesProxy extends Plugin {
         listenerManager.registerAll();
 
         handlerManager.getHandler(AutoAnnounceHandler.class).loadMessages();
+        queueManager.setupQueues();
 
     }
 

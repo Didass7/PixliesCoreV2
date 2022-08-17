@@ -8,6 +8,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.pixlies.proxy.PixliesProxy;
 import net.pixlies.proxy.commands.impl.player.LobbyCommand;
 import net.pixlies.proxy.commands.impl.player.ServerCommand;
+import net.pixlies.proxy.commands.impl.queue.QueueSettingsCommand;
 import net.pixlies.proxy.commands.impl.staff.MaintenanceCommand;
 import net.pixlies.proxy.localization.Lang;
 
@@ -24,6 +25,9 @@ public class CommandManager {
             // PLAYER
             new LobbyCommand(),
             new ServerCommand(),
+
+            // QUEUE
+            new QueueSettingsCommand(),
 
             // STAFF
             new MaintenanceCommand()

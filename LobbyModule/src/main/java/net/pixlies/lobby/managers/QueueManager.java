@@ -1,75 +1,68 @@
 package net.pixlies.lobby.managers;
 
 import lombok.Getter;
-import net.pixlies.core.Main;
+import net.pixlies.core.database.redis.RedisManager;
 import net.pixlies.core.modules.configuration.ModuleConfig;
+import net.pixlies.core.utils.json.JsonBuilder;
 import net.pixlies.lobby.Lobby;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
+import net.pixlies.lobby.managers.queue.Queue;
+import net.pixlies.lobby.managers.queue.QueuePlayer;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.UUID;
+import java.util.*;
 
 public class QueueManager {
 
     private static final Lobby instance = Lobby.getInstance();
     private static final ModuleConfig config = instance.getConfig();
 
-    private final @Getter Map<String, Integer> queuePlayers = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-    private final @Getter Map<String, Integer> maxPlayers = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-    private final @Getter Map<String, Boolean> pausedQueue = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-    private final @Getter Map<UUID, String> queueMap = new HashMap<>();
-    private final @Getter Map<UUID, Integer> playerPosition = new HashMap<>();
+    private final @Getter Map<String, Queue> queues = new HashMap<>();
 
 
-    public boolean isInQueue(Player player) {
-        return playerPosition.containsKey(player.getUniqueId());
+    public Collection<QueuePlayer> getAllQueuedPlayers() {
+        List<QueuePlayer> toReturn = new ArrayList<>();
+        queues.forEach((queueName, queue) -> toReturn.addAll(queue.getQueuedPlayers().values()));
+        return toReturn;
     }
 
-    public boolean isQueuePaused(String queue) {
-        return pausedQueue.containsKey(queue) && pausedQueue.get(queue);
+    public Collection<UUID> getAllQueuedPlayersUuid() {
+        List<UUID> toReturn = new ArrayList<>();
+        queues.forEach((queueName, queue) -> queue.getQueuedPlayers().forEach((k, queuePlayer) -> toReturn.add(queuePlayer.getUuid())));
+        return toReturn;
     }
 
-    public String getQueue(Player player) {
-        return queueMap.getOrDefault(player.getUniqueId(), null);
+    public boolean isInQueue(UUID uuid) {
+        return getAllQueuedPlayersUuid().contains(uuid);
     }
 
-    public boolean doesQueueExist(String queue) {
-        return pausedQueue.containsKey(queue);
+    public @Nullable Queue getQueueFromPlayer(UUID uuid) {
+        return queues.values().stream().filter(queue -> queue.getQueuePlayer(uuid) != null).findFirst().orElse(null);
     }
 
-    public int getQueuePosition(Player player) {
-        return playerPosition.getOrDefault(player.getUniqueId(), -1);
+    public @Nullable QueuePlayer getQueuePlayer(UUID uuid) {
+        for (Queue queue : queues.values()) {
+            return queue.getQueuePlayer(uuid);
+        }
+        return null;
     }
 
-    public int getPlayersInQueue(String queue) {
-        FileConfiguration bungeeconf = YamlConfiguration.loadConfiguration(new File("/home/minecraft/bungee/plugins/QueueBungee/config.yml"));
-        return bungeeconf.getInt("servers." + queue + ".inQueue", 0);
-    }
-
-    public int getQueueLimit(String queue) {
-        return maxPlayers.getOrDefault(queue, -1);
+    public @Nullable Queue getQueue(String name) {
+        return queues.get(name);
     }
 
     public void addPlayerToQueue(Player player, String server) {
-        ByteArrayOutputStream b = new ByteArrayOutputStream();
-        DataOutputStream out = new DataOutputStream(b);
-        try {
-            out.writeUTF(player.getUniqueId().toString());
-            out.writeUTF(server.toLowerCase());
-            out.writeInt(getPriority(player));
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        player.sendPluginMessage(Main.getInstance(), "queue:joinqueue", b.toByteArray());
+        RedisManager.sendRequest("Queue.JoinQueue", new JsonBuilder()
+                .addProperty("uuid", player.getUniqueId().toString())
+                .addProperty("server", server)
+                .addProperty("priority", getPriority(player))
+                .toJsonObject());
+    }
+
+    public void removePlayerFromQueue(Player player) {
+        RedisManager.sendRequest("Queue.LeaveQueue", new JsonBuilder()
+                .addProperty("uuid", player.getUniqueId().toString())
+                .toJsonObject());
     }
 
     public static int getPriority(Player player) {

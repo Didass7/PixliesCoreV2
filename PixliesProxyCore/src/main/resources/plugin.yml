@@ -2,3 +2,5 @@ name: PixliesProxyCore
 main: net.pixlies.proxy.PixliesProxy
 version: 1.0
 author: Pixlies Development Team
+libraries:
+  - org.mongodb:mongo-java-driver:3.12.11

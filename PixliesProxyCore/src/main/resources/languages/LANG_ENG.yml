@@ -1,12 +1,20 @@
 # PLAYER
-PLAYER_SERVER_CONNECTING: "&7Connecting to &d%SERVER%&7..."
-PLAYER_SERVER_ALREADY_CONNECTED: "&7You are already connected to &d%SERVER%&7!"
-PLAYER_SERVER_CONNECTING_OTHER: "&6%PLAYER%&7 is now connecting to &d%SERVER%&7."
-PLAYER_SERVER_NOT_EXIST: "&7That server does not exist."
-PLAYER_SERVER_CANNOT_CONNECT: "&7You cannot connect to that server."
-PLAYER_SERVER_CANNOT_CONNECT_OTHER: "&6%PLAYER%&7 cannot connect to that server."
+PLAYER_SERVER_CONNECTING: "§7Now connecting to §d%SERVER%§7..."
+PLAYER_SERVER_ALREADY_CONNECTED: "§7You are already connected to §a%SERVER%§7!"
+PLAYER_SERVER_CONNECTING_OTHER: "§6%PLAYER%§7 is now connecting to §a%SERVER%§7."
+PLAYER_SERVER_NOT_EXIST: "§7That server does not exist."
+PLAYER_SERVER_CANNOT_CONNECT: "§7You cannot connect to that server."
+PLAYER_SERVER_CANNOT_CONNECT_OTHER: "§6%PLAYER%§7 cannot connect to that server."
 
-PLAYER_QUEUE_NOT_EXIST: "§7The queue §6%QUEUE%§7 does not exist."
+# QUEUE
+PLAYER_QUEUE_NOT_IN: "§7You are not in a queue!"
+PLAYER_QUEUE_ALREADY_IN: "§7You are already in a queue! Use §c/leavequeue§7 to leave your current queue."
+PLAYER_QUEUE_NOT_EXIST: "§7The queue for §a%SERVER%§7 does not exist."
+PLAYER_QUEUE_NO_PERMISSION: "§7You do not have permission to join this server. Now exiting the queue."
+PLAYER_QUEUE_JOIN: "§7You have joined the queue for §a%SERVER%§7."
+PLAYER_QUEUE_LEAVE: "§7You have left the queue for §a%SERVER%§7."
+PLAYER_QUEUE_UPDATE_SERVER_OFFLINE_MESSAGE: "§cThe queue for §a%SERVER%§c is paused. §7You are in position §d%POSITION%§7 out of §d%TOTAL%§7 total players."
+PLAYER_QUEUE_UPDATE_MESSAGE: "§7You are currently in queue for §a%SERVER%§7. §7You are in position §d%POSITION%§7 out of §d%TOTAL%§7 total players."
 
-# STAFF
-# TODO
+PLAYER_QUEUE_SETTINGS_COMMAND_PAUSE_ENABLED: "§7The queue for §a%SERVER%§7 is now paused."
+PLAYER_QUEUE_SETTINGS_COMMAND_PAUSE_DISABLED: "§7The queue for §a%SERVER%§7 has resumed."

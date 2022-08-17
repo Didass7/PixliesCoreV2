@@ -6,6 +6,13 @@ mongo:
   password: ""
   database: ""
 
+redis:
+  pubsub:
+    channel: "PixliesCore"
+  host: "localhost"
+  password: ""
+  port: 6379
+
 commands:
   lobby:
     server: 'Lobby'
@@ -17,18 +24,6 @@ serverlist:
     description: |-
       Description Line One
       Description Line Two
-
-  playerlist:
-    message: |-
-      &3&lPixlies
-
-  maintenance:
-    message: '&cMaintenance'
-    protocol: 2
-
-  # The version message
-  version:
-    message: '&3&lPixlies&f&lEarth'
 
 maintenance:
   enabled: true
@@ -57,3 +52,8 @@ autoannounce:
       Message2
       Message2
     - "AnotherMessage"
+
+queues:
+  Earth:
+    paused: false
+    limit: 200
