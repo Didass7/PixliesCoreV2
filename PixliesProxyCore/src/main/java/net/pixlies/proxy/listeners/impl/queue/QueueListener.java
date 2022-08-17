@@ -66,7 +66,7 @@ public class QueueListener implements Listener {
                 if (queue == null) return;
 
                 if (player != null) {
-                    Lang.PLAYER_QUEUE_LEAVE.send(player, "%SERVER%" + queue.getName());
+                    Lang.PLAYER_QUEUE_LEAVE.send(player, "%SERVER%;" + queue.getName());
                 }
             }
         }
