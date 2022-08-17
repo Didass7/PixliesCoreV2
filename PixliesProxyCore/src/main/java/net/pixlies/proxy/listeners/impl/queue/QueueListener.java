@@ -1,6 +1,7 @@
 package net.pixlies.proxy.listeners.impl.queue;
 
 import com.google.gson.JsonObject;
+import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ServerDisconnectEvent;
 import net.md_5.bungee.api.plugin.Listener;
@@ -36,21 +37,32 @@ public class QueueListener implements Listener {
                     return;
                 }
 
-                if (manager.getQueue(server) == null) {
+                Queue queue = manager.getQueue(server);
+                if (queue == null) {
                     if (player != null) {
                         Lang.PLAYER_QUEUE_NOT_EXIST.send(player, "%SERVER%;" + server);
                     }
                     return;
                 }
 
-                Queue queue = manager.addPlayerToQueue(server, new ProxyQueuePlayer(uuid, priority, System.currentTimeMillis()));
-                if (queue == null) return;
+                if (priority == 100) {
+                    if (player != null) {
+                        ServerInfo info = instance.getProxy().getServerInfo(queue.getName());
+                        if (info != null) {
+                            player.connect(info);
+                            Lang.PLAYER_SERVER_CONNECTING.send(player);
+                            return;
+                        }
+                    }
+                }
+
+                manager.addPlayerToQueue(server, new ProxyQueuePlayer(uuid, priority, System.currentTimeMillis()));
 
                 if (player != null) {
                     Lang.PLAYER_QUEUE_JOIN.send(player, "%SERVER%;" + queue.getName());
                 }
-
             }
+
             case "Queue.LeaveQueue" -> {
                 UUID uuid = UUID.fromString(jsonObject.get("uuid").getAsString());
 
@@ -75,6 +87,7 @@ public class QueueListener implements Listener {
     @EventHandler
     public void onDisconnect(ServerDisconnectEvent event) {
         manager.removePlayerFromQueue(event.getPlayer().getUniqueId());
+        manager.requestQueueUpdate();
     }
 
 }

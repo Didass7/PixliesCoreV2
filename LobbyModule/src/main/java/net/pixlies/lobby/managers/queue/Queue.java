@@ -10,10 +10,11 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Queue {
 
-    private String name;
+    private final String name;
 
-    private boolean paused;
-    private int limit;
+    private final boolean paused;
+    private final int limit;
+    private final int size;
     private final Map<UUID, QueuePlayer> queuedPlayers;
 
     public QueuePlayer getQueuePlayer(UUID uuid) {

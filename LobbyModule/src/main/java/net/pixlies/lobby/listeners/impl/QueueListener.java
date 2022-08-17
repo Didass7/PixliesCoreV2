@@ -42,6 +42,7 @@ public class QueueListener implements Listener {
             String name = jsonQueue.get("name").getAsString();
             boolean paused = jsonQueue.get("paused").getAsBoolean();
             int limit = jsonQueue.get("limit").getAsInt();
+            int size = jsonQueue.get("size").getAsInt();
 
             // FOR EACH QUEUED PLAYERS
             Map<UUID, QueuePlayer> queuedPlayers = new HashMap<>();
@@ -55,7 +56,7 @@ public class QueueListener implements Listener {
                 queuedPlayers.put(uuid, new QueuePlayer(uuid, position));
             }
 
-            manager.getQueues().put(name, new Queue(name, paused, limit, queuedPlayers));
+            manager.getQueues().put(name, new Queue(name, paused, limit, size, queuedPlayers));
         }
 
 
