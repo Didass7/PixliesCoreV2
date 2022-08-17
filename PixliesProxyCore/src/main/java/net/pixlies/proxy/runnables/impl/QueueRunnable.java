@@ -48,7 +48,6 @@ public class QueueRunnable extends PixliesRunnable {
             }
 
             player.connect(info);
-            Lang.PLAYER_SERVER_CONNECTING.send(player, "%SERVER%;" + info.getName());
         }
 
         times++;
