@@ -90,6 +90,7 @@ public class ScoreboardAdapter extends PixliesScoreboardAdapter {
                     lines.add("&3&lQueue");
                     lines.add("&bServer&7: " + getPausedFullColor(queue) + queue.getName());
                     lines.add("&bPosition&7: " + queuePlayer.getPosition() + "/" + queue.getSize());
+                    lines.add("&bOnline&7: " + PlaceholderAPI.setPlaceholders(player, "%bungee_" + queue.getName() + "%") + (queue.getLimit() != -1 ? "/" + queue.getLimit() : ""));
                 } // tree of death, ik
             }
         }
