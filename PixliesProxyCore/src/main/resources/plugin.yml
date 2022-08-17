@@ -5,3 +5,4 @@ author: Pixlies Development Team
 libraries:
   - org.mongodb:mongo-java-driver:3.12.11
   - dev.morphia.morphia:morphia-core:2.2.7
+  - commons-io:commons-io:2.11.0
