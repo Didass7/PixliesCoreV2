@@ -90,7 +90,6 @@ public class StaffSettingsCommand extends BaseCommand {
                     case PAPER -> user.setSocialSpyEnabled(button.isEnabled());
                     case NAME_TAG -> user.setViewBannedJoins(button.isEnabled());
                     case BARRIER -> user.setViewMutedChat(button.isEnabled());
-                    case MAP -> user.setBypassClearChat(button.isEnabled());
                 }
                 user.save();
 
@@ -120,7 +119,6 @@ public class StaffSettingsCommand extends BaseCommand {
             case SOCIALSPY -> user.isSocialSpyEnabled();
             case MUTESPY -> user.isViewMutedChat();
             case BANSPY -> user.isViewBannedJoins();
-            case BYPASSCLEARCHAT -> user.isBypassClearChat();
         };
     }
 
@@ -129,8 +127,7 @@ public class StaffSettingsCommand extends BaseCommand {
         COMMANDSPY("Command Spy", new String[]{"§7Spy on other players' commands"}, Material.COMMAND_BLOCK),
         SOCIALSPY("Social Spy", new String[]{"§7Spy on other players' private messages"}, Material.PAPER),
         MUTESPY("Mute Spy", new String[]{"§7Receive messages when muted", "§7players try to talk"}, Material.NAME_TAG),
-        BANSPY("Ban Spy", new String[]{"§7Receive messages when banned", "§7players try to join"}, Material.BARRIER),
-        BYPASSCLEARCHAT("Bypass Clearchat", new String[]{"§7Bypass the chat getting cleared"}, Material.MAP);
+        BANSPY("Ban Spy", new String[]{"§7Receive messages when banned", "§7players try to join"}, Material.BARRIER);
 
         @Getter private final String title;
         @Getter private final String[] description;

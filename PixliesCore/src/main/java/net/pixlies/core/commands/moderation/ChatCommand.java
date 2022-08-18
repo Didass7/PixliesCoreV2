@@ -8,8 +8,11 @@ import net.pixlies.core.entity.user.User;
 import net.pixlies.core.handlers.impl.ChatHandler;
 import net.pixlies.core.localization.Lang;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.Arrays;
 
 @CommandAlias("chat")
 @CommandPermission("pixlies.moderation.chat")
@@ -36,12 +39,9 @@ public class ChatCommand extends BaseCommand {
     @Description("Clear messages in chat")
     public void onClearChat(CommandSender sender) {
         for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-            // Staff setting: bypass clearchat
-            if (sender instanceof Player player) {
-                User user = User.get(player.getUniqueId());
-                if (user.isBypassClearChat() && player.hasPermission("pixlies.moderation.chat.exempt"))
+            // bypass clearchat
+            if (p.hasPermission("pixlies.moderation.chat.exempt"))
                     continue;
-            }
 
             for (int i = 0; i < 150; i++) {
                 p.sendMessage(" ");
@@ -50,6 +50,7 @@ public class ChatCommand extends BaseCommand {
         Lang.CHAT_CLEARED.broadcast("%PLAYER%;" + sender.getName());
     }
 
+    @CommandAlias("slowchat")
     @Subcommand("slow")
     @Description("Check or set the chat delay")
     @CommandCompletion("@empty @range:0-10")

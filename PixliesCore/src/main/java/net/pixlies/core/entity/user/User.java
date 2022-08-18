@@ -72,7 +72,6 @@ public class User {
     private boolean socialSpyEnabled;
     private boolean viewMutedChat;
     private boolean viewBannedJoins;
-    private boolean bypassClearChat;
     private boolean joinVanish;
     private String scoreboardType;
 
@@ -746,7 +745,6 @@ public class User {
                     false,
                     false,
                     false,
-                    false,
                     ScoreboardType.STANDARD.name(),
                     false,
                     false,
@@ -789,7 +787,6 @@ public class User {
                 profile.socialSpyEnabled,
                 profile.viewMutedChat,
                 profile.viewBannedJoins,
-                profile.bypassClearChat,
                 profile.joinVanish,
                 profile.scoreboardType == null ? ScoreboardType.STANDARD.name() : profile.scoreboardType,
                 profile.inStaffMode,
