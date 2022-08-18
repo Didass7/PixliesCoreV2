@@ -9,8 +9,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
-import java.util.UUID;
-
 public class SlowModeListener implements Listener {
 
     private static final Main instance = Main.getInstance();
@@ -19,20 +17,23 @@ public class SlowModeListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onChat(AsyncChatEvent event) {
 
-        if (chatHandler.getSlowMode() == 0) return;
+        if (chatHandler.getSlowModeDelay() == 0) return;
 
         Player player = event.getPlayer();
-        UUID uuid = player.getUniqueId();
 
-        if (chatHandler.isPlayerOnCooldown(uuid)) {
-            long currentCooldown = chatHandler.getPlayerCooldownInSeconds(uuid);
-            Lang.SLOWMODE_MESSAGE.send(player, "%VALUE%;" + currentCooldown);
+        if (!chatHandler.isSlowed(player.getUniqueId())) {
+            chatHandler.setSlowMode(player.getUniqueId(), true);
+        } else {
+            long lastTalkTime = chatHandler.getLastChat(player.getUniqueId());
+            long delay = chatHandler.getSlowModeDelay();
+            long currentTime = System.currentTimeMillis();
+
+            int remaining = (int) ((lastTalkTime + delay - currentTime) / 1000L) + 1;
+
+            Lang.SLOWMODE_MESSAGE.send(player, "%VALUE%;" + remaining); // to seconds
             event.setCancelled(true);
-            return;
         }
 
-        chatHandler.setPlayerCooldown(uuid, System.currentTimeMillis());
-        event.setCancelled(true);
 
     }
 }

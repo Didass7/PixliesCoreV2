@@ -55,16 +55,16 @@ public class ChatCommand extends BaseCommand {
     @CommandCompletion("@empty @range:0-10")
     public void onSlow(CommandSender sender, @Optional @Conditions("limits:min=0,max=10") Integer cooldown) {
         if (cooldown == null) {
-            Lang.SLOWMODE_GET.send(sender, "%VALUE%;" + chatHandler.getSlowMode());
+            Lang.SLOWMODE_GET.send(sender, "%VALUE%;" + chatHandler.getSlowModeDelayAsSeconds());
             return;
         }
 
         if (cooldown == 0) {
-            chatHandler.setSlowMode(0);
+            chatHandler.setSlowModeDelay(0);
             Lang.SLOWMODE_OFF.send(sender, "%PLAYER%;" + sender.getName());
         } else {
-            chatHandler.setSlowMode(cooldown);
-            Lang.SLOWMODE_SET.send(sender, "%PLAYER%" + sender.getName(), "%VALUE%;" + cooldown);
+            chatHandler.setSlowModeDelay(cooldown);
+            Lang.SLOWMODE_SET.send(sender, "%PLAYER%;" + sender.getName(), "%VALUE%;" + cooldown);
         }
 
     }

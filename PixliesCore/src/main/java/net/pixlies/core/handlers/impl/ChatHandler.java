@@ -6,7 +6,6 @@ import net.pixlies.core.Main;
 import net.pixlies.core.configuration.Config;
 import net.pixlies.core.handlers.Handler;
 
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -14,53 +13,46 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ChatHandler implements Handler {
 
     private static final Main instance = Main.getInstance();
-    private final Config config = instance.getConfig();
+    private final Config settings = instance.getSettings();
 
     @Getter @Setter private volatile boolean muted = false;
 
-    @Getter private volatile long slowMode = instance.getSettings().getLong("chat.slowmode", 0L);
+    @Getter private volatile long slowModeDelay = settings.getLong("chat.slowmode", 0L);
     private final Map<UUID, Long> slowModePlayers = new ConcurrentHashMap<>();
 
-    public void setSlowMode(long value) {
-        slowMode = value;
-        instance.getSettings().set("chat.slowmode", value);
-        instance.getSettings().save();
-    }
-
-    public long getPlayerCooldown(UUID uuid) {
-        if (slowModePlayers.get(uuid) == null) {
-            return 0;
-        } else {
-            return slowModePlayers.get(uuid);
-        }
-    }
-
-    public long getPlayerCooldownInSeconds(UUID uuid) {
-        long now = System.currentTimeMillis();
-        long lastSent = getPlayerCooldown(uuid);
-        long until = now - lastSent;
-
-        return lastSent + until - now;
-    }
-
-    public boolean isPlayerOnCooldown(UUID uuid) {
-        long now = System.currentTimeMillis();
-        long lastSent = getPlayerCooldown(uuid);
-        long until = now - lastSent;
-
-        boolean cooldown = false;
-
-        if (slowMode < until) {
+    public void setSlowMode(UUID uuid, boolean state) {
+        if (state) {
             slowModePlayers.remove(uuid);
-            cooldown = true;
+            slowModePlayers.put(uuid, System.currentTimeMillis());
+        } else {
+            slowModePlayers.remove(uuid);
         }
-
-        return cooldown;
     }
 
-    public void setPlayerCooldown(UUID uuid, long value) {
-        slowModePlayers.remove(uuid);
-        slowModePlayers.put(uuid, value);
+    public void setSlowModeDelay(long slowModeDelay) {
+        slowModeDelay = slowModeDelay * 1000;
+        // Seconds to millis
+        settings.set("chat.slowmode", slowModeDelay);
+        settings.save();
+        this.slowModeDelay = slowModeDelay;
+    }
+
+    public long getSlowModeDelayAsSeconds() {
+        return slowModeDelay / 1000;
+    }
+
+    public boolean isSlowed(UUID uuid) {
+
+        long lastTalkTime = slowModePlayers.getOrDefault(uuid, 0L);
+        long delay = slowModeDelay;
+        long currentTime = System.currentTimeMillis();
+
+        return lastTalkTime + delay >= currentTime;
+
+    }
+
+    public long getLastChat(UUID uuid) {
+        return slowModePlayers.getOrDefault(uuid, 0L);
     }
 
 }
