@@ -148,6 +148,9 @@ STAFF_TIME_SET: "§7The time has been set to §6%TIME%§7 in §6%WORLD%§7."
 
 STAFF_SETSPAWN: "§7The spawn has been set to §6%TARGET%§7."
 
+STAFF_FLY_ENABLED: "§7Flight for §6%PLAYER%§7 has been enabled."
+STAFF_FLY_DISABLED: "§7Flight for §6%PLAYER%§7 has been disabled."
+
 # TELEPORTATION
 TPHERE_MESSAGE_SENDER: "§7You have sent §6%PLAYER%§7 a teleport request."
 TPHERE_MESSAGE_TARGET: "§6%PLAYER%§7 has sent you a teleport request to teleport to them. Type §d/tpaccept§7 to accept."

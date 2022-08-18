@@ -74,7 +74,6 @@ public class PixliesCommandManager {
 
         // STAFF
         register(new StaffModeCommand(), false);
-        register(new GodCommand(), false);
         register(new WorldCommand(), false);
         register(new GamemodeCommand(), false);
         register(new SudoCommand(), false);
@@ -88,6 +87,7 @@ public class PixliesCommandManager {
         register(new StaffChatCommand(), false);
         register(new TimeCommand(), false);
         register(new SetSpawnCommand(), false);
+        register(new FlyCommand(), false);
 
         // COSMETICS
         register(new HealCommand(), false);

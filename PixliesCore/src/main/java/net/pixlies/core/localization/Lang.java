@@ -136,6 +136,9 @@ public enum Lang {
 
     STAFF_SETSPAWN(Lang.PIXLIES, new HashMap<>()),
 
+    STAFF_FLY_ENABLED(Lang.PIXLIES, new HashMap<>()),
+    STAFF_FLY_DISABLED(Lang.PIXLIES, new HashMap<>()),
+
     // TELEPORTATION
     TPHERE_MESSAGE_SENDER(Lang.PIXLIES, new HashMap<>()),
     TPHERE_MESSAGE_TARGET(Lang.PIXLIES, new HashMap<>()),
