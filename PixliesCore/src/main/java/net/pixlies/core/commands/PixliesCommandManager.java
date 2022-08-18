@@ -50,6 +50,7 @@ public class PixliesCommandManager {
         register(new BanCommand(), false);
         register(new TempBanCommand(), false);
         register(new UnBanCommand(), false);
+        register(new BanSpyCommand(), false);
         register(new MuteCommand(), false);
         register(new TempMuteCommand(), false);
         register(new UnMuteCommand(), false);
@@ -58,6 +59,7 @@ public class PixliesCommandManager {
         register(new GlobalPvpCommand(), false);
         register(new KickallCommand(), false);
         register(new VanishCommand(), false);
+        register(new JoinVanishedCommand(), false);
         register(new TpHereCommand(), false);
         register(new TpAskCommand(), false);
         register(new TpAcceptCommand(), false);
@@ -66,13 +68,15 @@ public class PixliesCommandManager {
         register(new UnBlacklistCommand(), false);
         register(new FreezeCommand(), false);
         register(new KickCommand(), false);
+        register(new MuteSpyCommand(), false);
+        register(new SocialSpyCommand(), false);
+        register(new CommandSpyCommand(), false);
 
         // STAFF
         register(new StaffModeCommand(), false);
         register(new GodCommand(), false);
         register(new WorldCommand(), false);
         register(new GamemodeCommand(), false);
-        register(new StaffSettingsCommand(), false);
         register(new SudoCommand(), false);
         register(new BreakCommand(), false);
         register(new ExtinguishCommand(), false);

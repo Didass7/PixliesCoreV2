@@ -24,10 +24,9 @@ public class MuteListener implements Listener {
                 return;
             }
 
-            // Staff setting: view muted chat
             for (Player p : Bukkit.getServer().getOnlinePlayers()) {
                 User msgUser = User.get(p.getUniqueId());
-                if (msgUser.isViewMutedChat()) {
+                if (msgUser.isViewMutedChat() && p.hasPermission("pixlies.moderation.mutespy")) {
                     Lang.MUTED_PLAYER_TRIED_TO_TALK.send(p, "%PLAYER%;", player.getName());
                 }
             }

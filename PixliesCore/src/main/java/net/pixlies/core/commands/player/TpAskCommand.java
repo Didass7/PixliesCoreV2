@@ -10,13 +10,13 @@ import net.pixlies.core.handlers.impl.TeleportHandler;
 import net.pixlies.core.localization.Lang;
 import org.bukkit.entity.Player;
 
-@CommandAlias("tpask|tpa")
 @CommandPermission("pixlies.player.tpask")
 public class TpAskCommand extends BaseCommand {
 
     private static final Main instance = Main.getInstance();
     private final TeleportHandler tpHandler = instance.getHandlerManager().getHandler(TeleportHandler.class);
 
+    @CommandAlias("tpask|tpa")
     @CommandCompletion("@players")
     @Description("Requests for the sender to teleport to the target")
     public void onTpAsk(Player sender, Player target) {

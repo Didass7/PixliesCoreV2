@@ -5,6 +5,7 @@ import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandCompletion;
 import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Syntax;
+import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import lombok.val;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.user.User;
@@ -23,7 +24,9 @@ public class MessageCommand extends BaseCommand {
     @Default
     @CommandCompletion("@players @empty")
     @Syntax("<player> <message>")
-    public void onMessage(CommandSender sender, Player target, String message) {
+    public void onMessage(CommandSender sender, OnlinePlayer targetPlayer, String message) {
+        Player target = targetPlayer.getPlayer();
+
         if (sender instanceof Player player) {
             val user = User.get(player.getUniqueId());
             if (user.getMute() != null && !player.hasPermission("pixlies.moderation.mute.exempt")) {
@@ -33,13 +36,12 @@ public class MessageCommand extends BaseCommand {
             handler.setReplyTarget(player.getUniqueId(), target.getUniqueId());
         }
 
-        val event = new PixliesSenderMessagePlayerEvent(sender, target, PixliesSenderMessagePlayerEvent.MessageType.MESSAGE);
+        val event = new PixliesSenderMessagePlayerEvent(sender, target, message, PixliesSenderMessagePlayerEvent.MessageType.MESSAGE);
         EventUtils.call(event);
         if (event.isCancelled()) return;
 
-        String msgToSend = message.substring(target.getName().length());
-        Lang.PLAYER_MESSAGE_FORMAT_TO.send(sender, "%PLAYER%;" + target.getName(), "%MESSAGE%;" + msgToSend);
-        Lang.PLAYER_MESSAGE_FORMAT_FROM.send(target, "%PLAYER%;" + sender.getName(), "%MESSAGE%;" + msgToSend);
+        Lang.PLAYER_MESSAGE_FORMAT_TO.send(sender, "%PLAYER%;" + target.getName(), "%MESSAGE%;" + event.getMessage());
+        Lang.PLAYER_MESSAGE_FORMAT_FROM.send(target, "%PLAYER%;" + sender.getName(), "%MESSAGE%;" + event.getMessage());
     }
 
 }

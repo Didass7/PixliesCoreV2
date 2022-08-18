@@ -166,12 +166,14 @@ public enum Lang {
     MODERATION_VANISH_ON_OTHER(Lang.PIXLIES, new HashMap<>()),
     MODERATION_VANISH_OFF_OTHER(Lang.PIXLIES, new HashMap<>()),
     MODERATION_VANISH_NO_ONE_CAN_SEE("", new HashMap<>()),
+    MODERATION_VANISH_JOIN_VANISH_ENABLED(Lang.PIXLIES, new HashMap<>()),
+    MODERATION_VANISH_JOIN_VANISH_DISABLED(Lang.PIXLIES, new HashMap<>()),
 
     MODERATION_COMMANDSPY_ON(Lang.PIXLIES, new HashMap<>()),
     MODERATION_COMMANDSPY_OFF(Lang.PIXLIES, new HashMap<>()),
     MODERATION_COMMANDSPY_ON_OTHER(Lang.PIXLIES, new HashMap<>()),
     MODERATION_COMMANDSPY_OFF_OTHER(Lang.PIXLIES, new HashMap<>()),
-    MODERATION_COMMANDSPY_FORMAT(Lang.COMMAND, new HashMap<>()),
+    MODERATION_COMMANDSPY_FORMAT(Lang.CMD, new HashMap<>()),
 
     MODERATION_FREEZE_FREEZE(Lang.PIXLIES, new HashMap<>()),
     MODERATION_FREEZE_UNFREEZE(Lang.PIXLIES, new HashMap<>()),
@@ -184,6 +186,17 @@ public enum Lang {
     MODERATION_CANNOT_KICK(Lang.PIXLIES, new HashMap<>()),
     MODERATION_CANNOT_BAN(Lang.PIXLIES, new HashMap<>()),
     MODERATION_CANNOT_MUTE(Lang.PIXLIES, new HashMap<>()),
+    MODERATION_BANSPY_ENABLED(Lang.PIXLIES, new HashMap<>()),
+    MODERATION_BANSPY_DISABLED(Lang.PIXLIES, new HashMap<>()),
+
+    MODERATION_SOCIALSPY_ENABLED(Lang.PIXLIES, new HashMap<>()),
+    MODERATION_SOCIALSPY_DISABLED(Lang.PIXLIES, new HashMap<>()),
+
+    MODERATION_MUTESPY_ENABLED(Lang.PIXLIES, new HashMap<>()),
+    MODERATION_MUTESPY_DISABLED(Lang.PIXLIES, new HashMap<>()),
+
+    MODERATION_COMMANDSPY_ENABLED(Lang.PIXLIES, new HashMap<>()),
+    MODERATION_COMMANDSPY_DISABLED(Lang.PIXLIES, new HashMap<>()),
 
     // COSMETICS
     COSMETICS_HEALED_SELF(Lang.PIXLIES, new HashMap<>()),
@@ -273,13 +286,13 @@ public enum Lang {
     public static final String DISCORD = "§9§lDISCORD§8 | ";
     public static final String POLL = "§x§1§6§a§7§e§7§lP§x§1§a§8§d§c§7§lO§x§1§a§7§5§a§8§lL§x§1§6§5§d§8§a§lL §8| §7";
     public static final String WAR = "§x§f§f§2§b§2§bW§x§e§b§2§1§2§1A§x§d§9§1§a§1§aR§8 | §7";
-    public static final String PM = "§x§a§8§1§1§c§eP§x§a§4§0§8§a§4M§8 | §7";
-    public static final String COMMAND = "§x§f§f§a§a§0§0C§x§d§4§8§d§0§0§M§x§a§9§6§f§0§0§D§8 | ";
+    public static final String PM = "§x§a§8§1§1§c§e§lP§x§a§4§0§8§a§4§lM§8 | §7";
+    public static final String CMD = "§x§f§f§a§a§0§0§lC§x§d§4§8§d§0§0§lM§x§a§9§6§f§0§0§lD§8 | ";
     public static final String BROADCAST = "§x§f§f§5§5§5§5§lB§x§f§4§4§a§4§a§lR§x§e§a§4§0§4§0§lO§x§d§f§3§5§3§5§lA§x§d§5§2§b§2§b§lD§x§c§a§2§0§2§0§lC§x§b§f§1§5§1§5§lA§x§b§5§0§b§0§b§lS§x§a§a§0§0§0§0§lT§8 | §7";
     public static final String STAFF = "§x§4§e§d§e§d§b§lS§x§4§5§c§1§b§f§lT§x§3§c§a§4§a§2§lA§x§3§2§8§6§8§6§lF§x§2§9§6§9§6§9§lF§8 | §7";
 
-    Lang(String PREFIX, Map<String, String> languages) {
-        this.PREFIX = PREFIX;
+    Lang(String prefix, Map<String, String> languages) {
+        this.PREFIX = prefix;
         this.languages = languages;
     }
 

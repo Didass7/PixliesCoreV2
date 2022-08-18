@@ -1,6 +1,7 @@
 package net.pixlies.core.events.impl.player;
 
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import net.pixlies.core.Main;
@@ -32,6 +33,7 @@ public class PixliesSenderMessagePlayerEvent extends Event {
 
     private final CommandSender sender;
     private final Player target;
+    private @NonNull String message;
     private final MessageType type;
 
     public enum MessageType {

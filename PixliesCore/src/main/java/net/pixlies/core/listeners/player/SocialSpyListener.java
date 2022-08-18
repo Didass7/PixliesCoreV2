@@ -16,14 +16,13 @@ public class SocialSpyListener implements Listener {
         CommandSender sender = event.getSender();
         Player target = event.getTarget();
 
-        // Staff setting: socialspy
         for (Player p : Bukkit.getServer().getOnlinePlayers()) {
             User spyingUser = User.get(p.getUniqueId());
             if (!p.hasPermission("pixlies.moderation.socialspy")) {
                 continue;
             }
             if (spyingUser.isSocialSpyEnabled()) {
-                Lang.PLAYER_MESSAGE_SOCIALSPY.send(p, "%PLAYER%;" + sender.getName(), "%TARGET%;" + target.getName());
+                Lang.PLAYER_MESSAGE_SOCIALSPY.send(p, "%PLAYER%;" + sender.getName(), "%TARGET%;" + target.getName(), "%MESSAGE%;" + event.getMessage());
             }
         }
     }

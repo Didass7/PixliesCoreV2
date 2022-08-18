@@ -26,7 +26,7 @@ KICK_MESSAGE: |-
   
   §9Discord: &7https://pixlies.net/discord
 
-BANNED_PLAYER_TRIED_TO_JOIN: '§c%PLAYER%§7 tried to join, but is currently banned.'
+BANNED_PLAYER_TRIED_TO_JOIN: '§c%PLAYER%§7 tried to join the server §a%SERVER%§7, but is currently banned.'
 
 PLAYER_PERMANENTLY_BANNED: '§6%PLAYER%§7 was permanently banned by §6%EXECUTOR%§7 for §c"%REASON%"§7.'
 PLAYER_UNBANNED: '§6%PLAYER%§7 was unbanned by §6%EXECUTOR%§7.'
@@ -41,7 +41,7 @@ PLAYER_PERMANENTLY_MUTED: '§6%PLAYER%§7 was muted by §6%EXECUTOR%§7 for §c"
 PLAYER_UNMUTED: '§6%PLAYER%§7 was unmuted by §6%EXECUTOR%§7.'
 PLAYER_TEMPORARILY_MUTED: '§6%PLAYER%§7 was muted by §6%EXECUTOR%§7 for §c"%REASON%"§7 for §c%TIME%.'
 MUTE_MESSAGE: "§cYou cannot talk while muted."
-MUTED_PLAYER_TRIED_TO_TALK: "§6%PLAYER% §7tried to talk, but they are muted!"
+MUTED_PLAYER_TRIED_TO_TALK: "§8%PLAYER%§8: %MESSAGE%"
 
 PLAYER_NOT_MUTED: "§7That player is not muted."
 PLAYER_NOT_BLACKLISTED: "§7That player is not blacklisted."
@@ -177,6 +177,8 @@ MODERATION_VANISH_OFF: "§7You are no longer vanished."
 MODERATION_VANISH_ON_OTHER: "§6%PLAYER%§7 is now vanished."
 MODERATION_VANISH_OFF_OTHER: "§6%PLAYER%§7 is no longer vanished."
 MODERATION_VANISH_NO_ONE_CAN_SEE: "§cNo one can see you."
+MODERATION_VANISH_JOIN_VANISH_ENABLED: "§7You will now be vanished when you join."
+MODERATION_VANISH_JOIN_VANISH_DISABLED: "§7You will now be visible when you join."
 
 MODERATION_COMMANDSPY_ON: "§7You have enabled command spy."
 MODERATION_COMMANDSPY_OFF: "§7You have disabled command spy."
@@ -194,7 +196,19 @@ MODERATION_FREEZE_ACTIONBAR: "§cYou are currently frozen."
 
 MODERATION_CANNOT_KICK: "§7You cannot kick that player."
 MODERATION_CANNOT_BAN: "§7You cannot ban that player."
-MODERATION_CANNOT_MUTE: "§You cannot mute that player."
+MODERATION_CANNOT_MUTE: "§7You cannot mute that player."
+
+MODERATION_BANSPY_ENABLED: "§7You will now see banned players attempting to join."
+MODERATION_BANSPY_DISABLED: "§7You will no longer see banned players attempting to join."
+
+MODERATION_SOCIALSPY_ENABLED: "§7You will now see private messages being sent."
+MODERATION_SOCIALSPY_DISABLED: "§7You will no longer see private messages being sent."
+
+MODERATION_MUTESPY_ENABLED: "§7You will now see muted players talk."
+MODERATION_MUTESPY_DISABLED: "§7You will no longer see muted players talk."
+
+MODERATION_COMMANDSPY_ENABLED: "§7You will now see players run commands."
+MODERATION_COMMANDSPY_DISABLED: "§7You will no longer see players run commands."
 
 # COSMETICS
 COSMETICS_HEALED_SELF: "§7You just healed yourself!"
@@ -244,7 +258,7 @@ POLL_SHOW_QUESTION: "§7Question: §6%QUESTION%"
 PLAYER_MESSAGE_FORMAT_TO: "§8(§7To §6%PLAYER%§8) §f%MESSAGE%"
 PLAYER_MESSAGE_FORMAT_FROM: "§8(§7From §6%PLAYER%§8) §f%MESSAGE%"
 PLAYER_MESSAGE_NOONE_TO_MESSAGE: "§cThere is no one to message."
-PLAYER_MESSAGE_SOCIALSPY: "§8(§7To §6%TARGET%§7 from §6%PLAYER%§8) §7%MESSAGE%"
+PLAYER_MESSAGE_SOCIALSPY: "§8(§7To §6%TARGET%§7 from §6%PLAYER%§8) §f%MESSAGE%"
 
 PLAYER_SUICIDE: "§7You committed suicide."
 

@@ -14,12 +14,11 @@ import net.pixlies.core.localization.Lang;
 import net.pixlies.core.utils.EventUtils;
 import org.bukkit.entity.Player;
 
-@CommandAlias("reply|r")
 public class ReplyCommand extends BaseCommand {
 
     private final MessageHandler messageHandler = Main.getInstance().getHandlerManager().getHandler(MessageHandler.class);
 
-    @Default
+    @CommandAlias("reply|r")
     @CommandCompletion("@empty")
     @Syntax("<message>")
     public void onReply(Player player, String message) {
@@ -37,12 +36,15 @@ public class ReplyCommand extends BaseCommand {
             return;
         }
 
-        val event = new PixliesSenderMessagePlayerEvent(player, target, PixliesSenderMessagePlayerEvent.MessageType.REPLY);
+        val event = new PixliesSenderMessagePlayerEvent(player, target, message, PixliesSenderMessagePlayerEvent.MessageType.REPLY);
         EventUtils.call(event);
         if (event.isCancelled()) return;
 
-        Lang.PLAYER_MESSAGE_FORMAT_TO.send(player, "%PLAYER%;" + target.getName(), "%MESSAGE%;" + message);
-        Lang.PLAYER_MESSAGE_FORMAT_FROM.send(target, "%PLAYER%;" + player.getName(), "%MESSAGE%;" + message);
+        Lang.PLAYER_MESSAGE_FORMAT_TO.send(player, "%PLAYER%;" + target.getName(), "%MESSAGE%;" + event.getMessage());
+        Lang.PLAYER_MESSAGE_FORMAT_FROM.send(target, "%PLAYER%;" + player.getName(), "%MESSAGE%;" + event.getMessage());
     }
 
 }
+
+
+

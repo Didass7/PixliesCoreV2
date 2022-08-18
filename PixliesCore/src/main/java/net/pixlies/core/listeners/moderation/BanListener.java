@@ -1,9 +1,14 @@
 package net.pixlies.core.listeners.moderation;
 
+import com.google.gson.JsonObject;
 import net.kyori.adventure.text.Component;
+import net.pixlies.core.Main;
+import net.pixlies.core.database.redis.RedisManager;
+import net.pixlies.core.database.redis.RedisMessageReceiveEvent;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.moderation.Punishment;
+import net.pixlies.core.utils.json.JsonBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -34,15 +39,30 @@ public class BanListener implements Listener {
             banMessage = banMessage.replace("%DURATION%", prettyTime.format(new Date(punishment.getUntil())));
         }
 
-        // Staff setting: view banned join messages
+        event.disallow(PlayerLoginEvent.Result.KICK_BANNED, Component.text(banMessage));
+
+        RedisManager.sendRequest("BanSpy", new JsonBuilder()
+                .addProperty("playerName", event.getPlayer().getName())
+                .addProperty("serverName", Main.getInstance().getServerName())
+                .toJsonObject());
+    }
+
+    @EventHandler
+    public void onReceive(RedisMessageReceiveEvent event) {
+        if (!event.getIdentifier().equals("BanSpy")) return;
+
+        JsonObject data = event.getData();
+
+        String playerName = data.get("playerName").getAsString();
+        String serverName = data.get("serverName").getAsString();
+
         for (Player p : Bukkit.getServer().getOnlinePlayers()) {
             User msgUser = User.get(p.getUniqueId());
-            if (msgUser.isViewBannedJoins()) {
-                Lang.BANNED_PLAYER_TRIED_TO_JOIN.send(p, event.getPlayer().getName());
+            if (msgUser.isViewBannedJoins() && p.hasPermission("pixlies.moderation.banspy")) {
+                Lang.BANNED_PLAYER_TRIED_TO_JOIN.send(p, "%PLAYER%;" + playerName, "%SERVER%;" + serverName);
             }
         }
 
-        event.disallow(PlayerLoginEvent.Result.KICK_BANNED, Component.text(banMessage));
     }
 
 }
