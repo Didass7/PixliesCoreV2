@@ -10,8 +10,10 @@ import net.pixlies.core.handlers.HandlerManager;
 import net.pixlies.core.handlers.RegisterHandlerManager;
 import net.pixlies.core.handlers.impl.PixlieMojiHandler;
 import net.pixlies.core.handlers.impl.ScoreboardHandler;
+import net.pixlies.core.handlers.impl.TabListHandler;
 import net.pixlies.core.listeners.ListenerManager;
 import net.pixlies.core.localization.Lang;
+import net.pixlies.core.packets.PacketAdapterManager;
 import net.pixlies.core.runnables.RunnableManager;
 import net.pixlies.core.runnables.RunnableRegisterManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -39,6 +41,7 @@ public class Main extends JavaPlugin {
 
     @Getter private boolean lobbyServer;
 
+    private @Getter PacketAdapterManager packetAdapterManager;
     private RunnableRegisterManager runnableRegisterManager;
 
     @Override
@@ -78,6 +81,7 @@ public class Main extends JavaPlugin {
         // HANDLERS
         handlerManager = new HandlerManager();
         runnableManager = new RunnableManager();
+        packetAdapterManager = new PacketAdapterManager();
         new RegisterHandlerManager().registerAllHandlers();
 
         // DATABASE
@@ -91,6 +95,7 @@ public class Main extends JavaPlugin {
 
         // LISTENERS & COMMANDS
         ListenerManager.registerAllListeners();
+        packetAdapterManager.registerAll();
         commandManager = new PixliesCommandManager();
 
         // RUNNABLES
@@ -107,6 +112,7 @@ public class Main extends JavaPlugin {
         runnableRegisterManager.stopAll();
         calendar.stopRunner();
         handlerManager.getHandler(ScoreboardHandler.class).unload();
+        handlerManager.getHandler(TabListHandler.class).unload();
         instance = null;
     }
 

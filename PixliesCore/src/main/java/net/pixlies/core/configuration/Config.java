@@ -83,12 +83,4 @@ public class Config extends YamlConfiguration {
         }
     }
 
-    public String getStringFormatted(String key) {
-        return CC.format(getString(key));
-    }
-
-    public String getStringFormatted(String key, String defaults) {
-        return CC.format(getString(key, defaults));
-    }
-
 }

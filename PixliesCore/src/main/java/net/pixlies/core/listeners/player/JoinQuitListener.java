@@ -5,6 +5,7 @@ import net.pixlies.core.Main;
 import net.pixlies.core.configuration.Config;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.handlers.impl.VanishHandler;
+import net.pixlies.core.utils.CC;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -26,8 +27,8 @@ public class JoinQuitListener implements Listener {
             event.joinMessage(null);
             return;
         }
-        event.joinMessage(Component.text(config.getStringFormatted("joinQuit.joinMessage")
-                .replace("%PLAYER%", player.getName())));
+        event.joinMessage(Component.text(CC.format(config.getString("joinQuit.joinMessage")
+                .replace("%PLAYER%", player.getName()))));
     }
 
     @EventHandler(priority = EventPriority.LOW)
@@ -38,8 +39,8 @@ public class JoinQuitListener implements Listener {
             event.quitMessage(null);
             return;
         }
-        event.quitMessage(Component.text(config.getStringFormatted("joinQuit.quitMessage")
-                .replace("%PLAYER%", player.getName())));
+        event.quitMessage(Component.text(CC.format(config.getString("joinQuit.quitMessage")
+                .replace("%PLAYER%", player.getName()))));
     }
 
 }

@@ -45,6 +45,7 @@ public class ListenerManager {
         add(new RespawnListener());
         add(new SpeedListener());
         add(new CombatListener());
+        add(new TabListListener());
     }};
 
     public static void registerAllListeners() {

@@ -8,6 +8,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
 import net.pixlies.core.Main;
 import net.pixlies.core.economy.Wallet;
@@ -76,10 +77,10 @@ public class User {
     private String scoreboardType;
 
     // SETTINGS
-    private boolean inStaffMode;
-    private boolean bypassing;
-    private boolean vanished;
-    private boolean passive;
+    private @Getter(AccessLevel.NONE) boolean inStaffMode;
+    private @Getter(AccessLevel.NONE) boolean bypassing;
+    private @Getter(AccessLevel.NONE) boolean vanished;
+    private @Getter(AccessLevel.NONE) boolean passive;
     private boolean inStaffChat;
 
     // LANG
@@ -436,6 +437,30 @@ public class User {
         return UUID.fromString(uuid);
     }
 
+    public boolean isInStaffMode() {
+        Player player = getAsOfflinePlayer().getPlayer();
+        if (player == null) return false;
+        return player.hasPermission("pixlies.moderation.staffmode") && inStaffMode;
+    }
+
+    public boolean isBypassing() {
+        Player player = getAsOfflinePlayer().getPlayer();
+        if (player == null) return false;
+        return player.hasPermission("pixlies.moderation.bypass") && bypassing;
+    }
+
+    public boolean isPassive() {
+        Player player = getAsOfflinePlayer().getPlayer();
+        if (player == null) return false;
+        return (player.hasPermission("pixlies.moderation.vanish") && passive) || (player.hasPermission("pixlies.moderation.staffmode") && passive);
+    }
+
+    public boolean isVanished() {
+        Player player = getAsOfflinePlayer().getPlayer();
+        if (player == null) return false;
+        return player.hasPermission("pixlies.moderation.vanish") && vanished;
+    }
+
     public void backup() {
         try {
             instance.getDatabase().getDatastore().find(User.class).filter(Filters.gte("uuid", uuid)).delete();
@@ -690,6 +715,14 @@ public class User {
                 }
             }
         }.runTaskTimer(Main.getInstance(), 1, 1);
+    }
+
+    public String getPrefix() {
+        return PlaceholderAPI.setPlaceholders(getAsOfflinePlayer(), "%luckperms_prefix%");
+    }
+
+    public String getSuffix() {
+        return PlaceholderAPI.setPlaceholders(getAsOfflinePlayer(), "%luckperms_suffix%");
     }
 
     // STATICS - it's not static abuse if you use it properly.

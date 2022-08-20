@@ -3,6 +3,7 @@ package net.pixlies.lobby;
 import lombok.Getter;
 import net.pixlies.core.Main;
 import net.pixlies.core.handlers.impl.ScoreboardHandler;
+import net.pixlies.core.handlers.impl.TabListHandler;
 import net.pixlies.core.modules.Module;
 import net.pixlies.core.modules.configuration.ModuleConfig;
 import net.pixlies.lobby.commands.CommandManager;
@@ -13,6 +14,7 @@ import net.pixlies.lobby.managers.LobbyManager;
 import net.pixlies.lobby.managers.QueueManager;
 import net.pixlies.lobby.runnables.RunnableManager;
 import net.pixlies.lobby.scoreboard.ScoreboardAdapter;
+import net.pixlies.lobby.scoreboard.TabAdapter;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -65,8 +67,9 @@ public class Lobby extends JavaPlugin implements Module {
         new CommandManager().registerAll();
         runnableManager.registerAll();
 
-        // SCOREBOARD
+        // SCOREBOARD & TABLIST
         Main.getInstance().getHandlerManager().getHandler(ScoreboardHandler.class).load(new ScoreboardAdapter());
+        Main.getInstance().getHandlerManager().getHandler(TabListHandler.class).load(new TabAdapter());
 
     }
 
