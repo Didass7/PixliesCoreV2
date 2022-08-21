@@ -72,7 +72,7 @@ public class Warp extends LazyLocation {
                     config.getString("warps.spawn.name", "Spawn"),
                     config.getString("warps.spawn.description", "No description."),
                     Material.valueOf(config.getString("warps.spawn.material", "BEDROCK")),
-                    new Location(Bukkit.getWorlds().get(0), 0, 64, 0)
+                    Bukkit.getWorlds().get(0).getSpawnLocation()
             );
             spawn.save();
         }
@@ -92,7 +92,7 @@ public class Warp extends LazyLocation {
             if (name == null) return;
             String description = section.getString("description", "No description.");
             Material material = Material.valueOf(section.getString("material", "BARRIER"));
-            Location location = section.getLocation("location", new Location(Bukkit.getWorlds().get(0), 0, 64, 0));
+            Location location = section.getLocation("location", Bukkit.getWorlds().get(0).getSpawnLocation());
 
             warps.add(new Warp(
                     name,

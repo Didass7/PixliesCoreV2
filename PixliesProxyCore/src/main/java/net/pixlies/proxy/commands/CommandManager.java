@@ -1,6 +1,7 @@
 package net.pixlies.proxy.commands;
 
 import co.aikar.commands.*;
+import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.google.common.collect.ImmutableList;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.config.ServerInfo;

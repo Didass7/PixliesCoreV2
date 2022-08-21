@@ -60,29 +60,29 @@ warpSettings:
 tablist:
     ranks:
         ruby:
-            order: 200
+            order: 1110
         sapphire:
-            order: 100
+            order: 1100
         amethyst:
-            order: 90
+            order: 1090
         topaz:
-            order: 80
+            order: 1080
         default:
-            order: 70
+            order: 1070
         youtuber:
-            order: 60
+            order: 1060
         builder:
-            order: 50
+            order: 1050
         helper:
-            order: 40
+            order: 1040
         mod:
-            order: 30
+            order: 1030
         admin:
-            order: 20
+            order: 1020
         dev:
-            order: 10
+            order: 1010
         manager:
-            order: 0
+            order: 1000
 
 combat:
     timer: true

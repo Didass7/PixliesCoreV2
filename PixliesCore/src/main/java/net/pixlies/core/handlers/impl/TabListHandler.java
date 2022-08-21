@@ -87,9 +87,9 @@ public class TabListHandler implements Handler {
         ConfigurationSection section = config.getConfigurationSection("tablist.ranks");
         if (section == null) return;
 
-        Map<String, Integer> ranks = new HashMap<>();
+        Map<String, String> ranks = new HashMap<>();
         for (String rankName : section.getKeys(false)) {
-            int rankOrder = section.getInt("order");
+            String rankOrder = section.getString(rankName + ".order", "");
             ranks.put(rankName, rankOrder);
         }
 
@@ -98,13 +98,15 @@ public class TabListHandler implements Handler {
 
             scoreboard.getTeams().forEach(team -> {
                 if (team.getName().startsWith("tab_")) {
-                    team.unregister();
+                    for (Player target : instance.getServer().getOnlinePlayers()) {
+                        team.removePlayer(target);
+                    }
                 }
             });
 
             for (Player target : instance.getServer().getOnlinePlayers()) {
                 String group = PlaceholderAPI.setPlaceholders(target, "%luckperms_primary_group_name%");
-                String teamName = "tab_" + ranks.getOrDefault(group, 0).toString();
+                String teamName = "tab_" + ranks.getOrDefault(group, "");
 
                 Team team = scoreboard.getTeam(teamName);
                 if (team == null) {
