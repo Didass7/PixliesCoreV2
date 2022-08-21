@@ -15,10 +15,18 @@ import net.pixlies.core.entity.user.User;
 import net.pixlies.core.handlers.Handler;
 import net.pixlies.core.scoreboard.PixliesTabAdapter;
 import net.pixlies.core.utils.CC;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.StringJoiner;
 
 public class TabListHandler implements Handler {
@@ -71,6 +79,44 @@ public class TabListHandler implements Handler {
             User user = User.get(player.getUniqueId());
             boolean isStaffStuffEnabled = user.isPassive();
             player.setPlayerListName(isStaffStuffEnabled ? player.getName() : user.getNickName());
+        }
+    }
+
+    public void sortTabList() {
+
+        ConfigurationSection section = config.getConfigurationSection("tablist.ranks");
+        if (section == null) return;
+
+        Map<String, Integer> ranks = new HashMap<>();
+        for (String rankName : section.getKeys(false)) {
+            int rankOrder = section.getInt("order");
+            ranks.put(rankName, rankOrder);
+        }
+
+        for (Player player : instance.getServer().getOnlinePlayers()) {
+            final Scoreboard scoreboard = player.getScoreboard();
+
+            scoreboard.getTeams().forEach(team -> {
+                if (team.getName().startsWith("tab_")) {
+                    team.unregister();
+                }
+            });
+
+            for (Player target : instance.getServer().getOnlinePlayers()) {
+                String group = PlaceholderAPI.setPlaceholders(target, "%luckperms_primary_group_name%");
+                String teamName = "tab_" + ranks.getOrDefault(group, 0).toString();
+
+                Team team = scoreboard.getTeam(teamName);
+                if (team == null) {
+                    team = scoreboard.registerNewTeam(teamName);
+                }
+
+                if (!team.hasPlayer(player)) {
+                    team.addPlayer(player);
+                }
+
+            }
+            player.setScoreboard(scoreboard);
         }
     }
 

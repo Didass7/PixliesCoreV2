@@ -57,6 +57,33 @@ scoreboard:
 warpSettings:
     timedTeleports: true
 
+tablist:
+    ranks:
+        ruby:
+            order: 200
+        sapphire:
+            order: 100
+        amethyst:
+            order: 90
+        topaz:
+            order: 80
+        default:
+            order: 70
+        youtuber:
+            order: 60
+        builder:
+            order: 50
+        helper:
+            order: 40
+        mod:
+            order: 30
+        admin:
+            order: 20
+        dev:
+            order: 10
+        manager:
+            order: 0
+
 combat:
     timer: true
 

@@ -16,6 +16,7 @@ public class TabListListener implements Listener {
         if (!handler.isLoaded()) return;
         handler.formatTabListFor(event.getPlayer());
         handler.updateDisplayNames();
+        handler.sortTabList();
     }
 
 }

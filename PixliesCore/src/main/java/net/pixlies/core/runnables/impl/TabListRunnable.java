@@ -23,8 +23,9 @@ public class TabListRunnable extends PixliesRunnable {
 
         for (Player player : instance.getServer().getOnlinePlayers()) {
             handler.formatTabListFor(player);
-            handler.updateDisplayNames();
         }
+        handler.updateDisplayNames();
+        handler.sortTabList();
 
     }
 
