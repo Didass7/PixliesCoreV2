@@ -519,7 +519,7 @@ public class User {
                         return;
                     }
 
-                    if (timer.isForceExpired()) {
+                    if (timer.isExpired()) {
                         allTimers.remove(TeleportTimer.ID);
                         player.teleport(location);
                         cancel();
@@ -709,7 +709,7 @@ public class User {
                     cancel();
                     return;
                 }
-                if (timer.isForceExpired() || isBypassing() || isPassive()) {
+                if (timer.isExpired() || isBypassing() || isPassive()) {
                     allTimers.remove(CombatTimer.ID);
                     cancel();
                 }

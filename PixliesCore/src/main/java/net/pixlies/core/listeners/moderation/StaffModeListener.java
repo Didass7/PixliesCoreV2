@@ -2,6 +2,7 @@ package net.pixlies.core.listeners.moderation;
 
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.user.User;
+import net.pixlies.core.entity.user.timers.impl.RightClickDelayTimer;
 import net.pixlies.core.events.impl.moderation.VanishStatusChangeEvent;
 import net.pixlies.core.handlers.impl.VanishHandler;
 import net.pixlies.core.handlers.impl.staffmode.StaffModeHandler;
@@ -132,8 +133,9 @@ public class StaffModeListener implements Listener {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
         if (!user.isInStaffMode()) return;
+        event.setCancelled(true);
 
-        if (!event.getAction().isLeftClick()) return;
+        if (!RightClickDelayTimer.isExpired(user)) return;
 
         switch (player.getInventory().getItemInMainHand().getType()) {
 
@@ -144,22 +146,24 @@ public class StaffModeListener implements Listener {
                     break;
                 }
                 player.teleport(target.getLocation());
+                new RightClickDelayTimer(player.getUniqueId(), System.currentTimeMillis()).registerTimer();
                 Lang.STAFF_RANDOM_TELEPORT.send(player, "%TARGET%;" + target.getName());
             }
 
             case LIME_DYE -> {
                 vanishHandler.unvanish(player, true);
                 player.getInventory().setItem(8, StaffModeHandler.getVanishItem(false));
+                new RightClickDelayTimer(player.getUniqueId(), System.currentTimeMillis()).registerTimer();
             }
 
             case GRAY_DYE -> {
                 vanishHandler.vanish(player, true);
                 player.getInventory().setItem(8, StaffModeHandler.getVanishItem(true));
+                new RightClickDelayTimer(player.getUniqueId(), System.currentTimeMillis()).registerTimer();
             }
 
         }
 
-        event.setCancelled(true);
 
     }
 
@@ -173,9 +177,17 @@ public class StaffModeListener implements Listener {
 
         if (!(event.getRightClicked() instanceof Player target)) return;
 
+        if (!RightClickDelayTimer.isExpired(user)) return;
+
         switch (player.getInventory().getItemInMainHand().getType()) {
-            case BOOK -> player.performCommand("invsee " + target.getName());
-            case PACKED_ICE -> player.performCommand("freeze " + target.getName());
+            case BOOK -> {
+                player.performCommand("invsee " + target.getName());
+                new RightClickDelayTimer(player.getUniqueId(), System.currentTimeMillis()).registerTimer();
+            }
+            case PACKED_ICE -> {
+                player.performCommand("freeze " + target.getName());
+                new RightClickDelayTimer(player.getUniqueId(), System.currentTimeMillis()).registerTimer();
+            }
         }
 
     }

@@ -107,21 +107,16 @@ public class ScoreboardAdapter implements AssembleAdapter {
 
         // TIMERS
         if (user.hasTimers() || timerHandler.hasGlobalTimers()) {
-            lines.add("");
-
-            // GLOBAL TIMERS
-            // §c§lCombat§8: §700:00:00
-            for (Timer timer : timerHandler.getGlobalTimers()) {
-                if (timer.isHidden()) continue;
-                lines.add(timer.getColor().toString() + "§l" + timer.getDisplayName() + "§7: §f" + timer.getRemainingFormatted());
+            List<Timer> timers = new ArrayList<>(user.getTimers().stream().filter(timer -> !timer.isHidden()).toList());
+            timers.addAll(timerHandler.getGlobalTimers().stream().filter(timer -> !timer.isHidden()).toList());
+            if (!timers.isEmpty()) {
+                lines.add("");
+                // GLOBAL TIMERS
+                // §c§lCombat§8: §700:00:00
+                for (Timer timer : timers) {
+                    lines.add(timer.getColor().toString() + "§l" + timer.getDisplayName() + "§7: §f" + timer.getRemainingFormatted());
+                }
             }
-
-            // USER TIMERS
-            for (Timer timer : user.getTimers()) {
-                if (timer.isHidden()) continue;
-                lines.add(timer.getColor().toString() + "§l" + timer.getDisplayName() + "§7: §f" + timer.getRemainingFormatted());
-            }
-
         }
 
         lines.add("");

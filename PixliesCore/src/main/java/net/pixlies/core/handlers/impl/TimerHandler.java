@@ -15,7 +15,7 @@ public class TimerHandler implements Handler {
         for (Map.Entry<String, Timer> entry : allGlobalTimers.entrySet()) {
             String identifier = entry.getKey();
             Timer timer = entry.getValue();
-            if (!timer.isForceExpired()) {
+            if (!timer.isExpired()) {
                 continue;
             }
             allGlobalTimers.remove(identifier);

@@ -4,6 +4,7 @@ import com.destroystokyo.paper.event.player.PlayerAdvancementCriterionGrantEvent
 import io.papermc.paper.event.entity.EntityDamageItemEvent;
 import io.papermc.paper.event.player.PlayerItemFrameChangeEvent;
 import net.pixlies.core.entity.user.User;
+import net.pixlies.core.entity.user.timers.impl.RightClickDelayTimer;
 import net.pixlies.lobby.Lobby;
 import net.pixlies.lobby.managers.GrapplingHookManager;
 import net.pixlies.lobby.managers.JumpPadManager;
@@ -85,7 +86,9 @@ public class LobbyInteractListener implements Listener {
         for (LobbyItem lobbyItem : JoinItems.getLobbyItems()) {
             ItemStack itemStack = lobbyItem.getItemStack();
             if (itemStack.getType() == item.getType()) {
+                if (!RightClickDelayTimer.isExpired(user)) return;
                 lobbyItem.onClick(event);
+                new RightClickDelayTimer(player.getUniqueId(), System.currentTimeMillis()).registerTimer();
                 return;
             }
         }
