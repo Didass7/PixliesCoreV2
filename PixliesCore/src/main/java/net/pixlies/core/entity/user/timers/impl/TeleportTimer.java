@@ -9,7 +9,7 @@ public class TeleportTimer extends Timer {
     public static final long TELEPORT_DELAY = 5000;
 
     public TeleportTimer(long startTime) {
-        super(ChatColor.YELLOW, "Teleport", startTime, TELEPORT_DELAY);
+        super(ChatColor.YELLOW, "Teleport", startTime, TELEPORT_DELAY, false);
     }
 
 }

@@ -28,13 +28,13 @@ public abstract class PixliesScoreboardAdapter implements AssembleAdapter {
         //       EARTH
         //
         // Staff
-        //  Staff Mode: Disabled
-        //  Vanish: Enabled
-        //  Game Mode: Creative
+        // Staff Mode: Disabled
+        // Vanish: Enabled
+        // Game Mode: Creative
         //
         // Nation/Lobby
-        //  Online: 1/10
-        //  Placeholder: 100%
+        // Online: 1/10
+        // Placeholder: 100%
         //
         // Reboot: 5:47
         // Nation: 01:00:00
@@ -78,18 +78,21 @@ public abstract class PixliesScoreboardAdapter implements AssembleAdapter {
 
             // GLOBAL TIMERS
             for (Timer timer : timerHandler.getGlobalTimers()) {
+                if (timer.isHidden()) continue;
                 lines.add(timer.getColor().toString() + "§l" + timer.getDisplayName() + "§7: §f" + timer.getRemainingFormatted());
                 // §c§lCombat§8: §700:00:00
             }
 
             // EXTRA TIMERS
             for (Timer timer : extraTimers) {
+                if (timer.isHidden()) continue;
                 lines.add(timer.getColor().toString() + "§l" + timer.getDisplayName() + "§7: §f" + timer.getRemainingFormatted());
                 // §c§lCombat§8: §700:00:00
             }
 
             // USER TIMERS
             for (Timer timer : user.getTimers()) {
+                if (timer.isHidden()) continue;
                 lines.add(timer.getColor().toString() + "§l" + timer.getDisplayName() + "§7: §f" + timer.getRemainingFormatted());
                 // §c§lCombat§8: §700:00:00
             }

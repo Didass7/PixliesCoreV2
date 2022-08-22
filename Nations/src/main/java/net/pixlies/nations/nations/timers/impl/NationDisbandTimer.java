@@ -10,7 +10,7 @@ public class NationDisbandTimer extends Timer {
     private final @Getter String nationToDisband;
 
     public NationDisbandTimer(long startTime, String nationToDisband) {
-        super(ChatColor.RED, "Disband", startTime, 30000); // 30 seconds
+        super(ChatColor.RED, "Disband", startTime, 30000, false); // 30 seconds
         this.nationToDisband = nationToDisband;
     }
 

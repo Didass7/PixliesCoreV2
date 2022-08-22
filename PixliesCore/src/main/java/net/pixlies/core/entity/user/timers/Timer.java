@@ -15,7 +15,7 @@ import java.util.UUID;
  */
 @Data
 @AllArgsConstructor
-public class Timer {
+public class Timer { // FIXME: HIDDEN TIMERS, SELF RUN
 
     private final PeriodFormatter aboveMinuteFormatter = new PeriodFormatterBuilder()
             .minimumPrintedDigits(2)
@@ -43,6 +43,7 @@ public class Timer {
     private String displayName;
     private long startTime;
     private long duration;
+    private boolean hidden;
 
     /**
      * Check if the timer has finished.
