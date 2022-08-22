@@ -59,7 +59,7 @@ public class Timer { // FIXME: HIDDEN TIMERS, SELF RUN
      * Check if the timer has finished.
      * @return True if completed; False if ongoing.
      */
-    public boolean isForceExpired() {
+    public boolean isExpired() {
         if (forceExpired) return true;
         return System.currentTimeMillis() > getEndTime();
     }
@@ -104,7 +104,7 @@ public class Timer { // FIXME: HIDDEN TIMERS, SELF RUN
      * @return Time remaining in millis
      */
     public long getTimeRemaining() {
-        if (isForceExpired()) return 0;
+        if (isExpired()) return 0;
         return getEndTime() - System.currentTimeMillis();
     }
 
