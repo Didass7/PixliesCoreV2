@@ -4,8 +4,8 @@ import lombok.Getter;
 import net.pixlies.core.Main;
 import net.pixlies.core.handlers.Handler;
 import net.pixlies.core.lib.io.github.thatkawaiisam.assemble.Assemble;
+import net.pixlies.core.lib.io.github.thatkawaiisam.assemble.AssembleAdapter;
 import net.pixlies.core.lib.io.github.thatkawaiisam.assemble.AssembleStyle;
-import net.pixlies.core.scoreboard.PixliesScoreboardAdapter;
 import org.bukkit.Bukkit;
 import org.bukkit.scoreboard.Scoreboard;
 
@@ -17,7 +17,7 @@ public class ScoreboardHandler implements Handler {
     @Getter private final Scoreboard emptyScoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
     private final boolean enabled = Main.getInstance().getConfig().getBoolean("scoreboard.enabled", true);
 
-    public void load(PixliesScoreboardAdapter adapter) {
+    public void load(AssembleAdapter adapter) {
         if (!enabled) return;
         assemble = new Assemble(instance, adapter);
         assemble.setTicks(1);

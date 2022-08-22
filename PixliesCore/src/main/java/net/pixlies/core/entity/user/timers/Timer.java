@@ -1,7 +1,8 @@
 package net.pixlies.core.entity.user.timers;
 
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
 import org.bukkit.ChatColor;
 import org.joda.time.Duration;
 import org.joda.time.format.PeriodFormatter;
@@ -14,7 +15,6 @@ import java.util.UUID;
  * @author Dynmie
  */
 @Data
-@AllArgsConstructor
 public class Timer { // FIXME: HIDDEN TIMERS, SELF RUN
 
     private final PeriodFormatter aboveMinuteFormatter = new PeriodFormatterBuilder()
@@ -45,22 +45,34 @@ public class Timer { // FIXME: HIDDEN TIMERS, SELF RUN
     private long duration;
     private boolean hidden;
 
+    private @Getter(AccessLevel.NONE) boolean forceExpired = false;
+
+    public Timer(ChatColor color, String displayName, long startTime, long duration, boolean hidden) {
+        this.color = color;
+        this.displayName = displayName;
+        this.startTime = startTime;
+        this.duration = duration;
+        this.hidden = hidden;
+    }
+
     /**
      * Check if the timer has finished.
      * @return True if completed; False if ongoing.
      */
-    public boolean isExpired() {
+    public boolean isForceExpired() {
+        if (forceExpired) return true;
         return System.currentTimeMillis() > getEndTime();
     }
 
     public void expire() {
-        duration = 0;
+        forceExpired = true;
     }
 
     /**
      * Reset the timer.
      */
     public void reset() {
+        forceExpired = false;
         startTime = System.currentTimeMillis();
     }
 
@@ -92,7 +104,7 @@ public class Timer { // FIXME: HIDDEN TIMERS, SELF RUN
      * @return Time remaining in millis
      */
     public long getTimeRemaining() {
-        if (isExpired()) return 0;
+        if (isForceExpired()) return 0;
         return getEndTime() - System.currentTimeMillis();
     }
 

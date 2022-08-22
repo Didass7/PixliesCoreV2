@@ -73,7 +73,7 @@ public class NationDisbandCommand extends BaseCommand {
                         if (!user.getAllTimers().containsKey(NationDisbandTimer.ID)) {
                             cancel();
                         }
-                        if (timer.isExpired()) {
+                        if (timer.isForceExpired()) {
                             user.getAllTimers().remove(NationDisbandTimer.ID);
                             cancel();
                         }
@@ -109,7 +109,7 @@ public class NationDisbandCommand extends BaseCommand {
                         cancel();
                         return;
                     }
-                    if (timer.isExpired()) {
+                    if (timer.isForceExpired()) {
                         user.getAllTimers().remove(NationDisbandTimer.ID);
                         cancel();
                     }

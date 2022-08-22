@@ -1,8 +1,12 @@
 package net.pixlies.nations.scoreboard;
 
+import net.pixlies.core.Main;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.entity.user.timers.Timer;
-import net.pixlies.core.scoreboard.PixliesScoreboardAdapter;
+import net.pixlies.core.handlers.impl.TimerHandler;
+import net.pixlies.core.lib.io.github.thatkawaiisam.assemble.AssembleAdapter;
+import net.pixlies.core.scoreboard.ScoreboardType;
+import net.pixlies.core.utils.TextUtils;
 import net.pixlies.nations.interfaces.NationProfile;
 import net.pixlies.nations.nations.Nation;
 import org.bukkit.entity.Player;
@@ -11,37 +15,71 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScoreboardAdapter extends PixliesScoreboardAdapter {
+public class ScoreboardAdapter implements AssembleAdapter {
 
-    @NotNull
+    private static final TimerHandler timerHandler = Main.getInstance().getHandlerManager().getHandler(TimerHandler.class);
+
     @Override
-    public String getExtraTitle(Player player) {
-        return "&a&lEARTH";
+    public String getTitle(Player player) {
+        // TODO: Animated EARTH
+        return "§x§2§E§D§C§3§E§lE§x§3§0§C§A§3§E§lA§x§3§1§B§F§3§E§lR§x§3§8§B§2§4§3§lT§x§3§7§A§3§4§1§lH";
     }
 
-    @NotNull
     @Override
-    public List<String> getCompact(Player player) {
-        return new ArrayList<>();
-    }
+    public List<String> getLines(Player player) {
+        List<String> lines = new ArrayList<>();
 
-    @NotNull
-    @Override
-    public List<String> getStandard(Player player) {
+        User user = User.get(player.getUniqueId());
         NationProfile profile = NationProfile.get(player.getUniqueId());
-        return new ArrayList<>() {{
-            if (profile.isInNation() && profile.getNation() != null) {
-                Nation nation = profile.getNation();
-                add("&3&lNation");
-                add("&bOnline&7: " + nation.getOnlineMembers().size() + "/" + nation.getMembers().size());
-            }
-        }};
-    }
+        ScoreboardType scoreboardType = user.getScoreboardType();
+        if (scoreboardType == ScoreboardType.DISABLED) return null;
 
-    @NotNull
-    @Override
-    public List<Timer> getExtraTimers(Player player) {
-        return new ArrayList<>();
+        // STAFF
+        if (user.isPassive() || user.isBypassing()) {
+            lines.add("");
+            lines.add("§3§lStaff");
+            lines.add("§bStaff Mode§7: " + (user.isInStaffMode() ? "Enabled" : "Disabled"));
+            lines.add("§bVanish§7: " + (user.isVanished() ? "Enabled" : "Disabled"));
+            lines.add("§bBypass§7: " + (user.isBypassing() ? "Enabled" : "Disabled"));
+        }
+
+        lines.add("                    "); // spacing
+
+        // LINES
+        lines.add("&3&l" + player.getName());
+        lines.add("&bBalance&7: "); // todo
+
+        if (profile.isInNation() && profile.getNation() != null) {
+            Nation nation = profile.getNation();
+            lines.add("");
+            lines.add("&3&lNation");
+            lines.add("&bOnline&7: " + nation.getOnlineMembers().size() + "/" + nation.getMembers().size());
+        }
+        // END LINES
+
+        // TIMERS
+        if (user.hasTimers() || timerHandler.hasGlobalTimers()) {
+            lines.add("");
+
+            // GLOBAL TIMERS
+            // §c§lCombat§8: §700:00:00
+            for (Timer timer : timerHandler.getGlobalTimers()) {
+                if (timer.isHidden()) continue;
+                lines.add(timer.getColor().toString() + "§l" + timer.getDisplayName() + "§7: §f" + timer.getRemainingFormatted());
+            }
+
+            // USER TIMERS
+            for (Timer timer : user.getTimers()) {
+                if (timer.isHidden()) continue;
+                lines.add(timer.getColor().toString() + "§l" + timer.getDisplayName() + "§7: §f" + timer.getRemainingFormatted());
+            }
+
+        }
+
+        lines.add("");
+        lines.add("§bpixlies.net");
+
+        return lines;
     }
 
 }

@@ -21,6 +21,15 @@ public class TextUtils {
         };
     }
 
+    public static String getGameModeFormatNoColor(GameMode gameMode) {
+        return switch(gameMode) {
+            case CREATIVE -> "Creative";
+            case SURVIVAL -> "Survival";
+            case ADVENTURE -> "Adventure";
+            case SPECTATOR -> "Spectator";
+        };
+    }
+
     public static String generateId(int length) {
         return RandomStringUtils.randomAlphanumeric(length);
     }
