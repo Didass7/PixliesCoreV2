@@ -36,10 +36,6 @@ public class AssembleListener implements Listener {
 			board.getObjective("health").unregister();
 		Objective o = board.registerNewObjective("health", "health", ChatColor.RED + "♥");
 		o.setDisplaySlot(DisplaySlot.BELOW_NAME);
-		if (board.getTeam("blue") != null)
-			board.getTeam("blue").unregister();
-		board.registerNewTeam("blue");
-		board.getTeam("blue").addEntry(event.getPlayer().getName());
 	}
 
 	@EventHandler

@@ -1,11 +1,8 @@
 package net.pixlies.proxy.commands;
 
 import co.aikar.commands.*;
-import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.google.common.collect.ImmutableList;
-import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.config.ServerInfo;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.pixlies.proxy.PixliesProxy;
 import net.pixlies.proxy.commands.impl.player.LobbyCommand;
 import net.pixlies.proxy.commands.impl.player.ServerCommand;
