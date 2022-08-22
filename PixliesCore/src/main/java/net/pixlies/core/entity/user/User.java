@@ -690,6 +690,7 @@ public class User {
 
     public void setInCombat(boolean value) {
         if (!value) allTimers.remove(CombatTimer.ID);
+        if (isBypassing() || isPassive()) allTimers.remove(CombatTimer.ID);
 
         if (allTimers.containsKey(CombatTimer.ID)) {
             Timer timer = allTimers.get(CombatTimer.ID);

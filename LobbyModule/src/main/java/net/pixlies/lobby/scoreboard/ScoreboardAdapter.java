@@ -73,21 +73,33 @@ public class ScoreboardAdapter implements AssembleAdapter {
         ScoreboardType scoreboardType = user.getScoreboardType();
         if (scoreboardType == ScoreboardType.DISABLED) return null;
 
-        // STAFF
-        if (user.isPassive() || user.isBypassing()) {
-            lines.add("");
-            lines.add("§3§lStaff");
-            lines.add("§bStaff Mode§7: " + (user.isInStaffMode() ? "Enabled" : "Disabled"));
-            lines.add("§bVanish§7: " + (user.isVanished() ? "Enabled" : "Disabled"));
-            lines.add("§bBypass§7: " + (user.isBypassing() ? "Enabled" : "Disabled"));
+        // TIMERS
+        if (user.hasTimers() || timerHandler.hasGlobalTimers()) {
+            List<Timer> timers = new ArrayList<>(user.getTimers().stream().filter(timer -> !timer.isHidden()).toList());
+            timers.addAll(timerHandler.getGlobalTimers().stream().filter(timer -> !timer.isHidden()).toList());
+            if (!timers.isEmpty()) {
+                lines.add("&3" + CC.SCOREBOARD_STRIKETHROUGH);
+                // GLOBAL TIMERS
+                // §c§lCombat§8: §700:00:00
+                for (Timer timer : timers) {
+                    lines.add(" " + timer.getColor().toString() + timer.getDisplayName() + "§7 §f" + timer.getRemainingFormatted());
+                }
+            }
         }
 
-        lines.add("                    "); // spacing
+        // STAFF
+        if (user.isPassive() || user.isBypassing()) {
+            lines.add("&3" + CC.SCOREBOARD_STRIKETHROUGH);
+            lines.add(" §bStaff Mode &7" + (user.isInStaffMode() ? "On" : "Off"));
+            lines.add(" §bVanish &7" + (user.isVanished() ? "On" : "Off"));
+            lines.add(" §bBypass &7" + (user.isBypassing() ? "On" : "Off"));
+        }
+
+        lines.add(CC.SCOREBOARD_STRIKETHROUGH);
 
         // LINES
-        lines.add(CC.format("&3&lLobby"));
-        lines.add(CC.format("&bOnline&7: " + instance.getServer().getOnlinePlayers().size() + "/" + instance.getServer().getMaxPlayers()));
-        lines.add(CC.format("&bTotal&7: " + PlaceholderAPI.setPlaceholders(player, "%bungee_total%")));
+        lines.add(" &bLobby &7" + instance.getServer().getOnlinePlayers().size() + " Players");
+        lines.add(" &bNetwork &7" + PlaceholderAPI.setPlaceholders(player, "%bungee_total%") + " Players");
 
         if (queueManager.isInQueue(player.getUniqueId())) {
             Queue queue = queueManager.getQueueFromPlayer(player.getUniqueId());
@@ -95,37 +107,33 @@ public class ScoreboardAdapter implements AssembleAdapter {
                 QueuePlayer queuePlayer = queue.getQueuePlayer(player.getUniqueId());
                 if (queuePlayer != null) {
 
+//                    lines.add("");
                     lines.add("");
-                    lines.add("&3&lQueue");
-                    lines.add("&bServer&7: " + getPausedFullColor(queue) + queue.getName());
-                    lines.add("&bPosition&7: " + queuePlayer.getPosition() + "/" + queue.getSize());
-                    lines.add("&bOnline&7: " + PlaceholderAPI.setPlaceholders(player, "%bungee_" + queue.getName() + "%") + (queue.getLimit() != -1 ? "/" + queue.getLimit() : ""));
+                    lines.add(" &bQueue &7" + getPausedFullColor(queue) + queue.getName());
+                    lines.add(" &bPosition &7" + queuePlayer.getPosition() + "/" + queue.getSize());
+                    lines.add(" &bOnline &7" + PlaceholderAPI.setPlaceholders(player, "%bungee_" + queue.getName() + "%") + (queue.getLimit() != -1 ? "/" + queue.getLimit() : ""));
                 } // tree of death, ik
             }
+        } else {
+            lines.add("");
+            lines.add("&7 Right click the banner");
+            lines.add("&7 to select the server");
+            lines.add("&7 you would like to join.");
         }
         // END LINES
 
-        // TIMERS
-        if (user.hasTimers() || timerHandler.hasGlobalTimers()) {
-            List<Timer> timers = new ArrayList<>(user.getTimers().stream().filter(timer -> !timer.isHidden()).toList());
-            timers.addAll(timerHandler.getGlobalTimers().stream().filter(timer -> !timer.isHidden()).toList());
-            if (!timers.isEmpty()) {
-                lines.add("");
-                // GLOBAL TIMERS
-                // §c§lCombat§8: §700:00:00
-                for (Timer timer : timers) {
-                    lines.add(timer.getColor().toString() + "§l" + timer.getDisplayName() + "§7: §f" + timer.getRemainingFormatted());
-                }
-            }
-        }
-
-        lines.add("");
-        lines.add("§bpixlies.net");
+        lines.add("&3" + CC.SCOREBOARD_STRIKETHROUGH);
+        lines.add("&7&opixlies.net");
 
         return lines;
     }
 
     private static @NotNull String getPausedFullColor(Queue queue) {
-        return (queue.isPaused() ? "&c" : (queue.isOneMoreFull() ? "&e" : ""));
+        return (queue.isPaused() // if
+                    ? "&c" // then
+                : (queue.isOneMoreFull() // else if
+                    ? "&e" // then
+                : "") // else
+        );
     }
 }

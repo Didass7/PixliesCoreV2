@@ -7,6 +7,6 @@ public class CombatTimer extends Timer {
     public static final String ID = "combat";
 
     public CombatTimer(long startTime) {
-        super(ChatColor.DARK_RED, "Combat", startTime, 60000, false); // 1 minute
+        super(ChatColor.DARK_RED, "Combat", startTime, 30000, false); // 30 seconds
     }
 }

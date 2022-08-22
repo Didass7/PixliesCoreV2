@@ -93,7 +93,7 @@ public class Timer { // FIXME: HIDDEN TIMERS, SELF RUN
         Duration duration = new Duration(remaining);
         if (remaining < 60000) { // 1 minute
             String formatted = belowMinuteFormatter.print(duration.toPeriod().normalizedStandard()); // mm:ss.SS
-            return formatted.substring(0, formatted.length() - 2);
+            return formatted.substring(0, formatted.length() - 2) + "s";
         }
         return aboveMinuteFormatter.print(duration.toPeriod().normalizedStandard()); // dd:hh:mm:ss
     }
