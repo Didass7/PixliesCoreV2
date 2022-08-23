@@ -1,5 +1,6 @@
 package net.pixlies.core.localization;
 
+import it.unimi.dsi.fastutil.Hash;
 import lombok.Getter;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.user.User;
@@ -230,22 +231,28 @@ public enum Lang {
     COSMETICS_HAT_ALREADY_HAVE(Lang.PIXLIES, new HashMap<>()),
     COSMETICS_HAT_SET(Lang.PIXLIES, new HashMap<>()),
 
-    // POLLS
-    CREATING_POLL(Lang.POLL, new HashMap<>()),
-    ENTER_POLL_OPTION(Lang.POLL, new HashMap<>()),
-    HOW_TO_CANCEL_POLL(Lang.POLL, new HashMap<>()),
-    POLL_CANCELLED(Lang.POLL, new HashMap<>()),
-    ADDED_POLL_OPTION(Lang.POLL, new HashMap<>()),
-    HOW_TO_END_POLL_CREATION(Lang.POLL, new HashMap<>()),
-    ALREADY_CREATING_POLL(Lang.POLL, new HashMap<>()),
+    // POLLS,
+    POLL_ALREADY_STARTED(Lang.PIXLIES, new HashMap<>()),
+    POLL_ALREADY_CREATING(Lang.PIXLIES, new HashMap<>()),
+    POLL_NOT_EXIST(Lang.PIXLIES, new HashMap<>()),
+    POLL_CREATED(Lang.PIXLIES, new HashMap<>()),
+    POLL_DELETED(Lang.PIXLIES, new HashMap<>()),
+    POLL_ADD_ANSWER(Lang.PIXLIES, new HashMap<>()),
+    POLL_ENDED(Lang.PIXLIES, new HashMap<>()),
+    POLL_NOT_ENOUGH_ANSWERS(Lang.PIXLIES, new HashMap<>()),
 
-    POLL_DOES_NOT_EXIST(Lang.POLL, new HashMap<>()),
-    POLL_VIEW_INFO(Lang.POLL, new HashMap<>()),
-    POLL_LIST_INFO(Lang.POLL, new HashMap<>()),
-    POLL_OPTION_DOES_NOT_EXIST(Lang.POLL, new HashMap<>()),
-    REGISTERED_VOTE(Lang.POLL, new HashMap<>()),
-    POLL_RESULTS_INFO(Lang.POLL, new HashMap<>()),
-    POLL_SHOW_QUESTION(Lang.POLL, new HashMap<>()),
+    POLL_QUESTION_HEADER("", new HashMap<>()),
+    POLL_QUESTION_LINE("", new HashMap<>()),
+    POLL_QUESTION_FOOTER("", new HashMap<>()),
+
+    POLL_OPTION_DOES_NOT_EXIST(Lang.PIXLIES, new HashMap<>()),
+    POLL_REGISTERED_VOTE(Lang.PIXLIES, new HashMap<>()),
+    POLL_ALREADY_VOTED(Lang.PIXLIES, new HashMap<>()),
+
+
+    POLL_RESULT_HEADER("", new HashMap<>()),
+    POLL_RESULT_LINE("", new HashMap<>()),
+    POLL_RESULT_FOOTER("", new HashMap<>()),
 
     // PLAYER
     PLAYER_MESSAGE_FORMAT_TO("", new HashMap<>()),

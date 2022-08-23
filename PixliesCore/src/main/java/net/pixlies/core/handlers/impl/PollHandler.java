@@ -5,17 +5,13 @@
 package net.pixlies.core.handlers.impl;
 
 import lombok.Getter;
-import net.pixlies.core.entity.Poll;
+import lombok.Setter;
+import net.pixlies.core.entity.polls.Poll;
 import net.pixlies.core.handlers.Handler;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import org.jetbrains.annotations.Nullable;
 
 public class PollHandler implements Handler {
 
-    @Getter final Map<String, Poll> polls = new HashMap<>();
-
-    @Getter final Map<UUID, Poll> pollsInCreation = new HashMap<>();
+    private @Getter @Setter @Nullable Poll activePoll;
 
 }

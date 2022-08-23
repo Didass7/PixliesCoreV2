@@ -3,7 +3,6 @@ package net.pixlies.core.listeners;
 import lombok.Getter;
 import net.pixlies.core.Main;
 import net.pixlies.core.listeners.cosmetics.ChatFormattingListener;
-import net.pixlies.core.listeners.cosmetics.PollListener;
 import net.pixlies.core.listeners.cosmetics.SitListener;
 import net.pixlies.core.listeners.moderation.*;
 import net.pixlies.core.listeners.player.*;
@@ -36,7 +35,6 @@ public class ListenerManager {
         add(new StaffModeListener());
         add(new AfkListener());
         add(new SitListener());
-        add(new PollListener());
         add(new BlackListListener());
         add(new FreezeListener());
         add(new StaffChatListener());

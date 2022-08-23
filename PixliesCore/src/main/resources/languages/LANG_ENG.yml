@@ -241,21 +241,35 @@ COSMETICS_HAT_ALREADY_HAVE: "§7You already have something as your hat."
 COSMETICS_HAT_SET: "§7You now have a hat!"
 
 # POLLS
-CREATING_POLL: "§7Creating poll with the question: §6%QUESTION%"
-ENTER_POLL_OPTION: "§7Please enter the §a#%NUMBER%§7 poll option."
-HOW_TO_CANCEL_POLL: "§7You can cancel the poll by typing §ccancel§7."
-POLL_CANCELLED: "§7You §ccancelled§7 this poll."
-ADDED_POLL_OPTION: "§7Added the §a#%NUMBER%§7 poll option: §a%OPTION%§7."
-HOW_TO_END_POLL_CREATION: "§7You can finish up this poll by typing §afinish§7."
-ALREADY_CREATING_POLL: "§cYou are already creating a poll!"
+POLL_ALREADY_STARTED: "The poll has already started."
+POLL_ALREADY_CREATING: "§7You are already creating a poll."
+POLL_NOT_EXIST: "§7There is no active poll right now."
+POLL_CREATED: "§7You have created a poll with the question: §6%QUESTION%"
+POLL_DELETED: "§7The current poll has been deleted."
+POLL_ADD_ANSWER: "§7You have added a poll answer."
+POLL_NOT_ENOUGH_ANSWERS: "§7The poll must have at least 2 answers before starting."
 
-POLL_DOES_NOT_EXIST: "§cThe poll with the id §6%ID%§c does not exist."
-POLL_VIEW_INFO: "§7Here is the information regarding the §6%ID%§7 poll."
-POLL_LIST_INFO: "§7Here are the current polls."
-POLL_OPTION_DOES_NOT_EXIST: "§cThere is no poll option with that number."
-REGISTERED_VOTE: "§7You have §avoted§7 for option §6#%OPTION%§7."
-POLL_RESULTS_INFO: "§7Here are the results of the §6%ID%§7 poll."
-POLL_SHOW_QUESTION: "§7Question: §6%QUESTION%"
+POLL_QUESTION_HEADER: |-
+  §7
+  %PREFIX%§7Question: §6%QUESTION%
+  §7The poll will automatically end in §b30s§7.
+POLL_QUESTION_LINE: " §7 - §f %ANSWER%"
+POLL_QUESTION_FOOTER: |-
+  §7Left click to select an answer.
+  §7
+POLL_OPTION_DOES_NOT_EXIST: "§7There is no poll option with that number."
+POLL_REGISTERED_VOTE: "§7You have voted for option §6#%OPTION%§7."
+POLL_ALREADY_VOTED: "§7You have already voted."
+
+
+POLL_RESULT_HEADER: |-
+  §7
+  %PREFIX%Question: §6%QUESTION%
+  §7Here are the results of the poll:
+POLL_RESULT_LINE: " §7 - §f %ANSWER%§8 (§a%VOTES% votes§8)"
+POLL_RESULT_FOOTER: |-
+  §7Total votes: §d%TOTAL%
+  §7
 
 # PLAYER
 PLAYER_MESSAGE_FORMAT_TO: "§8(§7To §6%PLAYER%§8) §f%MESSAGE%"
