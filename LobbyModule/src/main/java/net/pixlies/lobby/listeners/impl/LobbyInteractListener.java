@@ -109,7 +109,7 @@ public class LobbyInteractListener implements Listener {
                 hook.addPassenger(player);
                 grappleManager.delay(player.getUniqueId());
             }
-            case BITE, CAUGHT_ENTITY -> event.setCancelled(true);
+            case BITE -> event.setCancelled(true);
         }
     }
 
@@ -182,6 +182,13 @@ public class LobbyInteractListener implements Listener {
 
     @EventHandler
     public void onEntityTarget(EntityTargetEvent event) {
+        if (!(event.getEntity() instanceof Player player)) return;
+        if (lobbyManager.isInBuildMode(player.getUniqueId())) return;
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onItemPickup(EntityPickupItemEvent event) {
         if (!(event.getEntity() instanceof Player player)) return;
         if (lobbyManager.isInBuildMode(player.getUniqueId())) return;
         event.setCancelled(true);
