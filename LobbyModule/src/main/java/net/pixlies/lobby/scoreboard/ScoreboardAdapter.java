@@ -78,7 +78,7 @@ public class ScoreboardAdapter implements AssembleAdapter {
             List<Timer> timers = new ArrayList<>(user.getTimers().stream().filter(timer -> !timer.isHidden()).toList());
             timers.addAll(timerHandler.getGlobalTimers().stream().filter(timer -> !timer.isHidden()).toList());
             if (!timers.isEmpty()) {
-                lines.add("&3" + CC.SCOREBOARD_STRIKETHROUGH);
+                lines.add("");
                 // GLOBAL TIMERS
                 // §c§lCombat§8: §700:00:00
                 for (Timer timer : timers) {
@@ -89,13 +89,13 @@ public class ScoreboardAdapter implements AssembleAdapter {
 
         // STAFF
         if (user.isPassive() || user.isBypassing()) {
-            lines.add("&3" + CC.SCOREBOARD_STRIKETHROUGH);
+            lines.add("");
             lines.add(" §bStaff Mode &7" + (user.isInStaffMode() ? "On" : "Off"));
             lines.add(" §bVanish &7" + (user.isVanished() ? "On" : "Off"));
             lines.add(" §bBypass &7" + (user.isBypassing() ? "On" : "Off"));
         }
 
-        lines.add(CC.SCOREBOARD_STRIKETHROUGH);
+        lines.add("");
 
         // LINES
         lines.add(" &bLobby &7" + instance.getServer().getOnlinePlayers().size() + " Players");
@@ -107,7 +107,6 @@ public class ScoreboardAdapter implements AssembleAdapter {
                 QueuePlayer queuePlayer = queue.getQueuePlayer(player.getUniqueId());
                 if (queuePlayer != null) {
 
-//                    lines.add("");
                     lines.add("");
                     lines.add(" &bQueue &7" + getPausedFullColor(queue) + queue.getName());
                     lines.add(" &bPosition &7" + queuePlayer.getPosition() + "/" + queue.getSize());
@@ -122,7 +121,7 @@ public class ScoreboardAdapter implements AssembleAdapter {
         }
         // END LINES
 
-        lines.add("&3" + CC.SCOREBOARD_STRIKETHROUGH);
+        lines.add("");
         lines.add("&7&opixlies.net");
 
         return lines;
