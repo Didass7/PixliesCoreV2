@@ -76,15 +76,17 @@ public class RedisManager {
     }
 
     public void request(String channel, JsonObject jsonObject) {
-        try (Jedis jedis = jedisPool.getResource()) {
-            if (isAuthenticated()) {
-                jedis.auth(password);
-            }
+        instance.getServer().getScheduler().runTaskAsynchronously(instance, () -> {
+            try (Jedis jedis = jedisPool.getResource()) {
+                if (isAuthenticated()) {
+                    jedis.auth(password);
+                }
 
-            jedis.publish(channel, jsonObject.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                jedis.publish(channel, jsonObject.toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public boolean isConnected() {

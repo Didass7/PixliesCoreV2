@@ -16,6 +16,8 @@ import net.pixlies.core.localization.Lang;
 import net.pixlies.core.packets.PacketAdapterManager;
 import net.pixlies.core.runnables.RunnableManager;
 import net.pixlies.core.runnables.RunnableRegisterManager;
+import net.pixlies.core.servers.ServerData;
+import net.pixlies.core.servers.ServerDataManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -28,6 +30,7 @@ public class Main extends JavaPlugin {
 
     @Getter private MongoManager database;
     @Getter private RedisManager redisManager;
+    @Getter private ServerDataManager serverDataManager;
     @Getter private HandlerManager handlerManager;
     @Getter private PixliesCommandManager commandManager;
     @Getter private RunnableManager runnableManager;
@@ -87,6 +90,7 @@ public class Main extends JavaPlugin {
         // DATABASE
         database = new MongoManager().init();
         redisManager = new RedisManager().init();
+        serverDataManager = new ServerDataManager();
 
         // PIXLIES CALENDAR
         String[] date = calendarConfig.getString("date", "0/0/0").split("/");
@@ -117,7 +121,11 @@ public class Main extends JavaPlugin {
     }
 
     public String getServerName() {
-        return config.getString("server.name", "");
+        return serverDataManager.getServerName();
+    }
+
+    public String getDisplayName() {
+        return serverDataManager.getDisplayName();
     }
 
 }

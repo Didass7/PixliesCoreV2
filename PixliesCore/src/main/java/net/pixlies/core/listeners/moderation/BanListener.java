@@ -43,7 +43,7 @@ public class BanListener implements Listener {
 
         RedisManager.sendRequest("BanSpy", new JsonBuilder()
                 .addProperty("playerName", event.getPlayer().getName())
-                .addProperty("serverName", Main.getInstance().getServerName())
+                .addProperty("serverName", Main.getInstance().getDisplayName())
                 .toJsonObject());
     }
 

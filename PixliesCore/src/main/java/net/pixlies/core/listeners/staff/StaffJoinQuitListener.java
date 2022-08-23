@@ -49,7 +49,7 @@ public class StaffJoinQuitListener implements Listener {
 
         instance.getServer().getScheduler().runTaskLater(instance, () -> RedisManager.sendRequest("StaffServerJoin", new JsonBuilder()
                 .addProperty("playerName", player.getName())
-                .addProperty("serverName", instance.getServerName())
+                .addProperty("serverName", instance.getDisplayName())
                 .toJsonObject()), 20);
 
     }
@@ -62,7 +62,7 @@ public class StaffJoinQuitListener implements Listener {
 
         instance.getServer().getScheduler().runTaskLater(instance, () -> RedisManager.sendRequest("StaffServerQuit", new JsonBuilder()
                 .addProperty("playerName", player.getName())
-                .addProperty("serverName", instance.getServerName())
+                .addProperty("serverName", instance.getDisplayName())
                 .toJsonObject()), 15);
 
     }

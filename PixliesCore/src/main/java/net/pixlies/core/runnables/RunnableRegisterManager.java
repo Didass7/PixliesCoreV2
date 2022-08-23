@@ -3,13 +3,15 @@ package net.pixlies.core.runnables;
 import com.google.common.collect.ImmutableList;
 import net.pixlies.core.Main;
 import net.pixlies.core.runnables.impl.ActionBarRunnable;
+import net.pixlies.core.servers.ServerDataRunnable;
 import net.pixlies.core.runnables.impl.TabListRunnable;
 
 public class RunnableRegisterManager {
 
     private final ImmutableList<PixliesRunnable> runnables = ImmutableList.of(
             new ActionBarRunnable(),
-            new TabListRunnable()
+            new TabListRunnable(),
+            new ServerDataRunnable()
     );
 
     public void runAll() {

@@ -9,6 +9,7 @@ import net.pixlies.core.listeners.player.*;
 import net.pixlies.core.listeners.staff.StaffChatListener;
 import net.pixlies.core.listeners.staff.StaffJoinQuitListener;
 import net.pixlies.core.listeners.user.UserListener;
+import net.pixlies.core.servers.ServerDataListener;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 
@@ -44,6 +45,7 @@ public class ListenerManager {
         add(new SpeedListener());
         add(new CombatListener());
         add(new TabListListener());
+        add(new ServerDataListener());
     }};
 
     public static void registerAllListeners() {
