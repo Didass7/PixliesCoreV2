@@ -718,14 +718,6 @@ public class User {
         }.runTaskTimer(Main.getInstance(), 1, 1);
     }
 
-    public String getPrefix() {
-        return PlaceholderAPI.setPlaceholders(getAsOfflinePlayer(), "%luckperms_prefix%");
-    }
-
-    public String getSuffix() {
-        return PlaceholderAPI.setPlaceholders(getAsOfflinePlayer(), "%luckperms_suffix%");
-    }
-
     // STATICS - it's not static abuse if you use it properly.
 
     /**

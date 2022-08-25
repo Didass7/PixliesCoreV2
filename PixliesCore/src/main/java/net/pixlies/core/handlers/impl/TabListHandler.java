@@ -124,7 +124,7 @@ public class TabListHandler implements Handler {
 
     public String getTabListPrefix(Player player, boolean isStaff) {
         User user = User.get(player.getUniqueId());
-        String prefix = user.getPrefix();
+        String prefix = PlaceholderAPI.setPlaceholders(player, "%luckperms_prefix%");
         if (isStaff) {
             if (user.isInStaffMode()) {
                 prefix = "&7&lSTAFF ";
@@ -137,7 +137,7 @@ public class TabListHandler implements Handler {
 
     public String getTabListSuffix(Player player, boolean isStaff) {
         User user = User.get(player.getUniqueId());
-        return user.getSuffix();
+        return PlaceholderAPI.setPlaceholders(player, "%luckperms_suffix%");
     }
 
 }
