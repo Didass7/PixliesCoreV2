@@ -49,7 +49,7 @@ public class Util {
                     .getMethod("d", double.class, double.class, double.class)
                     .invoke(null, finalSign.getX(), finalSign.getY(), finalSign.getZ());
 
-            PacketPlayOutOpenSignEditor packet = new PacketPlayOutOpenSignEditor((BlockPosition) position);
+            // PacketPlayOutOpenSignEditor packet = new PacketPlayOutOpenSignEditor((BlockPosition) position);
 
             connection.getClass().getDeclaredMethod("a", getNMSClass("Packet")).invoke(connection, packet);
         } catch (Exception e) {
