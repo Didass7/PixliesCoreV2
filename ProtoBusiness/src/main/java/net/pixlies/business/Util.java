@@ -1,8 +1,6 @@
 package net.pixlies.business;
 
 import net.kyori.adventure.text.Component;
-import net.minecraft.core.BlockPosition;
-import net.minecraft.network.protocol.game.PacketPlayOutOpenSignEditor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
