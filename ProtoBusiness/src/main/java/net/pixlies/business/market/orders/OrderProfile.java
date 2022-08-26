@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.pixlies.business.ProtoBusiness;
+import net.pixlies.business.Util;
 import net.pixlies.business.commands.impl.MarketCommand;
 import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.business.locale.MarketLang;
@@ -20,6 +21,7 @@ import net.pixlies.nations.interfaces.NationProfile;
 import net.pixlies.nations.nations.Nation;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -27,6 +29,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -310,16 +313,27 @@ public class OrderProfile {
                 player.closeInventory();
 
                 signStage = (byte) 1;
-
                 tempOrder = new Order(i.getType(), book.getBookId(), System.currentTimeMillis(), uuid, 0, 0);
                 tempTitle = item.getName();
 
-                player.getWorld().getBlockAt(player.getLocation()).setType(Material.BIRCH_WALL_SIGN);
-                Sign sign = (Sign) player.getWorld().getBlockAt(player.getLocation()).getState();
+                List<String> lines = new ArrayList<>();
+                lines.add("");
+                lines.add("^^ -------- ^^");
+                lines.add("Set an amount");
+                lines.add("(integer)");
+
+                Util.openSign(player, lines);
+
+                 /*
+                Block block = player.getWorld().getBlockAt(player.getEyeLocation());
+                block.setType(Material.BIRCH_WALL_SIGN);
+                Sign sign = (Sign) block.getState();
                 sign.line(1, Component.text("^^ -------- ^^"));
                 sign.line(2, Component.text("Set an amount"));
                 sign.line(3, Component.text("(integer)"));
-                sign.update();
+                sign.update(true);
+                player.openSign(sign);
+                 */
             });
             transactionsPane.addItem(guiItem, i.getX(), i.getY());
         }
@@ -380,16 +394,22 @@ public class OrderProfile {
 
         GuiItem customPrice = new GuiItem(MarketItems.getCustomPriceButton());
         customPrice.setAction(event -> {
+            player.closeInventory();
+
+            signStage = (byte) 2;
             tempOrder = new Order(type, book.getBookId(), System.currentTimeMillis(), player.getUniqueId(), 0.0, amount);
             tempTitle = finalPageTitle;
-            signStage = (byte) 2;
 
-            player.getWorld().getBlockAt(player.getLocation()).setType(Material.BIRCH_WALL_SIGN);
-            Sign sign = (Sign) player.getWorld().getBlockAt(player.getLocation()).getState();
+            Block block = player.getWorld().getBlockAt(player.getEyeLocation());
+            block.setType(Material.BIRCH_WALL_SIGN);
+            Sign sign = (Sign) block.getState();
             sign.line(1, Component.text("^^ -------- ^^"));
             sign.line(2, Component.text("Set a custom"));
             sign.line(3, Component.text("price"));
-            sign.update();
+            sign.update(true);
+            player.openSign(sign);
+
+            // SignGUI.open(player, sign);
         });
 
         if (emptyBuyCondition || emptySellCondition) {
