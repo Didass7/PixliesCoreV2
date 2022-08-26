@@ -3,7 +3,6 @@ package net.pixlies.business.listeners.impl;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.business.market.orders.OrderProfile;
-import net.pixlies.core.entity.user.User;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
