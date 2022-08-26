@@ -14,6 +14,7 @@ import java.util.Objects;
 public class Util {
 
     public static void openSign(Player player, List<String> lines) {
+        /*
         Sign sign = null;
         for (int y = 255; y > 0; y--) {
             Location loc = new Location(player.getWorld(), player.getLocation().getX(), y, player.getLocation().getZ());
@@ -53,6 +54,8 @@ public class Util {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
+         */
     }
 
     public static Class<?> getNMSClass(String clazz) {
