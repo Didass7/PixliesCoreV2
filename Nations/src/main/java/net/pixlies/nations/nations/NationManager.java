@@ -39,8 +39,13 @@ public class NationManager {
 
         // Load nations from database
         for (Document document : instance.getMongoManager().getNationsCollection().find()) {
-            Nation nation = Nation.getNewNationFromDocument(document);
-            nations.put(nation.getNationId(), nation);
+            try {
+                Nation nation = Nation.getNewNationFromDocument(document);
+                nations.put(nation.getNationId(), nation);
+            } catch (Exception e) {
+                e.printStackTrace();
+                instance.getLogger().warning("Failed to load a nation.");
+            }
         }
 
         Nation warzone = Nation.getFromId("warzone");

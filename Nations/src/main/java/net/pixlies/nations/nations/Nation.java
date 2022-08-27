@@ -450,12 +450,14 @@ public class Nation {
     }
 
     public void delete() {
-        if (instance.getMongoManager().getNationsCollection().find(Filters.eq("nationId", nationId)).first() == null) {
-            instance.getNationManager().getNations().remove(nationId);
-            return;
-        }
-        instance.getMongoManager().getNationsCollection().deleteOne(Filters.eq("nationId", nationId));
         instance.getNationManager().getNations().remove(nationId);
+        instance.getServer().getScheduler().runTaskAsynchronously(instance, () -> {
+            if (instance.getMongoManager().getNationsCollection().find(Filters.eq("nationId", nationId)).first() == null) {
+                return;
+            }
+            instance.getMongoManager().getNationsCollection().deleteOne(Filters.eq("nationId", nationId));
+            // FIXME: it doesnt want to delete, why????
+        });
     }
 
     // -------------------------------------------------------------------------------------------------
