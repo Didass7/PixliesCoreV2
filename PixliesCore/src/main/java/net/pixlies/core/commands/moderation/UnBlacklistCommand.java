@@ -5,6 +5,7 @@ import co.aikar.commands.annotation.*;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.localization.Lang;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
@@ -23,14 +24,14 @@ public class UnBlacklistCommand extends BaseCommand {
     public void onUnBlacklist(CommandSender sender, OfflinePlayer target, @Optional String s) {
 
         boolean silent = s != null && s.contains("-s");
-        User user = User.get(target.getUniqueId());
-
-        if (!user.isBlacklisted()) {
-            Lang.PLAYER_NOT_BLACKLISTED.send(sender);
-            return;
-        }
-
-        user.unblacklist(sender, silent);
+        Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
+            User user = User.getLoadDoNotCache(target.getUniqueId());
+            if (!user.isBlacklisted()) {
+                Lang.PLAYER_NOT_BLACKLISTED.send(sender);
+                return;
+            }
+            user.unblacklist(sender, silent);
+        });
 
     }
 

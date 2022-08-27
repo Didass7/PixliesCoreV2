@@ -48,7 +48,7 @@ public final class LobbyUtils {
         //noinspection deprecation
         player.sendTitle(JOIN_TITLE, JOIN_SUBTITLE);
 
-        if (user.isInStaffMode()) {
+        if (user.isInStaffMode() && player.hasPermission("pixlies.moderation.staffmode")) {
             if (!firstJoin) {
                 Main.getInstance().getHandlerManager().getHandler(StaffModeHandler.class).enableWithoutUpdate(player, user);
             }

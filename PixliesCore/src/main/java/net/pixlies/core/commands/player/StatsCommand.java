@@ -26,9 +26,7 @@ public class StatsCommand extends BaseCommand {
 
         Lang.PLAYER_STATS.send(sender, "%PLAYER%;" + player.getName(),
                 "%HOUSE%;" + requested.getHouse().getIcon(),
-                "%BALANCE%;" + requested.getServerCurrency().getFormattedBalance(),
-                "%SCORE%;" + scoreColor + requested.getCivilPoints(),
-                "%JOINED%;" + requested.getDateJoined());
+                "%SCORE%;" + scoreColor + requested.getCivilPoints());
     }
 
 }

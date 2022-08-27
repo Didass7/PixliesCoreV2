@@ -126,7 +126,7 @@ public class TabListHandler implements Handler {
         User user = User.get(player.getUniqueId());
         String prefix = PlaceholderAPI.setPlaceholders(player, "%luckperms_prefix%");
         if (isStaff) {
-            if (user.isInStaffMode()) {
+            if (user.isInStaffMode() && player.hasPermission("pixlies.moderation.staffmode")) {
                 prefix = "&7&lSTAFF ";
             } else if (user.isVanished()) {
                 prefix = "&7&lVANISH ";

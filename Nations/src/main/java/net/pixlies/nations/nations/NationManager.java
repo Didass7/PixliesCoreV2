@@ -3,6 +3,7 @@ package net.pixlies.nations.nations;
 import lombok.Getter;
 import net.pixlies.nations.Nations;
 import net.pixlies.nations.utils.NationUtils;
+import org.bson.Document;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
@@ -27,6 +28,7 @@ public class NationManager {
 
     /**
      * Refreshes all nations saved in memory with new data.
+     * Not async
      */
     public void refreshNations() {
 
@@ -36,30 +38,29 @@ public class NationManager {
         }
 
         // Load nations from database
-        for (Nation nation : instance.getMongoManager().getDatastore().find(Nation.class).iterator().toList()) {
-            if (nation.getNationId() != null) {
-                nations.put(nation.getNationId(), Nation.getNullCheckedNation(nation));
-            }
+        for (Document document : instance.getMongoManager().getNationsCollection().find()) {
+            Nation nation = Nation.getNewNationFromDocument(document);
+            nations.put(nation.getNationId(), nation);
         }
 
         Nation warzone = Nation.getFromId("warzone");
         if (warzone == null) {
             warzone = Nation.createSystemNation("warzone"); // TODO: COLOR, DESC
-            warzone.save();
+            warzone.cache();
             warzone.backup();
         }
 
         Nation spawn = Nation.getFromId("spawn");
         if (spawn == null) {
             spawn = Nation.createSystemNation("spawn"); // TODO: COLOR, DESC
-            spawn.save();
+            warzone.cache();
             spawn.backup();
         }
 
         Nation warp = Nation.getFromId("warp");
         if (warp == null) {
             warp = Nation.createSystemNation("warp"); // TODO: COLOR, DESC
-            warp.save();
+            warzone.cache();
             warp.backup();
         }
 

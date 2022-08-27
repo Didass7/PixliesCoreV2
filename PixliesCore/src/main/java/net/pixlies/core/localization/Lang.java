@@ -1,6 +1,5 @@
 package net.pixlies.core.localization;
 
-import it.unimi.dsi.fastutil.Hash;
 import lombok.Getter;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.user.User;
@@ -33,6 +32,9 @@ public enum Lang {
     PLAYER_UNBLACKLISTED(Lang.PIXLIES, new HashMap<>()),
 
     PLAYER_KICKED(Lang.PIXLIES, new HashMap<>()),
+
+    PLAYER_PROFILE_LOAD(Lang.PIXLIES, new HashMap<>()),
+    PLAYER_PROFILE_CREATED(Lang.PIXLIES, new HashMap<>()),
 
     PLAYER_PERMANENTLY_MUTED(Lang.PIXLIES, new HashMap<>()),
     PLAYER_UNMUTED(Lang.PIXLIES, new HashMap<>()),

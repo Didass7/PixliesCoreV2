@@ -79,7 +79,7 @@ public class LobbyInteractListener implements Listener {
         if (item == null) return;
         if (item.getType() == Material.AIR) return;
 
-        if (user.isInStaffMode()) {
+        if (user.isInStaffMode() && player.hasPermission("pixlies.moderation.staffmode")) {
             return;
         }
 
@@ -214,7 +214,7 @@ public class LobbyInteractListener implements Listener {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
 
-        if (user.isInStaffMode()) {
+        if (user.isInStaffMode() && player.hasPermission("pixlies.moderation.staffmode")) {
             return;
         }
 

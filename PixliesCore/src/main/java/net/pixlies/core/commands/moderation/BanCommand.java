@@ -4,6 +4,7 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.user.User;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
@@ -25,8 +26,12 @@ public class BanCommand extends BaseCommand {
                 silent = true;
         }
 
-        User user = User.get(target.getUniqueId());
-        user.ban(banReason, sender, silent);
+        final String finalBanReason = banReason;
+        final boolean finalSilent = silent;
+        Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
+            User user = User.getLoadDoNotCache(target.getUniqueId());
+            user.ban(finalBanReason, sender, finalSilent);
+        });
 
     }
 

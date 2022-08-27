@@ -1,17 +1,17 @@
 package net.pixlies.nations.nations.chunk;
 
-import dev.morphia.annotations.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.pixlies.nations.Nations;
 import net.pixlies.nations.interfaces.NationProfile;
 import net.pixlies.nations.nations.Nation;
+import org.bson.Document;
 import org.bukkit.Chunk;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.List;
 
 /**
  * Efficient nation chunk system
@@ -19,7 +19,6 @@ import java.util.*;
  * @author MickMMars
  * @author Dynmie
  */
-@Entity
 @Data
 @AllArgsConstructor
 @EqualsAndHashCode
@@ -33,11 +32,36 @@ public class NationChunk {
     private NationChunkType type;
     private List<String> accessors; // UUID of accessors
 
+    public NationChunk(Document document) {
+        this.nationId = document.getString("nationId");
+        this.world = document.getString("world");
+        this.x = document.getInteger("x");
+        this.z = document.getInteger("z");
+        try {
+            this.type = NationChunkType.valueOf(document.getString("type"));
+        } catch (IllegalArgumentException e) {
+            this.type = NationChunkType.NORMAL;
+        }
+        this.accessors = document.getList("accessors", String.class);
+    }
+
+    public Document toDocument() {
+        Document document = new Document();
+
+        document.put("nationId", nationId);
+        document.put("world", world);
+        document.put("x", x);
+        document.put("z", z);
+        document.put("type", type.name());
+        document.put("accessors", accessors);
+
+        return document;
+    }
+
     /**
      * Claims a chunk
      * Backup will not be called.
      * @see Nation#save()
-     * @see Nation#backup()
      * @param log Logs the claim.
      */
     public void claim(boolean log) {
@@ -45,29 +69,23 @@ public class NationChunk {
         if (nation == null)
             return;
 
-        nation.getClaims().remove(this);
-        nation.getClaims().add(this);
-        nation.save();
-
-        if (log)
+        if (log) {
             instance.getLogger().info("§b" + type.name() + "-Chunk claimed at §e" + x + "§8, §e " + z + "§bfor §e" + nation.getName());
+        }
+
     }
 
     /**
      * Unclaim this chunk.
      * Backup will not be called.
      * @see Nation#save()
-     * @see Nation#backup()
      **/
     public void unclaim() {
         Nation nation = Nation.getFromId(nationId);
         if (nation == null)
             return;
 
-        if (nation.getClaims().contains(this)) {
-            nation.getClaims().remove(this);
-            nation.save();
-        }
+        nation.getClaims().remove(this);
     }
 
     public @Nullable Nation getNation() {
@@ -89,7 +107,6 @@ public class NationChunk {
         accessors.add(profile.getUuid());
 
         claim(false);
-        nation.backup();
     }
 
     /**
@@ -105,7 +122,6 @@ public class NationChunk {
         accessors.remove(profile.getUuid());
 
         claim(false);
-        nation.backup();
     }
 
     /**

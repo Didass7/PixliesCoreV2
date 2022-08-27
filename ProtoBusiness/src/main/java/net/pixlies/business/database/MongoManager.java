@@ -1,11 +1,11 @@
 package net.pixlies.business.database;
 
-import dev.morphia.Datastore;
+import com.mongodb.client.MongoCollection;
 import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
-import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.core.Main;
 import net.pixlies.core.modules.configuration.ModuleConfig;
+import org.bson.Document;
 
 @Getter
 public class MongoManager {
@@ -14,13 +14,12 @@ public class MongoManager {
     private static final Main pixlies = Main.getInstance();
 
     private final ModuleConfig config = instance.getConfig();
-    private Datastore datastore;
+    private MongoCollection<Document> orderBookCollection;
+    private MongoCollection<Document> tariffCollection;
 
     public void init() {
-        pixlies.getDatabase().getDatastore().getMapper().map(OrderBook.class);
-
-        datastore = pixlies.getDatabase().getDatastore();
-        datastore.ensureIndexes();
+        orderBookCollection = pixlies.getMongoManager().getDatabase().getCollection("orderbooks");
+        tariffCollection = pixlies.getMongoManager().getDatabase().getCollection("tariffCollection");
     }
 
 }

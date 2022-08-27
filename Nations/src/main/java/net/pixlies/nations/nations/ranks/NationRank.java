@@ -1,73 +1,84 @@
 package net.pixlies.nations.nations.ranks;
 
-import dev.morphia.annotations.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.bson.Document;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
-@Entity
 public class NationRank {
 
     private String name;
     private String prefix;
     private int priority;
-    private List<String> permissions;
+    private List<NationPermission> permissions;
 
-/*    @SuppressWarnings("unchecked")
-    public static NationRank get(Map<String, Object> map) {
-        return new NationRank((String) map.get("name"),
-                (String) map.get("prefix"),
-                (Short) map.get("priority"),
-                (List<String>) map.get("permissions"));
-    }*/
+    public NationRank(Document document) {
+        this.name = document.getString("name");
+        this.prefix = document.getString("prefix");
+        this.priority = document.getInteger("priority");
+        this.permissions = new ArrayList<>() {{
+            for (String perm : document.getList("permissions", String.class)) {
+                try {
+                    add(NationPermission.valueOf(perm));
+                } catch (IllegalArgumentException ignored) {
+                    // old permissions
+                }
+            }
+        }};
+    }
 
-/*    public Map<String, Object> toMap() {
-        Map<String, Object> returner = new HashMap<>();
-        returner.put("name", name);
-        returner.put("prefix", prefix);
-        returner.put("priority", priority);
-        returner.put("permissions", permissions);
-        return returner;
-    }*/
+    public Document toDocument() {
+        Document document = new Document();
+
+        document.put("name", name);
+        document.put("prefix", prefix);
+        document.put("priority", priority);
+        document.put("permissions", permissions);
+
+        return document;
+    }
+
+    // STATICS
 
     // Newbie has no permissions
     public static NationRank getNewbieRank() {
-        List<String> perms = new ArrayList<>();
+        List<NationPermission> perms = new ArrayList<>();
         return new NationRank("newbie", "§a*", 1, perms);
     }
 
     // Member has a few basic permissions
     public static NationRank getMemberRank() {
-        List<String> perms = new ArrayList<>();
-        perms.add(NationPermission.INVITE.name());
-        perms.add(NationPermission.BUILD.name());
-        perms.add(NationPermission.INTERACT.name());
-        perms.add(NationPermission.BANK_DEPOSIT.name());
+        List<NationPermission> perms = new ArrayList<>();
+        perms.add(NationPermission.INVITE);
+        perms.add(NationPermission.BUILD);
+        perms.add(NationPermission.INTERACT);
+        perms.add(NationPermission.BANK_DEPOSIT);
         return new NationRank("member", "§b**", 32, perms);
     }
 
     // Admin has quite a few perms
     public static NationRank getAdminRank() {
-        List<String> perms = new ArrayList<>(getMemberRank().permissions);
-        perms.add(NationPermission.INVITE.name());
-        perms.add(NationPermission.KICK.name());
-        perms.add(NationPermission.MANAGE_SETTLEMENTS.name());
-        perms.add(NationPermission.CLAIM.name());
-        perms.add(NationPermission.UNCLAIM.name());
-        perms.add(NationPermission.EDIT_RANKS.name());
-        perms.add(NationPermission.BANK_WITHDRAW.name());
-        perms.add(NationPermission.PURCHASE_UPGRADES.name());
-        perms.add(NationPermission.FOREIGN_PERMS.name());
+        List<NationPermission> perms = new ArrayList<>(getMemberRank().permissions);
+        perms.add(NationPermission.INVITE);
+        perms.add(NationPermission.KICK);
+        perms.add(NationPermission.MANAGE_SETTLEMENTS);
+        perms.add(NationPermission.CLAIM);
+        perms.add(NationPermission.UNCLAIM);
+        perms.add(NationPermission.EDIT_RANKS);
+        perms.add(NationPermission.BANK_WITHDRAW);
+        perms.add(NationPermission.PURCHASE_UPGRADES);
+        perms.add(NationPermission.FOREIGN_PERMS);
         return new NationRank("admin", "§c***", 64, perms);
     }
 
     // Leader has all them perms
     public static NationRank getLeaderRank() {
-        List<String> perms = new ArrayList<>();
-        Arrays.stream(NationPermission.values()).forEach(perm -> perms.add(perm.name()));
+        List<NationPermission> perms = new ArrayList<>(Arrays.asList(NationPermission.values()));
         return new NationRank("leader", "§6★", 127, perms);
     }
 

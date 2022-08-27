@@ -72,7 +72,7 @@ public class VanishHandler implements Handler {
         }
 
         // IF STAFF MODE IS NOT ENABLED, DISABLE PASSIVE
-        if (!user.isInStaffMode()) {
+        if (!user.isInStaffMode() && player.hasPermission("pixlies.moderation.staffmode")) {
             handler.setPassive(player, false);
         }
 
@@ -99,7 +99,7 @@ public class VanishHandler implements Handler {
 
     public Collection<Player> getVanishedPlayers() {
         List<Player> players = new ArrayList<>();
-        instance.getDatabase().getUserCache().forEach((uuid, user) -> {
+        instance.getMongoManager().getUserCache().forEach((uuid, user) -> {
             Player player = instance.getServer().getPlayer(uuid);
             if (player == null) return;
             if (!user.isVanished()) return;

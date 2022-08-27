@@ -2,7 +2,7 @@ package net.pixlies.core.scoreboard;
 
 public enum ScoreboardType {
 
-    STANDARD,
+    ENABLED,
     DISABLED
 
 }

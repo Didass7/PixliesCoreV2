@@ -29,7 +29,7 @@ public class NickNameCommand extends BaseCommand {
 
             Player target = Bukkit.getPlayer(second);
             if (target == null) {
-                throw new InvalidCommandArgument(MessageKeys.COULD_NOT_FIND_PLAYER, "{search}", first);
+                throw new InvalidCommandArgument(MessageKeys.COULD_NOT_FIND_PLAYER, "{search}", second);
             }
             User targetUser = User.get(target.getUniqueId());
 

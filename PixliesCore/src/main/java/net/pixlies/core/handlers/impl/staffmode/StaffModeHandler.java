@@ -35,7 +35,7 @@ public class StaffModeHandler implements Handler {
         EventUtils.call(event);
         if (event.isCancelled()) return;
 
-        if (user.isInStaffMode()) return;
+        if (user.isInStaffMode() && player.hasPermission("pixlies.moderation.staffmode")) return;
         enableWithoutUpdate(player, user);
         user.setInStaffMode(true);
         user.save();
@@ -48,7 +48,7 @@ public class StaffModeHandler implements Handler {
         EventUtils.call(event);
         if (event.isCancelled()) return;
 
-        if (!user.isInStaffMode()) return;
+        if (!user.isInStaffMode() && player.hasPermission("pixlies.moderation.staffmode")) return;
         disableWithoutUpdate(player, user);
         user.setInStaffMode(false);
         user.save();

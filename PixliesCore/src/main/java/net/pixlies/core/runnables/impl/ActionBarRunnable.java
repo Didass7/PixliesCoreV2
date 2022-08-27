@@ -29,12 +29,12 @@ public class ActionBarRunnable extends PixliesRunnable {
                 return;
             }
             if (user.isVanished()) {
-                if (user.isInStaffMode()) return;
+                if (user.isInStaffMode() && player.hasPermission("pixlies.moderation.staffmode")) return;
                 player.sendActionBar(Component.text(Lang.MODERATION_VANISH_NO_ONE_CAN_SEE.get(player)));
                 return;
             }
             if (user.isBypassing()) {
-                if (user.isInStaffMode()) return;
+                if (user.isInStaffMode() && player.hasPermission("pixlies.moderation.staffmode")) return;
                 player.sendActionBar(Component.text(Lang.STAFF_BYPASS_ACTIONBAR.get(player)));
             }
         });

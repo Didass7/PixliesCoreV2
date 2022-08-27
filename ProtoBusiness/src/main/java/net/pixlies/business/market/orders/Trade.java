@@ -1,8 +1,8 @@
 package net.pixlies.business.market.orders;
 
-import dev.morphia.annotations.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.bson.Document;
 import org.bukkit.Bukkit;
 
 import java.util.Objects;
@@ -16,13 +16,9 @@ import java.util.UUID;
  */
 @Getter
 @AllArgsConstructor
-@Entity("trades")
-@Indexes(
-        @Index(fields = { @Field("timestamp") })
-)
 public class Trade {
 
-    @Id private long timestamp;
+    private long timestamp;
     private double price;
     private int amount;
 
@@ -32,6 +28,34 @@ public class Trade {
     private UUID seller; // for buy orders
 
     private boolean claimed;
+
+    public Trade(Document document) {
+        this(
+                document.getLong("timestamp"),
+                document.getDouble("price"),
+                document.getInteger("amount"),
+                UUID.fromString(document.getString("provider")),
+                UUID.fromString(document.getString("taker")),
+                UUID.fromString(document.getString("buyer")),
+                UUID.fromString(document.getString("seller")),
+                document.getBoolean("claimed")
+        );
+    }
+
+    public Document toDocument() {
+        Document document = new Document();
+
+        document.put("timestamp", timestamp);
+        document.put("price", price);
+        document.put("amount", amount);
+        document.put("provider", provider.toString());
+        document.put("taker", taker.toString());
+        document.put("buyer", buyer.toString());
+        document.put("seller", seller.toString());
+        document.put("claimed", claimed);
+
+        return document;
+    }
 
     public void claim() {
         claimed = true;

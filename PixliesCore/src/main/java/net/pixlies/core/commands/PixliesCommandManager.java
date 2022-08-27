@@ -3,6 +3,7 @@ package net.pixlies.core.commands;
 import co.aikar.commands.*;
 import lombok.Getter;
 import net.pixlies.core.Main;
+import net.pixlies.core.commands.admin.UserCommand;
 import net.pixlies.core.commands.cosmetics.*;
 import net.pixlies.core.commands.moderation.*;
 import net.pixlies.core.commands.player.*;
@@ -45,7 +46,7 @@ public class PixliesCommandManager {
     }
 
     private void registerAllCommands() {
-
+register(new UserCommand(), false);
         // MODERATION
         register(new BanCommand(), false);
         register(new TempBanCommand(), false);

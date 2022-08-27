@@ -1,14 +1,7 @@
 package net.pixlies.core.entity.user;
 
-import com.google.gson.Gson;
-import com.mongodb.lang.Nullable;
-import dev.morphia.annotations.*;
-import dev.morphia.query.experimental.filters.Filters;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import me.clip.placeholderapi.PlaceholderAPI;
+import com.mongodb.client.model.Filters;
+import lombok.*;
 import net.kyori.adventure.text.Component;
 import net.pixlies.core.Main;
 import net.pixlies.core.economy.Wallet;
@@ -21,7 +14,7 @@ import net.pixlies.core.localization.Lang;
 import net.pixlies.core.moderation.Punishment;
 import net.pixlies.core.moderation.PunishmentType;
 import net.pixlies.core.scoreboard.ScoreboardType;
-import net.pixlies.core.utils.CC;
+import org.bson.Document;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -29,84 +22,82 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.ocpsoft.prettytime.PrettyTime;
 
 import java.util.*;
 
-@Data
-@AllArgsConstructor
-@Entity("users")
-@Indexes(
-        @Index(fields = { @Field("uuid") })
-)
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
 public class User {
 
     public static final Main instance = Main.getInstance();
 
-    public static final Gson gson = new Gson();
-
-    @Id private String uuid;
-    private long joined;
-    private String discordId;
-    private String nickName;
-    private Map<String, Wallet> wallets;
-    private List<String> knownUsernames;
-    private List<UUID> blockedUsers;
+    private final String uuid;
+    private boolean loaded = false;
+    private @Getter(AccessLevel.NONE) boolean joinedBefore = false;
+    private long joined = System.currentTimeMillis();
+    private @Nullable String discordId;
+    private @Nullable String nickName;
+    private List<Wallet> wallets = new ArrayList<>();
+    private List<String> knownUsernames = new ArrayList<>();
+    private List<UUID> blockedUsers = new ArrayList<>();
 
     // STATS
-    private String dateJoined; // In Pixlies DateAndTime
-    private Map<House, Integer> houses; // House & House XPs
-    private int civilPoints; // Range: -100 to 100
-    private int buyOrdersMade;
-    private int sellOrdersMade;
-    private int tradesMade;
-    private double moneySpent;
-    private double moneyGained;
-    private int itemsSold;
-    private int itemsBought;
+    private Map<House, Integer> houses = new HashMap<>() {{
+        for (House house : House.values()) {
+            put(house, 0);
+        }
+    }}; // House & House XPs
+    private int civilPoints = 0; // Range: -100 to 100
+    private int buyOrdersMade = 0;
+    private int sellOrdersMade = 0;
+    private int tradesMade = 0;
+    private double moneySpent = 0d;
+    private double moneyGained = 0d;
+    private int itemsSold = 0;
+    private int itemsBought = 0;
 
     // PUNISHMENT
-    private Map<String, Punishment> currentPunishments;
+    private Map<String, Punishment> currentPunishments = new HashMap<>();
 
     // PERSONALIZATION
-    private boolean commandSpyEnabled;
-    private boolean socialSpyEnabled;
-    private boolean viewMutedChat;
-    private boolean viewBannedJoins;
-    private boolean joinVanish;
-    private String scoreboardType;
+    private boolean commandSpyEnabled = false;
+    private boolean socialSpyEnabled = false;
+    private boolean viewMutedChat = true;
+    private boolean viewBannedJoins = true;
+    private boolean joinVanish = false;
+    private String scoreboardType = ScoreboardType.ENABLED.name();
 
     // SETTINGS
-    private @Getter(AccessLevel.NONE) boolean inStaffMode;
-    private @Getter(AccessLevel.NONE) boolean bypassing;
-    private @Getter(AccessLevel.NONE) boolean vanished;
-    private @Getter(AccessLevel.NONE) boolean passive;
-    private boolean inStaffChat;
+    private @Getter(AccessLevel.NONE) boolean inStaffMode = false;
+    private @Getter(AccessLevel.NONE) boolean bypassing = false;
+    private @Getter(AccessLevel.NONE) boolean vanished = false;
+    private @Getter(AccessLevel.NONE) boolean passive = false;
+    private boolean inStaffChat = false;
 
     // LANG
-    private String lang;
-    @Getter(AccessLevel.NONE) private Map<String, Object> extras;
+    private String lang = "ENG";
+
+    // UNSAVED FIELDS
     private final transient Map<String, Timer> allTimers = new HashMap<>();
 
-    public Map<String, Object> getExtras() {
-        if (extras == null) extras = new HashMap<>();
-        return extras;
+    public User(UUID uuid) {
+        this.uuid = uuid.toString();
     }
 
-    public Wallet getServerCurrency() {
-        return wallets.get("serverCurrency");
-    }
-
-    public OfflinePlayer getAsOfflinePlayer() {
+    public @NotNull OfflinePlayer getAsOfflinePlayer() {
         return Bukkit.getOfflinePlayer(this.getUniqueId());
     }
 
+    public boolean hasJoinedBefore() {
+        return joinedBefore;
+    }
+
     public boolean isOnline() {
-        OfflinePlayer player = getAsOfflinePlayer();
-        if (player == null) {
-            return false;
-        }
-        return player.isOnline();
+        return this.getAsOfflinePlayer().isOnline();
     }
 
     public Punishment getMute() {
@@ -167,7 +158,9 @@ public class User {
 
     public @NotNull Punishment tempMute(@Nullable String reason, @NotNull CommandSender punisher, long duration, boolean silent) {
         if (isMuted()) return getMute();
-        UUID punisherUUID = punisher instanceof Player player ? player.getUniqueId() : UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670");
+        UUID punisherUUID = punisher instanceof Player player
+                ? player.getUniqueId()
+                : UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670");
 
         String newReason = reason;
 
@@ -175,7 +168,16 @@ public class User {
             newReason = instance.getConfig().getString("moderation.defaultReason", "No reason given");
         }
 
-        Punishment punishment = new Punishment(UUID.randomUUID().toString(), PunishmentType.MUTE.name(), punisherUUID.toString(), punisher.getName(), System.currentTimeMillis(), newReason, duration + System.currentTimeMillis());
+        Punishment punishment = new Punishment(
+                UUID.randomUUID().toString(),
+                PunishmentType.MUTE.name(),
+                punisherUUID.toString(),
+                punisher.getName(),
+                System.currentTimeMillis(),
+                newReason,
+                duration + System.currentTimeMillis()
+        );
+
         currentPunishments.put("mute", punishment);
         if (silent)
             Lang.PLAYER_TEMPORARILY_MUTED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason, "%TIME%;" + new PrettyTime().format(new Date(punishment.getUntil())));
@@ -223,7 +225,7 @@ public class User {
                     .replace("%ID%", punishment.getPunishmentId())
                     .replace("%DURATION%", "§4§lPERMANENT!");
 
-            player.kick(Component.text(message));
+            instance.getServer().getScheduler().runTask(instance, () -> player.kickPlayer(message));
         }
         save();
         return punishment;
@@ -263,7 +265,7 @@ public class User {
                     .replace("%ID%", punishment.getPunishmentId())
                     .replace("%DURATION%", new PrettyTime().format(new Date(punishment.getUntil())));
 
-            player.kick(Component.text(message));
+            instance.getServer().getScheduler().runTask(instance, () -> player.kickPlayer(message));
         }
         save();
         return punishment;
@@ -328,7 +330,7 @@ public class User {
                     .replace("%REASON%", punishment.getReason())
                     .replace("%EXECUTOR%", punisher.getName())
                     .replace("%ID%", punishment.getPunishmentId());
-            player.kick(Component.text(message));
+            instance.getServer().getScheduler().runTask(instance, () -> player.kickPlayer(message));
         }
         save();
         return punishment;
@@ -459,20 +461,6 @@ public class User {
         Player player = getAsOfflinePlayer().getPlayer();
         if (player == null) return false;
         return player.hasPermission("pixlies.moderation.vanish") && vanished;
-    }
-
-    public void backup() {
-        try {
-            instance.getDatabase().getDatastore().find(User.class).filter(Filters.gte("uuid", uuid)).delete();
-        } catch (Exception ignored) { }
-
-        instance.getDatabase().getDatastore().save(this);
-    }
-
-    public void save() {
-        instance.getDatabase().getUserCache().remove(getUniqueId());
-        instance.getDatabase().getUserCache().put(getUniqueId(), this);
-        backup();
     }
 
     /**
@@ -634,9 +622,10 @@ public class User {
         try {
             return ScoreboardType.valueOf(scoreboardType);
         } catch (IllegalArgumentException e) {
-            return ScoreboardType.STANDARD;
+            return ScoreboardType.ENABLED;
         }
     }
+
 
     // STATS
 
@@ -653,7 +642,6 @@ public class User {
 
         return House.NOT_DECIDED;
     }
-
     public void addBuy() {
         buyOrdersMade += 1;
     }
@@ -718,114 +706,192 @@ public class User {
         }.runTaskTimer(Main.getInstance(), 1, 1);
     }
 
+    public Document toDocument() {
+        Document document = new Document();
+
+        document.put("uuid", uuid);
+        document.put("joined", joined);
+        document.put("discordId", discordId);
+        document.put("nickName", nickName);
+        document.put("wallets", wallets);
+        document.put("knownUsernames", knownUsernames);
+        document.put("blockedUsers", blockedUsers);
+
+        // todo: houses, make to class
+        Document housesDocument = new Document();
+        for (Map.Entry<House, Integer> entry : houses.entrySet()) {
+            House house = entry.getKey();
+            Integer xp = entry.getValue();
+            housesDocument.put(house.name(), xp);
+        }
+        document.put("houses", housesDocument);
+        document.put("civilPoints", civilPoints);
+        document.put("buyOrdersMade", buyOrdersMade);
+        document.put("sellOrdersMade", sellOrdersMade);
+        document.put("tradesMade", tradesMade);
+        document.put("moneySpent", moneySpent);
+        document.put("moneyGained", moneyGained);
+        document.put("itemsSold", itemsSold);
+        document.put("itemsBought", itemsBought);
+
+        Document punishmentsDocument = new Document();
+        for (Map.Entry<String, Punishment> entry : currentPunishments.entrySet()) {
+            punishmentsDocument.put(entry.getKey(), entry.getValue().toDocument());
+        }
+        document.put("currentPunishments", punishmentsDocument);
+
+        document.put("commandSpyEnabled", commandSpyEnabled);
+        document.put("socialSpyEnabled", socialSpyEnabled);
+        document.put("viewMutedChat", viewMutedChat);
+        document.put("viewBannedJoins", viewBannedJoins);
+        document.put("joinVanish", joinVanish);
+        document.put("scoreboardType", scoreboardType);
+
+        document.put("inStaffMode", inStaffMode);
+        document.put("bypassing", bypassing);
+        document.put("vanished", vanished);
+        document.put("passive", passive);
+        document.put("inStaffChat", inStaffChat);
+
+        return document;
+    }
+
+    public void loadFromDocument(Document document) {
+        joinedBefore = true;
+        joined = document.getLong("joined") == null ? joined : document.getLong("joined");
+        discordId = document.getString("discordId");
+        nickName = document.getString("nickName");
+        wallets = document.getList("wallets", Wallet.class) == null ? wallets: new ArrayList<>(document.getList("wallets", Wallet.class));
+        knownUsernames = document.getList("knownUsernames", String.class) == null ? knownUsernames : new ArrayList<>(document.getList("knownUsernames", String.class));
+        blockedUsers = document.getList("blockedUsers", UUID.class) == null ? blockedUsers : new ArrayList<>(document.getList("blockedUsers", UUID.class));
+
+        Document housesDocument = (Document) document.get("houses");
+        if (housesDocument != null) {
+            for (String houseKey : housesDocument.keySet()) {
+                houses.put(House.valueOf(houseKey), housesDocument.getInteger(houseKey, 0));
+            }
+        }
+        civilPoints = document.getInteger("civilPoints") == null ? civilPoints : document.getInteger("civilPoints");
+        buyOrdersMade = document.getInteger("buyOrdersMade") == null ? buyOrdersMade : document.getInteger("buyOrdersMade");
+        sellOrdersMade = document.getInteger("sellOrdersMade") == null ? sellOrdersMade : document.getInteger("sellOrdersMade");
+        tradesMade = document.getInteger("tradesMade") == null ? tradesMade: document.getInteger("tradesMade");
+        moneySpent = document.getDouble("moneySpent") == null ? moneySpent : document.getDouble("moneySpent");
+        moneyGained = document.getDouble("moneyGained") == null ? moneyGained : document.getDouble("moneyGained");
+        itemsSold = document.getInteger("itemsSold") == null ? itemsSold : document.getInteger("itemsSold");
+        itemsBought = document.getInteger("itemsBought") == null ? itemsBought : document.getInteger("itemsBought");
+
+        Document punishmentsDocument = (Document) document.get("currentPunishments");
+        if (punishmentsDocument != null) {
+            currentPunishments.clear();
+            for (String punishmentKey : punishmentsDocument.keySet()) {
+                Document singlePunishmentDocument = (Document) punishmentsDocument.get(punishmentKey);
+                Punishment punishment = new Punishment(singlePunishmentDocument);
+                currentPunishments.put(punishmentKey, punishment);
+            }
+        }
+
+        commandSpyEnabled = document.getBoolean("commandSpyEnabled") == null ? commandSpyEnabled : document.getBoolean("commandSpyEnabled");
+        socialSpyEnabled = document.getBoolean("socialSpyEnabled") == null ? socialSpyEnabled : document.getBoolean("socialSpyEnabled");
+        viewMutedChat = document.getBoolean("viewMutedChat") == null ? viewMutedChat : document.getBoolean("viewMutedChat");
+        viewBannedJoins = document.getBoolean("viewBannedJoins") == null ? viewBannedJoins : document.getBoolean("viewBannedJoins");
+        joinVanish = document.getBoolean("joinVanish") == null ? joinVanish : document.getBoolean("joinVanish");
+        scoreboardType = document.getString("scoreboardType") == null ? scoreboardType : document.getString("scoreboardType");
+
+        inStaffMode = document.getBoolean("inStaffMode") == null ? inStaffMode : document.getBoolean("inStaffMode");
+        bypassing = document.getBoolean("bypassing") == null ? bypassing : document.getBoolean("bypassing");
+        vanished = document.getBoolean("vanished") == null ? vanished : document.getBoolean("vanished");
+        passive = document.getBoolean("passive") == null ? passive : document.getBoolean("passive");
+        inStaffChat = document.getBoolean("inStaffChat") == null ? inStaffChat : document.getBoolean("inStaffChat");
+
+    }
+
+    /**
+     * Loads the user from the database.
+     * This should be run async to the main thread.
+     * @param cache True to cache the user to the cache, false to not.
+     * @return True if the user has saved data.
+     */
+    public boolean load(boolean cache) {
+        Document document = instance.getMongoManager().getUsersCollection().find(Filters.eq("uuid", uuid)).first();
+        if (document == null) {
+            backup();
+            loaded = true;
+            return false;
+        }
+        loadFromDocument(document);
+        loaded = true;
+
+        if (cache) {
+            instance.getMongoManager().getUserCache().put(getUniqueId(), this);
+        }
+        return true;
+    }
+
+    public void save() {
+        instance.getServer().getScheduler().runTaskAsynchronously(instance, this::backup);
+    }
+
+    public void backup() {
+        if (instance.getMongoManager().getUsersCollection().find(Filters.eq("uuid", uuid)).first() == null) {
+            instance.getMongoManager().getUsersCollection().insertOne(toDocument());
+        }
+        instance.getMongoManager().getUsersCollection().findOneAndReplace(Filters.eq("uuid", uuid), toDocument());
+    }
+
+    /**
+     * Removes the user from the user cache.
+     */
+    public void removeFromCache() {
+        instance.getMongoManager().getUserCache().remove(getUniqueId());
+    }
+
+    public void cache() {
+        instance.getMongoManager().getUserCache().put(getUniqueId(), this);
+    }
+
     // STATICS - it's not static abuse if you use it properly.
 
     /**
      * Get a user from a UUID
      * @param uuid The player's UUID
-     * @return A not null User
+     * @return A user from the cache
      * @see User
      */
-    public static @NotNull User get(UUID uuid) {
-        if (!instance.getDatabase().getUserCache().containsKey(uuid)) return getFromDatabase(uuid);
-        return instance.getDatabase().getUserCache().get(uuid);
+    public static User get(UUID uuid) {
+        if (!instance.getMongoManager().getUserCache().containsKey(uuid)) new User(uuid).cache();
+        return instance.getMongoManager().getUserCache().get(uuid);
     }
 
-    public static @NotNull Collection<User> getOnlineUsers() {
-        List<User> users = new ArrayList<>();
-        for (User user : instance.getDatabase().getUserCache().values()) {
-            if (!user.getAsOfflinePlayer().isOnline())
-                continue;
-            users.add(user);
+    /**
+     * A static method to get a User without caching it to the user cache.
+     * This should be run async to the main thread.
+     * @param uuid the UUID of the player.
+     * @see User
+     * @see UUID
+     * @return A loaded uncached user.
+     */
+    public static User getLoadDoNotCache(UUID uuid) {
+        if (instance.getMongoManager().getUserCache().containsKey(uuid)) {
+            User user = instance.getMongoManager().getUserCache().get(uuid);
+            if (!user.isLoaded()) {
+                user.load(false);
+            }
         }
-        return users;
-    }
-
-    public static @NotNull User getFromDatabase(UUID uuid) {
-        User profile = instance.getDatabase().getDatastore().find(User.class).filter(Filters.gte("uuid", uuid.toString())).first();
-        if (profile == null) {
-            profile = new User(
-                    uuid.toString(),
-                    System.currentTimeMillis(),
-                    null,
-                    null,
-                    Wallet.getDefaults(),
-                    new ArrayList<>(),
-                    new ArrayList<>(),
-                    Main.getInstance().getCalendar().formatDateAndTime(),
-                    new HashMap<>() {{
-                        for (House house : House.values())
-                            put(house, 0);
-                    }},
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    new HashMap<>(),
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    ScoreboardType.STANDARD.name(),
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    "ENG",
-                    new HashMap<>()
-            );
-
-            profile.save();
-            instance.getLogger().info(CC.format("&bProfile for &6" + uuid + "&b created in database."));
-            return profile;
-
-        }
-
-        // Null check in case there's an older User version
-        User user = new User(
-                profile.uuid, // id, can't be null in the first place
-                profile.joined,
-                profile.discordId, // nullable
-                profile.nickName, // nullable
-                profile.wallets == null ? Wallet.getDefaults() : profile.wallets,
-                profile.knownUsernames == null ? new ArrayList<>() : profile.knownUsernames,
-                profile.blockedUsers == null ? new ArrayList<>() : profile.blockedUsers,
-                profile.dateJoined == null ? Main.getInstance().getCalendar().formatDate() : profile.dateJoined,
-                profile.houses == null ? new HashMap<>() {{
-                    for (House house : House.values()) put(house, 0);
-                }} : profile.houses,
-                profile.civilPoints,
-                profile.buyOrdersMade,
-                profile.sellOrdersMade,
-                profile.tradesMade,
-                profile.moneySpent,
-                profile.moneyGained,
-                profile.itemsSold,
-                profile.itemsBought,
-                profile.currentPunishments == null ? new HashMap<>() : profile.currentPunishments,
-                profile.commandSpyEnabled,
-                profile.socialSpyEnabled,
-                profile.viewMutedChat,
-                profile.viewBannedJoins,
-                profile.joinVanish,
-                profile.scoreboardType == null ? ScoreboardType.STANDARD.name() : profile.scoreboardType,
-                profile.inStaffMode,
-                profile.bypassing,
-                profile.vanished,
-                profile.passive,
-                profile.inStaffChat,
-                profile.lang == null ? "ENG" : profile.lang,
-                profile.extras == null ? new HashMap<>() : profile.extras
-        );
-
-        user.save();
+        User user = new User(uuid);
+        user.load(false);
         return user;
+    }
+
+    /**
+     * Reload all user data for all online players
+     */
+    public static void loadAllOnlineUsers() {
+        for (Player player : instance.getServer().getOnlinePlayers()) {
+            User user = User.get(player.getUniqueId());
+            if (!user.isLoaded() && user.isOnline()) {
+                user.load(true);
+            }
+        }
     }
 
 }

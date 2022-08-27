@@ -1,10 +1,12 @@
 package net.pixlies.business.market.orders;
 
-import dev.morphia.annotations.*;
+import com.mongodb.client.model.Filters;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.utils.TextUtils;
+import org.bson.Document;
 import org.bukkit.Bukkit;
 
 import java.util.*;
@@ -15,17 +17,14 @@ import java.util.*;
  * @author vPrototype_
  */
 @Getter
-@Entity("orderbooks")
-@Indexes(
-        @Index(fields = { @Field("bookId") })
-)
+@AllArgsConstructor
 public class OrderBook {
 
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();
 
     public static double change = 0.01;
 
-    @Id private final String bookId;
+    private final String bookId;
     private final OrderItem item;
 
     private final List<Order> buyOrders;
@@ -33,9 +32,26 @@ public class OrderBook {
 
     public OrderBook(OrderItem item) {
         this.item = item;
-        bookId = TextUtils.generateId(7);
+        bookId = TextUtils.generateId(32);
         buyOrders = new ArrayList<>();
         sellOrders = new ArrayList<>();
+    }
+
+    public OrderBook(Document document) {
+        this(
+                document.getString("bookId"),
+                OrderItem.valueOf(document.getString("item")),
+                new ArrayList<>() {{
+                    for (Document orderDocument : document.getList("buyOrders", Document.class)) {
+                        add(new Order(orderDocument));
+                    }
+                }},
+                new ArrayList<>() {{
+                    for (Document orderDocument : document.getList("sellOrders", Document.class)) {
+                        add(new Order(orderDocument));
+                    }
+                }}
+        );
     }
 
     // --------------------------------------------------------------------------------------------
@@ -176,14 +192,37 @@ public class OrderBook {
         save();
     }
 
+    public Document toDocument() {
+        Document document = new Document();
+
+        document.put("bookId", bookId);
+        document.put("item", item);
+        document.put("buyOrders", new ArrayList<Document>() {{
+            for (Order buyOrder : buyOrders) {
+                add(buyOrder.toDocument());
+            }
+        }});
+        document.put("sellOrders", new ArrayList<Document>() {{
+            for (Order sellOrder : sellOrders) {
+                add(sellOrder.toDocument());
+            }
+        }});
+
+        return document;
+    }
+
     // --------------------------------------------------------------------------------------------
 
     public void save() {
         instance.getMarketManager().getBooks().put(bookId, this);
+        instance.getServer().getScheduler().runTaskAsynchronously(instance, this::backup);
     }
 
     public void backup() {
-        instance.getMongoManager().getDatastore().save(this);
+        if (instance.getMongoManager().getOrderBookCollection().find(Filters.eq("bookId", bookId)).first() == null) {
+            instance.getMongoManager().getOrderBookCollection().insertOne(toDocument());
+        }
+        instance.getMongoManager().getOrderBookCollection().replaceOne(Filters.eq("bookId", bookId), toDocument());
     }
 
 }

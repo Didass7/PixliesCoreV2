@@ -1,13 +1,12 @@
 package net.pixlies.core.moderation;
 
-import dev.morphia.annotations.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.bson.Document;
 
 import java.util.UUID;
 
 @AllArgsConstructor
-@Entity
 public class Punishment {
 
     private @Getter String punishmentId;
@@ -17,6 +16,18 @@ public class Punishment {
     private @Getter long datePunished;
     private @Getter String reason;
     private @Getter long until;
+
+    public Punishment(Document document) {
+        this(
+                document.getString("punishmentId"),
+                document.getString("type"),
+                document.getString("punisher"),
+                document.getString("punisherName"),
+                document.getLong("datePunished"),
+                document.getString("reason"),
+                document.getLong("until")
+        );
+    }
 
     public UUID getPunisherId() {
         return UUID.fromString(punisher);
@@ -34,6 +45,20 @@ public class Punishment {
         if (isPermanent()) return false;
         if (getUntil() == 0) return false;
         return System.currentTimeMillis() - getUntil() <= 0;
+    }
+
+    public Document toDocument() {
+        Document document = new Document();
+
+        document.put("punishmentId", punishmentId);
+        document.put("type", type);
+        document.put("punisher", punisher);
+        document.put("punisherName", punisherName);
+        document.put("datePunished", datePunished);
+        document.put("reason", reason);
+        document.put("until", until);
+
+        return document;
     }
 
 }
