@@ -299,6 +299,7 @@ public class Nation {
         ranks.put("member", NationRank.getMemberRank());
         ranks.put("newbie", NationRank.getNewbieRank());
 
+        this.cache();
         if (sender != null) {
             NationsLang.NATION_FORMED.broadcast("%NATION%;" + this.getName(), "%PLAYER%;" + sender.getName());
         }
@@ -331,10 +332,12 @@ public class Nation {
 
     public void cache() {
         instance.getNationManager().getNations().put(nationId, this);
+        instance.getNationManager().getNationNames().put(name, nationId);
     }
 
     public void removeCache() {
         instance.getNationManager().getNations().remove(nationId);
+        instance.getNationManager().getNationNames().remove(name);
     }
 
     private void editConstitution(byte law, int option) {
@@ -342,7 +345,7 @@ public class Nation {
         constitutionValues.set(law, option);
     }
 
-    public void addMember(Player player, String rank) {
+    public void addMember(Player player, String rank, boolean saveProfile) {
         if (systemNation) return;
 
         NationProfile profile = NationProfile.get(player.getUniqueId());
@@ -361,7 +364,10 @@ public class Nation {
         // ASSIGN TO PLAYER AND STORE IT
         profile.setNation(this);
         profile.setNationRank(rank);
-        profile.save();
+
+        if (saveProfile) {
+            profile.save();
+        }
 
     }
 
@@ -377,18 +383,12 @@ public class Nation {
         EventUtils.call(event);
         if (event.isCancelled()) return;
 
-        for (UUID member : getMembers()) {
-            NationProfile profile = NationProfile.get(member);
-            if (!profile.isLoaded()) {
-                instance.getServer().getScheduler().runTaskAsynchronously(instance, () -> {
-                    profile.load(false);
-                    if (!profile.isLoaded()) return;
-                    profile.leaveNation();
-                });
-                continue;
-            }
-            profile.leaveNation();
-        }
+        this.getMembers().stream().parallel().forEach(member -> instance.getServer().getScheduler().runTaskAsynchronously(instance, () -> {
+            NationProfile profile = NationProfile.getLoadDoNotCache(member);
+            if (!profile.isLoaded()) return;
+            profile.leaveNation(false);
+            profile.backup();
+        }));
 
         this.delete();
 
@@ -450,14 +450,9 @@ public class Nation {
     }
 
     public void delete() {
-        instance.getNationManager().getNations().remove(nationId);
-        instance.getServer().getScheduler().runTaskAsynchronously(instance, () -> {
-            if (instance.getMongoManager().getNationsCollection().find(Filters.eq("nationId", nationId)).first() == null) {
-                return;
-            }
-            instance.getMongoManager().getNationsCollection().deleteOne(Filters.eq("nationId", nationId));
-            // FIXME: it doesnt want to delete, why????
-        });
+        this.removeCache();
+        instance.getServer().getScheduler().runTaskAsynchronously(instance, () ->
+                instance.getMongoManager().getNationsCollection().deleteOne(Filters.eq("nationId", nationId)));
     }
 
     // -------------------------------------------------------------------------------------------------
@@ -471,10 +466,14 @@ public class Nation {
 
     public static @Nullable Nation getFromName(String name) {
         if (name == null) return null;
-        return instance.getNationManager().getNations().values().stream()
-                .filter(nation -> nation.getName().equalsIgnoreCase(name))
-                .findFirst()
-                .orElse(null);
+        for (Map.Entry<String, String> entry : instance.getNationManager().getNationNames().entrySet()) {
+            String nationName = entry.getKey();
+            String nationId = entry.getValue();
+            if (nationName.equalsIgnoreCase(name)) {
+                return getFromId(nationId);
+            }
+        }
+        return null;
     }
 
     private static Nation getNullCheckedNation(Nation nation) {

@@ -1,4 +1,5 @@
 # NATIONS
+NATION_ALREADY_EXISTS: "§cThat nation already exists."
 NATION_NAME_INVALID: "§cYou cannot name your nation this."
 ALREADY_IN_NATION: "§cYou are already in an nation. §7Use /n leave to leave your nation."
 NOT_IN_NATION: "§cYou are not in a nation!"

@@ -23,17 +23,11 @@ public class NationProfileListener implements Listener {
 
         // ADD AND LOAD PROFILE
         NationProfile profile = NationProfile.get(event.getUniqueId());
-        profile.load();
+        profile.load(true);
     }
 
     @EventHandler
-    public void onLogin(PlayerLoginEvent event) {
-        // GET PROFILE
-        NationProfile profile = NationProfile.get(event.getPlayer().getUniqueId());
-    }
-
-    @EventHandler
-    public void onLogin(PlayerJoinEvent event) {
+    public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         instance.getServer().getScheduler().runTaskLater(instance, () -> {
             // CANCEL IF PLAYER OFFLINE

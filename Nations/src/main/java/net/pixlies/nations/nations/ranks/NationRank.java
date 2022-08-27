@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 public class NationRank {
 
-    private String name;
+    private final String name;
     private String prefix;
     private int priority;
     private List<NationPermission> permissions;

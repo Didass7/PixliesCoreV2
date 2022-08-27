@@ -15,6 +15,7 @@ public class NationManager {
     private static final Nations instance = Nations.getInstance();
 
     private final @Getter Map<String, Nation> nations = new HashMap<>(); // ID, Nation
+    private final @Getter Map<String, String> nationNames = new HashMap<>();
 
     public void backupAll() {
         for (Nation nation : nations.values()) {
@@ -41,7 +42,7 @@ public class NationManager {
         for (Document document : instance.getMongoManager().getNationsCollection().find()) {
             try {
                 Nation nation = Nation.getNewNationFromDocument(document);
-                nations.put(nation.getNationId(), nation);
+                nation.cache();
             } catch (Exception e) {
                 e.printStackTrace();
                 instance.getLogger().warning("Failed to load a nation.");

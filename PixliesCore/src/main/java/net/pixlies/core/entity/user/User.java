@@ -816,6 +816,9 @@ public class User {
         if (document == null) {
             backup();
             loaded = true;
+            if (cache) {
+                instance.getMongoManager().getUserCache().put(getUniqueId(), this);
+            }
             return false;
         }
         loadFromDocument(document);

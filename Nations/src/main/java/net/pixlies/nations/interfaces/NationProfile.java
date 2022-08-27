@@ -4,11 +4,13 @@ import com.mongodb.client.model.Filters;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
+import net.pixlies.core.entity.user.User;
 import net.pixlies.nations.Nations;
 import net.pixlies.nations.interfaces.profile.ChatType;
 import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.ranks.NationRank;
 import org.bson.Document;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,11 +36,12 @@ public class NationProfile {
     private boolean loaded = false;
     private final String uuid;
     private long lastLogin = System.currentTimeMillis();
+    private boolean hasJoinedBefore = false;
 
     // Nations
     private @Nullable String nationId;
     private @Nullable String nationRank;
-    private @Getter(AccessLevel.NONE) String profileChatType = ChatType.GLOBAL.name();
+    private @Getter(AccessLevel.NONE) String chatType = ChatType.GLOBAL.name();
     private @Getter(AccessLevel.NONE) boolean autoClaim = false;
 
     // -------------------------------------------------------------------------------------------------
@@ -73,14 +76,14 @@ public class NationProfile {
      */
     public ChatType getChatType() {
         try {
-            return ChatType.valueOf(profileChatType);
+            return ChatType.valueOf(chatType);
         } catch (IllegalArgumentException e) {
             return ChatType.GLOBAL;
         }
     }
 
     public void setChatType(ChatType chatType) {
-        this.profileChatType = chatType.name();
+        this.chatType = chatType.name();
     }
 
     public void setNation(Nation nation) {
@@ -118,7 +121,7 @@ public class NationProfile {
     /**
      * Removes the nation information from a user.
      */
-    public void leaveNation() {
+    public void leaveNation(boolean saveNation) {
 
         if (!isInNation()) return;
         Nation nation = getNation();
@@ -126,11 +129,13 @@ public class NationProfile {
 
         nationId = null;
         nationRank = null;
-        profileChatType = ChatType.GLOBAL.name();
-        save();
+        chatType = ChatType.GLOBAL.name();
 
         nation.getMemberUUIDs().remove(uuid);
-        nation.save();
+
+        if (saveNation) {
+            nation.save();
+        }
 
     }
 
@@ -163,7 +168,7 @@ public class NationProfile {
 
         document.put("nationId", nationId);
         document.put("nationRank", nationRank);
-        document.put("profileChatType", profileChatType);
+        document.put("chatType", chatType);
         document.put("autoClaim", autoClaim);
 
         return document;
@@ -174,28 +179,27 @@ public class NationProfile {
 
         nationId = document.getString("nationId") == null ? nationId : document.getString("nationId");
         nationRank = document.getString("nationRank") == null ? nationRank : document.getString("nationRank");
-        profileChatType = document.getString("profileChatType") == null ? profileChatType : document.getString("profileChatType");
+        chatType = document.getString("chatType") == null ? chatType : document.getString("chatType");
         autoClaim = document.getBoolean("autoClaim") == null ? autoClaim : document.getBoolean("autoClaim");
     }
 
-    public boolean load(boolean cache) {
+    public void load(boolean cache) {
         Document document = instance.getMongoManager().getNationProfileCollection().find(Filters.eq("uuid", uuid)).first();
         if (document == null) {
             backup();
             loaded = true;
-            return false;
+            if (cache) {
+                instance.getMongoManager().getProfileCache().put(getUniqueId(), this);
+            }
+            return;
         }
         loadFromDocument(document);
+        hasJoinedBefore = true;
         loaded = true;
 
         if (cache) {
             instance.getMongoManager().getProfileCache().put(getUniqueId(), this);
         }
-        return true;
-    }
-
-    public boolean load() {
-        return this.load(true);
     }
 
     // -------------------------------------------------------------------------------------------------
@@ -219,6 +223,15 @@ public class NationProfile {
         NationProfile profile = new NationProfile(uuid);
         profile.load(false);
         return profile;
+    }
+
+    public static void loadAllOnlineUsers() {
+        for (Player player : instance.getServer().getOnlinePlayers()) {
+            NationProfile profile = NationProfile.get(player.getUniqueId());
+            if (!profile.isLoaded() && player.isOnline()) {
+                profile.load(true);
+            }
+        }
     }
 
 }
