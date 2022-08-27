@@ -38,7 +38,11 @@ public class NationRank {
         document.put("name", name);
         document.put("prefix", prefix);
         document.put("priority", priority);
-        document.put("permissions", permissions);
+        document.put("permissions", new ArrayList<String>() {{
+            for (NationPermission permission : permissions) {
+                add(permission.name());
+            }
+        }});
 
         return document;
     }

@@ -39,22 +39,22 @@ public class MongoManager {
         instance.getLogger().info("Connecting to MongoDB...");
 
         MongoCredential credential = MongoCredential.createCredential(
-                conf("database.user", "user"),
-                conf("database.database", "database"),
-                conf("database.password", "").toCharArray()
+                conf("mongo.user", "user"),
+                conf("mongo.database", "database"),
+                conf("mongo.password", "").toCharArray()
         );
 
         MongoClientSettings settings = MongoClientSettings.builder()
                 .credential(credential)
                 .applyToClusterSettings(builder ->
-                        builder.hosts(List.of(new ServerAddress(conf("database.host", "localhost"), Integer.parseInt(conf("database.port", "27017"))))))
+                        builder.hosts(List.of(new ServerAddress(conf("mongo.host", "localhost"), Integer.parseInt(conf("mongo.port", "27017"))))))
                 .build();
 
         client = MongoClients.create(settings);
 
-        database = client.getDatabase(conf("database.database", "database"));
-        nationsCollection = database.getCollection(conf("database.nationsCollection", "nations"));
-        nationProfileCollection = database.getCollection(conf("database.nationProfileCollection", "nationProfiles"));
+        database = client.getDatabase(conf("mongo.database", "database"));
+        nationsCollection = database.getCollection(conf("mongo.nationsCollection", "nations"));
+        nationProfileCollection = database.getCollection(conf("mongo.nationProfileCollection", "nationProfiles"));
 
         instance.getLogger().info("Initialized MongoDB database.");
 

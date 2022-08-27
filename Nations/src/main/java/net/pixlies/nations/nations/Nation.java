@@ -283,7 +283,7 @@ public class Nation {
 
         document.put("memberUUIDs", memberUUIDs);
 
-        document.put("claims", new ArrayList<>() {{
+        document.put("claims", new ArrayList<Document>() {{
             for (NationChunk claim : claims) {
                 add(claim.toDocument());
             }
@@ -303,26 +303,25 @@ public class Nation {
             NationsLang.NATION_FORMED.broadcast("%NATION%;" + this.getName(), "%PLAYER%;" + sender.getName());
         }
 
-        save();
         return this;
     }
 
     /**
      * Silently create a nation.
-     *
+     * Async.
      * @return the nation
      */
     public Nation create() {
         return this.create(null);
     }
 
-    /**
-     * Backup will NOT be run! Make sure you back up manually!
-     */
     public void save() {
         instance.getServer().getScheduler().runTaskAsynchronously(instance, this::backup);
     }
 
+    /**
+     * Not async
+     */
     public void backup() {
         if (instance.getMongoManager().getNationsCollection().find(Filters.eq("nationId", nationId)).first() == null) {
             instance.getMongoManager().getNationsCollection().insertOne(this.toDocument());
@@ -352,7 +351,6 @@ public class Nation {
 
         // ADD TO MEMBER LIST
         memberUUIDs.add(player.getUniqueId().toString());
-        save();
 
         // MAKE A VARIABLE TO STORE THE RANK NAME
         String rankToAddIn = rank;
@@ -419,7 +417,6 @@ public class Nation {
         }
 
         this.name = newName;
-        save();
 
     }
 
@@ -478,7 +475,7 @@ public class Nation {
                 .orElse(null);
     }
 
-    public static Nation getNullCheckedNation(Nation nation) {
+    private static Nation getNullCheckedNation(Nation nation) {
         return new Nation(
                 nation.nationId,
                 nation.name,
@@ -542,11 +539,12 @@ public class Nation {
                 document.getString("religion"),
                 new ArrayList<>(document.getList("constitutionValues", Integer.class)),
                 new HashMap<>() {{
-                    for (Document rankDocument : document.getList("ranks", Document.class)) {
+                    Document ranksDocument = (Document) document.get("ranks");
+                    for (String rankKey : ranksDocument.keySet()) {
+                        Document rankDocument = (Document) ranksDocument.get(rankKey);
                         NationRank rank = new NationRank(rankDocument);
                         put(rank.getName(), rank);
                     }
-
                 }},
                 new ArrayList<>(document.getList("memberUUIDs", String.class)),
                 new ArrayList<>() {{
