@@ -383,12 +383,15 @@ public class Nation {
         EventUtils.call(event);
         if (event.isCancelled()) return;
 
-        this.getMembers().stream().parallel().forEach(member -> instance.getServer().getScheduler().runTaskAsynchronously(instance, () -> {
+        this.getMembers().parallelStream().forEach(member -> instance.getServer().getScheduler().runTaskAsynchronously(instance, () -> {
             NationProfile profile = NationProfile.getLoadDoNotCache(member);
             if (!profile.isLoaded()) return;
+
             profile.leaveNation(false);
-            profile.backup();
+            profile.save();
         }));
+
+        claims.parallelStream().forEach(NationChunk::unloadClaim);
 
         this.delete();
 
