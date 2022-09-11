@@ -64,9 +64,7 @@ public class NationClaimCommand extends BaseCommand {
                     nation.getNationId(),
                     player.getWorld().getName(),
                     player.getChunk().getX(),
-                    player.getChunk().getZ(),
-                    NationChunkType.NORMAL,
-                    new ArrayList<>()
+                    player.getChunk().getZ()
             );
             chunk.claim(true);
             nation.save();

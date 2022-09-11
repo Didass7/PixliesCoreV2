@@ -4,9 +4,9 @@ import com.mongodb.client.model.Filters;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
-import net.pixlies.core.entity.user.User;
 import net.pixlies.nations.Nations;
 import net.pixlies.nations.interfaces.profile.ChatType;
+import net.pixlies.nations.interfaces.profile.TerritoryChangeMessageType;
 import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.ranks.NationRank;
 import org.bson.Document;
@@ -41,7 +41,10 @@ public class NationProfile {
     // Nations
     private @Nullable String nationId;
     private @Nullable String nationRank;
-    private @Getter(AccessLevel.NONE) String chatType = ChatType.GLOBAL.name();
+    private @Getter(AccessLevel.NONE) String profileChatType = ChatType.GLOBAL.name();
+    private @Getter(AccessLevel.NONE) String profilePlayerTerritoryChangeMessageType = TerritoryChangeMessageType.TITLE.name();
+
+    // Local
     private @Getter(AccessLevel.NONE) boolean autoClaim = false;
 
     // -------------------------------------------------------------------------------------------------
@@ -76,14 +79,26 @@ public class NationProfile {
      */
     public ChatType getChatType() {
         try {
-            return ChatType.valueOf(chatType);
+            return ChatType.valueOf(profileChatType);
         } catch (IllegalArgumentException e) {
             return ChatType.GLOBAL;
         }
     }
 
     public void setChatType(ChatType chatType) {
-        this.chatType = chatType.name();
+        this.profileChatType = chatType.name();
+    }
+
+    public TerritoryChangeMessageType getTerritoryChangeMessageType() {
+        try {
+            return TerritoryChangeMessageType.valueOf(profileChatType);
+        } catch (IllegalArgumentException e) {
+            return TerritoryChangeMessageType.TITLE;
+        }
+    }
+
+    public void setTerritoryChangeMessageType(TerritoryChangeMessageType type) {
+        this.profilePlayerTerritoryChangeMessageType = type.name();
     }
 
     public void setNation(Nation nation) {
@@ -129,7 +144,7 @@ public class NationProfile {
 
         nationId = null;
         nationRank = null;
-        chatType = ChatType.GLOBAL.name();
+        profileChatType = ChatType.GLOBAL.name();
 
         nation.getMemberUUIDs().remove(uuid);
 
@@ -168,8 +183,8 @@ public class NationProfile {
 
         document.put("nationId", nationId);
         document.put("nationRank", nationRank);
-        document.put("chatType", chatType);
-        document.put("autoClaim", autoClaim);
+        document.put("profileChatType", profileChatType);
+        document.put("profilePlayerTerritoryChangeMessageType", profilePlayerTerritoryChangeMessageType);
 
         return document;
     }
@@ -179,8 +194,8 @@ public class NationProfile {
 
         nationId = document.getString("nationId") == null ? nationId : document.getString("nationId");
         nationRank = document.getString("nationRank") == null ? nationRank : document.getString("nationRank");
-        chatType = document.getString("chatType") == null ? chatType : document.getString("chatType");
-        autoClaim = document.getBoolean("autoClaim") == null ? autoClaim : document.getBoolean("autoClaim");
+        profileChatType = document.getString("profileChatType") == null ? profileChatType : document.getString("profileChatType");
+        profilePlayerTerritoryChangeMessageType = document.getString("profilePlayerTerritoryChangeMessageType") == null ? profilePlayerTerritoryChangeMessageType : document.getString("profilePlayerTerritoryChangeMessageType");
     }
 
     public void load(boolean cache) {

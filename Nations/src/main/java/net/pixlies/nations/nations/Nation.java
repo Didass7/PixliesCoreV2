@@ -1,5 +1,6 @@
 package net.pixlies.nations.nations;
 
+import com.google.common.collect.Table;
 import com.mongodb.client.model.Filters;
 import lombok.*;
 import net.pixlies.core.utils.EventUtils;
@@ -299,7 +300,6 @@ public class Nation {
         ranks.put("member", NationRank.getMemberRank());
         ranks.put("newbie", NationRank.getNewbieRank());
 
-        this.cache();
         if (sender != null) {
             NationsLang.NATION_FORMED.broadcast("%NATION%;" + this.getName(), "%PLAYER%;" + sender.getName());
         }
@@ -453,6 +453,12 @@ public class Nation {
         this.removeCache();
         instance.getServer().getScheduler().runTaskAsynchronously(instance, () ->
                 instance.getMongoManager().getNationsCollection().deleteOne(Filters.eq("nationId", nationId)));
+    }
+
+    public void loadClaims() {
+        for (NationChunk claim : claims) {
+            claim.loadClaim();
+        }
     }
 
     // -------------------------------------------------------------------------------------------------

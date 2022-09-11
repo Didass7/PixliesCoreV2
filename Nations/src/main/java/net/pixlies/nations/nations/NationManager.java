@@ -1,12 +1,14 @@
 package net.pixlies.nations.nations;
 
+import com.google.common.collect.Table;
 import lombok.Getter;
 import net.pixlies.nations.Nations;
-import net.pixlies.nations.utils.NationUtils;
+import net.pixlies.nations.nations.chunk.NationChunk;
 import org.bson.Document;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +18,8 @@ public class NationManager {
 
     private final @Getter Map<String, Nation> nations = new HashMap<>(); // ID, Nation
     private final @Getter Map<String, String> nationNames = new HashMap<>();
+
+    private final @Getter Map<String, Table<Integer, Integer, NationChunk>> nationClaims = new HashMap<>();
 
     public void backupAll() {
         for (Nation nation : nations.values()) {
@@ -34,15 +38,15 @@ public class NationManager {
     public void refreshNations() {
 
         // Clear old nations in case of a (unrecommended) reload
-        if (!nations.isEmpty()) {
-            nations.clear();
-        }
+        nationClaims.clear();
+        nations.clear();
 
         // Load nations from database
         for (Document document : instance.getMongoManager().getNationsCollection().find()) {
             try {
                 Nation nation = Nation.getNewNationFromDocument(document);
                 nation.cache();
+                nation.loadClaims();
             } catch (Exception e) {
                 e.printStackTrace();
                 instance.getLogger().warning("Failed to load a nation.");

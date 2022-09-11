@@ -50,6 +50,7 @@ public class NationCreateCommand extends BaseCommand {
         nation.create(player);
         nation.addMember(player, NationRank.getLeaderRank().getName(), true);
 
+        nation.cache();
         nation.save();
 
         // TODO: open nation creation menu
