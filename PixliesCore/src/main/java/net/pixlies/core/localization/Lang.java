@@ -393,21 +393,6 @@ public enum Lang {
         send(Bukkit.getConsoleSender(), placeholders);
     }
 
-    public void kickPlayer(CommandSender sender) {
-        Player player = (Player) sender;
-        player.kickPlayer(get(sender));
-    }
-
-    public void kickPlayer(CommandSender sender, String... placeholders) {
-        Player player = (Player) sender;
-        String send = get(sender);
-        for (String s : placeholders) {
-            String[] pSplit = s.split(";");
-            send = send.replace(pSplit[0], pSplit[1]);
-        }
-        player.kickPlayer(send);
-    }
-
     public void setLanguage(Map<String, String> languages) {
         this.languages = languages;
     }
