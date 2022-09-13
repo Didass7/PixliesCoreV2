@@ -1,7 +1,7 @@
 name: PixliesCore
 version: 2.0.0
 description: The brain behind the PixliesNet plugins
-api-version: 1.18
+api-version: 1.19
 authors: [MickMMars, TAMaurice, vPrototype_, Dynmie]
 depend: [PlaceholderAPI, ProtocolLib]
 website: www.pixlies.net
@@ -9,7 +9,6 @@ main: net.pixlies.core.Main
 prefix: Core
 libraries:
     - org.mongodb:mongo-java-driver:3.12.11
-    - org.projectlombok:lombok:1.18.20
     - com.github.stefvanschie.inventoryframework:IF:0.10.7
     - commons-io:commons-io:2.11.0
     - org.ocpsoft.prettytime:prettytime:5.0.2.Final
