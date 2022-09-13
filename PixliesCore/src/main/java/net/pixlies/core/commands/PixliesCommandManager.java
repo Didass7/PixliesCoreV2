@@ -120,7 +120,6 @@ public class PixliesCommandManager {
         register(new WarpCommand(), false);
         register(new AfkCommand(), true);
         register(new SuicideCommand(), true);
-        register(new StatsCommand(), false);
     }
 
     private void registerContexts() {

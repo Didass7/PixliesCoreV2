@@ -46,11 +46,6 @@ public class User {
     private List<UUID> blockedUsers = new ArrayList<>();
 
     // STATS
-    private Map<House, Integer> houses = new HashMap<>() {{
-        for (House house : House.values()) {
-            put(house, 0);
-        }
-    }}; // House & House XPs
     private int civilPoints = 0; // Range: -100 to 100
     private int buyOrdersMade = 0;
     private int sellOrdersMade = 0;
@@ -628,20 +623,6 @@ public class User {
 
 
     // STATS
-
-    public House getHouse() {
-        int max = Collections.max(houses.values());
-
-        if (max < 200) return House.NOT_DECIDED;
-
-        for (Map.Entry<House, Integer> entry : houses.entrySet()) {
-            if (entry.getValue()==max) {
-                return entry.getKey();
-            }
-        }
-
-        return House.NOT_DECIDED;
-    }
     public void addBuy() {
         buyOrdersMade += 1;
     }
@@ -717,14 +698,6 @@ public class User {
         document.put("knownUsernames", knownUsernames);
         document.put("blockedUsers", blockedUsers);
 
-        // todo: houses, make to class
-        Document housesDocument = new Document();
-        for (Map.Entry<House, Integer> entry : houses.entrySet()) {
-            House house = entry.getKey();
-            Integer xp = entry.getValue();
-            housesDocument.put(house.name(), xp);
-        }
-        document.put("houses", housesDocument);
         document.put("civilPoints", civilPoints);
         document.put("buyOrdersMade", buyOrdersMade);
         document.put("sellOrdersMade", sellOrdersMade);
@@ -765,12 +738,6 @@ public class User {
         knownUsernames = document.getList("knownUsernames", String.class) == null ? knownUsernames : new ArrayList<>(document.getList("knownUsernames", String.class));
         blockedUsers = document.getList("blockedUsers", UUID.class) == null ? blockedUsers : new ArrayList<>(document.getList("blockedUsers", UUID.class));
 
-        Document housesDocument = (Document) document.get("houses");
-        if (housesDocument != null) {
-            for (String houseKey : housesDocument.keySet()) {
-                houses.put(House.valueOf(houseKey), housesDocument.getInteger(houseKey, 0));
-            }
-        }
         civilPoints = document.getInteger("civilPoints") == null ? civilPoints : document.getInteger("civilPoints");
         buyOrdersMade = document.getInteger("buyOrdersMade") == null ? buyOrdersMade : document.getInteger("buyOrdersMade");
         sellOrdersMade = document.getInteger("sellOrdersMade") == null ? sellOrdersMade : document.getInteger("sellOrdersMade");
