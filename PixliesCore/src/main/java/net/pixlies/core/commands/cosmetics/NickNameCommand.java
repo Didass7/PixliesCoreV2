@@ -51,6 +51,7 @@ public class NickNameCommand extends BaseCommand {
 
             // SET NICKNAME
             targetUser.setNickName(name);
+            targetUser.save();
             Lang.COSMETICS_NICKNAME_OTHER.send(sender, "%PLAYER%;" + target.getName(), "%MESSAGE%;" + name);
 
             return;
@@ -82,6 +83,7 @@ public class NickNameCommand extends BaseCommand {
 
         // SET NICKNAME
         user.setNickName(name);
+        user.save();
         Lang.COSMETICS_NICKNAME.send(player, "%MESSAGE%;" + name);
     }
 

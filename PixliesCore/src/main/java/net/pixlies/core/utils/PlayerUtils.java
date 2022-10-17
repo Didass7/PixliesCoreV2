@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -56,6 +57,18 @@ public final class PlayerUtils {
         meta.setOwningPlayer(Bukkit.getPlayer(uuid));
         skull.setItemMeta(meta);
         return skull;
+    }
+
+    /**
+     * Gets the UUID from the sender. If the sender is not a player then it returns default value
+     * @return a UUID
+     */
+    public static @Nullable UUID getIdFromSender(CommandSender sender, UUID def) {
+        return sender instanceof Player player ? player.getUniqueId() : def;
+    }
+
+    public static UUID getConsoleUUID() {
+        return UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670");
     }
 
 }

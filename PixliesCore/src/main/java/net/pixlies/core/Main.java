@@ -91,7 +91,7 @@ public class Main extends JavaPlugin {
         mongoManager = new MongoManager().init();
         redisManager = new RedisManager().init();
         serverDataManager = new ServerDataManager();
-        User.loadAllOnlineUsers();
+        User.loadOnline();
 
         // PIXLIES CALENDAR
         String[] date = calendarConfig.getString("date", "0/0/0").split("/");

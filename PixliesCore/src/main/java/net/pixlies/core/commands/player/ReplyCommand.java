@@ -3,7 +3,6 @@ package net.pixlies.core.commands.player;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandCompletion;
-import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Syntax;
 import lombok.val;
 import net.pixlies.core.Main;
@@ -24,7 +23,7 @@ public class ReplyCommand extends BaseCommand {
     public void onReply(Player player, String message) {
         val user = User.get(player.getUniqueId());
 
-        if (user.getMute() != null && !player.hasPermission("pixlies.moderation.mute.exempt")) {
+        if (user.getActiveMute() != null && !player.hasPermission("pixlies.moderation.mute.exempt")) {
             Lang.MUTE_MESSAGE.send(player);
             return;
         }

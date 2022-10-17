@@ -4,6 +4,9 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.user.User;
+import net.pixlies.core.localization.Lang;
+import net.pixlies.core.utils.PunishmentUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
@@ -19,20 +22,28 @@ public class BlacklistCommand extends BaseCommand {
     @CommandPermission("pixlies.moderation.blacklist")
     @CommandCompletion("@players")
     @Description("Bans player with the default reason")
+    @Syntax("<player> [reason] [-s]")
     public void onBlacklist(CommandSender sender, OfflinePlayer target, @Optional String reason) {
+        User user = User.getActiveUser(target.getUniqueId());
 
-        boolean silent = false;
-        String blacklistReason = instance.getConfig().getString("moderation.defaultReason", "No reason given");
-
-        if (reason != null && !reason.isEmpty()) {
-            blacklistReason = reason.replaceFirst("-s", "");
-            if (reason.endsWith("-s") || reason.startsWith("-s"))
-                silent = true;
-        }
-
-        User user = User.get(target.getUniqueId());
-        user.blacklist(blacklistReason, sender, silent);
-
+        instance.getServer().getScheduler().runTaskAsynchronously(instance, () -> {
+            if (!user.isPunishmentsLoaded()) {
+                Lang.FETCHING.send(sender);
+                user.loadPunishments();
+            }
+            if (user.isBlacklisted()) {
+                Lang.PLAYER_ALREADY_BLACKLISTED.send(sender);
+                return;
+            }
+            Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
+                user.blacklist(
+                        PunishmentUtils.replaceReason(reason),
+                        sender,
+                        PunishmentUtils.isSilent(reason)
+                );
+                user.savePunishments();
+            });
+        });
     }
 
 }

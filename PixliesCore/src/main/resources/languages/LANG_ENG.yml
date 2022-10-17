@@ -56,7 +56,7 @@ PLAYER_ALREADY_BANNED: "§7That player is already banned."
 
 SETTING_CHANGED: "§7The setting %SETTING%§7 is now %STATE%§7."
 
-NOT_A_NUMBER: "§7That isn't a valid number."
+NOT_A_DURATION: "§7That isn't a valid duration."
 
 CHAT_CLEARED: "§7The chat was cleared by §6%PLAYER%§7."
 CHAT_MUTED_FORMAT: "§cThe chat function is disabled at the moment."

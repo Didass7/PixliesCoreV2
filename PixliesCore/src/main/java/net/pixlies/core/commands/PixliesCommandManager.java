@@ -55,7 +55,6 @@ public class PixliesCommandManager {
         register(new UnMuteCommand(), false);
         register(new ChatCommand(), false);
         register(new InventorySeeCommand(), false);
-        register(new GlobalPvpCommand(), false);
         register(new KickallCommand(), false);
         register(new VanishCommand(), false);
         register(new JoinVanishedCommand(), false);

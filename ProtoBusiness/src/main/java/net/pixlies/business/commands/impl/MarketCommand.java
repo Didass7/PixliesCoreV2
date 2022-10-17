@@ -50,7 +50,7 @@ public class MarketCommand extends BaseCommand {
         }
 
         User user = User.get(player.getUniqueId());
-        if (user.getCurrentPunishments().containsKey("marketRestrict")) {
+        if (user.getPunishments().containsKey("marketRestrict")) {
             MarketLang.MARKET_PLAYER_IS_RESTRICTED.send(player);
             player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
             return;
@@ -116,7 +116,7 @@ public class MarketCommand extends BaseCommand {
             reason = pixlies.getConfig().getString("moderation.defaultReason", "No reason given");
         }
 
-        if (user.getCurrentPunishments().containsKey("marketRestrict")) {
+        if (user.getPunishments().containsKey("marketRestrict")) {
             if (target.isOnline()) {
                 MarketLang.MARKET_PLAYER_ALLOWED_TARGET.send(target);
                 target.playSound(target.getLocation(), "entity.experience_orb.pickup", 100, 1);

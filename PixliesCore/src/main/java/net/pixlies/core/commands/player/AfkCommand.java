@@ -15,6 +15,7 @@ public class AfkCommand extends BaseCommand {
     @Default
     @CommandAlias("afk")
     public void onAfk(Player player) {
+        // FIXME: Doesnt work, dont use purpur afk system it doesnt work!
         if (player.isAfk()) {
             Lang.PLAYER_AFK_OFF.send(player);
         } else {

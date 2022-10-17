@@ -1,10 +1,13 @@
 package net.pixlies.core.database.redis;
 
 import com.google.gson.*;
+import io.papermc.paper.event.player.AsyncChatEvent;
 import lombok.Getter;
 import net.pixlies.core.Main;
 import net.pixlies.core.configuration.Config;
 import net.pixlies.core.utils.EventUtils;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -54,7 +57,7 @@ public class RedisManager {
                 JsonObject data = jsonObject.get("data").getAsJsonObject();
                 RedisMessageReceiveEvent event = new RedisMessageReceiveEvent(identifier, data);
 
-                instance.getServer().getScheduler().runTask(instance, () -> EventUtils.call(event));
+                EventUtils.call(event);
 
             }
         };

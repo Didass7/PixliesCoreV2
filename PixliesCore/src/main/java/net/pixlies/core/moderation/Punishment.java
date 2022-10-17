@@ -2,61 +2,86 @@ package net.pixlies.core.moderation;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
+import net.pixlies.core.Main;
+import net.pixlies.core.utils.PlayerUtils;
 import org.bson.Document;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
 @AllArgsConstructor
 public class Punishment {
 
-    private @Getter String punishmentId;
-    private String type;
-    private @Getter String punisher;
-    private @Getter String punisherName;
-    private @Getter long datePunished;
-    private @Getter String reason;
-    private @Getter long until;
+    private final @Getter UUID punishmentId;
+    private final @Getter PunishmentType type;
+    private final @Getter UUID punishedBy;
+    private @Getter @Setter long punishedAt;
+    private @Getter @Setter long duration;
+    private @Getter @Setter String reason;
+
+    private @Getter @Nullable UUID removedBy;
+    private @Getter long removedAt;
+    private @Getter boolean removed;
 
     public Punishment(Document document) {
         this(
-                document.getString("punishmentId"),
-                document.getString("type"),
-                document.getString("punisher"),
-                document.getString("punisherName"),
-                document.getLong("datePunished"),
+                UUID.fromString(document.getString("punishmentId")),
+                PunishmentType.valueOf(document.getString("type")),
+                UUID.fromString(document.getString("punishedBy")),
+                document.getLong("punishedAt"),
+                document.getLong("duration"),
                 document.getString("reason"),
-                document.getLong("until")
+
+                document.get("removedBy", UUID.class),
+                document.get("removedAt", 0L),
+                document.get("removed", false)
         );
     }
 
-    public UUID getPunisherId() {
-        return UUID.fromString(punisher);
-    }
-
-    public PunishmentType getType() {
-        return PunishmentType.valueOf(type);
+    public void remove(UUID by, long at) {
+        removedBy = by;
+        removedAt = at;
+        removed = true;
     }
 
     public boolean isPermanent() {
-        return until == 0;
+        return duration == 0;
     }
 
     public boolean isExpired() {
+        if (removed) return true;
         if (isPermanent()) return false;
-        if (getUntil() == 0) return false;
-        return System.currentTimeMillis() - getUntil() <= 0;
+        return punishedAt + duration <= System.currentTimeMillis();
+    }
+
+    public boolean isActive() {
+        if (removed) return false;
+        if (isPermanent()) return true;
+        return punishedAt + duration > System.currentTimeMillis();
+    }
+
+    public boolean isPunishedByConsole() {
+        return PlayerUtils.getConsoleUUID().equals(punishedBy);
+    }
+
+    public long getUntil() {
+        return punishedAt + duration;
     }
 
     public Document toDocument() {
         Document document = new Document();
 
-        document.put("punishmentId", punishmentId);
-        document.put("type", type);
-        document.put("punisher", punisher);
-        document.put("punisherName", punisherName);
-        document.put("datePunished", datePunished);
+        document.put("punishmentId", punishmentId.toString());
+        document.put("type", type.name());
+        document.put("punishedBy", punishedBy.toString());
+        document.put("punishedAt", punishedAt);
+        document.put("duration", duration);
         document.put("reason", reason);
-        document.put("until", until);
+
+        document.put("removedBy", removedBy);
+        document.put("removedAt", removedAt);
+        document.put("removed", removed);
 
         return document;
     }

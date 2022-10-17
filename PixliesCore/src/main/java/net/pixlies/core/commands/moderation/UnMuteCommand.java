@@ -5,6 +5,7 @@ import co.aikar.commands.annotation.*;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.localization.Lang;
+import net.pixlies.core.utils.PunishmentUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -15,21 +16,24 @@ public class UnMuteCommand extends BaseCommand {
     @CommandPermission("pixlies.moderation.unmute")
     @CommandCompletion("@players")
     @Description("Mute'nt a player")
+    @Syntax("<player> [-s]")
     public void onUnmute(CommandSender sender, OfflinePlayer target, @Optional String s) {
+        User user = User.getActiveUser(target.getUniqueId());
 
-        boolean silent = s != null && s.contains("-s");
         Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
-            User user = User.getLoadDoNotCache(target.getUniqueId());
-            if (!user.isLoaded()) {
-                user.load(false);
+            if (!user.isPunishmentsLoaded()) {
+                Lang.FETCHING.send(sender);
+                user.loadPunishments();
             }
             if (!user.isMuted()) {
                 Lang.PLAYER_NOT_MUTED.send(sender);
                 return;
             }
-            user.unmute(sender, silent);
+            Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
+                user.unmute(sender, PunishmentUtils.isSilent(s));
+                user.savePunishments();
+            });
         });
-
     }
 
 }

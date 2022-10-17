@@ -5,6 +5,7 @@ import co.aikar.commands.annotation.*;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.localization.Lang;
+import net.pixlies.core.utils.PunishmentUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -15,24 +16,29 @@ import org.bukkit.command.CommandSender;
  */
 public class UnBlacklistCommand extends BaseCommand {
 
-    private static final Main instance = Main.getInstance();
-
     @CommandAlias("unblacklist|blacklistnt")
     @CommandPermission("pixlies.moderation.unblacklist")
     @CommandCompletion("@players")
+    @Syntax("<player> [-s]")
     @Description("Unblacklist a player")
     public void onUnBlacklist(CommandSender sender, OfflinePlayer target, @Optional String s) {
+        User user = User.getActiveUser(target.getUniqueId());
 
-        boolean silent = s != null && s.contains("-s");
         Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
-            User user = User.getLoadDoNotCache(target.getUniqueId());
+            if (!user.isPunishmentsLoaded()) {
+                Lang.FETCHING.send(sender);
+                user.loadPunishments();
+            }
+
             if (!user.isBlacklisted()) {
                 Lang.PLAYER_NOT_BLACKLISTED.send(sender);
                 return;
             }
-            user.unblacklist(sender, silent);
+            Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
+                user.unblacklist(sender, PunishmentUtils.isSilent(s));
+                user.savePunishments();
+            });
         });
-
     }
 
 }
