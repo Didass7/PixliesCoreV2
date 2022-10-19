@@ -22,7 +22,7 @@ import java.util.UUID;
 /**
  * Market command
  *
- * @author vPrototype_
+ * @author vyketype
  */
 @CommandAlias("market|m|nasdaq|nyse|snp500|dowjones|ftse")
 @CommandPermission("pixlies.business.market")

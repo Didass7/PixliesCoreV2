@@ -14,7 +14,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 /**
  * StaffChat listener
- * @author vPrototype_
+ * @author vyketype
  * @author dynmie
  */
 public class StaffChatListener implements Listener {

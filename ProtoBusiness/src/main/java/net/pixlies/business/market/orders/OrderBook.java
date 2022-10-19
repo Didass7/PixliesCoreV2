@@ -14,7 +14,7 @@ import java.util.*;
 /**
  * Represents the order book for one item
  *
- * @author vPrototype_
+ * @author vyketype
  */
 @Getter
 @AllArgsConstructor

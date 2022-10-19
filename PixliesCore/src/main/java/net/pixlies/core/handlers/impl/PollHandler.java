@@ -1,5 +1,5 @@
 /**
- * @author vPrototype_
+ * @author vyketype
  */
 
 package net.pixlies.core.handlers.impl;

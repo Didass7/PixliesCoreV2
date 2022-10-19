@@ -1,5 +1,5 @@
 /**
- * @author vPrototype_
+ * @author vyketype
  */
 
 package net.pixlies.core.entity.polls;
@@ -24,7 +24,7 @@ import java.util.UUID;
 /**
  * Represents a Poll object
  *
- * @author vPrototype_
+ * @author vyketype
  * @author Dynmie
  */
 @ToString

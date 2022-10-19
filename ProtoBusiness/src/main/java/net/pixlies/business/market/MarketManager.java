@@ -17,7 +17,7 @@ import java.util.*;
 /**
  * Market manager
  *
- * @author vPrototype_
+ * @author vyketype
  */
 public class MarketManager {
 

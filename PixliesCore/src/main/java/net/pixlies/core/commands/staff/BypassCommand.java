@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 
 /**
  * Nation bypass command
- * @author vPrototype_
+ * @author vyketype
  * @author Dynmie
  */
 @CommandAlias("bypass|b")

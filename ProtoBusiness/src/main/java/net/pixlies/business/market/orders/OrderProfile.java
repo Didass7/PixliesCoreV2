@@ -38,7 +38,7 @@ import java.util.function.Consumer;
 /**
  * Market profile
  *
- * @author vPrototype_
+ * @author vyketype
  */
 @Data
 public class OrderProfile {

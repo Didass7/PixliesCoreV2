@@ -1,5 +1,5 @@
 /**
- * @author vPrototype_
+ * @author vyketype
  */
 
 package net.pixlies.core.commands.staff;
@@ -17,7 +17,7 @@ import org.bukkit.entity.Player;
 /**
  * Command for managing and viewing polls
  *
- * @author vPrototype_
+ * @author vyketype
  * @author Dynmie
  */
 @CommandAlias("poll|polls")
