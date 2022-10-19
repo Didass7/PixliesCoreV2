@@ -61,7 +61,8 @@ public class OrderProfile {
         Inventory inv = player.getInventory();
         int num = 0;
         for (int i = 0; i < inv.getSize(); i++) {
-            if (Objects.equals(inv.getItem(i), new ItemStack(item.getMaterial()))) {
+            if (inv.getItem(i) == null) continue;
+            if (Objects.equals(inv.getItem(i).getType(), item.getMaterial())) {
                 num += Objects.requireNonNull(inv.getItem(i)).getAmount();
             }
         }
