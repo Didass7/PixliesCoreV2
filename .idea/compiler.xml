@@ -37,6 +37,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="PixliesCore" options="--add-modules java.base" />
       <module name="ProtoBusiness" options="--add-modules java.base" />
     </option>
   </component>

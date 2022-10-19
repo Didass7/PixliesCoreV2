@@ -13,9 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MarketHandler implements Handler {
-
-    @Getter @Setter private volatile boolean marketOpen = true;
-
+    
     private final Map<String, OrderProfile> profiles = new HashMap<>();
     private final ListMultimap<String, Order> notifs = ArrayListMultimap.create();
     private final ListMultimap<String, Challenge> challenges = ArrayListMultimap.create();

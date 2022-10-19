@@ -62,7 +62,7 @@ public class OrderProfile {
         int num = 0;
         for (int i = 0; i < inv.getSize(); i++) {
             if (inv.getItem(i) == null) continue;
-            if (Objects.equals(inv.getItem(i).getType(), item.getMaterial())) {
+            if (Objects.equals(Objects.requireNonNull(inv.getItem(i)).getType(), item.getMaterial())) {
                 num += Objects.requireNonNull(inv.getItem(i)).getAmount();
             }
         }
