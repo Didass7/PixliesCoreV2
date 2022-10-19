@@ -1,14 +1,7 @@
 package net.pixlies.core.entity.user;
 
-import com.google.gson.Gson;
-import com.mongodb.lang.Nullable;
-import dev.morphia.annotations.*;
-import dev.morphia.query.experimental.filters.Filters;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import me.clip.placeholderapi.PlaceholderAPI;
+import com.mongodb.client.model.Filters;
+import lombok.*;
 import net.kyori.adventure.text.Component;
 import net.pixlies.core.Main;
 import net.pixlies.core.economy.Wallet;
@@ -16,12 +9,15 @@ import net.pixlies.core.entity.Warp;
 import net.pixlies.core.entity.user.timers.Timer;
 import net.pixlies.core.entity.user.timers.impl.CombatTimer;
 import net.pixlies.core.entity.user.timers.impl.TeleportTimer;
-import net.pixlies.core.house.House;
+import net.pixlies.core.events.impl.moderation.UserKickedEvent;
+import net.pixlies.core.events.impl.moderation.UserPunishedEvent;
+import net.pixlies.core.events.impl.moderation.UserUnpunishedEvent;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.moderation.Punishment;
 import net.pixlies.core.moderation.PunishmentType;
 import net.pixlies.core.scoreboard.ScoreboardType;
-import net.pixlies.core.utils.CC;
+import net.pixlies.core.utils.PunishmentUtils;
+import org.bson.Document;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -29,320 +25,265 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
-import org.ocpsoft.prettytime.PrettyTime;
+import org.jetbrains.annotations.Nullable;
 
+import java.net.InetSocketAddress;
 import java.util.*;
 
-@Data
-@AllArgsConstructor
-@Entity("users")
-@Indexes(
-        @Index(fields = { @Field("uuid") })
-)
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
 public class User {
 
-    public static final Main instance = Main.getInstance();
+    private static final Main instance = Main.getInstance();
 
-    public static final Gson gson = new Gson();
-
-    @Id private String uuid;
-    private long joined;
-    private String discordId;
-    private String nickName;
-    private Map<String, Wallet> wallets;
-    private List<String> knownUsernames;
-    private List<UUID> blockedUsers;
+    private final String uuid;
+    private boolean loaded = false;
+    private boolean basicLoaded = false;
+    private boolean punishmentsLoaded = false;
+    private @Getter(AccessLevel.NONE) boolean joinedBefore = false;
+    private long joined = System.currentTimeMillis();
+    private @Nullable String discordId;
+    private @Nullable String nickName;
+    private List<Wallet> wallets = new ArrayList<>();
+    private String currentUsername = "";
+    private List<String> knownUsernames = new ArrayList<>();
+    private String currentIp = "";
+    private List<String> knownIps = new ArrayList<>();
+    private List<UUID> blockedUsers = new ArrayList<>();
 
     // STATS
-    private String dateJoined; // In Pixlies DateAndTime
-    private Map<House, Integer> houses; // House & House XPs
-    private int civilPoints; // Range: -100 to 100
-    private int buyOrdersMade;
-    private int sellOrdersMade;
-    private int tradesMade;
-    private double moneySpent;
-    private double moneyGained;
-    private int itemsSold;
-    private int itemsBought;
+    private int civilPoints = 0; // Range: -100 to 100
+    private int buyOrdersMade = 0;
+    private int sellOrdersMade = 0;
+    private int tradesMade = 0;
+    private double moneySpent = 0d;
+    private double moneyGained = 0d;
+    private int itemsSold = 0;
+    private int itemsBought = 0;
 
     // PUNISHMENT
-    private Map<String, Punishment> currentPunishments;
+    private List<Punishment> punishments = new ArrayList<>();
 
     // PERSONALIZATION
-    private boolean commandSpyEnabled;
-    private boolean socialSpyEnabled;
-    private boolean viewMutedChat;
-    private boolean viewBannedJoins;
-    private boolean joinVanish;
-    private String scoreboardType;
+    private boolean commandSpyEnabled = false;
+    private boolean socialSpyEnabled = false;
+    private boolean viewMutedChat = true;
+    private boolean viewBannedJoins = true;
+    private boolean joinVanish = false;
+    private String scoreboardType = ScoreboardType.ENABLED.name();
 
     // SETTINGS
-    private @Getter(AccessLevel.NONE) boolean inStaffMode;
-    private @Getter(AccessLevel.NONE) boolean bypassing;
-    private @Getter(AccessLevel.NONE) boolean vanished;
-    private @Getter(AccessLevel.NONE) boolean passive;
-    private boolean inStaffChat;
+    private @Getter(AccessLevel.NONE) boolean inStaffMode = false;
+    private @Getter(AccessLevel.NONE) boolean bypassing = false;
+    private @Getter(AccessLevel.NONE) boolean vanished = false;
+    private @Getter(AccessLevel.NONE) boolean passive = false;
+    private boolean inStaffChat = false;
 
     // LANG
-    private String lang;
-    @Getter(AccessLevel.NONE) private Map<String, Object> extras;
+    private String lang = "ENG";
+
+    // UNSAVED FIELDS
     private final transient Map<String, Timer> allTimers = new HashMap<>();
 
-    public Map<String, Object> getExtras() {
-        if (extras == null) extras = new HashMap<>();
-        return extras;
+    // CONSTRUCTORS
+    public User(UUID uuid) {
+        this.uuid = uuid.toString();
     }
 
-    public Wallet getServerCurrency() {
-        return wallets.get("serverCurrency");
-    }
-
-    public OfflinePlayer getAsOfflinePlayer() {
+    public @NotNull OfflinePlayer getAsOfflinePlayer() {
         return Bukkit.getOfflinePlayer(this.getUniqueId());
     }
 
-    public boolean isOnline() {
-        OfflinePlayer player = getAsOfflinePlayer();
-        if (player == null) {
-            return false;
-        }
-        return player.isOnline();
+    public boolean hasJoinedBefore() {
+        return joinedBefore;
     }
 
-    public Punishment getMute() {
-        if (!currentPunishments.containsKey("mute")) return null;
-        Punishment punishment = currentPunishments.get("mute");
-        if (punishment.getUntil() - System.currentTimeMillis() <= 0 && punishment.getUntil() != 0) {
-            currentPunishments.remove("mute");
-            return null;
-        }
-        return punishment;
+    public boolean isOnline() {
+        return this.getAsOfflinePlayer().isOnline();
+    }
+
+    public Punishment getActiveMute() {
+        return this.getActivePunishmentByType(PunishmentType.MUTE);
     }
 
     public boolean isMuted() {
-        return getMute() != null;
+        return getActiveMute() != null;
     }
 
-    public @NotNull Punishment mute(@Nullable String reason, @NotNull CommandSender punisher, boolean silent) {
-
-        if (isMuted()) return getMute();
-        UUID punisherUUID = punisher instanceof Player player ? player.getUniqueId() : UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670");
-
-        String newReason = reason;
-
-        if (newReason == null || newReason.isEmpty()) {
-            newReason = instance.getConfig().getString("moderation.defaultReason", "No reason given");
-        }
+    public void mute(@Nullable String reason, @NotNull CommandSender punisher, boolean silent) {
+        if (isMuted()) return;
+        UUID punisherUUID = PunishmentUtils.getPunisherUUID(punisher);
 
         Punishment punishment = new Punishment(
-                UUID.randomUUID().toString(),
-                PunishmentType.MUTE.name(),
-                punisherUUID.toString(),
-                punisher.getName(),
+                UUID.randomUUID(),
+                PunishmentType.MUTE,
+                punisherUUID,
                 System.currentTimeMillis(),
-                newReason,
-                0
+                0,
+                PunishmentUtils.replaceReason(reason),
+                null,
+                0,
+                false
         );
 
-        currentPunishments.put("mute", punishment);
-        if (silent) {
-            Lang.PLAYER_PERMANENTLY_MUTED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason);
-        } else {
-            Lang.PLAYER_PERMANENTLY_MUTED.broadcast("%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + newReason);
-        }
-        save();
-        return punishment;
+        punishments.add(punishment);
+
+        UserPunishedEvent event = new UserPunishedEvent(punisher, this, punishment, silent);
+        event.callEvent();
+    }
+
+    public void tempMute(@Nullable String reason, @NotNull CommandSender punisher, long duration, boolean silent) {
+        if (isMuted()) return;
+        UUID punisherUUID = PunishmentUtils.getPunisherUUID(punisher);
+
+        Punishment punishment = new Punishment(
+                UUID.randomUUID(),
+                PunishmentType.MUTE,
+                punisherUUID,
+                System.currentTimeMillis(),
+                duration,
+                PunishmentUtils.replaceReason(reason),
+                null,
+                0,
+                false
+        );
+
+        punishments.add(punishment);
+
+        UserPunishedEvent event = new UserPunishedEvent(punisher, this, punishment, silent);
+        event.callEvent();
     }
 
     public void unmute(@NotNull CommandSender sender, boolean silent) {
         if (!isMuted()) return;
-        currentPunishments.remove("mute");
-        if (silent) {
-            Lang.PLAYER_UNMUTED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + getAsOfflinePlayer().getName(), "%EXECUTOR%;" + sender.getName());
-        } else {
-            Lang.PLAYER_UNMUTED.broadcast("%PLAYER%;" + getAsOfflinePlayer().getName(), "%EXECUTOR%;" + sender.getName());
+        UUID punisherUUID = PunishmentUtils.getPunisherUUID(sender);
+
+        // Filters out all punishments that are not removed and then mark the punishment removed.
+        for (Punishment punishment : punishments.parallelStream().filter(punishment -> !punishment.isRemoved()).toList()) {
+            punishment.remove(punisherUUID, System.currentTimeMillis());
         }
-        save();
+
+        UserUnpunishedEvent event = new UserUnpunishedEvent(sender, this, PunishmentType.MUTE, silent);
+        event.callEvent();
     }
 
-    public @NotNull Punishment tempMute(@Nullable String reason, @NotNull CommandSender punisher, long duration, boolean silent) {
-        if (isMuted()) return getMute();
-        UUID punisherUUID = punisher instanceof Player player ? player.getUniqueId() : UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670");
-
-        String newReason = reason;
-
-        if (newReason == null || newReason.isEmpty()) {
-            newReason = instance.getConfig().getString("moderation.defaultReason", "No reason given");
-        }
-
-        Punishment punishment = new Punishment(UUID.randomUUID().toString(), PunishmentType.MUTE.name(), punisherUUID.toString(), punisher.getName(), System.currentTimeMillis(), newReason, duration + System.currentTimeMillis());
-        currentPunishments.put("mute", punishment);
-        if (silent)
-            Lang.PLAYER_TEMPORARILY_MUTED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason, "%TIME%;" + new PrettyTime().format(new Date(punishment.getUntil())));
-        else
-            Lang.PLAYER_TEMPORARILY_MUTED.broadcast("%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + newReason, "%TIME%;" + new PrettyTime().format(new Date(punishment.getUntil())));
-        save();
-        return punishment;
-    }
-
-    public Punishment getBan() {
-        if (!currentPunishments.containsKey("ban")) return null;
-        Punishment punishment = currentPunishments.get("ban");
-        if (punishment.getUntil() - System.currentTimeMillis() <= 0 && punishment.getUntil() != 0) {
-            currentPunishments.remove("ban");
-            return null;
-        }
-        return punishment;
+    public Punishment getActiveBan() {
+        return this.getActivePunishmentByType(PunishmentType.BAN);
     }
 
     public boolean isBanned() {
-        return getBan() != null;
+        return getActiveBan() != null;
     }
 
-    public @NotNull Punishment ban(@Nullable String reason, @NotNull CommandSender punisher, boolean silent) {
-        if (isBanned()) return getBan();
-        UUID punisherUUID = punisher instanceof Player player ? player.getUniqueId() : UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670");
-
-        String newReason = reason;
-
-        if (newReason == null || newReason.isEmpty()) {
-            newReason = instance.getConfig().getString("moderation.defaultReason", "No reason given");
-        }
-
-        Punishment punishment = new Punishment(UUID.randomUUID().toString(), PunishmentType.BAN.name(), punisherUUID.toString(), punisher.getName(), System.currentTimeMillis(), newReason, 0);
-        currentPunishments.put("ban", punishment);
-        if (silent)
-            Lang.PLAYER_PERMANENTLY_BANNED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason);
-        else
-            Lang.PLAYER_PERMANENTLY_BANNED.broadcast("%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + newReason);
-        if (getAsOfflinePlayer().getPlayer() != null && getAsOfflinePlayer().isOnline()) {
-            Player player = getAsOfflinePlayer().getPlayer();
-            String message = Lang.BAN_MESSAGE.get(player)
-                    .replace("%REASON%", punishment.getReason())
-                    .replace("%EXECUTOR%", punisher.getName())
-                    .replace("%ID%", punishment.getPunishmentId())
-                    .replace("%DURATION%", "§4§lPERMANENT!");
-
-            player.kick(Component.text(message));
-        }
-        save();
-        return punishment;
-    }
-
-    public @NotNull Punishment tempBan(@Nullable String reason, @NotNull CommandSender punisher, long duration, boolean silent) {
-        if (isBanned()) return getBan();
-        UUID punisherUUID = punisher instanceof Player player ? player.getUniqueId() : UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670");
-
-        String newReason = reason;
-
-        if (newReason == null || newReason.isEmpty()) {
-            newReason = instance.getConfig().getString("moderation.defaultReason", "No reason given");
-        }
+    public void ban(@Nullable String reason, @NotNull CommandSender punisher, boolean silent) {
+        if (isBanned()) return;
+        UUID punisherUUID = PunishmentUtils.getPunisherUUID(punisher);
 
         Punishment punishment = new Punishment(
-                UUID.randomUUID().toString(),
-                PunishmentType.BAN.name(),
-                punisherUUID.toString(),
-                punisher.getName(),
+                UUID.randomUUID(),
+                PunishmentType.BAN,
+                punisherUUID,
                 System.currentTimeMillis(),
-                newReason,
-                duration + System.currentTimeMillis()
+                0,
+                PunishmentUtils.replaceReason(reason),
+                null,
+                0,
+                false
         );
 
-        currentPunishments.put("ban", punishment);
-        if (silent)
-            Lang.PLAYER_TEMPORARILY_BANNED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason, "%TIME%;" + new PrettyTime().format(new Date(punishment.getUntil())));
-        else
-            Lang.PLAYER_TEMPORARILY_BANNED.broadcast("%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + newReason, "%TIME%;" + new PrettyTime().format(new Date(punishment.getUntil())));
+        punishments.add(punishment);
 
-        if (getAsOfflinePlayer().getPlayer() != null && getAsOfflinePlayer().isOnline()) {
-            Player player = getAsOfflinePlayer().getPlayer();
-            String message = Lang.BAN_MESSAGE.get(player)
-                    .replace("%REASON%", punishment.getReason())
-                    .replace("%EXECUTOR%", punisher.getName())
-                    .replace("%ID%", punishment.getPunishmentId())
-                    .replace("%DURATION%", new PrettyTime().format(new Date(punishment.getUntil())));
-
-            player.kick(Component.text(message));
-        }
-        save();
-        return punishment;
+        UserPunishedEvent event = new UserPunishedEvent(punisher, this, punishment, silent);
+        event.callEvent();
     }
 
-    public void unban(CommandSender sender, boolean silent) {
+    public void tempBan(@Nullable String reason, @NotNull CommandSender punisher, long duration, boolean silent) {
+        if (isBanned()) return;
+        UUID punisherUUID = PunishmentUtils.getPunisherUUID(punisher);
+
+        Punishment punishment = new Punishment(
+                UUID.randomUUID(),
+                PunishmentType.BAN,
+                punisherUUID,
+                System.currentTimeMillis(),
+                duration,
+                PunishmentUtils.replaceReason(reason),
+                null,
+                0,
+                false
+        );
+
+        punishments.add(punishment);
+
+        UserPunishedEvent event = new UserPunishedEvent(punisher, this, punishment, silent);
+        event.callEvent();
+    }
+
+    public void unban(@NotNull CommandSender sender, boolean silent) {
         if (!isBanned()) return;
-        currentPunishments.remove("ban");
-        if (silent) {
-            Lang.PLAYER_UNBANNED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + getAsOfflinePlayer().getName(), "%EXECUTOR%;" + sender.getName());
-        } else {
-            Lang.PLAYER_UNBANNED.broadcast("%PLAYER%;" + getAsOfflinePlayer().getName(), "%EXECUTOR%;" + sender.getName());
+        UUID punisherUUID = PunishmentUtils.getPunisherUUID(sender);
+
+        // Filters out all punishments that are not removed and then mark the punishment removed.
+        for (Punishment punishment : punishments.parallelStream().filter(punishment -> !punishment.isRemoved()).toList()) {
+            punishment.remove(punisherUUID, System.currentTimeMillis());
         }
-        save();
+
+        UserUnpunishedEvent event = new UserUnpunishedEvent(sender, this, PunishmentType.BAN, silent);
+        event.callEvent();
     }
 
-    public @Nullable Punishment getBlacklist() {
-        if (!currentPunishments.containsKey("blacklist")) return null;
-        return currentPunishments.get("blacklist");
+    public Punishment getActiveBlacklist() {
+        return this.getActivePunishmentByType(PunishmentType.BLACKLIST);
     }
 
     public boolean isBlacklisted() {
-        return currentPunishments.containsKey("blacklist");
+        return getActiveBlacklist() != null;
     }
 
-    /**
-     * Blacklists a player because they did a horrible no-no.
-     * @param reason the reason for the blacklist
-     * @param punisher the punisher
-     * @param silent if you want it broadcasted to staff or not
-     * @return the punishment.
-     */
-    public @NotNull Punishment blacklist(@Nullable String reason, @NotNull CommandSender punisher, boolean silent) {
-        if (isBlacklisted()) return Objects.requireNonNull(getBlacklist());
+    public void blacklist(@Nullable String reason, @NotNull CommandSender punisher, boolean silent) {
+        if (isBlacklisted()) return;
+        UUID punisherUUID = PunishmentUtils.getPunisherUUID(punisher);
 
-        UUID punisherUUID = punisher instanceof Player player ? player.getUniqueId() : UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670");
-
-        String newReason = reason;
-
-        if (newReason == null || newReason.isEmpty()) {
-            newReason = instance.getConfig().getString("moderation.defaultReason", "No reason given");
-        }
-
-        Punishment punishment = new Punishment(UUID.randomUUID().toString(),
-                PunishmentType.BLACKLIST.name(),
-                punisherUUID.toString(),
-                punisher.getName(),
+        Punishment punishment = new Punishment(
+                UUID.randomUUID(),
+                PunishmentType.BLACKLIST,
+                punisherUUID,
                 System.currentTimeMillis(),
-                newReason,
-                0
+                0,
+                PunishmentUtils.replaceReason(reason),
+                null,
+                0,
+                false
         );
 
-        currentPunishments.put("blacklist", punishment);
-        if (silent) {
-            Lang.PLAYER_BLACKLISTED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + reason);
-        } else {
-            Lang.PLAYER_BLACKLISTED.broadcast("%PLAYER%;" + this.getAsOfflinePlayer().getName(), "%EXECUTOR%;" + punisher.getName(), "%REASON%;" + newReason);
-        }
-        if (getAsOfflinePlayer().getPlayer() != null && getAsOfflinePlayer().isOnline()) {
-            Player player = getAsOfflinePlayer().getPlayer();
-            String message = Lang.BLACKLIST_MESSAGE.get(player)
-                    .replace("%REASON%", punishment.getReason())
-                    .replace("%EXECUTOR%", punisher.getName())
-                    .replace("%ID%", punishment.getPunishmentId());
-            player.kick(Component.text(message));
-        }
-        save();
-        return punishment;
+        punishments.add(punishment);
+
+        UserPunishedEvent event = new UserPunishedEvent(punisher, this, punishment, silent);
+        event.callEvent();
     }
 
     public void unblacklist(@NotNull CommandSender sender, boolean silent) {
         if (!isBlacklisted()) return;
-        currentPunishments.remove("blacklist");
-        if (silent) {
-            Lang.PLAYER_UNBLACKLISTED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + getAsOfflinePlayer().getName(), "%EXECUTOR%;" + sender.getName());
-        } else {
-            Lang.PLAYER_UNBLACKLISTED.broadcast("%PLAYER%;" + getAsOfflinePlayer().getName(), "%EXECUTOR%;" + sender.getName());
+        UUID punisherUUID = PunishmentUtils.getPunisherUUID(sender);
+
+        // Filters out all punishments that are not removed and then mark the punishment removed.
+        for (Punishment punishment : punishments.parallelStream().filter(punishment -> !punishment.isRemoved()).toList()) {
+            punishment.remove(punisherUUID, System.currentTimeMillis());
         }
-        save();
+
+        UserUnpunishedEvent event = new UserUnpunishedEvent(sender, this, PunishmentType.BLACKLIST, silent);
+        event.callEvent();
+    }
+
+    public Punishment getActivePunishmentByType(PunishmentType type) {
+        for (Punishment punishment : punishments) {
+            if (punishment.isExpired() || punishment.getType() != type) continue;
+
+            return punishment;
+        }
+        return null;
     }
 
     /**
@@ -350,56 +291,31 @@ public class User {
      * @param reason the reason to kick
      * @param sender the punisher that punished the player
      * @param silent silently kick the player
-     * @return true if success, false if failed
      */
-    public boolean kick(@Nullable String reason, @NotNull CommandSender sender,  boolean silent) {
+    public void kick(@Nullable String reason, @NotNull CommandSender sender,  boolean silent) {
         String kickReason = reason;
-        if (!getAsOfflinePlayer().isOnline()) return false;
+        if (!getAsOfflinePlayer().isOnline()) return;
+
         Player player = getAsOfflinePlayer().getPlayer();
+
         if (player == null)
-            return false;
+            return;
+
         if (player.hasPermission("pixlies.moderation.kick.exempt"))
-            return false;
+            return;
+
         if (reason == null || reason.isEmpty()) {
             kickReason = instance.getConfig().getString("moderation.defaultReason", "No reason given");
         }
+
         String kickMessage = Lang.KICK_MESSAGE.get(player);
         kickMessage = kickMessage
                 .replace("%EXECUTOR%", sender.getName())
                 .replace("%REASON%",  kickReason);
+
         player.kick(Component.text(kickMessage));
-        if (silent) {
-            Lang.PLAYER_KICKED.broadcastPermission("pixlies.moderation.silent", "%PLAYER%;" + getAsOfflinePlayer().getName(), "%EXECUTOR%;" + sender.getName(), "%REASON%;" + kickReason);
-        } else {
-            Lang.PLAYER_KICKED.broadcast("%PLAYER%;" + getAsOfflinePlayer().getName(), "%EXECUTOR%;" + sender.getName(), "%REASON%;" + kickReason);
-        }
-        return true;
-    }
-
-//    public @NotNull Punishment marketRestrict(Player punisher, String reason) {
-//        Punishment punishment = new Punishment(UUID.randomUUID().toString(),
-//                PunishmentType.MARKET_RESTRICT.name(),
-//                punisher.getUniqueId().toString(),
-//                System.currentTimeMillis(),
-//                reason,
-//                0
-//        );
-//        getCurrentPunishments().put("marketRestrict", punishment);
-//        save();
-//        return punishment;
-//    }
-//
-//    public void unRestrict() {
-//        getCurrentPunishments().remove("marketRestrict");
-//        save();
-//    }
-
-    /**
-     * Kicks the user with the default reason.
-     * @return true if success, false if failed
-     */
-    public boolean kick(@NotNull CommandSender sender, boolean silent) {
-        return this.kick(null, sender, silent);
+        UserKickedEvent event = new UserKickedEvent(sender, player, this, kickReason, silent);
+        event.callEvent();
     }
 
     public boolean hasNickName() {
@@ -416,12 +332,10 @@ public class User {
             throw new IllegalArgumentException("Illegal nickname. Current length: " + name.length());
         }
         nickName = name;
-        save();
     }
 
     public void removeNickName() {
         nickName = null;
-        save();
     }
 
     public String getNickName() {
@@ -461,24 +375,9 @@ public class User {
         return player.hasPermission("pixlies.moderation.vanish") && vanished;
     }
 
-    public void backup() {
-        try {
-            instance.getDatabase().getDatastore().find(User.class).filter(Filters.gte("uuid", uuid)).delete();
-        } catch (Exception ignored) { }
-
-        instance.getDatabase().getDatastore().save(this);
-    }
-
-    public void save() {
-        instance.getDatabase().getUserCache().remove(getUniqueId());
-        instance.getDatabase().getUserCache().put(getUniqueId(), this);
-        backup();
-    }
-
     /**
-     * Updates the timers list.
      * Use this to get timers.
-     * @return All non-expired timers
+     * @return All timers
      */
     public Collection<Timer> getTimers() {
         if (allTimers.isEmpty()) return Collections.emptyList();
@@ -634,26 +533,12 @@ public class User {
         try {
             return ScoreboardType.valueOf(scoreboardType);
         } catch (IllegalArgumentException e) {
-            return ScoreboardType.STANDARD;
+            return ScoreboardType.ENABLED;
         }
     }
+
 
     // STATS
-
-    public House getHouse() {
-        int max = Collections.max(houses.values());
-
-        if (max < 200) return House.NOT_DECIDED;
-
-        for (Map.Entry<House, Integer> entry : houses.entrySet()) {
-            if (entry.getValue()==max) {
-                return entry.getKey();
-            }
-        }
-
-        return House.NOT_DECIDED;
-    }
-
     public void addBuy() {
         buyOrdersMade += 1;
     }
@@ -718,12 +603,222 @@ public class User {
         }.runTaskTimer(Main.getInstance(), 1, 1);
     }
 
-    public String getPrefix() {
-        return PlaceholderAPI.setPlaceholders(getAsOfflinePlayer(), "%luckperms_prefix%");
+    public Document toDocumentPunishments() {
+        Document document = new Document();
+
+        document.put("uuid", uuid);
+        document.put("punishments", new ArrayList<Document>() {{
+            for (Punishment punishment : punishments) {
+                add(punishment.toDocument());
+            }
+        }});
+
+        return document;
     }
 
-    public String getSuffix() {
-        return PlaceholderAPI.setPlaceholders(getAsOfflinePlayer(), "%luckperms_suffix%");
+    public void loadPunishmentsFromDocument(Document document) {
+
+        if (!loaded && !basicLoaded) loadBasic();
+
+        punishments.clear();
+
+        List<Document> punishmentsToAdd = document.get("punishments", new ArrayList<>());
+        for (Document punishmentDocument : punishmentsToAdd) {
+
+            Punishment punishment;
+            try {
+                punishment = new Punishment(punishmentDocument);
+            } catch (Exception e) {
+                e.printStackTrace();
+                continue;
+            }
+
+            punishments.add(punishment);
+        }
+
+    }
+
+    public void loadBasic() {
+        Document document = instance.getMongoManager().getUsersCollection().find(Filters.eq("uuid", uuid)).first();
+        if (document == null) {
+            backup();
+            basicLoaded = true;
+            return;
+        }
+        loadBasicFromDocument(document);
+        basicLoaded = true;
+    }
+
+    public void loadBasicFromDocument(Document document) {
+        currentUsername = document.get("currentUsername", currentUsername);
+        currentIp = document.get("currentIp", currentIp);
+    }
+
+    public Document toBasicDocument() {
+        Document document = new Document();
+
+        document.put("currentUsername", currentUsername);
+        document.put("currentIp", currentIp);
+
+        return document;
+    }
+
+    public Document toDocument() {
+        Document document = new Document();
+
+        document.put("uuid", uuid);
+        document.put("joined", joined);
+        document.put("discordId", discordId);
+        document.put("nickName", nickName);
+        document.put("wallets", wallets);
+        document.put("currentUsername", currentUsername);
+        document.put("knownUsernames", knownUsernames);
+        document.put("currentIp", currentIp);
+        document.put("knownIps", knownIps);
+        document.put("blockedUsers", blockedUsers);
+
+        document.put("civilPoints", civilPoints);
+        document.put("buyOrdersMade", buyOrdersMade);
+        document.put("sellOrdersMade", sellOrdersMade);
+        document.put("tradesMade", tradesMade);
+        document.put("moneySpent", moneySpent);
+        document.put("moneyGained", moneyGained);
+        document.put("itemsSold", itemsSold);
+        document.put("itemsBought", itemsBought);
+
+        document.put("commandSpyEnabled", commandSpyEnabled);
+        document.put("socialSpyEnabled", socialSpyEnabled);
+        document.put("viewMutedChat", viewMutedChat);
+        document.put("viewBannedJoins", viewBannedJoins);
+        document.put("joinVanish", joinVanish);
+        document.put("scoreboardType", scoreboardType);
+
+        document.put("inStaffMode", inStaffMode);
+        document.put("bypassing", bypassing);
+        document.put("vanished", vanished);
+        document.put("passive", passive);
+        document.put("inStaffChat", inStaffChat);
+
+        return document;
+    }
+
+    public void loadFromDocument(Document document) {
+        this.loadBasic();
+
+        joinedBefore = true;
+        joined = document.getLong("joined") == null ? joined : document.getLong("joined");
+        discordId = document.getString("discordId");
+        nickName = document.getString("nickName");
+        wallets = document.getList("wallets", Wallet.class) == null ? wallets: new ArrayList<>(document.getList("wallets", Wallet.class));
+        currentUsername = document.get("currentUsername", currentUsername);
+        knownUsernames = document.getList("knownUsernames", String.class) == null ? knownUsernames : new ArrayList<>(document.getList("knownUsernames", String.class));
+        currentIp = document.get("currentIp", currentIp);
+        knownIps = document.get("knownIps", knownIps);
+        blockedUsers = document.getList("blockedUsers", UUID.class) == null ? blockedUsers : new ArrayList<>(document.getList("blockedUsers", UUID.class));
+
+        //
+        civilPoints = document.getInteger("civilPoints") == null ? civilPoints : document.getInteger("civilPoints");
+        buyOrdersMade = document.getInteger("buyOrdersMade") == null ? buyOrdersMade : document.getInteger("buyOrdersMade");
+        sellOrdersMade = document.getInteger("sellOrdersMade") == null ? sellOrdersMade : document.getInteger("sellOrdersMade");
+        tradesMade = document.getInteger("tradesMade") == null ? tradesMade: document.getInteger("tradesMade");
+        moneySpent = document.getDouble("moneySpent") == null ? moneySpent : document.getDouble("moneySpent");
+        moneyGained = document.getDouble("moneyGained") == null ? moneyGained : document.getDouble("moneyGained");
+        itemsSold = document.getInteger("itemsSold") == null ? itemsSold : document.getInteger("itemsSold");
+        itemsBought = document.getInteger("itemsBought") == null ? itemsBought : document.getInteger("itemsBought");
+
+        //
+        commandSpyEnabled = document.getBoolean("commandSpyEnabled") == null ? commandSpyEnabled : document.getBoolean("commandSpyEnabled");
+        socialSpyEnabled = document.getBoolean("socialSpyEnabled") == null ? socialSpyEnabled : document.getBoolean("socialSpyEnabled");
+        viewMutedChat = document.getBoolean("viewMutedChat") == null ? viewMutedChat : document.getBoolean("viewMutedChat");
+        viewBannedJoins = document.getBoolean("viewBannedJoins") == null ? viewBannedJoins : document.getBoolean("viewBannedJoins");
+        joinVanish = document.getBoolean("joinVanish") == null ? joinVanish : document.getBoolean("joinVanish");
+        scoreboardType = document.getString("scoreboardType") == null ? scoreboardType : document.getString("scoreboardType");
+
+        //
+        inStaffMode = document.getBoolean("inStaffMode") == null ? inStaffMode : document.getBoolean("inStaffMode");
+        bypassing = document.getBoolean("bypassing") == null ? bypassing : document.getBoolean("bypassing");
+        vanished = document.getBoolean("vanished") == null ? vanished : document.getBoolean("vanished");
+        passive = document.getBoolean("passive") == null ? passive : document.getBoolean("passive");
+        inStaffChat = document.getBoolean("inStaffChat") == null ? inStaffChat : document.getBoolean("inStaffChat");
+
+    }
+
+    /**
+     * Loads the user from the database.
+     * This should be run async to the main thread.
+     * @param cache True to cache the user to the cache, false to not.
+     * @return True if the user has saved data.
+     */
+    public boolean load(boolean cache) {
+        Document document = instance.getMongoManager().getUsersCollection().find(Filters.eq("uuid", uuid)).first();
+        if (document == null) {
+            backup();
+            loaded = true;
+            if (cache) {
+                instance.getMongoManager().getUserCache().put(getUniqueId(), this);
+            }
+            return false;
+        }
+        loadFromDocument(document);
+        loaded = true;
+
+        if (cache) {
+            instance.getMongoManager().getUserCache().put(getUniqueId(), this);
+        }
+        return true;
+    }
+
+    public void loadAllData(boolean cache) {
+        load(cache);
+        loadPunishments();
+    }
+
+    /**
+     * Loads the user punishments from the database.
+     * This should be run async to the main thread.
+     * @return True if the user has previous saved data.
+     */
+    public boolean loadPunishments() {
+        Document document = instance.getMongoManager().getPunishmentCollection().find(Filters.eq("uuid", uuid)).first();
+        if (document == null) {
+            backupPunishments();
+            punishmentsLoaded = true;
+            return false;
+        }
+        loadPunishmentsFromDocument(document);
+        punishmentsLoaded = true;
+
+        return true;
+    }
+
+    public void savePunishments() {
+        instance.getServer().getScheduler().runTaskAsynchronously(instance, this::backupPunishments);
+    }
+
+    public void backupPunishments() {
+        if (instance.getMongoManager().getPunishmentCollection().find(Filters.eq("uuid", uuid)).first() == null) {
+            instance.getMongoManager().getPunishmentCollection().insertOne(toDocument());
+        }
+        instance.getMongoManager().getPunishmentCollection().findOneAndReplace(Filters.eq("uuid", uuid), toDocumentPunishments());
+    }
+
+    public void save() {
+        instance.getServer().getScheduler().runTaskAsynchronously(instance, this::backup);
+    }
+
+    public boolean exists() {
+        return instance.getMongoManager().getUsersCollection().find(Filters.eq("uuid", uuid)).first() != null;
+    }
+
+    public void backup() {
+        if (instance.getMongoManager().getUsersCollection().find(Filters.eq("uuid", uuid)).first() == null) {
+            instance.getMongoManager().getUsersCollection().insertOne(toDocument());
+        }
+        instance.getMongoManager().getUsersCollection().findOneAndReplace(Filters.eq("uuid", uuid), toDocument());
+    }
+
+    public void cache() {
+        instance.getMongoManager().getUserCache().put(getUniqueId(), this);
     }
 
     // STATICS - it's not static abuse if you use it properly.
@@ -731,109 +826,45 @@ public class User {
     /**
      * Get a user from a UUID
      * @param uuid The player's UUID
-     * @return A not null User
+     * @return A user from the cache
      * @see User
      */
-    public static @NotNull User get(UUID uuid) {
-        if (!instance.getDatabase().getUserCache().containsKey(uuid)) return getFromDatabase(uuid);
-        return instance.getDatabase().getUserCache().get(uuid);
+    public static User get(UUID uuid) {
+        if (!instance.getMongoManager().getUserCache().containsKey(uuid)) new User(uuid).cache();
+        return instance.getMongoManager().getUserCache().get(uuid);
     }
 
-    public static @NotNull Collection<User> getOnlineUsers() {
-        List<User> users = new ArrayList<>();
-        for (User user : instance.getDatabase().getUserCache().values()) {
-            if (!user.getAsOfflinePlayer().isOnline())
-                continue;
-            users.add(user);
+    /**
+     * Gets a user from the cache if the user is saved in memory, else will create a new user object.
+     * No data is guaranteed to be loaded.
+     * @param uuid The UUID of the user
+     * @return The User
+     */
+    public static User getActiveUser(UUID uuid) {
+        if (instance.getMongoManager().getUserCache().containsKey(uuid)) {
+            return instance.getMongoManager().getUserCache().get(uuid);
         }
-        return users;
+        return new User(uuid);
     }
 
-    public static @NotNull User getFromDatabase(UUID uuid) {
-        User profile = instance.getDatabase().getDatastore().find(User.class).filter(Filters.gte("uuid", uuid.toString())).first();
-        if (profile == null) {
-            profile = new User(
-                    uuid.toString(),
-                    System.currentTimeMillis(),
-                    null,
-                    null,
-                    Wallet.getDefaults(),
-                    new ArrayList<>(),
-                    new ArrayList<>(),
-                    Main.getInstance().getCalendar().formatDateAndTime(),
-                    new HashMap<>() {{
-                        for (House house : House.values())
-                            put(house, 0);
-                    }},
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    new HashMap<>(),
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    ScoreboardType.STANDARD.name(),
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    "ENG",
-                    new HashMap<>()
-            );
+    /**
+     * Reload all user data for all online players
+     */
+    public static void loadOnline() {
+        for (Player player : instance.getServer().getOnlinePlayers()) {
+            User user = User.get(player.getUniqueId());
 
-            profile.save();
-            instance.getLogger().info(CC.format("&bProfile for &6" + uuid + "&b created in database."));
-            return profile;
+            if (user.isOnline()) {
+                user.loadAllData(true);
+            }
 
+            user.currentUsername = player.getName();
+
+            InetSocketAddress address = player.getAddress();
+            if (address != null) {
+                user.currentIp = address.getAddress().getHostAddress();
+            }
         }
-
-        // Null check in case there's an older User version
-        User user = new User(
-                profile.uuid, // id, can't be null in the first place
-                profile.joined,
-                profile.discordId, // nullable
-                profile.nickName, // nullable
-                profile.wallets == null ? Wallet.getDefaults() : profile.wallets,
-                profile.knownUsernames == null ? new ArrayList<>() : profile.knownUsernames,
-                profile.blockedUsers == null ? new ArrayList<>() : profile.blockedUsers,
-                profile.dateJoined == null ? Main.getInstance().getCalendar().formatDate() : profile.dateJoined,
-                profile.houses == null ? new HashMap<>() {{
-                    for (House house : House.values()) put(house, 0);
-                }} : profile.houses,
-                profile.civilPoints,
-                profile.buyOrdersMade,
-                profile.sellOrdersMade,
-                profile.tradesMade,
-                profile.moneySpent,
-                profile.moneyGained,
-                profile.itemsSold,
-                profile.itemsBought,
-                profile.currentPunishments == null ? new HashMap<>() : profile.currentPunishments,
-                profile.commandSpyEnabled,
-                profile.socialSpyEnabled,
-                profile.viewMutedChat,
-                profile.viewBannedJoins,
-                profile.joinVanish,
-                profile.scoreboardType == null ? ScoreboardType.STANDARD.name() : profile.scoreboardType,
-                profile.inStaffMode,
-                profile.bypassing,
-                profile.vanished,
-                profile.passive,
-                profile.inStaffChat,
-                profile.lang == null ? "ENG" : profile.lang,
-                profile.extras == null ? new HashMap<>() : profile.extras
-        );
-
-        user.save();
-        return user;
     }
 
 }

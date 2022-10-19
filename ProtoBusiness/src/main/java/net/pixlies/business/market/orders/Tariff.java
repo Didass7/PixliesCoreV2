@@ -1,13 +1,12 @@
 package net.pixlies.business.market.orders;
 
-import dev.morphia.annotations.Entity;
-import dev.morphia.annotations.Field;
-import dev.morphia.annotations.Index;
-import dev.morphia.annotations.Indexes;
+import com.mongodb.client.model.Filters;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.core.utils.TextUtils;
+import org.bson.Document;
 
 /**
  * Tariff class
@@ -15,10 +14,7 @@ import net.pixlies.core.utils.TextUtils;
  * @author vPrototype_
  */
 @Getter
-@Entity("tariffs")
-@Indexes(
-        @Index(fields = { @Field("tariffId") })
-)
+@AllArgsConstructor
 public class Tariff {
 
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();
@@ -28,6 +24,26 @@ public class Tariff {
         from = fromId;
         to = toId;
         this.rate = rate;
+    }
+
+    public Tariff(Document document) {
+        this(
+                document.getString("tariffId"),
+                document.getString("from"),
+                document.getString("to"),
+                document.getDouble("rate")
+        );
+    }
+
+    public Document toDocument() {
+        Document document = new Document();
+
+        document.put("tariffId", tariffId);
+        document.put("from", from);
+        document.put("to", to);
+        document.put("rate", rate);
+
+        return document;
     }
 
     private final String tariffId;
@@ -53,7 +69,10 @@ public class Tariff {
     }
 
     public void backup() {
-        instance.getMongoManager().getDatastore().save(this);
+        if (instance.getMongoManager().getOrderBookCollection().find(Filters.eq("tariffId", tariffId)).first() == null) {
+            instance.getMongoManager().getOrderBookCollection().insertOne(toDocument());
+        }
+        instance.getMongoManager().getOrderBookCollection().replaceOne(Filters.eq("tariffId", tariffId), toDocument());
     }
 
 }

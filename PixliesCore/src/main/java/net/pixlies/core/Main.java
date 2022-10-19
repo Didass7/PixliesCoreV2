@@ -6,6 +6,7 @@ import net.pixlies.core.commands.PixliesCommandManager;
 import net.pixlies.core.configuration.Config;
 import net.pixlies.core.database.MongoManager;
 import net.pixlies.core.database.redis.RedisManager;
+import net.pixlies.core.entity.user.User;
 import net.pixlies.core.handlers.HandlerManager;
 import net.pixlies.core.handlers.RegisterHandlerManager;
 import net.pixlies.core.handlers.impl.PixlieMojiHandler;
@@ -16,7 +17,6 @@ import net.pixlies.core.localization.Lang;
 import net.pixlies.core.packets.PacketAdapterManager;
 import net.pixlies.core.runnables.RunnableManager;
 import net.pixlies.core.runnables.RunnableRegisterManager;
-import net.pixlies.core.servers.ServerData;
 import net.pixlies.core.servers.ServerDataManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -28,7 +28,7 @@ public class Main extends JavaPlugin {
 
     @Getter private static Main instance;
 
-    @Getter private MongoManager database;
+    @Getter private MongoManager mongoManager;
     @Getter private RedisManager redisManager;
     @Getter private ServerDataManager serverDataManager;
     @Getter private HandlerManager handlerManager;
@@ -88,9 +88,10 @@ public class Main extends JavaPlugin {
         new RegisterHandlerManager().registerAllHandlers();
 
         // DATABASE
-        database = new MongoManager().init();
+        mongoManager = new MongoManager().init();
         redisManager = new RedisManager().init();
         serverDataManager = new ServerDataManager();
+        User.loadOnline();
 
         // PIXLIES CALENDAR
         String[] date = calendarConfig.getString("date", "0/0/0").split("/");

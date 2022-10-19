@@ -1,17 +1,20 @@
 package net.pixlies.nations.nations.chunk;
 
-import dev.morphia.annotations.Entity;
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.pixlies.nations.Nations;
 import net.pixlies.nations.interfaces.NationProfile;
 import net.pixlies.nations.nations.Nation;
+import org.bson.Document;
 import org.bukkit.Chunk;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Efficient nation chunk system
@@ -19,7 +22,6 @@ import java.util.*;
  * @author MickMMars
  * @author Dynmie
  */
-@Entity
 @Data
 @AllArgsConstructor
 @EqualsAndHashCode
@@ -33,11 +35,47 @@ public class NationChunk {
     private NationChunkType type;
     private List<String> accessors; // UUID of accessors
 
+    public NationChunk(String id, String world, int x, int z) {
+        this(
+                id,
+                world,
+                x,
+                z,
+                NationChunkType.NORMAL,
+                new ArrayList<>()
+        );
+    }
+
+    public NationChunk(Document document) {
+        this.nationId = document.getString("nationId");
+        this.world = document.getString("world");
+        this.x = document.getInteger("x");
+        this.z = document.getInteger("z");
+        try {
+            this.type = NationChunkType.valueOf(document.getString("type"));
+        } catch (IllegalArgumentException e) {
+            this.type = NationChunkType.NORMAL;
+        }
+        this.accessors = document.getList("accessors", String.class);
+    }
+
+    public Document toDocument() {
+        Document document = new Document();
+
+        document.put("nationId", nationId);
+        document.put("world", world);
+        document.put("x", x);
+        document.put("z", z);
+        document.put("type", type.name());
+        document.put("accessors", accessors);
+
+        return document;
+    }
+
     /**
      * Claims a chunk
      * Backup will not be called.
      * @see Nation#save()
-     * @see Nation#backup()
      * @param log Logs the claim.
      */
     public void claim(boolean log) {
@@ -45,29 +83,39 @@ public class NationChunk {
         if (nation == null)
             return;
 
-        nation.getClaims().remove(this);
         nation.getClaims().add(this);
-        nation.save();
+        loadClaim();
 
-        if (log)
-            instance.getLogger().info("§b" + type.name() + "-Chunk claimed at §e" + x + "§8, §e " + z + "§bfor §e" + nation.getName());
+        if (log) {
+            instance.getLogger().info( type.name() + " Chunk claimed at " + x + ", " + z + "for Nation " + nation.getName());
+        }
+
+    }
+
+    public void loadClaim() {
+        Table<Integer, Integer, NationChunk> claims = instance.getNationManager().getNationClaims().computeIfAbsent(getWorld(),
+                k -> HashBasedTable.create());
+        claims.put(getX(), getZ(), this);
+    }
+
+    public void unloadClaim() {
+        Table<Integer, Integer, NationChunk> claims = instance.getNationManager().getNationClaims().get(getWorld());
+        if (claims == null) return;
+        claims.remove(getX(), getZ());
     }
 
     /**
      * Unclaim this chunk.
      * Backup will not be called.
      * @see Nation#save()
-     * @see Nation#backup()
      **/
     public void unclaim() {
         Nation nation = Nation.getFromId(nationId);
         if (nation == null)
             return;
 
-        if (nation.getClaims().contains(this)) {
-            nation.getClaims().remove(this);
-            nation.save();
-        }
+        nation.getClaims().remove(this);
+        unloadClaim();
     }
 
     public @Nullable Nation getNation() {
@@ -80,16 +128,7 @@ public class NationChunk {
      * @param profile the profile to allow access to
      */
     public void grantAccess(@NotNull NationProfile profile) {
-        Nation nation = Nation.getFromId(nationId);
-        if (nation == null)
-            return;
-        nation.getClaims().remove(this);
-        nation.save();
-
         accessors.add(profile.getUuid());
-
-        claim(false);
-        nation.backup();
     }
 
     /**
@@ -98,14 +137,7 @@ public class NationChunk {
      * @param profile the profile to revoke access to
      */
     public void revokeAccess(@NotNull NationProfile profile) {
-        Nation nation = Nation.getFromId(nationId);
-        if (nation == null)
-            return;
-
         accessors.remove(profile.getUuid());
-
-        claim(false);
-        nation.backup();
     }
 
     /**
@@ -118,35 +150,14 @@ public class NationChunk {
     }
 
     public static @Nullable NationChunk getClaimAt(String world, int x, int z) {
-        for (Nation nation : instance.getNationManager().getNations().values()) {
-            for (NationChunk nationChunk : nation.getClaims()) {
-                if (nationChunk.getX() == x && nationChunk.getZ() == z && nationChunk.getWorld().equalsIgnoreCase(world)) {
-                    return nationChunk;
-                }
-            }
-        }
-        return null;
+        if (world == null) return null;
+        Table<Integer, Integer, NationChunk> claims = instance.getNationManager().getNationClaims().get(world);
+        if (claims == null) return null;
+        return claims.get(x, z);
     }
 
     public static @Nullable NationChunk getClaimFromChunk(Chunk chunk) {
-        return getClaimAt(chunk.getWorld().toString(), chunk.getX(), chunk.getZ());
-    }
-
-    public static ClaimType getClaimType(String world, int x, int z) {
-        NationChunk chunk = getClaimAt(world, x, z);
-        if (chunk == null) {
-            return ClaimType.WILDERNESS;
-        }
-        Nation nation = chunk.getNation();
-        if (nation == null) {
-            return ClaimType.WILDERNESS;
-        }
-        return switch (nation.getNationId()) {
-            case "warp" -> ClaimType.WARP;
-            case "warzone" -> ClaimType.WARZONE;
-            case "spawn" -> ClaimType.SPAWN;
-            default -> ClaimType.NORMAL;
-        };
+        return getClaimAt(chunk.getWorld().getName(), chunk.getX(), chunk.getZ());
     }
 
 }

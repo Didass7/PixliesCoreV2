@@ -4,6 +4,9 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.user.User;
+import net.pixlies.core.localization.Lang;
+import net.pixlies.core.utils.PunishmentUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
@@ -14,19 +17,26 @@ public class BanCommand extends BaseCommand {
     @CommandCompletion("@players")
     @Description("Bans player with the default reason")
     public void onBan(CommandSender sender, OfflinePlayer target, @Optional String reason) {
+        User user = User.getActiveUser(target.getUniqueId());
 
-        boolean silent = false;
-
-        String banReason = Main.getInstance().getConfig().getString("moderation.defaultReason", "No reason given");
-
-        if (reason != null && !reason.isEmpty()) {
-            banReason = reason.replace("-s", "");
-            if (reason.endsWith("-s") || reason.startsWith("-s"))
-                silent = true;
-        }
-
-        User user = User.get(target.getUniqueId());
-        user.ban(banReason, sender, silent);
+        Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
+            if (!user.isPunishmentsLoaded()) {
+                Lang.FETCHING.send(sender);
+                user.loadPunishments();
+            }
+            if (user.isBanned()) {
+                Lang.PLAYER_ALREADY_BANNED.send(sender);
+                return;
+            }
+            Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
+                user.ban(
+                        PunishmentUtils.replaceReason(reason),
+                        sender,
+                        PunishmentUtils.isSilent(reason)
+                );
+                user.savePunishments();
+            });
+        });
 
     }
 

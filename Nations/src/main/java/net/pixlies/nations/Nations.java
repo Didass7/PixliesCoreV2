@@ -9,6 +9,7 @@ import net.pixlies.core.modules.Module;
 import net.pixlies.core.modules.configuration.ModuleConfig;
 import net.pixlies.nations.commands.CommandManager;
 import net.pixlies.nations.database.MongoManager;
+import net.pixlies.nations.interfaces.NationProfile;
 import net.pixlies.nations.listeners.ListenerManager;
 import net.pixlies.nations.handlers.HandlerManager;
 import net.pixlies.nations.handlers.RegisterHandlerManager;
@@ -69,6 +70,7 @@ public class Nations extends JavaPlugin implements Module {
         runnableManager.registerAll();
 
         new RegisterHandlerManager().registerAllHandlers();
+        NationProfile.loadAllOnlineUsers();
 
         // LISTENERS
         listenerManager = new ListenerManager();

@@ -64,12 +64,10 @@ public class NationClaimCommand extends BaseCommand {
                     nation.getNationId(),
                     player.getWorld().getName(),
                     player.getChunk().getX(),
-                    player.getChunk().getZ(),
-                    NationChunkType.NORMAL,
-                    new ArrayList<>()
+                    player.getChunk().getZ()
             );
             chunk.claim(true);
-            nation.backup();
+            nation.save();
 
             NationsLang.NATION_CLAIM_MESSAGE.send(player,
                     "%LOCATION%;" + NationTextUtils.getChunkLocationFormatted(chunk.getX(), chunk.getZ()),
@@ -114,7 +112,7 @@ public class NationClaimCommand extends BaseCommand {
                 new ArrayList<>()
         );
         chunk.claim(true);
-        nation.backup();
+        nation.save();
 
         NationsLang.NATION_CLAIM_MESSAGE.send(player,
                 "%LOCATION%;" + NationTextUtils.getChunkLocationFormatted(chunk.getX(), chunk.getZ()),

@@ -1,6 +1,6 @@
 package net.pixlies.business.market.orders;
 
-import dev.morphia.annotations.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import net.pixlies.business.ProtoBusiness;
@@ -8,13 +8,11 @@ import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.core.utils.TextUtils;
 import net.pixlies.nations.interfaces.NationProfile;
+import org.bson.Document;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Orders
@@ -22,16 +20,13 @@ import java.util.UUID;
  * @author vPrototype_
  */
 @Getter
-@Entity("orders")
-@Indexes(
-        @Index(fields = { @Field("orderId") })
-)
+@AllArgsConstructor
 public class Order {
 
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();
     private final MarketHandler marketHandler = instance.getHandlerManager().getHandler(MarketHandler.class);
 
-    @Id private final String orderId;
+    private final String orderId;
     private final String bookId;
     private @Setter long timestamp;
 
@@ -43,6 +38,44 @@ public class Order {
     private int volume;
 
     private final List<Trade> trades;
+
+    public Order(Document document) {
+        this(
+                document.getString("orderId"),
+                document.getString("bookId"),
+                document.getLong("timestamp"),
+                Type.valueOf(document.getString("type")),
+                UUID.fromString(document.getString("playerUUID")),
+                document.getDouble("price"),
+                document.getInteger("amount"),
+                document.getInteger("volume"),
+                new ArrayList<>() {{
+                    for (Document tradeDoc : document.getList("trades", Document.class)) {
+                        add(new Trade(tradeDoc));
+                    }
+                }}
+        );
+    }
+
+    public Document toDocument() {
+        Document document = new Document();
+
+        document.put("orderId", orderId);
+        document.put("bookId", bookId);
+        document.put("timestamp", timestamp);
+        document.put("type", type.name());
+        document.put("playerUUID", playerUUID.toString());
+        document.put("price", price);
+        document.put("amount", amount);
+        document.put("volume", volume);
+        document.put("trades", new ArrayList<Document>() {{
+            for (Trade trade : trades) {
+                add(trade.toDocument());
+            }
+        }});
+
+        return document;
+    }
 
     public Order(Type type, String bookId, long timestamp, UUID uuid, double price, int amount) {
         orderId = TextUtils.generateId(7);

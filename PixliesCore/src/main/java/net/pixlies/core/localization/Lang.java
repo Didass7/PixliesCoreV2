@@ -1,6 +1,5 @@
 package net.pixlies.core.localization;
 
-import it.unimi.dsi.fastutil.Hash;
 import lombok.Getter;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.user.User;
@@ -34,6 +33,9 @@ public enum Lang {
 
     PLAYER_KICKED(Lang.PIXLIES, new HashMap<>()),
 
+    PLAYER_PROFILE_LOAD(Lang.PIXLIES, new HashMap<>()),
+    PLAYER_PROFILE_CREATED(Lang.PIXLIES, new HashMap<>()),
+
     PLAYER_PERMANENTLY_MUTED(Lang.PIXLIES, new HashMap<>()),
     PLAYER_UNMUTED(Lang.PIXLIES, new HashMap<>()),
     PLAYER_TEMPORARILY_MUTED(Lang.PIXLIES, new HashMap<>()),
@@ -51,7 +53,7 @@ public enum Lang {
 
     SETTING_CHANGED(Lang.PIXLIES, new HashMap<>()),
 
-    NOT_A_NUMBER(Lang.PIXLIES, new HashMap<>()),
+    NOT_A_DURATION(Lang.PIXLIES, new HashMap<>()),
 
     NO_ITEMS_FOUND_ON_PLAYER(Lang.PIXLIES, new HashMap<>()),
 
@@ -288,7 +290,7 @@ public enum Lang {
     // LOBBY
     LOBBY_BUILDMODE_TOGGLE(Lang.PIXLIES, new HashMap<>());
 
-    private final String PREFIX;
+    private final String prefix;
     private @Getter Map<String, String> languages;
 
     public static final String PIXLIES = "§x§4§e§d§e§d§b§lP§x§4§8§c§b§c§8§lI§x§4§2§b§7§b§5§lX§x§3§c§a§4§a§2§lL§x§3§5§9§0§8§f§lI§x§2§f§7§d§7§c§lE§x§2§9§6§9§6§9§lS§8 | §7";
@@ -302,7 +304,7 @@ public enum Lang {
     public static final String STAFF = "§x§4§e§d§e§d§b§lS§x§4§5§c§1§b§f§lT§x§3§c§a§4§a§2§lA§x§3§2§8§6§8§6§lF§x§2§9§6§9§6§9§lF§8 | §7";
 
     Lang(String prefix, Map<String, String> languages) {
-        this.PREFIX = prefix;
+        this.prefix = prefix;
         this.languages = languages;
     }
 
@@ -313,20 +315,26 @@ public enum Lang {
                 User user = User.get(player.getUniqueId());
                 String lang = user.getLang();
                 if (languages.containsKey(lang)) {
-                    return PREFIX + CC.format(languages.get(user.getLang()));
+                    return prefix + CC.format(languages.get(user.getLang()));
                 } else {
-                    return PREFIX + CC.format(languages.get("ENG"));
+                    return prefix + CC.format(languages.get("ENG"));
                 }
             }
         } catch (Exception ignored) {
 
         }
-        return PREFIX + CC.format(languages.get("ENG"));
+        return prefix + CC.format(languages.get("ENG"));
+    }
+
+    public String get(String lang) {
+        String message = languages.get(lang);
+        if (message == null) return prefix + CC.format(languages.get("ENG"));
+        return prefix + CC.format(message);
     }
 
     public String get() {
         if (languages == null) return "";
-        return PREFIX + CC.format(languages.get("ENG"));
+        return prefix + CC.format(languages.get("ENG"));
     }
 
     public String getRaw(String language) {
@@ -341,7 +349,7 @@ public enum Lang {
     }
 
     public boolean sendWithLangName(CommandSender sender, String langName) {
-        sender.sendMessage(PREFIX + languages.get(langName).replace("&", "§"));
+        sender.sendMessage(prefix + languages.get(langName).replace("&", "§"));
         return true;
     }
 
@@ -389,21 +397,6 @@ public enum Lang {
             if (player.hasPermission(permission))
                 send(player, placeholders);
         send(Bukkit.getConsoleSender(), placeholders);
-    }
-
-    public void kickPlayer(CommandSender sender) {
-        Player player = (Player) sender;
-        player.kickPlayer(get(sender));
-    }
-
-    public void kickPlayer(CommandSender sender, String... placeholders) {
-        Player player = (Player) sender;
-        String send = get(sender);
-        for (String s : placeholders) {
-            String[] pSplit = s.split(";");
-            send = send.replace(pSplit[0], pSplit[1]);
-        }
-        player.kickPlayer(send);
     }
 
     public void setLanguage(Map<String, String> languages) {

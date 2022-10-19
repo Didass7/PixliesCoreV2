@@ -4,7 +4,6 @@
 
 package net.pixlies.core.entity.polls;
 
-import dev.morphia.annotations.Id;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -18,7 +17,9 @@ import net.pixlies.core.utils.CC;
 import net.pixlies.core.utils.TextUtils;
 import org.bukkit.Bukkit;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Represents a Poll object
@@ -45,7 +46,7 @@ public class Poll {
     /**
      * ID of the poll
      */
-    @Id @Getter private final String id = TextUtils.generateId(32);
+    @Getter private final String id = TextUtils.generateId(32);
 
     @Getter private boolean started;
 

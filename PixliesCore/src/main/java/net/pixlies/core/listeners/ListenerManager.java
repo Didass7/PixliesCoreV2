@@ -21,8 +21,7 @@ public class ListenerManager {
     private static final Main instance = Main.getInstance();
 
     private @Getter static final List<Listener> listeners = new ArrayList<>() {{
-        add(new BanListener());
-        add(new MuteListener());
+        add(new PunishmentListener());
         add(new ChatModerationListener());
         add(new ChatFormattingListener());
 //        add(new GlobalPvpListener()); TODO: bugged
@@ -36,7 +35,6 @@ public class ListenerManager {
         add(new StaffModeListener());
         add(new AfkListener());
         add(new SitListener());
-        add(new BlackListListener());
         add(new FreezeListener());
         add(new StaffChatListener());
         add(new StaffJoinQuitListener());

@@ -66,6 +66,7 @@ public class NationRenameCommand extends BaseCommand {
 
             }
             nation.rename(sender, name);
+            nation.save();
 
 
         } else {
@@ -87,6 +88,7 @@ public class NationRenameCommand extends BaseCommand {
             }
 
             nation.rename(sender, name);
+            nation.save();
         }
     }
 

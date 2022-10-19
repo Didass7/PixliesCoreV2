@@ -56,7 +56,10 @@ public class QueueListener implements Listener {
                 queuedPlayers.put(uuid, new QueuePlayer(uuid, position));
             }
 
-            manager.getQueues().put(name, new Queue(name, paused, limit, size, queuedPlayers));
+            synchronized (manager.getQueues()) {
+                manager.getQueues().put(name, new Queue(name, paused, limit, size, queuedPlayers));
+            }
+
         }
 
 

@@ -1,6 +1,5 @@
 package net.pixlies.business.market;
 
-import dev.morphia.query.Query;
 import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.handlers.impl.MarketHandler;
@@ -10,6 +9,7 @@ import net.pixlies.business.market.orders.OrderItem;
 import net.pixlies.business.market.orders.Tariff;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.nations.nations.Nation;
+import org.bson.Document;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -36,7 +36,7 @@ public class MarketManager {
 
     public void backupAll() {
         for (OrderBook book : books.values()) {
-            instance.getMongoManager().getDatastore().save(book);
+            book.backup();
         }
         for (Tariff tariff : tariffs.values()) {
             tariff.backup();
@@ -44,8 +44,7 @@ public class MarketManager {
     }
 
     public void hardReset() {
-        Query<OrderBook> query = instance.getMongoManager().getDatastore().find(OrderBook.class);
-        query.delete();
+        instance.getMongoManager().getOrderBookCollection().drop();
 
         for (OrderItem item : OrderItem.values()) {
             OrderBook book = new OrderBook(item);
@@ -54,15 +53,15 @@ public class MarketManager {
     }
 
     public void loadBooks() {
-        Query<OrderBook> query = instance.getMongoManager().getDatastore().find(OrderBook.class);
-        for (OrderBook book : query.iterator().toList()) {
+        for (Document document : instance.getMongoManager().getOrderBookCollection().find()) {
+            OrderBook book = new OrderBook(document);
             books.put(book.getBookId(), book);
         }
     }
 
     public void loadTariffs() {
-        Query<Tariff> query = instance.getMongoManager().getDatastore().find(Tariff.class);
-        for (Tariff tariff : query.iterator().toList()) {
+        for (Document document : instance.getMongoManager().getTariffCollection().find()) {
+            Tariff tariff = new Tariff(document);
             tariffs.put(tariff.getTariffId(), tariff);
         }
     }

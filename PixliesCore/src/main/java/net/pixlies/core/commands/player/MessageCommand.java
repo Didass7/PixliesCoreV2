@@ -29,7 +29,7 @@ public class MessageCommand extends BaseCommand {
 
         if (sender instanceof Player player) {
             val user = User.get(player.getUniqueId());
-            if (user.getMute() != null && !player.hasPermission("pixlies.moderation.mute.exempt")) {
+            if (user.getActiveMute() != null && !player.hasPermission("pixlies.moderation.mute.exempt")) {
                 Lang.MUTE_MESSAGE.send(player);
                 return;
             }

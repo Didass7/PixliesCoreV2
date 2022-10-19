@@ -1,6 +1,7 @@
 package net.pixlies.nations.nations;
 
-import dev.morphia.annotations.*;
+import com.google.common.collect.Table;
+import com.mongodb.client.model.Filters;
 import lombok.*;
 import net.pixlies.core.utils.EventUtils;
 import net.pixlies.nations.Nations;
@@ -15,6 +16,7 @@ import net.pixlies.nations.nations.customization.Religion;
 import net.pixlies.nations.nations.ranks.NationPermission;
 import net.pixlies.nations.nations.ranks.NationRank;
 import net.pixlies.nations.utils.NationUtils;
+import org.bson.Document;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -34,10 +36,6 @@ import java.util.*;
 @ToString
 @EqualsAndHashCode
 @AllArgsConstructor
-@Entity("nations")
-@Indexes(
-        @Index(fields = { @Field("nationId") })
-)
 public class Nation {
 
     private static final Nations instance = Nations.getInstance();
@@ -47,8 +45,7 @@ public class Nation {
     // -------------------------------------------------------------------------------------------------
 
     // INFO
-    @Id
-    private @Getter @Setter String nationId;
+    private final @Getter String nationId;
     private @Getter @Setter String name;
     private @Getter String description;
     private @Getter @Setter String motd;
@@ -177,7 +174,6 @@ public class Nation {
         if (systemNation) return;
         this.leaderUUID = uuid.toString();
         save();
-        backup();
     }
 
     public UUID getLeaderUUID() {
@@ -188,7 +184,6 @@ public class Nation {
         if (systemNation) return;
         this.govType = type.name();
         save();
-        backup();
     }
 
     public GovernmentType getGovType() {
@@ -199,7 +194,6 @@ public class Nation {
         if (systemNation) return;
         this.ideology = type.name();
         save();
-        backup();
     }
 
     public Ideology getIdeology() {
@@ -210,7 +204,6 @@ public class Nation {
         if (systemNation) return;
         this.religion = type.name();
         save();
-        backup();
     }
 
     public Religion getReligion() {
@@ -235,7 +228,6 @@ public class Nation {
         if (systemNation) return;
         this.description = description;
         save();
-        backup();
         // TODO: CHANGE DESC BROADCAST
     }
 
@@ -263,6 +255,44 @@ public class Nation {
     //                                            METHODS
     // -------------------------------------------------------------------------------------------------
 
+    public Document toDocument() {
+        Document document = new Document();
+
+        document.put("nationId", nationId);
+        document.put("name", name);
+        document.put("description", description);
+        document.put("motd", motd);
+        document.put("leaderUUID", leaderUUID);
+        document.put("created", created);
+        document.put("systemNation", systemNation);
+
+        document.put("politicalPower", politicalPower);
+        document.put("money", money);
+
+        document.put("taxRate", taxRate);
+
+        document.put("govType", govType);
+        document.put("ideology", ideology);
+        document.put("religion", religion);
+        document.put("constitutionValues", constitutionValues);
+
+        document.put("ranks", new Document() {{
+            for (Map.Entry<String, NationRank> entry : ranks.entrySet()) {
+                put(entry.getKey(), entry.getValue().toDocument());
+            }
+        }});
+
+        document.put("memberUUIDs", memberUUIDs);
+
+        document.put("claims", new ArrayList<Document>() {{
+            for (NationChunk claim : claims) {
+                add(claim.toDocument());
+            }
+        }});
+
+        return document;
+    }
+
     public Nation create(@Nullable CommandSender sender) {
         ranks.clear();
         ranks.put("leader", NationRank.getLeaderRank());
@@ -274,28 +304,40 @@ public class Nation {
             NationsLang.NATION_FORMED.broadcast("%NATION%;" + this.getName(), "%PLAYER%;" + sender.getName());
         }
 
-        save();
         return this;
     }
 
     /**
      * Silently create a nation.
-     *
+     * Async.
      * @return the nation
      */
     public Nation create() {
         return this.create(null);
     }
 
-    /**
-     * Backup will NOT be run! Make sure you back up manually!
-     */
     public void save() {
-        instance.getNationManager().getNations().put(nationId, this);
+        instance.getServer().getScheduler().runTaskAsynchronously(instance, this::backup);
     }
 
+    /**
+     * Not async
+     */
     public void backup() {
-        instance.getMongoManager().getDatastore().save(this);
+        if (instance.getMongoManager().getNationsCollection().find(Filters.eq("nationId", nationId)).first() == null) {
+            instance.getMongoManager().getNationsCollection().insertOne(this.toDocument());
+        }
+        instance.getMongoManager().getNationsCollection().replaceOne(Filters.eq("nationId", nationId), this.toDocument());
+    }
+
+    public void cache() {
+        instance.getNationManager().getNations().put(nationId, this);
+        instance.getNationManager().getNationNames().put(name, nationId);
+    }
+
+    public void removeCache() {
+        instance.getNationManager().getNations().remove(nationId);
+        instance.getNationManager().getNationNames().remove(name);
     }
 
     private void editConstitution(byte law, int option) {
@@ -303,15 +345,15 @@ public class Nation {
         constitutionValues.set(law, option);
     }
 
-    public void addMember(Player player, String rank) {
+    public void addMember(Player player, String rank, boolean saveProfile) {
         if (systemNation) return;
 
         NationProfile profile = NationProfile.get(player.getUniqueId());
+        if (!profile.isLoaded()) return;
         if (profile.isInNation()) return;
 
         // ADD TO MEMBER LIST
         memberUUIDs.add(player.getUniqueId().toString());
-        save();
 
         // MAKE A VARIABLE TO STORE THE RANK NAME
         String rankToAddIn = rank;
@@ -322,7 +364,10 @@ public class Nation {
         // ASSIGN TO PLAYER AND STORE IT
         profile.setNation(this);
         profile.setNationRank(rank);
-        profile.save();
+
+        if (saveProfile) {
+            profile.save();
+        }
 
     }
 
@@ -338,13 +383,17 @@ public class Nation {
         EventUtils.call(event);
         if (event.isCancelled()) return;
 
-        for (UUID member : getMembers()) {
-            NationProfile profile = NationProfile.get(member);
-            profile.leaveNation();
-        }
+        this.getMembers().parallelStream().forEach(member -> instance.getServer().getScheduler().runTaskAsynchronously(instance, () -> {
+            NationProfile profile = NationProfile.getLoadDoNotCache(member);
+            if (!profile.isLoaded()) return;
 
-        instance.getNationManager().getNations().remove(nationId);
-        instance.getMongoManager().getDatastore().delete(this);
+            profile.leaveNation(false);
+            profile.save();
+        }));
+
+        claims.parallelStream().forEach(NationChunk::unloadClaim);
+
+        this.delete();
 
         if (disbander != null) {
             NationsLang.NATION_DISBANDED.broadcast("%NATION%;" + name, "%PLAYER%;" + disbander.getName());
@@ -371,7 +420,6 @@ public class Nation {
         }
 
         this.name = newName;
-        save();
 
     }
 
@@ -404,29 +452,40 @@ public class Nation {
         this.broadcastNationMembers(message, null);
     }
 
+    public void delete() {
+        this.removeCache();
+        instance.getServer().getScheduler().runTaskAsynchronously(instance, () ->
+                instance.getMongoManager().getNationsCollection().deleteOne(Filters.eq("nationId", nationId)));
+    }
+
+    public void loadClaims() {
+        for (NationChunk claim : claims) {
+            claim.loadClaim();
+        }
+    }
+
     // -------------------------------------------------------------------------------------------------
     //                                        STATIC METHODS
     // -------------------------------------------------------------------------------------------------
 
     public static @Nullable Nation getFromId(String id) {
         if (id == null) return null;
-        for (Map.Entry<String, Nation> entry : instance.getNationManager().getNations().entrySet()) {
-            String nationId = entry.getKey();
-            Nation nation = entry.getValue();
-            if (nationId.equals(id)) return nation;
-        }
-        return null;
+        return instance.getNationManager().getNations().get(id);
     }
 
     public static @Nullable Nation getFromName(String name) {
         if (name == null) return null;
-        for (Nation nation : instance.getNationManager().getNations().values()) {
-            if (nation.getName().equalsIgnoreCase(name)) return nation;
+        for (Map.Entry<String, String> entry : instance.getNationManager().getNationNames().entrySet()) {
+            String nationName = entry.getKey();
+            String nationId = entry.getValue();
+            if (nationName.equalsIgnoreCase(name)) {
+                return getFromId(nationId);
+            }
         }
         return null;
     }
 
-    public static Nation getNullCheckedNation(Nation nation) {
+    private static Nation getNullCheckedNation(Nation nation) {
         return new Nation(
                 nation.nationId,
                 nation.name,
@@ -441,7 +500,7 @@ public class Nation {
                 nation.govType,
                 nation.ideology,
                 nation.religion,
-                nation.constitutionValues,
+                nation.constitutionValues == null ? new ArrayList<>() : nation.constitutionValues,
                 nation.ranks == null ? new HashMap<>() : nation.ranks,
                 nation.memberUUIDs == null ? new ArrayList<>() : nation.memberUUIDs,
                 nation.claims == null ? new ArrayList<>() : nation.claims
@@ -468,6 +527,43 @@ public class Nation {
                 new ArrayList<>(),
                 new ArrayList<>()
         );
+    }
+
+    public static Nation getNewNationFromDocument(Document document) {
+        Nation nation = new Nation(
+                document.getString("nationId"),
+                document.getString("name"),
+                document.getString("description"),
+                document.getString("motd"),
+                document.getString("leaderUUID"),
+                document.getLong("created"),
+                document.getBoolean("systemNation"),
+
+                document.getDouble("politicalPower"),
+                document.getDouble("money"),
+
+                document.getDouble("taxRate"),
+
+                document.getString("govType"),
+                document.getString("ideology"),
+                document.getString("religion"),
+                new ArrayList<>(document.getList("constitutionValues", Integer.class)),
+                new HashMap<>() {{
+                    Document ranksDocument = (Document) document.get("ranks");
+                    for (String rankKey : ranksDocument.keySet()) {
+                        Document rankDocument = (Document) ranksDocument.get(rankKey);
+                        NationRank rank = new NationRank(rankDocument);
+                        put(rank.getName(), rank);
+                    }
+                }},
+                new ArrayList<>(document.getList("memberUUIDs", String.class)),
+                new ArrayList<>() {{
+                    for (Document claimDocument : document.getList("claims", Document.class)) {
+                        add(new NationChunk(claimDocument));
+                    }
+                }}
+        );
+        return getNullCheckedNation(nation);
     }
 
 }

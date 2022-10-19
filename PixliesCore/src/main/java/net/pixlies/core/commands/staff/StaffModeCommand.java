@@ -26,7 +26,7 @@ public class StaffModeCommand extends BaseCommand {
     @Description("Toggle your staff mode status")
     public void onStaffMode(Player player) {
         User user = User.get(player.getUniqueId());
-        boolean staffModeEnabled = user.isInStaffMode();
+        boolean staffModeEnabled = user.isInStaffMode() && player.hasPermission("pixlies.moderation.staffmode");
         if (staffModeEnabled) {
             handler.disable(player);
             Lang.STAFF_STAFFMODE_OFF.send(player);

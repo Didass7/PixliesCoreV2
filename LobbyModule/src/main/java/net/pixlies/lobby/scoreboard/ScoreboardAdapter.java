@@ -90,7 +90,7 @@ public class ScoreboardAdapter implements AssembleAdapter {
         // STAFF
         if (user.isPassive() || user.isBypassing()) {
             lines.add("");
-            lines.add(" §bStaff Mode &7" + (user.isInStaffMode() ? "On" : "Off"));
+            lines.add(" §bStaff Mode &7" + (user.isInStaffMode() && player.hasPermission("pixlies.moderation.staffmode") ? "On" : "Off"));
             lines.add(" §bVanish &7" + (user.isVanished() ? "On" : "Off"));
             lines.add(" §bBypass &7" + (user.isBypassing() ? "On" : "Off"));
         }

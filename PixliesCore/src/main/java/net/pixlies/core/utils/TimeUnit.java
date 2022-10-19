@@ -15,14 +15,14 @@ public class TimeUnit {
     /**
      * Get a long duration from a string.
      * @param duration the string duration
-     * @return 0 if duration is not a valid duration.
+     * @return -1 if duration is not a valid duration.
      */
     public static long getDuration(String duration) {
         long multiplier;
         try {
             multiplier = Integer.parseInt(duration.substring(0, duration.length() - 1));
         } catch (NumberFormatException e) {
-            return 0;
+            return -1;
         }
         return switch (duration.substring(duration.length() - 1)) {
             case "s" -> SECOND * multiplier;

@@ -1,16 +1,16 @@
 package net.pixlies.nations.interfaces;
 
-import dev.morphia.annotations.*;
-import dev.morphia.query.experimental.filters.Filters;
+import com.mongodb.client.model.Filters;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
-import net.pixlies.core.utils.CC;
 import net.pixlies.nations.Nations;
 import net.pixlies.nations.interfaces.profile.ChatType;
+import net.pixlies.nations.interfaces.profile.TerritoryChangeMessageType;
 import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.ranks.NationRank;
+import org.bson.Document;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,11 +24,6 @@ import java.util.UUID;
  * @author Dynmie
  */
 @Data
-@AllArgsConstructor
-@Entity("nationProfiles")
-@Indexes(
-        @Index(fields = { @Field("uuid") })
-)
 public class NationProfile {
 
     private static final Nations instance = Nations.getInstance();
@@ -38,14 +33,27 @@ public class NationProfile {
     // -------------------------------------------------------------------------------------------------
 
     // Player
-    private @Id String uuid;
-    private long lastLogin;
+    private boolean loaded = false;
+    private final String uuid;
+    private long lastLogin = System.currentTimeMillis();
+    private boolean hasJoinedBefore = false;
 
     // Nations
     private @Nullable String nationId;
     private @Nullable String nationRank;
-    private @Getter(AccessLevel.NONE) String profileChatType;
-    private @Getter(AccessLevel.NONE) boolean autoClaim;
+    private @Getter(AccessLevel.NONE) String profileChatType = ChatType.GLOBAL.name();
+    private @Getter(AccessLevel.NONE) String profilePlayerTerritoryChangeMessageType = TerritoryChangeMessageType.TITLE.name();
+
+    // Local
+    private @Getter(AccessLevel.NONE) boolean autoClaim = false;
+
+    // -------------------------------------------------------------------------------------------------
+    //                                          CONSTRUCTOR
+    // -------------------------------------------------------------------------------------------------
+
+    public NationProfile(UUID uniqueId) {
+        this.uuid = uniqueId.toString();
+    }
 
     // -------------------------------------------------------------------------------------------------
     //                                            METHODS
@@ -79,7 +87,18 @@ public class NationProfile {
 
     public void setChatType(ChatType chatType) {
         this.profileChatType = chatType.name();
-        save();
+    }
+
+    public TerritoryChangeMessageType getTerritoryChangeMessageType() {
+        try {
+            return TerritoryChangeMessageType.valueOf(profileChatType);
+        } catch (IllegalArgumentException e) {
+            return TerritoryChangeMessageType.TITLE;
+        }
+    }
+
+    public void setTerritoryChangeMessageType(TerritoryChangeMessageType type) {
+        this.profilePlayerTerritoryChangeMessageType = type.name();
     }
 
     public void setNation(Nation nation) {
@@ -94,7 +113,6 @@ public class NationProfile {
         if (!isInNation()) {
             if (autoClaim) {
                 autoClaim = false;
-                save();
             }
             return false;
         }
@@ -104,7 +122,6 @@ public class NationProfile {
     public void setAutoClaiming(boolean value) {
         if (!isInNation()) return;
         autoClaim = value;
-        save();
     }
 
     /**
@@ -116,19 +133,10 @@ public class NationProfile {
         return getNation() != null;
     }
 
-    public void save() {
-        instance.getMongoManager().getProfileCache().put(getUniqueId(), this);
-        backup();
-    }
-
-    public void backup() {
-        instance.getMongoManager().getDatastore().save(this);
-    }
-
     /**
      * Removes the nation information from a user.
      */
-    public void leaveNation() {
+    public void leaveNation(boolean saveNation) {
 
         if (!isInNation()) return;
         Nation nation = getNation();
@@ -137,11 +145,12 @@ public class NationProfile {
         nationId = null;
         nationRank = null;
         profileChatType = ChatType.GLOBAL.name();
-        save();
 
         nation.getMemberUUIDs().remove(uuid);
-        nation.save();
-        nation.backup();
+
+        if (saveNation) {
+            nation.save();
+        }
 
     }
 
@@ -149,45 +158,95 @@ public class NationProfile {
         return UUID.fromString(uuid);
     }
 
+    /**
+     * Async backup
+     */
+    public void save() {
+        instance.getServer().getScheduler().runTaskAsynchronously(instance, this::backup);
+    }
+
+    /**
+     * Non sync backup
+     */
+    public void backup() {
+        if (instance.getMongoManager().getNationProfileCollection().find(Filters.eq("uuid", uuid)).first() == null) {
+            instance.getMongoManager().getNationProfileCollection().insertOne(toDocument());
+        }
+        instance.getMongoManager().getNationProfileCollection().replaceOne(Filters.eq("uuid", uuid), toDocument());
+    }
+
+    public Document toDocument() {
+        Document document = new Document();
+
+        document.put("uuid", uuid);
+        document.put("lastLogin", lastLogin);
+
+        document.put("nationId", nationId);
+        document.put("nationRank", nationRank);
+        document.put("profileChatType", profileChatType);
+        document.put("profilePlayerTerritoryChangeMessageType", profilePlayerTerritoryChangeMessageType);
+
+        return document;
+    }
+
+    public void loadFromDocument(Document document) {
+        lastLogin = document.getLong("lastLogin") == null ? lastLogin : document.getLong("lastLogin");
+
+        nationId = document.getString("nationId") == null ? nationId : document.getString("nationId");
+        nationRank = document.getString("nationRank") == null ? nationRank : document.getString("nationRank");
+        profileChatType = document.getString("profileChatType") == null ? profileChatType : document.getString("profileChatType");
+        profilePlayerTerritoryChangeMessageType = document.getString("profilePlayerTerritoryChangeMessageType") == null ? profilePlayerTerritoryChangeMessageType : document.getString("profilePlayerTerritoryChangeMessageType");
+    }
+
+    public void load(boolean cache) {
+        Document document = instance.getMongoManager().getNationProfileCollection().find(Filters.eq("uuid", uuid)).first();
+        if (document == null) {
+            backup();
+            loaded = true;
+            if (cache) {
+                instance.getMongoManager().getProfileCache().put(getUniqueId(), this);
+            }
+            return;
+        }
+        loadFromDocument(document);
+        hasJoinedBefore = true;
+        loaded = true;
+
+        if (cache) {
+            instance.getMongoManager().getProfileCache().put(getUniqueId(), this);
+        }
+    }
+
     // -------------------------------------------------------------------------------------------------
     //                                          STATIC METHODS
     // -------------------------------------------------------------------------------------------------
 
     public static @NotNull NationProfile get(UUID uuid) {
-        if (!instance.getMongoManager().getProfileCache().containsKey(uuid)) return getFromDatabase(uuid);
+        if (!instance.getMongoManager().getProfileCache().containsKey(uuid)) {
+            instance.getMongoManager().getProfileCache().put(uuid, new NationProfile(uuid));
+        }
         return instance.getMongoManager().getProfileCache().get(uuid);
     }
 
-    private static NationProfile getFromDatabase(UUID uuid) {
-
-        NationProfile profile = instance.getMongoManager().getDatastore().find(NationProfile.class).filter(Filters.gte("uuid", uuid.toString())).first();
-        if (profile == null) {
-            profile = new NationProfile(
-                    uuid.toString(),
-                    System.currentTimeMillis(),
-                    null,
-                    null,
-                    ChatType.GLOBAL.toString(),
-                    false
-            );
-
-            profile.save();
-            instance.getLogger().info(CC.format("&bNationProfile for &6" + uuid + "&b created in database."));
-            return profile;
+    public static NationProfile getLoadDoNotCache(UUID uuid) {
+        if (instance.getMongoManager().getProfileCache().containsKey(uuid)) {
+            NationProfile profile = instance.getMongoManager().getProfileCache().get(uuid);
+            if (!profile.isLoaded()) {
+                profile.load(false);
+            }
         }
+        NationProfile profile = new NationProfile(uuid);
+        profile.load(false);
+        return profile;
+    }
 
-        // NULL CHECK
-        NationProfile checkProfile = new NationProfile(
-                profile.uuid,
-                profile.lastLogin,
-                profile.nationId,
-                profile.nationRank,
-                profile.profileChatType == null ? ChatType.GLOBAL.name() : profile.profileChatType,
-                false
-        );
-
-        checkProfile.save();
-        return checkProfile;
+    public static void loadAllOnlineUsers() {
+        for (Player player : instance.getServer().getOnlinePlayers()) {
+            NationProfile profile = NationProfile.get(player.getUniqueId());
+            if (!profile.isLoaded() && player.isOnline()) {
+                profile.load(true);
+            }
+        }
     }
 
 }

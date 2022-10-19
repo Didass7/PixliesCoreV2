@@ -16,7 +16,9 @@ public class ServerDataListener implements Listener {
         if (!event.getIdentifier().equals("ServerData")) return;
 
         ServerData data = new Gson().fromJson(event.getData().get("data"), ServerData.class);
-        manager.getServers().put(data.getServerName(), data);
+        synchronized (manager.getServers()) {
+            manager.getServers().put(data.getServerName(), data);
+        }
 
     }
 

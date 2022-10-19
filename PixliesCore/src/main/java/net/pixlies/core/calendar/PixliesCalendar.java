@@ -145,7 +145,8 @@ public class PixliesCalendar extends Thread {
 
                 events.put(number, () -> {
                     for (String command : section.getStringList(s + ".todo")) {
-                        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
+                        Bukkit.getScheduler().runTask(Main.getInstance(), () ->
+                                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command));
                     }
                 });
 

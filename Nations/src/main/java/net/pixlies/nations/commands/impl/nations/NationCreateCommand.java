@@ -32,17 +32,11 @@ public class NationCreateCommand extends BaseCommand {
             return;
         }
 
-        // CHECKS IF NATION WITH SAME NAME ALREADY EXISTS
-        if (Nation.getFromName(name) != null) {
-            NationsLang.NATION_NAME_ALREADY_EXISTS.send(player, "%NAME%;" + name);
-            return;
-        }
-
         String id = RandomStringUtils.randomAlphanumeric(32);
 
-        // CHECKS IF NATION WITH SAME ID ALREADY EXISTS
-        if (instance.getNationManager().getNations().containsKey(id)) {
-            NationsLang.NATION_ID_ALREADY_EXISTS.send(player, "%NAME%;" + name);
+        // CHECKS IF NATION WITH SAME NAME ALREADY EXISTS
+        if (Nation.getFromName(name) != null || Nation.getFromId(id) != null) {
+            NationsLang.NATION_ALREADY_EXISTS.send(player, "%NAME%;" + name);
             return;
         }
 
@@ -52,11 +46,12 @@ public class NationCreateCommand extends BaseCommand {
             return;
         }
 
-
         Nation nation = new Nation(id, name, player.getUniqueId());
         nation.create(player);
+        nation.addMember(player, NationRank.getLeaderRank().getName(), true);
 
-        nation.addMember(player, NationRank.getLeaderRank().getName());
+        nation.cache();
+        nation.save();
 
         // TODO: open nation creation menu
         player.performCommand("nation gui");
