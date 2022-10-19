@@ -10,8 +10,8 @@
         <module name="DiploMaurice" />
         <module name="core" />
         <module name="ProtoBusiness" />
-        <module name="PixliesFun" />
         <module name="MiniMick" />
+        <module name="PixliesFun" />
         <module name="PixliesProxyCore" />
         <module name="LobbyModule" />
         <module name="Nations" />

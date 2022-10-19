@@ -42,9 +42,19 @@
       <option name="url" value="https://repo.purpurmc.org/snapshots" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="central" />
+      <option name="url" value="https://repo1.maven.org/maven2" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="nexus" />
       <option name="name" value="nexus" />
       <option name="url" value="https://s01.oss.sonatype.org/content/repositories/snapshots/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="atlasconstants-github" />
+      <option name="name" value="GitHub OWNER Apache Maven Packages" />
+      <option name="url" value="https://maven.pkg.github.com/AtlasNetworkDev/atlasconstants" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="aikar" />

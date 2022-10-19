@@ -12,8 +12,7 @@
         <module>PixliesFun</module>
         <module>PixliesProxyCore</module>
         <module>DiploMaurice</module>
-<!--        <module>ProtoBusiness</module>-->
-<!--        Remove ProtoBusiness for now, I'll find a way to fix it later.-->
+        <module>ProtoBusiness</module>
     </modules>
 
     <groupId>net.pixlies</groupId>
