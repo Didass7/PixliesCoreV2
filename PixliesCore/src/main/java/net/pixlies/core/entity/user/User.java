@@ -55,6 +55,8 @@ public class User {
 
     // STATS
     private int civilPoints = 0; // Range: -100 to 100
+    
+    // MARKET STATS
     private int buyOrdersMade = 0;
     private int sellOrdersMade = 0;
     private int tradesMade = 0;
