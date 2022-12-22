@@ -1,7 +1,6 @@
 package net.pixlies.proxy.queue;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import lombok.Getter;
 import net.md_5.bungee.config.Configuration;
@@ -83,7 +82,8 @@ public class QueueManager {
         if (queuePlayers.size() < 1) return 0;
 
         int position = 0;
-        for (int i = 1; i <= queuePlayers.size(); i++) { // Starting from 1 because you can't be in position 0
+        int size = queuePlayers.size();
+        for (int i = 1; i <= size; i++) { // Starting from 1 because you can't be in position 0
             ProxyQueuePlayer indexPlayer = queuePlayers.poll();
             if (indexPlayer == null) continue;
 
