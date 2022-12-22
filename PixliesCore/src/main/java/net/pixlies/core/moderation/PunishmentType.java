@@ -4,7 +4,7 @@ public enum PunishmentType {
 
     BAN,
     MUTE,
-    BLACKLIST
-//    MARKET_RESTRICT
+    BLACKLIST,
+    MARKET_RESTRICT
 
 }

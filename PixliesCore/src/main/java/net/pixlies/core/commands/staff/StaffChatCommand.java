@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 
 /**
  * Staffchat command
- * @author vPrototype_
+ * @author vyketype
  */
 
 @CommandPermission("pixlies.staff.staffchat")

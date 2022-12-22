@@ -11,7 +11,7 @@ import org.bson.Document;
 /**
  * Tariff class
  *
- * @author vPrototype_
+ * @author vyketype
  */
 @Getter
 @AllArgsConstructor

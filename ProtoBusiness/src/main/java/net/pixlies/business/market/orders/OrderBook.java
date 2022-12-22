@@ -14,15 +14,13 @@ import java.util.*;
 /**
  * Represents the order book for one item
  *
- * @author vPrototype_
+ * @author vyketype
  */
 @Getter
 @AllArgsConstructor
 public class OrderBook {
 
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();
-
-    public static double change = 0.01;
 
     private final String bookId;
     private final OrderItem item;
@@ -188,7 +186,7 @@ public class OrderBook {
 
     public void remove(Order order) {
         if (order.getType() == Order.Type.BUY) buyOrders.remove(order);
-        else if (order.getType() == Order.Type.SELL) sellOrders.remove(order);
+        else sellOrders.remove(order);
         save();
     }
 

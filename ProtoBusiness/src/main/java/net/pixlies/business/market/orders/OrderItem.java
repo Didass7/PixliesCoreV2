@@ -13,7 +13,8 @@ import java.util.Map;
 
 /**
  * Enum for order items
- * @author vPrototype_
+ *
+ * @author vyketype
  */
 @AllArgsConstructor
 public enum OrderItem {

@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 /**
  * Handles the sending of staff messages
- * @author vPrototype_
+ * @author vyketype
  */
 public class StaffChatHandler implements Handler {
 

@@ -3,7 +3,7 @@ version: 1.0.0
 description: Me and missy is so very busy busy making money
 api-version: 1.19
 depend:  [PixliesCore, Nations]
-authors: [vPrototype_, NeedlessMemeing]
+authors: [vyketype, NeedlessMemeing]
 website: www.pixlies.net
 main: net.pixlies.business.ProtoBusiness
 prefix: Business

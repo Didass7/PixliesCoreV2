@@ -10,8 +10,8 @@
         <module name="DiploMaurice" />
         <module name="core" />
         <module name="ProtoBusiness" />
-        <module name="PixliesFun" />
         <module name="MiniMick" />
+        <module name="PixliesFun" />
         <module name="PixliesProxyCore" />
         <module name="LobbyModule" />
         <module name="Nations" />
@@ -34,5 +34,11 @@
       <module name="version-two" target="16" />
       <module name="yourmom" target="1.8" />
     </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="PixliesCore" options="--add-modules java.base" />
+      <module name="ProtoBusiness" options="--add-modules java.base" />
+    </option>
   </component>
 </project>

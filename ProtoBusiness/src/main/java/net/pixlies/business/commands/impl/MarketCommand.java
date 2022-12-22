@@ -12,6 +12,8 @@ import net.pixlies.business.market.orders.OrderProfile;
 import net.pixlies.core.Main;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.localization.Lang;
+import net.pixlies.core.moderation.Punishment;
+import net.pixlies.core.moderation.PunishmentType;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -22,7 +24,7 @@ import java.util.UUID;
 /**
  * Market command
  *
- * @author vPrototype_
+ * @author vyketype
  */
 @CommandAlias("market|m|nasdaq|nyse|snp500|dowjones|ftse")
 @CommandPermission("pixlies.business.market")
@@ -43,14 +45,14 @@ public class MarketCommand extends BaseCommand {
     @Default
     @Description("Opens the market menu")
     public void onMarket(Player player) {
-        if (!marketHandler.isMarketOpen()) {
+        if (!instance.getConfig().getBoolean("marketOpen")) {
             MarketLang.MARKET_IS_CLOSED.send(player);
             player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
             return;
         }
 
         User user = User.get(player.getUniqueId());
-        if (user.getPunishments().containsKey("marketRestrict")) {
+        if (user.getActivePunishmentByType(PunishmentType.MARKET_RESTRICT) != null) {
             MarketLang.MARKET_PLAYER_IS_RESTRICTED.send(player);
             player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
             return;
@@ -66,11 +68,11 @@ public class MarketCommand extends BaseCommand {
     @CommandPermission("pixlies.business.market.gates")
     @Description("Opens the market to the public")
     public void onMarketOpen(Player player) {
-        if (marketHandler.isMarketOpen()) {
+        if (instance.getConfig().getBoolean("marketOpen")) {
             MarketLang.MARKET_WAS_ALREADY_OPEN.send(player);
             return;
         }
-        marketHandler.setMarketOpen(true);
+        instance.getConfig().set("marketOpen", true);
         MarketLang.MARKET_OPEN.broadcast();
     }
 
@@ -78,16 +80,16 @@ public class MarketCommand extends BaseCommand {
     @CommandPermission("pixlies.business.market.gates")
     @Description("Closes the market")
     public void onMarketClose(Player player) {
-        if (!marketHandler.isMarketOpen()) {
+        if (!instance.getConfig().getBoolean("marketOpen")) {
             MarketLang.MARKET_WAS_ALREADY_CLOSED.send(player);
             return;
         }
-        marketHandler.setMarketOpen(false);
+        instance.getConfig().set("marketOpen", false);
         MarketLang.MARKET_CLOSED.broadcast();
     }
 
-    @Subcommand("reset")
-    @CommandPermission("pixlies.business.market.reset")
+    @Subcommand("resetstats")
+    @CommandPermission("pixlies.business.market.resetstats")
     @Description("Resets the market statistics")
     public void onMarketReset(Player player, @Optional Player target) {
         if (target == null) {
@@ -116,7 +118,7 @@ public class MarketCommand extends BaseCommand {
             reason = pixlies.getConfig().getString("moderation.defaultReason", "No reason given");
         }
 
-        if (user.getPunishments().containsKey("marketRestrict")) {
+        if (user.getActivePunishmentByType(PunishmentType.MARKET_RESTRICT) != null) {
             if (target.isOnline()) {
                 MarketLang.MARKET_PLAYER_ALLOWED_TARGET.send(target);
                 target.playSound(target.getLocation(), "entity.experience_orb.pickup", 100, 1);

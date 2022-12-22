@@ -11,8 +11,7 @@ import java.util.UUID;
 /**
  * Trade class
  *
- * @author vPrototype_
- * @author NeedlessMemeing
+ * @author vyketype
  */
 @Getter
 @AllArgsConstructor

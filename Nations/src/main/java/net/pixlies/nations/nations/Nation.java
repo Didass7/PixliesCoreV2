@@ -31,7 +31,7 @@ import java.util.*;
  *
  * @author MickMMars
  * @author Dynmie
- * @author vPrototype_
+ * @author vyketype
  */
 @ToString
 @EqualsAndHashCode
