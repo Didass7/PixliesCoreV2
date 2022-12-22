@@ -16,29 +16,30 @@ import java.util.Map;
 import java.util.UUID;
 
 public class MarketPane extends StaticPane {
-
-    @NotNull private final Map<Map.Entry<Integer, Integer>, GuiItem> items;
-
+    @NotNull
+    private final Map<Map.Entry<Integer, Integer>, GuiItem> items;
+    
     public MarketPane(int x, int y, int length, int height) {
         super(x, y, length, height);
         items = new HashMap<>(length * height);
     }
-
+    
     public void loadPage(MarketCommand.Selection page, UUID uuid, OrderProfile profile) {
         fillWith(new ItemStack(Material.AIR));
-
+        
         if (!page.hasFourthRow()) {
             for (int x = 0; x < 7; x++) addItem(new GuiItem(new ItemStack(Material.AIR)), x, 3);
         }
-
+        
         if (!page.hasFifthRow()) {
             for (int x = 0; x < 7; x++) addItem(new GuiItem(new ItemStack(Material.AIR)), x, 4);
         }
-
+        
         if (!page.hasSeventhColumn()) {
-            for (int y = 0; y < 5; y++) addItem(new GuiItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE)), 6, y);
+            for (int y = 0; y < 5; y++)
+                addItem(new GuiItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE)), 6, y);
         }
-
+        
         for (OrderItem item : OrderItem.getItemsOfPage(page.ordinal())) {
             OrderBook book = item.getBook();
             assert book != null;
@@ -53,5 +54,4 @@ public class MarketPane extends StaticPane {
             addItem(guiItem, item.getPosX(), item.getPosY());
         }
     }
-
 }

@@ -15,30 +15,32 @@ import org.bukkit.entity.Player;
 import java.util.*;
 
 /**
- * Orders
+ * Orders.
  *
  * @author vyketype
  */
 @Getter
 @AllArgsConstructor
 public class Order {
-
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();
     private final MarketHandler marketHandler = instance.getHandlerManager().getHandler(MarketHandler.class);
-
+    
     private final String orderId;
     private final String bookId;
-    private @Setter long timestamp;
-
+    private @Setter
+    long timestamp;
+    
     private final Type type;
-
+    
     private final UUID playerUUID;
-    private @Setter double price;
-    private @Setter int amount;
+    private @Setter
+    double price;
+    private @Setter
+    int amount;
     private int volume;
-
+    
     private final List<Trade> trades;
-
+    
     public Order(Document document) {
         this(
                 document.getString("orderId"),
@@ -56,10 +58,10 @@ public class Order {
                 }}
         );
     }
-
+    
     public Document toDocument() {
         Document document = new Document();
-
+        
         document.put("orderId", orderId);
         document.put("bookId", bookId);
         document.put("timestamp", timestamp);
@@ -73,10 +75,10 @@ public class Order {
                 add(trade.toDocument());
             }
         }});
-
+        
         return document;
     }
-
+    
     public Order(Type type, String bookId, long timestamp, UUID uuid, double price, int amount) {
         orderId = TextUtils.generateId(7);
         this.bookId = bookId;
@@ -88,16 +90,15 @@ public class Order {
         volume = amount;
         trades = new LinkedList<>();
     }
-
+    
     public double getPrice(UUID matchingUUID) {
         if (playerUUID == matchingUUID) return price;
-
-
-
+        
+        
         String from = NationProfile.get(playerUUID).getNation().getNationId();
         String to = NationProfile.get(matchingUUID).getNation().getNationId();
         double rate = 0;
-
+        
         // Checks the tariffs list and sees if there are any that match
         for (Tariff tariff : instance.getMarketManager().getTariffs().values()) {
             if (Objects.equals(tariff.getFrom(), from) && Objects.equals(tariff.getTo(), to)) {
@@ -105,38 +106,38 @@ public class Order {
                 break;
             }
         }
-
+        
         return price * (1 + rate);
     }
-
+    
     public boolean isCancellable() {
         for (Trade t : trades) {
             if (!t.isClaimed()) return true;
         }
         return false;
     }
-
+    
     public void decreaseVolume(int amount) {
         volume -= amount;
     }
-
+    
     public void sendNotification() {
         Player player = Bukkit.getPlayer(playerUUID);
-
+        
         // If player is offline
         if (player == null) {
             marketHandler.getNotifs().put(playerUUID.toString(), this);
             return;
         }
-
+        
         OrderItem item = instance.getMarketManager().getBooks().get(bookId).getItem();
-        if (type == Type.BUY) MarketLang.BUY_ORDER_FILLED.send(player, "%NUM%;" + amount, "%ITEM%;" + item.getName());
+        if (type == Type.BUY)
+            MarketLang.BUY_ORDER_FILLED.send(player, "%NUM%;" + amount, "%ITEM%;" + item.getName());
         else MarketLang.SELL_ORDER_FILLED.send(player, "%NUM%;" + amount, "%ITEM%;" + item.getName());
         player.playSound(player.getLocation(), "entity.experience_orb.pickup", 100, 1);
     }
-
+    
     public enum Type {
         BUY, SELL
     }
-
 }

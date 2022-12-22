@@ -9,17 +9,15 @@ import org.bson.Document;
 
 @Getter
 public class MongoManager {
-
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();
     private static final Main pixlies = Main.getInstance();
-
+    
     private final ModuleConfig config = instance.getConfig();
     private MongoCollection<Document> orderBookCollection;
     private MongoCollection<Document> tariffCollection;
-
+    
     public void init() {
         orderBookCollection = pixlies.getMongoManager().getDatabase().getCollection("orderbooks");
         tariffCollection = pixlies.getMongoManager().getDatabase().getCollection("tariffCollection");
     }
-
 }

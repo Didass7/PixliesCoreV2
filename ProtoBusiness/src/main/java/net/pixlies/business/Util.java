@@ -1,18 +1,11 @@
 package net.pixlies.business;
 
-import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 
-import java.lang.reflect.Field;
 import java.util.List;
-import java.util.Objects;
 
 public class Util {
-
     public static void openSign(Player player, List<String> lines) {
         /*
         Sign sign = null;
@@ -57,7 +50,7 @@ public class Util {
         
          */
     }
-
+    
     public static Class<?> getNMSClass(String clazz) {
         try {
             return Class.forName("net.minecraft.server." + Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3] + "." + clazz);
@@ -66,5 +59,4 @@ public class Util {
             return null;
         }
     }
-
 }

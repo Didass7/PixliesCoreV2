@@ -15,14 +15,14 @@ import org.bukkit.entity.Player;
 @CommandAlias("price|pr")
 @CommandPermission("pixlies.business.price")
 public class PriceCommand extends BaseCommand {
-
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();
-
+    
     @Default
     @Description("Retrieve the best prices of the held item")
     public void onPrice(Player player) {
         Material mat = player.getInventory().getItemInMainHand().getType();
         OrderItem item = OrderItem.getFromMaterial(mat);
+        
         if (item == null) {
             MarketLang.ITEM_NOT_ON_MARKET.send(player);
             player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
@@ -35,5 +35,4 @@ public class PriceCommand extends BaseCommand {
                     "%AMOUNT%;" + book.getSellOrders().size());
         }
     }
-
 }

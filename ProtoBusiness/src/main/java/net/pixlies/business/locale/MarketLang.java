@@ -45,7 +45,7 @@ public enum MarketLang {
     PRICE_SUMMARY(MarketLang.MARKET),
     PRICE_BEST_BUY(""),
     PRICE_BEST_SELL(""),
-
+    
     // CHALLENGES [PROTOBUSINESS]
     BUY_ORDER(""),
     SELL_ORDER(""),
@@ -59,7 +59,7 @@ public enum MarketLang {
     CHALLENGE_LIST(MarketLang.MARKET),
     CHALLENGE_COMPLETE_FORMAT(""),
     CHALLENGE_INCOMPLETE_FORMAT(""),
-
+    
     // TARIFFS [PROTOBUSINESS]
     TARIFF_LOCAL_INCOMING(NationsLang.NATION),
     TARIFF_LOCAL_OUTGOING(NationsLang.NATION),
@@ -78,17 +78,18 @@ public enum MarketLang {
     MUST_BE_A_PLAYER(Lang.PIXLIES),
     INVALID_COMMAND_SYNTAX(Lang.PIXLIES),
     MARKET_OPEN(MarketLang.MARKET);
-
-    public static final String MARKET = "§x§1§f§c§a§7§3§lM§x§0§0§b§e§8§d§lA§x§0§0§b§0§a§0§lR§x§0§0§a§1§a§9§lK§x§0§0§9§1§a§9§lE§x§1§b§8§1§9§f§lT§8 | §7";
-
+    
+    public static final String MARKET = "§x§1§f§c§a§7§3§lM§x§0§0§b§e§8§d§lA§x§0§0§b§0§a§0§lR§x§0§0§a§1§a§9§lK§x§0§0" +
+            "§9§1§a§9§lE§x§1§b§8§1§9§f§lT§8 | §7";
+    
     private final String prefix;
     private @Getter
     @NotNull Map<String, String> languages = new HashMap<>();
-
+    
     MarketLang(String prefix) {
         this.prefix = CC.format(prefix);
     }
-
+    
     public String get(CommandSender sender) {
         if (sender instanceof Player player) {
             User user = User.get(player.getUniqueId());
@@ -101,7 +102,7 @@ public enum MarketLang {
         }
         return get();
     }
-
+    
     public String get(CommandSender sender, String... placeholders) {
         String text = get(sender);
         for (String s : placeholders) {
@@ -110,24 +111,24 @@ public enum MarketLang {
         }
         return text;
     }
-
+    
     public String get() {
         return prefix + CC.format(languages.get("ENG"));
     }
-
+    
     public String getRaw(String language) {
         if (languages.get(language) == null) return "";
         return languages.get(language);
     }
-
+    
     public void send(CommandSender sender) {
         sender.sendMessage(get(sender));
     }
-
+    
     public void broadcast(String... placeholders) {
         broadcastPermission(null, placeholders);
     }
-
+    
     public void broadcastPermission(String permission, String... placeholders) {
         if (permission == null) {
             for (Player player : Bukkit.getOnlinePlayers()) {
@@ -142,19 +143,19 @@ public enum MarketLang {
         }
         Bukkit.getConsoleSender().sendMessage(get(null, placeholders));
     }
-
+    
     public void kickPlayer(Player player) {
         player.kickPlayer(get(player));
     }
-
+    
     public void kickPlayer(Player player, String... placeholders) {
         player.kickPlayer(get(player, placeholders));
     }
-
+    
     public void setLanguage(Map<String, String> languages) {
         this.languages = languages;
     }
-
+    
     /**
      * SEND MESSAGE TO PLAYER WITH PLACEHOLDERS
      *
@@ -164,23 +165,24 @@ public enum MarketLang {
     public void send(CommandSender sender, String... placeholders) {
         sender.sendMessage(get(sender, placeholders));
     }
-
+    
     public static void load() {
         int loaded = 0;
         File folder = new File(Nations.getInstance().getDataFolder().getAbsolutePath() + "/languages/");
-
+        
         File[] files = folder.listFiles();
         if (files == null) {
             Nations.getInstance().getLogger().warning("Failed to load any languages.");
             return;
         }
-
+        
         for (File file : files) {
             if (!file.getName().endsWith(".yml"))
                 continue;
             YamlConfiguration cfg = YamlConfiguration.loadConfiguration(file);
             String langName = file.getName().replace("LANG_", "").replace(".yml", "").toUpperCase();
-            for (MarketLang l : values()) {Map<String, String> map = new HashMap<>(l.languages);
+            for (MarketLang l : values()) {
+                Map<String, String> map = new HashMap<>(l.languages);
                 map.put(langName, cfg.getString(l.name()));
                 l.setLanguage(map);
             }
@@ -188,6 +190,4 @@ public enum MarketLang {
         }
         Nations.getInstance().getLogger().info("Loaded " + loaded + " languages.");
     }
-
-
 }

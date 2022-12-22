@@ -14,14 +14,14 @@ import org.bukkit.entity.Player;
 @CommandAlias("challenge|challenges")
 @CommandPermission("pixlies.business.challenge")
 public class ChallengeCommand extends BaseCommand {
-
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();
     private final MarketHandler marketHandler = instance.getHandlerManager().getHandler(MarketHandler.class);
-
+    
     @Default
     @Description("Gets a list of all market challenges")
     public void onChallenge(Player player) {
         MarketLang.CHALLENGE_LIST.send(player);
+        
         for (Challenge c : Challenge.values()) {
             if (marketHandler.getChallenges().containsEntry(player.getUniqueId().toString(), c)) {
                 MarketLang.CHALLENGE_COMPLETE_FORMAT.send(player, "%CHALLENGE%;" + c.getMessage(player));
@@ -30,5 +30,4 @@ public class ChallengeCommand extends BaseCommand {
             MarketLang.CHALLENGE_INCOMPLETE_FORMAT.send(player, "%CHALLENGE%;" + c.getMessage(player));
         }
     }
-
 }

@@ -9,25 +9,24 @@ import java.util.Objects;
 import java.util.UUID;
 
 /**
- * Trade class
+ * Trade class.
  *
  * @author vyketype
  */
 @Getter
 @AllArgsConstructor
 public class Trade {
-
     private long timestamp;
     private double price;
     private int amount;
-
+    
     private UUID provider; // for sell orders
     private UUID taker; // for sell orders
     private UUID buyer; // for buy orders
     private UUID seller; // for buy orders
-
+    
     private boolean claimed;
-
+    
     public Trade(Document document) {
         this(
                 document.getLong("timestamp"),
@@ -40,10 +39,10 @@ public class Trade {
                 document.getBoolean("claimed")
         );
     }
-
+    
     public Document toDocument() {
         Document document = new Document();
-
+        
         document.put("timestamp", timestamp);
         document.put("price", price);
         document.put("amount", amount);
@@ -52,26 +51,26 @@ public class Trade {
         document.put("buyer", buyer.toString());
         document.put("seller", seller.toString());
         document.put("claimed", claimed);
-
+        
         return document;
     }
-
+    
     public void claim() {
         claimed = true;
     }
-
+    
     public String toString(double originalPrice) {
         // TIMESTAMP
         long secondsTime = (System.currentTimeMillis() - timestamp) / 1000;
         String timestamp = secondsTime + "s";
         if (secondsTime > 60) timestamp = Math.round(secondsTime / 60.0) + "m";
-
+        
         // BUY ORDERS
         if (provider == null) {
             String name = Objects.requireNonNull(Bukkit.getPlayer(seller)).getName();
             return "§8- §a" + amount + "§7x §f" + name + " §8" + timestamp + " ago";
         }
-
+        
         // SELL ORDERS
         if (buyer == null) {
             String name = Objects.requireNonNull(Bukkit.getPlayer(taker)).getName();
@@ -82,8 +81,7 @@ public class Trade {
                 return "§8- §a" + amount + "§7x §f" + name + " §8" + timestamp + " ago §7(tariffed §d" + "%§7)";
             }
         }
-
+        
         return null;
     }
-
 }

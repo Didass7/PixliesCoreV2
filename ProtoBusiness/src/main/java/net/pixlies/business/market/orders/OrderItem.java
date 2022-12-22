@@ -1,6 +1,5 @@
 package net.pixlies.business.market.orders;
 
-import com.sun.jdi.IntegerValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
@@ -9,7 +8,6 @@ import org.bukkit.Material;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Enum for order items
@@ -18,11 +16,11 @@ import java.util.Map;
  */
 @AllArgsConstructor
 public enum OrderItem {
-
+    
     // TODO: TERRACOTTA, WHITE_STAINED_GLASS, WHITE_STAINED_GLASS_PANE, WHITE_WOOL, SHULKER_BOX
-
+    
     // MINERALS
-
+    
     COBBLESTONE(Material.COBBLESTONE, 0, 0, 0),
     DEEPSLATE(Material.DEEPSLATE, 0, 1, 0),
     DIORITE(Material.DIORITE, 0, 2, 0),
@@ -47,9 +45,9 @@ public enum OrderItem {
     NETHERITE_SCRAP(Material.NETHERITE_SCRAP, 0, 3, 3),
     NETHERITE_INGOT(Material.NETHERITE_INGOT, 0, 4, 3),
     GLOWSTONE_DUST(Material.GLOWSTONE_DUST, 0, 5, 3),
-
+    
     // FOODSTUFFS & PLANTS
-
+    
     WHEAT_SEEDS(Material.WHEAT_SEEDS, 1, 0, 0),
     WHEAT(Material.WHEAT, 1, 1, 0),
     PUMPKIN(Material.PUMPKIN, 1, 2, 0),
@@ -85,9 +83,9 @@ public enum OrderItem {
     SUGAR_CANE(Material.SUGAR_CANE, 1, 4, 4),
     CACTUS(Material.CACTUS, 1, 5, 4),
     LILY_PAD(Material.LILY_PAD, 1, 6, 4),
-
+    
     // BLOCKS
-
+    
     DIRT(Material.DIRT, 2, 0, 0),
     GRASS_BLOCK(Material.GRASS_BLOCK, 2, 1, 0),
     MOSS_BLOCK(Material.MOSS_BLOCK, 2, 2, 0),
@@ -123,9 +121,9 @@ public enum OrderItem {
     PRISMARINE(Material.PRISMARINE, 2, 4, 4),
     SEA_LANTERN(Material.SEA_LANTERN, 2, 5, 4),
     TINTED_GLASS(Material.TINTED_GLASS, 2, 6, 4),
-
+    
     // MOB DROPS
-
+    
     ROTTEN_FLESH(Material.ROTTEN_FLESH, 3, 0, 0),
     STRING(Material.STRING, 3, 1, 0),
     SPIDER_EYE(Material.SPIDER_EYE, 3, 2, 0),
@@ -150,9 +148,9 @@ public enum OrderItem {
     SHULKER_BOX(Material.SHULKER_BOX, 3, 3, 3),
     BAMBOO(Material.BAMBOO, 3, 4, 3),
     GOAT_HORN(Material.GOAT_HORN, 3, 5, 3),
-
+    
     // MISCELLANEOUS
-
+    
     FLINT(Material.FLINT, 4, 0, 0),
     SNOWBALL(Material.SNOWBALL, 4, 1, 0),
     CLAY_BALL(Material.CLAY_BALL, 4, 2, 0),
@@ -171,39 +169,45 @@ public enum OrderItem {
     LEAD(Material.LEAD, 4, 3, 2),
     TURTLE_EGG(Material.TURTLE_EGG, 4, 4, 2),
     NETHER_STAR(Material.NETHER_STAR, 4, 5, 2);
-
+    
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();
-
+    
     /**
      * Material of the item
      */
-    @Getter private final Material material;
-
+    @Getter
+    private final Material material;
+    
     /**
      * Page in the market menu
      */
-    @Getter private final int page;
-
+    @Getter
+    private final int page;
+    
     /**
      * Position X in its page
      */
-    @Getter private final int posX;
-
+    @Getter
+    private final int posX;
+    
     /**
      * Position Y in its page
      */
-    @Getter private final int posY;
-
+    @Getter
+    private final int posY;
+    
     /**
      * Gets formatted name of the GUI item
+     *
      * @return formatted name
      */
     public String getName() {
         return WordUtils.capitalize(name().toLowerCase().replace("_", " "));
     }
-
+    
     /**
      * Gets the OrderBook of the GUI item
+     *
      * @return OrderBook
      */
     public OrderBook getBook() {
@@ -212,9 +216,10 @@ public enum OrderItem {
         }
         return null;
     }
-
+    
     /**
      * Gets the items of a specific page
+     *
      * @param page page integer (starts at 0)
      * @return a list of all the items in given page
      */
@@ -225,12 +230,12 @@ public enum OrderItem {
         }
         return list;
     }
-
+    
     public static OrderItem getFromMaterial(Material mat) {
         for (OrderItem i : OrderItem.values()) {
             if (i.getMaterial() == mat) return i;
         }
         return null;
     }
-
+    
 }

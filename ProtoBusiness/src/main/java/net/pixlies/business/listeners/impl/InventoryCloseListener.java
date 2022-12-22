@@ -9,10 +9,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 
 public class InventoryCloseListener implements Listener {
-
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();
     private final MarketHandler marketHandler = instance.getHandlerManager().getHandler(MarketHandler.class);
-
+    
     @EventHandler
     public void onClose(InventoryCloseEvent event) {
         Player player = (Player) event.getPlayer();
@@ -22,5 +21,4 @@ public class InventoryCloseListener implements Listener {
             marketHandler.getProfiles().remove(player.getUniqueId().toString());
         }
     }
-
 }
