@@ -31,6 +31,7 @@ public class VanishListener implements Listener {
         // NOT STAFF
         if (!player.hasPermission("pixlies.moderation.vanish.exempt")) return;
         handler.getVanishedPlayers().forEach(target ->
+                // hide all vanished players from the new joiner
                 player.hidePlayer(instance, target));
 
     }

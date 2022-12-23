@@ -102,6 +102,8 @@ public class VanishHandler implements Handler {
         instance.getMongoManager().getUserCache().forEach((uuid, user) -> {
             Player player = instance.getServer().getPlayer(uuid);
             if (player == null) return;
+            if (!player.isOnline()) return;
+
             if (!user.isVanished()) return;
             players.add(player);
         });
