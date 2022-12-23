@@ -45,6 +45,7 @@ public enum MarketLang {
     PRICE_SUMMARY(MarketLang.MARKET),
     PRICE_BEST_BUY(""),
     PRICE_BEST_SELL(""),
+    PRICE_NOT_HOLDING_AN_ITEM(MarketLang.MARKET),
     
     // CHALLENGES [PROTOBUSINESS]
     BUY_ORDER(""),

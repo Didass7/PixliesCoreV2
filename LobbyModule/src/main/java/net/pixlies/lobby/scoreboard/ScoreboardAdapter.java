@@ -122,7 +122,7 @@ public class ScoreboardAdapter implements AssembleAdapter {
         // END LINES
 
         lines.add("                                                                  ");
-        lines.add("&7&opixlies.net");
+        lines.add("&a&opixlies.net");
 
         return lines;
     }

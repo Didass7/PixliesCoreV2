@@ -36,6 +36,7 @@ SELL_ORDER_FILLED: "§7Your §6sell order§7 for §a%NUM%§8x §f%ITEM%§7 was �
 PRICE_SUMMARY: "§7Here is the price summary for §d%ITEM%§7."
 PRICE_BEST_BUY: "§7Best buy offer: §6%PRICE% coins §8(%AMOUNT% offers)"
 PRICE_BEST_SELL: "§7Best sell offer: §6%PRICE% coins §8(%AMOUNT% offers)"
+PRICE_NOT_HOLDING_AN_ITEM: "§cYou are not holding an item in your hand!"
 
 BUY_ORDER: "Have a filled buy order"
 SELL_ORDER: "Have a filled sell order"
