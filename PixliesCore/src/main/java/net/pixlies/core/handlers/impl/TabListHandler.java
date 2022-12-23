@@ -1,12 +1,7 @@
 package net.pixlies.core.handlers.impl;
 
-import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.wrappers.EnumWrappers;
-import com.comphenix.protocol.wrappers.WrappedGameProfile;
-import com.destroystokyo.paper.event.player.PlayerUseUnknownEntityEvent;
 import lombok.Getter;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.pixlies.core.Main;
@@ -15,18 +10,14 @@ import net.pixlies.core.entity.user.User;
 import net.pixlies.core.handlers.Handler;
 import net.pixlies.core.scoreboard.PixliesTabAdapter;
 import net.pixlies.core.utils.CC;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.StringJoiner;
 
 public class TabListHandler implements Handler {

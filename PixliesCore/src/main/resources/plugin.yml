@@ -3,7 +3,7 @@ version: 2.0.0
 description: The brain behind the PixliesNet plugins
 api-version: 1.19
 authors: [MickMMars, TAMaurice, vyketype, Dynmie]
-depend: [PlaceholderAPI, ProtocolLib]
+depend: [PlaceholderAPI, ProtocolLib, Luckperms]
 website: www.pixlies.net
 main: net.pixlies.core.Main
 prefix: Core
