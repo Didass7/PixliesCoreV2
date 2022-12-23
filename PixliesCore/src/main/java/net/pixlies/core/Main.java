@@ -12,6 +12,7 @@ import net.pixlies.core.handlers.RegisterHandlerManager;
 import net.pixlies.core.handlers.impl.PixlieMojiHandler;
 import net.pixlies.core.handlers.impl.ScoreboardHandler;
 import net.pixlies.core.handlers.impl.TabListHandler;
+import net.pixlies.core.integrations.PixliesPlaceholderExpansion;
 import net.pixlies.core.listeners.ListenerManager;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.packets.PacketAdapterManager;
@@ -97,6 +98,9 @@ public class Main extends JavaPlugin {
         String[] date = calendarConfig.getString("date", "0/0/0").split("/");
         calendar = new PixliesCalendar(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]));
         calendar.startRunner();
+
+        // PLACEHOLDERS
+        new PixliesPlaceholderExpansion().register();
 
         // LISTENERS & COMMANDS
         ListenerManager.registerAllListeners();

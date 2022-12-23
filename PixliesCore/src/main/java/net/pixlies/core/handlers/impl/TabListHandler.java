@@ -8,6 +8,7 @@ import net.pixlies.core.Main;
 import net.pixlies.core.configuration.Config;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.handlers.Handler;
+import net.pixlies.core.ranks.Rank;
 import net.pixlies.core.scoreboard.PixliesTabAdapter;
 import net.pixlies.core.utils.CC;
 import org.bukkit.configuration.ConfigurationSection;
@@ -115,7 +116,7 @@ public class TabListHandler implements Handler {
 
     public String getTabListPrefix(Player player, boolean isStaff) {
         User user = User.get(player.getUniqueId());
-        String prefix = PlaceholderAPI.setPlaceholders(player, "%luckperms_prefix%");
+        String prefix = Rank.getRank(player.getUniqueId()).getChatPrefix();
         if (isStaff) {
             if (user.isInStaffMode() && player.hasPermission("pixlies.moderation.staffmode")) {
                 prefix = "&7&lSTAFF ";

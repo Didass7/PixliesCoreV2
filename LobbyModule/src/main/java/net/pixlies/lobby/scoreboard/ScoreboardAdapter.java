@@ -6,6 +6,7 @@ import net.pixlies.core.entity.user.User;
 import net.pixlies.core.entity.user.timers.Timer;
 import net.pixlies.core.handlers.impl.TimerHandler;
 import net.pixlies.core.lib.io.github.thatkawaiisam.assemble.AssembleAdapter;
+import net.pixlies.core.ranks.Rank;
 import net.pixlies.core.scoreboard.ScoreboardType;
 import net.pixlies.core.utils.CC;
 import net.pixlies.lobby.Lobby;
@@ -100,6 +101,7 @@ public class ScoreboardAdapter implements AssembleAdapter {
         // LINES
         lines.add(" &bLobby &7" + instance.getServer().getOnlinePlayers().size() + " Players");
         lines.add(" &bNetwork &7" + PlaceholderAPI.setPlaceholders(player, "%bungee_total%") + " Players");
+        lines.add(" &bRank &7" + Rank.getRank(player.getUniqueId()).getDisplayName());
 
         if (queueManager.isInQueue(player.getUniqueId())) {
             Queue queue = queueManager.getQueueFromPlayer(player.getUniqueId());
@@ -122,7 +124,7 @@ public class ScoreboardAdapter implements AssembleAdapter {
         // END LINES
 
         lines.add("                                                                  ");
-        lines.add("&a&opixlies.net");
+        lines.add("&7&opixlies.net");
 
         return lines;
     }

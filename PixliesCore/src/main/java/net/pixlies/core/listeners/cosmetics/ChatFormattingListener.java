@@ -30,7 +30,7 @@ public class ChatFormattingListener implements Listener {
 
         // SET CHAT FORMATTING
         if (config.getBoolean("chat.formatting", false)) {
-            event.setFormat(CC.format(CC.setPlaceholders(player, config.getString("chat.format", "%luckperms_prefix%%nickname%%luckperms_suffix%&7: &f%message%")
+            event.setFormat(CC.format(CC.setPlaceholders(player, config.getString("chat.format", "%pixlies_chatprefix%%nickname%%pixlies_chatsuffix%&7: &f%message%")
                     .replace("%player%", player.getName())
                     .replace("%nickname%", user.getNickName())
                     .replace("%message%", message))));
