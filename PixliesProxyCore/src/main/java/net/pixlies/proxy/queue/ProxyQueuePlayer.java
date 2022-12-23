@@ -16,14 +16,10 @@ public class ProxyQueuePlayer implements Comparable<ProxyQueuePlayer> {
 
     @Override
     public int compareTo(@NotNull ProxyQueuePlayer o) {
-        int result = Integer.compare(priority, o.getPriority());
+        int result = -Integer.compare(priority, o.getPriority());
 
         if (result == 0) {
-            if (insertedMillis < o.getInsertedMillis()) {
-                return -1;
-            } else {
-                return 1;
-            }
+            return Long.compare(insertedMillis, o.getInsertedMillis());
         }
 
         return result;

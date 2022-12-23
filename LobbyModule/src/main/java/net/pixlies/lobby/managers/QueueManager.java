@@ -3,6 +3,7 @@ package net.pixlies.lobby.managers;
 import lombok.Getter;
 import net.pixlies.core.database.redis.RedisManager;
 import net.pixlies.core.modules.configuration.ModuleConfig;
+import net.pixlies.core.utils.CC;
 import net.pixlies.core.utils.json.JsonBuilder;
 import net.pixlies.lobby.Lobby;
 import net.pixlies.lobby.managers.queue.Queue;
