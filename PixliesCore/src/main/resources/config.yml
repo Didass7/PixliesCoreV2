@@ -46,7 +46,7 @@ chat:
     # %player% The player's username
     # %nickname% The player's nickname
     # %message% The message sent
-    format: "%luckperms_prefix%%nickname%%luckperms_suffix%&7: &f%message%"
+    format: "%pixlies_chatprefix%%nickname%%pixlies_chatsuffix%&7: &f%message%"
 
 commands:
     # Enable if the plugin is loaded on a lobby server or equivalent

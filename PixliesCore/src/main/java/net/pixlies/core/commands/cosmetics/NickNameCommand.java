@@ -36,6 +36,7 @@ public class NickNameCommand extends BaseCommand {
             // REMOVE NICKNAME
             if (first.equalsIgnoreCase("off")) {
                 targetUser.removeNickName();
+                targetUser.save();
                 Lang.COSMETICS_NICKNAME.send(sender, "%MESSAGE%;" + target.getName());
                 return;
             }
@@ -68,6 +69,7 @@ public class NickNameCommand extends BaseCommand {
         // REMOVE NICKNAME
         if (first.equalsIgnoreCase("off")) {
             user.removeNickName();
+            user.save();
             Lang.COSMETICS_NICKNAME.send(player, "%MESSAGE%;" + player.getName());
             return;
         }
