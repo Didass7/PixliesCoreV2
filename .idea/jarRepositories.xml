@@ -12,6 +12,11 @@
       <option name="url" value="https://papermc.io/repo/repository/maven-public/" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="papermc-repo" />
+      <option name="name" value="papermc-repo" />
+      <option name="url" value="https://papermc.io/repo/repository/maven-public/" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="sonatype" />
       <option name="name" value="sonatype" />
       <option name="url" value="https://oss.sonatype.org/content/groups/public/" />
@@ -37,14 +42,14 @@
       <option name="url" value="https://repo1.maven.org/maven2" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="purpur" />
-      <option name="name" value="purpur" />
-      <option name="url" value="https://repo.purpurmc.org/snapshots" />
-    </remote-repository>
-    <remote-repository>
       <option name="id" value="central" />
       <option name="name" value="central" />
       <option name="url" value="https://repo1.maven.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="purpur" />
+      <option name="name" value="purpur" />
+      <option name="url" value="https://repo.purpurmc.org/snapshots" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="nexus" />
@@ -82,11 +87,6 @@
       <option name="url" value="http://repo.bukkit.org/content/groups/public/" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="papermc-repo" />
-      <option name="name" value="papermc-repo" />
-      <option name="url" value="https://papermc.io/repo/repository/maven-public/" />
-    </remote-repository>
-    <remote-repository>
       <option name="id" value="jboss.community" />
       <option name="name" value="JBoss Community repository" />
       <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
@@ -95,6 +95,21 @@
       <option name="id" value="minecraft-repo" />
       <option name="name" value="minecraft-repo" />
       <option name="url" value="https://libraries.minecraft.net/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="MavenRepo" />
+      <option name="name" value="MavenRepo" />
+      <option name="url" value="https://repo.maven.apache.org/maven2/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="MavenLocal" />
+      <option name="name" value="MavenLocal" />
+      <option name="url" value="file:/$MAVEN_REPOSITORY$/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven" />
+      <option name="name" value="maven" />
+      <option name="url" value="https://repo.purpurmc.org/snapshots/" />
     </remote-repository>
   </component>
 </project>

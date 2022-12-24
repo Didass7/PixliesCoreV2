@@ -1,0 +1,43 @@
+plugins {
+    id "java"
+    id "com.github.johnrengelman.shadow" version "7.1.2"
+    id "war"
+}
+
+group "net.pixlies"
+version "1.0-SNAPSHOT"
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+subprojects {
+    compileJava.options.encoding = "UTF-8"
+
+    apply plugin: "java"
+    apply plugin: "war"
+    apply plugin: "com.github.johnrengelman.shadow"
+
+    compileJava {
+        sourceCompatibility = 17
+        targetCompatibility = 17
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.purpurmc.org/snapshots/" }
+    maven { url "https://repo.extendedclip.com/content/repositories/placeholderapi/" }
+    maven { url "https://repo.aikar.co/content/groups/aikar/" }
+    maven { url "https://repo.dmulloy2.net/repository/public/" }
+}
+
+dependencies {
+    implementation "org.mongodb:mongo-java-driver:3.12.11"
+    implementation "commons-io:commons-io:2.11.0"
+    implementation "co.aikar:acf-paper:0.5.1-SNAPSHOT"
+    implementation "org.ocpsoft.prettytime:prettytime:5.0.3.Final"
+    implementation "commons-lang:commons-lang:2.6"
+}
