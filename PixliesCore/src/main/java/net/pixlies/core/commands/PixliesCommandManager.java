@@ -10,6 +10,7 @@ import net.pixlies.core.commands.staff.*;
 import net.pixlies.core.entity.Warp;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.localization.Lang;
+import net.pixlies.core.ranks.Rank;
 import net.pixlies.core.utils.CC;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -39,6 +40,7 @@ public class PixliesCommandManager {
 
         registerContexts();
         registerLocaleSettings();
+        registerCompletions();
         registerConditions();
         registerAllCommands();
 
@@ -118,56 +120,57 @@ public class PixliesCommandManager {
         register(new SpawnCommand(), false);
         register(new WarpCommand(), false);
         register(new AfkCommand(), true);
+        register(new ListCommand(), false);
         register(new SuicideCommand(), true);
     }
 
     private void registerContexts() {
-            CommandContexts<BukkitCommandExecutionContext> contexts = pcm.getCommandContexts();
+        CommandContexts<BukkitCommandExecutionContext> contexts = pcm.getCommandContexts();
 
-            contexts.registerContext(User.class, context ->
-                    User.get(context.getPlayer().getUniqueId()));
+        contexts.registerContext(User.class, context ->
+                User.get(context.getPlayer().getUniqueId()));
 
-            contexts.registerContext(Location.class, context -> {
-                String first = context.popFirstArg();
-                String second = context.popFirstArg();
-                String third = context.popFirstArg();
-                int x;
-                int y;
-                int z;
-                try {
-                    x = Integer.parseInt(first);
-                    y = Integer.parseInt(second);
-                    z = Integer.parseInt(third);
-                } catch (NumberFormatException e) {
-                    throw new ConditionFailedException("That isn't a valid location.");
+        contexts.registerContext(Location.class, context -> {
+            String first = context.popFirstArg();
+            String second = context.popFirstArg();
+            String third = context.popFirstArg();
+            int x;
+            int y;
+            int z;
+            try {
+                x = Integer.parseInt(first);
+                y = Integer.parseInt(second);
+                z = Integer.parseInt(third);
+            } catch (NumberFormatException e) {
+                throw new ConditionFailedException("That isn't a valid location.");
+            }
+            Location location;
+            if (context.getSender() instanceof Player player) {
+                location = new Location(player.getWorld(), x, y, z);
+            } else {
+                World world = Bukkit.getWorld("world");
+                if (world == null) {
+                    throw new ConditionFailedException("You can't execute this command as console.");
                 }
-                Location location;
-                if (context.getSender() instanceof Player player) {
-                    location = new Location(player.getWorld(), x, y, z);
-                } else {
-                    World world = Bukkit.getWorld("world");
-                    if (world == null) {
-                        throw new ConditionFailedException("You can't execute this command as console.");
-                    }
-                    location = new Location(world, x, y, z);
+                location = new Location(world, x, y, z);
+            }
+            return location;
+        });
+
+        contexts.registerContext(Warp.class, context -> {
+            String name = context.getFirstArg();
+            Warp warp = Warp.get(name);
+
+            if (warp == null) {
+                if (context.isOptional()) {
+                    return null;
                 }
-                return location;
-            });
+                throw new ConditionFailedException(Lang.PIXLIES + "§7That isn't a valid warp.");
+            }
 
-            contexts.registerContext(Warp.class, context -> {
-                String name = context.getFirstArg();
-                Warp warp = Warp.get(name);
+            return warp;
 
-                if (warp == null) {
-                    if (context.isOptional()) {
-                        return null;
-                    }
-                    throw new ConditionFailedException(Lang.PIXLIES + "§7That isn't a valid warp.");
-                }
-
-                return warp;
-
-            });
+        });
 
     }
 
@@ -178,6 +181,10 @@ public class PixliesCommandManager {
         pcm.setFormat(MessageType.HELP, ChatColor.AQUA, ChatColor.WHITE, ChatColor.DARK_GRAY, ChatColor.GRAY);
         pcm.setFormat(MessageType.SYNTAX, 1, ChatColor.RED);
         pcm.setFormat(MessageType.INFO, ChatColor.RED, ChatColor.WHITE);
+    }
+
+    public void registerCompletions() {
+        pcm.getCommandCompletions().registerAsyncCompletion("ranks", handler -> Rank.getDisplayNames());
     }
 
     private void registerConditions() {

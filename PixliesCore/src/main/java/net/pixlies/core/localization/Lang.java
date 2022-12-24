@@ -204,6 +204,9 @@ public enum Lang {
     MODERATION_COMMANDSPY_ENABLED(Lang.PIXLIES, new HashMap<>()),
     MODERATION_COMMANDSPY_DISABLED(Lang.PIXLIES, new HashMap<>()),
 
+    MODERATION_RANK_GRANT(Lang.PIXLIES, new HashMap<>()),
+    MODERATION_RANK_NOT_EXIST(Lang.PIXLIES, new HashMap<>()),
+
     // COSMETICS
     COSMETICS_HEALED_SELF(Lang.PIXLIES, new HashMap<>()),
     COSMETICS_HEALED_OTHERS(Lang.PIXLIES, new HashMap<>()),

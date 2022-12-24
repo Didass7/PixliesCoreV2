@@ -128,8 +128,7 @@ public class TabListHandler implements Handler {
     }
 
     public String getTabListSuffix(Player player, boolean isStaff) {
-        User user = User.get(player.getUniqueId());
-        return PlaceholderAPI.setPlaceholders(player, "%luckperms_suffix%");
+        return Rank.getRank(player.getUniqueId()).getChatSuffix();
     }
 
 }

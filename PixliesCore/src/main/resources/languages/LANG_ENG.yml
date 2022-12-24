@@ -216,6 +216,9 @@ MODERATION_MUTESPY_DISABLED: "§7You will no longer see muted players talk."
 MODERATION_COMMANDSPY_ENABLED: "§7You will now see players run commands."
 MODERATION_COMMANDSPY_DISABLED: "§7You will no longer see players run commands."
 
+MODERATION_RANK_GRANT: "§a%RANK%§ rank has been granted to §d%PLAYER%§7."
+MODERATION_RANK_NOT_EXIST: "§7That rank does not exist."
+
 # COSMETICS
 COSMETICS_HEALED_SELF: "§7You just healed yourself!"
 COSMETICS_HEALED_OTHERS: "§7You just healed §6%PLAYER%§7!"
