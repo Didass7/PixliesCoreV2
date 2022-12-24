@@ -10,6 +10,7 @@ import net.pixlies.core.entity.user.User;
 import net.pixlies.core.events.impl.player.PixliesSenderMessagePlayerEvent;
 import net.pixlies.core.handlers.impl.MessageHandler;
 import net.pixlies.core.localization.Lang;
+import net.pixlies.core.ranks.Rank;
 import net.pixlies.core.utils.EventUtils;
 import org.bukkit.entity.Player;
 
@@ -39,8 +40,11 @@ public class ReplyCommand extends BaseCommand {
         EventUtils.call(event);
         if (event.isCancelled()) return;
 
-        Lang.PLAYER_MESSAGE_FORMAT_TO.send(player, "%PLAYER%;" + target.getName(), "%MESSAGE%;" + event.getMessage());
-        Lang.PLAYER_MESSAGE_FORMAT_FROM.send(target, "%PLAYER%;" + player.getName(), "%MESSAGE%;" + event.getMessage());
+        Rank playerRank = Rank.getRank(player.getUniqueId());
+        Rank targetRank = Rank.getRank(target.getUniqueId());
+
+        Lang.PLAYER_MESSAGE_FORMAT_TO.send(player, "%PLAYER%;" + targetRank.getColor() + target.getName(), "%MESSAGE%;" + event.getMessage());
+        Lang.PLAYER_MESSAGE_FORMAT_FROM.send(target, "%PLAYER%;" + playerRank.getColor() + player.getName(), "%MESSAGE%;" + event.getMessage());
     }
 
 }

@@ -3,6 +3,8 @@ package net.pixlies.core.listeners.player;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.events.impl.player.PixliesSenderMessagePlayerEvent;
 import net.pixlies.core.localization.Lang;
+import net.pixlies.core.ranks.Rank;
+import net.pixlies.core.utils.RankUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -22,7 +24,11 @@ public class SocialSpyListener implements Listener {
                 continue;
             }
             if (spyingUser.isSocialSpyEnabled()) {
-                Lang.PLAYER_MESSAGE_SOCIALSPY.send(p, "%PLAYER%;" + sender.getName(), "%TARGET%;" + target.getName(), "%MESSAGE%;" + event.getMessage());
+
+                Rank senderRank = RankUtils.getRankFromSender(sender);
+                Rank targetRank = Rank.getRank(target.getUniqueId());
+
+                Lang.PLAYER_MESSAGE_SOCIALSPY.send(p, "%PLAYER%;" + senderRank.getColor() + sender.getName(), "%TARGET%;" + targetRank.getColor() + target.getName(), "%MESSAGE%;" + event.getMessage());
             }
         }
     }
