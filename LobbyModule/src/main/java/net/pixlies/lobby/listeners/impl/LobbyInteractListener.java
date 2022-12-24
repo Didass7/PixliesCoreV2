@@ -243,6 +243,20 @@ public class LobbyInteractListener implements Listener {
     }
 
     @EventHandler
+    public void onDamage(PlayerDropItemEvent event) {
+        Player player = event.getPlayer();
+        if (lobbyManager.isInBuildMode(player.getUniqueId())) return;
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onDamage(EntityDropItemEvent event) {
+        if (!(event.getEntity() instanceof Player player)) return;
+        if (lobbyManager.isInBuildMode(player.getUniqueId())) return;
+        event.setCancelled(true);
+    }
+
+    @EventHandler
     public void onPhysics(BlockPhysicsEvent event) {
         event.setCancelled(true);
     }
