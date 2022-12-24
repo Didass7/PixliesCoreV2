@@ -4,8 +4,6 @@
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
     </annotationProcessing>
-    <bytecodeTargetLevel target="16">
-      <module name="core" target="17" />
-    </bytecodeTargetLevel>
+    <bytecodeTargetLevel target="16" />
   </component>
 </project>
