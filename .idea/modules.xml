@@ -2,46 +2,15 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/PixliesCore/core.iml" filepath="$PROJECT_DIR$/PixliesCore/core.iml" />
       <module fileurl="file://$PROJECT_DIR$/DiploMaurice/DiploMaurice.iml" filepath="$PROJECT_DIR$/DiploMaurice/DiploMaurice.iml" />
       <module fileurl="file://$PROJECT_DIR$/LobbyModule/LobbyModule.iml" filepath="$PROJECT_DIR$/LobbyModule/LobbyModule.iml" />
       <module fileurl="file://$PROJECT_DIR$/MiniMick/MiniMick.iml" filepath="$PROJECT_DIR$/MiniMick/MiniMick.iml" />
       <module fileurl="file://$PROJECT_DIR$/Nations/Nations.iml" filepath="$PROJECT_DIR$/Nations/Nations.iml" />
       <module fileurl="file://$PROJECT_DIR$/PixliesCore/PixliesCore.iml" filepath="$PROJECT_DIR$/PixliesCore/PixliesCore.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PixliesCoreV2.buildSrc.iml" filepath="$PROJECT_DIR$/.idea/modules/PixliesCoreV2.buildSrc.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PixliesCoreV2.buildSrc.main.iml" filepath="$PROJECT_DIR$/.idea/modules/PixliesCoreV2.buildSrc.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PixliesCoreV2.buildSrc.test.iml" filepath="$PROJECT_DIR$/.idea/modules/PixliesCoreV2.buildSrc.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/PixliesFun/PixliesFun.iml" filepath="$PROJECT_DIR$/PixliesFun/PixliesFun.iml" />
       <module fileurl="file://$PROJECT_DIR$/PixliesProxyCore/PixliesProxyCore.iml" filepath="$PROJECT_DIR$/PixliesProxyCore/PixliesProxyCore.iml" />
       <module fileurl="file://$PROJECT_DIR$/ProtoBusiness/ProtoBusiness.iml" filepath="$PROJECT_DIR$/ProtoBusiness/ProtoBusiness.iml" />
       <module fileurl="file://$PROJECT_DIR$/PixliesCore/core.iml" filepath="$PROJECT_DIR$/PixliesCore/core.iml" />
-      <module fileurl="file://$PROJECT_DIR$/version-two.iml" filepath="$PROJECT_DIR$/version-two.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DiploMaurice/version-two.DiploMaurice.iml" filepath="$PROJECT_DIR$/.idea/modules/DiploMaurice/version-two.DiploMaurice.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DiploMaurice/version-two.DiploMaurice.main.iml" filepath="$PROJECT_DIR$/.idea/modules/DiploMaurice/version-two.DiploMaurice.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DiploMaurice/version-two.DiploMaurice.test.iml" filepath="$PROJECT_DIR$/.idea/modules/DiploMaurice/version-two.DiploMaurice.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/LobbyModule/version-two.LobbyModule.iml" filepath="$PROJECT_DIR$/.idea/modules/LobbyModule/version-two.LobbyModule.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/LobbyModule/version-two.LobbyModule.main.iml" filepath="$PROJECT_DIR$/.idea/modules/LobbyModule/version-two.LobbyModule.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/LobbyModule/version-two.LobbyModule.test.iml" filepath="$PROJECT_DIR$/.idea/modules/LobbyModule/version-two.LobbyModule.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MiniMick/version-two.MiniMick.iml" filepath="$PROJECT_DIR$/.idea/modules/MiniMick/version-two.MiniMick.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MiniMick/version-two.MiniMick.main.iml" filepath="$PROJECT_DIR$/.idea/modules/MiniMick/version-two.MiniMick.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MiniMick/version-two.MiniMick.test.iml" filepath="$PROJECT_DIR$/.idea/modules/MiniMick/version-two.MiniMick.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Nations/version-two.Nations.iml" filepath="$PROJECT_DIR$/.idea/modules/Nations/version-two.Nations.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Nations/version-two.Nations.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Nations/version-two.Nations.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Nations/version-two.Nations.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Nations/version-two.Nations.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PixliesCore/version-two.PixliesCore.iml" filepath="$PROJECT_DIR$/.idea/modules/PixliesCore/version-two.PixliesCore.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PixliesCore/version-two.PixliesCore.main.iml" filepath="$PROJECT_DIR$/.idea/modules/PixliesCore/version-two.PixliesCore.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PixliesCore/version-two.PixliesCore.test.iml" filepath="$PROJECT_DIR$/.idea/modules/PixliesCore/version-two.PixliesCore.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PixliesFun/version-two.PixliesFun.iml" filepath="$PROJECT_DIR$/.idea/modules/PixliesFun/version-two.PixliesFun.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PixliesFun/version-two.PixliesFun.main.iml" filepath="$PROJECT_DIR$/.idea/modules/PixliesFun/version-two.PixliesFun.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PixliesFun/version-two.PixliesFun.test.iml" filepath="$PROJECT_DIR$/.idea/modules/PixliesFun/version-two.PixliesFun.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PixliesProxyCore/version-two.PixliesProxyCore.iml" filepath="$PROJECT_DIR$/.idea/modules/PixliesProxyCore/version-two.PixliesProxyCore.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PixliesProxyCore/version-two.PixliesProxyCore.main.iml" filepath="$PROJECT_DIR$/.idea/modules/PixliesProxyCore/version-two.PixliesProxyCore.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PixliesProxyCore/version-two.PixliesProxyCore.test.iml" filepath="$PROJECT_DIR$/.idea/modules/PixliesProxyCore/version-two.PixliesProxyCore.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ProtoBusiness/version-two.ProtoBusiness.iml" filepath="$PROJECT_DIR$/.idea/modules/ProtoBusiness/version-two.ProtoBusiness.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ProtoBusiness/version-two.ProtoBusiness.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ProtoBusiness/version-two.ProtoBusiness.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ProtoBusiness/version-two.ProtoBusiness.test.iml" filepath="$PROJECT_DIR$/.idea/modules/ProtoBusiness/version-two.ProtoBusiness.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/version-two.main.iml" filepath="$PROJECT_DIR$/.idea/modules/version-two.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/version-two.test.iml" filepath="$PROJECT_DIR$/.idea/modules/version-two.test.iml" />
     </modules>
   </component>
 </project>
