@@ -9,7 +9,7 @@ public final class CC {
     public static final String CHAT_STRIKETHROUGH = ChatColor.DARK_GRAY.toString() + ChatColor.STRIKETHROUGH + "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯";
 
     public static String format(String message) {
-        return ChatColor.translateAlternateColorCodes('&',message);
+        return ChatColor.translateAlternateColorCodes('&', message);
     }
 
     public static String setPlaceholders(Player player, String string) {

@@ -73,6 +73,7 @@ TARIFF_DOES_NOT_EXIST: "§7No tariff exists from your nation on the specified na
 TARIFF_RATE_NOT_VALID: "§cThe rate must be a decimal number ranging from 0.01 to %MAX%."
 NO_TARIFFS_FOUND: "§7No tariffs were found."
 
+TRADE_BLOCK_LIST_EMPTY: "§7Your trade-block list is §cempty§7."
 TRADE_BLOCK_LIST: "§7Here are the players who you have §cblocked §7trading on the market with: §d%LIST%"
 TRADE_BLOCK_ADDED: "§7You §ctrade-blocked the player §d%PLAYER%§7."
 TRADE_BLOCK_REMOVED: "§7You §auntrade-blocked the player §d%PLAYER%§7."

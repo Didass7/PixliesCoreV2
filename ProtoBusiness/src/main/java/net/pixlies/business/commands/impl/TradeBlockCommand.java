@@ -9,10 +9,14 @@ import net.pixlies.business.market.MarketProfile;
 import net.pixlies.business.util.Preconditions;
 import net.pixlies.core.ranks.Rank;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * TradeBlock command.
@@ -28,9 +32,26 @@ public class TradeBlockCommand extends BaseCommand {
       @Description("View who you have blocked")
       public void onTradeBlockList(Player player) {
             MarketProfile profile = MarketProfile.get(player.getUniqueId());
-            String list = Arrays.toString(profile.getBlockedPlayers().toArray());
-            // TODO: rank color names
-            MarketLang.TRADE_BLOCK_LIST.send(player, "%LIST%;" + list);
+            List<UUID> list = profile.getBlockedPlayers();
+      
+            // If there are no trade-blocked players
+            if (list.isEmpty()) {
+                  MarketLang.TRADE_BLOCK_LIST_EMPTY.send(player);
+                  return;
+            }
+            
+            // Format names
+            StringBuilder names = new StringBuilder();
+            for (UUID uuid : list) {
+                  String name = Objects.requireNonNull(Bukkit.getPlayer(uuid)).getName();
+                  names.append(Rank.getRank(uuid).getColor()).append(name);
+                  if (list.indexOf(uuid) != list.size() - 1) {
+                        names.append(ChatColor.translateAlternateColorCodes('§', ","));
+                  }
+            }
+            
+            // Send message
+            MarketLang.TRADE_BLOCK_LIST.send(player, "%LIST%;" + names);
       }
       
       @Subcommand("add")

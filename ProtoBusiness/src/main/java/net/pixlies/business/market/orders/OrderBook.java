@@ -4,6 +4,7 @@ import com.mongodb.client.model.Filters;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
+import net.pixlies.business.market.MarketProfile;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.utils.TextUtils;
 import org.bson.Document;
@@ -117,6 +118,13 @@ public class OrderBook {
             
             boolean buyCondition = type == Order.Type.BUY && matchingPrice <= initialPrice;
             boolean sellCondition = type == Order.Type.SELL && matchingPrice >= initialPrice;
+            
+            MarketProfile initProfile = MarketProfile.get(initialOrder.getPlayerUUID());
+            MarketProfile matchProfile = MarketProfile.get(matchingOrder.getPlayerUUID());
+            if (initProfile.getBlockedPlayers().contains(matchingOrder.getPlayerUUID()))
+                return;
+            if (matchProfile.getBlockedPlayers().contains(initialOrder.getPlayerUUID()))
+                return;
             
             // Check if the price matches
             if (buyCondition || sellCondition) {

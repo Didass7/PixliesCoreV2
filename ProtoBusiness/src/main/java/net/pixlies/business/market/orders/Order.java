@@ -94,7 +94,6 @@ public class Order {
     public double getPrice(UUID matchingUUID) {
         if (playerUUID == matchingUUID) return price;
         
-        
         String from = NationProfile.get(playerUUID).getNation().getNationId();
         String to = NationProfile.get(matchingUUID).getNation().getNationId();
         double rate = 0;
