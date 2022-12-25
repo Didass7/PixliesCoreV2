@@ -78,4 +78,13 @@ TRADE_BLOCK_LIST: "§7Here are the players who you have §cblocked §7trading on
 TRADE_BLOCK_ADDED: "§7You §ctrade-blocked the player §d%PLAYER%§7."
 TRADE_BLOCK_REMOVED: "§7You §auntrade-blocked the player §d%PLAYER%§7."
 
+MARKET_STATS: "§7Here are your §dmarket statistics§7..."
+MARKET_BUYS: "§8» §7Buy orders made: §b%X%"
+MARKET_SELLS: "§8» §7Sell orders made: §b%X%"
+MARKET_TRADED: "§8» §7Trades made: §a%X%"
+MARKET_MONEY_SPENT: "§8» §7Money spent: §6%X%$"
+MARKET_MONEY_GAINED: "§8» §7Money gained: §6%X%$"
+MARKET_SOLD: "§8» §7Items sold: §d%X%$"
+MARKET_BOUGHT: "§8» §7Items bought: §d%X%$"
+
 PLAYER_DOES_NOT_EXIST: "§cThis player does not exist!"

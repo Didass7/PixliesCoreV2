@@ -32,10 +32,25 @@ public class MarketProfile {
       @Setter
       private boolean restricted;
       
+      private int buyOrdersMade;
+      private int sellOrdersMade;
+      private int tradesMade;
+      private double moneySpent;
+      private double moneyGained;
+      private int itemsSold;
+      private int itemsBought;
+      
       public MarketProfile(UUID uuid) {
             this.uuid = uuid;
             blockedPlayers = new ArrayList<>();
             restricted = false;
+            buyOrdersMade = 0;
+            sellOrdersMade = 0;
+            tradesMade = 0;
+            moneySpent = 0;
+            moneyGained = 0;
+            itemsSold = 0;
+            itemsBought = 0;
       }
       
       public void tradeBlockPlayer(UUID uuid) {
@@ -54,6 +69,34 @@ public class MarketProfile {
                   MarketLang.MARKET_NOTIFICATION.send(player);
                   player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 100F, 1F);
             }
+      }
+      
+      public void addBuy() {
+            buyOrdersMade += 1;
+      }
+      
+      public void addSell() {
+            sellOrdersMade += 1;
+      }
+      
+      public void addTrade() {
+            tradesMade += 1;
+      }
+      
+      public void addMoneySpent(double money) {
+            moneySpent += money;
+      }
+      
+      public void addMoneyGained(double money) {
+            moneyGained += money;
+      }
+      
+      public void addItemsSold(int items) {
+            itemsSold += items;
+      }
+      
+      public void addItemsBought(int items) {
+            itemsBought += items;
       }
       
       public void save() {

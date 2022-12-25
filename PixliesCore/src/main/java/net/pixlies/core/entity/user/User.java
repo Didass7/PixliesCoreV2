@@ -2,22 +2,13 @@ package net.pixlies.core.entity.user;
 
 import com.mongodb.client.model.Filters;
 import lombok.*;
-import net.kyori.adventure.text.Component;
 import net.pixlies.core.Main;
 import net.pixlies.core.economy.Wallet;
 import net.pixlies.core.entity.user.timers.Timer;
-import net.pixlies.core.events.impl.moderation.UserKickedEvent;
-import net.pixlies.core.events.impl.moderation.UserPunishedEvent;
-import net.pixlies.core.events.impl.moderation.UserUnpunishedEvent;
-import net.pixlies.core.localization.Lang;
-import net.pixlies.core.moderation.Punishment;
-import net.pixlies.core.moderation.PunishmentType;
 import net.pixlies.core.scoreboard.ScoreboardType;
-import net.pixlies.core.utils.PunishmentUtils;
 import org.bson.Document;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -49,15 +40,6 @@ public class User {
 
     // STATS
     private int civilPoints = 0; // Range: -100 to 100
-    
-    // MARKET STATS
-    private int buyOrdersMade = 0;
-    private int sellOrdersMade = 0;
-    private int tradesMade = 0;
-    private double moneySpent = 0d;
-    private double moneyGained = 0d;
-    private int itemsSold = 0;
-    private int itemsBought = 0;
 
     // PERSONALIZATION
     private boolean commandSpyEnabled = false;
@@ -202,36 +184,6 @@ public class User {
         }
     }
 
-
-    // STATS
-    public void addBuy() {
-        buyOrdersMade += 1;
-    }
-
-    public void addSell() {
-        sellOrdersMade += 1;
-    }
-
-    public void addTrade() {
-        tradesMade += 1;
-    }
-
-    public void addMoneySpent(double money) {
-        moneySpent += money;
-    }
-
-    public void addMoneyGained(double money) {
-        moneyGained += money;
-    }
-
-    public void addItemsSold(int items) {
-        itemsSold += items;
-    }
-
-    public void addItemsBought(int items) {
-        itemsBought += items;
-    }
-
     public void loadBasic() {
         Document document = instance.getMongoManager().getUsersCollection().find(Filters.eq("uuid", uuid)).first();
         if (document == null) {
@@ -272,13 +224,6 @@ public class User {
         document.put("blockedUsers", blockedUsers);
 
         document.put("civilPoints", civilPoints);
-        document.put("buyOrdersMade", buyOrdersMade);
-        document.put("sellOrdersMade", sellOrdersMade);
-        document.put("tradesMade", tradesMade);
-        document.put("moneySpent", moneySpent);
-        document.put("moneyGained", moneyGained);
-        document.put("itemsSold", itemsSold);
-        document.put("itemsBought", itemsBought);
 
         document.put("commandSpyEnabled", commandSpyEnabled);
         document.put("socialSpyEnabled", socialSpyEnabled);
@@ -310,13 +255,6 @@ public class User {
 
         //
         civilPoints = document.getInteger("civilPoints") == null ? civilPoints : document.getInteger("civilPoints");
-        buyOrdersMade = document.getInteger("buyOrdersMade") == null ? buyOrdersMade : document.getInteger("buyOrdersMade");
-        sellOrdersMade = document.getInteger("sellOrdersMade") == null ? sellOrdersMade : document.getInteger("sellOrdersMade");
-        tradesMade = document.getInteger("tradesMade") == null ? tradesMade: document.getInteger("tradesMade");
-        moneySpent = document.getDouble("moneySpent") == null ? moneySpent : document.getDouble("moneySpent");
-        moneyGained = document.getDouble("moneyGained") == null ? moneyGained : document.getDouble("moneyGained");
-        itemsSold = document.getInteger("itemsSold") == null ? itemsSold : document.getInteger("itemsSold");
-        itemsBought = document.getInteger("itemsBought") == null ? itemsBought : document.getInteger("itemsBought");
 
         //
         commandSpyEnabled = document.getBoolean("commandSpyEnabled") == null ? commandSpyEnabled : document.getBoolean("commandSpyEnabled");

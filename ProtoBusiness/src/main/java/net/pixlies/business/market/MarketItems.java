@@ -6,7 +6,6 @@ import net.pixlies.business.market.orders.Order;
 import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.business.market.orders.OrderItem;
 import net.pixlies.business.market.orders.Trade;
-import net.pixlies.core.entity.user.User;
 import net.pixlies.core.utils.ItemBuilder;
 import net.pixlies.core.utils.PlayerUtils;
 import net.pixlies.nations.nations.Nation;
@@ -33,19 +32,19 @@ public final class MarketItems {
     // MARKET PAGE BOTTOM PANE
     
     public static ItemStack getProfileStats(Player player) {
-        User user = User.get(player.getUniqueId());
+        MarketProfile profile = MarketProfile.get(player.getUniqueId());
         
         return new ItemBuilder(PlayerUtils.getSkull(player.getUniqueId()))
                 .setDisplayName("§6" + player.getName() + "'s stats")
                 .addLoreLine(" ")
-                .addLoreLine("§7Buy orders made: §b" + user.getBuyOrdersMade())
-                .addLoreLine("§7Sell orders made: §b" + user.getSellOrdersMade())
-                .addLoreLine("§7Trades made: §a" + user.getTradesMade())
+                .addLoreLine("§7Buy orders made: §b" + profile.getBuyOrdersMade())
+                .addLoreLine("§7Sell orders made: §b" + profile.getSellOrdersMade())
+                .addLoreLine("§7Trades made: §a" + profile.getTradesMade())
                 .addLoreLine(" ")
-                .addLoreLine("§7Money spent: §6" + user.getMoneySpent() + " coins")
-                .addLoreLine("§7Money gained: §6" + user.getMoneyGained() + " coins")
-                .addLoreLine("§7Items sold: §d" + user.getMoneySpent() + " items")
-                .addLoreLine("§7Items bought: §d" + user.getMoneyGained() + " items")
+                .addLoreLine("§7Money spent: §6" + profile.getMoneySpent() + " coins")
+                .addLoreLine("§7Money gained: §6" + profile.getMoneyGained() + " coins")
+                .addLoreLine("§7Items sold: §d" + profile.getMoneySpent() + " items")
+                .addLoreLine("§7Items bought: §d" + profile.getMoneyGained() + " items")
                 .addLoreLine(" ")
                 /*
                 .addLoreLine("§7Item most sold: §3" + a)

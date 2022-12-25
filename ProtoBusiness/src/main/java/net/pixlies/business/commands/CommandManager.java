@@ -11,7 +11,8 @@ public class CommandManager {
               new PriceCommand(),
               new TariffCommand(),
               new ChallengeCommand(),
-              new TradeBlockCommand()
+              new TradeBlockCommand(),
+              new MarketStatsCommand()
       );
       
       public void registerAllCommands() {

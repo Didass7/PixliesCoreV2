@@ -77,10 +77,23 @@ public enum MarketLang {
     OUTGOING_TARIFF_SET(NationsLang.NATION),
     OUTGOING_TARIFF_REMOVED(NationsLang.NATION),
     
+    // TRADEBLOCK
     TRADE_BLOCK_LIST_EMPTY(MarketLang.MARKET),
     TRADE_BLOCK_LIST(MarketLang.MARKET),
     TRADE_BLOCK_ADDED(MarketLang.MARKET),
     TRADE_BLOCK_REMOVED(MarketLang.MARKET),
+    
+    // MARKET STATS
+    MARKET_STATS(MarketLang.MARKET),
+    MARKET_BUYS(MarketLang.MARKET),
+    MARKET_SELLS(MarketLang.MARKET),
+    MARKET_TRADES(MarketLang.MARKET),
+    MARKET_MONEY_SPENT(MarketLang.MARKET),
+    MARKET_MONEY_GAINED(MarketLang.MARKET),
+    MARKET_SOLD(MarketLang.MARKET),
+    MARKET_BOUGHT(MarketLang.MARKET),
+    
+    
     
     // OTHER
     PLAYER_DOES_NOT_EXIST(Lang.PIXLIES);

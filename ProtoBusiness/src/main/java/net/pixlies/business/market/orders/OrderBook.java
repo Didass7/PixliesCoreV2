@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.market.MarketProfile;
-import net.pixlies.core.entity.user.User;
 import net.pixlies.core.utils.TextUtils;
 import org.bson.Document;
 import org.bukkit.Bukkit;
@@ -87,9 +86,9 @@ public class OrderBook {
     }
     
     public void buy(Order order) {
-        User user = User.get(order.getPlayerUUID());
-        user.addBuy();
-        user.save();
+        MarketProfile profile = MarketProfile.get(order.getPlayerUUID());
+        profile.addBuy();
+        profile.save();
         
         instance.getStats().set("market.buyOrders", instance.getStats().getInt("market.buyOrders") + 1);
         
@@ -99,9 +98,9 @@ public class OrderBook {
     }
     
     public void sell(Order order) {
-        User user = User.get(order.getPlayerUUID());
-        user.addSell();
-        user.save();
+        MarketProfile profile = MarketProfile.get(order.getPlayerUUID());
+        profile.addSell();
+        profile.save();
         
         instance.getStats().set("market.sellOrders", instance.getStats().getInt("market.sellOrders") + 1);
         
@@ -148,8 +147,8 @@ public class OrderBook {
         
         instance.getStats().set("market.trades", instance.getStats().getInt("market.trades") + 1);
         
-        User initial = User.get(initialOrder.getPlayerUUID());
-        User match = User.get(matchingOrder.getPlayerUUID());
+        MarketProfile initial = MarketProfile.get(initialOrder.getPlayerUUID());
+        MarketProfile match = MarketProfile.get(matchingOrder.getPlayerUUID());
         initial.addTrade();
         match.addTrade();
         
