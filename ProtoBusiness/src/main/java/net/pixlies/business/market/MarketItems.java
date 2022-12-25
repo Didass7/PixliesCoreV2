@@ -9,7 +9,7 @@ import net.pixlies.business.market.orders.Trade;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.utils.ItemBuilder;
 import net.pixlies.core.utils.PlayerUtils;
-import net.pixlies.nations.interfaces.NationProfile;
+import net.pixlies.nations.nations.interfaces.NationProfile;
 import net.pixlies.nations.nations.Nation;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

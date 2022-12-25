@@ -7,7 +7,7 @@ import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.orders.Tariff;
 import net.pixlies.core.entity.user.User;
-import net.pixlies.nations.interfaces.NationProfile;
+import net.pixlies.nations.nations.interfaces.NationProfile;
 import net.pixlies.nations.locale.NationsLang;
 import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.ranks.NationPermission;

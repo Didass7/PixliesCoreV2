@@ -1,18 +1,17 @@
 package net.pixlies.nations.nations;
 
-import com.google.common.collect.Table;
 import com.mongodb.client.model.Filters;
 import lombok.*;
 import net.pixlies.core.utils.EventUtils;
 import net.pixlies.nations.Nations;
 import net.pixlies.nations.events.impl.NationDisbandEvent;
-import net.pixlies.nations.interfaces.NationProfile;
 import net.pixlies.nations.locale.NationsLang;
 import net.pixlies.nations.nations.chunk.NationChunk;
 import net.pixlies.nations.nations.customization.GovernmentType;
 import net.pixlies.nations.nations.customization.Ideology;
 import net.pixlies.nations.nations.customization.NationConstitution;
 import net.pixlies.nations.nations.customization.Religion;
+import net.pixlies.nations.nations.interfaces.NationProfile;
 import net.pixlies.nations.nations.ranks.NationPermission;
 import net.pixlies.nations.nations.ranks.NationRank;
 import net.pixlies.nations.utils.NationUtils;

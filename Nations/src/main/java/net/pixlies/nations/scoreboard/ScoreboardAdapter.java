@@ -6,11 +6,9 @@ import net.pixlies.core.entity.user.timers.Timer;
 import net.pixlies.core.handlers.impl.TimerHandler;
 import net.pixlies.core.lib.io.github.thatkawaiisam.assemble.AssembleAdapter;
 import net.pixlies.core.scoreboard.ScoreboardType;
-import net.pixlies.core.utils.TextUtils;
-import net.pixlies.nations.interfaces.NationProfile;
 import net.pixlies.nations.nations.Nation;
+import net.pixlies.nations.nations.interfaces.NationProfile;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;

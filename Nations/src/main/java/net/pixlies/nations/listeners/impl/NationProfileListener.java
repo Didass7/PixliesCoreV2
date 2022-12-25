@@ -2,14 +2,13 @@ package net.pixlies.nations.listeners.impl;
 
 import net.pixlies.core.utils.CC;
 import net.pixlies.nations.Nations;
-import net.pixlies.nations.interfaces.NationProfile;
+import net.pixlies.nations.nations.interfaces.NationProfile;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class NationProfileListener implements Listener {

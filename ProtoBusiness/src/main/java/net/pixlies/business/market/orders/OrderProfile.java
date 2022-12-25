@@ -17,7 +17,7 @@ import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.MarketItems;
 import net.pixlies.business.panes.MarketPane;
 import net.pixlies.core.entity.user.User;
-import net.pixlies.nations.interfaces.NationProfile;
+import net.pixlies.nations.nations.interfaces.NationProfile;
 import net.pixlies.nations.nations.Nation;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

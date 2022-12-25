@@ -10,7 +10,7 @@ import com.mongodb.client.MongoDatabase;
 import lombok.Getter;
 import net.pixlies.core.modules.configuration.ModuleConfig;
 import net.pixlies.nations.Nations;
-import net.pixlies.nations.interfaces.NationProfile;
+import net.pixlies.nations.nations.interfaces.NationProfile;
 import org.bson.Document;
 
 import java.util.HashMap;

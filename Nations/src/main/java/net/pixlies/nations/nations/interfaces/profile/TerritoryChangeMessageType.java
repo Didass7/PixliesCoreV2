@@ -1,4 +1,4 @@
-package net.pixlies.nations.interfaces.profile;
+package net.pixlies.nations.nations.interfaces.profile;
 
 public enum TerritoryChangeMessageType {
 

@@ -1,4 +1,4 @@
-package net.pixlies.nations.interfaces;
+package net.pixlies.nations.nations.interfaces;
 
 import com.mongodb.client.model.Filters;
 import lombok.AccessLevel;
@@ -6,16 +6,15 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import net.pixlies.nations.Nations;
-import net.pixlies.nations.interfaces.profile.ChatType;
-import net.pixlies.nations.interfaces.profile.TerritoryChangeMessageType;
 import net.pixlies.nations.nations.Nation;
+import net.pixlies.nations.nations.interfaces.profile.ChatType;
+import net.pixlies.nations.nations.interfaces.profile.TerritoryChangeMessageType;
 import net.pixlies.nations.nations.ranks.NationRank;
 import org.bson.Document;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 /**
@@ -47,7 +46,7 @@ public class NationProfile {
     private @Getter(AccessLevel.NONE) String profilePlayerTerritoryChangeMessageType = TerritoryChangeMessageType.TITLE.name();
 
     // Economy
-    private @Getter @Setter BigDecimal balance = new BigDecimal("0.00");
+    private @Getter @Setter double balance = 0.00;
     
     // Local
     private @Getter(AccessLevel.NONE) boolean autoClaim = false;
@@ -194,7 +193,7 @@ public class NationProfile {
         document.put("profileChatType", profileChatType);
         document.put("profilePlayerTerritoryChangeMessageType", profilePlayerTerritoryChangeMessageType);
 
-        document.put("balance", balance.toPlainString());
+        document.put("balance", balance);
         return document;
     }
 
@@ -206,7 +205,7 @@ public class NationProfile {
         profileChatType = document.getString("profileChatType") == null ? profileChatType : document.getString("profileChatType");
         profilePlayerTerritoryChangeMessageType = document.getString("profilePlayerTerritoryChangeMessageType") == null ? profilePlayerTerritoryChangeMessageType : document.getString("profilePlayerTerritoryChangeMessageType");
 
-        balance = new BigDecimal(document.get("balance", "0.00"));
+        balance = document.getDouble("balance");
     }
 
     public void load(boolean cache) {
