@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum MarketLang {
+    MARKET_OPEN(MarketLang.MARKET),
     MARKET_CLOSED(MarketLang.MARKET),
     MARKET_WAS_ALREADY_OPEN(MarketLang.MARKET),
     MARKET_WAS_ALREADY_CLOSED(MarketLang.MARKET),
@@ -75,10 +76,13 @@ public enum MarketLang {
     INCOMING_TARIFF_REMOVED(NationsLang.NATION),
     OUTGOING_TARIFF_SET(NationsLang.NATION),
     OUTGOING_TARIFF_REMOVED(NationsLang.NATION),
+    
+    TRADE_BLOCK_LIST(MarketLang.MARKET),
+    TRADE_BLOCK_ADDED(MarketLang.MARKET),
+    TRADE_BLOCK_REMOVED(MarketLang.MARKET),
+    
     // OTHER
-    MUST_BE_A_PLAYER(Lang.PIXLIES),
-    INVALID_COMMAND_SYNTAX(Lang.PIXLIES),
-    MARKET_OPEN(MarketLang.MARKET);
+    PLAYER_DOES_NOT_EXIST(Lang.PIXLIES);
     
     public static final String MARKET = "§x§1§f§c§a§7§3§lM§x§0§0§b§e§8§d§lA§x§0§0§b§0§a§0§lR§x§0§0§a§1§a§9§lK§x§0§0" +
             "§9§1§a§9§lE§x§1§b§8§1§9§f§lT§8 | §7";

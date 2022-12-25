@@ -6,9 +6,10 @@ import co.aikar.commands.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
-import net.pixlies.business.Util;
+import net.pixlies.business.util.Util;
 import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.business.locale.MarketLang;
+import net.pixlies.business.market.MarketProfile;
 import net.pixlies.business.market.orders.OrderProfile;
 import net.pixlies.core.Main;
 import net.pixlies.core.ranks.Rank;
@@ -134,8 +135,8 @@ public class MarketCommand extends BaseCommand {
       @CommandPermission("pixlies.business.market.restrict")
       @Description("Restricts/unrestricts a player from accessing the market")
       public void onMarketRestrict(Player player, Player target, @Optional String reason) {
-            String uuid = target.getUniqueId().toString();
-            List<String> restricted = instance.getConfig().getStringList("restricted");
+            UUID uuid = target.getUniqueId();
+            MarketProfile profile = MarketProfile.get(uuid);
             
             // Get the reason
             reason = reason.substring(target.getName().length());
@@ -144,16 +145,15 @@ public class MarketCommand extends BaseCommand {
             }
             
             // Unrestrict/restrict
-            if (restricted.contains(uuid)) {
-                  Util.sendRestrictMessage(player, target, reason);
-                  restricted.remove(uuid);
-            } else {
+            if (profile.isRestricted()) {
                   Util.sendUnrestrictMessage(player, target, reason);
-                  restricted.add(uuid);
+                  profile.setRestricted(false);
+            } else {
+                  Util.sendRestrictMessage(player, target, reason);
+                  profile.setRestricted(true);
             }
             
-            // Update the list
-            instance.getConfig().set("restricted", restricted);
+            profile.save();
       }
       
       @HelpCommand

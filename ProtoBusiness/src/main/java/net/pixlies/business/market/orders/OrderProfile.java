@@ -10,7 +10,7 @@ import lombok.Data;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.pixlies.business.ProtoBusiness;
-import net.pixlies.business.Util;
+import net.pixlies.business.util.Util;
 import net.pixlies.business.commands.impl.MarketCommand;
 import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.business.locale.MarketLang;

@@ -20,6 +20,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Tariff command.
+ *
+ * @author vyketype
+ */
 @CommandAlias("tariff|tariffs|trf")
 @CommandPermission("pixlies.business.tariff")
 public class TariffCommand extends BaseCommand {

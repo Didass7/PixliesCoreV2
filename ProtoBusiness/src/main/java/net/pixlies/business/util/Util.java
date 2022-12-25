@@ -1,4 +1,4 @@
-package net.pixlies.business;
+package net.pixlies.business.util;
 
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.core.ranks.Rank;
