@@ -4,6 +4,7 @@ import com.mongodb.client.model.Filters;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 import net.pixlies.nations.Nations;
 import net.pixlies.nations.interfaces.profile.ChatType;
 import net.pixlies.nations.interfaces.profile.TerritoryChangeMessageType;
@@ -14,6 +15,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 /**
@@ -44,6 +46,9 @@ public class NationProfile {
     private @Getter(AccessLevel.NONE) String profileChatType = ChatType.GLOBAL.name();
     private @Getter(AccessLevel.NONE) String profilePlayerTerritoryChangeMessageType = TerritoryChangeMessageType.TITLE.name();
 
+    // ProtoBusiness
+    private @Getter @Setter BigDecimal money;
+    
     // Local
     private @Getter(AccessLevel.NONE) boolean autoClaim = false;
 
