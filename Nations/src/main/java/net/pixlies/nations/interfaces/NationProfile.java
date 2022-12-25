@@ -46,8 +46,8 @@ public class NationProfile {
     private @Getter(AccessLevel.NONE) String profileChatType = ChatType.GLOBAL.name();
     private @Getter(AccessLevel.NONE) String profilePlayerTerritoryChangeMessageType = TerritoryChangeMessageType.TITLE.name();
 
-    // ProtoBusiness
-    private @Getter @Setter BigDecimal money;
+    // Economy
+    private @Getter @Setter BigDecimal balance = new BigDecimal("0.00");
     
     // Local
     private @Getter(AccessLevel.NONE) boolean autoClaim = false;
@@ -125,7 +125,10 @@ public class NationProfile {
     }
 
     public void setAutoClaiming(boolean value) {
-        if (!isInNation()) return;
+        if (!isInNation()) {
+            autoClaim = false;
+            return;
+        }
         autoClaim = value;
     }
 
@@ -191,6 +194,7 @@ public class NationProfile {
         document.put("profileChatType", profileChatType);
         document.put("profilePlayerTerritoryChangeMessageType", profilePlayerTerritoryChangeMessageType);
 
+        document.put("balance", balance.toPlainString());
         return document;
     }
 
@@ -201,6 +205,8 @@ public class NationProfile {
         nationRank = document.getString("nationRank") == null ? nationRank : document.getString("nationRank");
         profileChatType = document.getString("profileChatType") == null ? profileChatType : document.getString("profileChatType");
         profilePlayerTerritoryChangeMessageType = document.getString("profilePlayerTerritoryChangeMessageType") == null ? profilePlayerTerritoryChangeMessageType : document.getString("profilePlayerTerritoryChangeMessageType");
+
+        balance = new BigDecimal(document.get("balance", "0.00"));
     }
 
     public void load(boolean cache) {
