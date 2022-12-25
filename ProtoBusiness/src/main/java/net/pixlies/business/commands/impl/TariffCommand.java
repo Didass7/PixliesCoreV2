@@ -6,10 +6,11 @@ import co.aikar.commands.annotation.*;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.orders.Tariff;
+import net.pixlies.business.util.Preconditions;
 import net.pixlies.core.entity.user.User;
-import net.pixlies.nations.nations.interfaces.NationProfile;
 import net.pixlies.nations.locale.NationsLang;
 import net.pixlies.nations.nations.Nation;
+import net.pixlies.nations.nations.interfaces.NationProfile;
 import net.pixlies.nations.nations.ranks.NationPermission;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -35,26 +36,26 @@ public class TariffCommand extends BaseCommand {
       public void onTariffLocal(Player player) {
             NationProfile profile = NationProfile.get(player.getUniqueId());
             
-            if (!profile.isInNation()) {
-                  NationsLang.NOT_IN_NATION.send(player);
-                  player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
+            // If the player is not in a nation
+            if (!Preconditions.isPlayerInNation(player, profile))
                   return;
-            }
             
+            // Sort through the tariffs
             String nationsId = profile.getNationId();
             List<Tariff> incoming = new ArrayList<>();
             List<Tariff> outgoing = new ArrayList<>();
             for (Tariff t : instance.getMarketManager().getTariffs().values()) {
-                  if (Objects.equals(t.getFrom(), nationsId)) incoming.add(t);
-                  else if (Objects.equals(t.getTo(), nationsId)) outgoing.add(t);
+                  if (Objects.equals(t.getFrom(), nationsId))
+                        incoming.add(t);
+                  else if (Objects.equals(t.getTo(), nationsId))
+                        outgoing.add(t);
             }
             
-            if (incoming.isEmpty() && outgoing.isEmpty()) {
-                  MarketLang.NO_TARIFFS_FOUND.send(player);
-                  player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
+            // If there are no tariffs
+            if (Preconditions.ifNoLocalTariffs(player, incoming, outgoing))
                   return;
-            }
             
+            // Show incoming tariffs
             if (!incoming.isEmpty()) {
                   MarketLang.TARIFF_LOCAL_INCOMING.send(player);
                   incoming.forEach(t -> {
@@ -64,6 +65,7 @@ public class TariffCommand extends BaseCommand {
                   });
             }
             
+            // Show outgoing tariffs
             if (!outgoing.isEmpty()) {
                   MarketLang.TARIFF_LOCAL_OUTGOING.send(player);
                   outgoing.forEach(t -> {
@@ -76,20 +78,20 @@ public class TariffCommand extends BaseCommand {
       
       @Subcommand("global")
       @Description("Retrieve the list of all incoming and outgoing tariffs")
-      public void onTariffGlobal(CommandSender sender) {
-            if (instance.getMarketManager().getTariffs().isEmpty()) {
-                  MarketLang.NO_TARIFFS_FOUND.send(sender);
-                  Player player = Objects.requireNonNull(Bukkit.getPlayer(sender.getName()));
-                  player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
+      public void onTariffGlobal(Player player) {
+            // If there are no tariffs
+            if (Preconditions.ifNoGlobalTariffs(player))
                   return;
-            }
             
-            MarketLang.TARIFF_GLOBAL.send(sender);
+            // Show all tariffs
+            MarketLang.TARIFF_GLOBAL.send(player);
             for (Tariff t : instance.getMarketManager().getTariffs().values()) {
-                  MarketLang.TARIFF_GLOBAL_FORMAT.send(sender,
+                  MarketLang.TARIFF_GLOBAL_FORMAT.send(
+                          player,
                           "%FROM%;" + Objects.requireNonNull(Nation.getFromId(t.getTo())).getName(),
                           "%TO%;" + Objects.requireNonNull(Nation.getFromId(t.getTo())).getName(),
-                          "%RATE%;" + t.getFormattedRate());
+                          "%RATE%;" + t.getFormattedRate()
+                  );
             }
       }
       

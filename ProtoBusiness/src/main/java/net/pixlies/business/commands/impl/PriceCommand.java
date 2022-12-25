@@ -9,8 +9,8 @@ import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.business.market.orders.OrderItem;
+import net.pixlies.business.util.Preconditions;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 /**
@@ -29,20 +29,14 @@ public class PriceCommand extends BaseCommand {
             Material mat = player.getInventory().getItemInMainHand().getType();
             
             // If the material is air
-            if (mat == Material.AIR) {
-                  MarketLang.PRICE_NOT_HOLDING_AN_ITEM.send(player);
-                  player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 100F, 1F);
+            if (Preconditions.isPlayerHoldingAir(player, mat))
                   return;
-            }
             
             OrderItem item = OrderItem.getFromMaterial(mat);
             
             // If the item is not on the market
-            if (item == null) {
-                  MarketLang.ITEM_NOT_ON_MARKET.send(player);
-                  player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 100F, 1F);
+            if (!Preconditions.doesMarketItemExist(player, item))
                   return;
-            }
     
             OrderBook book = instance.getMarketManager().getBook(item);
             

@@ -6,11 +6,12 @@ import co.aikar.commands.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
-import net.pixlies.business.util.Util;
 import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.MarketProfile;
 import net.pixlies.business.market.orders.OrderProfile;
+import net.pixlies.business.util.Preconditions;
+import net.pixlies.business.util.Util;
 import net.pixlies.core.Main;
 import net.pixlies.core.ranks.Rank;
 import org.apache.commons.lang.WordUtils;
@@ -18,9 +19,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -48,19 +47,12 @@ public class MarketCommand extends BaseCommand {
       @Description("Opens the market menu")
       public void onMarket(Player player) {
             // If the market is not open
-            if (!instance.getConfig().getBoolean("marketOpen")) {
-                  MarketLang.MARKET_IS_CLOSED.send(player);
-                  player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 100F, 1F);
+            if (!Preconditions.isMarketOpen(player, MarketLang.MARKET_IS_CLOSED))
                   return;
-            }
             
             // If the player is restricted from the market
-            @Nullable List<String> restricted = instance.getConfig().getStringList("restricted");
-            if (!restricted.isEmpty() && restricted.contains(player.getUniqueId().toString())) {
-                  MarketLang.MARKET_PLAYER_IS_RESTRICTED.send(player);
-                  player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 100F, 1F);
+            if (Preconditions.isPlayerMarketRestricted(player))
                   return;
-            }
             
             // Create the OrderProfile, open the GUI
             UUID uuid = player.getUniqueId();
@@ -74,10 +66,8 @@ public class MarketCommand extends BaseCommand {
       @Description("Opens the market to the public")
       public void onMarketOpen(Player player) {
             // If the market was already open
-            if (instance.getConfig().getBoolean("marketOpen")) {
-                  MarketLang.MARKET_WAS_ALREADY_OPEN.send(player);
+            if (Preconditions.isMarketOpen(player, MarketLang.MARKET_WAS_ALREADY_OPEN))
                   return;
-            }
             
             // Open the market gates
             instance.getConfig().set("marketOpen", true);
@@ -92,10 +82,8 @@ public class MarketCommand extends BaseCommand {
       @Description("Closes the market")
       public void onMarketClose(Player player) {
             // If the market was already closed
-            if (!instance.getConfig().getBoolean("marketOpen")) {
-                  MarketLang.MARKET_WAS_ALREADY_CLOSED.send(player);
+            if (!Preconditions.isMarketOpen(player, MarketLang.MARKET_WAS_ALREADY_CLOSED))
                   return;
-            }
             
             // Close the market gates
             instance.getConfig().set("marketOpen", false);

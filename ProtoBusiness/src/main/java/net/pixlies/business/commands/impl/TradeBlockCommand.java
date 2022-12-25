@@ -7,7 +7,6 @@ import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.MarketProfile;
 import net.pixlies.business.util.Preconditions;
-import net.pixlies.core.localization.Lang;
 import net.pixlies.core.ranks.Rank;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
