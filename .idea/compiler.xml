@@ -10,8 +10,8 @@
         <module name="DiploMaurice" />
         <module name="core" />
         <module name="PixliesFun" />
-        <module name="MiniMick" />
         <module name="ProtoBusiness" />
+        <module name="MiniMick" />
         <module name="PixliesProxyCore" />
         <module name="LobbyModule" />
         <module name="Nations" />
@@ -23,16 +23,12 @@
       <module name="DiploMaurice" target="16" />
       <module name="LobbyModule" target="16" />
       <module name="MiniMick" target="16" />
-      <module name="NationModule" target="16" />
       <module name="Nations" target="16" />
       <module name="PixliesCore" target="16" />
-      <module name="PixliesCoreV2" target="16" />
       <module name="PixliesFun" target="16" />
       <module name="PixliesProxyCore" target="16" />
       <module name="ProtoBusiness" target="16" />
-      <module name="test" target="16" />
       <module name="version-two" target="16" />
-      <module name="yourmom" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

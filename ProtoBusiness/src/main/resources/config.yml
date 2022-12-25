@@ -4,3 +4,5 @@ tariffMaxRate: 0.2
 # as in 20%
 
 marketOpen: true
+
+restricted:

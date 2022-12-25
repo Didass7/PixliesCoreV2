@@ -9,11 +9,8 @@ import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.business.market.orders.OrderItem;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-
-import java.util.Objects;
 
 @CommandAlias("price|pr")
 @CommandPermission("pixlies.business.price")

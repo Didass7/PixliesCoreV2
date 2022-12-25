@@ -1,4 +1,7 @@
-# PROTOBUSINESS
+# -----------------------------------------------------------------
+# PROTOBUSINESS - LANG ENGLISH
+# -----------------------------------------------------------------
+
 MARKET_OPEN: "§7The market is now §aopen§7 for business!"
 MARKET_CLOSED: "§7The market is now §cclosed§7!"
 MARKET_WAS_ALREADY_OPEN: "§cThe market is already open."

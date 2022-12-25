@@ -1,11 +1,43 @@
 package net.pixlies.business;
 
+import net.pixlies.business.locale.MarketLang;
+import net.pixlies.core.ranks.Rank;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import java.util.List;
 
 public class Util {
+    public static void sendRestrictMessage(Player player, Player target, String reason) {
+        MarketLang.MARKET_PLAYER_RESTRICTED_SENDER.send(
+                player,
+                "%PLAYER%;" + Rank.getRank(target.getUniqueId()).getColor() + target.getName(),
+                "%REASON%;" + reason
+        );
+        
+        if (target.isOnline()) {
+            MarketLang.MARKET_PLAYER_RESTRICTED_TARGET.send(
+                    target,
+                    "%PLAYER%;" + Rank.getRank(player.getUniqueId()).getColor() + player.getName(),
+                    "%REASON%;" + reason
+            );
+            target.playSound(target.getLocation(), Sound.BLOCK_ANVIL_LAND, 100F, 1F);
+        }
+    }
+    
+    public static void sendUnrestrictMessage(Player player, Player target, String reason) {
+        MarketLang.MARKET_PLAYER_ALLOWED_SENDER.send(
+                player,
+                "%PLAYER%;" + Rank.getRank(target.getUniqueId()).getColor() + target.getName()
+        );
+        
+        if (target.isOnline()) {
+            MarketLang.MARKET_PLAYER_ALLOWED_TARGET.send(target);
+            target.playSound(target.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 100F, 1F);
+        }
+    }
+    
     public static void openSign(Player player, List<String> lines) {
         /*
         Sign sign = null;
