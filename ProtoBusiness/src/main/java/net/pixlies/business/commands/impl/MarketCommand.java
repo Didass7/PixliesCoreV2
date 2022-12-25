@@ -13,7 +13,6 @@ import net.pixlies.business.market.orders.OrderProfile;
 import net.pixlies.business.util.Preconditions;
 import net.pixlies.business.util.Util;
 import net.pixlies.core.Main;
-import net.pixlies.core.ranks.Rank;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -96,27 +95,10 @@ public class MarketCommand extends BaseCommand {
       @Subcommand("resetstats")
       @CommandPermission("pixlies.business.market.resetstats")
       @Description("Resets the market statistics")
-      public void onMarketReset(Player player, @Optional Player target) {
-            // If we should reset general market stats
-            if (target == null) {
-                  instance.getMarketManager().resetBooks();
-                  MarketLang.MARKET_STATISTICS_RESET.broadcast();
-                  player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 100F, 1F);
-                  return;
-            }
-            
-            // Reset statistics
-            instance.getMarketManager().resetPlayer(target);
-            
-            // If player is online
-            if (target.isOnline()) {
-                  MarketLang.MARKET_PLAYER_STATISTICS_RESET.send(
-                          target,
-                          "%PLAYER%;" + Rank.getRank(target.getUniqueId()).getColor() + target.getName(),
-                          "%SENDER%;" + Rank.getRank(player.getUniqueId()).getColor() + player.getName()
-                  );
-                  target.playSound(target.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 100F, 1F);
-            }
+      public void onMarketReset(Player player) {
+            instance.getMarketManager().resetBooks();
+            MarketLang.MARKET_STATISTICS_RESET.broadcast();
+            player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 100F, 0.5F);
       }
       
       @Subcommand("restrict")

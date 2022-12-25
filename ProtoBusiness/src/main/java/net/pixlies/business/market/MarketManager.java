@@ -7,10 +7,8 @@ import net.pixlies.business.market.orders.Order;
 import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.business.market.orders.OrderItem;
 import net.pixlies.business.market.orders.Tariff;
-import net.pixlies.core.entity.user.User;
 import net.pixlies.nations.nations.Nation;
 import org.bson.Document;
-import org.bukkit.entity.Player;
 
 import java.util.*;
 
@@ -81,34 +79,6 @@ public class MarketManager {
             book.getSellOrders().clear();
             book.save();
         }
-    }
-    
-    public void resetPlayer(Player player) {
-        UUID uuid = player.getUniqueId();
-        User user = User.get(uuid);
-        
-        // Reset player stats
-        user.setBuyOrdersMade(0);
-        user.setSellOrdersMade(0);
-        user.setMoneySpent(0);
-        user.setMoneyGained(0);
-        user.setTradesMade(0);
-        user.setItemsSold(0);
-        user.setItemsBought(0);
-        
-        marketHandler.getChallenges().removeAll(uuid.toString());
-        marketHandler.getNotifs().removeAll(uuid.toString());
-        
-        // Clear orders of that player
-        for (OrderBook book : books.values()) {
-            book.getBuyOrders().removeIf(order -> order.getPlayerUUID() == uuid);
-            book.getSellOrders().removeIf(order -> order.getPlayerUUID() == uuid);
-            book.save();
-        }
-        
-        // TODO reset money
-        
-        user.save();
     }
     
     public List<Order> getPlayerBuyOrders(UUID uuid) {
