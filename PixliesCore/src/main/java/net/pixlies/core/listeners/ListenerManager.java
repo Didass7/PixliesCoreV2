@@ -24,7 +24,6 @@ public class ListenerManager {
         add(new PunishmentListener());
         add(new ChatModerationListener());
         add(new ChatFormattingListener());
-//        add(new GlobalPvpListener()); TODO: bugged
         add(new SlowModeListener());
         add(new JoinQuitListener());
         add(new CommandSpyListener());
@@ -33,7 +32,6 @@ public class ListenerManager {
         add(new SocialSpyListener());
         add(new VanishListener());
         add(new StaffModeListener());
-        add(new AfkListener());
         add(new SitListener());
         add(new FreezeListener());
         add(new StaffChatListener());

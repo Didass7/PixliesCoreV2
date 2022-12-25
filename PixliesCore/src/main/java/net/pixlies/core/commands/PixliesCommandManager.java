@@ -112,7 +112,6 @@ public class PixliesCommandManager {
         register(new DiscordCommand(), false);
         register(new RulesCommand(), false);
         register(new PlaytimeCommand(), false);
-        register(new AfkCommand(), true);
         register(new ListCommand(), false);
         register(new SuicideCommand(), true);
     }
