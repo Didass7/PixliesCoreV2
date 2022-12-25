@@ -7,7 +7,6 @@ import net.pixlies.core.commands.cosmetics.*;
 import net.pixlies.core.commands.moderation.*;
 import net.pixlies.core.commands.player.*;
 import net.pixlies.core.commands.staff.*;
-import net.pixlies.core.entity.Warp;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.ranks.Rank;
@@ -61,8 +60,6 @@ public class PixliesCommandManager {
         register(new VanishCommand(), false);
         register(new JoinVanishedCommand(), false);
         register(new TpHereCommand(), false);
-        register(new TpAskCommand(), false);
-        register(new TpAcceptCommand(), false);
         register(new TpBackCommand(), false);
         register(new BlacklistCommand(), false);
         register(new UnBlacklistCommand(), false);
@@ -86,7 +83,6 @@ public class PixliesCommandManager {
         register(new BypassCommand(), false);
         register(new StaffChatCommand(), false);
         register(new TimeCommand(), false);
-        register(new SetSpawnCommand(), false);
         register(new FlyCommand(), false);
 
         // COSMETICS
@@ -117,8 +113,6 @@ public class PixliesCommandManager {
         register(new DiscordCommand(), false);
         register(new RulesCommand(), false);
         register(new PlaytimeCommand(), false);
-        register(new SpawnCommand(), false);
-        register(new WarpCommand(), false);
         register(new AfkCommand(), true);
         register(new ListCommand(), false);
         register(new SuicideCommand(), true);
@@ -155,21 +149,6 @@ public class PixliesCommandManager {
                 location = new Location(world, x, y, z);
             }
             return location;
-        });
-
-        contexts.registerContext(Warp.class, context -> {
-            String name = context.getFirstArg();
-            Warp warp = Warp.get(name);
-
-            if (warp == null) {
-                if (context.isOptional()) {
-                    return null;
-                }
-                throw new ConditionFailedException(Lang.PIXLIES + "§7That isn't a valid warp.");
-            }
-
-            return warp;
-
         });
 
     }

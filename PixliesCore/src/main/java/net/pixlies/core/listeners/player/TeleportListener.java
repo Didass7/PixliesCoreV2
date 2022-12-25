@@ -26,8 +26,6 @@ public class TeleportListener implements Listener {
     public void onTeleport(PlayerTeleportEvent event) {
         Player player = event.getPlayer();
         Location loc = event.getFrom();
-        User user = User.get(player.getUniqueId());
-        if (user.isPassive()) return;
         tpHandler.setBackLocation(player.getUniqueId(), loc);
     }
 
@@ -35,81 +33,12 @@ public class TeleportListener implements Listener {
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         tpHandler.removeBackLocation(player.getUniqueId());
-        tpHandler.removeTpAskPlayer(player.getUniqueId());
     }
 
     @EventHandler
     public void onDeath(PlayerDeathEvent event) {
         Player player = event.getPlayer();
         tpHandler.setBackLocation(player.getUniqueId(), player.getLocation());
-    }
-
-    @EventHandler
-    public void onRespawn(PlayerRespawnEvent event) {
-        Player player = event.getPlayer();
-        User user = User.get(player.getUniqueId());
-        user.cancelTeleport();
-    }
-
-    @EventHandler
-    public void onMove(PlayerMoveEvent event) {
-        Player player = event.getPlayer();
-        User user = User.get(player.getUniqueId());
-
-        if (!user.isTeleporting()) {
-            return;
-        }
-
-        Location from = event.getFrom();
-        Location to = event.getTo();
-
-        if (!from.getBlock().equals(to.getBlock())) {
-            user.cancelTeleport();
-            Lang.TP_CANCEL.send(player);
-        }
-    }
-
-    @EventHandler(priority = EventPriority.LOW)
-    public void onHurt(EntityDamageEvent event) {
-        if (event.isCancelled()) return;
-
-        if (!(event.getEntity() instanceof Player player)) return;
-        User user = User.get(player.getUniqueId());
-
-        if (!user.isTeleporting()) {
-            return;
-        }
-
-        user.cancelTeleport();
-        Lang.TP_CANCEL.send(player);
-    }
-
-    @EventHandler(priority = EventPriority.LOW)
-    public void onHurtByEntity(EntityDamageByEntityEvent event) {
-        if (event.isCancelled()) return;
-
-        if (event.getEntity() instanceof Player victim) {
-            User user = User.get(victim.getUniqueId());
-
-            if (!user.isTeleporting()) {
-                return;
-            }
-
-            user.cancelTeleport();
-            Lang.TP_CANCEL.send(victim);
-        }
-
-        if (event.getDamager() instanceof Player damager) {
-            User user = User.get(damager.getUniqueId());
-
-            if (!user.isTeleporting()) {
-                return;
-            }
-
-            user.cancelTeleport();
-            Lang.TP_CANCEL.send(damager);
-        }
-
     }
 
 }

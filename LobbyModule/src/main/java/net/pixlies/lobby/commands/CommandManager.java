@@ -3,16 +3,16 @@ package net.pixlies.lobby.commands;
 import co.aikar.commands.BaseCommand;
 import com.google.common.collect.ImmutableList;
 import net.pixlies.core.Main;
-import net.pixlies.lobby.commands.impl.LeaveQueueCommand;
-import net.pixlies.lobby.commands.impl.LobbySettingsCommand;
-import net.pixlies.lobby.commands.impl.QueueCommand;
+import net.pixlies.lobby.commands.impl.*;
 
 public class CommandManager {
 
     private final ImmutableList<BaseCommand> commands = ImmutableList.of(
             new LobbySettingsCommand(),
             new QueueCommand(),
-            new LeaveQueueCommand()
+            new LeaveQueueCommand(),
+            new SpawnCommand(),
+            new SetSpawnCommand()
     );
 
     public void registerAll() {

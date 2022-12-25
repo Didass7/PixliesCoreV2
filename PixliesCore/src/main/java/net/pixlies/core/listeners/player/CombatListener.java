@@ -21,7 +21,7 @@ public class CombatListener implements Listener {
         user.setInCombat(false);
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onHurtByEntity(EntityDamageByEntityEvent event) {
         if (event.isCancelled()) return;
         if (!Main.getInstance().getConfig().getBoolean("combat.timer", true)) return;

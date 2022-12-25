@@ -39,7 +39,6 @@ public class ListenerManager {
         add(new StaffChatListener());
         add(new StaffJoinQuitListener());
         add(new UserListener());
-        add(new RespawnListener());
         add(new SpeedListener());
         add(new CombatListener());
         add(new TabListListener());

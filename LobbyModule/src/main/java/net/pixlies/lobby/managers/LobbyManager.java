@@ -1,11 +1,8 @@
 package net.pixlies.lobby.managers;
 
-import net.pixlies.core.entity.Warp;
 import net.pixlies.core.modules.configuration.ModuleConfig;
 import net.pixlies.lobby.Lobby;
 import net.pixlies.lobby.utils.LobbyUtils;
-import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -17,7 +14,6 @@ public class LobbyManager {
     private static final Lobby instance = Lobby.getInstance();
     private final ModuleConfig config = instance.getConfig();
 
-    private Warp pvpWarp = Warp.get(config.getString("warps.pvp.name", "pvp"));
     private final List<UUID> rightClickTimedPlayers = new ArrayList<>();
 
     private final List<UUID> buildModePlayers = new ArrayList<>();
@@ -44,20 +40,6 @@ public class LobbyManager {
 
         if (buildModePlayers.isEmpty()) return;
         buildModePlayers.remove(uuid);
-    }
-
-    public Warp getPvpWarp() {
-        return pvpWarp;
-    }
-
-    public void setPvpWarp(Location location) {
-        pvpWarp = new Warp(
-                config.getString("warps.pvp.name", "pvp"),
-                config.getString("warps.pvp.description", "No description."),
-                Material.valueOf(config.getString("warps.pvp.material", "DIAMOND_SWORD")),
-                location
-        );
-        pvpWarp.save();
     }
 
 }

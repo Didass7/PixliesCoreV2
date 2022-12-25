@@ -41,7 +41,6 @@ public class Main extends JavaPlugin {
     @Getter private Config staffModeConfig;
     @Getter private Config calendarConfig;
     @Getter private Config settings;
-    @Getter private Config warpsConfig;
 
     @Getter private boolean lobbyServer;
 
@@ -65,7 +64,6 @@ public class Main extends JavaPlugin {
         staffModeConfig =   new Config(new File(getDataFolder().getAbsolutePath() + "/staffmode/persist.yml"), "staffmode/persist.yml");
         settings =          new Config(new File(getDataFolder().getAbsolutePath() + "/settings.yml"), "settings.yml");
         calendarConfig =    new Config(new File(getDataFolder().getAbsolutePath() + "/calendar.yml"), "calendar.yml");
-        warpsConfig =       new Config(new File(getDataFolder().getAbsolutePath() + "/warps.yml"), "warps.yml");
 
         // CHECK LOBBY
         lobbyServer = config.getBoolean("commands.limitedCommands", false);

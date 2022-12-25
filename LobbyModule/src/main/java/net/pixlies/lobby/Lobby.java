@@ -26,6 +26,7 @@ public class Lobby extends JavaPlugin implements Module {
     @Getter private static Lobby instance;
 
     ModuleConfig config;
+    ModuleConfig warpsConfig;
     LobbyManager lobbyManager;
     ListenerManager listenerManager;
     JumpPadManager jumpPadManager;
@@ -53,6 +54,7 @@ public class Lobby extends JavaPlugin implements Module {
 
         // CONFIG
         config = new ModuleConfig(this, new File(getDataFolder().getAbsolutePath(), "config.yml"), "config.yml");
+        warpsConfig = new ModuleConfig(this, new File(getDataFolder().getAbsoluteFile(), "warps.yml"), "warps.yml");
 
         // MANAGERS
         lobbyManager = new LobbyManager();

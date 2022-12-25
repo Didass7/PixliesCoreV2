@@ -11,7 +11,6 @@ import java.util.UUID;
 public class TeleportHandler implements Handler {
 
     private final Map<UUID, LazyLocation> backLocations = new HashMap<>();
-    private final Map<UUID, UUID> tpAsk = new HashMap<>();
 
     public Location getBackLocation(UUID uuid) {
         if (backLocations.isEmpty()) return null;
@@ -26,23 +25,6 @@ public class TeleportHandler implements Handler {
     public void removeBackLocation(UUID uuid) {
         if (backLocations.isEmpty()) return;
         backLocations.remove(uuid);
-    }
-
-    public UUID getTpAskPlayer(UUID target) {
-        if (tpAsk.get(target) == null) {
-            return null;
-        }
-        return tpAsk.get(target);
-    }
-
-    public void setTpAskPlayer(UUID target, UUID sender) {
-        removeTpAskPlayer(target);
-        tpAsk.put(target, sender);
-    }
-
-    public void removeTpAskPlayer(UUID target) {
-        if (backLocations.isEmpty()) return;
-        tpAsk.remove(target);
     }
 
 }

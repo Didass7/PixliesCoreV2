@@ -5,10 +5,8 @@ import lombok.*;
 import net.kyori.adventure.text.Component;
 import net.pixlies.core.Main;
 import net.pixlies.core.economy.Wallet;
-import net.pixlies.core.entity.Warp;
 import net.pixlies.core.entity.user.timers.Timer;
 import net.pixlies.core.entity.user.timers.impl.CombatTimer;
-import net.pixlies.core.entity.user.timers.impl.TeleportTimer;
 import net.pixlies.core.events.impl.moderation.UserKickedEvent;
 import net.pixlies.core.events.impl.moderation.UserPunishedEvent;
 import net.pixlies.core.events.impl.moderation.UserUnpunishedEvent;
@@ -19,7 +17,6 @@ import net.pixlies.core.scoreboard.ScoreboardType;
 import net.pixlies.core.utils.PunishmentUtils;
 import org.bson.Document;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -387,118 +384,6 @@ public class User {
         timers.sort(Comparator.comparing(Timer::getDisplayName));
         return timers;
     }
-
-    /**
-     * Teleports the user to a location with a timer if the player is online.
-     * Teleports instantly if the user is passive.
-     * @param location The location to teleport to
-     * @param timed False if it should instantly teleport.
-     */
-    public void teleport(@NotNull Location location, boolean timed) {
-        if (!this.getAsOfflinePlayer().isOnline()) return;
-        Player player = this.getAsOfflinePlayer().getPlayer();
-        if (player == null) return;
-
-        if (isInCombat()) return;
-
-        if (timed && !bypassing && !passive && Main.getInstance().getConfig().getBoolean("warpSettings.timedTeleports", true)) {
-            TeleportTimer timer = new TeleportTimer(System.currentTimeMillis());
-            allTimers.put(TeleportTimer.ID, timer);
-
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-
-
-                    if (allTimers.get(TeleportTimer.ID) == null) {
-                        cancel();
-                    }
-
-                    if (isInCombat()) {
-                        allTimers.remove(TeleportTimer.ID);
-                        cancel();
-                        return;
-                    }
-
-                    if (timer.isExpired()) {
-                        allTimers.remove(TeleportTimer.ID);
-                        player.teleport(location);
-                        cancel();
-                    }
-
-                }
-            }.runTaskTimer(Main.getInstance(), 1, 1);
-
-            return;
-        }
-
-        player.teleport(location);
-    }
-
-    /**
-     * Cancel an active teleportation timer.
-     */
-    public void cancelTeleport() {
-        allTimers.remove(TeleportTimer.ID);
-    }
-
-    /**
-     * Check if the user is currently teleporting with a timer.
-     * @return True if the user is teleporting, false if the user is not.
-     */
-    public boolean isTeleporting() {
-        return allTimers.containsKey(TeleportTimer.ID);
-    }
-
-    /**
-     * @see User#teleport(Location, boolean)
-     * @param location The location to teleport to
-     */
-    public void teleport(@NotNull Location location) {
-        this.teleport(location, true);
-    }
-
-    /**
-     * @see User#teleport(Location, boolean)
-     * @param user The user to teleport to
-     */
-    public void teleport(@NotNull User user) {
-        OfflinePlayer player = user.getAsOfflinePlayer();
-        Location location = player.getLocation();
-        if (location == null) {
-            return;
-        }
-        this.teleport(location, true);
-    }
-
-    /**
-     * Teleports the user to the spawn
-     * @param timed False if it should instantly teleport.
-     */
-    public void teleportToSpawn(boolean timed) {
-        Warp warp = Warp.getSpawn();
-        Location location = warp.getAsBukkitLocation();
-        this.teleport(location, timed);
-    }
-
-    /**
-     * @see User#teleportToSpawn(boolean)
-     */
-    public void teleportToSpawn() {
-        Warp warp = Warp.getSpawn();
-        Location location = warp.getAsBukkitLocation();
-        this.teleport(location, true);
-    }
-
-    /**
-     * @see User#teleport(Location, boolean)
-     * @param warp The warp to teleport to
-     */
-    public void teleport(@NotNull Warp warp) {
-        Location location = warp.getAsBukkitLocation();
-        this.teleport(location, true);
-    }
-
 
     /**
      * Check if the user has any timers.

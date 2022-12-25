@@ -6,6 +6,7 @@ import net.pixlies.core.handlers.impl.staffmode.StaffModeHandler;
 import net.pixlies.core.modules.configuration.ModuleConfig;
 import net.pixlies.core.utils.PlayerUtils;
 import net.pixlies.lobby.Lobby;
+import net.pixlies.lobby.entity.LobbySpawn;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.GameMode;
@@ -36,7 +37,7 @@ public final class LobbyUtils {
         User user = User.get(player.getUniqueId());
 
         PlayerUtils.heal(player);
-        user.teleportToSpawn(false);
+        player.teleport(LobbySpawn.getSpawn().getAsBukkitLocation());
         player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
         player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, config.getInt("walkspeed.level", 1), false, false, false));
         player.setBedSpawnLocation(null, true);

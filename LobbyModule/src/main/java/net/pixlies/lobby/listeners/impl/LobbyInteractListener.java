@@ -6,6 +6,7 @@ import io.papermc.paper.event.player.PlayerItemFrameChangeEvent;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.entity.user.timers.impl.RightClickDelayTimer;
 import net.pixlies.lobby.Lobby;
+import net.pixlies.lobby.entity.LobbySpawn;
 import net.pixlies.lobby.managers.GrapplingHookManager;
 import net.pixlies.lobby.managers.JumpPadManager;
 import net.pixlies.lobby.managers.LobbyManager;
@@ -221,7 +222,7 @@ public class LobbyInteractListener implements Listener {
         if (lobbyManager.isInBuildMode(player.getUniqueId())) return;
         if (!(player.getLocation().getY() < 0)) return;
 
-        user.teleportToSpawn();
+        player.teleport(LobbySpawn.getSpawn().getAsBukkitLocation());
 
         LobbyUtils.resetPlayer(player);
     }
