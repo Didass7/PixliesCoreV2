@@ -1,5 +1,6 @@
 package net.pixlies.business.market.orders;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

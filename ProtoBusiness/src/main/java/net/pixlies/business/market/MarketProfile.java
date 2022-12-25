@@ -1,12 +1,13 @@
 package net.pixlies.business.market;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import net.pixlies.business.ProtoBusiness;
+import net.pixlies.core.configuration.Config;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.io.File;
+import java.util.*;
 
 /**
  * Market profile.
@@ -16,9 +17,13 @@ import java.util.UUID;
 @Getter
 public class MarketProfile {
       private static final ProtoBusiness instance = ProtoBusiness.getInstance();
+      private static final String PROFILES_PATH = instance.getDataFolder().getAbsolutePath() + "/profiles/";
+      private static final Map<UUID, MarketProfile> CACHE = new HashMap<>();
       
       private final UUID uuid;
-      private final List<UUID> blockedPlayers;
+      
+      @Setter(AccessLevel.PRIVATE)
+      private List<UUID> blockedPlayers;
       
       @Setter
       private boolean restricted;
@@ -38,14 +43,60 @@ public class MarketProfile {
       }
       
       public void save() {
-            // TODO: save to file system
+            CACHE.put(uuid, this);
+      }
+      
+      public void backup() {
+            String filename = uuid.toString() + ".yml";
+            Config file = new Config(new File(PROFILES_PATH + filename), filename);
+            
+            List<String> blockedList = new ArrayList<>();
+            for (UUID uuid : blockedPlayers) {
+                  blockedList.add(uuid.toString());
+            }
+      
+            file.set("blockedPlayers", blockedList);
+            file.set("restricted", restricted);
+            file.save();
+      }
+      
+      public static void backupAll() {
+            CACHE.values().forEach(MarketProfile::backup);
+      }
+      
+      private static MarketProfile getFromFiles(UUID uuid) {
+            String filename = uuid.toString() + ".yml";
+            Config file = new Config(new File(PROFILES_PATH + filename), filename);
+            
+            List<UUID> blockedPlayers = new ArrayList<>();
+            for (String string : file.getStringList("blockedPlayers")) {
+                  blockedPlayers.add(UUID.fromString(string));
+            }
+            
+            MarketProfile profile = new MarketProfile(uuid);
+            profile.setRestricted(file.getBoolean("restricted"));
+            profile.setBlockedPlayers(blockedPlayers);
+            profile.save();
+            return profile;
       }
       
       public static MarketProfile get(UUID uuid) {
-            // TODO: load from file system
+            String filename = uuid.toString() + ".yml";
+      
+            // If the MarketProfile does not exist
+            if (!new File(PROFILES_PATH + filename).exists()) {
+                  MarketProfile profile = new MarketProfile(uuid);
+                  profile.save();
+                  return profile;
+            }
             
-            MarketProfile profile = new MarketProfile(uuid);
-            profile.save();
-            return profile;
+            // If the MarketProfile is not in the cache
+            if (!CACHE.containsKey(uuid)) {
+                  MarketProfile profile = getFromFiles(uuid);
+                  profile.save();
+                  return profile;
+            }
+            
+            return CACHE.get(uuid);
       }
 }

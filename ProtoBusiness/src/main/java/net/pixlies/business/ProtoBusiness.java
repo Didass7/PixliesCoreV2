@@ -7,6 +7,7 @@ import net.pixlies.business.handlers.HandlerManager;
 import net.pixlies.business.listeners.ListenerManager;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.MarketManager;
+import net.pixlies.business.market.MarketProfile;
 import net.pixlies.core.modules.Module;
 import net.pixlies.core.modules.configuration.ModuleConfig;
 import org.bukkit.Bukkit;
@@ -60,6 +61,7 @@ public class ProtoBusiness extends JavaPlugin implements Module {
         commandManager.unregisterAllCommands();
         
         marketManager.backupAll();
+        MarketProfile.backupAll();
         
         instance = null;
     }
