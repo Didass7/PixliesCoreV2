@@ -39,7 +39,7 @@ public class FreezeCommand extends BaseCommand {
             }
             handler.freeze(target);
             Lang.MODERATION_FREEZE_ON.send(sender, "%PLAYER%;" + Rank.getRank(target.getUniqueId()).getColor() + target.getName());
-            Lang.MODERATION_FREEZE_FREEZE.send(target, "%PLAYER%" + RankUtils.getRankFromSender(sender).getColor() + sender.getName());
+            Lang.MODERATION_FREEZE_FREEZE.send(target, "%PLAYER%;" + RankUtils.getRankFromSender(sender).getColor() + sender.getName());
             Lang.MODERATION_FREEZE_MESSAGE.broadcastPermission("pixlies.moderation.silent",
                     "%PLAYER%;" + Rank.getRank(target.getUniqueId()).getColor() + target.getName(),
                     "%EXECUTOR%;" + RankUtils.getRankFromSender(sender).getColor() + sender.getName());
