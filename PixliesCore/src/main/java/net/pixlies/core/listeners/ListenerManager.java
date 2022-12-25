@@ -40,7 +40,6 @@ public class ListenerManager {
         add(new StaffJoinQuitListener());
         add(new UserListener());
         add(new SpeedListener());
-        add(new CombatListener());
         add(new TabListListener());
         add(new ServerDataListener());
     }};

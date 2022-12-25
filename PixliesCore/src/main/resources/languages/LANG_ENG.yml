@@ -155,27 +155,10 @@ STAFF_FLY_ENABLED: "§7Flight for §6%PLAYER%§7 has been enabled."
 STAFF_FLY_DISABLED: "§7Flight for §6%PLAYER%§7 has been disabled."
 
 # TELEPORTATION
-TPHERE_MESSAGE_SENDER: "§7You have sent §6%PLAYER%§7 a teleport request."
-TPHERE_MESSAGE_TARGET: "§6%PLAYER%§7 has requested you to teleport to them. Use §d/tpaccept§7 to accept."
-TPASK_MESSAGE_SENDER: "§7You have sent §6%PLAYER%§7 a teleport request."
-TPASK_MESSAGE_TARGET: "§6%PLAYER%§7 has requested to teleport to you. Use §d/tpaccept§7 to accept."
-TPASK_ACCEPTED_MESSAGE_SENDER: "§6%PLAYER%§7 has accepted your teleport request."
-TPASK_ACCEPTED_MESSAGE_TARGET: "§7You have accepted §6%PLAYER%§7's teleport request."
-TPACCEPT_NOBODY: "§7Your teleportation request has been expired."
-TPACCEPT_PLAYER_NOT_ONLINE: "§7That player isn't online."
 RETURNED_TO_PREVIOUS_LOCATION: "§7Returned to your previous location."
 TPBACK_NO_LOCATION: "§7There isn't a location to teleport back to."
-TP_CANCEL: "§7Teleportation has been cancelled."
-
-# COMBAT
-COMBAT_TELEPORT: "§7You cannot teleport right now because you are currently in combat."
-COMBAT_HIT: "§7You are now in combat!"
 
 # MODERATION
-MODERATION_GLOBAL_PVP_ON: ""
-MODERATION_GLOBAL_PVP_OFF: ""
-PVP_OFF_PLAYER_TRIED_TO_PVP: ""
-
 MODERATION_ISSUED_KICKALL: "§7All online players have been kicked by §6%PLAYER% §7for §6%REASON%§7."
 
 MODERATION_VANISH_ON: "§7You are now vanished."
@@ -186,10 +169,8 @@ MODERATION_VANISH_NO_ONE_CAN_SEE: "§cNo one can see you."
 MODERATION_VANISH_JOIN_VANISH_ENABLED: "§7You will now be vanished when you join."
 MODERATION_VANISH_JOIN_VANISH_DISABLED: "§7You will now be visible when you join."
 
-MODERATION_COMMANDSPY_ON: "§7You have enabled command spy."
-MODERATION_COMMANDSPY_OFF: "§7You have disabled command spy."
-MODERATION_COMMANDSPY_ON_OTHER: "§6%PLAYER% §7has enabled command spy."
-MODERATION_COMMANDSPY_OFF_OTHER: "§7%PLAYER% §7has disabled command spy."
+MODERATION_COMMANDSPY_ENABLED: "§7You will now see players run commands."
+MODERATION_COMMANDSPY_DISABLED: "§7You will no longer see players run commands."
 MODERATION_COMMANDSPY_FORMAT: "§6%PLAYER%§7: %MESSAGE%"
 
 MODERATION_FREEZE_ON: "§6%PLAYER%§7 is now frozen."
@@ -212,9 +193,6 @@ MODERATION_SOCIALSPY_DISABLED: "§7You will no longer see private messages being
 
 MODERATION_MUTESPY_ENABLED: "§7You will now see muted players talk."
 MODERATION_MUTESPY_DISABLED: "§7You will no longer see muted players talk."
-
-MODERATION_COMMANDSPY_ENABLED: "§7You will now see players run commands."
-MODERATION_COMMANDSPY_DISABLED: "§7You will no longer see players run commands."
 
 MODERATION_RANK_GRANT: "§a%RANK%§ rank has been granted to §d%PLAYER%§7."
 MODERATION_RANK_NOT_EXIST: "§7That rank does not exist."

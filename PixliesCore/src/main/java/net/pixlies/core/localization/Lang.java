@@ -143,27 +143,10 @@ public enum Lang {
     STAFF_FLY_DISABLED(Lang.PIXLIES, new HashMap<>()),
 
     // TELEPORTATION
-    TPHERE_MESSAGE_SENDER(Lang.PIXLIES, new HashMap<>()),
-    TPHERE_MESSAGE_TARGET(Lang.PIXLIES, new HashMap<>()),
-    TPASK_MESSAGE_SENDER(Lang.PIXLIES, new HashMap<>()),
-    TPASK_MESSAGE_TARGET(Lang.PIXLIES, new HashMap<>()),
-    TPASK_ACCEPTED_MESSAGE_SENDER(Lang.PIXLIES, new HashMap<>()),
-    TPASK_ACCEPTED_MESSAGE_TARGET(Lang.PIXLIES, new HashMap<>()),
-    TPACCEPT_NOBODY(Lang.PIXLIES, new HashMap<>()),
-    TPACCEPT_PLAYER_NOT_ONLINE(Lang.PIXLIES, new HashMap<>()),
     RETURNED_TO_PREVIOUS_LOCATION(Lang.PIXLIES, new HashMap<>()),
     TPBACK_NO_LOCATION(Lang.PIXLIES, new HashMap<>()),
-    TP_CANCEL(Lang.PIXLIES, new HashMap<>()),
-
-    // COMBAT
-    COMBAT_TELEPORT(Lang.PIXLIES, new HashMap<>()),
-    COMBAT_HIT(Lang.PIXLIES, new HashMap<>()),
 
     // MODERATION
-    MODERATION_GLOBAL_PVP_ON(Lang.PIXLIES, new HashMap<>()),
-    MODERATION_GLOBAL_PVP_OFF(Lang.PIXLIES, new HashMap<>()),
-    PVP_OFF_PLAYER_TRIED_TO_PVP(Lang.PIXLIES, new HashMap<>()),
-
     MODERATION_ISSUED_KICKALL(Lang.PIXLIES, new HashMap<>()),
     MODERATION_KICKALL_MESSAGE(Lang.PIXLIES, new HashMap<>()),
 
@@ -175,10 +158,8 @@ public enum Lang {
     MODERATION_VANISH_JOIN_VANISH_ENABLED(Lang.PIXLIES, new HashMap<>()),
     MODERATION_VANISH_JOIN_VANISH_DISABLED(Lang.PIXLIES, new HashMap<>()),
 
-    MODERATION_COMMANDSPY_ON(Lang.PIXLIES, new HashMap<>()),
-    MODERATION_COMMANDSPY_OFF(Lang.PIXLIES, new HashMap<>()),
-    MODERATION_COMMANDSPY_ON_OTHER(Lang.PIXLIES, new HashMap<>()),
-    MODERATION_COMMANDSPY_OFF_OTHER(Lang.PIXLIES, new HashMap<>()),
+    MODERATION_COMMANDSPY_ENABLED(Lang.PIXLIES, new HashMap<>()),
+    MODERATION_COMMANDSPY_DISABLED(Lang.PIXLIES, new HashMap<>()),
     MODERATION_COMMANDSPY_FORMAT(Lang.CMD, new HashMap<>()),
 
     MODERATION_FREEZE_FREEZE(Lang.PIXLIES, new HashMap<>()),
@@ -200,9 +181,6 @@ public enum Lang {
 
     MODERATION_MUTESPY_ENABLED(Lang.PIXLIES, new HashMap<>()),
     MODERATION_MUTESPY_DISABLED(Lang.PIXLIES, new HashMap<>()),
-
-    MODERATION_COMMANDSPY_ENABLED(Lang.PIXLIES, new HashMap<>()),
-    MODERATION_COMMANDSPY_DISABLED(Lang.PIXLIES, new HashMap<>()),
 
     MODERATION_RANK_GRANT(Lang.PIXLIES, new HashMap<>()),
     MODERATION_RANK_NOT_EXIST(Lang.PIXLIES, new HashMap<>()),

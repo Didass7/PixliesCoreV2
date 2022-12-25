@@ -6,7 +6,6 @@ import net.kyori.adventure.text.Component;
 import net.pixlies.core.Main;
 import net.pixlies.core.economy.Wallet;
 import net.pixlies.core.entity.user.timers.Timer;
-import net.pixlies.core.entity.user.timers.impl.CombatTimer;
 import net.pixlies.core.events.impl.moderation.UserKickedEvent;
 import net.pixlies.core.events.impl.moderation.UserPunishedEvent;
 import net.pixlies.core.events.impl.moderation.UserUnpunishedEvent;
@@ -20,7 +19,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -452,42 +450,6 @@ public class User {
 
     public void addItemsBought(int items) {
         itemsBought += items;
-    }
-
-    public boolean isInCombat() {
-        if (isBypassing()) return false;
-        if (isPassive()) return false;
-        return allTimers.containsKey(CombatTimer.ID) && instance.getConfig().getBoolean("combat.timer", true) ;
-    }
-
-    public void setInCombat(boolean value) {
-        if (!value) allTimers.remove(CombatTimer.ID);
-        if (isBypassing() || isPassive()) allTimers.remove(CombatTimer.ID);
-
-        if (allTimers.containsKey(CombatTimer.ID)) {
-            Timer timer = allTimers.get(CombatTimer.ID);
-            if (timer != null) {
-                timer.setStartTime(System.currentTimeMillis());
-                return;
-            }
-        }
-
-        CombatTimer timer = new CombatTimer(System.currentTimeMillis());
-        allTimers.put(CombatTimer.ID, timer);
-
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (!allTimers.containsKey(CombatTimer.ID)) {
-                    cancel();
-                    return;
-                }
-                if (timer.isExpired() || isBypassing() || isPassive()) {
-                    allTimers.remove(CombatTimer.ID);
-                    cancel();
-                }
-            }
-        }.runTaskTimer(Main.getInstance(), 1, 1);
     }
 
     public Document toDocumentPunishments() {

@@ -52,7 +52,20 @@ public enum NationsLang {
     NATION_CLAIM_AUTO_ENABLED(NationsLang.NATION),
     NATION_CLAIM_AUTO_DISABLED(NationsLang.NATION),
 
-    CHUNK_LOCATION_FORMAT("");
+    CHUNK_LOCATION_FORMAT(""),
+
+    // TELEPORTATION
+    TPA_MESSAGE_SENDER(NationsLang.NATION),
+    TPA_MESSAGE_TARGET(NationsLang.NATION),
+    TPA_ACCEPTED_MESSAGE_SENDER(NationsLang.NATION),
+    TPA_ACCEPTED_MESSAGE_TARGET(NationsLang.NATION),
+    TPA_EXPIRED(NationsLang.NATION),
+    TPA_PLAYER_NOT_ONLINE(NationsLang.NATION),
+    TP_CANCEL(NationsLang.NATION),
+
+    // COMBAT
+    COMBAT_TELEPORT(NationsLang.NATION),
+    COMBAT_HIT(NationsLang.NATION);
 
     public static final String NATION = "§x§2§F§D§1§E§5§lN§x§3§4§C§6§D§8§lA§x§3§7§B§A§C§A§lT§x§3§5§B§0§B§F§lI§x§3§3§A§3§B§0§lO§x§3§2§9§9§A§5§lN§8 | §7";
 
