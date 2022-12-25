@@ -122,9 +122,9 @@ public class OrderBook {
             MarketProfile initProfile = MarketProfile.get(initialOrder.getPlayerUUID());
             MarketProfile matchProfile = MarketProfile.get(matchingOrder.getPlayerUUID());
             if (initProfile.getBlockedPlayers().contains(matchingOrder.getPlayerUUID()))
-                return;
+                continue;
             if (matchProfile.getBlockedPlayers().contains(initialOrder.getPlayerUUID()))
-                return;
+                continue;
             
             // Check if the price matches
             if (buyCondition || sellCondition) {
@@ -133,13 +133,8 @@ public class OrderBook {
                 matchingOrder.decreaseVolume(traded);
                 addTrade(initialOrder, matchingOrder, traded);
                 
-                // Notifications and challenges
-                if (initialOrder.getVolume() == 0) {
-                    initialOrder.sendNotification();
-                }
-                if (matchingOrder.getVolume() == 0) {
-                    matchingOrder.sendNotification();
-                }
+                initProfile.sendNotification();
+                matchProfile.sendNotification();
             }
         }
         

@@ -1,17 +1,13 @@
 package net.pixlies.business.market.orders;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.handlers.impl.MarketHandler;
-import net.pixlies.business.locale.MarketLang;
 import net.pixlies.core.utils.TextUtils;
 import net.pixlies.nations.nations.interfaces.NationProfile;
 import org.bson.Document;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 import java.util.*;
 
@@ -119,22 +115,6 @@ public class Order {
     
     public void decreaseVolume(int amount) {
         volume -= amount;
-    }
-    
-    public void sendNotification() {
-        Player player = Bukkit.getPlayer(playerUUID);
-        
-        // If player is offline
-        if (player == null) {
-            marketHandler.getNotifs().put(playerUUID.toString(), this);
-            return;
-        }
-        
-        OrderItem item = instance.getMarketManager().getBooks().get(bookId).getItem();
-        if (type == Type.BUY)
-            MarketLang.BUY_ORDER_FILLED.send(player, "%NUM%;" + amount, "%ITEM%;" + item.getName());
-        else MarketLang.SELL_ORDER_FILLED.send(player, "%NUM%;" + amount, "%ITEM%;" + item.getName());
-        player.playSound(player.getLocation(), "entity.experience_orb.pickup", 100, 1);
     }
     
     public enum Type {

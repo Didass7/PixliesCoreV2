@@ -4,7 +4,11 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import net.pixlies.business.ProtoBusiness;
+import net.pixlies.business.locale.MarketLang;
 import net.pixlies.core.configuration.Config;
+import org.bukkit.Bukkit;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.util.*;
@@ -40,6 +44,16 @@ public class MarketProfile {
       
       public void unTradeBlockPlayer(UUID uuid) {
             blockedPlayers.remove(uuid);
+      }
+      
+      public void sendNotification() {
+            Player player = Bukkit.getPlayer(uuid);
+            assert player != null;
+            
+            if (player.isOnline()) {
+                  MarketLang.MARKET_NOTIFICATION.send(player);
+                  player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 100F, 1F);
+            }
       }
       
       public void save() {
