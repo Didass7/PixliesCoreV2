@@ -55,6 +55,7 @@ public class PixliesCommandManager {
         register(new TpBackCommand(), false);
         register(new SocialSpyCommand(), false);
         register(new CommandSpyCommand(), false);
+        register(new FreezeCommand(), false);
 
         // STAFF
         register(new StaffModeCommand(), false);
