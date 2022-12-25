@@ -36,7 +36,6 @@ public class User {
     private final String uuid;
     private boolean loaded = false;
     private boolean basicLoaded = false;
-    private boolean punishmentsLoaded = false;
     private @Getter(AccessLevel.NONE) boolean joinedBefore = false;
     private long joined = System.currentTimeMillis();
     private @Nullable String discordId;
@@ -60,14 +59,9 @@ public class User {
     private int itemsSold = 0;
     private int itemsBought = 0;
 
-    // PUNISHMENT
-    private List<Punishment> punishments = new ArrayList<>();
-
     // PERSONALIZATION
     private boolean commandSpyEnabled = false;
     private boolean socialSpyEnabled = false;
-    private boolean viewMutedChat = true;
-    private boolean viewBannedJoins = true;
     private boolean joinVanish = false;
     private String scoreboardType = ScoreboardType.ENABLED.name();
 
@@ -99,220 +93,6 @@ public class User {
 
     public boolean isOnline() {
         return this.getAsOfflinePlayer().isOnline();
-    }
-
-    public Punishment getActiveMute() {
-        return this.getActivePunishmentByType(PunishmentType.MUTE);
-    }
-
-    public boolean isMuted() {
-        return getActiveMute() != null;
-    }
-
-    public void mute(@Nullable String reason, @NotNull CommandSender punisher, boolean silent) {
-        if (isMuted()) return;
-        UUID punisherUUID = PunishmentUtils.getPunisherUUID(punisher);
-
-        Punishment punishment = new Punishment(
-                UUID.randomUUID(),
-                PunishmentType.MUTE,
-                punisherUUID,
-                System.currentTimeMillis(),
-                0,
-                PunishmentUtils.replaceReason(reason),
-                null,
-                0,
-                false
-        );
-
-        punishments.add(punishment);
-
-        UserPunishedEvent event = new UserPunishedEvent(punisher, this, punishment, silent);
-        event.callEvent();
-    }
-
-    public void tempMute(@Nullable String reason, @NotNull CommandSender punisher, long duration, boolean silent) {
-        if (isMuted()) return;
-        UUID punisherUUID = PunishmentUtils.getPunisherUUID(punisher);
-
-        Punishment punishment = new Punishment(
-                UUID.randomUUID(),
-                PunishmentType.MUTE,
-                punisherUUID,
-                System.currentTimeMillis(),
-                duration,
-                PunishmentUtils.replaceReason(reason),
-                null,
-                0,
-                false
-        );
-
-        punishments.add(punishment);
-
-        UserPunishedEvent event = new UserPunishedEvent(punisher, this, punishment, silent);
-        event.callEvent();
-    }
-
-    public void unmute(@NotNull CommandSender sender, boolean silent) {
-        if (!isMuted()) return;
-        UUID punisherUUID = PunishmentUtils.getPunisherUUID(sender);
-
-        // Filters out all punishments that are not removed and then mark the punishment removed.
-        for (Punishment punishment : punishments.parallelStream().filter(punishment -> !punishment.isRemoved()).toList()) {
-            punishment.remove(punisherUUID, System.currentTimeMillis());
-        }
-
-        UserUnpunishedEvent event = new UserUnpunishedEvent(sender, this, PunishmentType.MUTE, silent);
-        event.callEvent();
-    }
-
-    public Punishment getActiveBan() {
-        return this.getActivePunishmentByType(PunishmentType.BAN);
-    }
-
-    public boolean isBanned() {
-        return getActiveBan() != null;
-    }
-
-    public void ban(@Nullable String reason, @NotNull CommandSender punisher, boolean silent) {
-        if (isBanned()) return;
-        UUID punisherUUID = PunishmentUtils.getPunisherUUID(punisher);
-
-        Punishment punishment = new Punishment(
-                UUID.randomUUID(),
-                PunishmentType.BAN,
-                punisherUUID,
-                System.currentTimeMillis(),
-                0,
-                PunishmentUtils.replaceReason(reason),
-                null,
-                0,
-                false
-        );
-
-        punishments.add(punishment);
-
-        UserPunishedEvent event = new UserPunishedEvent(punisher, this, punishment, silent);
-        event.callEvent();
-    }
-
-    public void tempBan(@Nullable String reason, @NotNull CommandSender punisher, long duration, boolean silent) {
-        if (isBanned()) return;
-        UUID punisherUUID = PunishmentUtils.getPunisherUUID(punisher);
-
-        Punishment punishment = new Punishment(
-                UUID.randomUUID(),
-                PunishmentType.BAN,
-                punisherUUID,
-                System.currentTimeMillis(),
-                duration,
-                PunishmentUtils.replaceReason(reason),
-                null,
-                0,
-                false
-        );
-
-        punishments.add(punishment);
-
-        UserPunishedEvent event = new UserPunishedEvent(punisher, this, punishment, silent);
-        event.callEvent();
-    }
-
-    public void unban(@NotNull CommandSender sender, boolean silent) {
-        if (!isBanned()) return;
-        UUID punisherUUID = PunishmentUtils.getPunisherUUID(sender);
-
-        // Filters out all punishments that are not removed and then mark the punishment removed.
-        for (Punishment punishment : punishments.parallelStream().filter(punishment -> !punishment.isRemoved()).toList()) {
-            punishment.remove(punisherUUID, System.currentTimeMillis());
-        }
-
-        UserUnpunishedEvent event = new UserUnpunishedEvent(sender, this, PunishmentType.BAN, silent);
-        event.callEvent();
-    }
-
-    public Punishment getActiveBlacklist() {
-        return this.getActivePunishmentByType(PunishmentType.BLACKLIST);
-    }
-
-    public boolean isBlacklisted() {
-        return getActiveBlacklist() != null;
-    }
-
-    public void blacklist(@Nullable String reason, @NotNull CommandSender punisher, boolean silent) {
-        if (isBlacklisted()) return;
-        UUID punisherUUID = PunishmentUtils.getPunisherUUID(punisher);
-
-        Punishment punishment = new Punishment(
-                UUID.randomUUID(),
-                PunishmentType.BLACKLIST,
-                punisherUUID,
-                System.currentTimeMillis(),
-                0,
-                PunishmentUtils.replaceReason(reason),
-                null,
-                0,
-                false
-        );
-
-        punishments.add(punishment);
-
-        UserPunishedEvent event = new UserPunishedEvent(punisher, this, punishment, silent);
-        event.callEvent();
-    }
-
-    public void unblacklist(@NotNull CommandSender sender, boolean silent) {
-        if (!isBlacklisted()) return;
-        UUID punisherUUID = PunishmentUtils.getPunisherUUID(sender);
-
-        // Filters out all punishments that are not removed and then mark the punishment removed.
-        for (Punishment punishment : punishments.parallelStream().filter(punishment -> !punishment.isRemoved()).toList()) {
-            punishment.remove(punisherUUID, System.currentTimeMillis());
-        }
-
-        UserUnpunishedEvent event = new UserUnpunishedEvent(sender, this, PunishmentType.BLACKLIST, silent);
-        event.callEvent();
-    }
-
-    public Punishment getActivePunishmentByType(PunishmentType type) {
-        for (Punishment punishment : punishments) {
-            if (punishment.isExpired() || punishment.getType() != type) continue;
-
-            return punishment;
-        }
-        return null;
-    }
-
-    /**
-     * Kicks the user with a reason.
-     * @param reason the reason to kick
-     * @param sender the punisher that punished the player
-     * @param silent silently kick the player
-     */
-    public void kick(@Nullable String reason, @NotNull CommandSender sender,  boolean silent) {
-        String kickReason = reason;
-        if (!getAsOfflinePlayer().isOnline()) return;
-
-        Player player = getAsOfflinePlayer().getPlayer();
-
-        if (player == null)
-            return;
-
-        if (player.hasPermission("pixlies.moderation.kick.exempt"))
-            return;
-
-        if (reason == null || reason.isEmpty()) {
-            kickReason = instance.getConfig().getString("moderation.defaultReason", "No reason given");
-        }
-
-        String kickMessage = Lang.KICK_MESSAGE.get(player);
-        kickMessage = kickMessage
-                .replace("%EXECUTOR%", sender.getName())
-                .replace("%REASON%",  kickReason);
-
-        player.kick(Component.text(kickMessage));
-        UserKickedEvent event = new UserKickedEvent(sender, player, this, kickReason, silent);
-        event.callEvent();
     }
 
     public boolean hasNickName() {
@@ -452,41 +232,6 @@ public class User {
         itemsBought += items;
     }
 
-    public Document toDocumentPunishments() {
-        Document document = new Document();
-
-        document.put("uuid", uuid);
-        document.put("punishments", new ArrayList<Document>() {{
-            for (Punishment punishment : punishments) {
-                add(punishment.toDocument());
-            }
-        }});
-
-        return document;
-    }
-
-    public void loadPunishmentsFromDocument(Document document) {
-
-        if (!loaded && !basicLoaded) loadBasic();
-
-        punishments.clear();
-
-        List<Document> punishmentsToAdd = document.get("punishments", new ArrayList<>());
-        for (Document punishmentDocument : punishmentsToAdd) {
-
-            Punishment punishment;
-            try {
-                punishment = new Punishment(punishmentDocument);
-            } catch (Exception e) {
-                e.printStackTrace();
-                continue;
-            }
-
-            punishments.add(punishment);
-        }
-
-    }
-
     public void loadBasic() {
         Document document = instance.getMongoManager().getUsersCollection().find(Filters.eq("uuid", uuid)).first();
         if (document == null) {
@@ -537,8 +282,6 @@ public class User {
 
         document.put("commandSpyEnabled", commandSpyEnabled);
         document.put("socialSpyEnabled", socialSpyEnabled);
-        document.put("viewMutedChat", viewMutedChat);
-        document.put("viewBannedJoins", viewBannedJoins);
         document.put("joinVanish", joinVanish);
         document.put("scoreboardType", scoreboardType);
 
@@ -578,8 +321,6 @@ public class User {
         //
         commandSpyEnabled = document.getBoolean("commandSpyEnabled") == null ? commandSpyEnabled : document.getBoolean("commandSpyEnabled");
         socialSpyEnabled = document.getBoolean("socialSpyEnabled") == null ? socialSpyEnabled : document.getBoolean("socialSpyEnabled");
-        viewMutedChat = document.getBoolean("viewMutedChat") == null ? viewMutedChat : document.getBoolean("viewMutedChat");
-        viewBannedJoins = document.getBoolean("viewBannedJoins") == null ? viewBannedJoins : document.getBoolean("viewBannedJoins");
         joinVanish = document.getBoolean("joinVanish") == null ? joinVanish : document.getBoolean("joinVanish");
         scoreboardType = document.getString("scoreboardType") == null ? scoreboardType : document.getString("scoreboardType");
 
@@ -615,40 +356,6 @@ public class User {
             instance.getMongoManager().getUserCache().put(getUniqueId(), this);
         }
         return true;
-    }
-
-    public void loadAllData(boolean cache) {
-        load(cache);
-        loadPunishments();
-    }
-
-    /**
-     * Loads the user punishments from the database.
-     * This should be run async to the main thread.
-     * @return True if the user has previous saved data.
-     */
-    public boolean loadPunishments() {
-        Document document = instance.getMongoManager().getPunishmentCollection().find(Filters.eq("uuid", uuid)).first();
-        if (document == null) {
-            backupPunishments();
-            punishmentsLoaded = true;
-            return false;
-        }
-        loadPunishmentsFromDocument(document);
-        punishmentsLoaded = true;
-
-        return true;
-    }
-
-    public void savePunishments() {
-        instance.getServer().getScheduler().runTaskAsynchronously(instance, this::backupPunishments);
-    }
-
-    public void backupPunishments() {
-        if (instance.getMongoManager().getPunishmentCollection().find(Filters.eq("uuid", uuid)).first() == null) {
-            instance.getMongoManager().getPunishmentCollection().insertOne(toDocument());
-        }
-        instance.getMongoManager().getPunishmentCollection().findOneAndReplace(Filters.eq("uuid", uuid), toDocumentPunishments());
     }
 
     public void save() {
@@ -704,7 +411,7 @@ public class User {
             User user = User.get(player.getUniqueId());
 
             if (user.isOnline()) {
-                user.loadAllData(true);
+                user.load(true);
             }
 
             user.currentUsername = player.getName();

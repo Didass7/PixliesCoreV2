@@ -181,18 +181,8 @@ MODERATION_FREEZE_FREEZE: "§cYou were frozen by %PLAYER%§c."
 MODERATION_FREEZE_MESSAGE: "§6%PLAYER%§7 was frozen by §6%EXECUTOR%§7."
 MODERATION_FREEZE_ACTIONBAR: "§cYou are currently frozen."
 
-MODERATION_CANNOT_KICK: "§7You cannot kick that player."
-MODERATION_CANNOT_BAN: "§7You cannot ban that player."
-MODERATION_CANNOT_MUTE: "§7You cannot mute that player."
-
-MODERATION_BANSPY_ENABLED: "§7You will now see banned players attempting to join."
-MODERATION_BANSPY_DISABLED: "§7You will no longer see banned players attempting to join."
-
 MODERATION_SOCIALSPY_ENABLED: "§7You will now see private messages being sent."
 MODERATION_SOCIALSPY_DISABLED: "§7You will no longer see private messages being sent."
-
-MODERATION_MUTESPY_ENABLED: "§7You will now see muted players talk."
-MODERATION_MUTESPY_DISABLED: "§7You will no longer see muted players talk."
 
 MODERATION_RANK_GRANT: "§a%RANK%§ rank has been granted to §d%PLAYER%§7."
 MODERATION_RANK_NOT_EXIST: "§7That rank does not exist."

@@ -47,24 +47,12 @@ public class PixliesCommandManager {
 
     private void registerAllCommands() {
         // MODERATION
-        register(new BanCommand(), false);
-        register(new TempBanCommand(), false);
-        register(new UnBanCommand(), false);
-        register(new BanSpyCommand(), false);
-        register(new MuteCommand(), false);
-        register(new TempMuteCommand(), false);
-        register(new UnMuteCommand(), false);
         register(new ChatCommand(), false);
         register(new InventorySeeCommand(), false);
         register(new KickallCommand(), false);
         register(new VanishCommand(), false);
         register(new JoinVanishedCommand(), false);
         register(new TpBackCommand(), false);
-        register(new BlacklistCommand(), false);
-        register(new UnBlacklistCommand(), false);
-        register(new FreezeCommand(), false);
-        register(new KickCommand(), false);
-        register(new MuteSpyCommand(), false);
         register(new SocialSpyCommand(), false);
         register(new CommandSpyCommand(), false);
 

@@ -21,7 +21,6 @@ public class ListenerManager {
     private static final Main instance = Main.getInstance();
 
     private @Getter static final List<Listener> listeners = new ArrayList<>() {{
-        add(new PunishmentListener());
         add(new ChatModerationListener());
         add(new ChatFormattingListener());
         add(new SlowModeListener());

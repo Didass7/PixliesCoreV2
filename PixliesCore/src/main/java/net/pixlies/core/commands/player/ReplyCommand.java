@@ -22,13 +22,6 @@ public class ReplyCommand extends BaseCommand {
     @CommandCompletion("@empty")
     @Syntax("<message>")
     public void onReply(Player player, String message) {
-        val user = User.get(player.getUniqueId());
-
-        if (user.getActiveMute() != null && !player.hasPermission("pixlies.moderation.mute.exempt")) {
-            Lang.MUTE_MESSAGE.send(player);
-            return;
-        }
-
         val target = messageHandler.getReplyTarget(player.getUniqueId());
 
         if (target == null) {

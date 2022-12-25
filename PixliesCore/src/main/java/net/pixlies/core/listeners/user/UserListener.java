@@ -42,11 +42,6 @@ public class UserListener implements Listener {
                 return;
             }
 
-            if (!user.isPunishmentsLoaded()) {
-                player.kickPlayer(CC.format("&cYour profile punishments has failed to load.\nIf this error persists, please contact a staff member.\n\nError: " + getClass().getName()));
-                return;
-            }
-
             user.setCurrentUsername(player.getName());
             if (!user.getKnownUsernames().contains(player.getName())) {
                 user.getKnownUsernames().add(player.getName());
