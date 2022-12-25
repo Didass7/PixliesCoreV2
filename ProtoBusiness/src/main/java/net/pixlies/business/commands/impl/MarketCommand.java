@@ -37,7 +37,7 @@ public class MarketCommand extends BaseCommand {
        * - claimed goods/unrestricted: entity.experience_orb.pickup
        * - cancelled order: block.netherite_block.place
        */
-    
+      
       private static final Main pixlies = Main.getInstance();
       private static final ProtoBusiness instance = ProtoBusiness.getInstance();
       
