@@ -22,6 +22,7 @@ public class ListCommand extends BaseCommand {
 
         if (Bukkit.getOnlinePlayers().size() > 500) {
             sender.sendMessage(CC.format(Lang.PIXLIES + "&7We cannot show a list of more than 500 players."));
+            return;
         }
 
         List<Rank> rankList = new ArrayList<>(Arrays.stream(Rank.values()).toList());
