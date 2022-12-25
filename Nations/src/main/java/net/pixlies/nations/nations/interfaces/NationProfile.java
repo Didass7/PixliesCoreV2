@@ -205,7 +205,7 @@ public class NationProfile {
         profileChatType = document.getString("profileChatType") == null ? profileChatType : document.getString("profileChatType");
         profilePlayerTerritoryChangeMessageType = document.getString("profilePlayerTerritoryChangeMessageType") == null ? profilePlayerTerritoryChangeMessageType : document.getString("profilePlayerTerritoryChangeMessageType");
 
-        balance = document.getDouble("balance");
+        balance = document.get("balance", 0.00);
     }
 
     public void load(boolean cache) {
