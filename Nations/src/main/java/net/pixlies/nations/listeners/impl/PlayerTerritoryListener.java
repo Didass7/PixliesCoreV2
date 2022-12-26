@@ -1,5 +1,8 @@
 package net.pixlies.nations.listeners.impl;
 
+import net.pixlies.core.utils.EventUtils;
+import net.pixlies.nations.events.impl.PlayerTerritoryChangeEvent;
+import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.chunk.NationChunk;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,10 +23,14 @@ public class PlayerTerritoryListener implements Listener {
         if (Objects.equals(from, to)) return;
 
         // TODO: Territory Change event call & handle
-//        PlayerTerritoryChangeEvent playerTerritoryChangeEvent = new PlayerTerritoryChangeEvent(player, from, to);
-//        EventUtils.call(playerTerritoryChangeEvent);
+        if (from == null) from = new NationChunk("WILDERNESS", event.getFrom().getWorld().getName(), event.getFrom().getChunk().getX(), event.getFrom().getChunk().getZ());
+        if (to == null) to = new NationChunk("WILDERNESS", event.getTo().getWorld().getName(), event.getTo().getChunk().getX(), event.getTo().getChunk().getZ());
+        if (from.getNationId().equals(to.getNationId())) return;
 
-//        event.setCancelled(playerTerritoryChangeEvent.isCancelled());
+        PlayerTerritoryChangeEvent playerTerritoryChangeEvent = new PlayerTerritoryChangeEvent(player, from, to);
+        EventUtils.call(playerTerritoryChangeEvent);
+
+        event.setCancelled(playerTerritoryChangeEvent.isCancelled());
     }
 
 }

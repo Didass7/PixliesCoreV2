@@ -41,6 +41,7 @@ public class NationDescriptionCommand extends BaseCommand {
 
                 if (!(staffCondition || playerCondition)) {
                     // NO PERMISSION TO DESC
+                    System.out.println("FUCK YOUUUUU");
                     NationsLang.NATION_NO_PERMISSION.send(player);
                     return;
                 }

@@ -303,6 +303,10 @@ public class Nation {
             NationsLang.NATION_FORMED.broadcast("%NATION%;" + this.getName(), "%PLAYER%;" + sender.getName());
         }
 
+        if (sender instanceof Player player) {
+            leaderUUID = player.getUniqueId().toString();
+        }
+
         return this;
     }
 

@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import net.pixlies.nations.Nations;
 import net.pixlies.nations.listeners.impl.NationProfileListener;
 import net.pixlies.nations.listeners.impl.PlayerTerritoryListener;
+import net.pixlies.nations.listeners.impl.TerritoryChangeListener;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
@@ -13,7 +14,8 @@ public class ListenerManager {
 
     private final ImmutableList<Listener> listeners = ImmutableList.of(
             new NationProfileListener(),
-            new PlayerTerritoryListener()
+            new PlayerTerritoryListener(),
+            new TerritoryChangeListener()
     );
 
     public void registerAllListeners() {
