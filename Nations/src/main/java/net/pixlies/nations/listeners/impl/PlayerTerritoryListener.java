@@ -2,7 +2,6 @@ package net.pixlies.nations.listeners.impl;
 
 import net.pixlies.core.utils.EventUtils;
 import net.pixlies.nations.events.impl.PlayerTerritoryChangeEvent;
-import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.chunk.NationChunk;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

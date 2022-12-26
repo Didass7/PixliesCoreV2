@@ -3,6 +3,7 @@ package net.pixlies.nations.listeners;
 import com.google.common.collect.ImmutableList;
 import net.pixlies.nations.Nations;
 import net.pixlies.nations.listeners.impl.NationProfileListener;
+import net.pixlies.nations.listeners.impl.NationsChatListener;
 import net.pixlies.nations.listeners.impl.PlayerTerritoryListener;
 import net.pixlies.nations.listeners.impl.TerritoryChangeListener;
 import org.bukkit.event.HandlerList;
@@ -15,7 +16,8 @@ public class ListenerManager {
     private final ImmutableList<Listener> listeners = ImmutableList.of(
             new NationProfileListener(),
             new PlayerTerritoryListener(),
-            new TerritoryChangeListener()
+            new TerritoryChangeListener(),
+            new NationsChatListener()
     );
 
     public void registerAllListeners() {

@@ -5,6 +5,7 @@ import net.pixlies.core.configuration.Config;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.handlers.impl.PixlieMojiHandler;
 import net.pixlies.core.utils.CC;
+import net.pixlies.core.utils.ChatUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,12 +19,7 @@ public class ChatFormattingListener implements Listener {
 
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        String message = event.getMessage();
-
-        // IF PLAYER CAN USE CHAT COLOR
-        if (player.hasPermission("pixlies.chat.format")) {
-            message = CC.format(message);
-        }
+        String message = ChatUtils.formatByPerm(player, event.getMessage());
 
         // SET MESSAGE
         event.setMessage(PixlieMojiHandler.replaceEmojis(message));

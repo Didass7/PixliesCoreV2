@@ -40,17 +40,19 @@ public enum NationsLang {
     NATION_WARZONE_TITLE(""),
     NATION_WARZONE_SUBTITLE(""),
 
-    NATION_SAME_COLOUR(NationsLang.NATION),
-    NATION_ALLY_COLOUR(NationsLang.NATION),
-    NATION_OTHER_COLOUR(NationsLang.NATION),
-    NATION_SUBTITLE_COLOUR(NationsLang.NATION),
-    NATION_TERRITORY_TEXT_FORMAT(NationsLang.NATION),
+    NATION_SAME_COLOUR(""),
+    NATION_ALLY_COLOUR(""),
+    NATION_OTHER_COLOUR(""),
+    NATION_SUBTITLE_COLOUR(""),
 
     NATION_CLAIM_MESSAGE(NationsLang.NATION),
     NATION_CLAIM_MESSAGE_ANNOUNCE(NationsLang.NATION),
     NATION_CLAIM_ALREADY_CLAIMED(NationsLang.NATION),
     NATION_CLAIM_AUTO_ENABLED(NationsLang.NATION),
     NATION_CLAIM_AUTO_DISABLED(NationsLang.NATION),
+
+    NATION_SAME_CHAT_FORMAT(NationsLang.NATION),
+    NATION_ALLY_CHAT_FORMAT(NationsLang.ALLY),
 
     CHUNK_LOCATION_FORMAT(""),
 
@@ -68,6 +70,7 @@ public enum NationsLang {
     COMBAT_HIT(NationsLang.NATION);
 
     public static final String NATION = "§x§2§F§D§1§E§5§lN§x§3§4§C§6§D§8§lA§x§3§7§B§A§C§A§lT§x§3§5§B§0§B§F§lI§x§3§3§A§3§B§0§lO§x§3§2§9§9§A§5§lN§8 | §7";
+    public static final String ALLY = "§x§f§f§5§5§f§f§lA§x§f§7§5§2§f§7§lL§x§e§f§5§0§e§f§lL§x§e§7§4§d§e§7§lY§8 | §7";
 
     private final String prefix;
     private @Getter @NotNull Map<String, String> languages = new HashMap<>();

@@ -14,6 +14,7 @@ import net.pixlies.nations.nations.customization.Religion;
 import net.pixlies.nations.nations.interfaces.NationProfile;
 import net.pixlies.nations.nations.ranks.NationPermission;
 import net.pixlies.nations.nations.ranks.NationRank;
+import net.pixlies.nations.nations.relations.Relation;
 import net.pixlies.nations.utils.NationUtils;
 import org.bson.Document;
 import org.bukkit.Bukkit;
@@ -47,7 +48,7 @@ public class Nation {
     private final @Getter String nationId;
     private @Getter @Setter String name;
     private @Getter String description;
-    private @Getter @Setter String motd;
+    private @Setter String motd;
     private String leaderUUID;
     private @Getter @Setter long created;
     private final @Getter boolean systemNation;
@@ -66,16 +67,19 @@ public class Nation {
     private String govType;
     private String ideology;
     private String religion;
-    private @Getter @Setter List<Integer> constitutionValues;
+    private @Getter List<Integer> constitutionValues;
 
     // RANKS
-    private @Getter @Setter Map<String, NationRank> ranks;
+    private @Getter Map<String, NationRank> ranks;
 
     // MEMBERS
-    private @Getter @Setter List<String> memberUUIDs;
+    private @Getter List<String> memberUUIDs;
 
     // CHUNKS
-    private @Getter @Setter List<NationChunk> claims;
+    private @Getter List<NationChunk> claims;
+
+    // RELATIONS
+    private @Getter List<String> alliedNationIds;
 
     // -------------------------------------------------------------------------------------------------
     //                                         CONSTRUCTOR
@@ -97,7 +101,8 @@ public class Nation {
                   @NotNull List<Integer> constitutionValues,
                   @NotNull Map<String, NationRank> ranks,
                   @NotNull List<UUID> memberUUIDs,
-                  @NotNull List<NationChunk> claims
+                  @NotNull List<NationChunk> claims,
+                  @NotNull List<String> alliedNationIds
     ) {
         this.nationId = nationId;
         this.name = name;
@@ -118,6 +123,7 @@ public class Nation {
         memberUUIDs.forEach(uuid -> membersStrings.add(uuid.toString()));
         this.memberUUIDs = membersStrings;
         this.claims = claims;
+        this.alliedNationIds = alliedNationIds;
     }
 
     /**
@@ -158,6 +164,7 @@ public class Nation {
                     put(member.getName(), member);
                     put(newbie.getName(), newbie);
                 }},
+                new ArrayList<>(),
                 new ArrayList<>(),
                 new ArrayList<>()
         );
@@ -221,6 +228,13 @@ public class Nation {
             return false;
         }
         return !motd.equals("");
+    }
+
+    public String getMotd() {
+        if (hasMotd()) {
+            return motd;
+        }
+        return null;
     }
 
     public void setDescription(String description) {
@@ -289,6 +303,8 @@ public class Nation {
             }
         }});
 
+        document.put("alliedNationIds", alliedNationIds);
+
         return document;
     }
 
@@ -348,7 +364,7 @@ public class Nation {
         constitutionValues.set(law, option);
     }
 
-    public void addMember(Player player, String rank, boolean saveProfile) {
+    public void addMember(Player player, String rankName, boolean saveProfile) {
         if (systemNation) return;
 
         NationProfile profile = NationProfile.get(player.getUniqueId());
@@ -359,14 +375,15 @@ public class Nation {
         memberUUIDs.add(player.getUniqueId().toString());
 
         // MAKE A VARIABLE TO STORE THE RANK NAME
-        String rankToAddIn = rank;
+        String rankToAddIn = rankName;
 
         // CHECK IF RANK EXISTS; IF NOT TAKE NEWBIE LOL
-        if (!ranks.containsKey(rankToAddIn)) rankToAddIn = NationRank.getNewbieRank().getName();
+        if (!ranks.containsKey(rankToAddIn))
+            rankToAddIn = NationRank.getNewbieRank().getName();
 
         // ASSIGN TO PLAYER AND STORE IT
         profile.setNation(this);
-        profile.setNationRank(rank);
+        profile.setNationRank(rankToAddIn);
 
         if (saveProfile) {
             profile.save();
@@ -393,6 +410,11 @@ public class Nation {
             profile.leaveNation(false);
             profile.save();
         }));
+
+        this.getAlliedNations().parallelStream().forEach(ally -> {
+            this.removeAlly(ally);
+            ally.save();
+        });
 
         claims.parallelStream().forEach(NationChunk::unloadClaim);
 
@@ -467,6 +489,44 @@ public class Nation {
         }
     }
 
+    public Collection<Nation> getAlliedNations() {
+        List<Nation> nations = new ArrayList<>();
+        for (String alliedNationId : alliedNationIds) {
+            Nation nation = Nation.getFromId(alliedNationId);
+            if (nation == null) continue;
+            nations.add(nation);
+        }
+        return nations;
+    }
+
+    public void addAlly(@NotNull Nation toAlly) {
+        // OUR NATION
+        this.alliedNationIds.add(toAlly.nationId);
+
+        // THEIR NATION
+        toAlly.alliedNationIds.add(this.nationId);
+    }
+
+    public void removeAlly(@NotNull Nation wasAlly) {
+        // OUR NATION
+        this.alliedNationIds.remove(wasAlly.nationId);
+
+        // THEIR NATION
+        wasAlly.alliedNationIds.remove(this.nationId);
+    }
+
+    public Relation getRelationTo(@NotNull Nation toMatch) {
+        if (nationId.equals(toMatch.nationId)) {
+            return Relation.SAME;
+        }
+
+        if (alliedNationIds.contains(toMatch.nationId)) {
+            return Relation.ALLY;
+        }
+
+        return Relation.OTHER;
+    }
+
     // -------------------------------------------------------------------------------------------------
     //                                        STATIC METHODS
     // -------------------------------------------------------------------------------------------------
@@ -506,14 +566,15 @@ public class Nation {
                 nation.constitutionValues == null ? new ArrayList<>() : nation.constitutionValues,
                 nation.ranks == null ? new HashMap<>() : nation.ranks,
                 nation.memberUUIDs == null ? new ArrayList<>() : nation.memberUUIDs,
-                nation.claims == null ? new ArrayList<>() : nation.claims
+                nation.claims == null ? new ArrayList<>() : nation.claims,
+                nation.alliedNationIds == null ? new ArrayList<>() : nation.alliedNationIds
         );
     }
 
-    public static @NotNull Nation createSystemNation(String id) {
+    public static @NotNull Nation createSystemNation(String id, String name) {
         return new Nation(
                 id,
-                id,
+                name,
                 NationUtils.randomDescription(),
                 "",
                 UUID.randomUUID(),
@@ -527,6 +588,7 @@ public class Nation {
                 Religion.SECULAR,
                 new ArrayList<>(),
                 new HashMap<>(),
+                new ArrayList<>(),
                 new ArrayList<>(),
                 new ArrayList<>()
         );
@@ -564,7 +626,8 @@ public class Nation {
                     for (Document claimDocument : document.getList("claims", Document.class)) {
                         add(new NationChunk(claimDocument));
                     }
-                }}
+                }},
+                new ArrayList<>(document.getList("alliedNationIds", String.class))
         );
         return getNullCheckedNation(nation);
     }

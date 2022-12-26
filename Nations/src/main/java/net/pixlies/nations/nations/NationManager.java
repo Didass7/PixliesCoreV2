@@ -8,7 +8,6 @@ import org.bson.Document;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,22 +54,22 @@ public class NationManager {
 
         Nation warzone = Nation.getFromId("warzone");
         if (warzone == null) {
-            warzone = Nation.createSystemNation("warzone"); // TODO: COLOR, DESC
+            warzone = Nation.createSystemNation("warzone", "Warzone");
             warzone.cache();
             warzone.backup();
         }
 
         Nation spawn = Nation.getFromId("spawn");
         if (spawn == null) {
-            spawn = Nation.createSystemNation("spawn"); // TODO: COLOR, DESC
-            warzone.cache();
+            spawn = Nation.createSystemNation("spawn", "Spawn");
+            spawn.cache();
             spawn.backup();
         }
 
         Nation warp = Nation.getFromId("warp");
         if (warp == null) {
-            warp = Nation.createSystemNation("warp"); // TODO: COLOR, DESC
-            warzone.cache();
+            warp = Nation.createSystemNation("warp", "Warp");
+            warp.cache();
             warp.backup();
         }
 

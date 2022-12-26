@@ -10,6 +10,7 @@ import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.interfaces.profile.ChatType;
 import net.pixlies.nations.nations.interfaces.profile.TerritoryChangeMessageType;
 import net.pixlies.nations.nations.ranks.NationRank;
+import net.pixlies.nations.nations.relations.Relation;
 import org.bson.Document;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -43,7 +44,6 @@ public class NationProfile {
     private @Nullable String nationId;
     private @Nullable String nationRank;
     private @Getter(AccessLevel.NONE) String profileChatType = ChatType.GLOBAL.name();
-    private @Getter(AccessLevel.NONE) String profilePlayerTerritoryChangeMessageType = TerritoryChangeMessageType.TITLE.name();
 
     // Economy
     private @Getter @Setter double balance = 0.00;
@@ -93,18 +93,6 @@ public class NationProfile {
         this.profileChatType = chatType.name();
     }
 
-    public TerritoryChangeMessageType getTerritoryChangeMessageType() {
-        try {
-            return TerritoryChangeMessageType.valueOf(profileChatType);
-        } catch (IllegalArgumentException e) {
-            return TerritoryChangeMessageType.TITLE;
-        }
-    }
-
-    public void setTerritoryChangeMessageType(TerritoryChangeMessageType type) {
-        this.profilePlayerTerritoryChangeMessageType = type.name();
-    }
-
     public void setNation(Nation nation) {
         nationId = nation.getNationId();
     }
@@ -129,6 +117,23 @@ public class NationProfile {
             return;
         }
         autoClaim = value;
+    }
+
+    public Relation getRelationTo(@NotNull Nation toMatch) {
+        Nation nation = getNation();
+        if (nation == null) return Relation.OTHER;
+
+        return nation.getRelationTo(toMatch);
+    }
+
+    public Relation getRelationTo(@NotNull NationProfile toMatchProfile) {
+        Nation nation = getNation();
+        if (nation == null) return Relation.OTHER;
+
+        Nation toMatch = toMatchProfile.getNation();
+        if (toMatch == null) return Relation.OTHER;
+
+        return nation.getRelationTo(toMatch);
     }
 
     /**
@@ -191,7 +196,6 @@ public class NationProfile {
         document.put("nationId", nationId);
         document.put("nationRank", nationRank);
         document.put("profileChatType", profileChatType);
-        document.put("profilePlayerTerritoryChangeMessageType", profilePlayerTerritoryChangeMessageType);
 
         document.put("balance", balance);
         return document;
@@ -203,7 +207,6 @@ public class NationProfile {
         nationId = document.getString("nationId") == null ? nationId : document.getString("nationId");
         nationRank = document.getString("nationRank") == null ? nationRank : document.getString("nationRank");
         profileChatType = document.getString("profileChatType") == null ? profileChatType : document.getString("profileChatType");
-        profilePlayerTerritoryChangeMessageType = document.getString("profilePlayerTerritoryChangeMessageType") == null ? profilePlayerTerritoryChangeMessageType : document.getString("profilePlayerTerritoryChangeMessageType");
 
         balance = document.get("balance", 0.00);
     }
