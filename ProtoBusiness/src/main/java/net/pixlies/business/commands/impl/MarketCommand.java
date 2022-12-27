@@ -107,6 +107,7 @@ public class MarketCommand extends BaseCommand {
       @Subcommand("restrict")
       @CommandPermission("pixlies.business.market.restrict")
       @Description("Restricts/unrestricts a player from accessing the market")
+      @Syntax("<target> [reason]")
       public void onMarketRestrict(Player player, Player target, @Optional String arg) {
             UUID uuid = target.getUniqueId();
             MarketProfile profile = MarketProfile.get(uuid);

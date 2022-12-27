@@ -57,6 +57,7 @@ public class TradeBlockCommand extends BaseCommand {
       
       @Subcommand("add")
       @Description("Block a player from trading with you")
+      @Syntax("<player>")
       public void onTradeBlockAdd(Player player, String name) {
             // If the player does not exist
             if (!Preconditions.doesPlayerExist(player, name))
@@ -79,6 +80,7 @@ public class TradeBlockCommand extends BaseCommand {
       
       @Subcommand("remove")
       @Description("Unblock a player from trading with you")
+      @Syntax("<player>")
       public void onTradeBlockRemove(Player player, String name) {
             // If the player does not exist
             if (!Preconditions.doesPlayerExist(player, name))

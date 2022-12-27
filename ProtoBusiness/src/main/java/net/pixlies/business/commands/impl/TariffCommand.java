@@ -109,6 +109,7 @@ public class TariffCommand extends BaseCommand {
       
       @Subcommand("set")
       @Description("Set a tariff for a nation")
+      @Syntax("<nation> <IMPORTS|EXPORTS> <decimalRate>")
       public void onTariffSet(Player player, String strArgs) {
             String[] args = StringUtils.split(strArgs, " ", -1);
             NationProfile nationProfile = NationProfile.get(player.getUniqueId());
@@ -159,6 +160,7 @@ public class TariffCommand extends BaseCommand {
       
       @Subcommand("remove")
       @Description("Remove a tariff from a nation")
+      @Syntax("<nation> <IMPORTS|EXPORTS>")
       public void onTariffRemove(Player player, String strArgs) {
             String[] args = StringUtils.split(strArgs, " ", -1);
             String targetNation = args[0];
