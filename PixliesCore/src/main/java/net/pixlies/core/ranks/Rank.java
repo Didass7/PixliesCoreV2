@@ -13,7 +13,7 @@ import java.util.UUID;
 public enum Rank {
 
     // LOWEST
-    DEFAULT("default", 5000, "Default", "&7", "", "&7", true),
+    DEFAULT("default", 5000, "Default", "&#d4d4d4", "", "&#d4d4d4", true),
 
     // DONOR
     TOPAZ("topaz", 7000, "Topaz", "&x&5&f&d&6&e&3&lT&x&5&8&c&5&d&1&lO&x&5&2&b&4&b&f&lP&x&4&d&a&6&b&0&lA&x&4&3&8&c&9&4&lZ ", "", "&b", true),
