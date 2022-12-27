@@ -88,18 +88,44 @@ public class Order {
         trades = new LinkedList<>();
     }
     
+    /**
+     * Best shit you've ever seen.
+     */
     public double getPrice(UUID matchingUUID) {
         if (playerUUID == matchingUUID) return price;
         
-        String from = NationProfile.get(playerUUID).getNation().getNationId();
-        String to = NationProfile.get(matchingUUID).getNation().getNationId();
-        double rate = 0;
+        String initId = NationProfile.get(playerUUID).getNationId();
+        String matchId = NationProfile.get(matchingUUID).getNationId();
         
-        // Checks the tariffs list and sees if there are any that match
-        for (Tariff tariff : instance.getMarketManager().getTariffs().values()) {
-            if (Objects.equals(tariff.getFrom(), from) && Objects.equals(tariff.getTo(), to)) {
-                rate = tariff.getRate();
-                break;
+        // Get matching tariffs
+        List<Tariff> initTariffs = new ArrayList<>();
+        List<Tariff> matchedTariffs = new ArrayList<>();
+        for (Tariff tariff : Tariff.getAll()) {
+            if (Objects.equals(tariff.getInitId(), initId) && Objects.equals(tariff.getTargetId(), matchId)) {
+                initTariffs.add(tariff);
+            }
+            if (Objects.equals(tariff.getInitId(), matchId) && Objects.equals(tariff.getTargetId(), initId)) {
+                matchedTariffs.add(tariff);
+            }
+        }
+        
+        double rate = 0.00;
+        
+        for (Tariff tariff : initTariffs) {
+            if (tariff.getType() == Tariff.Type.EXPORTS && type == Type.SELL) {
+                rate += tariff.getRate();
+            }
+            if (tariff.getType() == Tariff.Type.IMPORTS && type == Type.BUY) {
+                rate += tariff.getRate();
+            }
+        }
+    
+        for (Tariff tariff : matchedTariffs) {
+            if (tariff.getType() == Tariff.Type.IMPORTS && type == Type.SELL) {
+                rate += tariff.getRate();
+            }
+            if (tariff.getType() == Tariff.Type.EXPORTS && type == Type.BUY) {
+                rate += tariff.getRate();
             }
         }
         

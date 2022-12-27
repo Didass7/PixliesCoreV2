@@ -1,12 +1,18 @@
 package net.pixlies.business.market.orders;
 
-import com.mongodb.client.model.Filters;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import net.pixlies.business.ProtoBusiness;
+import net.pixlies.core.configuration.Config;
 import net.pixlies.core.utils.TextUtils;
-import org.bson.Document;
+import net.pixlies.nations.nations.Nation;
+import org.jetbrains.annotations.Nullable;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Tariff class.
@@ -17,61 +23,81 @@ import org.bson.Document;
 @AllArgsConstructor
 public class Tariff {
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();
-    
-    public Tariff(String fromId, String toId, double rate) {
-        tariffId = TextUtils.generateId(7);
-        from = fromId;
-        to = toId;
-        this.rate = rate;
-    }
-    
-    public Tariff(Document document) {
-        this(
-                document.getString("tariffId"),
-                document.getString("from"),
-                document.getString("to"),
-                document.getDouble("rate")
-        );
-    }
-    
-    public Document toDocument() {
-        Document document = new Document();
-        
-        document.put("tariffId", tariffId);
-        document.put("from", from);
-        document.put("to", to);
-        document.put("rate", rate);
-        
-        return document;
-    }
+    private static final String TARIFFS_PATH = instance.getDataFolder().getAbsolutePath() + "/tariffs/";
     
     private final String tariffId;
-    
-    /**
-     * UUID of the nation applying the tariff
-     */
-    private final String from;
-    
-    /**
-     * UUID of the nation receiving the tariff
-     */
-    private final String to;
+    private final Type type;
+    private final String initId;
+    private final String targetId;
     
     @Setter
     private double rate;
     
+    public Tariff(Type type, String initId, String targetId, double rate) {
+        tariffId = TextUtils.generateId(7);
+        this.type = type;
+        this.initId = initId;
+        this.targetId = targetId;
+        this.rate = rate;
+    }
+
     public String getFormattedRate() {
         return (rate * 100) + "%";
     }
     
     public void save() {
-        instance.getMarketManager().getTariffs().put(tariffId, this);
+        String filename = tariffId + ".yml";
+        Config file = new Config(new File(TARIFFS_PATH + filename), filename);
+        file.set("type", type.toString());
+        file.set("initId", initId);
+        file.set("targetId", targetId);
+        file.set("rate", rate);
+        file.save();
     }
     
-    public void backup() {
-        if (instance.getMongoManager().getOrderBookCollection().find(Filters.eq("tariffId", tariffId)).first() == null) {
-            instance.getMongoManager().getOrderBookCollection().insertOne(toDocument());
+    public boolean delete() {
+        File file = new File(TARIFFS_PATH + tariffId + ".yml");
+        return file.delete();
+    }
+    
+    public static List<Tariff> getAll() {
+        List<Tariff> tariffs = new ArrayList<>();
+        List<String> pathnames = List.of(Objects.requireNonNull(new File(TARIFFS_PATH).list()));
+        for (String pathname : pathnames) {
+            tariffs.add(Tariff.get(pathname.substring(0, pathname.length() - 4)));
         }
-        instance.getMongoManager().getOrderBookCollection().replaceOne(Filters.eq("tariffId", tariffId), toDocument());
+        return tariffs;
+    }
+    
+    public static Tariff get(String tariffId) {
+        String filename = tariffId + ".yml";
+        Config file = new Config(new File(TARIFFS_PATH + filename), filename);
+        return new Tariff(
+                filename,
+                Type.valueOf(file.getString("type")),
+                file.getString("initId"),
+                file.getString("targetId"),
+                file.getDouble("rate")
+        );
+    }
+    
+    public static @Nullable String getTariffId(String initNation, String targetNation, Type type) {
+        for (Tariff t : Tariff.getAll()) {
+            boolean fromCond = Objects.equals(t.getInitId(),
+                    Objects.requireNonNull(Nation.getFromName(initNation)).getNationId());
+            boolean toCond = Objects.equals(t.getTargetId(),
+                    Objects.requireNonNull(Nation.getFromName(targetNation)).getNationId());
+            if (fromCond && toCond && type == t.getType()) return t.getTariffId();
+        }
+        return null;
+    }
+    
+    @Getter
+    @AllArgsConstructor
+    public enum Type {
+        IMPORTS("6"),
+        EXPORTS("c");
+        
+        private final String color;
     }
 }
