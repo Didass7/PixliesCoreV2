@@ -46,7 +46,7 @@ public class NationCreateCommand extends BaseCommand {
             return;
         }
 
-        Nation nation = new Nation(id, name, player.getUniqueId());
+        Nation nation = new Nation(id, name, player.getUniqueId(), false);
         nation.create(player);
         nation.addMember(player, NationRank.getLeaderRank().getName(), true);
 

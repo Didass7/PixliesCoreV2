@@ -2,6 +2,7 @@ package net.pixlies.nations.nations;
 
 import com.google.common.collect.Table;
 import lombok.Getter;
+import net.pixlies.core.utils.PlayerUtils;
 import net.pixlies.nations.Nations;
 import net.pixlies.nations.nations.chunk.NationChunk;
 import org.bson.Document;
@@ -10,6 +11,7 @@ import org.bukkit.World;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class NationManager {
 
@@ -43,7 +45,13 @@ public class NationManager {
         // Load nations from database
         for (Document document : instance.getMongoManager().getNationsCollection().find()) {
             try {
-                Nation nation = Nation.getNewNationFromDocument(document);
+                Nation nation = new Nation(
+                        document.getString("nationId"),
+                        document.getString("name"),
+                        UUID.fromString(document.getString("leaderUUID")),
+                        document.getBoolean("systemNation", false)
+                );
+                nation.loadFromDocument(document);
                 nation.cache();
                 nation.loadClaims();
             } catch (Exception e) {
@@ -54,21 +62,21 @@ public class NationManager {
 
         Nation warzone = Nation.getFromId("warzone");
         if (warzone == null) {
-            warzone = Nation.createSystemNation("warzone", "Warzone");
+            warzone = new Nation("warzone", "Warzone", PlayerUtils.getConsoleUUID(), true);
             warzone.cache();
             warzone.backup();
         }
 
         Nation spawn = Nation.getFromId("spawn");
         if (spawn == null) {
-            spawn = Nation.createSystemNation("spawn", "Spawn");
+            spawn = new Nation("spawn", "Spawn", PlayerUtils.getConsoleUUID(), true);
             spawn.cache();
             spawn.backup();
         }
 
         Nation warp = Nation.getFromId("warp");
         if (warp == null) {
-            warp = Nation.createSystemNation("warp", "Warp");
+            warp = new Nation("warp", "Warp", PlayerUtils.getConsoleUUID(), true);
             warp.cache();
             warp.backup();
         }

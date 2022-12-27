@@ -8,7 +8,6 @@ import lombok.Setter;
 import net.pixlies.nations.Nations;
 import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.interfaces.profile.ChatType;
-import net.pixlies.nations.nations.interfaces.profile.TerritoryChangeMessageType;
 import net.pixlies.nations.nations.ranks.NationRank;
 import net.pixlies.nations.nations.relations.Relation;
 import org.bson.Document;
@@ -158,7 +157,7 @@ public class NationProfile {
         nationRank = null;
         profileChatType = ChatType.GLOBAL.name();
 
-        nation.getMemberUUIDs().remove(uuid);
+        nation.getMembers().remove(uuid);
 
         if (saveNation) {
             nation.save();

@@ -41,7 +41,6 @@ public class NationDescriptionCommand extends BaseCommand {
 
                 if (!(staffCondition || playerCondition)) {
                     // NO PERMISSION TO DESC
-                    System.out.println("FUCK YOUUUUU");
                     NationsLang.NATION_NO_PERMISSION.send(player);
                     return;
                 }
@@ -54,6 +53,7 @@ public class NationDescriptionCommand extends BaseCommand {
                 }
 
                 nation.setDescription(desc);
+                nation.save();
                 return;
 
             }
@@ -71,6 +71,7 @@ public class NationDescriptionCommand extends BaseCommand {
             }
 
             nation.setDescription(desc);
+            nation.save();
 
         } else {
             // CONSOLE
@@ -85,6 +86,7 @@ public class NationDescriptionCommand extends BaseCommand {
             }
 
             nation.setDescription(desc);
+            nation.save();
 
         }
 
