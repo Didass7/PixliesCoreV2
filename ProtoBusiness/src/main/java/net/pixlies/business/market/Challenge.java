@@ -11,6 +11,7 @@ import net.kyori.adventure.title.Title;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.business.locale.MarketLang;
+import net.pixlies.business.util.SoundUtil;
 import org.bukkit.entity.Player;
 
 import java.time.Duration;
@@ -59,7 +60,7 @@ public enum Challenge {
         
         // OTHER
         player.giveExp(xpGained);
-        player.playSound(player.getLocation(), "ui.toast.challenge_complete", 50, 1);
+        SoundUtil.challengeComplete(player);
         MarketLang.CHALLENGE_COMPLETED.send(player, "%CHALLENGE%;" + getMessage(player));
         
         marketHandler.getChallenges().put(player.getUniqueId().toString(), this);

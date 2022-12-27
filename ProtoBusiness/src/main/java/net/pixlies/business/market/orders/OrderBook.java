@@ -108,6 +108,10 @@ public class OrderBook {
         processOrder(order, buyOrders);
     }
     
+    /**
+     * What we've come to be, what we were before.
+     * Ի՞նչ եղանք հիմա, ի՞նչ էինք առաջ։
+     */
     private void processOrder(Order initialOrder, List<Order> orders) {
         Order.Type type = initialOrder.getType();
         for (Order matchingOrder : orders) {

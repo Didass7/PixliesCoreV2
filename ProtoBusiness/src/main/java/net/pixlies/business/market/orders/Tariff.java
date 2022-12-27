@@ -16,6 +16,7 @@ import java.util.Objects;
 
 /**
  * Tariff class.
+ * Փիւսկիլլիւ պելա․․․
  *
  * @author vyketype
  */

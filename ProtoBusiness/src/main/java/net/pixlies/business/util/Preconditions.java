@@ -12,7 +12,6 @@ import net.pixlies.nations.nations.interfaces.NationProfile;
 import net.pixlies.nations.nations.ranks.NationPermission;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,7 +24,7 @@ public class Preconditions {
       public static boolean doesPlayerExist(Player player, String name) {
             if (Bukkit.getPlayerExact(name) == null) {
                   MarketLang.PLAYER_DOES_NOT_EXIST.send(player);
-                  player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 100F, 0.5F);
+                  SoundUtil.error(player);
                   return false;
             }
             return true;
@@ -34,7 +33,7 @@ public class Preconditions {
       public static boolean isPlayerHoldingAir(Player player, Material material) {
             if (material == Material.AIR) {
                   MarketLang.PRICE_NOT_HOLDING_AN_ITEM.send(player);
-                  player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 100F, 1F);
+                  SoundUtil.error(player);
                   return true;
             }
             return false;
@@ -43,7 +42,7 @@ public class Preconditions {
       public static boolean doesMarketItemExist(Player player, OrderItem item) {
             if (item == null) {
                   MarketLang.ITEM_NOT_ON_MARKET.send(player);
-                  player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 100F, 1F);
+                  SoundUtil.error(player);
                   return false;
             }
             return true;
@@ -52,7 +51,7 @@ public class Preconditions {
       public static boolean isMarketOpen(Player player, MarketLang message) {
             if (instance.getConfig().getBoolean("marketOpen")) {
                   message.send(player);
-                  player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 100F, 1F);
+                  SoundUtil.error(player);
                   return true;
             }
             return false;
@@ -62,7 +61,7 @@ public class Preconditions {
             MarketProfile profile = MarketProfile.get(player.getUniqueId());
             if (profile.isRestricted()) {
                   MarketLang.MARKET_PLAYER_IS_RESTRICTED.send(player);
-                  player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 100F, 1F);
+                  SoundUtil.error(player);
                   return true;
             }
             return false;
@@ -71,7 +70,7 @@ public class Preconditions {
       public static boolean isPlayerInNation(Player player, NationProfile profile) {
             if (!profile.isInNation()) {
                   NationsLang.NOT_IN_NATION.send(player);
-                  player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 100F, 1F);
+                  SoundUtil.error(player);
                   return false;
             }
             return true;
@@ -80,7 +79,7 @@ public class Preconditions {
       public static boolean ifNoLocalTariffs(Player player, List<Tariff> incoming, List<Tariff> outgoing) {
             if (incoming.isEmpty() && outgoing.isEmpty()) {
                   MarketLang.NO_TARIFFS_FOUND.send(player);
-                  player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 100F, 1F);
+                  SoundUtil.error(player);
                   return true;
             }
             return false;
@@ -89,7 +88,7 @@ public class Preconditions {
      public static boolean ifNoGlobalTariffs(Player player) {
            if (Tariff.getAll().isEmpty()) {
                  MarketLang.NO_TARIFFS_FOUND.send(player);
-                 player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 100F, 1F);
+                 SoundUtil.error(player);
                  return true;
            }
            return false;
@@ -98,7 +97,7 @@ public class Preconditions {
      public static boolean isTariffTypeValid(Player player, String type) {
             if (!type.equalsIgnoreCase("imports") && !type.equalsIgnoreCase("exports")) {
                   MarketLang.TARIFF_TYPE_NOT_VALID.send(player);
-                  player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 100F, 1F);
+                  SoundUtil.error(player);
                   return false;
             }
             return true;
@@ -110,7 +109,7 @@ public class Preconditions {
            } catch (NullPointerException | NumberFormatException e) {
                  double maxRate = instance.getConfig().getDouble("tariffMaxRate");
                  MarketLang.TARIFF_RATE_NOT_VALID.send(player, "%MAX%;" + maxRate);
-                 player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 100F, 1F);
+                 SoundUtil.error(player);
                  return false;
            }
            return true;
@@ -130,7 +129,7 @@ public class Preconditions {
            if (nationNull) NationsLang.NATION_DOES_NOT_EXIST.send(player);
       
            if (notInNation || noPermission || nationNull) {
-                 player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 100F, 1F);
+                 SoundUtil.error(player);
                  return false;
            }
            return true;
@@ -167,7 +166,7 @@ public class Preconditions {
            if (tariffExists) MarketLang.TARIFF_ALREADY_EXISTS.send(player);
       
            if (rateNotValid || tariffExists) {
-                 player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 100F, 1F);
+                 SoundUtil.error(player);
                  return false;
            }
            return true;
@@ -197,7 +196,7 @@ public class Preconditions {
 
            if (tariffNull) {
                  MarketLang.TARIFF_DOES_NOT_EXIST.send(player);
-                 player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 100F, 1F);
+                 SoundUtil.error(player);
                  return false;
            }
            return true;
@@ -206,7 +205,7 @@ public class Preconditions {
      public static boolean isTariffDeleteSuccessful(Player player, Tariff tariff) {
            if (!tariff.delete()) {
                  MarketLang.TARIFF_FAILED_TO_REMOVE.send(player);
-                 player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 100F, 1F);
+                 SoundUtil.error(player);
                  return false;
            }
            return true;

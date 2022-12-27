@@ -90,6 +90,7 @@ public class Order {
     
     /**
      * Best shit you've ever seen.
+     * Զըխխը՛մ։
      */
     public double getPrice(UUID matchingUUID) {
         if (playerUUID == matchingUUID) return price;

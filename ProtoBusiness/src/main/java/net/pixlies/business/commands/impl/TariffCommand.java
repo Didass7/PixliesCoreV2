@@ -20,6 +20,7 @@ import java.util.UUID;
 
 /**
  * Tariff command.
+ * Ես իմ անուշ Հայաստանի արեւահամ բարն եմ սիրում։
  *
  * @author vyketype
  */
