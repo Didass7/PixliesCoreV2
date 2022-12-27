@@ -31,6 +31,8 @@ public enum NationsLang {
     NATION_RENAME(NationsLang.NATION),
     NOT_IN_NATION(NationsLang.NATION),
 
+    PLAYER_CHANGED_DESCRIPTION(NationsLang.NATION),
+
     NATION_WILDERNESS_TITLE(""),
     NATION_WILDERNESS_SUBTITLE(""),
     NATION_SPAWN_TITLE(""),
@@ -103,6 +105,15 @@ public enum NationsLang {
 
     public String get() {
         return prefix + CC.format(languages.get("ENG"));
+    }
+
+    public String get(String... placeholders) {
+        String text = get();
+        for (String s : placeholders) {
+            String[] pSplit = s.split(";");
+            text = text.replace(pSplit[0], pSplit[1]);
+        }
+        return text;
     }
 
     public String getRaw(String language) {

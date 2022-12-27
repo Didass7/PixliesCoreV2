@@ -62,6 +62,7 @@ public class NationDescriptionCommand extends BaseCommand {
 
                 nation.setDescription(desc);
                 nation.save();
+                nation.broadcastNationMembers(NationsLang.PLAYER_CHANGED_DESCRIPTION.get("%PLAYER%;" + player.getName(), "%DESCRIPTION%;" + desc));
                 return;
 
             }
@@ -80,6 +81,8 @@ public class NationDescriptionCommand extends BaseCommand {
 
             nation.setDescription(desc);
             nation.save();
+            nation.broadcastNationMembers(NationsLang.PLAYER_CHANGED_DESCRIPTION.get("%PLAYER%;" + player.getName(), "%DESCRIPTION%;" + desc));
+            NationsLang.PLAYER_CHANGED_DESCRIPTION.send(player, "%PLAYER%;You", "%DESCRIPTION%;" + desc);
 
         } else {
             // CONSOLE
