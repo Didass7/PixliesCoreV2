@@ -13,7 +13,7 @@ import java.util.UUID;
 
 public class CommandManager {
 
-    private final Map<UUID, String> autoClaimPlayers = new HashMap<>();
+    public static final Map<UUID, String> autoClaimPlayers = new HashMap<>();
 
     private final ImmutableList<BaseCommand> commands = ImmutableList.of(
             // NATIONS

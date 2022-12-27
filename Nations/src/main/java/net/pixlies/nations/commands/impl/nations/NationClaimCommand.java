@@ -6,6 +6,7 @@ import co.aikar.commands.annotation.Description;
 import co.aikar.commands.annotation.Optional;
 import co.aikar.commands.annotation.Subcommand;
 import net.pixlies.core.entity.user.User;
+import net.pixlies.nations.commands.CommandManager;
 import net.pixlies.nations.locale.NationsLang;
 import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.chunk.NationChunk;
@@ -135,7 +136,59 @@ public class NationClaimCommand extends BaseCommand {
     @Subcommand("auto")
     @Description("Auto claim while claiming")
     public void onClaimAuto(Player player, @Optional String nationName) {
+        if (CommandManager.autoClaimPlayers.containsKey(player.getUniqueId())) {
+            CommandManager.autoClaimPlayers.remove(player.getUniqueId());
+            NationsLang.NATION_CLAIM_AUTO_DISABLED.send(player);
+            return;
+        }
 
+        User user = User.get(player.getUniqueId());
+        NationProfile profile = NationProfile.get(player.getUniqueId());
+
+        boolean staffCondition = user.isBypassing() && player.hasPermission("nations.staff.forceclaim");
+        boolean playerCondition = NationPermission.CLAIM.hasPermission(player);
+
+        // :: /nation claim one
+        if (nationName == null || nationName.isEmpty()) {
+
+            // NOT IN NATION
+            if (!profile.isInNation()) {
+                NationsLang.NOT_IN_NATION.send(player);
+                return;
+            }
+
+            if (!(staffCondition || playerCondition)) {
+                // NO PERMISSION TO DISBAND
+                NationsLang.NATION_NO_PERMISSION.send(player);
+                return;
+            }
+
+            // STAFF OR PLAYER DISBAND
+            Nation nation = profile.getNation();
+            if (nation == null) {
+                NationsLang.NOT_IN_NATION.send(player);
+                return;
+            }
+
+            CommandManager.autoClaimPlayers.put(player.getUniqueId(), nation.getNationId());
+            NationsLang.NATION_CLAIM_AUTO_ENABLED.send(player);
+            return;
+        }
+
+        // :: /nation claim one <NATION>
+        if (!staffCondition) {
+            NationsLang.NATION_NO_PERMISSION.send(player);
+            return;
+        }
+
+        Nation nation = Nation.getFromName(nationName);
+        if (nation == null) {
+            NationsLang.NATION_DOES_NOT_EXIST.send(player);
+            return;
+        }
+
+        CommandManager.autoClaimPlayers.put(player.getUniqueId(), nation.getNationId());
+        NationsLang.NATION_CLAIM_AUTO_ENABLED.send(player);
     }
 
 }
