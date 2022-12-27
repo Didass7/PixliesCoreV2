@@ -20,7 +20,11 @@ public class NationDescriptionCommand extends BaseCommand {
     @Default
     @Syntax("<description>")
     @Description("Set your nation's description")
-    public void onDescription(CommandSender sender, String desc, @Optional String nationName) {
+    public void onDescription(CommandSender sender, String argDesc) {
+
+        String desc = argDesc;
+
+        String nationName = null;
 
         // PLAYER
         if (sender instanceof Player player) {
@@ -28,6 +32,10 @@ public class NationDescriptionCommand extends BaseCommand {
             NationProfile profile = NationProfile.get(player.getUniqueId());
 
             boolean staffCondition = user.isBypassing() && player.hasPermission("nations.staff.forcedescription");
+            if (staffCondition) {
+                nationName = desc.split(" ")[0];
+                desc = desc.replaceFirst(nationName + " ", "");
+            }
             boolean playerCondition = NationPermission.CHANGE_DESCRIPTION.hasPermission(player);
 
             // :: /nation description
