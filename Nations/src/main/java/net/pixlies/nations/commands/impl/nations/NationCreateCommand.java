@@ -9,6 +9,7 @@ import net.pixlies.nations.nations.interfaces.NationProfile;
 import net.pixlies.nations.nations.ranks.NationRank;
 import net.pixlies.nations.utils.NationUtils;
 import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
 
 @CommandAlias("%nationscommand")
@@ -46,7 +47,7 @@ public class NationCreateCommand extends BaseCommand {
             return;
         }
 
-        Nation nation = new Nation(id, name, player.getUniqueId(), false);
+        Nation nation = new Nation(id, StringUtils.capitalize(name), player.getUniqueId(), false);
         nation.create(player);
         nation.addMember(player, NationRank.getLeaderRank().getName(), true);
 

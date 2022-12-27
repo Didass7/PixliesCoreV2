@@ -8,6 +8,7 @@ import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.interfaces.NationProfile;
 import net.pixlies.nations.nations.ranks.NationPermission;
 import net.pixlies.nations.utils.NationUtils;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -45,6 +46,11 @@ public class NationRenameCommand extends BaseCommand {
                     return;
                 }
 
+                if (nation.getName().equalsIgnoreCase(name)) {
+                    NationsLang.NATION_NAME_INVALID.send(sender);
+                    return;
+                }
+
                 if (!NationUtils.nameValid(name)) {
                     NationsLang.NATION_NAME_INVALID.send(sender);
                     return;
@@ -65,7 +71,7 @@ public class NationRenameCommand extends BaseCommand {
                 }
 
             }
-            nation.rename(sender, name);
+            nation.rename(sender, StringUtils.capitalize(name));
             nation.save();
 
 
@@ -87,7 +93,7 @@ public class NationRenameCommand extends BaseCommand {
                 return;
             }
 
-            nation.rename(sender, name);
+            nation.rename(sender, StringUtils.capitalize(name));
             nation.save();
         }
     }

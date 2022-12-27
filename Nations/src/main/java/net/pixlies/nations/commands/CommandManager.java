@@ -6,7 +6,14 @@ import net.pixlies.core.Main;
 import net.pixlies.nations.commands.impl.NationCommand;
 import net.pixlies.nations.commands.impl.nations.*;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 public class CommandManager {
+
+    private final Map<UUID, String> autoClaimPlayers = new HashMap<>();
 
     private final ImmutableList<BaseCommand> commands = ImmutableList.of(
             // NATIONS

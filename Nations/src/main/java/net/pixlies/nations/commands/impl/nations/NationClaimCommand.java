@@ -26,7 +26,7 @@ public class NationClaimCommand extends BaseCommand {
     // -------------------------------------------------------------------------------------------------
     @Subcommand("one")
     @Description("Claim one chunk")
-    public void onClaim(Player player, @Optional String nationName) {
+    public void onClaimOne(Player player, @Optional String nationName) {
         User user = User.get(player.getUniqueId());
         NationProfile profile = NationProfile.get(player.getUniqueId());
 
@@ -126,6 +126,15 @@ public class NationClaimCommand extends BaseCommand {
                     "%LOCATION%;" + NationTextUtils.getChunkLocationFormatted(chunk.getX(), chunk.getZ())
             );
         });
+
+    }
+
+    // -------------------------------------------------------------------------------------------------
+    //                                         /n claim auto
+    // -------------------------------------------------------------------------------------------------
+    @Subcommand("auto")
+    @Description("Auto claim while claiming")
+    public void onClaimAuto(Player player, @Optional String nationName) {
 
     }
 
