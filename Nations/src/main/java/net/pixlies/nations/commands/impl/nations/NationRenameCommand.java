@@ -47,7 +47,7 @@ public class NationRenameCommand extends BaseCommand {
                     return;
                 }
 
-                if (Nation.getFromName(newName) != null) {
+                if (Nation.getFromName(newName) != null && !nation.getName().equalsIgnoreCase(newName) || nation.getName().equals(newName)) {
                     NationsLang.NATION_ALREADY_EXISTS.send(player);
                     return;
                 }
@@ -77,7 +77,7 @@ public class NationRenameCommand extends BaseCommand {
                 return;
             }
 
-            if (Nation.getFromName(name) != null) {
+            if (Nation.getFromName(name) != null && !nation.getName().equalsIgnoreCase(name) || nation.getName().equals(name)) {
                 NationsLang.NATION_ALREADY_EXISTS.send(player);
                 return;
             }
@@ -105,7 +105,7 @@ public class NationRenameCommand extends BaseCommand {
                 return;
             }
 
-            if (Nation.getFromName(newName) != null) {
+            if (Nation.getFromName(newName) != null && !nation.getName().equalsIgnoreCase(newName) || nation.getName().equals(newName)) {
                 NationsLang.NATION_ALREADY_EXISTS.send(sender);
                 return;
             }
