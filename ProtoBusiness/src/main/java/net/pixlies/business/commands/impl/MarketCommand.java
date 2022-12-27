@@ -104,14 +104,14 @@ public class MarketCommand extends BaseCommand {
       @Subcommand("restrict")
       @CommandPermission("pixlies.business.market.restrict")
       @Description("Restricts/unrestricts a player from accessing the market")
-      public void onMarketRestrict(Player player, Player target, @Optional String reason) {
+      public void onMarketRestrict(Player player, Player target, @Optional String arg) {
             UUID uuid = target.getUniqueId();
             MarketProfile profile = MarketProfile.get(uuid);
             
             // Get the reason
-            reason = reason.substring(target.getName().length());
-            if (reason.equals("")) {
-                  reason = pixlies.getConfig().getString("moderation.defaultReason", "No reason given");
+            String reason = pixlies.getConfig().getString("moderation.defaultReason", "No reason given");
+            if (arg != null && !arg.isBlank()) {
+                  reason = arg;
             }
             
             // Unrestrict/restrict

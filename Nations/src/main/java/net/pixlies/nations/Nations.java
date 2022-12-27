@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import lombok.Getter;
 import net.pixlies.core.Main;
 import net.pixlies.core.handlers.impl.ScoreboardHandler;
+import net.pixlies.core.handlers.impl.TabListHandler;
 import net.pixlies.core.modules.Module;
 import net.pixlies.core.modules.configuration.ModuleConfig;
 import net.pixlies.nations.commands.CommandManager;
@@ -16,8 +17,10 @@ import net.pixlies.nations.listeners.ListenerManager;
 import net.pixlies.nations.locale.NationsLang;
 import net.pixlies.nations.nations.NationManager;
 import net.pixlies.nations.nations.interfaces.NationProfile;
+import net.pixlies.nations.packets.NationPacketManager;
 import net.pixlies.nations.runnables.RunnableManager;
 import net.pixlies.nations.scoreboard.ScoreboardAdapter;
+import net.pixlies.nations.scoreboard.TabAdapter;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,6 +35,7 @@ public class Nations extends JavaPlugin implements Module {
 
     private HandlerManager handlerManager;
     private ListenerManager listenerManager;
+    private NationPacketManager packetManager;
     private CommandManager commandManager;
     private NationManager nationManager;
     private MongoManager mongoManager;
@@ -75,6 +79,8 @@ public class Nations extends JavaPlugin implements Module {
         // LISTENERS
         listenerManager = new ListenerManager();
         listenerManager.registerAllListeners();
+        packetManager = new NationPacketManager();
+        packetManager.registerAll();
 
         // COMMANDS
         commandManager = new CommandManager();
@@ -82,6 +88,7 @@ public class Nations extends JavaPlugin implements Module {
 
         // SCOREBOARD
         Main.getInstance().getHandlerManager().getHandler(ScoreboardHandler.class).load(new ScoreboardAdapter());
+        Main.getInstance().getHandlerManager().getHandler(TabListHandler.class).load(new TabAdapter());
 
         // PLACEHOLDERS
         new NationsPlaceholderExpansion().register();
@@ -97,6 +104,7 @@ public class Nations extends JavaPlugin implements Module {
         // COMMANDS & LISTENERS
         nationManager.backupAll();
         listenerManager.unregisterAllListeners();
+        packetManager.unregisterAll();
         commandManager.unregisterAllCommands();
         runnableManager.unregisterAll();
         instance = null;

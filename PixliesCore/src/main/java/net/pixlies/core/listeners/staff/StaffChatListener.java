@@ -22,7 +22,7 @@ public class StaffChatListener implements Listener {
     private static final Main instance = Main.getInstance();
     private final StaffChatHandler scHandler = instance.getHandlerManager().getHandler(StaffChatHandler.class);
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler
     public void onChat(AsyncPlayerChatEvent event) { // legacy color/chat support
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
@@ -32,7 +32,8 @@ public class StaffChatListener implements Listener {
             return;
         }
 
-        event.setCancelled(true);
+        event.getRecipients().clear();
+
         scHandler.sendStaffChat(player, message);
     }
 
