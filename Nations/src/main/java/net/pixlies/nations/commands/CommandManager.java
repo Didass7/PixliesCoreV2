@@ -22,7 +22,8 @@ public class CommandManager {
             new NationCreateCommand(),
             new NationDescriptionCommand(),
             new NationDisbandCommand(),
-            new NationRenameCommand()
+            new NationRenameCommand(),
+            new NationMapCommand()
     );
 
     public void registerAllCommands() {
