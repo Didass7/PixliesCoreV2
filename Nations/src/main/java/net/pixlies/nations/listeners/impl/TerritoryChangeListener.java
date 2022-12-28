@@ -1,11 +1,13 @@
 package net.pixlies.nations.listeners.impl;
 
+import net.pixlies.nations.commands.CommandManager;
 import net.pixlies.nations.events.impl.PlayerTerritoryChangeEvent;
 import net.pixlies.nations.locale.NationsLang;
 import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.chunk.NationChunk;
 import net.pixlies.nations.nations.interfaces.NationProfile;
 import net.pixlies.nations.nations.relations.Relation;
+import net.pixlies.nations.utils.NationTextUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

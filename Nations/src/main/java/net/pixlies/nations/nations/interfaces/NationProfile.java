@@ -5,16 +5,22 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import net.pixlies.core.entity.user.User;
 import net.pixlies.nations.Nations;
+import net.pixlies.nations.locale.NationsLang;
 import net.pixlies.nations.nations.Nation;
+import net.pixlies.nations.nations.chunk.NationChunk;
+import net.pixlies.nations.nations.chunk.NationChunkType;
 import net.pixlies.nations.nations.interfaces.profile.ChatType;
 import net.pixlies.nations.nations.ranks.NationRank;
 import net.pixlies.nations.nations.relations.Relation;
+import net.pixlies.nations.utils.NationTextUtils;
 import org.bson.Document;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**
@@ -61,6 +67,84 @@ public class NationProfile {
     // -------------------------------------------------------------------------------------------------
     //                                            METHODS
     // -------------------------------------------------------------------------------------------------
+
+    public boolean attemptClaim(Player player, Nation nation) {
+        if (isInNation() && getNation().getNationId().equals(nation.getNationId())) {
+            if (NationChunk.getClaimAt(player.getWorld().getName(), player.getChunk().getX(), player.getChunk().getZ()) != null) {
+                NationsLang.NATION_CLAIM_ALREADY_CLAIMED.send(player);
+                return false;
+            }
+
+            NationChunk chunk = new NationChunk(
+                    nation.getNationId(),
+                    player.getWorld().getName(),
+                    player.getChunk().getX(),
+                    player.getChunk().getZ()
+            );
+            chunk.claim(true);
+            nation.save();
+
+            NationsLang.NATION_CLAIM_MESSAGE.send(player,
+                    "%LOCATION%;" + NationTextUtils.getChunkLocationFormatted(chunk.getX(), chunk.getZ()),
+                    "%NATION%;" + nation.getName()
+            );
+
+            nation.getOnlineMembersAsPlayer().forEach((p) -> {
+                if (player.equals(p)) return;
+                NationsLang.NATION_CLAIM_MESSAGE.send(p,
+                        "%PLAYER%;" + player.getName(),
+                        "%LOCATION%;" + NationTextUtils.getChunkLocationFormatted(chunk.getX(), chunk.getZ())
+                );
+            });
+            return true;
+        }
+
+        User user = User.get(player.getUniqueId());
+        boolean staffCondition = user.isBypassing() && player.hasPermission("nations.staff.forceclaim");
+
+
+        // :: /nation claim one <NATION>
+        if (!staffCondition) {
+            NationsLang.NATION_NO_PERMISSION.send(player);
+            return false;
+        }
+
+        if (nation == null) {
+            NationsLang.NATION_DOES_NOT_EXIST.send(player);
+            return false;
+        }
+
+        if (NationChunk.getClaimAt(player.getWorld().getName(), player.getChunk().getX(), player.getChunk().getZ()) != null) {
+            NationsLang.NATION_CLAIM_ALREADY_CLAIMED.send(player);
+            return false;
+        }
+
+        NationChunk chunk = new NationChunk(
+                nation.getNationId(),
+                player.getWorld().getName(),
+                player.getChunk().getX(),
+                player.getChunk().getZ(),
+                NationChunkType.NORMAL,
+                new ArrayList<>()
+        );
+        chunk.claim(true);
+        nation.save();
+
+        NationsLang.NATION_CLAIM_MESSAGE.send(player,
+                "%LOCATION%;" + NationTextUtils.getChunkLocationFormatted(chunk.getX(), chunk.getZ()),
+                "%NATION%;" + nation.getName()
+        );
+
+        nation.getOnlineMembersAsPlayer().forEach((p) -> {
+            if (player.equals(p)) return;
+            NationsLang.NATION_CLAIM_MESSAGE.send(p,
+                    "%PLAYER%;" + player.getName(),
+                    "%LOCATION%;" + NationTextUtils.getChunkLocationFormatted(chunk.getX(), chunk.getZ())
+            );
+        });
+
+        return true;
+    }
 
     public boolean isNationLeader() {
         Nation nation = getNation();
