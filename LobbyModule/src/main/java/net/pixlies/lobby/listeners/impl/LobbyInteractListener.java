@@ -258,11 +258,6 @@ public class LobbyInteractListener implements Listener {
     }
 
     @EventHandler
-    public void onPhysics(BlockPhysicsEvent event) {
-        event.setCancelled(true);
-    }
-
-    @EventHandler
     public void onAdvancement(PlayerAdvancementCriterionGrantEvent event) {
         event.setCancelled(true);
     }
