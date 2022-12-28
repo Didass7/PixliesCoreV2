@@ -1,0 +1,21 @@
+# PLAYER
+PLAYER_SERVER_CONNECTING: "§7Nous essayons de vous rejoindre au serveur §a%SERVER%§7..."
+PLAYER_SERVER_ALREADY_CONNECTED: "§7Vous êtes déjà connecté avec §a%SERVER%§7 !"
+PLAYER_SERVER_CONNECTING_OTHER: "§6%PLAYER%§7 se connecte avec §a%SERVER%§7."
+PLAYER_SERVER_NOT_EXIST: "§7Ce serveur n'existe pas."
+PLAYER_SERVER_CANNOT_CONNECT: "§7Vous ne pouvez pas rejoigner ce serveur.."
+PLAYER_SERVER_CANNOT_CONNECT_OTHER: "§6%PLAYER%§7 ne peut pas rejoigner ce serveur."
+
+# QUEUE
+PLAYER_QUEUE_NOT_IN: "§7Vous n'êtes pas dans une queue !"
+PLAYER_QUEUE_ALREADY_IN: "§7Vous êtes déjà dans une queue ! Utilise §c/leavequeue§7 pour quitter ta queue."
+PLAYER_QUEUE_NOT_EXIST: "§7La queue pour §a%SERVER%§7 n'existe pas."
+PLAYER_QUEUE_NO_PERMISSION: "§7Vous n'avez pas de permission pour rejoigner ce serveur. Quitte la queue..."
+PLAYER_QUEUE_JOIN: "§7Vous avez rejoigné la queue pour §a%SERVER%§7."
+PLAYER_QUEUE_LEAVE: "§7Vous avez quitté la queue pour §a%SERVER%§7."
+PLAYER_QUEUE_UPDATE_SERVER_PAUSED_MESSAGE: "§cLa queue pour §a%SERVER%§c est maintenant pausée. §7Tu es en position §d%POSITION%§7 de §d%TOTAL%§7 joueurs totaux."
+PLAYER_QUEUE_UPDATE_MESSAGE: "§7Vous êtes maintenant dans la queue pour §a%SERVER%§7. §7Tu es en position §d%POSITION%§7 de §d%TOTAL%§7 joueurs totaux."
+
+PLAYER_QUEUE_SETTINGS_COMMAND_PAUSE_ENABLED: "§7La queue pour §a%SERVER%§7 est mise en pause maintenant."
+PLAYER_QUEUE_SETTINGS_COMMAND_PAUSE_DISABLED: "§7La queue pour §a%SERVER%§7 est maintenant réactivée."
+PLAYER_QUEUE_SETTINGS_COMMAND_LIMIT_SET: "§7La limite de la queue pour §a%SERVER%§7 est maintenant §d%LIMIT%§7."
