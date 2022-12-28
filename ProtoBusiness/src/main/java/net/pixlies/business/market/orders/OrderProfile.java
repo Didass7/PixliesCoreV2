@@ -35,8 +35,11 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+/*
+TODO REVAMP EVERYTHING
+ */
 /**
- * Market profile
+ * Market profile.
  *
  * @author vyketype
  */

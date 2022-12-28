@@ -7,19 +7,20 @@ import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.MarketProfile;
 import net.pixlies.business.util.Preconditions;
+import net.pixlies.business.util.SoundUtil;
 import net.pixlies.core.ranks.Rank;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 /**
  * TradeBlock command.
+ * ՄԻԱՅՆ ԶԷՆՔՈՎ ԿԱՅ ՀԱՅՈՂ ՓՐԿՈՒԹԻՒՆ։
+ * ԿԵՑՑԷ՛ Հ․Յ․Դաշնակցութիւնը։
  *
  * @author vyketype
  */
@@ -56,6 +57,7 @@ public class TradeBlockCommand extends BaseCommand {
       
       @Subcommand("add")
       @Description("Block a player from trading with you")
+      @Syntax("<player>")
       public void onTradeBlockAdd(Player player, String name) {
             // If the player does not exist
             if (!Preconditions.doesPlayerExist(player, name))
@@ -73,11 +75,12 @@ public class TradeBlockCommand extends BaseCommand {
                     player,
                     "%TARGET%;" + Rank.getRank(target.getUniqueId()).getColor() + name
             );
-            player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 100F, 0.5F);
+            SoundUtil.success(player);
       }
       
       @Subcommand("remove")
       @Description("Unblock a player from trading with you")
+      @Syntax("<player>")
       public void onTradeBlockRemove(Player player, String name) {
             // If the player does not exist
             if (!Preconditions.doesPlayerExist(player, name))
@@ -95,7 +98,7 @@ public class TradeBlockCommand extends BaseCommand {
                     player,
                     "%TARGET%;" + Rank.getRank(target.getUniqueId()).getColor() + name
             );
-            player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 100F, 2F);
+            SoundUtil.littleSuccess(player);
       }
       
       @Default

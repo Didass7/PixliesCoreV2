@@ -78,6 +78,13 @@ public class User {
     }
 
     public boolean hasNickName() {
+        if (!getAsOfflinePlayer().isOnline()) return false;
+        Player player = getAsOfflinePlayer().getPlayer();
+        if (player != null) {
+            if (!player.hasPermission("pixlies.player.nickname")) {
+                return false;
+            }
+        }
         return nickName != null && !nickName.isEmpty();
     }
 
@@ -98,8 +105,9 @@ public class User {
     }
 
     public String getNickName() {
-        if (nickName == null || nickName.isEmpty()) return getAsOfflinePlayer().getName();
-        return nickName;
+
+        if (!hasNickName()) return getAsOfflinePlayer().getName();
+        return "*" + nickName;
     }
 
     public long getPlaytime() {

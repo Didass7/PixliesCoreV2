@@ -7,7 +7,8 @@ import net.pixlies.business.handlers.Handler;
 import net.pixlies.business.market.Challenge;
 import net.pixlies.business.market.orders.OrderProfile;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @Getter
 public class MarketHandler implements Handler {

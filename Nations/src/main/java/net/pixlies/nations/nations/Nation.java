@@ -2,7 +2,9 @@ package net.pixlies.nations.nations;
 
 import com.mongodb.client.model.Filters;
 import lombok.*;
+import net.pixlies.core.entity.user.User;
 import net.pixlies.core.utils.EventUtils;
+import net.pixlies.core.utils.RankUtils;
 import net.pixlies.nations.Nations;
 import net.pixlies.nations.events.impl.NationDisbandEvent;
 import net.pixlies.nations.locale.NationsLang;
@@ -46,7 +48,7 @@ public class Nation {
 
     // INFO
     private final @Getter String nationId;
-    private @Getter @Setter String name;
+    private @Getter String name;
     private @Getter @Setter String description = NationUtils.randomDescription();
     private @Setter String motd = "";
     private @Getter @Setter UUID leaderUUID;
@@ -158,6 +160,29 @@ public class Nation {
     // -------------------------------------------------------------------------------------------------
 
     // MANUAL GETTER AND SETTERS
+
+    public void changeDescription(@Nullable CommandSender sender, @NotNull String description) {
+        this.description = description;
+
+        if (sender == null) {
+            return;
+        }
+
+        if (sender instanceof Player player) {
+            if (!members.contains(player.getUniqueId())) {
+                NationsLang.NATION_YOU_CHANGED_DESCRIPTION_BYPASS.send(player, "%NATION%;" + name, "%DESCRIPTION%;" + description);
+            }
+        } else {
+            NationsLang.NATION_YOU_CHANGED_DESCRIPTION_BYPASS.send(sender, "%NATION%;" + name, "%DESCRIPTION%;" + description);
+        }
+
+        broadcastNationMembers(NationsLang.NATION_PLAYER_CHANGED_DESCRIPTION.get("%PLAYER%;" + RankUtils.getRankFromSender(sender).getColor() + sender.getName(), "%DESCRIPTION%;" + description));
+    }
+
+    public void changeDescription(@NotNull String description) {
+        this.changeDescription(null, description);
+
+    }
 
     public boolean hasMotd() {
         if (motd == null) {
@@ -306,11 +331,12 @@ public class Nation {
         }
 
         if (sender != null) {
-            NationsLang.NATION_RENAME.broadcast("%NATION%;" + name, "%NEW%;" + newName, "%PLAYER%;" + sender.getName());
+            NationsLang.NATION_RENAME.broadcast("%NATION%;" + name, "%NEW%;" + newName, "%PLAYER%;" + RankUtils.getRankFromSender(sender).getColor() + sender.getName());
         }
 
+        instance.getNationManager().getNationNames().remove(name);
+        instance.getNationManager().getNationNames().put(newName, nationId);
         this.name = newName;
-
     }
 
     /**

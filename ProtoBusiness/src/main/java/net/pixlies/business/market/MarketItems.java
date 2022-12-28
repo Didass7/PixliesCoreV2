@@ -18,6 +18,14 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Ու տես որդիս, ուր էլ լինես,
+ * Այս լուսնի տակ ուր էլ գնաս,
+ * Թե մորդ անգամ մտքից հանես,
+ * Քո Մայր լեզուն չմոռանա՛ս...
+ *
+ * @author սիլվա կապուտիկեան
+ */
 public final class MarketItems {
     public static final ProtoBusiness instance = ProtoBusiness.getInstance();
     
@@ -240,7 +248,6 @@ public final class MarketItems {
                 .addLoreLine(" ");
         for (String s : book.getRecentOrders(Order.Type.SELL, item, playerUUID)) builder.addLoreLine(s);
         return builder.addLoreLine(" ")
-                .addLoreLine("§8Tariffs already applied.")
                 .addLoreLine("§8This is a limit order.")
                 .addLoreLine("§eClick to create!")
                 .build();
@@ -259,7 +266,6 @@ public final class MarketItems {
                         "§7§lTotal price: §6" + (book.getLowestBuyPrice(playerUUID) * amount) + " coins" :
                         "§7§lTotal price: §6" + (book.getHighestSellPrice(playerUUID) * amount) + " coins")
                 .addLoreLine(" ")
-                .addLoreLine("§8Tariffs already applied.")
                 .addLoreLine("§eClick to set!")
                 .build();
     }
@@ -278,7 +284,6 @@ public final class MarketItems {
                         "§7§lTotal price: §6" + ((book.getLowestBuyPrice(playerUUID) + 0.1) * amount) + " coins" :
                         "§7§lTotal price: §6" + ((book.getHighestSellPrice(playerUUID) - 0.1) * amount) + " coins")
                 .addLoreLine(" ")
-                .addLoreLine("§8Tariffs already applied.")
                 .addLoreLine("§eClick to set!")
                 .build();
     }

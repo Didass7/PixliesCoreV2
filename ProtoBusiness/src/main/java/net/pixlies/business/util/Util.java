@@ -3,7 +3,6 @@ package net.pixlies.business.util;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.core.ranks.Rank;
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -22,7 +21,7 @@ public class Util {
                     "%PLAYER%;" + Rank.getRank(player.getUniqueId()).getColor() + player.getName(),
                     "%REASON%;" + reason
             );
-            target.playSound(target.getLocation(), Sound.BLOCK_ANVIL_LAND, 100F, 1F);
+            SoundUtil.grandError(target);
         }
     }
     
@@ -34,7 +33,7 @@ public class Util {
         
         if (target.isOnline()) {
             MarketLang.MARKET_PLAYER_ALLOWED_TARGET.send(target);
-            target.playSound(target.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 100F, 1F);
+            SoundUtil.grandSuccess(target);
         }
     }
     

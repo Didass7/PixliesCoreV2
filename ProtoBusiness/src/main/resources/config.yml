@@ -1,6 +1,6 @@
 # Configuration for ProtoBusiness
 
-tariffMaxRate: 0.2
+tariffMaxRate: 0.20
 # as in 20%
 
 marketOpen: true

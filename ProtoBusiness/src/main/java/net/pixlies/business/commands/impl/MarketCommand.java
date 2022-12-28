@@ -11,18 +11,19 @@ import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.MarketProfile;
 import net.pixlies.business.market.orders.OrderProfile;
 import net.pixlies.business.util.Preconditions;
+import net.pixlies.business.util.SoundUtil;
 import net.pixlies.business.util.Util;
 import net.pixlies.core.Main;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
 /**
  * Market command.
+ * Վե՜հ գաղափար Դաշնակցութեան։
  *
  * @author vyketype
  */
@@ -72,7 +73,8 @@ public class MarketCommand extends BaseCommand {
             instance.getConfig().set("marketOpen", true);
             MarketLang.MARKET_OPEN.broadcast();
             for (Player p : Bukkit.getOnlinePlayers()) {
-                  p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 100F, 0.5F);
+                  p.sendTitle(MarketLang.MARKET + "§b§lOpen", "§7Use §a/market §7to access it.");
+                  SoundUtil.grandSuccess(p);
             }
       }
       
@@ -88,7 +90,8 @@ public class MarketCommand extends BaseCommand {
             instance.getConfig().set("marketOpen", false);
             MarketLang.MARKET_CLOSED.broadcast();
             for (Player p : Bukkit.getOnlinePlayers()) {
-                  p.playSound(p.getLocation(), Sound.BLOCK_ANVIL_LAND, 100F, 0.5F);
+                  p.sendTitle(MarketLang.MARKET + "§c§lClosed", "§7It's just business.");
+                  SoundUtil.grandError(p);
             }
       }
       
@@ -98,12 +101,13 @@ public class MarketCommand extends BaseCommand {
       public void onMarketReset(Player player) {
             instance.getMarketManager().resetBooks();
             MarketLang.MARKET_STATISTICS_RESET.broadcast();
-            player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 100F, 0.5F);
+            SoundUtil.success(player);
       }
       
       @Subcommand("restrict")
       @CommandPermission("pixlies.business.market.restrict")
       @Description("Restricts/unrestricts a player from accessing the market")
+      @Syntax("<target> [reason]")
       public void onMarketRestrict(Player player, Player target, @Optional String arg) {
             UUID uuid = target.getUniqueId();
             MarketProfile profile = MarketProfile.get(uuid);

@@ -1,4 +1,4 @@
-package net.pixlies.core.commands.cosmetics;
+package net.pixlies.core.commands.player;
 
 import co.aikar.commands.*;
 import co.aikar.commands.annotation.*;
@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandAlias("nickname|nick|disguise")
-@CommandPermission("pixlies.cosmetics.nickname")
+@CommandPermission("pixlies.player.nickname")
 public class NickNameCommand extends BaseCommand {
 
     @Default
@@ -23,7 +23,7 @@ public class NickNameCommand extends BaseCommand {
         if (second != null) {
 
             // IF SENDER DOES NOT HAVE PERM TO NICK OTHERS
-            if (!sender.hasPermission("pixlies.cosmetics.nickname.others")) {
+            if (!sender.hasPermission("pixlies.player.nickname.others")) {
                 throw new InvalidCommandArgument(MessageKeys.PERMISSION_DENIED_PARAMETER);
             }
 
@@ -81,7 +81,7 @@ public class NickNameCommand extends BaseCommand {
         }
 
         // NICKNAME COLOR W/ PERM
-        String name = player.hasPermission("pixlies.cosmetics.nickname.color") ? CC.format(first) : first;
+        String name = player.hasPermission("pixlies.player.nickname.color") ? CC.format(first) : first;
 
         // SET NICKNAME
         user.setNickName(name);
