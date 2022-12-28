@@ -29,14 +29,14 @@ public class PlayerTerritoryListener implements Listener {
         NationChunk from = NationChunk.getClaimFromChunk(event.getFrom().getChunk());
         NationChunk to = NationChunk.getClaimFromChunk(event.getTo().getChunk());
 
-        if (Objects.equals(from, to)) return;
-
         if (from == null) from = new NationChunk("wilderness", event.getFrom().getWorld().getName(), event.getFrom().getChunk().getX(), event.getFrom().getChunk().getZ());
         if (to == null) to = new NationChunk("wilderness", event.getTo().getWorld().getName(), event.getTo().getChunk().getX(), event.getTo().getChunk().getZ());
         if (to.getNationId().equals("wilderness") && CommandManager.autoClaimPlayers.containsKey(player.getUniqueId())) {
+            System.out.println("Minecraft");
             profile.attemptClaim(player, Nation.getFromId(CommandManager.autoClaimPlayers.get(player.getUniqueId())));
             return;
         }
+        if (Objects.equals(from, to)) return;
         if (from.getNationId().equals(to.getNationId())) return;
 
         PlayerTerritoryChangeEvent playerTerritoryChangeEvent = new PlayerTerritoryChangeEvent(player, from, to);

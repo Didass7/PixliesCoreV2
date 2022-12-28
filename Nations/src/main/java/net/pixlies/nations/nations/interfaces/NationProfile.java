@@ -71,7 +71,6 @@ public class NationProfile {
     public boolean attemptClaim(Player player, Nation nation) {
         if (isInNation() && getNation().getNationId().equals(nation.getNationId())) {
             if (NationChunk.getClaimAt(player.getWorld().getName(), player.getChunk().getX(), player.getChunk().getZ()) != null) {
-                NationsLang.NATION_CLAIM_ALREADY_CLAIMED.send(player);
                 return false;
             }
 
