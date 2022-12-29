@@ -1,0 +1,21 @@
+# PLAYER
+PLAYER_SERVER_CONNECTING: "§7Trete §a%SERVER%§7 bei..."
+PLAYER_SERVER_ALREADY_CONNECTED: "§7Du bist bereits mit §a%SERVER%§7 verbunden!"
+PLAYER_SERVER_CONNECTING_OTHER: "§6%PLAYER%§7 verbindet sich mit §a%SERVER%§7."
+PLAYER_SERVER_NOT_EXIST: "§7Dieser Server existiert nicht."
+PLAYER_SERVER_CANNOT_CONNECT: "§7Du darfst nicht diesem Server beitreten."
+PLAYER_SERVER_CANNOT_CONNECT_OTHER: "§6%PLAYER%§7 darf nicht diesem Server beitreten."
+
+# QUEUE
+PLAYER_QUEUE_NOT_IN: "§7Du bist in keiner Warteschlange!"
+PLAYER_QUEUE_ALREADY_IN: "§7Du bist bereits in einer Warteschlange! Nutze §c/leavequeue§7 um deine momentan Warteschlange zu verlassen."
+PLAYER_QUEUE_NOT_EXIST: "§7Die Warteschlange für §a%SERVER%§7 existiert nicht."
+PLAYER_QUEUE_NO_PERMISSION: "§7Du hast keine Berechtigungen diesem Server beizutreten. Verlasse Warteschlange..."
+PLAYER_QUEUE_JOIN: "§7Du bist der Warteschlange von §a%SERVER%§7 beigetreten."
+PLAYER_QUEUE_LEAVE: "§7Du hast die Warteschlange von §a%SERVER%§7 verlassen."
+PLAYER_QUEUE_UPDATE_SERVER_PAUSED_MESSAGE: "§cDie Warteschlange von §a%SERVER%§c ist gerade pausiert. §7Du bist in Position §d%POSITION%§7 von §d%TOTAL%§7 Spielern."
+PLAYER_QUEUE_UPDATE_MESSAGE: "§7Du bist gerade in der Warteschlange für §a%SERVER%§7. §7Du bist in Position §d%POSITION%§7 von §d%TOTAL%§7 Spielern."
+
+PLAYER_QUEUE_SETTINGS_COMMAND_PAUSE_ENABLED: "§7Die Warteschlange für §a%SERVER%§7 ist nun pausiert."
+PLAYER_QUEUE_SETTINGS_COMMAND_PAUSE_DISABLED: "§7Die Warteschlange für §a%SERVER%§7 startete wieder."
+PLAYER_QUEUE_SETTINGS_COMMAND_LIMIT_SET: "§7Das Warteschlangenlimit für §a%SERVER%§7 ist jetzt §d%LIMIT%§7."
