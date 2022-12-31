@@ -2,15 +2,13 @@ package net.pixlies.business;
 
 import lombok.Getter;
 import net.pixlies.business.commands.CommandManager;
-import net.pixlies.business.database.MongoManager;
 import net.pixlies.business.handlers.HandlerManager;
 import net.pixlies.business.listeners.ListenerManager;
 import net.pixlies.business.locale.MarketLang;
-import net.pixlies.business.market.MarketManager;
 import net.pixlies.business.market.MarketProfile;
+import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.core.modules.Module;
 import net.pixlies.core.modules.configuration.ModuleConfig;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,11 +22,9 @@ public class ProtoBusiness extends JavaPlugin implements Module {
     private ModuleConfig config;
     private ModuleConfig stats;
     
-    private MongoManager mongoManager;
     private HandlerManager handlerManager;
     private CommandManager commandManager;
     private ListenerManager listenerManager;
-    private MarketManager marketManager;
     
     @Override
     public void onEnable() {
@@ -43,14 +39,10 @@ public class ProtoBusiness extends JavaPlugin implements Module {
         handlerManager = new HandlerManager();
         handlerManager.registerAllHandlers();
         
-        mongoManager = new MongoManager();
-        mongoManager.init();
-        
         commandManager = new CommandManager();
         commandManager.registerAllCommands();
         
-        marketManager = new MarketManager();
-        Bukkit.getLogger().warning("OrderBooks loaded: " + marketManager.getBooks().size());
+        OrderBook.loadAll();
         
         listenerManager = new ListenerManager();
         listenerManager.registerAllListeners();
@@ -60,8 +52,8 @@ public class ProtoBusiness extends JavaPlugin implements Module {
     public void onDisable() {
         commandManager.unregisterAllCommands();
         
-        marketManager.backupAll();
         MarketProfile.backupAll();
+        OrderBook.backupAll();
         
         instance = null;
     }

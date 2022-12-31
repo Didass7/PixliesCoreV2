@@ -211,7 +211,7 @@ public enum OrderItem {
      * @return OrderBook
      */
     public OrderBook getBook() {
-        for (OrderBook book : instance.getMarketManager().getBooks().values()) {
+        for (OrderBook book : OrderBook.getAll()) {
             if (book.getItem() == this) return book;
         }
         return null;

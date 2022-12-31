@@ -2,12 +2,11 @@ package net.pixlies.business.util;
 
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.core.ranks.Rank;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class Util {
+public class MarketRestrictUtil {
     public static void sendRestrictMessage(Player player, Player target, String reason) {
         MarketLang.MARKET_PLAYER_RESTRICTED_SENDER.send(
                 player,
@@ -80,14 +79,5 @@ public class Util {
         }
         
          */
-    }
-    
-    public static Class<?> getNMSClass(String clazz) {
-        try {
-            return Class.forName("net.minecraft.server." + Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3] + "." + clazz);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 }

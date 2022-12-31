@@ -5,9 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.handlers.impl.MarketHandler;
+import net.pixlies.business.market.nations.Tariff;
 import net.pixlies.core.utils.TextUtils;
 import net.pixlies.nations.nations.interfaces.NationProfile;
-import org.bson.Document;
 
 import java.util.*;
 
@@ -22,66 +22,31 @@ public class Order {
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();
     private final MarketHandler marketHandler = instance.getHandlerManager().getHandler(MarketHandler.class);
     
+    private final String bookItem;
     private final String orderId;
-    private final String bookId;
-    private @Setter
-    long timestamp;
+    
+    @Setter
+    private long timestamp;
     
     private final Type type;
-    
     private final UUID playerUUID;
-    private @Setter
-    double price;
-    private @Setter
-    int amount;
+    
+    @Setter
+    private double price;
+    
+    @Setter
+    private int amount;
+    
     private int volume;
     
     private final List<Trade> trades;
     
-    public Order(Document document) {
-        this(
-                document.getString("orderId"),
-                document.getString("bookId"),
-                document.getLong("timestamp"),
-                Type.valueOf(document.getString("type")),
-                UUID.fromString(document.getString("playerUUID")),
-                document.getDouble("price"),
-                document.getInteger("amount"),
-                document.getInteger("volume"),
-                new ArrayList<>() {{
-                    for (Document tradeDoc : document.getList("trades", Document.class)) {
-                        add(new Trade(tradeDoc));
-                    }
-                }}
-        );
-    }
-    
-    public Document toDocument() {
-        Document document = new Document();
-        
-        document.put("orderId", orderId);
-        document.put("bookId", bookId);
-        document.put("timestamp", timestamp);
-        document.put("type", type.name());
-        document.put("playerUUID", playerUUID.toString());
-        document.put("price", price);
-        document.put("amount", amount);
-        document.put("volume", volume);
-        document.put("trades", new ArrayList<Document>() {{
-            for (Trade trade : trades) {
-                add(trade.toDocument());
-            }
-        }});
-        
-        return document;
-    }
-    
-    public Order(Type type, String bookId, long timestamp, UUID uuid, double price, int amount) {
-        orderId = TextUtils.generateId(7);
-        this.bookId = bookId;
+    public Order(Type type, String bookItem, long timestamp, UUID playerUUID, double price, int amount) {
+        orderId = TextUtils.generateId(9);
+        this.bookItem = bookItem;
         this.type = type;
         this.timestamp = timestamp;
-        playerUUID = uuid;
+        this.playerUUID = playerUUID;
         this.price = price;
         this.amount = amount;
         volume = amount;
@@ -144,7 +109,46 @@ public class Order {
         volume -= amount;
     }
     
+    public void save() {
+        OrderBook book = OrderBook.get(bookItem);
+        if (type == Order.Type.BUY) {
+            for (Order order : book.getBuyOrders()) {
+                if (!Objects.equals(order.getOrderId(), orderId)) continue;
+                book.getBuyOrders().set(book.getBuyOrders().indexOf(order), this);
+                book.save();
+                return;
+            }
+            book.getBuyOrders().add(this);
+        } else {
+            for (Order order : book.getSellOrders()) {
+                if (!Objects.equals(order.getOrderId(), orderId)) continue;
+                book.getSellOrders().set(book.getBuyOrders().indexOf(order), this);
+                book.save();
+                return;
+            }
+            book.getSellOrders().add(this);
+        }
+        book.save();
+    }
+    
+    // --------------------------------------------------------------------------------------------
+    
+    public static Order get(String orderId) {
+        for (OrderBook book : OrderBook.getAll()) {
+            for (Order order : book.getBuyOrders()) {
+                if (Objects.equals(order.getOrderId(), orderId)) return order;
+            }
+            for (Order order : book.getSellOrders()) {
+                if (Objects.equals(order.getOrderId(), orderId)) return order;
+            }
+        }
+        return null;
+    }
+    
+    // --------------------------------------------------------------------------------------------
+    
     public enum Type {
-        BUY, SELL
+        BUY,
+        SELL
     }
 }

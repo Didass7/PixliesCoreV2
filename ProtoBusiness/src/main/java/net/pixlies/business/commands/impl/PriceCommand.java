@@ -37,8 +37,9 @@ public class PriceCommand extends BaseCommand {
             // If the item is not on the market
             if (!Preconditions.doesMarketItemExist(player, item))
                   return;
-    
-            OrderBook book = instance.getMarketManager().getBook(item);
+      
+            assert item != null;
+            OrderBook book = OrderBook.get(item);
             
             // Send price summaries
             MarketLang.PRICE_SUMMARY.send(player, "%ITEM%;" + item.getName());

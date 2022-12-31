@@ -1,14 +1,14 @@
 package net.pixlies.business.market.orders;
 
-import com.mongodb.client.model.Filters;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.market.MarketProfile;
-import net.pixlies.core.utils.TextUtils;
-import org.bson.Document;
+import net.pixlies.core.configuration.Config;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.ConfigurationSection;
 
+import java.io.File;
 import java.util.*;
 
 /**
@@ -20,8 +20,9 @@ import java.util.*;
 @AllArgsConstructor
 public class OrderBook {
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();
+    private static final String BOOKS_PATH = instance.getDataFolder().getAbsolutePath() + "/orderbooks/";
+    private static final Map<String, OrderBook> CACHE = new HashMap<>();
     
-    private final String bookId;
     private final OrderItem item;
     
     private final List<Order> buyOrders;
@@ -29,29 +30,15 @@ public class OrderBook {
     
     public OrderBook(OrderItem item) {
         this.item = item;
-        bookId = TextUtils.generateId(32);
         buyOrders = new ArrayList<>();
         sellOrders = new ArrayList<>();
     }
     
-    public OrderBook(Document document) {
-        this(
-                document.getString("bookId"),
-                OrderItem.valueOf(document.getString("item")),
-                new ArrayList<>() {{
-                    for (Document orderDocument : document.getList("buyOrders", Document.class)) {
-                        add(new Order(orderDocument));
-                    }
-                }},
-                new ArrayList<>() {{
-                    for (Document orderDocument : document.getList("sellOrders", Document.class)) {
-                        add(new Order(orderDocument));
-                    }
-                }}
-        );
-    }
-    
     // --------------------------------------------------------------------------------------------
+    
+    public String getItemName() {
+        return item.getName().toLowerCase();
+    }
     
     public List<String> getRecentOrders(Order.Type type, OrderItem item, UUID uuid) {
         List<String> list = new ArrayList<>();
@@ -156,19 +143,17 @@ public class OrderBook {
         initial.addTrade();
         match.addTrade();
         
-        Trade trade = null;
+        Trade trade = new Trade(item.name(), System.currentTimeMillis(), price, traded,
+                initialOrder.getPlayerUUID(), matchingOrder.getPlayerUUID(), false);
+        
         switch (type) {
             case BUY -> {
-                trade = new Trade(System.currentTimeMillis(), price, traded, null, null,
-                        initialOrder.getPlayerUUID(), matchingOrder.getPlayerUUID(), false);
                 match.addMoneyGained(total);
                 match.addItemsSold(traded);
                 initial.addMoneySpent(total);
                 initial.addItemsBought(traded);
             }
             case SELL -> {
-                trade = new Trade(System.currentTimeMillis(), price, traded, initialOrder.getPlayerUUID(),
-                        matchingOrder.getPlayerUUID(), null, null, false);
                 initial.addMoneyGained(total);
                 initial.addItemsSold(traded);
                 match.addMoneySpent(total);
@@ -197,36 +182,114 @@ public class OrderBook {
         save();
     }
     
-    public Document toDocument() {
-        Document document = new Document();
+    public void save() {
+        CACHE.put(item.name(), this);
+    }
+    
+    public void backup() {
+        String filename = item.name() + ".yml";
+        for (Order order : buyOrders) {
+            writeInFile(filename, order, "buys");
+        }
+        for (Order order : sellOrders) {
+            writeInFile(filename, order, "sells");
+        }
+    }
+    
+    private void writeInFile(String filename, Order order, String type) {
+        Config file = new Config(new File(BOOKS_PATH + filename), filename);
+        String initPath = type + "." + order.getOrderId() + ".";
         
-        document.put("bookId", bookId);
-        document.put("item", item);
-        document.put("buyOrders", new ArrayList<Document>() {{
-            for (Order buyOrder : buyOrders) {
-                add(buyOrder.toDocument());
-            }
-        }});
-        document.put("sellOrders", new ArrayList<Document>() {{
-            for (Order sellOrder : sellOrders) {
-                add(sellOrder.toDocument());
-            }
-        }});
+        file.set(initPath + "timestamp", order.getTimestamp());
+        file.set(initPath + "type", order.getType().name());
+        file.set(initPath + "playerUUID", order.getPlayerUUID().toString());
+        file.set(initPath + "price", order.getPrice());
+        file.set(initPath + "amount", order.getAmount());
+        file.set(initPath + "volume", order.getVolume());
         
-        return document;
+        List<String> trades = new ArrayList<>() {{
+            order.getTrades().forEach(trade -> add(trade.getSerializedString()));
+        }};
+        file.set(initPath + "trades", trades);
+        
+        file.save();
     }
     
     // --------------------------------------------------------------------------------------------
     
-    public void save() {
-        instance.getMarketManager().getBooks().put(bookId, this);
-        instance.getServer().getScheduler().runTaskAsynchronously(instance, this::backup);
+    public static void loadAll() {
+        for (OrderItem item : OrderItem.values()) {
+            String filename = item.name() + ".yml";
+            Config file = new Config(new File(BOOKS_PATH + filename), filename);
+            
+            List<Order> buyOrders = new ArrayList<>();
+            ConfigurationSection buys = file.getConfigurationSection("buys");
+            if (buys != null) {
+                for (String key : buys.getKeys(false)) {
+                    buyOrders.add(getFromFile(filename, key, "buys", item.name()));
+                }
+            }
+    
+            List<Order> sellOrders = new ArrayList<>();
+            ConfigurationSection sells = file.getConfigurationSection("sells");
+            if (sells != null) {
+                for (String key : sells.getKeys(false)) {
+                    sellOrders.add(getFromFile(filename, key, "sells", item.name()));
+                }
+            }
+            
+            CACHE.put(item.name(), new OrderBook(item, buyOrders, sellOrders));
+        }
     }
     
-    public void backup() {
-        if (instance.getMongoManager().getOrderBookCollection().find(Filters.eq("bookId", bookId)).first() == null) {
-            instance.getMongoManager().getOrderBookCollection().insertOne(toDocument());
+    private static Order getFromFile(String filename, String orderId, String type, String bookItem) {
+        Config file = new Config(new File(BOOKS_PATH + filename), filename);
+        String initPath = type + "." + orderId + ".";
+        
+        long timestamp = file.getLong(initPath + "timestamp");
+        Order.Type orderType = Order.Type.valueOf(file.getString(initPath + "type"));
+        UUID playerUUID = UUID.fromString(Objects.requireNonNull(file.getString(initPath + "playerUUID")));
+        double price = file.getDouble(initPath + "price");
+        int amount = file.getInt(initPath + "amount");
+        int volume = file.getInt(initPath + "volume");
+    
+        List<Trade> trades = new ArrayList<>();
+        for (String strTrade : file.getStringList(initPath + "trades")) {
+            trades.add(new Trade(orderId, strTrade));
         }
-        instance.getMongoManager().getOrderBookCollection().replaceOne(Filters.eq("bookId", bookId), toDocument());
+    
+        return new Order(bookItem, orderId, timestamp, orderType, playerUUID, price, amount, volume, trades);
+    }
+    
+    public static void backupAll() {
+        CACHE.values().forEach(OrderBook::backup);
+    }
+    
+    public static OrderBook get(String itemName) {
+        return CACHE.get(itemName);
+    }
+    
+    public static OrderBook get(OrderItem item) {
+        return get(item.name());
+    }
+    
+    public static List<OrderBook> getAll() {
+        return (List<OrderBook>) CACHE.values();
+    }
+    
+    public static void resetAll() {
+        // Reset stats.yml
+        instance.getStats().set("market.buyOrders", 0);
+        instance.getStats().set("market.sellOrders", 0);
+        instance.getStats().set("market.trades", 0);
+        instance.getStats().set("market.moneyTraded", 0);
+        instance.getStats().set("market.itemsTraded", 0);
+        
+        // Clear all orders
+        for (OrderBook book : getAll()) {
+            book.getBuyOrders().clear();
+            book.getSellOrders().clear();
+            book.save();
+        }
     }
 }

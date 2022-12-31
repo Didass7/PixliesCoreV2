@@ -15,7 +15,8 @@ import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.MarketItems;
 import net.pixlies.business.panes.MarketPane;
-import net.pixlies.business.util.Util;
+import net.pixlies.business.util.MarketRestrictUtil;
+import net.pixlies.business.util.MarketUtil;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.interfaces.NationProfile;
@@ -179,8 +180,8 @@ public class OrderProfile {
         Player player = Bukkit.getPlayer(uuid);
         assert player != null;
         
-        List<Order> buys = instance.getMarketManager().getPlayerBuyOrders(player.getUniqueId());
-        List<Order> sells = instance.getMarketManager().getPlayerSellOrders(player.getUniqueId());
+        List<Order> buys = MarketUtil.getPlayerBuyOrders(player.getUniqueId());
+        List<Order> sells = MarketUtil.getPlayerSellOrders(player.getUniqueId());
         int rows = (int) Math.round(((buys.size() + sells.size()) / 7.0) + 0.5);
         
         // CREATE GUI + BACKGROUND
@@ -200,8 +201,7 @@ public class OrderProfile {
         orders.addAll(sells);
         
         for (Order order : orders) {
-            Material material =
-                    instance.getMarketManager().getBooks().get(order.getBookId()).getItem().getMaterial();
+            Material material = OrderBook.get(order.getBookItem()).getItem().getMaterial();
             
             GuiItem item = new GuiItem(MarketItems.getOrderItem(material, order));
             item.setAction(event -> {
@@ -259,7 +259,7 @@ public class OrderProfile {
         
         GuiItem cancel = new GuiItem(MarketItems.getCancelOrderButton(order));
         cancel.setAction(event -> {
-            OrderBook book = instance.getMarketManager().getBooks().get(order.getBookId());
+            OrderBook book = OrderBook.get(order.getBookItem());
             book.remove(order);
             
             player.playSound(player.getLocation(), "block.netherite_block.place", 100, 1);
@@ -292,7 +292,7 @@ public class OrderProfile {
     public void openItemPage(OrderItem item) {
         
         Player player = Bukkit.getPlayer(uuid);
-        OrderBook book = instance.getMarketManager().getBook(item);
+        OrderBook book = OrderBook.get(item);
         assert player != null;
         
         // CREATE GUI + BACKGROUND
@@ -321,7 +321,7 @@ public class OrderProfile {
                 player.closeInventory();
                 
                 signStage = (byte) 1;
-                tempOrder = new Order(i.getType(), book.getBookId(), System.currentTimeMillis(), uuid, 0, 0);
+                tempOrder = new Order(i.getType(), book.getItem().name(), System.currentTimeMillis(), uuid, 0, 0);
                 tempTitle = item.getName();
                 
                 List<String> lines = new ArrayList<>();
@@ -330,7 +330,7 @@ public class OrderProfile {
                 lines.add("Set an amount");
                 lines.add("(integer)");
                 
-                Util.openSign(player, lines);
+                MarketRestrictUtil.openSign(player, lines);
 
                  /*
                 Block block = player.getWorld().getBlockAt(player.getEyeLocation());
@@ -370,7 +370,7 @@ public class OrderProfile {
         Player player = Bukkit.getPlayer(uuid);
         assert player != null;
         
-        OrderBook book = instance.getMarketManager().getBook(item);
+        OrderBook book = OrderBook.get(item);
         
         // PAGE TITLE
         
@@ -405,7 +405,7 @@ public class OrderProfile {
             player.closeInventory();
             
             signStage = (byte) 2;
-            tempOrder = new Order(type, book.getBookId(), System.currentTimeMillis(), player.getUniqueId(), 0.0
+            tempOrder = new Order(type, book.getItem().name(), System.currentTimeMillis(), player.getUniqueId(), 0.0
                     , amount);
             tempTitle = finalPageTitle;
             
@@ -428,7 +428,7 @@ public class OrderProfile {
             marketPrice.setAction(event -> {
                 double price = type == Order.Type.BUY ? book.getLowestBuyPrice(uuid) :
                         book.getHighestSellPrice(uuid);
-                Order order = new Order(type, book.getBookId(), System.currentTimeMillis(),
+                Order order = new Order(type, book.getItem().name(), System.currentTimeMillis(),
                         player.getUniqueId(),
                         price, amount);
                 openConfirmOrderPage(order, finalPageTitle);
@@ -439,7 +439,7 @@ public class OrderProfile {
             changedPrice.setAction(event -> {
                 double price = type == Order.Type.BUY ? book.getLowestBuyPrice(uuid) + 0.1 :
                         book.getHighestSellPrice(uuid) - 0.1;
-                Order order = new Order(type, book.getBookId(), System.currentTimeMillis(),
+                Order order = new Order(type, book.getItem().name(), System.currentTimeMillis(),
                         player.getUniqueId(),
                         price, amount);
                 openConfirmOrderPage(order, finalPageTitle);
@@ -452,7 +452,7 @@ public class OrderProfile {
         // BOTTOM PANE
         
         StaticPane bottomPane = new StaticPane(4, 3, 1, 1);
-        GuiItem goBack = new GuiItem(MarketItems.getBackArrow(item.getName()));
+        GuiItem goBack = new GuiItem(MarketItems.getBackArrow(item.name()));
         goBack.setAction(event -> openItemPage(item));
         bottomPane.addItem(goBack, 0, 0);
         
@@ -472,7 +472,7 @@ public class OrderProfile {
         Player player = Bukkit.getPlayer(uuid);
         assert player != null;
         
-        OrderBook book = instance.getMarketManager().getBooks().get(order.getBookId());
+        OrderBook book = OrderBook.get(order.getBookItem());
         String itemName = book.getItem().getName();
         
         // CREATE GUI + BACKGROUND
@@ -542,7 +542,7 @@ public class OrderProfile {
         Player player = Bukkit.getPlayer(uuid);
         assert player != null;
         User user = User.get(uuid);
-        OrderBook book = instance.getMarketManager().getBooks().get(order.getBookId());
+        OrderBook book = OrderBook.get(order.getBookItem());
         if (order.getType() == Order.Type.BUY) {
             Material material = book.getItem().getMaterial();
             for (int i = 0; i < order.getVolume(); i++) player.getInventory().addItem(new ItemStack(material));
@@ -560,7 +560,7 @@ public class OrderProfile {
         Player player = Bukkit.getPlayer(uuid);
         assert player != null;
         User user = User.get(uuid);
-        OrderBook book = instance.getMarketManager().getBooks().get(order.getBookId());
+        OrderBook book = OrderBook.get(order.getBookItem());
         if (order.getType() == Order.Type.BUY) {
             int items = 0;
             for (Trade t : order.getTrades()) {

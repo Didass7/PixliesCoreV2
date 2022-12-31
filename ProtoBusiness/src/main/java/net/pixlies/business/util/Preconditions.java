@@ -4,7 +4,7 @@ import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.MarketProfile;
 import net.pixlies.business.market.orders.OrderItem;
-import net.pixlies.business.market.orders.Tariff;
+import net.pixlies.business.market.nations.Tariff;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.nations.locale.NationsLang;
 import net.pixlies.nations.nations.Nation;
@@ -115,7 +115,7 @@ public class Preconditions {
            return true;
      }
      
-     public static boolean tariffGeneral(Player player, String targetNation, String tariffType) {
+     public static boolean tariffGeneral(Player player, String targetNation) {
            User user = User.get(player.getUniqueId());
            NationProfile nationProfile = NationProfile.get(player.getUniqueId());
            @Nullable Nation target = Nation.getFromName(targetNation);
@@ -140,7 +140,7 @@ public class Preconditions {
            String tariffType = args[1];
            String strRate = args[2];
       
-           if (!Preconditions.tariffGeneral(player, targetNation, tariffType))
+           if (!Preconditions.tariffGeneral(player, targetNation))
                  return false;
            
            double maxRate = instance.getConfig().getDouble("tariffMaxRate");
@@ -176,7 +176,7 @@ public class Preconditions {
            String targetNation = args[0];
            String tariffType = args[1];
       
-           if (!Preconditions.tariffGeneral(player, targetNation, tariffType))
+           if (!Preconditions.tariffGeneral(player, targetNation))
                  return false;
            
            NationProfile nationProfile = NationProfile.get(player.getUniqueId());

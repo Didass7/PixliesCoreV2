@@ -4,6 +4,7 @@ import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.orders.Order;
+import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.business.market.orders.OrderItem;
 import net.pixlies.business.market.orders.OrderProfile;
 import org.apache.commons.lang.StringUtils;
@@ -45,7 +46,7 @@ public class OrderSignsListener implements Listener {
             // CHECKING ON THE AMOUNT
             case 1 -> {
                 Order order = profile.getTempOrder();
-                OrderItem item = instance.getMarketManager().getBooks().get(order.getBookId()).getItem();
+                OrderItem item = OrderBook.get(order.getBookItem()).getItem();
                 
                 if (order.getType() == Order.Type.SELL && Integer.parseInt(firstLine) > profile.getItemAmount(item)) {
                     player.closeInventory(InventoryCloseEvent.Reason.CANT_USE);

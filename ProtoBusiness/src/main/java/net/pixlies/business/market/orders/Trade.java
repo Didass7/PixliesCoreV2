@@ -2,9 +2,11 @@ package net.pixlies.business.market.orders;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.bson.Document;
+import net.pixlies.core.ranks.Rank;
 import org.bukkit.Bukkit;
+import org.ocpsoft.prettytime.PrettyTime;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -16,72 +18,66 @@ import java.util.UUID;
 @Getter
 @AllArgsConstructor
 public class Trade {
+    private String orderId;
+    
     private long timestamp;
     private double price;
     private int amount;
     
-    private UUID provider; // for sell orders
-    private UUID taker; // for sell orders
-    private UUID buyer; // for buy orders
-    private UUID seller; // for buy orders
-    
+    private UUID giver;
+    private UUID taker;
+
     private boolean claimed;
     
-    public Trade(Document document) {
-        this(
-                document.getLong("timestamp"),
-                document.getDouble("price"),
-                document.getInteger("amount"),
-                UUID.fromString(document.getString("provider")),
-                UUID.fromString(document.getString("taker")),
-                UUID.fromString(document.getString("buyer")),
-                UUID.fromString(document.getString("seller")),
-                document.getBoolean("claimed")
-        );
-    }
-    
-    public Document toDocument() {
-        Document document = new Document();
+    public Trade(String orderId, String serialized) {
+        this.orderId = orderId;
         
-        document.put("timestamp", timestamp);
-        document.put("price", price);
-        document.put("amount", amount);
-        document.put("provider", provider.toString());
-        document.put("taker", taker.toString());
-        document.put("buyer", buyer.toString());
-        document.put("seller", seller.toString());
-        document.put("claimed", claimed);
-        
-        return document;
+        String[] parts = serialized.split(";");
+        timestamp = Long.parseLong(parts[0]);
+        price = Double.parseDouble(parts[1]);
+        amount = Integer.parseInt(parts[2]);
+        giver = UUID.fromString(parts[3]);
+        taker = UUID.fromString(parts[4]);
+        claimed = Boolean.parseBoolean(parts[5]);
     }
     
     public void claim() {
         claimed = true;
     }
     
-    public String toString(double originalPrice) {
-        // TIMESTAMP
+    @Override
+    public String toString() {
         long secondsTime = (System.currentTimeMillis() - timestamp) / 1000;
-        String timestamp = secondsTime + "s";
-        if (secondsTime > 60) timestamp = Math.round(secondsTime / 60.0) + "m";
+        PrettyTime prettyTime = new PrettyTime();
+        String time = prettyTime.format(LocalDateTime.now().minusSeconds(secondsTime));
         
-        // BUY ORDERS
-        if (provider == null) {
-            String name = Objects.requireNonNull(Bukkit.getPlayer(seller)).getName();
-            return "§8- §a" + amount + "§7x §f" + name + " §8" + timestamp + " ago";
+        Order order = Order.get(orderId);
+        String name;
+    
+        assert order != null;
+        if (order.getType() == Order.Type.BUY) {
+            name = Rank.getRank(giver).getColor() + Objects.requireNonNull(Bukkit.getPlayer(giver)).getName();
+        } else {
+            name = Rank.getRank(taker).getColor() + Objects.requireNonNull(Bukkit.getPlayer(taker)).getName();
         }
         
-        // SELL ORDERS
-        if (buyer == null) {
-            String name = Objects.requireNonNull(Bukkit.getPlayer(taker)).getName();
-            if (price == originalPrice) {
-                return "§8- §a" + amount + "§7x §f" + name + " §8" + timestamp + " ago";
-            } else {
-                double tariff = (price / originalPrice - 1) * 100;
-                return "§8- §a" + amount + "§7x §f" + name + " §8" + timestamp + " ago §7(tariffed §d" + "%§7)";
-            }
+        return "§8» §a" + amount + "§8x §7@ §6" + price + "$ §8- " + name + " §8" + time;
+    }
+    
+    public void save() {
+        Order order = Order.get(orderId);
+        assert order != null;
+        for (Trade trade : order.getTrades()) {
+            if (trade.getTimestamp() != timestamp) continue;
+            order.getTrades().set(order.getTrades().indexOf(trade), this);
+            order.save();
+            return;
         }
-        
-        return null;
+        order.getTrades().add(this);
+        order.save();
+    }
+    
+    public String getSerializedString() {
+        return timestamp + ";" + price + ";" + amount + ";" + giver.toString() + ";" + taker.toString() + ";" + claimed;
     }
 }

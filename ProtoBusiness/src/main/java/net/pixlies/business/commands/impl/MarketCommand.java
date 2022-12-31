@@ -9,10 +9,11 @@ import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.MarketProfile;
+import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.business.market.orders.OrderProfile;
+import net.pixlies.business.util.MarketRestrictUtil;
 import net.pixlies.business.util.Preconditions;
 import net.pixlies.business.util.SoundUtil;
-import net.pixlies.business.util.Util;
 import net.pixlies.core.Main;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
@@ -99,7 +100,7 @@ public class MarketCommand extends BaseCommand {
       @CommandPermission("pixlies.business.market.resetstats")
       @Description("Resets the market statistics")
       public void onMarketReset(Player player) {
-            instance.getMarketManager().resetBooks();
+            OrderBook.resetAll();
             MarketLang.MARKET_STATISTICS_RESET.broadcast();
             SoundUtil.success(player);
       }
@@ -120,10 +121,10 @@ public class MarketCommand extends BaseCommand {
             
             // Unrestrict/restrict
             if (profile.isRestricted()) {
-                  Util.sendUnrestrictMessage(player, target, reason);
+                  MarketRestrictUtil.sendUnrestrictMessage(player, target, reason);
                   profile.setRestricted(false);
             } else {
-                  Util.sendRestrictMessage(player, target, reason);
+                  MarketRestrictUtil.sendRestrictMessage(player, target, reason);
                   profile.setRestricted(true);
             }
             

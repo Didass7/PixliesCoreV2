@@ -1,4 +1,4 @@
-package net.pixlies.business.market.orders;
+package net.pixlies.business.market.nations;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,7 +35,7 @@ public class Tariff {
     private double rate;
     
     public Tariff(Type type, String initId, String targetId, double rate) {
-        tariffId = TextUtils.generateId(7);
+        tariffId = TextUtils.generateId(9);
         this.type = type;
         this.initId = initId;
         this.targetId = targetId;

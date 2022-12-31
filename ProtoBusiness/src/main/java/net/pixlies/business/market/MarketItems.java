@@ -6,6 +6,7 @@ import net.pixlies.business.market.orders.Order;
 import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.business.market.orders.OrderItem;
 import net.pixlies.business.market.orders.Trade;
+import net.pixlies.business.util.MarketUtil;
 import net.pixlies.core.utils.ItemBuilder;
 import net.pixlies.core.utils.PlayerUtils;
 import net.pixlies.nations.nations.Nation;
@@ -88,8 +89,8 @@ public final class MarketItems {
     }
     
     public static ItemStack getMyOrdersButton(Player player) {
-        List<Order> orders = instance.getMarketManager().getPlayerBuyOrders(player.getUniqueId());
-        orders.addAll(instance.getMarketManager().getPlayerSellOrders(player.getUniqueId()));
+        List<Order> orders = MarketUtil.getPlayerBuyOrders(player.getUniqueId());
+        orders.addAll(MarketUtil.getPlayerSellOrders(player.getUniqueId()));
         
         boolean goods = false;
         for (Order order : orders) {
@@ -135,7 +136,7 @@ public final class MarketItems {
     // MY ORDERS PAGE
     
     public static ItemStack getOrderItem(Material material, Order order) {
-        String name = instance.getMarketManager().getBooks().get(order.getBookId()).getItem().getName();
+        String name = OrderBook.get(order.getBookItem()).getItem().name();
         Order.Type type = order.getType();
         
         // TOP INFO
@@ -175,7 +176,7 @@ public final class MarketItems {
             // TRADES LIST
             
             for (Trade trade : order.getTrades()) {
-                builder.addLoreLine(trade.toString(order.getPrice()));
+                builder.addLoreLine(trade.toString());
             }
             
             // BOTTOM INFO
@@ -209,7 +210,7 @@ public final class MarketItems {
     }
     
     public static ItemStack getConfirmOrderButton(Order order, double tax) {
-        OrderItem item = instance.getMarketManager().getBooks().get(order.getBookId()).getItem();
+        OrderItem item = OrderBook.get(order.getBookItem()).getItem();
         return new ItemBuilder(new ItemStack(item.getMaterial()))
                 .setDisplayName(order.getType() == Order.Type.BUY ?
                         "§aConfirm order §8(§a§lBUY§r§8)" :
@@ -226,7 +227,7 @@ public final class MarketItems {
     }
     
     public static ItemStack getBuyButton(UUID playerUUID, OrderItem item) {
-        OrderBook book = instance.getMarketManager().getBook(item);
+        OrderBook book = OrderBook.get(item);
         ItemBuilder builder = new ItemBuilder(new ItemStack(Material.EMERALD))
                 .setDisplayName("§aBuy Order")
                 .addLoreLine("§7Best price per unit: §6" + book.getLowestBuyPrice(playerUUID))
@@ -239,7 +240,7 @@ public final class MarketItems {
     }
     
     public static ItemStack getSellButton(UUID playerUUID, OrderItem item, int num) {
-        OrderBook book = instance.getMarketManager().getBook(item);
+        OrderBook book = OrderBook.get(item);
         ItemBuilder builder = new ItemBuilder(new ItemStack(Material.GOLD_INGOT))
                 .setDisplayName("§6Sell Order")
                 .addLoreLine("§7Best price per unit: §6" + book.getHighestSellPrice(playerUUID))
@@ -254,7 +255,7 @@ public final class MarketItems {
     }
     
     public static ItemStack getBestPriceButton(UUID playerUUID, OrderItem item, Order.Type type, int amount) {
-        OrderBook book = instance.getMarketManager().getBook(item);
+        OrderBook book = OrderBook.get(item);
         return new ItemBuilder(new ItemStack(item.getMaterial()))
                 .setDisplayName("§eBest current price")
                 .addLoreLine(type == Order.Type.BUY ?
@@ -271,7 +272,7 @@ public final class MarketItems {
     }
     
     public static ItemStack getChangedPriceButton(UUID playerUUID, OrderItem item, Order.Type type, int amount) {
-        OrderBook book = instance.getMarketManager().getBook(item);
+        OrderBook book = OrderBook.get(item);
         return new ItemBuilder(new ItemStack(Material.GOLD_NUGGET))
                 .setDisplayName(type == Order.Type.BUY ?
                         "§eBest current price +0.1" :
