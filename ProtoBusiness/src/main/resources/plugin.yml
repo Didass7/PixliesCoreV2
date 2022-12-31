@@ -1,9 +1,9 @@
 name: ProtoBusiness
-version: 1.0.0
+version: 1.0
 description: Me and missy is so very busy busy making money
 api-version: 1.19
-depend:  [PixliesCore, Nations]
-authors: [vyketype, NeedlessMemeing]
-website: www.pixlies.net
+depend: [PixliesCore, Nations]
+authors: [vyketype]
+website: https://discord.com/invite/JJx4UcbUU2 # although, we should make a GitHub pages...
 main: net.pixlies.business.ProtoBusiness
-prefix: Business
+prefix: ProtoBusiness
