@@ -21,7 +21,7 @@ public class TimerHandler {
       
       public void finishTimer() {
             for (Player p : Bukkit.getOnlinePlayers()) {
-                  p.sendTitle("§c§lTime up!", "§7Candidates, stop talking!");
+                  p.sendTitle("§c§lTime's up!", "§7Candidates, stop talking!");
                   p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 100F, 0.5F);
             }
       }

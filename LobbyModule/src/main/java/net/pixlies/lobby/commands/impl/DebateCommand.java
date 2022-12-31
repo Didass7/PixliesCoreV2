@@ -16,7 +16,7 @@ public class DebateCommand extends BaseCommand {
       @Default
       public void onDebate(Player player) {
             World world = Bukkit.getWorld("debateWorld");
-            Location location = new Location(world, 73, -50, -21);
+            Location location = new Location(world, 73, -50, -22);
             player.teleport(location);
             player.sendMessage(Lang.PIXLIES + "You have now warped to the §aDebate Hall§7.");
       }
