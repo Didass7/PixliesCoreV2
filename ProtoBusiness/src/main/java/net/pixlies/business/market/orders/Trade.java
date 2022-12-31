@@ -2,6 +2,7 @@ package net.pixlies.business.market.orders;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import net.pixlies.business.ProtoBusiness;
 import net.pixlies.core.ranks.Rank;
 import org.bukkit.Bukkit;
 import org.ocpsoft.prettytime.PrettyTime;
@@ -18,6 +19,8 @@ import java.util.UUID;
 @Getter
 @AllArgsConstructor
 public class Trade {
+    private static final ProtoBusiness instance = ProtoBusiness.getInstance();
+    
     private String orderId;
     
     private long timestamp;
@@ -75,6 +78,8 @@ public class Trade {
         }
         order.getTrades().add(this);
         order.save();
+    
+        instance.getServer().getLogger().info("Saved trade of timestamp " + timestamp + " to the CACHE.");
     }
     
     public String getSerializedString() {

@@ -184,6 +184,7 @@ public class OrderBook {
     
     public void save() {
         CACHE.put(item.name(), this);
+        instance.getServer().getLogger().info("Saved OrderBook of item " + getItemName() + " to the CACHE.");
     }
     
     public void backup() {
@@ -194,6 +195,8 @@ public class OrderBook {
         for (Order order : sellOrders) {
             writeInFile(filename, order, "sells");
         }
+    
+        instance.getServer().getLogger().info("Backed up OrderBook of item " + getItemName() + " to the files.");
     }
     
     private void writeInFile(String filename, Order order, String type) {
@@ -240,6 +243,8 @@ public class OrderBook {
             
             CACHE.put(item.name(), new OrderBook(item, buyOrders, sellOrders));
         }
+    
+        instance.getServer().getLogger().info("All OrderBooks (" + CACHE.values().size() + ") have been loaded.");
     }
     
     private static Order getFromFile(String filename, String orderId, String type, String bookItem) {
@@ -291,5 +296,7 @@ public class OrderBook {
             book.getSellOrders().clear();
             book.save();
         }
+    
+        instance.getServer().getLogger().info("All OrderBooks (" + CACHE.values().size() + ") have been reset.");
     }
 }

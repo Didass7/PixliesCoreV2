@@ -129,6 +129,8 @@ public class Order {
             book.getSellOrders().add(this);
         }
         book.save();
+    
+        instance.getServer().getLogger().info("Saved order " + orderId + " to the CACHE.");
     }
     
     // --------------------------------------------------------------------------------------------

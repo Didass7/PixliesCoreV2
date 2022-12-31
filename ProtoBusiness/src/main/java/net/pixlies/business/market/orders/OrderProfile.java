@@ -567,6 +567,7 @@ public class OrderProfile {
                 if (t.isClaimed()) continue;
                 items += t.getAmount();
                 t.claim();
+                t.save();
             }
             
             Material material = book.getItem().getMaterial();
@@ -580,6 +581,7 @@ public class OrderProfile {
                 if (t.isClaimed()) continue;
                 coins += t.getAmount() * t.getPrice();
                 t.claim();
+                t.save();
             }
             
             // TODO: add coins to wallet

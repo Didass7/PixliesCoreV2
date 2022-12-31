@@ -101,6 +101,8 @@ public class MarketProfile {
       
       public void save() {
             CACHE.put(uuid, this);
+            String playerName = Objects.requireNonNull(Bukkit.getPlayer(uuid)).getName();
+            instance.getServer().getLogger().info("The MarketProfile of " + playerName + " has been saved to the CACHE.");
       }
       
       public void backup() {
@@ -115,6 +117,9 @@ public class MarketProfile {
             file.set("blockedPlayers", blockedList);
             file.set("restricted", restricted);
             file.save();
+      
+            String playerName = Objects.requireNonNull(Bukkit.getPlayer(uuid)).getName();
+            instance.getServer().getLogger().info("The MarketProfile of " + playerName + " has been backed up to the files.");
       }
       
       public static void backupAll() {

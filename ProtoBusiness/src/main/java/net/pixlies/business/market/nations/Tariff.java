@@ -54,6 +54,8 @@ public class Tariff {
         file.set("targetId", targetId);
         file.set("rate", rate);
         file.save();
+        
+        instance.getServer().getLogger().info("Saved tariff " + tariffId + " to files.");
     }
     
     public boolean delete() {
