@@ -3,7 +3,7 @@ version: 1.0.0
 description: The brain behind the lobby.
 api-version: 1.19
 depend: [PixliesCore, PlaceholderAPI]
-authors: [Dynmie]
+authors: [Dynmie, vyketype]
 website: www.pixlies.net
 main: net.pixlies.lobby.Lobby
 prefix: Lobby

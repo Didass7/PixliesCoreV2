@@ -7,6 +7,7 @@ import net.pixlies.core.handlers.impl.TabListHandler;
 import net.pixlies.core.modules.Module;
 import net.pixlies.core.modules.configuration.ModuleConfig;
 import net.pixlies.lobby.commands.CommandManager;
+import net.pixlies.lobby.handlers.TimerHandler;
 import net.pixlies.lobby.listeners.ListenerManager;
 import net.pixlies.lobby.managers.GrapplingHookManager;
 import net.pixlies.lobby.managers.JumpPadManager;
@@ -33,6 +34,7 @@ public class Lobby extends JavaPlugin implements Module {
     GrapplingHookManager grapplingHookManager;
     QueueManager queueManager;
     RunnableManager runnableManager;
+    TimerHandler timerHandler;
 
     @Override
     public void onEnable() {
@@ -66,6 +68,7 @@ public class Lobby extends JavaPlugin implements Module {
         // COMMANDS & LISTENERS
         listenerManager = new ListenerManager();
         listenerManager.registerAll();
+        timerHandler = new TimerHandler();
         new CommandManager().registerAll();
         runnableManager.registerAll();
 

@@ -12,7 +12,9 @@ public class CommandManager {
             new QueueCommand(),
             new LeaveQueueCommand(),
             new SpawnCommand(),
-            new SetSpawnCommand()
+            new SetSpawnCommand(),
+            new DebateCommand(),
+            new TimerCommand()
     );
 
     public void registerAll() {

@@ -6,7 +6,6 @@ import io.papermc.paper.event.player.PlayerItemFrameChangeEvent;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.entity.user.timers.impl.RightClickDelayTimer;
 import net.pixlies.lobby.Lobby;
-import net.pixlies.lobby.entity.LobbySpawn;
 import net.pixlies.lobby.managers.GrapplingHookManager;
 import net.pixlies.lobby.managers.JumpPadManager;
 import net.pixlies.lobby.managers.LobbyManager;
@@ -22,7 +21,10 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.*;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockDamageEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
@@ -210,6 +212,7 @@ public class LobbyInteractListener implements Listener {
         LobbyUtils.resetPlayer(player);
     }
 
+    /* DISABLED FOR NOW -- WHAT WAS THE POINT OF THIS?
     @EventHandler
     public void onMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
@@ -226,6 +229,8 @@ public class LobbyInteractListener implements Listener {
 
         LobbyUtils.resetPlayer(player);
     }
+    
+     */
 
     @EventHandler
     public void onHungerChange(FoodLevelChangeEvent event) {

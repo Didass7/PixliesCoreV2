@@ -5,6 +5,7 @@ import net.pixlies.core.modules.configuration.ModuleConfig;
 import net.pixlies.core.utils.CC;
 import net.pixlies.lobby.Lobby;
 import net.pixlies.lobby.utils.LobbyUtils;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,6 +20,11 @@ public class JoinListener implements Listener {
     public void onJoin(PlayerJoinEvent event) {
 
         Player player = event.getPlayer();
+    
+        instance.getServer().getScheduler().runTaskLater(instance, () -> {
+            player.sendTitle("§a§l/debate", "§7Run §a/debate §7to view the debate!");
+            player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 100, 1F);
+        }, 4 * 20L);
 
         String joinMessage = CC.format(PlaceholderAPI.setPlaceholders(player, config.getString("join_leave.join_message", "")));
         if (!joinMessage.isEmpty()) {
