@@ -53,7 +53,7 @@ public class TimerCommand extends BaseCommand {
             Bukkit.getScheduler().cancelTask(instance.getTimerHandler().getTaskId());
             instance.getTimerHandler().setTaskId(0);
             instance.getTimerHandler().setBombing(false);
-            if (strSilent != null && strSilent.equalsIgnoreCase("silent"))
+            if (strSilent == null || !strSilent.equalsIgnoreCase("silent"))
                   instance.getTimerHandler().finishTimer();
       }
 }
