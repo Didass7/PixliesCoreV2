@@ -14,8 +14,7 @@ public class CommandManager {
             new SpawnCommand(),
             new SetSpawnCommand(),
             new DebateCommand(),
-            new TimerCommand(),
-            new BombCommand()
+            new TimerCommand()
     );
 
     public void registerAll() {
