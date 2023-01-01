@@ -43,12 +43,17 @@ public class TimerCommand extends BaseCommand {
                     instance, 0L, 20L
             );
             instance.getTimerHandler().setTaskId(bukkitTask.getTaskId());
+            
+            if (name.equalsIgnoreCase("Bombing"))
+                  instance.getTimerHandler().setBombing(true);
       }
       
       @Subcommand("end")
-      public void onTimerEnd(Player player) {
+      public void onTimerEnd(Player player, @Optional String strSilent) {
             Bukkit.getScheduler().cancelTask(instance.getTimerHandler().getTaskId());
             instance.getTimerHandler().setTaskId(0);
-            instance.getTimerHandler().finishTimer();
+            instance.getTimerHandler().setBombing(false);
+            if (strSilent != null && strSilent.equalsIgnoreCase("silent"))
+                  instance.getTimerHandler().finishTimer();
       }
 }

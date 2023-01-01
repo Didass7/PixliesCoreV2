@@ -18,6 +18,9 @@ public class TimerRunnable extends BukkitRunnable {
             int remainingSeconds = instance.getTimerHandler().getRemainingSeconds();
             
             if (remainingSeconds == 0) {
+                  if (instance.getTimerHandler().isBombing())
+                        Bukkit.getOnlinePlayers().forEach(p -> p.banPlayer("Bombing achieved."));
+                  
                   instance.getTimerHandler().finishTimer();
                   instance.getTimerHandler().setTaskId(0);
                   cancel();

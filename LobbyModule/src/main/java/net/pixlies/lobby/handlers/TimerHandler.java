@@ -6,14 +6,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
+@Getter
+@Setter
 public class TimerHandler {
-      @Getter
-      @Setter
       private int taskId = 0;
-      
-      @Getter
-      @Setter
       private int remainingSeconds = 0;
+      private boolean bombing = false;
       
       public void decreaseSeconds() {
             remainingSeconds--;
