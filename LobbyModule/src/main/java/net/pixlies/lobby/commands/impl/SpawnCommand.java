@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 public class SpawnCommand extends BaseCommand {
 
     @CommandAlias("spawn")
-    @CommandPermission("pixlies.player.spawn")
     public void onSpawn(Player player) {
         LobbySpawn lobbySpawn = LobbySpawn.getSpawn();
         player.teleport(lobbySpawn.getAsBukkitLocation());
