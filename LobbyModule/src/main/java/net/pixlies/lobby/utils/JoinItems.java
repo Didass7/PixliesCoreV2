@@ -27,15 +27,15 @@ public final class JoinItems {
             // 0 1 [C] 3 [S] 5 [V] 7 8
 
             // Cosmetics
-            new LobbyItem(2, new ItemBuilder(Material.NETHERITE_HELMET)
-                    .setDisplayName(CC.format("&dCosmetics"))
-                    .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
-                    .build(), true) {
-                @Override
-                public void onClick(@NotNull PlayerInteractEvent event) {
-                    // TODO
-                }
-            },
+//            new LobbyItem(2, new ItemBuilder(Material.NETHERITE_HELMET)
+//                    .setDisplayName(CC.format("&dCosmetics"))
+//                    .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
+//                    .build(), true) {
+//                @Override
+//                public void onClick(@NotNull PlayerInteractEvent event) {
+//                    // TODO
+//                }
+//            },
 
             // Server Selector
             new LobbyItem(4, new ItemBuilder(Material.GLOBE_BANNER_PATTERN)
@@ -119,19 +119,19 @@ public final class JoinItems {
                     gui.show(event.getPlayer());
 
                 }
-            },
+            }
 
             // Grappling Hook
-            new LobbyItem(6, new ItemBuilder(Material.FISHING_ROD)
-                    .setDisplayName(CC.format("&6Grappling Hook"))
-                    .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
-                    .build(), true) {
-
-                @Override
-                public void onClick(@NotNull PlayerInteractEvent event) {
-                    // Already handled.
-                }
-            }
+//            new LobbyItem(6, new ItemBuilder(Material.FISHING_ROD)
+//                    .setDisplayName(CC.format("&6Grappling Hook"))
+//                    .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
+//                    .build(), true) {
+//
+//                @Override
+//                public void onClick(@NotNull PlayerInteractEvent event) {
+//                    // Already handled.
+//                }
+//            }
 
     );
 
