@@ -100,9 +100,9 @@ public class Order {
     
     public boolean isCancellable() {
         for (Trade t : trades) {
-            if (!t.isClaimed()) return true;
+            if (!t.isClaimed()) return false;
         }
-        return false;
+        return true;
     }
     
     public void decreaseVolume(int amount) {

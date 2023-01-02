@@ -1,7 +1,8 @@
-package net.pixlies.business.market;
+package net.pixlies.business.items;
 
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.guis.MarketInitialGUI;
+import net.pixlies.business.market.MarketProfile;
 import net.pixlies.business.market.orders.Order;
 import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.business.market.orders.OrderItem;
@@ -27,7 +28,7 @@ import java.util.UUID;
  *
  * @author սիլվա կապուտիկեան
  */
-public final class MarketItems {
+public final class MarketGUIItems {
     public static final ProtoBusiness instance = ProtoBusiness.getInstance();
     
     public static ItemStack getBackArrow(String text) {
@@ -180,6 +181,7 @@ public final class MarketItems {
             }
             
             // BOTTOM INFO
+            // todo if there are no items to claim
             
             if (order.isCancellable()) {
                 builder.addLoreLine("§cClick to cancel!");

@@ -104,6 +104,9 @@ public enum MarketLang {
     public static final String MARKET = "§x§1§f§c§a§7§3§lM§x§0§0§b§e§8§d§lA§x§0§0§b§0§a§0§lR§x§0§0§a§1§a§9§lK§x§0§0" +
             "§9§1§a§9§lE§x§1§b§8§1§9§f§lT§8 | §7";
     
+    public static final String NAMESPACE = "§x§1§f§c§a§7§3§lM§x§0§0§b§e§8§d§lA§x§0§0§b§0§a§0§lR§x§0§0§a§1§a§9§lK§x§0§0" +
+            "§9§1§a§9§lE§x§1§b§8§1§9§f§lT";
+    
     private final String prefix;
     private @Getter
     @NotNull Map<String, String> languages = new HashMap<>();

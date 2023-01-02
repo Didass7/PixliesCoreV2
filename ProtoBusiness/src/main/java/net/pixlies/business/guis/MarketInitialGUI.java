@@ -6,7 +6,8 @@ import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import net.pixlies.business.market.MarketItems;
+import net.pixlies.business.items.MarketGUIItems;
+import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.orders.OrderProfile;
 import net.pixlies.business.panes.MarketPane;
 import org.apache.commons.lang.WordUtils;
@@ -20,6 +21,8 @@ import java.util.function.Consumer;
 
 /**
  * Լաց վերջին լացըդ, սիրտ իմ մենավոր։
+ *
+ * @author վահան դերյան
  */
 public class MarketInitialGUI {
       public static void open(OrderProfile profile) {
@@ -34,7 +37,7 @@ public class MarketInitialGUI {
             };
       
             // Create GUI
-            ChestGui gui = new ChestGui(6, "Market");
+            ChestGui gui = new ChestGui(6, MarketLang.NAMESPACE);
             gui.setOnGlobalClick(event -> event.setCancelled(true));
       
             // Background pane
@@ -52,8 +55,8 @@ public class MarketInitialGUI {
             for (Selection selection : Selection.values()) {
                   // Basic item stuff
                   GuiItem item = new GuiItem(selection == Selection.MINERALS ?
-                          MarketItems.getSelectedSelection(selection, selection.getName()) :
-                          MarketItems.getUnselectedSelection(selection, selection.getName())
+                          MarketGUIItems.getSelectedSelection(selection, selection.getName()) :
+                          MarketGUIItems.getUnselectedSelection(selection, selection.getName())
                   );
             
                   // On item click
@@ -68,10 +71,10 @@ public class MarketInitialGUI {
                               viewing[0] = selection;
       
                               GuiItem unSelected = new GuiItem(
-                                      MarketItems.getUnselectedSelection(viewing[1], viewing[1].getName())
+                                      MarketGUIItems.getUnselectedSelection(viewing[1], viewing[1].getName())
                               );
                               GuiItem selected = new GuiItem(
-                                      MarketItems.getSelectedSelection(viewing[0], viewing[0].getName())
+                                      MarketGUIItems.getSelectedSelection(viewing[0], viewing[0].getName())
                               );
                               
                               unSelected.setAction(this);
@@ -104,13 +107,13 @@ public class MarketInitialGUI {
             // Bottom pane
             StaticPane bottomPane = new StaticPane(3, 5, 4, 1);
       
-            GuiItem myProfile = new GuiItem(MarketItems.getProfileStats(player));
+            GuiItem myProfile = new GuiItem(MarketGUIItems.getProfileStats(player));
             bottomPane.addItem(myProfile, 0, 0);
       
-            GuiItem marketStats = new GuiItem(MarketItems.getMarketStats());
+            GuiItem marketStats = new GuiItem(MarketGUIItems.getMarketStats());
             bottomPane.addItem(marketStats, 1, 0);
       
-            GuiItem myOrders = new GuiItem(MarketItems.getMyOrdersButton(player));
+            GuiItem myOrders = new GuiItem(MarketGUIItems.getMyOrdersButton(player));
             myOrders.setAction(event -> OrdersPageGUI.open(profile));
             bottomPane.addItem(myOrders, 3, 0);
       
