@@ -16,18 +16,25 @@ NATION_DOES_NOT_EXIST: "§cThat nation doesn't exist."
 NATION_PLAYER_CHANGED_DESCRIPTION: "§b%PLAYER%§7 just changed your nations description to §e%DESCRIPTION%§7."
 NATION_YOU_CHANGED_DESCRIPTION_BYPASS: "The description for &6%NATION%&7 has been set to §e%DESCRIPTION%§7."
 
-NATION_WILDERNESS_TITLE: "§2Wilderness"
+NATION_WILDERNESS_TITLE: "§cWilderness"
+NATION_WILDERNESS_COLOR: "§c"
 NATION_WILDERNESS_SUBTITLE: ""
-NATION_SPAWN_TITLE: "§bSpawn"
-NATION_SPAWN_SUBTITLE: "§fYou are safe here."
+
+NATION_SPAWN_TITLE: "§6Spawn"
+NATION_SPAWN_COLOR: "§6"
+NATION_SPAWN_SUBTITLE: "§7You are safe here."
+
 NATION_WARP_TITLE: "§eWarp"
-NATION_WARP_SUBTITLE: "§fYou are probably safe here."
+NATION_WARP_COLOR: "§e"
+NATION_WARP_SUBTITLE: "§7You are probably safe here."
+
 NATION_WARZONE_TITLE: "§4Warzone"
-NATION_WARZONE_SUBTITLE: "§fYou are not safe here."
+NATION_WARZONE_COLOR: "§4"
+NATION_WARZONE_SUBTITLE: "§7You are not safe here."
 
 NATION_SAME_COLOUR: "§a"
 NATION_ALLY_COLOUR: "§d"
-NATION_OTHER_COLOUR: "§6"
+NATION_OTHER_COLOUR: "§b"
 NATION_SUBTITLE_COLOUR: "§7"
 
 NATION_CLAIM_MESSAGE: "§7You have claimed §d%LOCATION%§7 for the nation §b%NATION%§7."
