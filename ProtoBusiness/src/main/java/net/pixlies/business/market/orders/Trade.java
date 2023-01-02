@@ -79,7 +79,7 @@ public class Trade {
         order.getTrades().add(this);
         order.save();
     
-        instance.getServer().getLogger().info("Saved trade of timestamp " + timestamp + " to the CACHE.");
+        instance.logInfo("Saved trade of timestamp " + timestamp + " to the CACHE.");
     }
     
     public String getSerializedString() {

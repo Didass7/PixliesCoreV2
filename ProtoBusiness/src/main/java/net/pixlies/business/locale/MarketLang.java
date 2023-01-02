@@ -1,10 +1,10 @@
 package net.pixlies.business.locale;
 
 import lombok.Getter;
+import net.pixlies.business.ProtoBusiness;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.utils.CC;
-import net.pixlies.nations.Nations;
 import net.pixlies.nations.locale.NationsLang;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -190,11 +190,11 @@ public enum MarketLang {
     
     public static void load() {
         int loaded = 0;
-        File folder = new File(Nations.getInstance().getDataFolder().getAbsolutePath() + "/languages/");
+        File folder = new File(ProtoBusiness.getInstance().getDataFolder().getAbsolutePath() + "/languages/");
         
         File[] files = folder.listFiles();
         if (files == null) {
-            Nations.getInstance().getLogger().warning("Failed to load any languages.");
+            ProtoBusiness.getInstance().getLogger().warning("Failed to load any languages.");
             return;
         }
         
@@ -210,6 +210,6 @@ public enum MarketLang {
             }
             loaded++;
         }
-        Nations.getInstance().getLogger().info("Loaded " + loaded + " languages.");
+        ProtoBusiness.getInstance().getLogger().info("[ProtoBusiness] Loaded " + loaded + " languages.");
     }
 }

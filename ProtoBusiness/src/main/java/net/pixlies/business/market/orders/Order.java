@@ -130,7 +130,7 @@ public class Order {
         }
         book.save();
     
-        instance.getServer().getLogger().info("Saved order " + orderId + " to the CACHE.");
+        instance.logInfo("Saved order " + orderId + " to the CACHE.");
     }
     
     // --------------------------------------------------------------------------------------------

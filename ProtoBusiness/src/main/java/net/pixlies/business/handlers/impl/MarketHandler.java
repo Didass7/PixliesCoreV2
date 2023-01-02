@@ -9,9 +9,10 @@ import net.pixlies.business.market.orders.OrderProfile;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Getter
 public class MarketHandler implements Handler {
-    private final Map<String, OrderProfile> profiles = new HashMap<>();
+    private final Map<UUID, OrderProfile> profiles = new HashMap<>();
     private final ListMultimap<String, Challenge> challenges = ArrayListMultimap.create();
 }

@@ -58,6 +58,10 @@ public class ProtoBusiness extends JavaPlugin implements Module {
         instance = null;
     }
     
+    public void logInfo(String message) {
+        getLogger().info("[ProtoBusiness] " + message);
+    }
+    
     @NotNull
     @Override
     public JavaPlugin getJavaPlugin() {

@@ -3,9 +3,8 @@ package net.pixlies.business.commands.impl;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
+import net.pixlies.business.guis.MarketInitialGUI;
 import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.MarketProfile;
@@ -15,9 +14,7 @@ import net.pixlies.business.util.MarketRestrictUtil;
 import net.pixlies.business.util.Preconditions;
 import net.pixlies.business.util.SoundUtil;
 import net.pixlies.core.Main;
-import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -58,8 +55,8 @@ public class MarketCommand extends BaseCommand {
             // Create the OrderProfile, open the GUI
             UUID uuid = player.getUniqueId();
             OrderProfile profile = new OrderProfile(uuid);
-            marketHandler.getProfiles().put(uuid.toString(), profile);
-            profile.openMarketPage();
+            marketHandler.getProfiles().put(uuid, profile);
+            MarketInitialGUI.open(marketHandler.getProfiles().get(uuid));
       }
       
       @Subcommand("open")
@@ -134,37 +131,5 @@ public class MarketCommand extends BaseCommand {
       @HelpCommand
       public void onHelp(CommandHelp help) {
             help.showHelp();
-      }
-      
-      @Getter
-      @AllArgsConstructor
-      public enum Selection {
-            MINERALS(Material.DIAMOND_PICKAXE, "§b", false, true, false),
-            FOODSTUFFS_AND_PLANTS(Material.GOLDEN_HOE, "§e", true, true, true),
-            BLOCKS(Material.IRON_SHOVEL, "§d", true, true, true),
-            MOB_DROPS(Material.NETHERITE_SWORD, "§c", false, true, false),
-            MISCELLANEOUS(Material.ARROW, "§6", false, false, false);
-            
-            private final Material material;
-            private final String color;
-            private final boolean seventhColumn;
-            private final boolean fourthRow;
-            private final boolean fifthRow;
-            
-            public boolean hasSeventhColumn() {
-                  return seventhColumn;
-            }
-            
-            public boolean hasFourthRow() {
-                  return fourthRow;
-            }
-            
-            public boolean hasFifthRow() {
-                  return fifthRow;
-            }
-            
-            public String getName() {
-                  return WordUtils.capitalize(name().toLowerCase().replace("_", " "));
-            }
       }
 }

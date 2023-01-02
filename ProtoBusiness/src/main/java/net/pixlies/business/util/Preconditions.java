@@ -3,8 +3,8 @@ package net.pixlies.business.util;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.MarketProfile;
-import net.pixlies.business.market.orders.OrderItem;
 import net.pixlies.business.market.nations.Tariff;
+import net.pixlies.business.market.orders.OrderItem;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.nations.locale.NationsLang;
 import net.pixlies.nations.nations.Nation;
@@ -58,7 +58,7 @@ public class Preconditions {
       }
       
       public static boolean isMarketOpen(Player player, MarketLang message) {
-            if (instance.getConfig().getBoolean("marketOpen")) {
+            if (!instance.getConfig().getBoolean("marketOpen")) {
                   message.send(player);
                   SoundUtil.error(player);
                   return true;

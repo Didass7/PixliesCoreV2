@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import net.pixlies.business.ProtoBusiness;
-import net.pixlies.core.configuration.Config;
+import net.pixlies.core.modules.configuration.ModuleConfig;
 import net.pixlies.core.utils.TextUtils;
 import net.pixlies.nations.nations.Nation;
 import org.jetbrains.annotations.Nullable;
@@ -48,14 +48,14 @@ public class Tariff {
     
     public void save() {
         String filename = tariffId + ".yml";
-        Config file = new Config(new File(TARIFFS_PATH + filename), filename);
+        ModuleConfig file = new ModuleConfig(instance, new File(TARIFFS_PATH + filename), filename);
         file.set("type", type.toString());
         file.set("initId", initId);
         file.set("targetId", targetId);
         file.set("rate", rate);
         file.save();
         
-        instance.getServer().getLogger().info("Saved tariff " + tariffId + " to files.");
+        instance.logInfo("Saved tariff " + tariffId + " to files.");
     }
     
     public boolean delete() {
@@ -74,7 +74,7 @@ public class Tariff {
     
     public static Tariff get(String tariffId) {
         String filename = tariffId + ".yml";
-        Config file = new Config(new File(TARIFFS_PATH + filename), filename);
+        ModuleConfig file = new ModuleConfig(instance, new File(TARIFFS_PATH + filename), filename);
         return new Tariff(
                 filename,
                 Type.valueOf(file.getString("type")),

@@ -1,7 +1,7 @@
 package net.pixlies.business.market;
 
 import net.pixlies.business.ProtoBusiness;
-import net.pixlies.business.commands.impl.MarketCommand;
+import net.pixlies.business.guis.MarketInitialGUI;
 import net.pixlies.business.market.orders.Order;
 import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.business.market.orders.OrderItem;
@@ -112,7 +112,7 @@ public final class MarketItems {
     
     // MARKET PAGE SELECTION PANE
     
-    public static ItemStack getSelectedSelection(MarketCommand.Selection s, String name) {
+    public static ItemStack getSelectedSelection(MarketInitialGUI.Selection s, String name) {
         return new ItemBuilder(new ItemStack(s.getMaterial()))
                 .setDisplayName(s.getColor() + name)
                 .addLoreLine(" ")
@@ -123,7 +123,7 @@ public final class MarketItems {
                 .build();
     }
     
-    public static ItemStack getUnselectedSelection(MarketCommand.Selection s, String name) {
+    public static ItemStack getUnselectedSelection(MarketInitialGUI.Selection s, String name) {
         return new ItemBuilder(new ItemStack(s.getMaterial()))
                 .setDisplayName(s.getColor() + name)
                 .addLoreLine(" ")

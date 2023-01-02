@@ -5,16 +5,16 @@ import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.pixlies.business.ProtoBusiness;
-import net.pixlies.business.commands.impl.MarketCommand;
+import net.pixlies.business.guis.MarketInitialGUI;
 import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.MarketItems;
-import net.pixlies.business.panes.MarketPane;
 import net.pixlies.business.util.MarketRestrictUtil;
 import net.pixlies.business.util.MarketUtil;
 import net.pixlies.core.entity.user.User;
@@ -25,7 +25,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -34,7 +33,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.function.Consumer;
 
 /*
 TODO REVAMP EVERYTHING
@@ -49,13 +47,19 @@ public class OrderProfile {
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();
     private static final MarketHandler marketHandler = instance.getHandlerManager().getHandler(MarketHandler.class);
     
+    @Getter(AccessLevel.NONE)
     private final UUID uuid;
+    
     private Order tempOrder;
     private String tempTitle;
     private byte signStage;
     
     public OrderProfile(UUID uuid) {
         this.uuid = uuid;
+    }
+    
+    public UUID getUUID() {
+        return uuid;
     }
     
     public int getItemAmount(OrderItem item) {
@@ -75,105 +79,6 @@ public class OrderProfile {
     // ----------------------------------------------------------------------------------------------------
     // GUI METHODS
     // ----------------------------------------------------------------------------------------------------
-    
-    public void openMarketPage() {
-        
-        Player player = Bukkit.getPlayer(uuid);
-        assert player != null;
-        
-        // Index 0 is the page currently being viewed, index 1 is the page which was previously being viewed
-        final MarketCommand.Selection[] viewing = {MarketCommand.Selection.MINERALS,
-                MarketCommand.Selection.MINERALS};
-        
-        // CREATE GUI + BACKGROUND
-        
-        ChestGui gui = new ChestGui(6, "Market");
-        gui.setOnGlobalClick(event -> event.setCancelled(true));
-        
-        StaticPane background = new StaticPane(0, 0, 9, 6, Pane.Priority.LOWEST);
-        background.fillWith(new ItemStack(Material.BLACK_STAINED_GLASS_PANE));
-        
-        // MARKET PANE
-        
-        MarketPane marketPane = new MarketPane(2, 0, 7, 5);
-        marketPane.loadPage(MarketCommand.Selection.MINERALS, uuid, this);
-        background.addItem(new GuiItem(new ItemStack(Material.GREEN_STAINED_GLASS_PANE)), 1, 0);
-        
-        // SELECTION PANE
-        
-        StaticPane selectionPane = new StaticPane(0, 0, 1, 5);
-        
-        for (MarketCommand.Selection s : MarketCommand.Selection.values()) {
-            
-            // ITEM STUFF
-            
-            GuiItem item = new GuiItem(s == MarketCommand.Selection.MINERALS ?
-                    MarketItems.getSelectedSelection(s, s.getName()) :
-                    MarketItems.getUnselectedSelection(s, s.getName()));
-            
-            // ON ITEM CLICK
-            
-            Consumer<InventoryClickEvent> selectionClick = new Consumer<InventoryClickEvent>() {
-                @Override
-                public void accept(InventoryClickEvent inventoryClickEvent) {
-                    
-                    if (s == viewing[0]) return;
-                    viewing[1] = viewing[0];
-                    viewing[0] = s;
-                    
-                    GuiItem unSelected = new GuiItem(MarketItems.getUnselectedSelection(viewing[1],
-                            viewing[1].getName()));
-                    GuiItem selected = new GuiItem(MarketItems.getSelectedSelection(viewing[0],
-                            viewing[0].getName()));
-                    unSelected.setAction(this);
-                    selected.setAction(this);
-                    
-                    selectionPane.addItem(unSelected, 0, viewing[1].ordinal());
-                    selectionPane.addItem(selected, 0, viewing[0].ordinal());
-                    
-                    background.addItem(new GuiItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE)),
-                            1, viewing[1].ordinal());
-                    background.addItem(new GuiItem(new ItemStack(Material.GREEN_STAINED_GLASS_PANE)),
-                            1, viewing[0].ordinal());
-                    
-                    marketPane.loadPage(viewing[0], uuid, OrderProfile.this);
-                    gui.update();
-                    
-                }
-            };
-            
-            item.setAction(selectionClick);
-            selectionPane.addItem(item, 0, s.ordinal());
-            
-        }
-        
-        // BOTTOM PANE
-        
-        StaticPane bottomPane = new StaticPane(3, 5, 4, 1);
-        
-        GuiItem myProfile = new GuiItem(MarketItems.getProfileStats(player));
-        bottomPane.addItem(myProfile, 0, 0);
-        
-        GuiItem marketStats = new GuiItem(MarketItems.getMarketStats());
-        bottomPane.addItem(marketStats, 1, 0);
-        
-        GuiItem myOrders = new GuiItem(MarketItems.getMyOrdersButton(player));
-        myOrders.setAction(event -> openOrdersPage());
-        bottomPane.addItem(myOrders, 3, 0);
-        
-        // ADD PANES + SHOW GUI
-        
-        gui.addPane(background);
-        gui.addPane(marketPane);
-        gui.addPane(selectionPane);
-        gui.addPane(bottomPane);
-        
-        gui.show(player);
-        gui.update();
-        
-        player.playSound(player.getLocation(), "entity.experience_orb.pickup", 100, 1);
-        
-    }
     
     public void openOrdersPage() {
         
@@ -226,7 +131,7 @@ public class OrderProfile {
         StaticPane bottomPane = new StaticPane(4, rows - 1, 1, 1);
         
         GuiItem goBack = new GuiItem(MarketItems.getBackArrow("Market"));
-        goBack.setAction(event -> openMarketPage());
+        goBack.setAction(event -> MarketInitialGUI.open(this));
         bottomPane.addItem(goBack, 0, 0);
         
         // ADD PANES + SHOW GUI
@@ -350,7 +255,7 @@ public class OrderProfile {
         
         StaticPane bottomPane = new StaticPane(4, 3, 1, 1);
         GuiItem goBack = new GuiItem(MarketItems.getBackArrow("Market"));
-        goBack.setAction(event -> openMarketPage());
+        goBack.setAction(event -> MarketInitialGUI.open(this));
         bottomPane.addItem(goBack, 0, 0);
         
         // ADD PANES + SHOW GUI

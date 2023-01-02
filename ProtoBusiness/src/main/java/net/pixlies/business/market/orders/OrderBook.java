@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.market.MarketProfile;
-import net.pixlies.core.configuration.Config;
+import net.pixlies.core.modules.configuration.ModuleConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -184,7 +184,7 @@ public class OrderBook {
     
     public void save() {
         CACHE.put(item.name(), this);
-        instance.getServer().getLogger().info("Saved OrderBook of item " + getItemName() + " to the CACHE.");
+        instance.logInfo("Saved OrderBook of item " + getItemName() + " to the CACHE.");
     }
     
     public void backup() {
@@ -196,11 +196,11 @@ public class OrderBook {
             writeInFile(filename, order, "sells");
         }
     
-        instance.getServer().getLogger().info("Backed up OrderBook of item " + getItemName() + " to the files.");
+        instance.logInfo("Backed up OrderBook of item " + getItemName() + " to the files.");
     }
     
     private void writeInFile(String filename, Order order, String type) {
-        Config file = new Config(new File(BOOKS_PATH + filename), filename);
+        ModuleConfig file = new ModuleConfig(instance, new File(BOOKS_PATH + filename), filename);
         String initPath = type + "." + order.getOrderId() + ".";
         
         file.set(initPath + "timestamp", order.getTimestamp());
@@ -223,7 +223,7 @@ public class OrderBook {
     public static void loadAll() {
         for (OrderItem item : OrderItem.values()) {
             String filename = item.name() + ".yml";
-            Config file = new Config(new File(BOOKS_PATH + filename), filename);
+            ModuleConfig file = new ModuleConfig(instance, new File(BOOKS_PATH + filename), filename);
             
             List<Order> buyOrders = new ArrayList<>();
             ConfigurationSection buys = file.getConfigurationSection("buys");
@@ -244,11 +244,11 @@ public class OrderBook {
             CACHE.put(item.name(), new OrderBook(item, buyOrders, sellOrders));
         }
     
-        instance.getServer().getLogger().info("All OrderBooks (" + CACHE.values().size() + ") have been loaded.");
+        instance.logInfo("All OrderBooks (" + CACHE.values().size() + ") have been loaded.");
     }
     
     private static Order getFromFile(String filename, String orderId, String type, String bookItem) {
-        Config file = new Config(new File(BOOKS_PATH + filename), filename);
+        ModuleConfig file = new ModuleConfig(instance, new File(BOOKS_PATH + filename), filename);
         String initPath = type + "." + orderId + ".";
         
         long timestamp = file.getLong(initPath + "timestamp");
@@ -279,7 +279,7 @@ public class OrderBook {
     }
     
     public static List<OrderBook> getAll() {
-        return (List<OrderBook>) CACHE.values();
+        return CACHE.values().stream().toList();
     }
     
     public static void resetAll() {
@@ -297,6 +297,6 @@ public class OrderBook {
             book.save();
         }
     
-        instance.getServer().getLogger().info("All OrderBooks (" + CACHE.values().size() + ") have been reset.");
+        instance.logInfo("All OrderBooks (" + CACHE.values().size() + ") have been reset.");
     }
 }

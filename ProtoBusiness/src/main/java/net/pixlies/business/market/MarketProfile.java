@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.locale.MarketLang;
-import net.pixlies.core.configuration.Config;
+import net.pixlies.core.modules.configuration.ModuleConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -102,12 +102,12 @@ public class MarketProfile {
       public void save() {
             CACHE.put(uuid, this);
             String playerName = Objects.requireNonNull(Bukkit.getPlayer(uuid)).getName();
-            instance.getServer().getLogger().info("The MarketProfile of " + playerName + " has been saved to the CACHE.");
+            instance.logInfo("The MarketProfile of " + playerName + " has been saved to the CACHE.");
       }
       
       public void backup() {
             String filename = uuid.toString() + ".yml";
-            Config file = new Config(new File(PROFILES_PATH + filename), filename);
+            ModuleConfig file = new ModuleConfig(instance, new File(PROFILES_PATH + filename), filename);
             
             List<String> blockedList = new ArrayList<>();
             for (UUID uuid : blockedPlayers) {
@@ -119,7 +119,7 @@ public class MarketProfile {
             file.save();
       
             String playerName = Objects.requireNonNull(Bukkit.getPlayer(uuid)).getName();
-            instance.getServer().getLogger().info("The MarketProfile of " + playerName + " has been backed up to the files.");
+            instance.logInfo("The MarketProfile of " + playerName + " has been backed up to the files.");
       }
       
       public static void backupAll() {
@@ -128,7 +128,7 @@ public class MarketProfile {
       
       private static MarketProfile getFromFiles(UUID uuid) {
             String filename = uuid.toString() + ".yml";
-            Config file = new Config(new File(PROFILES_PATH + filename), filename);
+            ModuleConfig file = new ModuleConfig(instance, new File(PROFILES_PATH + filename), filename);
             
             List<UUID> blockedPlayers = new ArrayList<>();
             for (String string : file.getStringList("blockedPlayers")) {
@@ -143,22 +143,22 @@ public class MarketProfile {
       }
       
       public static MarketProfile get(UUID uuid) {
-            String filename = uuid.toString() + ".yml";
-      
+            // Get from CACHE
+            if (CACHE.containsKey(uuid)) {
+                  return CACHE.get(uuid);
+            }
+            
             // If the MarketProfile does not exist
+            String filename = uuid.toString() + ".yml";
             if (!new File(PROFILES_PATH + filename).exists()) {
                   MarketProfile profile = new MarketProfile(uuid);
                   profile.save();
                   return profile;
             }
-            
-            // If the MarketProfile is not in the cache
-            if (!CACHE.containsKey(uuid)) {
-                  MarketProfile profile = getFromFiles(uuid);
-                  profile.save();
-                  return profile;
-            }
-            
-            return CACHE.get(uuid);
+      
+            // Get from files
+            MarketProfile profile = getFromFiles(uuid);
+            profile.save();
+            return profile;
       }
 }
