@@ -94,8 +94,9 @@ public enum MarketLang {
     MARKET_MONEY_GAINED(MarketLang.MARKET),
     MARKET_SOLD(MarketLang.MARKET),
     MARKET_BOUGHT(MarketLang.MARKET),
-    
-    
+   
+    PAGE_INDEX(MarketLang.MARKET),
+    PAGE_DOES_NOT_EXIST(MarketLang.MARKET),
     
     // OTHER
     PLAYER_DOES_NOT_EXIST(Lang.PIXLIES);

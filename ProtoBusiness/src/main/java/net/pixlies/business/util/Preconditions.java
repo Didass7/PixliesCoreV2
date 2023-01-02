@@ -21,6 +21,15 @@ import java.util.List;
 public class Preconditions {
       private static final ProtoBusiness instance = ProtoBusiness.getInstance();
       
+      public static boolean doesPageExist(Player player, int page, int pages) {
+            if (page > pages || page < 1) {
+                  MarketLang.PLAYER_DOES_NOT_EXIST.send(player);
+                  SoundUtil.error(player);
+                  return false;
+            }
+            return true;
+      }
+      
       public static boolean doesPlayerExist(Player player, String name) {
             if (Bukkit.getPlayerExact(name) == null) {
                   MarketLang.PLAYER_DOES_NOT_EXIST.send(player);

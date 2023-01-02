@@ -90,4 +90,7 @@ MARKET_MONEY_GAINED: "§8» §7Money gained: §6%X%$"
 MARKET_SOLD: "§8» §7Items sold: §d%X%$"
 MARKET_BOUGHT: "§8» §7Items bought: §d%X%$"
 
+PAGE_INDEX: "§7Page §a%PAGE%§7/%MAX%"
+PAGE_DOES_NOT_EXIST: "§cThis page does not exist!"
+
 PLAYER_DOES_NOT_EXIST: "§cThis player does not exist!"

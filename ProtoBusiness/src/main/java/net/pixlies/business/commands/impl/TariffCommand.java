@@ -86,25 +86,25 @@ public class TariffCommand extends BaseCommand {
       
       @Subcommand("global")
       @Description("Retrieve the list of all incoming and outgoing tariffs")
-      public void onTariffGlobal(Player player) {
+      public void onTariffGlobal(Player player, @Optional Integer page) {
             // If there are no tariffs
             if (Preconditions.ifNoGlobalTariffs(player))
                   return;
+      
+            int size = Tariff.getAll().size();
+            int pages = (int) Math.ceil(size / 7.0);
             
-            // Show all tariffs
-            MarketLang.TARIFF_GLOBAL.send(player);
-            for (Tariff t : Tariff.getAll()) {
-                  String from = Objects.requireNonNull(Nation.getFromId(t.getInitId())).getName();
-                  String to = Objects.requireNonNull(Nation.getFromId(t.getTargetId())).getName();
-                  MarketLang.TARIFF_GLOBAL_FORMAT.send(
-                          player,
-                          "%NX%;" + from,
-                          "%COLOR%;" + t.getType().getColor(),
-                          "%TARIFF%;" + t.getType().toString(),
-                          "%NY%;" + to,
-                          "%RATE%;" + t.getFormattedRate()
-                  );
+            // If the "page" argument is null
+            if (page == null) {
+                  showGlobalListPage(player, 1);
+                  return;
             }
+      
+            // If the page does not exist
+            if (!Preconditions.doesPageExist(player, page, pages))
+                  return;
+      
+            showGlobalListPage(player, page);
       }
       
       @Subcommand("set")
@@ -216,5 +216,28 @@ public class TariffCommand extends BaseCommand {
       @HelpCommand
       public void onHelp(CommandHelp help) {
             help.showHelp();
+      }
+      
+      private void showGlobalListPage(Player player, int page) {
+            // Each page will have 7 entries
+            int size = Tariff.getAll().size();
+            int pages = (int) Math.ceil(size / 7.0);
+            int limit = Math.min(7 * page, size);
+      
+            MarketLang.TARIFF_GLOBAL.send(player);
+            for (int i = (page - 1) * 7 + 1; i <= limit; i++) {
+                  Tariff tariff = Tariff.getAll().get(i - 1);
+                  String from = Objects.requireNonNull(Nation.getFromId(tariff.getInitId())).getName();
+                  String to = Objects.requireNonNull(Nation.getFromId(tariff.getTargetId())).getName();
+                  MarketLang.TARIFF_GLOBAL_FORMAT.send(
+                          player,
+                          "%NX%;" + from,
+                          "%COLOR%;" + tariff.getType().getColor(),
+                          "%TARIFF%;" + tariff.getType().toString(),
+                          "%NY%;" + to,
+                          "%RATE%;" + tariff.getFormattedRate()
+                  );
+            }
+            MarketLang.PAGE_INDEX.send(player, "%PAGE%;" + page, "%MAX%;" + pages);
       }
 }
