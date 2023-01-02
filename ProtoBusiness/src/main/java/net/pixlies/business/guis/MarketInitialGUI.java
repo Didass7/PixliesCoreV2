@@ -9,7 +9,7 @@ import lombok.Getter;
 import net.pixlies.business.items.MarketGUIItems;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.orders.OrderProfile;
-import net.pixlies.business.panes.MarketPane;
+import net.pixlies.business.guis.panes.MarketPane;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

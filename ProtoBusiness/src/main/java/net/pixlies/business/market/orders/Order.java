@@ -40,6 +40,7 @@ public class Order {
     private int volume;
     
     private final List<Trade> trades;
+    private final Map<Double, Boolean> refunds;
     
     public Order(Type type, String bookItem, long timestamp, UUID playerUUID, double price, int amount) {
         orderId = TextUtils.generateId(9);
@@ -51,13 +52,14 @@ public class Order {
         this.amount = amount;
         volume = amount;
         trades = new LinkedList<>();
+        refunds = new HashMap<>();
     }
     
     /**
      * Best shit you've ever seen.
      * Զըխխը՛մ։
      */
-    public double getPrice(UUID matchingUUID) {
+    public double getRelativePrice(UUID matchingUUID) {
         if (playerUUID == matchingUUID) return price;
         
         String initId = NationProfile.get(playerUUID).getNationId();
@@ -76,6 +78,11 @@ public class Order {
         }
         
         double rate = 0.00;
+        
+        /* Explanation for tariffs:
+        - SELL orders: IMPORT Y -> X and EXPORT X -> Y
+        - BUY orders: IMPORT X -> Y and IMPORT Y -> X
+         */
         
         for (Tariff tariff : initTariffs) {
             if (tariff.getType() == Tariff.Type.EXPORTS && type == Type.SELL) {
@@ -99,10 +106,45 @@ public class Order {
     }
     
     public boolean isCancellable() {
-        for (Trade t : trades) {
-            if (!t.isClaimed()) return false;
+        for (Trade trade : trades) {
+            if (!trade.isClaimed()) return false;
         }
         return true;
+    }
+    
+    public int getItemsToClaim() {
+        int items = 0;
+        for (Trade trade : trades) {
+            if (trade.isClaimed()) continue;
+            items += trade.getAmount();
+        }
+        return items;
+    }
+    
+    public double getCoinsToClaim() {
+        double coins = 0;
+        for (Trade trade : trades) {
+            if (trade.isClaimed()) continue;
+            coins += trade.getPrice() * trade.getAmount();
+        }
+        return coins;
+    }
+    
+    public double getTotalRefunds() {
+        double totalRefunds = 0;
+        for (Double value : refunds.keySet()) {
+            totalRefunds += value;
+        }
+        return totalRefunds;
+    }
+    
+    public double getRefundableCoins() {
+        double claimableRefunds = 0;
+        for (Map.Entry<Double, Boolean> entry : refunds.entrySet()) {
+            if (entry.getValue()) continue;
+            claimableRefunds += entry.getKey();
+        }
+        return claimableRefunds;
     }
     
     public void decreaseVolume(int amount) {

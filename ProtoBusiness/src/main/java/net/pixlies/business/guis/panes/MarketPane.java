@@ -1,4 +1,4 @@
-package net.pixlies.business.panes;
+package net.pixlies.business.guis.panes;
 
 import com.github.stefvanschie.inventoryframework.gui.GuiItem;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;

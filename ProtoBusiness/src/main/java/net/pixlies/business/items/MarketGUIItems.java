@@ -6,7 +6,6 @@ import net.pixlies.business.market.MarketProfile;
 import net.pixlies.business.market.orders.Order;
 import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.business.market.orders.OrderItem;
-import net.pixlies.business.market.orders.Trade;
 import net.pixlies.business.util.MarketUtil;
 import net.pixlies.core.utils.ItemBuilder;
 import net.pixlies.core.utils.PlayerUtils;
@@ -34,12 +33,12 @@ public final class MarketGUIItems {
     public static ItemStack getBackArrow(String text) {
         return new ItemBuilder(new ItemStack(Material.ARROW))
                 .setDisplayName("§aGo back")
-                .addLoreLine("§7[" + text + "]")
+                .addLoreLine("§8[" + text + "§8]")
                 .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
                 .build();
     }
     
-    // MARKET PAGE BOTTOM PANE
+    // --------------------------------------------------------------------------------------------
     
     public static ItemStack getProfileStats(Player player) {
         MarketProfile profile = MarketProfile.get(player.getUniqueId());
@@ -93,6 +92,7 @@ public final class MarketGUIItems {
         List<Order> orders = MarketUtil.getPlayerBuyOrders(player.getUniqueId());
         orders.addAll(MarketUtil.getPlayerSellOrders(player.getUniqueId()));
         
+        // Check if there are any goods to claim
         boolean goods = false;
         for (Order order : orders) {
             if (!order.isCancellable()) {
@@ -102,16 +102,17 @@ public final class MarketGUIItems {
         }
         
         ItemBuilder builder = new ItemBuilder(new ItemStack(Material.BOOK))
-                .setDisplayName("§bMy orders")
+                .setDisplayName("§bPlaced Orders")
                 .addLoreLine(" ");
+        
         if (goods) {
-            return builder.addLoreLine("§eClick to view your orders!").build();
-        } else {
-            return builder.addLoreLine("§aYou have items to claim!").addLoreLine("§eClick to view your orders!").build();
+            builder.addLoreLine("§aYou have items to claim!");
         }
+        
+        return builder.addLoreLine("§eClick to view your orders!").build();
     }
     
-    // MARKET PAGE SELECTION PANE
+    // --------------------------------------------------------------------------------------------
     
     public static ItemStack getSelectedSelection(MarketInitialGUI.Selection s, String name) {
         return new ItemBuilder(new ItemStack(s.getMaterial()))
@@ -134,68 +135,71 @@ public final class MarketGUIItems {
                 .build();
     }
     
-    // MY ORDERS PAGE
+    // --------------------------------------------------------------------------------------------
     
     public static ItemStack getOrderItem(Material material, Order order) {
         String name = OrderBook.get(order.getBookItem()).getItem().name();
         Order.Type type = order.getType();
-        
-        // TOP INFO
-        
+        String maxOrMin = type == Order.Type.BUY ? "max." : "min.";
+    
+        // Top info
         ItemBuilder builder = new ItemBuilder(new ItemStack(material))
-                .setDisplayName((type == Order.Type.BUY ? "§a§lBUY" : "§6§lSELL") + "§r§7: §f" + name)
-                .addLoreLine("§8>> §b" + order.getAmount() + "§8x §b" + name)
+                .setDisplayName((type == Order.Type.BUY ? "§a§lBUY" : "§6§lSELL") + "§r§7: §b" +
+                                order.getAmount() + "§8x §f" + name)
                 .addLoreLine(" ")
-                .addLoreLine("§7Price per unit: §6" + order.getPrice() + " coins");
+                .addLoreLine("§7Price per unit: §f" + maxOrMin + " §6" + order.getPrice() + " coins");
         
-        
-        // ORDER FILLS
-        
+        // Percentage of the order that is filled
         if (order.getVolume() != order.getAmount()) {
-            String percentage = "§a§lFILLED";
+            int percentage = (int) Math.round((double) order.getVolume() / (double) order.getAmount() * 100);
+            String strPercentage = "§a§lFILLED";
             if (order.getVolume() != 0) {
-                percentage =
-                        "§8(§e" + Math.round((double) order.getVolume() / (double) order.getAmount() * 100) + "%§8)";
+                strPercentage = "§8(§e" + percentage + "%§8)";
             }
-            String amount = "§a" + (order.getAmount() - order.getVolume()) + "§7/" + order.getAmount() + " ";
-            builder.addLoreLine("§7Filled: " + amount + percentage);
+            String amount = "§a" + (order.getAmount() - order.getVolume()) + "§7/" + order.getAmount();
+            builder.addLoreLine("§7Filled: " + amount + " " + strPercentage);
         }
         
-        // PRICE
-        
+        // Price with sales taxes
         Nation nation = NationProfile.get(order.getPlayerUUID()).getNation();
         double tax = nation.getTaxRate();
-        
-        builder.addLoreLine("§7§lTotal price: §6" + (order.getPrice() * order.getAmount() * (1 + tax)) + " coins")
+        double price = (order.getPrice() * order.getAmount() * (1 + tax));
+        builder.addLoreLine("§7§lTotal price: §f" + maxOrMin + " §6" + price + " coins")
                 .addLoreLine(" ");
         
-        if (order.getVolume() == order.getAmount()) {
-            builder.addLoreLine("§eClick to view more options!");
-        } else {
-            builder.addLoreLine(type == Order.Type.BUY ? "§7Vendor(s):" : "§7Buyer(s):");
-            
-            // TRADES LIST
-            
-            for (Trade trade : order.getTrades()) {
-                builder.addLoreLine(trade.toString());
-            }
-            
-            // BOTTOM INFO
-            // todo if there are no items to claim
-            
-            if (order.isCancellable()) {
-                builder.addLoreLine("§cClick to cancel!");
-            } else {
-                builder.addLoreLine(" ")
-                        .addLoreLine("§aYou have §2" + (order.getAmount() - order.getVolume()) + " items§a to" +
-                                " claim!")
-                        .addLoreLine(" ")
-                        .addLoreLine(type == Order.Type.BUY ? "§eClick to claim items!" : "§eClick to claim " +
-                                "coins!");
-            }
+        // If there are no trades, build the ItemStack and return
+        if (order.getTrades().size() == 0) {
+            return builder.addLoreLine("§eClick to view more options!").build();
+        }
+    
+        // Trades list
+        builder.addLoreLine(type == Order.Type.BUY ? "§7Vendor(s):" : "§7Buyer(s):");
+        order.getTrades().forEach(trade -> builder.addLoreLine(trade.toString()));
+        
+        // Refunds
+        builder.addLoreLine(" ")
+                .addLoreLine("§8Refunded: §6" + order.getTotalRefunds() + " coins");
+        
+        // Cancel order
+        if (order.isCancellable()) {
+            return builder.addLoreLine(" ")
+                    .addLoreLine("§cClick to cancel!")
+                    .build();
         }
         
-        return builder.build();
+        // Claiming goods or coins
+        if (type == Order.Type.BUY) {
+            builder.addLoreLine(" ")
+                    .addLoreLine("§aYou have §2" + order.getItemsToClaim() + " items §ato claim!");
+        } else {
+            double coinsToClaim = order.getRefundableCoins() + order.getCoinsToClaim();
+            builder.addLoreLine(" ")
+                    .addLoreLine("§eYou have §6" + coinsToClaim + " coins §eto claim!");
+        }
+        
+        return builder.addLoreLine(" ")
+                .addLoreLine("§eClick to claim!")
+                .build();
     }
     
     public static ItemStack getCancelOrderButton(Order order) {

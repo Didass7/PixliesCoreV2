@@ -64,7 +64,7 @@ public class Trade {
             name = Rank.getRank(taker).getColor() + Objects.requireNonNull(Bukkit.getPlayer(taker)).getName();
         }
         
-        return "§8» §a" + amount + "§8x §7@ §6" + price + "$ §8- " + name + " §8" + time;
+        return " §8» §a" + amount + "§8x §7@ §6" + price + "$ §8- " + name + " §8" + time;
     }
     
     public void save() {

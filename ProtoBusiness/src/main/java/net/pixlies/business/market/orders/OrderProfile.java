@@ -327,6 +327,8 @@ public class OrderProfile {
     // OTHER METHODS
     // ----------------------------------------------------------------------------------------------------
     
+    // TODO: REFUNDING EXTRA MONEY + DON'T FORGET TO UPDATE THE BOOLEAN ON CLAIMING THE REFUND
+    
     public void refundGoods(Order order) {
         Player player = Bukkit.getPlayer(uuid);
         assert player != null;

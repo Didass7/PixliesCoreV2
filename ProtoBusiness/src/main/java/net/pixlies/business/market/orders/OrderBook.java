@@ -52,7 +52,7 @@ public class OrderBook {
         for (Order o : orders) {
             if (list.size() == 8) break;
             String playerName = Objects.requireNonNull(Bukkit.getPlayer(o.getPlayerUUID())).getName();
-            list.add("§8- §a" + o.getAmount() + "§8x§7 at §6" + o.getPrice(uuid) + "§7 each from §b" + playerName);
+            list.add("§8- §a" + o.getAmount() + "§8x§7 at §6" + o.getRelativePrice(uuid) + "§7 each from §b" + playerName);
         }
         
         return list;
@@ -60,14 +60,14 @@ public class OrderBook {
     
     public double getLowestBuyPrice(UUID matching) {
         List<Double> prices = new ArrayList<>();
-        buyOrders.forEach(order -> prices.add(order.getPrice(matching)));
+        buyOrders.forEach(order -> prices.add(order.getRelativePrice(matching)));
         if (prices.isEmpty()) return 0;
         else return Collections.min(prices);
     }
     
     public double getHighestSellPrice(UUID matching) {
         List<Double> prices = new ArrayList<>();
-        sellOrders.forEach(order -> prices.add(order.getPrice(matching)));
+        sellOrders.forEach(order -> prices.add(order.getRelativePrice(matching)));
         if (prices.isEmpty()) return 0;
         else return Collections.max(prices);
     }
@@ -103,8 +103,8 @@ public class OrderBook {
         Order.Type type = initialOrder.getType();
         for (Order matchingOrder : orders) {
             // Get relative prices
-            double initialPrice = initialOrder.getPrice(matchingOrder.getPlayerUUID());
-            double matchingPrice = matchingOrder.getPrice(initialOrder.getPlayerUUID());
+            double initialPrice = initialOrder.getRelativePrice(matchingOrder.getPlayerUUID());
+            double matchingPrice = matchingOrder.getRelativePrice(initialOrder.getPlayerUUID());
             
             boolean buyCondition = type == Order.Type.BUY && matchingPrice <= initialPrice;
             boolean sellCondition = type == Order.Type.SELL && matchingPrice >= initialPrice;
@@ -133,8 +133,24 @@ public class OrderBook {
     
     private void addTrade(Order initialOrder, Order matchingOrder, int traded) {
         Order.Type type = initialOrder.getType();
-        double price = matchingOrder.getPrice(initialOrder.getPlayerUUID());
+        double price = matchingOrder.getRelativePrice(initialOrder.getPlayerUUID());
         double total = price * traded;
+        
+        // Refunds
+        double refund;
+        if (type == Order.Type.BUY) {
+            refund = initialOrder.getPrice() - initialOrder.getRelativePrice(matchingOrder.getPlayerUUID());
+            if (refund != 0) {
+                initialOrder.getRefunds().put(refund, false);
+                initialOrder.save();
+            }
+        } else {
+            refund = matchingOrder.getPrice() - matchingOrder.getRelativePrice(initialOrder.getPlayerUUID());
+            if (refund != 0) {
+                matchingOrder.getRefunds().put(refund, false);
+                matchingOrder.save();
+            }
+        }
         
         instance.getStats().set("market.trades", instance.getStats().getInt("market.trades") + 1);
         
@@ -215,6 +231,10 @@ public class OrderBook {
         }};
         file.set(initPath + "trades", trades);
         
+        for (Map.Entry<Double, Boolean> entry : order.getRefunds().entrySet()) {
+            file.set(initPath + "refunds." + entry.getKey().toString(), entry.getValue());
+        }
+        
         file.save();
     }
     
@@ -262,8 +282,16 @@ public class OrderBook {
         for (String strTrade : file.getStringList(initPath + "trades")) {
             trades.add(new Trade(orderId, strTrade));
         }
+        
+        ConfigurationSection refundsSection = file.getConfigurationSection(initPath + "refunds");
+        Map<Double, Boolean> refunds = new HashMap<>();
+        if (refundsSection != null) {
+            for (String key : refundsSection.getKeys(false)) {
+                refunds.put(Double.parseDouble(key), file.getBoolean(initPath + "refunds." + key));
+            }
+        }
     
-        return new Order(bookItem, orderId, timestamp, orderType, playerUUID, price, amount, volume, trades);
+        return new Order(bookItem, orderId, timestamp, orderType, playerUUID, price, amount, volume, trades, refunds);
     }
     
     public static void backupAll() {
