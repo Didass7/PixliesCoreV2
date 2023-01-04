@@ -85,6 +85,9 @@ public enum MarketLang {
     TRADE_BLOCK_ADDED(MarketLang.MARKET),
     TRADE_BLOCK_REMOVED(MarketLang.MARKET),
     
+    PLAYER_IS_TRADEBLOCKED(MarketLang.MARKET),
+    PLAYER_IS_NOT_TRADEBLOCKED(MarketLang.MARKET),
+    
     // MARKET STATS
     MARKET_STATS(MarketLang.MARKET),
     MARKET_BUYS(MarketLang.MARKET),
@@ -99,7 +102,8 @@ public enum MarketLang {
     PAGE_DOES_NOT_EXIST(MarketLang.MARKET),
     
     // OTHER
-    PLAYER_DOES_NOT_EXIST(Lang.PIXLIES);
+    PLAYER_DOES_NOT_EXIST(Lang.PIXLIES),
+    PLAYER_HAS_NEVER_JOINED(Lang.PIXLIES);
     
     public static final String MARKET = "§x§1§f§c§a§7§3§lM§x§0§0§b§e§8§d§lA§x§0§0§b§0§a§0§lR§x§0§0§a§1§a§9§lK§x§0§0" +
             "§9§1§a§9§lE§x§1§b§8§1§9§f§lT§8 | §7";

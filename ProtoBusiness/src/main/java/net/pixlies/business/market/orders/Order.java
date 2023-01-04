@@ -7,6 +7,7 @@ import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.business.market.nations.Tariff;
 import net.pixlies.core.utils.TextUtils;
+import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.interfaces.NationProfile;
 
 import java.util.*;
@@ -65,44 +66,15 @@ public class Order {
         String initId = NationProfile.get(playerUUID).getNationId();
         String matchId = NationProfile.get(matchingUUID).getNationId();
         
-        // Get matching tariffs
-        List<Tariff> initTariffs = new ArrayList<>();
-        List<Tariff> matchedTariffs = new ArrayList<>();
+        double rate = Nation.getFromId(initId).getTaxRate();
+        
         for (Tariff tariff : Tariff.getAll()) {
             if (Objects.equals(tariff.getInitId(), initId) && Objects.equals(tariff.getTargetId(), matchId)) {
-                initTariffs.add(tariff);
-            }
-            if (Objects.equals(tariff.getInitId(), matchId) && Objects.equals(tariff.getTargetId(), initId)) {
-                matchedTariffs.add(tariff);
+                return price * (1 + rate + tariff.getRate());
             }
         }
         
-        double rate = 0.00;
-        
-        /* Explanation for tariffs:
-        - SELL orders: IMPORT Y -> X and EXPORT X -> Y
-        - BUY orders: IMPORT X -> Y and IMPORT Y -> X
-         */
-        
-        for (Tariff tariff : initTariffs) {
-            if (tariff.getType() == Tariff.Type.EXPORTS && type == Type.SELL) {
-                rate += tariff.getRate();
-            }
-            if (tariff.getType() == Tariff.Type.IMPORTS && type == Type.BUY) {
-                rate += tariff.getRate();
-            }
-        }
-    
-        for (Tariff tariff : matchedTariffs) {
-            if (tariff.getType() == Tariff.Type.IMPORTS && type == Type.SELL) {
-                rate += tariff.getRate();
-            }
-            if (tariff.getType() == Tariff.Type.EXPORTS && type == Type.BUY) {
-                rate += tariff.getRate();
-            }
-        }
-        
-        return price * (1 + rate);
+        return price;
     }
     
     public boolean isCancellable() {

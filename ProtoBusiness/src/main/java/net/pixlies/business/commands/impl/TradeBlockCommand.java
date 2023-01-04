@@ -11,6 +11,7 @@ import net.pixlies.business.util.SoundUtil;
 import net.pixlies.core.ranks.Rank;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -59,21 +60,25 @@ public class TradeBlockCommand extends BaseCommand {
       @Description("Block a player from trading with you")
       @Syntax("<player>")
       public void onTradeBlockAdd(Player player, String name) {
+            OfflinePlayer offlineTarget = Bukkit.getOfflinePlayer(name);
+      
             // If the player does not exist
-            if (!Preconditions.doesPlayerExist(player, name))
+            if (!Preconditions.hasPlayerEverJoined(player, offlineTarget.getUniqueId()))
+                  return;
+            
+            // If the player is already trade-blocked
+            if (Preconditions.isPlayerAlreadyTradeBlocked(player, name))
                   return;
             
             // Block player
-            Player target = Bukkit.getPlayerExact(name);
-            assert target != null;
             MarketProfile profile = MarketProfile.get(player.getUniqueId());
-            profile.tradeBlockPlayer(target.getUniqueId());
+            profile.tradeBlockPlayer(offlineTarget.getUniqueId());
             profile.save();
             
             // Send messages and play sound
             MarketLang.TRADE_BLOCK_ADDED.send(
                     player,
-                    "%TARGET%;" + Rank.getRank(target.getUniqueId()).getColor() + name
+                    "%PLAYER%;" + Rank.getRank(offlineTarget.getUniqueId()).getColor() + name
             );
             SoundUtil.success(player);
       }
@@ -82,21 +87,25 @@ public class TradeBlockCommand extends BaseCommand {
       @Description("Unblock a player from trading with you")
       @Syntax("<player>")
       public void onTradeBlockRemove(Player player, String name) {
+            OfflinePlayer offlineTarget = Bukkit.getOfflinePlayer(name);
+      
             // If the player does not exist
-            if (!Preconditions.doesPlayerExist(player, name))
+            if (!Preconditions.hasPlayerEverJoined(player, offlineTarget.getUniqueId()))
+                  return;
+      
+            // If the player is not trade-blocked
+            if (Preconditions.isPlayerAlreadyNotTradeBlocked(player, name))
                   return;
             
             // Unblock player
-            Player target = Bukkit.getPlayerExact(name);
-            assert target != null;
             MarketProfile profile = MarketProfile.get(player.getUniqueId());
-            profile.unTradeBlockPlayer(target.getUniqueId());
+            profile.unTradeBlockPlayer(offlineTarget.getUniqueId());
             profile.save();
             
             // Send messages and play sound
             MarketLang.TRADE_BLOCK_REMOVED.send(
                     player,
-                    "%TARGET%;" + Rank.getRank(target.getUniqueId()).getColor() + name
+                    "%PLAYER%;" + Rank.getRank(offlineTarget.getUniqueId()).getColor() + name
             );
             SoundUtil.littleSuccess(player);
       }

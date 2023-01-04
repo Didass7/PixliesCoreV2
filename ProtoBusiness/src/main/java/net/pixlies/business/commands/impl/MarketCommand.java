@@ -64,7 +64,7 @@ public class MarketCommand extends BaseCommand {
       @Description("Opens the market to the public")
       public void onMarketOpen(Player player) {
             // If the market was already open
-            if (Preconditions.isMarketOpen(player, MarketLang.MARKET_WAS_ALREADY_OPEN))
+            if (Preconditions.isMarketAlreadyOpen(player))
                   return;
             
             // Open the market gates

@@ -38,13 +38,19 @@ public final class MarketGUIItems {
                 .build();
     }
     
+    public static ItemStack getEmptyItem() {
+        return new ItemBuilder(new ItemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE))
+                .setDisplayName("")
+                .build();
+    }
+    
     // --------------------------------------------------------------------------------------------
     
     public static ItemStack getProfileStats(Player player) {
         MarketProfile profile = MarketProfile.get(player.getUniqueId());
         
         return new ItemBuilder(PlayerUtils.getSkull(player.getUniqueId()))
-                .setDisplayName("§6" + player.getName() + "'s stats")
+                .setDisplayName("§6" + player.getName() + "'s Statistics")
                 .addLoreLine(" ")
                 .addLoreLine("§7Buy orders made: §b" + profile.getBuyOrdersMade())
                 .addLoreLine("§7Sell orders made: §b" + profile.getSellOrdersMade())
@@ -66,7 +72,7 @@ public final class MarketGUIItems {
     
     public static ItemStack getMarketStats() {
         return new ItemBuilder(new ItemStack(Material.EMERALD))
-                .setDisplayName("§aMarket stats")
+                .setDisplayName("§aMarket Statistics")
                 .addLoreLine(" ")
                 .addLoreLine("§7Buy orders made: §b" + instance.getStats().get("market.buyOrders", 0))
                 .addLoreLine("§7Sell orders made: §b" + instance.getStats().get("market.sellOrders", 0))

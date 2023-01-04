@@ -59,7 +59,7 @@ public class ProtoBusiness extends JavaPlugin implements Module {
     }
     
     public void logInfo(String message) {
-        getLogger().info("[ProtoBusiness] " + message);
+        getLogger().info(message);
     }
     
     @NotNull

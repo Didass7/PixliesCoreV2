@@ -5,13 +5,15 @@ import lombok.Getter;
 import lombok.Setter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.locale.MarketLang;
-import net.pixlies.core.modules.configuration.ModuleConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
+import java.util.logging.Level;
 
 /**
  * Market profile.
@@ -19,6 +21,7 @@ import java.util.*;
  * @author vyketype
  */
 @Getter
+@Setter
 public class MarketProfile {
       private static final ProtoBusiness instance = ProtoBusiness.getInstance();
       private static final String PROFILES_PATH = instance.getDataFolder().getAbsolutePath() + "/profiles/";
@@ -29,8 +32,10 @@ public class MarketProfile {
       @Setter(AccessLevel.PRIVATE)
       private List<UUID> blockedPlayers;
       
-      @Setter
       private boolean restricted;
+      
+      @Getter(AccessLevel.NONE)
+      private boolean hasJoinedBefore;
       
       private int buyOrdersMade;
       private int sellOrdersMade;
@@ -44,6 +49,7 @@ public class MarketProfile {
             this.uuid = uuid;
             blockedPlayers = new ArrayList<>();
             restricted = false;
+            hasJoinedBefore = true;
             buyOrdersMade = 0;
             sellOrdersMade = 0;
             tradesMade = 0;
@@ -51,6 +57,10 @@ public class MarketProfile {
             moneyGained = 0;
             itemsSold = 0;
             itemsBought = 0;
+      }
+      
+      public boolean hasJoinedBefore() {
+            return hasJoinedBefore;
       }
       
       public void tradeBlockPlayer(UUID uuid) {
@@ -107,20 +117,38 @@ public class MarketProfile {
       
       public void backup() {
             String filename = uuid.toString() + ".yml";
-            ModuleConfig file = new ModuleConfig(instance, new File(PROFILES_PATH + filename), filename);
+      
+            File file = new File(PROFILES_PATH + filename);
+            YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
             
             List<String> blockedList = new ArrayList<>();
             for (UUID uuid : blockedPlayers) {
                   blockedList.add(uuid.toString());
             }
       
-            file.set("blockedPlayers", blockedList);
-            file.set("restricted", restricted);
-            file.save();
+            yaml.set("blockedPlayers", blockedList);
+            yaml.set("restricted", restricted);
+            yaml.set("hasJoinedBefore", hasJoinedBefore);
+            yaml.set("buyOrdersMade", buyOrdersMade);
+            yaml.set("sellOrdersMade", sellOrdersMade);
+            yaml.set("tradesMade", tradesMade);
+            yaml.set("moneySpent", moneySpent);
+            yaml.set("moneyGained", moneyGained);
+            yaml.set("itemsSold", itemsSold);
+            yaml.set("itemsBought", itemsBought);
+            
+            try {
+                  yaml.save(file);
+            } catch (IOException ex) {
+                  ex.printStackTrace();
+                  instance.getLogger().log(Level.SEVERE, "Unable to save MarketProfile of " + uuid + ".");
+            }
       
             String playerName = Objects.requireNonNull(Bukkit.getPlayer(uuid)).getName();
             instance.logInfo("The MarketProfile of " + playerName + " has been backed up to the files.");
       }
+      
+      // --------------------------------------------------------------------------------------------
       
       public static void backupAll() {
             CACHE.values().forEach(MarketProfile::backup);
@@ -128,16 +156,27 @@ public class MarketProfile {
       
       private static MarketProfile getFromFiles(UUID uuid) {
             String filename = uuid.toString() + ".yml";
-            ModuleConfig file = new ModuleConfig(instance, new File(PROFILES_PATH + filename), filename);
+            
+            File file = new File(PROFILES_PATH + filename);
+            YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
             
             List<UUID> blockedPlayers = new ArrayList<>();
-            for (String string : file.getStringList("blockedPlayers")) {
+            for (String string : yaml.getStringList("blockedPlayers")) {
                   blockedPlayers.add(UUID.fromString(string));
             }
             
             MarketProfile profile = new MarketProfile(uuid);
-            profile.setRestricted(file.getBoolean("restricted"));
+            profile.setRestricted(yaml.getBoolean("restricted"));
+            profile.setHasJoinedBefore(yaml.getBoolean("hasJoinedBefore"));
             profile.setBlockedPlayers(blockedPlayers);
+            profile.setBuyOrdersMade(yaml.getInt("buyOrdersMade"));
+            profile.setSellOrdersMade(yaml.getInt("sellOrdersMade"));
+            profile.setTradesMade(yaml.getInt("tradesMade"));
+            profile.setMoneySpent(yaml.getDouble("moneySpent"));
+            profile.setMoneyGained(yaml.getDouble("moneyGained"));
+            profile.setItemsSold(yaml.getInt("itemsSold"));
+            profile.setItemsBought(yaml.getInt("itemsBought"));
+            
             profile.save();
             return profile;
       }

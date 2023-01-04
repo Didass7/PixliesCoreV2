@@ -58,13 +58,7 @@ public class TariffCommand extends BaseCommand {
                   MarketLang.TARIFF_LOCAL_INCOMING.send(player);
                   incoming.forEach(t -> {
                         String from = Objects.requireNonNull(Nation.getFromId(t.getInitId())).getName();
-                        MarketLang.TARIFF_LOCAL_FORMAT.send(
-                                player,
-                                "%NX%;" + from,
-                                "%COLOR%;" + t.getType().getColor(),
-                                "%TARIFF%;" + t.getType().toString(),
-                                "%RATE%;" + t.getFormattedRate()
-                        );
+                        MarketLang.TARIFF_LOCAL_FORMAT.send(player, "%NX%;" + from, "%RATE%;" + t.getFormattedRate());
                   });
             }
             
@@ -73,13 +67,7 @@ public class TariffCommand extends BaseCommand {
                   MarketLang.TARIFF_LOCAL_OUTGOING.send(player);
                   outgoing.forEach(t -> {
                         String to = Objects.requireNonNull(Nation.getFromId(t.getTargetId())).getName();
-                        MarketLang.TARIFF_LOCAL_FORMAT.send(
-                                player,
-                                "%NX%;" + to,
-                                "%COLOR%;" + t.getType().getColor(),
-                                "%TARIFF%;" + t.getType().toString(),
-                                "%RATE%;" + t.getFormattedRate()
-                        );
+                        MarketLang.TARIFF_LOCAL_FORMAT.send(player, "%NX%;" + to, "%RATE%;" + t.getFormattedRate());
                   });
             }
       }
@@ -109,38 +97,31 @@ public class TariffCommand extends BaseCommand {
       
       @Subcommand("set")
       @Description("Set a tariff for a nation")
-      @Syntax("<nation> <IMPORTS|EXPORTS> <decimalRate>")
+      @Syntax("<nation> <decimalRate>")
       public void onTariffSet(Player player, String strArgs) {
             String[] args = StringUtils.split(strArgs, " ", -1);
             NationProfile nationProfile = NationProfile.get(player.getUniqueId());
-      
-            // If the tariff type argument is valid
-            if (Preconditions.isTariffTypeValid(player, args[1]))
-                  return;
             
             // If the rate argument is a valid number
-            if (!Preconditions.isRateANumber(player, args[2]))
+            if (!Preconditions.isRateANumber(player, args[1]))
                   return;
             
             // If all the other preconditions are met
-            if (!Preconditions.tariffSet(player, args))
+            if (!Preconditions.tariffSet(player, args[0], args[1]))
                   return;
             
             String targetNation = args[0];
-            Tariff.Type type = Tariff.Type.valueOf(args[1].toUpperCase());
-            double rate = Double.parseDouble(args[2]);
+            double rate = Double.parseDouble(args[1]);
             
             String initId = nationProfile.getNationId();
             String targetId = Objects.requireNonNull(Nation.getFromName(targetNation)).getNationId();
-            Tariff tariff = new Tariff(type, initId, targetId, rate);
+            Tariff tariff = new Tariff(initId, targetId, rate);
             tariff.save();
             
             // Send message to the players of the initial nation
             for (UUID uuid : Objects.requireNonNull(Nation.getFromId(initId)).getMembers()) {
                   MarketLang.INCOMING_TARIFF_SET.send(
                           Objects.requireNonNull(Bukkit.getPlayer(uuid)),
-                          "%COLOR%;" + type.getColor(),
-                          "%TARIFF%;" + type,
                           "%NATION%;" + targetNation,
                           "%RATE%;" + rate
                   );
@@ -151,8 +132,6 @@ public class TariffCommand extends BaseCommand {
                   MarketLang.OUTGOING_TARIFF_SET.send(
                           Objects.requireNonNull(Bukkit.getPlayer(uuid)),
                           "%NATION%;" + nationProfile.getNation().getName(),
-                          "%COLOR%;" + type.getColor(),
-                          "%TARIFF%;" + type,
                           "%RATE%;" + rate
                   );
             }
@@ -160,31 +139,18 @@ public class TariffCommand extends BaseCommand {
       
       @Subcommand("remove")
       @Description("Remove a tariff from a nation")
-      @Syntax("<nation> <IMPORTS|EXPORTS>")
-      public void onTariffRemove(Player player, String strArgs) {
-            String[] args = StringUtils.split(strArgs, " ", -1);
-            String targetNation = args[0];
-            String tariffType = args[1];
-            
+      @Syntax("<nation>")
+      public void onTariffRemove(Player player, String targetNation) {
             NationProfile nationProfile = NationProfile.get(player.getUniqueId());
-            
-            // If the tariff type argument is valid
-            if (Preconditions.isTariffTypeValid(player, args[1]))
-                  return;
       
             // If all the other preconditions are met
-            if (!Preconditions.tariffRemove(player, args))
+            if (!Preconditions.tariffRemove(player, targetNation))
                   return;
       
             String initId = nationProfile.getNationId();
             String targetId = Objects.requireNonNull(Nation.getFromName(targetNation)).getNationId();
-            Tariff.Type type = Tariff.Type.valueOf(tariffType.toUpperCase());
             
-            String tariffId = Tariff.getTariffId(
-                    nationProfile.getNation().getName(),
-                    targetNation,
-                    type
-            );
+            String tariffId = Tariff.getTariffId(nationProfile.getNation().getName(), targetNation);
             Tariff tariff = Tariff.get(tariffId);
             
             // If the program successfully removed the tariff
@@ -193,21 +159,18 @@ public class TariffCommand extends BaseCommand {
             
             // Send message to the players of the initial nation
             for (UUID uuid : Objects.requireNonNull(Nation.getFromId(initId)).getMembers()) {
-                  MarketLang.INCOMING_TARIFF_REMOVED.send(
-                          Objects.requireNonNull(Bukkit.getPlayer(uuid)),
-                          "%COLOR%;" + type.getColor(),
-                          "%TARIFF%;" + type,
-                          "%NATION%;" + targetNation
-                  );
+                  if (Bukkit.getPlayer(uuid) == null || !Bukkit.getPlayer(uuid).isOnline())
+                        continue;
+                  MarketLang.INCOMING_TARIFF_REMOVED.send(Bukkit.getPlayer(uuid), "%NATION%;" + targetNation);
             }
       
             // Send message to the players of the target nation
             for (UUID uuid : Objects.requireNonNull(Nation.getFromId(targetId)).getMembers()) {
+                  if (Bukkit.getPlayer(uuid) == null || !Bukkit.getPlayer(uuid).isOnline())
+                        continue;
                   MarketLang.OUTGOING_TARIFF_REMOVED.send(
-                          Objects.requireNonNull(Bukkit.getPlayer(uuid)),
-                          "%NATION%;" + nationProfile.getNation().getName(),
-                          "%COLOR%;" + type.getColor(),
-                          "%TARIFF%;" + type
+                          Bukkit.getPlayer(uuid),
+                          "%NATION%;" + nationProfile.getNation().getName()
                   );
             }
       }
@@ -232,8 +195,6 @@ public class TariffCommand extends BaseCommand {
                   MarketLang.TARIFF_GLOBAL_FORMAT.send(
                           player,
                           "%NX%;" + from,
-                          "%COLOR%;" + tariff.getType().getColor(),
-                          "%TARIFF%;" + tariff.getType().toString(),
                           "%NY%;" + to,
                           "%RATE%;" + tariff.getFormattedRate()
                   );

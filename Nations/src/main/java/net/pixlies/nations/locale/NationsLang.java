@@ -30,7 +30,9 @@ public enum NationsLang {
     NATION_DOES_NOT_EXIST(NationsLang.NATION),
     NATION_RENAME(NationsLang.NATION),
     NOT_IN_NATION(NationsLang.NATION),
-
+    
+    CANNOT_BE_YOUR_NATION(NationsLang.NATION),
+    
     NATION_PLAYER_CHANGED_DESCRIPTION(NationsLang.NATION),
     NATION_YOU_CHANGED_DESCRIPTION_BYPASS(NationsLang.NATION),
 
@@ -74,7 +76,7 @@ public enum NationsLang {
     TPA_EXPIRED(NationsLang.NATION),
     TPA_PLAYER_NOT_ONLINE(NationsLang.NATION),
     TP_CANCEL(NationsLang.NATION),
-
+    
     // COMBAT
     COMBAT_TELEPORT(NationsLang.NATION),
     COMBAT_HIT(NationsLang.NATION);

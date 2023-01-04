@@ -2,6 +2,7 @@ package net.pixlies.business.listeners.impl;
 
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.locale.MarketLang;
+import net.pixlies.business.market.MarketProfile;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,6 +14,12 @@ public class JoinNotifyListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        MarketLang.MARKET_LOGON.send(player);
+        instance.getServer().getScheduler().runTaskLater(
+                instance,
+                () -> MarketLang.MARKET_LOGON.send(player),
+                3 * 20L
+        );
+        MarketProfile profile = MarketProfile.get(player.getUniqueId());
+        profile.setHasJoinedBefore(true);
     }
 }

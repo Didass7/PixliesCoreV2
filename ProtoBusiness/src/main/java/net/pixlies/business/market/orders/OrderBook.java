@@ -4,12 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.market.MarketProfile;
-import net.pixlies.core.modules.configuration.ModuleConfig;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
+import java.util.logging.Level;
 
 /**
  * Represents the order book for one item.
@@ -37,7 +40,7 @@ public class OrderBook {
     // --------------------------------------------------------------------------------------------
     
     public String getItemName() {
-        return item.getName().toLowerCase();
+        return WordUtils.capitalize(item.getName().toLowerCase());
     }
     
     public List<String> getRecentOrders(Order.Type type, OrderItem item, UUID uuid) {
@@ -102,6 +105,9 @@ public class OrderBook {
     private void processOrder(Order initialOrder, List<Order> orders) {
         Order.Type type = initialOrder.getType();
         for (Order matchingOrder : orders) {
+            if (initialOrder.getPlayerUUID() == matchingOrder.getPlayerUUID())
+                continue;
+            
             // Get relative prices
             double initialPrice = initialOrder.getRelativePrice(matchingOrder.getPlayerUUID());
             double matchingPrice = matchingOrder.getRelativePrice(initialOrder.getPlayerUUID());
@@ -216,26 +222,33 @@ public class OrderBook {
     }
     
     private void writeInFile(String filename, Order order, String type) {
-        ModuleConfig file = new ModuleConfig(instance, new File(BOOKS_PATH + filename), filename);
-        String initPath = type + "." + order.getOrderId() + ".";
+        File file = new File(BOOKS_PATH + filename);
+        YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
         
-        file.set(initPath + "timestamp", order.getTimestamp());
-        file.set(initPath + "type", order.getType().name());
-        file.set(initPath + "playerUUID", order.getPlayerUUID().toString());
-        file.set(initPath + "price", order.getPrice());
-        file.set(initPath + "amount", order.getAmount());
-        file.set(initPath + "volume", order.getVolume());
+        String initPath = type + "." + order.getOrderId() + ".";
+    
+        yaml.set(initPath + "timestamp", order.getTimestamp());
+        yaml.set(initPath + "type", order.getType().name());
+        yaml.set(initPath + "playerUUID", order.getPlayerUUID().toString());
+        yaml.set(initPath + "price", order.getPrice());
+        yaml.set(initPath + "amount", order.getAmount());
+        yaml.set(initPath + "volume", order.getVolume());
         
         List<String> trades = new ArrayList<>() {{
             order.getTrades().forEach(trade -> add(trade.getSerializedString()));
         }};
-        file.set(initPath + "trades", trades);
+        yaml.set(initPath + "trades", trades);
         
         for (Map.Entry<Double, Boolean> entry : order.getRefunds().entrySet()) {
-            file.set(initPath + "refunds." + entry.getKey().toString(), entry.getValue());
+            yaml.set(initPath + "refunds." + entry.getKey().toString(), entry.getValue());
         }
-        
-        file.save();
+    
+        try {
+            yaml.save(file);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            instance.getLogger().log(Level.SEVERE, "Unable to save OrderBook of " + getItemName() + ".");
+        }
     }
     
     // --------------------------------------------------------------------------------------------
@@ -243,10 +256,12 @@ public class OrderBook {
     public static void loadAll() {
         for (OrderItem item : OrderItem.values()) {
             String filename = item.name() + ".yml";
-            ModuleConfig file = new ModuleConfig(instance, new File(BOOKS_PATH + filename), filename);
+            
+            File file = new File(BOOKS_PATH + filename);
+            YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
             
             List<Order> buyOrders = new ArrayList<>();
-            ConfigurationSection buys = file.getConfigurationSection("buys");
+            ConfigurationSection buys = yaml.getConfigurationSection("buys");
             if (buys != null) {
                 for (String key : buys.getKeys(false)) {
                     buyOrders.add(getFromFile(filename, key, "buys", item.name()));
@@ -254,40 +269,50 @@ public class OrderBook {
             }
     
             List<Order> sellOrders = new ArrayList<>();
-            ConfigurationSection sells = file.getConfigurationSection("sells");
+            ConfigurationSection sells = yaml.getConfigurationSection("sells");
             if (sells != null) {
                 for (String key : sells.getKeys(false)) {
                     sellOrders.add(getFromFile(filename, key, "sells", item.name()));
                 }
             }
             
-            CACHE.put(item.name(), new OrderBook(item, buyOrders, sellOrders));
+            OrderBook book = new OrderBook(item, buyOrders, sellOrders);
+            CACHE.put(item.name(), book);
+    
+            try {
+                yaml.save(file);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                instance.getLogger().log(Level.SEVERE, "Unable to save OrderBook of " + book.getItemName() + ".");
+            }
         }
     
         instance.logInfo("All OrderBooks (" + CACHE.values().size() + ") have been loaded.");
     }
     
     private static Order getFromFile(String filename, String orderId, String type, String bookItem) {
-        ModuleConfig file = new ModuleConfig(instance, new File(BOOKS_PATH + filename), filename);
+        File file = new File(BOOKS_PATH + filename);
+        YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
+        
         String initPath = type + "." + orderId + ".";
         
-        long timestamp = file.getLong(initPath + "timestamp");
-        Order.Type orderType = Order.Type.valueOf(file.getString(initPath + "type"));
-        UUID playerUUID = UUID.fromString(Objects.requireNonNull(file.getString(initPath + "playerUUID")));
-        double price = file.getDouble(initPath + "price");
-        int amount = file.getInt(initPath + "amount");
-        int volume = file.getInt(initPath + "volume");
+        long timestamp = yaml.getLong(initPath + "timestamp");
+        Order.Type orderType = Order.Type.valueOf(yaml.getString(initPath + "type"));
+        UUID playerUUID = UUID.fromString(Objects.requireNonNull(yaml.getString(initPath + "playerUUID")));
+        double price = yaml.getDouble(initPath + "price");
+        int amount = yaml.getInt(initPath + "amount");
+        int volume = yaml.getInt(initPath + "volume");
     
         List<Trade> trades = new ArrayList<>();
-        for (String strTrade : file.getStringList(initPath + "trades")) {
+        for (String strTrade : yaml.getStringList(initPath + "trades")) {
             trades.add(new Trade(orderId, strTrade));
         }
         
-        ConfigurationSection refundsSection = file.getConfigurationSection(initPath + "refunds");
+        ConfigurationSection refundsSection = yaml.getConfigurationSection(initPath + "refunds");
         Map<Double, Boolean> refunds = new HashMap<>();
         if (refundsSection != null) {
             for (String key : refundsSection.getKeys(false)) {
-                refunds.put(Double.parseDouble(key), file.getBoolean(initPath + "refunds." + key));
+                refunds.put(Double.parseDouble(key), yaml.getBoolean(initPath + "refunds." + key));
             }
         }
     

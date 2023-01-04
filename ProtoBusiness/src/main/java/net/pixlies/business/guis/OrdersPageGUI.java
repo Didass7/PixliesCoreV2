@@ -66,13 +66,13 @@ public class OrdersPageGUI {
             // Fill empty slots with air
             for (int i = 0; i < 7; i++) {
                   if (ordersPane.getItems().size() == rows * 7) break;
-                  ordersPane.addItem(new GuiItem(new ItemStack(Material.AIR)));
+                  ordersPane.addItem(new GuiItem(MarketGUIItems.getEmptyItem()));
             }
       
             // Bottom pane
             StaticPane bottomPane = new StaticPane(4, rows + 1, 1, 1);
       
-            GuiItem goBack = new GuiItem(MarketGUIItems.getBackArrow(MarketLang.NAMESPACE));
+            GuiItem goBack = new GuiItem(MarketGUIItems.getBackArrow("Market"));
             goBack.setAction(event -> MarketInitialGUI.open(profile));
             bottomPane.addItem(goBack, 0, 0);
       

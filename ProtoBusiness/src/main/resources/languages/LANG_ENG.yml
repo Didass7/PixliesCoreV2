@@ -54,14 +54,14 @@ ORDERED_ALL_ITEMS: "Have gotten filled orders for every item"
 CHALLENGE_COMPLETED: "§aChallenge completed: §f%CHALLENGE%"
 
 CHALLENGE_LIST: "§7Here are all market challenges."
-CHALLENGE_COMPLETE_FORMAT: "§8» §7%CHALLENGE% §8[§a§l✔§r§8]"
-CHALLENGE_INCOMPLETE_FORMAT: "§8» §b%CHALLENGE% §8[§c§l✖§r§8]"
+CHALLENGE_COMPLETE_FORMAT: "§8» §b%CHALLENGE% §8[§a§l✔§r§8]"
+CHALLENGE_INCOMPLETE_FORMAT: "§8» §7%CHALLENGE% §8[§c§l✖§r§8]"
 
-TARIFF_LOCAL_INCOMING: "§7Here is a list of the §6incoming tariffs §8(applied to your nation by another one) §7..."
-TARIFF_LOCAL_OUTGOING: "§7Here is a list of the §boutgoing tariffs§7 §8(applied to another nation by yours) §7..."
+TARIFF_LOCAL_INCOMING: "§7Here is a list of all §6incoming tariffs §8(applied ON your nation BY another one) §7..."
+TARIFF_LOCAL_OUTGOING: "§7Here is a list of the §boutgoing tariffs§7 §8(applied BY your nation ON another) §7..."
 TARIFF_GLOBAL: "§7Here is a list of all §6tariffs§7:"
-TARIFF_LOCAL_FORMAT: " §8» §d%NX% §%COLOR%%TARIFF% §8(§a%RATE%§8)"
-TARIFF_GLOBAL_FORMAT: " §8» §d%NX% §%COLOR%%TARIFF% §7on §3%NY% §8(§a%RATE%§8)"
+TARIFF_LOCAL_FORMAT: " §8» §d%NX% §8(§a%RATE%§8)"
+TARIFF_GLOBAL_FORMAT: " §8» §d%NX% §7on §3%NY% §8(§a%RATE%§8)"
 
 INCOMING_TARIFF_SET: "§%COLOR%%TARIFF% §7tariff set for §6%NATION%§7 at a rate of §a%RATE%§7."
 INCOMING_TARIFF_REMOVED: "§%COLOR%%TARIFF% §7tariff removed from §6%NATION%§7."
@@ -74,12 +74,15 @@ TARIFF_FAILED_TO_REMOVE: "§cFailed to remove tariff. Please contact vyketype#34
 
 TARIFF_DOES_NOT_EXIST: "§7No tariff exists from your nation on the specified nation."
 TARIFF_RATE_NOT_VALID: "§cThe rate must be a decimal number ranging from 0.01 to %MAX%."
-NO_TARIFFS_FOUND: "§7No tariffs were found."
+NO_TARIFFS_FOUND: "§cNo tariffs were found."
 
 TRADE_BLOCK_LIST_EMPTY: "§7Your trade-block list is §cempty§7."
 TRADE_BLOCK_LIST: "§7Here are the players who you have §cblocked §7trading on the market with: §d%LIST%"
-TRADE_BLOCK_ADDED: "§7You §ctrade-blocked the player §d%PLAYER%§7."
-TRADE_BLOCK_REMOVED: "§7You §auntrade-blocked the player §d%PLAYER%§7."
+TRADE_BLOCK_ADDED: "§7You §ctrade-blocked §7the player §d%PLAYER%§7."
+TRADE_BLOCK_REMOVED: "§7You §auntrade-blocked §7the player §d%PLAYER%§7."
+
+PLAYER_IS_TRADEBLOCKED: "§cThis player is already in your trade-block list."
+PLAYER_IS_NOT_TRADEBLOCKED: "§cThis player is not in your trade-block list."
 
 MARKET_STATS: "§7Here are your §dmarket statistics§7..."
 MARKET_BUYS: "§8» §7Buy orders made: §b%X%"
@@ -94,3 +97,4 @@ PAGE_INDEX: "§7Page §a%PAGE%§7/%MAX%"
 PAGE_DOES_NOT_EXIST: "§cThis page does not exist!"
 
 PLAYER_DOES_NOT_EXIST: "§cThis player does not exist!"
+PLAYER_HAS_NEVER_JOINED: "§cThis player has never joined the server, therefore we are unable to run this operation on them."

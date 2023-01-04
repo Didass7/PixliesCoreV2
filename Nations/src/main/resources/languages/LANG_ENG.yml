@@ -13,6 +13,8 @@ NATION_NO_NATION_TO_DISBAND: "§cYou haven't selected a nation to disband."
 NATION_MISSING_ARG: "§7A §b%X% §7must be provided, in order to process this command."
 NATION_DOES_NOT_EXIST: "§cThat nation doesn't exist."
 
+CANNOT_BE_YOUR_NATION: "§cYou cannot perform this operation on your own nation!"
+
 NATION_PLAYER_CHANGED_DESCRIPTION: "§b%PLAYER%§7 just changed your nations description to §e%DESCRIPTION%§7."
 NATION_YOU_CHANGED_DESCRIPTION_BYPASS: "The description for &6%NATION%&7 has been set to §e%DESCRIPTION%§7."
 

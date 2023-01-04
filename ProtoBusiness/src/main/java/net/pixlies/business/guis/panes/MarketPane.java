@@ -3,6 +3,7 @@ package net.pixlies.business.guis.panes;
 import com.github.stefvanschie.inventoryframework.gui.GuiItem;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import net.pixlies.business.guis.MarketInitialGUI;
+import net.pixlies.business.items.MarketGUIItems;
 import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.business.market.orders.OrderItem;
 import net.pixlies.business.market.orders.OrderProfile;
@@ -25,18 +26,18 @@ public class MarketPane extends StaticPane {
     }
     
     public void loadPage(MarketInitialGUI.Selection page, UUID uuid, OrderProfile profile) {
-        fillWith(new ItemStack(Material.AIR));
+        fillWith(MarketGUIItems.getEmptyItem());
     
         if (page == MarketInitialGUI.Selection.GOLD_STANDARD) {
             return;
         }
         
         if (!page.hasFourthRow()) {
-            for (int x = 0; x < 7; x++) addItem(new GuiItem(new ItemStack(Material.AIR)), x, 3);
+            for (int x = 0; x < 7; x++) addItem(new GuiItem(MarketGUIItems.getEmptyItem()), x, 3);
         }
         
         if (!page.hasFifthRow()) {
-            for (int x = 0; x < 7; x++) addItem(new GuiItem(new ItemStack(Material.AIR)), x, 4);
+            for (int x = 0; x < 7; x++) addItem(new GuiItem(MarketGUIItems.getEmptyItem()), x, 4);
         }
         
         if (!page.hasSeventhColumn()) {

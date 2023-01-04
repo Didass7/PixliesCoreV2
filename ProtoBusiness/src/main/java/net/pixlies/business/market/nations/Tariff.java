@@ -2,17 +2,18 @@ package net.pixlies.business.market.nations;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 import net.pixlies.business.ProtoBusiness;
-import net.pixlies.core.modules.configuration.ModuleConfig;
 import net.pixlies.core.utils.TextUtils;
 import net.pixlies.nations.nations.Nation;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Level;
 
 /**
  * Tariff class.
@@ -27,16 +28,12 @@ public class Tariff {
     private static final String TARIFFS_PATH = instance.getDataFolder().getAbsolutePath() + "/tariffs/";
     
     private final String tariffId;
-    private final Type type;
     private final String initId;
     private final String targetId;
+    private final double rate;
     
-    @Setter
-    private double rate;
-    
-    public Tariff(Type type, String initId, String targetId, double rate) {
+    public Tariff(String initId, String targetId, double rate) {
         tariffId = TextUtils.generateId(9);
-        this.type = type;
         this.initId = initId;
         this.targetId = targetId;
         this.rate = rate;
@@ -48,12 +45,20 @@ public class Tariff {
     
     public void save() {
         String filename = tariffId + ".yml";
-        ModuleConfig file = new ModuleConfig(instance, new File(TARIFFS_PATH + filename), filename);
-        file.set("type", type.toString());
-        file.set("initId", initId);
-        file.set("targetId", targetId);
-        file.set("rate", rate);
-        file.save();
+        
+        File file = new File(TARIFFS_PATH + filename);
+        YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
+    
+        yaml.set("initId", initId);
+        yaml.set("targetId", targetId);
+        yaml.set("rate", rate);
+        
+        try {
+            yaml.save(file);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            instance.getLogger().log(Level.SEVERE, "Unable to save tariff of ID " + tariffId + ".");
+        }
         
         instance.logInfo("Saved tariff " + tariffId + " to files.");
     }
@@ -63,7 +68,14 @@ public class Tariff {
         return file.delete();
     }
     
+    // --------------------------------------------------------------------------------------------
+    
     public static List<Tariff> getAll() {
+        File directory = new File(TARIFFS_PATH);
+        if (directory.list() == null) {
+            directory.mkdirs();
+        }
+        
         List<Tariff> tariffs = new ArrayList<>();
         List<String> pathnames = List.of(Objects.requireNonNull(new File(TARIFFS_PATH).list()));
         for (String pathname : pathnames) {
@@ -74,33 +86,24 @@ public class Tariff {
     
     public static Tariff get(String tariffId) {
         String filename = tariffId + ".yml";
-        ModuleConfig file = new ModuleConfig(instance, new File(TARIFFS_PATH + filename), filename);
+        File file = new File(TARIFFS_PATH + filename);
+        YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
         return new Tariff(
-                filename,
-                Type.valueOf(file.getString("type")),
-                file.getString("initId"),
-                file.getString("targetId"),
-                file.getDouble("rate")
+                tariffId,
+                yaml.getString("initId"),
+                yaml.getString("targetId"),
+                yaml.getDouble("rate")
         );
     }
     
-    public static @Nullable String getTariffId(String initNation, String targetNation, Type type) {
+    public static @Nullable String getTariffId(String initNation, String targetNation) {
         for (Tariff t : Tariff.getAll()) {
             boolean fromCond = Objects.equals(t.getInitId(),
                     Objects.requireNonNull(Nation.getFromName(initNation)).getNationId());
             boolean toCond = Objects.equals(t.getTargetId(),
                     Objects.requireNonNull(Nation.getFromName(targetNation)).getNationId());
-            if (fromCond && toCond && type == t.getType()) return t.getTariffId();
+            if (fromCond && toCond) return t.getTariffId();
         }
         return null;
-    }
-    
-    @Getter
-    @AllArgsConstructor
-    public enum Type {
-        IMPORTS("6"),
-        EXPORTS("c");
-        
-        private final String color;
     }
 }

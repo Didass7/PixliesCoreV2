@@ -16,6 +16,8 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 @SuppressWarnings("BooleanMethodIsAlwaysInverted")
 public class Preconditions {
@@ -57,13 +59,31 @@ public class Preconditions {
             return true;
       }
       
-      public static boolean isMarketOpen(Player player, MarketLang message) {
-            if (!instance.getConfig().getBoolean("marketOpen")) {
-                  message.send(player);
+      public static boolean hasPlayerEverJoined(Player player, UUID uuid) {
+            if (!MarketProfile.get(uuid).hasJoinedBefore()) {
+                  MarketLang.PLAYER_HAS_NEVER_JOINED.send(player);
+                  SoundUtil.error(player);
+                  return false;
+            }
+            return true;
+      }
+      
+      public static boolean isMarketAlreadyOpen(Player player) {
+            if (instance.getConfig().getBoolean("marketOpen")) {
+                  MarketLang.MARKET_WAS_ALREADY_OPEN.send(player);
                   SoundUtil.error(player);
                   return true;
             }
             return false;
+      }
+      
+      public static boolean isMarketOpen(Player player, MarketLang message) {
+            if (!instance.getConfig().getBoolean("marketOpen")) {
+                  message.send(player);
+                  SoundUtil.error(player);
+                  return false;
+            }
+            return true;
       }
       
       public static boolean isPlayerMarketRestricted(Player player) {
@@ -103,15 +123,6 @@ public class Preconditions {
            return false;
      }
      
-     public static boolean isTariffTypeValid(Player player, String type) {
-            if (!type.equalsIgnoreCase("imports") && !type.equalsIgnoreCase("exports")) {
-                  MarketLang.TARIFF_TYPE_NOT_VALID.send(player);
-                  SoundUtil.error(player);
-                  return false;
-            }
-            return true;
-     }
-     
      public static boolean isRateANumber(Player player, String rate) {
            try {
                  Double.parseDouble(rate);
@@ -132,23 +143,21 @@ public class Preconditions {
            boolean notInNation = !nationProfile.isInNation();
            boolean noPermission = !NationPermission.MANAGE_TARIFFS.hasPermission(player) && !user.isBypassing();
            boolean nationNull = target == null;
+           boolean sameNation = Objects.equals(nationProfile.getNation().getName(), targetNation);
       
            if (notInNation) NationsLang.NOT_IN_NATION.send(player);
            if (noPermission) NationsLang.NATION_NO_PERMISSION.send(player);
            if (nationNull) NationsLang.NATION_DOES_NOT_EXIST.send(player);
+           if (sameNation) NationsLang.CANNOT_BE_YOUR_NATION.send(player);
       
-           if (notInNation || noPermission || nationNull) {
+           if (notInNation || noPermission || nationNull || sameNation) {
                  SoundUtil.error(player);
                  return false;
            }
            return true;
      }
      
-     public static boolean tariffSet(Player player, String[] args) {
-           String targetNation = args[0];
-           String tariffType = args[1];
-           String strRate = args[2];
-      
+     public static boolean tariffSet(Player player, String targetNation, String strRate) {
            if (!Preconditions.tariffGeneral(player, targetNation))
                  return false;
            
@@ -157,19 +166,7 @@ public class Preconditions {
       
            NationProfile nationProfile = NationProfile.get(player.getUniqueId());
            boolean rateNotValid = rate > maxRate || rate < 0.01;
-           boolean tariffExists = false;
-           
-           @Nullable String tariffId = Tariff.getTariffId(
-                   nationProfile.getNation().getName(),
-                   targetNation,
-                   Tariff.Type.valueOf(tariffType.toUpperCase())
-           );
-           
-           if (tariffId != null) {
-                 if (Tariff.get(tariffId).getType().toString().equalsIgnoreCase(tariffType)) {
-                       tariffExists = true;
-                 }
-           }
+           boolean tariffExists = Tariff.getTariffId(nationProfile.getNation().getName(), targetNation) != null;
            
            if (rateNotValid) MarketLang.TARIFF_RATE_NOT_VALID.send(player, "%MAX%;" + maxRate);
            if (tariffExists) MarketLang.TARIFF_ALREADY_EXISTS.send(player);
@@ -181,27 +178,12 @@ public class Preconditions {
            return true;
      }
      
-     public static boolean tariffRemove(Player player, String[] args) {
-           String targetNation = args[0];
-           String tariffType = args[1];
-      
+     public static boolean tariffRemove(Player player, String targetNation) {
            if (!Preconditions.tariffGeneral(player, targetNation))
                  return false;
            
            NationProfile nationProfile = NationProfile.get(player.getUniqueId());
-           boolean tariffNull = true;
-      
-           @Nullable String tariffId = Tariff.getTariffId(
-                   nationProfile.getNation().getName(),
-                   targetNation,
-                   Tariff.Type.valueOf(tariffType.toUpperCase())
-           );
-           
-           if (tariffId != null) {
-                 if (Tariff.get(tariffId).getType().toString().equalsIgnoreCase(tariffType)) {
-                       tariffNull = false;
-                 }
-           }
+           boolean tariffNull = Tariff.getTariffId(nationProfile.getNation().getName(), targetNation) == null;
 
            if (tariffNull) {
                  MarketLang.TARIFF_DOES_NOT_EXIST.send(player);
@@ -218,5 +200,27 @@ public class Preconditions {
                  return false;
            }
            return true;
+     }
+      
+      public static boolean isPlayerAlreadyTradeBlocked(Player player, String name) {
+            MarketProfile profile = MarketProfile.get(player.getUniqueId());
+            UUID uuid = Bukkit.getOfflinePlayer(name).getUniqueId();
+            if (profile.getBlockedPlayers().contains(uuid)) {
+                  MarketLang.PLAYER_IS_TRADEBLOCKED.send(player);
+                  SoundUtil.error(player);
+                  return true;
+            }
+            return false;
+      }
+      
+     public static boolean isPlayerAlreadyNotTradeBlocked(Player player, String name) {
+            MarketProfile profile = MarketProfile.get(player.getUniqueId());
+            UUID uuid = Bukkit.getOfflinePlayer(name).getUniqueId();
+            if (!profile.getBlockedPlayers().contains(uuid)) {
+                  MarketLang.PLAYER_IS_NOT_TRADEBLOCKED.send(player);
+                  SoundUtil.error(player);
+                  return true;
+            }
+            return false;
      }
 }
