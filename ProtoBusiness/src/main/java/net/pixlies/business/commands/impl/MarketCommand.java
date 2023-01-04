@@ -15,6 +15,7 @@ import net.pixlies.business.util.Preconditions;
 import net.pixlies.business.util.SoundUtil;
 import net.pixlies.core.Main;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -106,25 +107,24 @@ public class MarketCommand extends BaseCommand {
       @CommandPermission("pixlies.business.market.restrict")
       @Description("Restricts/unrestricts a player from accessing the market")
       @Syntax("<target> [reason]")
-      public void onMarketRestrict(Player player, Player target, @Optional String arg) {
-            UUID uuid = target.getUniqueId();
-            MarketProfile profile = MarketProfile.get(uuid);
-            
-            // Get the reason
-            String reason = pixlies.getConfig().getString("moderation.defaultReason", "No reason given");
-            if (arg != null && !arg.isBlank()) {
-                  reason = arg;
-            }
+      public void onMarketRestrict(Player player, String targetName) {
+            OfflinePlayer offlineTarget = Bukkit.getOfflinePlayer(targetName);
+      
+            // If the player has not joined before
+            if (!Preconditions.hasPlayerEverJoined(player, offlineTarget.getUniqueId()))
+                  return;
+      
+            MarketProfile profile = MarketProfile.get(offlineTarget.getUniqueId());
             
             // Unrestrict/restrict
             if (profile.isRestricted()) {
-                  MarketRestrictUtil.sendUnrestrictMessage(player, target, reason);
+                  MarketRestrictUtil.sendUnrestrictMessage(player, offlineTarget);
                   profile.setRestricted(false);
             } else {
-                  MarketRestrictUtil.sendRestrictMessage(player, target, reason);
+                  MarketRestrictUtil.sendRestrictMessage(player, offlineTarget);
                   profile.setRestricted(true);
             }
-            
+      
             profile.save();
       }
       

@@ -61,8 +61,8 @@ public class TradeBlockCommand extends BaseCommand {
       @Syntax("<player>")
       public void onTradeBlockAdd(Player player, String name) {
             OfflinePlayer offlineTarget = Bukkit.getOfflinePlayer(name);
-      
-            // If the player does not exist
+            
+            // If the player has not joined before
             if (!Preconditions.hasPlayerEverJoined(player, offlineTarget.getUniqueId()))
                   return;
             
@@ -89,7 +89,7 @@ public class TradeBlockCommand extends BaseCommand {
       public void onTradeBlockRemove(Player player, String name) {
             OfflinePlayer offlineTarget = Bukkit.getOfflinePlayer(name);
       
-            // If the player does not exist
+            // If the player has not joined before
             if (!Preconditions.hasPlayerEverJoined(player, offlineTarget.getUniqueId()))
                   return;
       
