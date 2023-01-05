@@ -217,6 +217,16 @@ public class NationProfile {
 
         return nation.getRelationTo(toMatch);
     }
+    
+    public void addBalance(double amount) {
+        balance += amount;
+    }
+    
+    public boolean removeBalance(double amount) {
+        if (balance < 0) return false;
+        balance -= amount;
+        return true;
+    }
 
     /**
      * Check if the profile is in a nation.

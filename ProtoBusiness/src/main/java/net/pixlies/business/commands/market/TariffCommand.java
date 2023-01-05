@@ -103,7 +103,7 @@ public class TariffCommand extends BaseCommand {
             NationProfile nationProfile = NationProfile.get(player.getUniqueId());
             
             // If the rate argument is a valid number
-            if (!Preconditions.isRateANumber(player, args[1]))
+            if (!Preconditions.isAmountValidNumber(player, args[1]))
                   return;
             
             // If all the other preconditions are met

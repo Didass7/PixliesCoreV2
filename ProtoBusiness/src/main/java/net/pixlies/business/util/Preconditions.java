@@ -10,8 +10,10 @@ import net.pixlies.nations.locale.NationsLang;
 import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.interfaces.NationProfile;
 import net.pixlies.nations.nations.ranks.NationPermission;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
@@ -123,9 +125,9 @@ public class Preconditions {
            return false;
      }
      
-     public static boolean isRateANumber(Player player, String rate) {
+     public static boolean isAmountValidNumber(Player player, String amount) {
            try {
-                 Double.parseDouble(rate);
+                 Double.parseDouble(amount);
            } catch (NullPointerException | NumberFormatException e) {
                  double maxRate = instance.getConfig().getDouble("tariffMaxRate");
                  MarketLang.TARIFF_RATE_NOT_VALID.send(player, "%MAX%;" + maxRate);
@@ -222,5 +224,20 @@ public class Preconditions {
                   return true;
             }
             return false;
+     }
+     
+     public static boolean economy(Player player, String strArgs) {
+           String[] args = StringUtils.split(strArgs, " ", -1);
+           String targetName = args[0];
+           String strAmount = args[1];
+      
+           OfflinePlayer offlineTarget = Bukkit.getOfflinePlayer(targetName);
+      
+           // If the player has not joined before
+           if (!Preconditions.hasPlayerEverJoined(player, offlineTarget.getUniqueId()))
+                 return false;
+      
+           // If the amount is a valid number
+           return Preconditions.isAmountValidNumber(player, strAmount);
      }
 }
