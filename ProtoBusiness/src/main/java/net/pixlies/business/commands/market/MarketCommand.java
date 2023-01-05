@@ -27,7 +27,6 @@ import java.util.UUID;
  * @author vyketype
  */
 @CommandAlias("market|m|nasdaq|nyse|snp500|dowjones|ftse")
-@CommandPermission("pixlies.business.market")
 public class MarketCommand extends BaseCommand {
       /*
        * SOUNDS
@@ -44,6 +43,7 @@ public class MarketCommand extends BaseCommand {
       
       @Default
       @Description("Opens the market menu")
+      @CommandPermission("pixlies.business.market")
       public void onMarket(Player player) {
             // If the market is not open
             if (!Preconditions.isMarketOpen(player, MarketLang.MARKET_IS_CLOSED))

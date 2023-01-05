@@ -98,8 +98,8 @@ public enum MarketLang {
     MARKET_SOLD(MarketLang.MARKET),
     MARKET_BOUGHT(MarketLang.MARKET),
    
-    PAGE_INDEX(MarketLang.MARKET),
-    PAGE_DOES_NOT_EXIST(MarketLang.MARKET),
+    PAGE_INDEX(Lang.PIXLIES),
+    PAGE_DOES_NOT_EXIST(Lang.PIXLIES),
     
     // BASIC ECONOMY COMMANDS
     BALANCE(Lang.PIXLIES),
