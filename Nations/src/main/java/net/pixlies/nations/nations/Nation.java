@@ -2,7 +2,6 @@ package net.pixlies.nations.nations;
 
 import com.mongodb.client.model.Filters;
 import lombok.*;
-import net.pixlies.core.entity.user.User;
 import net.pixlies.core.utils.EventUtils;
 import net.pixlies.core.utils.RankUtils;
 import net.pixlies.nations.Nations;
@@ -58,7 +57,7 @@ public class Nation {
 
     // DATA
     private @Getter @Setter double politicalPower = 0.0d;
-    private @Getter @Setter double money = 0.0d;
+    private @Getter @Setter double balance = 0.0d;
 
     /**
      * Tax rate for buy orders.
@@ -110,7 +109,7 @@ public class Nation {
                   long created,
                   boolean systemNation,
                   double politicalPower,
-                  double money,
+                  double balance,
                   double taxRate,
                   GovernmentType governmentType,
                   Ideology ideology,
@@ -128,7 +127,7 @@ public class Nation {
         this.created = created;
         this.systemNation = systemNation;
         this.politicalPower = politicalPower;
-        this.money = money;
+        this.balance = balance;
         this.taxRate = taxRate;
         this.governmentType = governmentType;
         this.ideology = ideology;
@@ -430,7 +429,7 @@ public class Nation {
         document.put("systemNation", systemNation);
 
         document.put("politicalPower", politicalPower);
-        document.put("money", money);
+        document.put("money", balance);
 
         document.put("taxRate", taxRate);
 
@@ -463,7 +462,7 @@ public class Nation {
         // systemNation OK
 
         politicalPower = document.get("politicalPower", politicalPower);
-        money = document.get("money", money);
+        balance = document.get("money", balance);
 
         taxRate = document.get("taxRate", taxRate);
 
