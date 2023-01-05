@@ -96,5 +96,7 @@ MARKET_BOUGHT: "§8» §7Items bought: §d%X%$"
 PAGE_INDEX: "§7Page §a%PAGE%§7/%MAX%"
 PAGE_DOES_NOT_EXIST: "§cThis page does not exist!"
 
+BALANCE: "§d%PLAYER%§7's current balance is of §6%BALANCE% coins."
+
 PLAYER_DOES_NOT_EXIST: "§cThis player does not exist!"
 PLAYER_HAS_NEVER_JOINED: "§cThis player has never joined the server, therefore we are unable to run this operation on them."

@@ -101,6 +101,9 @@ public enum MarketLang {
     PAGE_INDEX(MarketLang.MARKET),
     PAGE_DOES_NOT_EXIST(MarketLang.MARKET),
     
+    // BASIC ECONOMY COMMANDS
+    BALANCE(Lang.PIXLIES),
+    
     // OTHER
     PLAYER_DOES_NOT_EXIST(Lang.PIXLIES),
     PLAYER_HAS_NEVER_JOINED(Lang.PIXLIES);
