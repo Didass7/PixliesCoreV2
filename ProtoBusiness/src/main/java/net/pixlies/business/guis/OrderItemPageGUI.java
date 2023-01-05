@@ -15,6 +15,7 @@ import net.pixlies.business.market.profiles.OrderProfile;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class OrderItemPageGUI {
@@ -51,8 +52,9 @@ public class OrderItemPageGUI {
                                 0
                         ));
                         profile.setTempTitle(item.getName());
+                        profile.save();
       
-                        player.closeInventory();
+                        player.closeInventory(InventoryCloseEvent.Reason.PLUGIN);
       
                         // TODO: open chat conversation asking for the amount of the item
                   });

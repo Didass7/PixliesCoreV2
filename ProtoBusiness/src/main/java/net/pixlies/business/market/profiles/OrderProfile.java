@@ -26,6 +26,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -115,11 +116,10 @@ public class OrderProfile {
         
         GuiItem customPrice = new GuiItem(MarketGUIItems.getCustomPriceButton());
         customPrice.setAction(event -> {
-            player.closeInventory();
+            player.closeInventory(InventoryCloseEvent.Reason.PLUGIN);
             
             signStage = (byte) 2;
-            tempOrder = new Order(type, book.getItem().name(), System.currentTimeMillis(), player.getUniqueId(), 0.0
-                    , amount);
+            tempOrder = new Order(type, book.getItem().name(), System.currentTimeMillis(), player.getUniqueId(), 0.0, amount);
             tempTitle = finalPageTitle;
             
             Block block = player.getWorld().getBlockAt(player.getEyeLocation());
@@ -307,6 +307,14 @@ public class OrderProfile {
                     "%ITEM%;" + book.getItem().getName());
         }
         player.playSound(player.getLocation(), "entity.experience_orb.pickup", 100, 1);
+    }
+    
+    public void save() {
+        marketHandler.getProfiles().put(uuid, this);
+    }
+    
+    public void remove() {
+        marketHandler.getProfiles().remove(uuid);
     }
     
     // ----------------------------------------------------------------------------------------------------

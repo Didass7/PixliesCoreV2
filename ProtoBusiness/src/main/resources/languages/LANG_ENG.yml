@@ -41,6 +41,9 @@ PRICE_BEST_BUY: "§7Best buy offer: §6%PRICE% coins §8(%AMOUNT% offers)"
 PRICE_BEST_SELL: "§7Best sell offer: §6%PRICE% coins §8(%AMOUNT% offers)"
 PRICE_NOT_HOLDING_AN_ITEM: "§cYou are not holding an item in your hand!"
 
+ENTER_AN_AMOUNT: "§7Please enter a valid §damount§7. §8(Type §9quit §8to cancel this operation)"
+THIS_IS_NOT_A_POSITIVE_INTEGER: "§cThis is not a positive integer!"
+
 BUY_ORDER: "Have a filled buy order"
 SELL_ORDER: "Have a filled sell order"
 BUY_ORDER_UNIT_50: "Have a filled buy order with a minimum unit price of 50 coins"
