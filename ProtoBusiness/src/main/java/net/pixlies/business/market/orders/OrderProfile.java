@@ -5,17 +5,15 @@ import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.pixlies.business.ProtoBusiness;
-import net.pixlies.business.guis.MarketInitialGUI;
+import net.pixlies.business.guis.OrderItemPageGUI;
 import net.pixlies.business.guis.OrdersPageGUI;
 import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.business.items.MarketGUIItems;
 import net.pixlies.business.locale.MarketLang;
-import net.pixlies.business.util.MarketRestrictUtil;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.interfaces.NationProfile;
@@ -27,8 +25,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -77,82 +73,6 @@ public class OrderProfile {
     // ----------------------------------------------------------------------------------------------------
     // GUI METHODS
     // ----------------------------------------------------------------------------------------------------
-    
-    public void openItemPage(OrderItem item) {
-        
-        Player player = Bukkit.getPlayer(uuid);
-        OrderBook book = OrderBook.get(item);
-        assert player != null;
-        
-        // CREATE GUI + BACKGROUND
-        
-        ChestGui gui = new ChestGui(4, item.getName());
-        gui.setOnGlobalClick(event -> event.setCancelled(true));
-        
-        StaticPane background = new StaticPane(0, 0, 9, 4, Pane.Priority.LOWEST);
-        background.fillWith(new ItemStack(Material.BLACK_STAINED_GLASS_PANE));
-        
-        // ITEM PANE
-        
-        StaticPane itemPane = new StaticPane(4, 1, 1, 1);
-        
-        GuiItem orderItem = new GuiItem(new ItemStack(item.getMaterial()));
-        itemPane.addItem(orderItem, 0, 0);
-        
-        // TRANSACTIONS PANE
-        
-        StaticPane transactionsPane = new StaticPane(1, 1, 7, 1);
-        
-        for (ItemOptions i : ItemOptions.values()) {
-            GuiItem guiItem = i.getGuiItem(player, item);
-            assert guiItem != null;
-            guiItem.setAction(event -> {
-                player.closeInventory();
-                
-                signStage = (byte) 1;
-                tempOrder = new Order(i.getType(), book.getItem().name(), System.currentTimeMillis(), uuid, 0, 0);
-                tempTitle = item.getName();
-                
-                List<String> lines = new ArrayList<>();
-                lines.add("");
-                lines.add("^^ -------- ^^");
-                lines.add("Set an amount");
-                lines.add("(integer)");
-                
-                MarketRestrictUtil.openSign(player, lines);
-
-                 /*
-                Block block = player.getWorld().getBlockAt(player.getEyeLocation());
-                block.setType(Material.BIRCH_WALL_SIGN);
-                Sign sign = (Sign) block.getState();
-                sign.line(1, Component.text("^^ -------- ^^"));
-                sign.line(2, Component.text("Set an amount"));
-                sign.line(3, Component.text("(integer)"));
-                sign.update(true);
-                player.openSign(sign);
-                 */
-            });
-            transactionsPane.addItem(guiItem, i.getX(), i.getY());
-        }
-        
-        // BOTTOM PANE
-        
-        StaticPane bottomPane = new StaticPane(4, 3, 1, 1);
-        GuiItem goBack = new GuiItem(MarketGUIItems.getBackArrow("Market"));
-        goBack.setAction(event -> MarketInitialGUI.open(this));
-        bottomPane.addItem(goBack, 0, 0);
-        
-        // ADD PANES + SHOW GUI
-        
-        gui.addPane(background);
-        gui.addPane(itemPane);
-        gui.addPane(transactionsPane);
-        gui.addPane(bottomPane);
-        
-        gui.show(player);
-        gui.update();
-        
-    }
     
     public void openPricePage(OrderItem item, Order.Type type, int amount) {
         
@@ -207,7 +127,7 @@ public class OrderProfile {
             sign.update(true);
             player.openSign(sign);
             
-            // SignGUI.open(player, sign);
+            // TODO: open chat conversation asking for custom price
         });
         
         if (emptyBuyCondition || emptySellCondition) {
@@ -242,7 +162,7 @@ public class OrderProfile {
         
         StaticPane bottomPane = new StaticPane(4, 3, 1, 1);
         GuiItem goBack = new GuiItem(MarketGUIItems.getBackArrow(item.name()));
-        goBack.setAction(event -> openItemPage(item));
+        goBack.setAction(event -> OrderItemPageGUI.open(this, item));
         bottomPane.addItem(goBack, 0, 0);
         
         // ADD PANES + SHOW GUI
@@ -396,35 +316,5 @@ public class OrderProfile {
     public static OrderProfile get(UUID uuid) {
         if (!hasProfile(uuid)) return null;
         return marketHandler.getProfiles().get(uuid.toString());
-    }
-    
-    // ----------------------------------------------------------------------------------------------------
-    // ITEM OPTIONS ENUM
-    // ----------------------------------------------------------------------------------------------------
-    
-    @Getter
-    @AllArgsConstructor
-    public enum ItemOptions {
-        BUY(Order.Type.BUY, 0, 0),
-        SELL(Order.Type.SELL, 6, 0);
-        
-        private final Order.Type type;
-        private final int x;
-        private final int y;
-        
-        public GuiItem getGuiItem(Player player, OrderItem item) {
-            OrderProfile profile = OrderProfile.get(player.getUniqueId());
-            assert profile != null;
-            switch (this) {
-                case BUY -> {
-                    return new GuiItem(MarketGUIItems.getBuyButton(player.getUniqueId(), item));
-                }
-                case SELL -> {
-                    return new GuiItem(MarketGUIItems.getSellButton(player.getUniqueId(), item,
-                            profile.getItemAmount(item)));
-                }
-            }
-            return null;
-        }
     }
 }
