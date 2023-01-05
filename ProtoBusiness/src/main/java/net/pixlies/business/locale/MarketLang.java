@@ -103,6 +103,9 @@ public enum MarketLang {
     
     // BASIC ECONOMY COMMANDS
     BALANCE(Lang.PIXLIES),
+    BALTOP_HEADER(Lang.PIXLIES),
+    BALTOP_LAST_UPDATED(Lang.PIXLIES),
+    BALTOP_FORMAT(""),
     
     // OTHER
     PLAYER_DOES_NOT_EXIST(Lang.PIXLIES),

@@ -7,6 +7,7 @@ import net.pixlies.business.listeners.ListenerManager;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.MarketProfile;
 import net.pixlies.business.market.orders.OrderBook;
+import net.pixlies.business.threads.BalTopThread;
 import net.pixlies.core.modules.Module;
 import net.pixlies.core.modules.configuration.ModuleConfig;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -26,6 +27,8 @@ public class ProtoBusiness extends JavaPlugin implements Module {
     private CommandManager commandManager;
     private ListenerManager listenerManager;
     
+    private BalTopThread balTopThread;
+    
     @Override
     public void onEnable() {
         instance = this;
@@ -35,6 +38,9 @@ public class ProtoBusiness extends JavaPlugin implements Module {
         
         this.saveResource("languages/LANG_ENG.yml", true);
         MarketLang.load();
+        
+        balTopThread = new BalTopThread();
+        balTopThread.startThread();
         
         handlerManager = new HandlerManager();
         handlerManager.registerAllHandlers();
@@ -51,6 +57,7 @@ public class ProtoBusiness extends JavaPlugin implements Module {
     @Override
     public void onDisable() {
         commandManager.unregisterAllCommands();
+        balTopThread.stopThread();
         
         MarketProfile.backupAll();
         OrderBook.backupAll();
