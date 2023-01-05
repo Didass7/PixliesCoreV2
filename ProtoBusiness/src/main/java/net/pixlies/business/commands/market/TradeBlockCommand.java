@@ -5,7 +5,7 @@ import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.locale.MarketLang;
-import net.pixlies.business.market.MarketProfile;
+import net.pixlies.business.market.profiles.MarketProfile;
 import net.pixlies.business.util.Preconditions;
 import net.pixlies.business.util.SoundUtil;
 import net.pixlies.core.ranks.Rank;

@@ -6,7 +6,7 @@ import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.orders.Order;
 import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.business.market.orders.OrderItem;
-import net.pixlies.business.market.orders.OrderProfile;
+import net.pixlies.business.market.profiles.OrderProfile;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;

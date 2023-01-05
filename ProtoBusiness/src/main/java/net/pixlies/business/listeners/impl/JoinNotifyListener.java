@@ -2,7 +2,7 @@ package net.pixlies.business.listeners.impl;
 
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.locale.MarketLang;
-import net.pixlies.business.market.MarketProfile;
+import net.pixlies.business.market.profiles.MarketProfile;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

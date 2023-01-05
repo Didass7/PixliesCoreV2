@@ -8,7 +8,7 @@ import co.aikar.commands.annotation.Description;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.business.locale.MarketLang;
-import net.pixlies.business.market.Challenge;
+import net.pixlies.business.market.challenge.Challenge;
 import org.bukkit.entity.Player;
 
 /**

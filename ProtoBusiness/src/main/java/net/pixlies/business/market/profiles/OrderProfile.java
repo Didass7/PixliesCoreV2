@@ -1,4 +1,4 @@
-package net.pixlies.business.market.orders;
+package net.pixlies.business.market.profiles;
 
 import com.github.stefvanschie.inventoryframework.gui.GuiItem;
 import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
@@ -14,6 +14,10 @@ import net.pixlies.business.guis.OrdersPageGUI;
 import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.business.items.MarketGUIItems;
 import net.pixlies.business.locale.MarketLang;
+import net.pixlies.business.market.orders.Order;
+import net.pixlies.business.market.orders.OrderBook;
+import net.pixlies.business.market.orders.OrderItem;
+import net.pixlies.business.market.orders.Trade;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.interfaces.NationProfile;

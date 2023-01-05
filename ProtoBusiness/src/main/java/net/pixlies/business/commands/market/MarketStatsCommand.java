@@ -6,7 +6,7 @@ import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Description;
 import net.pixlies.business.locale.MarketLang;
-import net.pixlies.business.market.MarketProfile;
+import net.pixlies.business.market.profiles.MarketProfile;
 import org.bukkit.entity.Player;
 
 /**

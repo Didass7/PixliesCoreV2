@@ -1,4 +1,4 @@
-package net.pixlies.business.market;
+package net.pixlies.business.market.challenge;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

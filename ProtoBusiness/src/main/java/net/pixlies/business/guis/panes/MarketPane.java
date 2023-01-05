@@ -7,7 +7,7 @@ import net.pixlies.business.guis.OrderItemPageGUI;
 import net.pixlies.business.items.MarketGUIItems;
 import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.business.market.orders.OrderItem;
-import net.pixlies.business.market.orders.OrderProfile;
+import net.pixlies.business.market.profiles.OrderProfile;
 import net.pixlies.core.utils.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

@@ -1,4 +1,4 @@
-package net.pixlies.business.market;
+package net.pixlies.business.market.profiles;
 
 import lombok.AccessLevel;
 import lombok.Getter;

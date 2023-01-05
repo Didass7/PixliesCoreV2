@@ -8,7 +8,7 @@ import net.pixlies.business.items.MarketGUIItems;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.orders.Order;
 import net.pixlies.business.market.orders.OrderBook;
-import net.pixlies.business.market.orders.OrderProfile;
+import net.pixlies.business.market.profiles.OrderProfile;
 import net.pixlies.business.util.SoundUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

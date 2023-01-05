@@ -3,7 +3,7 @@ package net.pixlies.business.market.orders;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
-import net.pixlies.business.market.MarketProfile;
+import net.pixlies.business.market.profiles.MarketProfile;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
