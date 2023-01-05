@@ -1,4 +1,4 @@
-package net.pixlies.business.commands.impl;
+package net.pixlies.business.commands.market;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
