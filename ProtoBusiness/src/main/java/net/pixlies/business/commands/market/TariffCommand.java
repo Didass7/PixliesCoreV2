@@ -6,7 +6,7 @@ import co.aikar.commands.annotation.*;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.nations.Tariff;
-import net.pixlies.business.util.Preconditions;
+import net.pixlies.business.util.CommandPreconditions;
 import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.interfaces.NationProfile;
 import org.apache.commons.lang.StringUtils;
@@ -35,7 +35,7 @@ public class TariffCommand extends BaseCommand {
             NationProfile profile = NationProfile.get(player.getUniqueId());
             
             // If the player is not in a nation
-            if (!Preconditions.isPlayerInNation(player, profile))
+            if (!CommandPreconditions.isPlayerInNation(player, profile))
                   return;
             
             // Sort through the tariffs
@@ -50,7 +50,7 @@ public class TariffCommand extends BaseCommand {
             }
             
             // If there are no tariffs
-            if (Preconditions.ifNoLocalTariffs(player, incoming, outgoing))
+            if (CommandPreconditions.ifNoLocalTariffs(player, incoming, outgoing))
                   return;
             
             // Show incoming tariffs
@@ -76,7 +76,7 @@ public class TariffCommand extends BaseCommand {
       @Description("Retrieve the list of all incoming and outgoing tariffs")
       public void onTariffGlobal(Player player, @Optional Integer page) {
             // If there are no tariffs
-            if (Preconditions.ifNoGlobalTariffs(player))
+            if (CommandPreconditions.ifNoGlobalTariffs(player))
                   return;
       
             int size = Tariff.getAll().size();
@@ -89,7 +89,7 @@ public class TariffCommand extends BaseCommand {
             }
       
             // If the page does not exist
-            if (!Preconditions.doesPageExist(player, page, pages))
+            if (!CommandPreconditions.doesPageExist(player, page, pages))
                   return;
       
             showGlobalListPage(player, page);
@@ -103,11 +103,11 @@ public class TariffCommand extends BaseCommand {
             NationProfile nationProfile = NationProfile.get(player.getUniqueId());
             
             // If the rate argument is a valid number
-            if (!Preconditions.isAmountValidNumber(player, args[1]))
+            if (!CommandPreconditions.isAmountValidNumber(player, args[1]))
                   return;
             
             // If all the other preconditions are met
-            if (!Preconditions.tariffSet(player, args[0], args[1]))
+            if (!CommandPreconditions.tariffSet(player, args[0], args[1]))
                   return;
             
             String targetNation = args[0];
@@ -144,7 +144,7 @@ public class TariffCommand extends BaseCommand {
             NationProfile nationProfile = NationProfile.get(player.getUniqueId());
       
             // If all the other preconditions are met
-            if (!Preconditions.tariffRemove(player, targetNation))
+            if (!CommandPreconditions.tariffRemove(player, targetNation))
                   return;
       
             String initId = nationProfile.getNationId();
@@ -154,7 +154,7 @@ public class TariffCommand extends BaseCommand {
             Tariff tariff = Tariff.get(tariffId);
             
             // If the program successfully removed the tariff
-            if (!Preconditions.isTariffDeleteSuccessful(player, tariff))
+            if (!CommandPreconditions.isTariffDeleteSuccessful(player, tariff))
                   return;
             
             // Send message to the players of the initial nation

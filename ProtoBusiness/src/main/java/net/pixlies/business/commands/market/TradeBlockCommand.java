@@ -6,7 +6,7 @@ import co.aikar.commands.annotation.*;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.profiles.MarketProfile;
-import net.pixlies.business.util.Preconditions;
+import net.pixlies.business.util.CommandPreconditions;
 import net.pixlies.business.util.SoundUtil;
 import net.pixlies.core.ranks.Rank;
 import org.bukkit.Bukkit;
@@ -63,11 +63,11 @@ public class TradeBlockCommand extends BaseCommand {
             OfflinePlayer offlineTarget = Bukkit.getOfflinePlayer(name);
             
             // If the player has not joined before
-            if (!Preconditions.hasPlayerEverJoined(player, offlineTarget.getUniqueId()))
+            if (!CommandPreconditions.hasPlayerEverJoined(player, offlineTarget.getUniqueId()))
                   return;
             
             // If the player is already trade-blocked
-            if (Preconditions.isPlayerAlreadyTradeBlocked(player, name))
+            if (CommandPreconditions.isPlayerAlreadyTradeBlocked(player, name))
                   return;
             
             // Block player
@@ -90,11 +90,11 @@ public class TradeBlockCommand extends BaseCommand {
             OfflinePlayer offlineTarget = Bukkit.getOfflinePlayer(name);
       
             // If the player has not joined before
-            if (!Preconditions.hasPlayerEverJoined(player, offlineTarget.getUniqueId()))
+            if (!CommandPreconditions.hasPlayerEverJoined(player, offlineTarget.getUniqueId()))
                   return;
       
             // If the player is not trade-blocked
-            if (Preconditions.isPlayerAlreadyNotTradeBlocked(player, name))
+            if (CommandPreconditions.isPlayerAlreadyNotTradeBlocked(player, name))
                   return;
             
             // Unblock player

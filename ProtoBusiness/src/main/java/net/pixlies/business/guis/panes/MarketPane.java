@@ -3,7 +3,7 @@ package net.pixlies.business.guis.panes;
 import com.github.stefvanschie.inventoryframework.gui.GuiItem;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import net.pixlies.business.guis.MarketInitialGUI;
-import net.pixlies.business.guis.OrderItemPageGUI;
+import net.pixlies.business.guis.OrderItemGUI;
 import net.pixlies.business.items.MarketGUIItems;
 import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.business.market.orders.OrderItem;
@@ -56,7 +56,7 @@ public class MarketPane extends StaticPane {
                     .addLoreLine(" ")
                     .addLoreLine("§eClick to buy or sell!");
             GuiItem guiItem = new GuiItem(builder.build());
-            guiItem.setAction(event -> OrderItemPageGUI.open(profile, item));
+            guiItem.setAction(event -> OrderItemGUI.open(profile, item));
             addItem(guiItem, item.getPosX(), item.getPosY());
         }
     }

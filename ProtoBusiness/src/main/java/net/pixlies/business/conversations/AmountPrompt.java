@@ -1,4 +1,4 @@
-package net.pixlies.business.market.conversations;
+package net.pixlies.business.conversations;
 
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.locale.MarketLang;

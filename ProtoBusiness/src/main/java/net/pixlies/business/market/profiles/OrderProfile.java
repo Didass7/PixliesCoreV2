@@ -9,8 +9,8 @@ import lombok.Data;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.pixlies.business.ProtoBusiness;
-import net.pixlies.business.guis.OrderItemPageGUI;
-import net.pixlies.business.guis.OrdersPageGUI;
+import net.pixlies.business.guis.OrderItemGUI;
+import net.pixlies.business.guis.OrdersListGUI;
 import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.business.items.MarketGUIItems;
 import net.pixlies.business.locale.MarketLang;
@@ -165,7 +165,7 @@ public class OrderProfile {
         
         StaticPane bottomPane = new StaticPane(4, 3, 1, 1);
         GuiItem goBack = new GuiItem(MarketGUIItems.getBackArrow(item.name()));
-        goBack.setAction(event -> OrderItemPageGUI.open(this, item));
+        goBack.setAction(event -> OrderItemGUI.open(this, item));
         bottomPane.addItem(goBack, 0, 0);
         
         // ADD PANES + SHOW GUI
@@ -224,7 +224,7 @@ public class OrderProfile {
                 }
             }
             player.playSound(player.getLocation(), "block.amethyst_block.break", 100, 1);
-            OrdersPageGUI.open(this);
+            OrdersListGUI.open(this);
         });
         confirmPane.addItem(confirm, 0, 0);
         

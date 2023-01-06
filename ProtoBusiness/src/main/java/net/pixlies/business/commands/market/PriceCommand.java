@@ -9,7 +9,7 @@ import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.business.market.orders.OrderItem;
-import net.pixlies.business.util.Preconditions;
+import net.pixlies.business.util.CommandPreconditions;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -29,13 +29,13 @@ public class PriceCommand extends BaseCommand {
             Material mat = player.getInventory().getItemInMainHand().getType();
             
             // If the material is air
-            if (Preconditions.isPlayerHoldingAir(player, mat))
+            if (CommandPreconditions.isPlayerHoldingAir(player, mat))
                   return;
             
             OrderItem item = OrderItem.getFromMaterial(mat);
             
             // If the item is not on the market
-            if (!Preconditions.doesMarketItemExist(player, item))
+            if (!CommandPreconditions.doesMarketItemExist(player, item))
                   return;
       
             assert item != null;

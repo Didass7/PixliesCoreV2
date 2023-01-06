@@ -114,7 +114,7 @@ public class MarketInitialGUI {
             bottomPane.addItem(marketStats, 1, 0);
       
             GuiItem myOrders = new GuiItem(MarketGUIItems.getMyOrdersButton(player));
-            myOrders.setAction(event -> OrdersPageGUI.open(profile));
+            myOrders.setAction(event -> OrdersListGUI.open(profile));
             bottomPane.addItem(myOrders, 3, 0);
       
             // Add panes

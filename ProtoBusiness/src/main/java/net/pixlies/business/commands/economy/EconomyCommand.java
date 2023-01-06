@@ -4,7 +4,7 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import net.pixlies.business.locale.MarketLang;
-import net.pixlies.business.util.Preconditions;
+import net.pixlies.business.util.CommandPreconditions;
 import net.pixlies.business.util.SoundUtil;
 import net.pixlies.nations.nations.interfaces.NationProfile;
 import org.apache.commons.lang.StringUtils;
@@ -19,7 +19,7 @@ public class EconomyCommand extends BaseCommand {
       @Description("Give a player some money")
       @Syntax("<player> <amount>")
       public void onEconomyGive(Player player, String strArgs) {
-            if (!Preconditions.economy(player, strArgs))
+            if (!CommandPreconditions.economy(player, strArgs))
                   return;
       
             String[] args = StringUtils.split(strArgs, " ", -1);
@@ -45,7 +45,7 @@ public class EconomyCommand extends BaseCommand {
       @Description("Remove some money from a player's bank account")
       @Syntax("<player> <amount>")
       public void onEconomyRemove(Player player, String strArgs) {
-            if (!Preconditions.economy(player, strArgs))
+            if (!CommandPreconditions.economy(player, strArgs))
                   return;
       
             String[] args = StringUtils.split(strArgs, " ", -1);

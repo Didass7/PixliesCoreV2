@@ -24,7 +24,7 @@ import java.util.List;
  *
  * @author պարոյր սեւակ
  */
-public class OrdersPageGUI {
+public class OrdersListGUI {
       public static void open(OrderProfile profile) {
             Player player = Bukkit.getPlayer(profile.getUUID());
             assert player != null;

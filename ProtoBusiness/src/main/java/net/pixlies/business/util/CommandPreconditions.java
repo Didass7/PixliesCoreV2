@@ -22,7 +22,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @SuppressWarnings("BooleanMethodIsAlwaysInverted")
-public class Preconditions {
+public class CommandPreconditions {
       private static final ProtoBusiness instance = ProtoBusiness.getInstance();
       
       public static boolean doesPageExist(Player player, int page, int pages) {
@@ -160,7 +160,7 @@ public class Preconditions {
      }
      
      public static boolean tariffSet(Player player, String targetNation, String strRate) {
-           if (!Preconditions.tariffGeneral(player, targetNation))
+           if (!CommandPreconditions.tariffGeneral(player, targetNation))
                  return false;
            
            double maxRate = instance.getConfig().getDouble("tariffMaxRate");
@@ -181,7 +181,7 @@ public class Preconditions {
      }
      
      public static boolean tariffRemove(Player player, String targetNation) {
-           if (!Preconditions.tariffGeneral(player, targetNation))
+           if (!CommandPreconditions.tariffGeneral(player, targetNation))
                  return false;
            
            NationProfile nationProfile = NationProfile.get(player.getUniqueId());
@@ -234,10 +234,10 @@ public class Preconditions {
            OfflinePlayer offlineTarget = Bukkit.getOfflinePlayer(targetName);
       
            // If the player has not joined before
-           if (!Preconditions.hasPlayerEverJoined(player, offlineTarget.getUniqueId()))
+           if (!CommandPreconditions.hasPlayerEverJoined(player, offlineTarget.getUniqueId()))
                  return false;
       
            // If the amount is a valid number
-           return Preconditions.isAmountValidNumber(player, strAmount);
+           return CommandPreconditions.isAmountValidNumber(player, strAmount);
      }
 }

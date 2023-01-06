@@ -48,7 +48,7 @@ public class OrderCancelGUI {
             // Bottom pane
             StaticPane bottomPane = new StaticPane(4, 3, 1, 1);
             GuiItem goBack = new GuiItem(MarketGUIItems.getBackArrow("Placed Orders"));
-            goBack.setAction(event -> OrdersPageGUI.open(profile));
+            goBack.setAction(event -> OrdersListGUI.open(profile));
             bottomPane.addItem(goBack, 0, 0);
       
             // Add panes

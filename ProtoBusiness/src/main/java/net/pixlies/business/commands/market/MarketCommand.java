@@ -11,7 +11,7 @@ import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.business.market.profiles.MarketProfile;
 import net.pixlies.business.market.profiles.OrderProfile;
 import net.pixlies.business.util.MarketRestrictUtil;
-import net.pixlies.business.util.Preconditions;
+import net.pixlies.business.util.CommandPreconditions;
 import net.pixlies.business.util.SoundUtil;
 import net.pixlies.core.Main;
 import org.bukkit.Bukkit;
@@ -46,11 +46,11 @@ public class MarketCommand extends BaseCommand {
       @CommandPermission("pixlies.business.market")
       public void onMarket(Player player) {
             // If the market is not open
-            if (!Preconditions.isMarketOpen(player, MarketLang.MARKET_IS_CLOSED))
+            if (!CommandPreconditions.isMarketOpen(player, MarketLang.MARKET_IS_CLOSED))
                   return;
             
             // If the player is restricted from the market
-            if (Preconditions.isPlayerMarketRestricted(player))
+            if (CommandPreconditions.isPlayerMarketRestricted(player))
                   return;
             
             // Create the OrderProfile, open the GUI
@@ -65,7 +65,7 @@ public class MarketCommand extends BaseCommand {
       @Description("Opens the market to the public")
       public void onMarketOpen(Player player) {
             // If the market was already open
-            if (Preconditions.isMarketAlreadyOpen(player))
+            if (CommandPreconditions.isMarketAlreadyOpen(player))
                   return;
             
             // Open the market gates
@@ -82,7 +82,7 @@ public class MarketCommand extends BaseCommand {
       @Description("Closes the market")
       public void onMarketClose(Player player) {
             // If the market was already closed
-            if (!Preconditions.isMarketOpen(player, MarketLang.MARKET_WAS_ALREADY_CLOSED))
+            if (!CommandPreconditions.isMarketOpen(player, MarketLang.MARKET_WAS_ALREADY_CLOSED))
                   return;
             
             // Close the market gates
@@ -111,7 +111,7 @@ public class MarketCommand extends BaseCommand {
             OfflinePlayer offlineTarget = Bukkit.getOfflinePlayer(targetName);
       
             // If the player has not joined before
-            if (!Preconditions.hasPlayerEverJoined(player, offlineTarget.getUniqueId()))
+            if (!CommandPreconditions.hasPlayerEverJoined(player, offlineTarget.getUniqueId()))
                   return;
       
             MarketProfile profile = MarketProfile.get(offlineTarget.getUniqueId());

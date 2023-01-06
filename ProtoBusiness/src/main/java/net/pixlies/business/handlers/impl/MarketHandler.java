@@ -4,7 +4,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import lombok.Getter;
 import net.pixlies.business.handlers.Handler;
-import net.pixlies.business.market.challenge.Challenge;
+import net.pixlies.business.market.challenges.Challenge;
 import net.pixlies.business.market.profiles.OrderProfile;
 
 import java.util.HashMap;

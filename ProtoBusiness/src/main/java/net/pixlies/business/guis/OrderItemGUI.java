@@ -9,7 +9,7 @@ import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.items.MarketGUIItems;
 import net.pixlies.business.locale.MarketLang;
-import net.pixlies.business.market.conversations.AmountPrompt;
+import net.pixlies.business.conversations.AmountPrompt;
 import net.pixlies.business.market.orders.Order;
 import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.business.market.orders.OrderItem;
@@ -20,7 +20,7 @@ import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class OrderItemPageGUI {
+public class OrderItemGUI {
       private static final ProtoBusiness instance = ProtoBusiness.getInstance();
       
       public static void open(OrderProfile profile, OrderItem item) {

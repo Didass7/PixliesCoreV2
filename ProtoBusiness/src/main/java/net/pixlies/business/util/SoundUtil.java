@@ -4,7 +4,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 /**
- * Վե՛հ գաղափար Դաշնակցութեան
+ * Վե՛հ գաղափար Դաշնակցութեան։
  */
 public class SoundUtil {
       public static void success(Player player) {
