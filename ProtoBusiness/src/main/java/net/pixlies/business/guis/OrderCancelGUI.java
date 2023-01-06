@@ -13,7 +13,6 @@ import net.pixlies.business.util.SoundUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class OrderCancelGUI {
@@ -42,7 +41,7 @@ public class OrderCancelGUI {
                           "%ITEM%;" + book.getItem().getName());
             
                   profile.refundGoods(order);
-                  player.closeInventory(InventoryCloseEvent.Reason.CANT_USE);
+                  player.closeInventory();
             });
             cancelPane.addItem(cancel, 0, 0);
       

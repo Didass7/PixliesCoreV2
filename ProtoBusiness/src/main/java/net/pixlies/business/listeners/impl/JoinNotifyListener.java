@@ -21,5 +21,6 @@ public class JoinNotifyListener implements Listener {
         );
         MarketProfile profile = MarketProfile.get(player.getUniqueId());
         profile.setHasJoinedBefore(true);
+        profile.save();
     }
 }

@@ -14,7 +14,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
 
 /*
 TODO REVAMP EVERYTHING
@@ -27,7 +26,7 @@ public class OrderSignsListener implements Listener {
     public void onSignChange(SignChangeEvent event) {
         Player player = event.getPlayer();
         
-        if (!marketHandler.getProfiles().containsKey(player.getUniqueId().toString())) return;
+        if (!marketHandler.getProfiles().containsKey(player.getUniqueId())) return;
         
         Sign sign = (Sign) event.getBlock().getState();
         String firstLine = String.valueOf(sign.line(0));
@@ -35,7 +34,7 @@ public class OrderSignsListener implements Listener {
         assert profile != null;
         
         if (!StringUtils.isNumericSpace(firstLine)) {
-            player.closeInventory(InventoryCloseEvent.Reason.CANT_USE);
+            player.closeInventory();
             MarketLang.MARKET_NOT_A_VALID_AMOUNT.send(player);
             player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
             return;
@@ -49,7 +48,7 @@ public class OrderSignsListener implements Listener {
                 OrderItem item = OrderBook.get(order.getBookItem()).getItem();
                 
                 if (order.getType() == Order.Type.SELL && Integer.parseInt(firstLine) > profile.getItemAmount(item)) {
-                    player.closeInventory(InventoryCloseEvent.Reason.CANT_USE);
+                    player.closeInventory();
                     MarketLang.MARKET_NOT_ENOUGH_ITEMS.send(player);
                     player.playSound(player.getLocation(), "block.anvil.land", 100, 1);
                     return;
