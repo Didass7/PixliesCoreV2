@@ -1,7 +1,6 @@
 package net.pixlies.business.market.conversations;
 
 import net.pixlies.business.ProtoBusiness;
-import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.profiles.OrderProfile;
 import net.pixlies.business.util.SoundUtil;
@@ -16,7 +15,6 @@ import java.util.UUID;
 
 public class AmountPrompt extends NumericPrompt {
       private static final ProtoBusiness instance = ProtoBusiness.getInstance();
-      private final MarketHandler marketHandler = instance.getHandlerManager().getHandler(MarketHandler.class);
       
       @Override
       protected @Nullable Prompt acceptValidatedInput(@NotNull ConversationContext context, @NotNull Number input) {

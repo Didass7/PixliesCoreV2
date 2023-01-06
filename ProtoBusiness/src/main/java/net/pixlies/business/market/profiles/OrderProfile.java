@@ -50,7 +50,7 @@ public class OrderProfile {
     
     private Order tempOrder;
     private String tempTitle;
-    private byte signStage;
+    private byte signStage; // TODO: subject for removal
     
     public OrderProfile(UUID uuid) {
         this.uuid = uuid;

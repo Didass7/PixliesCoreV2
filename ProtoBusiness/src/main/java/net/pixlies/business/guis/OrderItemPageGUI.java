@@ -6,18 +6,23 @@ import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.items.MarketGUIItems;
 import net.pixlies.business.locale.MarketLang;
+import net.pixlies.business.market.conversations.AmountPrompt;
 import net.pixlies.business.market.orders.Order;
 import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.business.market.orders.OrderItem;
 import net.pixlies.business.market.profiles.OrderProfile;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class OrderItemPageGUI {
+      private static final ProtoBusiness instance = ProtoBusiness.getInstance();
+      
       public static void open(OrderProfile profile, OrderItem item) {
             Player player = Bukkit.getPlayer(profile.getUUID());
             OrderBook book = OrderBook.get(item);
@@ -41,6 +46,7 @@ public class OrderItemPageGUI {
             for (Transactions transaction : Transactions.values()) {
                   GuiItem guiItem = transaction.getGuiItem(player, item);
                   guiItem.setAction(event -> {
+                        // Set temporary information in OrderProfile
                         profile.setSignStage((byte) 1);
                         profile.setTempOrder(new Order(
                                 transaction.getType(),
@@ -54,8 +60,15 @@ public class OrderItemPageGUI {
                         profile.save();
       
                         player.closeInventory();
-      
-                        // TODO: open chat conversation asking for the amount of the item
+                        
+                        // Starts a chat conversation for the transaction item amount
+                        ConversationFactory factory = new ConversationFactory(instance)
+                                .withModality(true)
+                                .withFirstPrompt(new AmountPrompt())
+                                .withEscapeSequence("/quit")
+                                .withTimeout(20)
+                                .thatExcludesNonPlayersWithMessage("Go away evil console!");
+                        factory.buildConversation(player).begin();
                   });
                   transactionsPane.addItem(guiItem, transaction.getX(), transaction.getY());
             }
