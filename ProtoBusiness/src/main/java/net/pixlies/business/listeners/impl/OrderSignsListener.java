@@ -1,23 +1,9 @@
 package net.pixlies.business.listeners.impl;
 
-import net.pixlies.business.ProtoBusiness;
-import net.pixlies.business.handlers.impl.MarketHandler;
-import net.pixlies.business.locale.MarketLang;
-import net.pixlies.business.market.orders.Order;
-import net.pixlies.business.market.orders.OrderBook;
-import net.pixlies.business.market.orders.OrderItem;
-import net.pixlies.business.market.profiles.OrderProfile;
-import org.apache.commons.lang.StringUtils;
-import org.bukkit.Material;
-import org.bukkit.block.Sign;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.block.SignChangeEvent;
-
 /*
 TODO REVAMP EVERYTHING
  */
+/*
 public class OrderSignsListener implements Listener {
     private static final ProtoBusiness instance = ProtoBusiness.getInstance();
     private final MarketHandler marketHandler = instance.getHandlerManager().getHandler(MarketHandler.class);
@@ -75,3 +61,5 @@ public class OrderSignsListener implements Listener {
         }
     }
 }
+
+ */

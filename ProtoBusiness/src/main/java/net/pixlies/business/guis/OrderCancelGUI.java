@@ -8,16 +8,17 @@ import net.pixlies.business.items.MarketGUIItems;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.orders.Order;
 import net.pixlies.business.market.orders.OrderBook;
-import net.pixlies.business.market.profiles.OrderProfile;
 import net.pixlies.business.util.SoundUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.UUID;
+
 public class OrderCancelGUI {
-      public static void open(OrderProfile profile, Order order) {
-            Player player = Bukkit.getPlayer(profile.getUUID());
+      public static void open(UUID uuid, Order order) {
+            Player player = Bukkit.getPlayer(uuid);
             assert player != null;
       
             // Create GUI
@@ -39,8 +40,9 @@ public class OrderCancelGUI {
                   SoundUtil.cancelledOrder(player);
                   MarketLang.ORDER_CANCELLED.send(player, "%AMOUNT%;" + order.getAmount(),
                           "%ITEM%;" + book.getItem().getName());
-            
-                  profile.refundGoods(order);
+      
+                  // Move this method somewhere else
+                  // profile.refundGoods(order);
                   player.closeInventory();
             });
             cancelPane.addItem(cancel, 0, 0);
@@ -48,7 +50,7 @@ public class OrderCancelGUI {
             // Bottom pane
             StaticPane bottomPane = new StaticPane(4, 3, 1, 1);
             GuiItem goBack = new GuiItem(MarketGUIItems.getBackArrow("Placed Orders"));
-            goBack.setAction(event -> OrdersListGUI.open(profile));
+            goBack.setAction(event -> OrdersListGUI.open(uuid));
             bottomPane.addItem(goBack, 0, 0);
       
             // Add panes

@@ -9,7 +9,6 @@ import net.pixlies.business.items.MarketGUIItems;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.orders.Order;
 import net.pixlies.business.market.orders.OrderBook;
-import net.pixlies.business.market.profiles.OrderProfile;
 import net.pixlies.business.util.MarketUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -17,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Անկեղծ ասած՝ դու բնավ էլ ա՛յն չես եղել
@@ -25,8 +25,8 @@ import java.util.List;
  * @author պարոյր սեւակ
  */
 public class OrdersListGUI {
-      public static void open(OrderProfile profile) {
-            Player player = Bukkit.getPlayer(profile.getUUID());
+      public static void open(UUID uuid) {
+            Player player = Bukkit.getPlayer(uuid);
             assert player != null;
       
             // Get number of rows
@@ -48,7 +48,7 @@ public class OrdersListGUI {
                   pane.fillWith(new ItemStack(Material.BLACK_STAINED_GLASS_PANE));
       
                   GuiItem goBack = new GuiItem(MarketGUIItems.getBackArrow("Market"));
-                  goBack.setAction(event -> MarketInitialGUI.open(profile));
+                  goBack.setAction(event -> MarketInitialGUI.open(uuid));
                   pane.addItem(goBack, 4, 0);
                   
                   gui.addPane(pane);
@@ -73,9 +73,10 @@ public class OrdersListGUI {
                   GuiItem item = new GuiItem(MarketGUIItems.getOrderItem(material, order));
                   item.setAction(event -> {
                         if (order.isCancellable()) {
-                              OrderCancelGUI.open(profile, order);
+                              OrderCancelGUI.open(uuid, order);
                         } else {
-                              profile.claimGoods(order);
+                              // Move this method somewhere else
+                              // profile.claimGoods(order);
                         }
                   });
                   ordersPane.addItem(item);
@@ -91,7 +92,7 @@ public class OrdersListGUI {
             StaticPane bottomPane = new StaticPane(4, rows + 1, 1, 1);
       
             GuiItem goBack = new GuiItem(MarketGUIItems.getBackArrow("Market"));
-            goBack.setAction(event -> MarketInitialGUI.open(profile));
+            goBack.setAction(event -> MarketInitialGUI.open(uuid));
             bottomPane.addItem(goBack, 0, 0);
       
             // Add panes

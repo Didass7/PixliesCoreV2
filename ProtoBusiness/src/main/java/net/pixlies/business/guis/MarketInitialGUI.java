@@ -9,7 +9,6 @@ import lombok.Getter;
 import net.pixlies.business.guis.panes.MarketPane;
 import net.pixlies.business.items.MarketGUIItems;
 import net.pixlies.business.locale.MarketLang;
-import net.pixlies.business.market.profiles.OrderProfile;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -17,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.UUID;
 import java.util.function.Consumer;
 
 /**
@@ -25,8 +25,8 @@ import java.util.function.Consumer;
  * @author վահան դերյան
  */
 public class MarketInitialGUI {
-      public static void open(OrderProfile profile) {
-            Player player = Bukkit.getPlayer(profile.getUUID());
+      public static void open(UUID uuid) {
+            Player player = Bukkit.getPlayer(uuid);
             assert player != null;
       
             // Index 0 is the page currently being viewed
@@ -46,7 +46,7 @@ public class MarketInitialGUI {
       
             // Market pane
             MarketPane marketPane = new MarketPane(2, 0, 7, 5);
-            marketPane.loadPage(Selection.MINERALS, profile.getUUID(), profile);
+            marketPane.loadPage(Selection.MINERALS, uuid);
             background.addItem(new GuiItem(new ItemStack(Material.GREEN_STAINED_GLASS_PANE)), 1, 0);
             
             // Selection pane
@@ -95,7 +95,7 @@ public class MarketInitialGUI {
                                       viewing[0].ordinal()
                               );
       
-                              marketPane.loadPage(viewing[0], profile.getUUID(), profile);
+                              marketPane.loadPage(viewing[0], uuid);
                               gui.update();
                         }
                   };
@@ -114,7 +114,7 @@ public class MarketInitialGUI {
             bottomPane.addItem(marketStats, 1, 0);
       
             GuiItem myOrders = new GuiItem(MarketGUIItems.getMyOrdersButton(player));
-            myOrders.setAction(event -> OrdersListGUI.open(profile));
+            myOrders.setAction(event -> OrdersListGUI.open(uuid));
             bottomPane.addItem(myOrders, 3, 0);
       
             // Add panes

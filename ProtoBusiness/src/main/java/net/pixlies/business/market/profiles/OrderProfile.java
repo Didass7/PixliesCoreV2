@@ -7,9 +7,8 @@ import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
-import net.kyori.adventure.text.Component;
 import net.pixlies.business.ProtoBusiness;
-import net.pixlies.business.guis.OrderItemGUI;
+import net.pixlies.business.guis.OrderPriceGUI;
 import net.pixlies.business.guis.OrdersListGUI;
 import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.business.items.MarketGUIItems;
@@ -23,8 +22,6 @@ import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.interfaces.NationProfile;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -32,9 +29,6 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Objects;
 import java.util.UUID;
 
-/*
-TODO REVAMP EVERYTHING
- */
 /**
  * Market profile.
  *
@@ -49,8 +43,6 @@ public class OrderProfile {
     private final UUID uuid;
     
     private Order tempOrder;
-    private String tempTitle;
-    private byte signStage; // TODO: subject for removal
     
     public OrderProfile(UUID uuid) {
         this.uuid = uuid;
@@ -77,107 +69,6 @@ public class OrderProfile {
     // ----------------------------------------------------------------------------------------------------
     // GUI METHODS
     // ----------------------------------------------------------------------------------------------------
-    
-    public void openPricePage(OrderItem item, Order.Type type, int amount) {
-        
-        Player player = Bukkit.getPlayer(uuid);
-        assert player != null;
-        
-        OrderBook book = OrderBook.get(item);
-        
-        // PAGE TITLE
-        
-        String pageTitle = null;
-        switch (type) {
-            case BUY -> {
-                pageTitle = "Buy: " + item.getName();
-            }
-            case SELL -> {
-                pageTitle = "Sell: " + item.getName();
-            }
-        }
-        
-        // CREATE GUI + BACKGROUND
-        
-        ChestGui gui = new ChestGui(4, pageTitle);
-        gui.setOnGlobalClick(event -> event.setCancelled(true));
-        
-        StaticPane background = new StaticPane(0, 0, 9, 4, Pane.Priority.LOWEST);
-        background.fillWith(new ItemStack(Material.BLACK_STAINED_GLASS_PANE));
-        
-        // PRICES PANE
-        
-        StaticPane pricesPane = new StaticPane(2, 1, 5, 0);
-        
-        boolean emptyBuyCondition = type == Order.Type.BUY && book.getBuyOrders().isEmpty();
-        boolean emptySellCondition = type == Order.Type.SELL && book.getSellOrders().isEmpty();
-        String finalPageTitle = pageTitle;
-        
-        GuiItem customPrice = new GuiItem(MarketGUIItems.getCustomPriceButton());
-        customPrice.setAction(event -> {
-            player.closeInventory();
-            
-            signStage = (byte) 2;
-            tempOrder = new Order(type, book.getItem().name(), System.currentTimeMillis(), player.getUniqueId(), 0.0, amount);
-            tempTitle = finalPageTitle;
-            
-            Block block = player.getWorld().getBlockAt(player.getEyeLocation());
-            block.setType(Material.BIRCH_WALL_SIGN);
-            Sign sign = (Sign) block.getState();
-            sign.line(1, Component.text("^^ -------- ^^"));
-            sign.line(2, Component.text("Set a custom"));
-            sign.line(3, Component.text("price"));
-            sign.update(true);
-            player.openSign(sign);
-            
-            // TODO: open chat conversation asking for custom price
-        });
-        
-        if (emptyBuyCondition || emptySellCondition) {
-            pricesPane.addItem(customPrice, 2, 0);
-        } else {
-            GuiItem marketPrice = new GuiItem(MarketGUIItems.getBestPriceButton(uuid, item, type, amount));
-            marketPrice.setAction(event -> {
-                double price = type == Order.Type.BUY ? book.getLowestBuyPrice(uuid) :
-                        book.getHighestSellPrice(uuid);
-                Order order = new Order(type, book.getItem().name(), System.currentTimeMillis(),
-                        player.getUniqueId(),
-                        price, amount);
-                openConfirmOrderPage(order, finalPageTitle);
-            });
-            pricesPane.addItem(marketPrice, 0, 0);
-            
-            GuiItem changedPrice = new GuiItem(MarketGUIItems.getChangedPriceButton(uuid, item, type, amount));
-            changedPrice.setAction(event -> {
-                double price = type == Order.Type.BUY ? book.getLowestBuyPrice(uuid) + 0.1 :
-                        book.getHighestSellPrice(uuid) - 0.1;
-                Order order = new Order(type, book.getItem().name(), System.currentTimeMillis(),
-                        player.getUniqueId(),
-                        price, amount);
-                openConfirmOrderPage(order, finalPageTitle);
-            });
-            pricesPane.addItem(changedPrice, 2, 0);
-            
-            pricesPane.addItem(customPrice, 4, 0);
-        }
-        
-        // BOTTOM PANE
-        
-        StaticPane bottomPane = new StaticPane(4, 3, 1, 1);
-        GuiItem goBack = new GuiItem(MarketGUIItems.getBackArrow(item.name()));
-        goBack.setAction(event -> OrderItemGUI.open(this, item));
-        bottomPane.addItem(goBack, 0, 0);
-        
-        // ADD PANES + SHOW GUI
-        
-        gui.addPane(background);
-        gui.addPane(pricesPane);
-        gui.addPane(bottomPane);
-        
-        gui.show(player);
-        gui.update();
-        
-    }
     
     public void openConfirmOrderPage(Order order, String previous) {
         
@@ -224,7 +115,7 @@ public class OrderProfile {
                 }
             }
             player.playSound(player.getLocation(), "block.amethyst_block.break", 100, 1);
-            OrdersListGUI.open(this);
+            OrdersListGUI.open(uuid);
         });
         confirmPane.addItem(confirm, 0, 0);
         
@@ -232,7 +123,7 @@ public class OrderProfile {
         
         StaticPane bottomPane = new StaticPane(4, 3, 1, 1);
         GuiItem goBack = new GuiItem(MarketGUIItems.getBackArrow(previous));
-        goBack.setAction(event -> openPricePage(book.getItem(), order.getType(), order.getAmount()));
+        goBack.setAction(event -> OrderPriceGUI.open(uuid, order.getType(), OrderItem.valueOf(order.getBookItem()), order.getAmount()));
         bottomPane.addItem(goBack, 0, 0);
         
         // ADD PANES + SHOW GUI

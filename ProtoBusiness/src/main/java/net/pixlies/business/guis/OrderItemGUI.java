@@ -7,25 +7,26 @@ import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
+import net.pixlies.business.conversations.AmountPrompt;
 import net.pixlies.business.items.MarketGUIItems;
 import net.pixlies.business.locale.MarketLang;
-import net.pixlies.business.conversations.AmountPrompt;
 import net.pixlies.business.market.orders.Order;
-import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.business.market.orders.OrderItem;
 import net.pixlies.business.market.profiles.OrderProfile;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.UUID;
+
 public class OrderItemGUI {
       private static final ProtoBusiness instance = ProtoBusiness.getInstance();
       
-      public static void open(OrderProfile profile, OrderItem item) {
-            Player player = Bukkit.getPlayer(profile.getUUID());
-            OrderBook book = OrderBook.get(item);
+      public static void open(UUID uuid, OrderItem item) {
+            Player player = Bukkit.getPlayer(uuid);
       
             // Create GUI
             ChestGui gui = new ChestGui(4, MarketLang.MARKET + "§8" + item.getName());
@@ -46,29 +47,20 @@ public class OrderItemGUI {
             for (Transactions transaction : Transactions.values()) {
                   GuiItem guiItem = transaction.getGuiItem(player, item);
                   guiItem.setAction(event -> {
-                        // Set temporary information in OrderProfile
-                        profile.setSignStage((byte) 1);
-                        profile.setTempOrder(new Order(
-                                transaction.getType(),
-                                book.getItem().name(),
-                                System.currentTimeMillis(),
-                                profile.getUUID(),
-                                0,
-                                0
-                        ));
-                        profile.setTempTitle(item.getName());
-                        profile.save();
-      
                         player.closeInventory();
                         
-                        // Starts a chat conversation for the transaction item amount
+                        // Start a chat conversation for the transaction item amount
                         ConversationFactory factory = new ConversationFactory(instance)
                                 .withModality(true)
                                 .withFirstPrompt(new AmountPrompt())
                                 .withEscapeSequence("/quit")
                                 .withTimeout(20)
                                 .thatExcludesNonPlayersWithMessage("Go away evil console!");
-                        factory.buildConversation(player).begin();
+                        Conversation conversation = factory.buildConversation(player);
+                        conversation.getContext().setSessionData("uuid", player.getUniqueId());
+                        conversation.getContext().setSessionData("type", transaction.getType());
+                        conversation.getContext().setSessionData("item", item.name());
+                        conversation.begin();
                   });
                   transactionsPane.addItem(guiItem, transaction.getX(), transaction.getY());
             }
@@ -76,7 +68,7 @@ public class OrderItemGUI {
             // Bottom pane
             StaticPane bottomPane = new StaticPane(4, 3, 1, 1);
             GuiItem goBack = new GuiItem(MarketGUIItems.getBackArrow("Market"));
-            goBack.setAction(event -> MarketInitialGUI.open(profile));
+            goBack.setAction(event -> MarketInitialGUI.open(uuid));
             bottomPane.addItem(goBack, 0, 0);
       
             // Add panes

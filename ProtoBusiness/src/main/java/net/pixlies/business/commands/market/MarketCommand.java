@@ -5,15 +5,12 @@ import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.guis.MarketInitialGUI;
-import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.business.market.profiles.MarketProfile;
-import net.pixlies.business.market.profiles.OrderProfile;
-import net.pixlies.business.util.MarketRestrictUtil;
 import net.pixlies.business.util.CommandPreconditions;
+import net.pixlies.business.util.MarketRestrictUtil;
 import net.pixlies.business.util.SoundUtil;
-import net.pixlies.core.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -36,10 +33,7 @@ public class MarketCommand extends BaseCommand {
        * - cancelled order: block.netherite_block.place
        */
       
-      private static final Main pixlies = Main.getInstance();
       private static final ProtoBusiness instance = ProtoBusiness.getInstance();
-      
-      private final MarketHandler marketHandler = instance.getHandlerManager().getHandler(MarketHandler.class);
       
       @Default
       @Description("Opens the market menu")
@@ -53,11 +47,9 @@ public class MarketCommand extends BaseCommand {
             if (CommandPreconditions.isPlayerMarketRestricted(player))
                   return;
             
-            // Create the OrderProfile, open the GUI
+            // Open the GUI
             UUID uuid = player.getUniqueId();
-            OrderProfile profile = new OrderProfile(uuid);
-            marketHandler.getProfiles().put(uuid, profile);
-            MarketInitialGUI.open(marketHandler.getProfiles().get(uuid));
+            MarketInitialGUI.open(uuid);
       }
       
       @Subcommand("open")

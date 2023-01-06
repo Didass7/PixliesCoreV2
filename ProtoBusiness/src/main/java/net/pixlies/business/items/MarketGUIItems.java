@@ -208,6 +208,7 @@ public final class MarketGUIItems {
                 .build();
     }
     
+    // TODO: Redo
     public static ItemStack getCancelOrderButton(Order order) {
         ItemBuilder builder = new ItemBuilder(new ItemStack(Material.RED_TERRACOTTA))
                 .setDisplayName("§cCancel order")
@@ -221,6 +222,7 @@ public final class MarketGUIItems {
         return builder.addLoreLine(" ").addLoreLine("§eClick to cancel!").build();
     }
     
+    // TODO: Redo
     public static ItemStack getConfirmOrderButton(Order order, double tax) {
         OrderItem item = OrderBook.get(order.getBookItem()).getItem();
         return new ItemBuilder(new ItemStack(item.getMaterial()))
@@ -238,6 +240,7 @@ public final class MarketGUIItems {
                 .build();
     }
     
+    // TODO: Redo
     public static ItemStack getBuyButton(UUID playerUUID, OrderItem item) {
         OrderBook book = OrderBook.get(item);
         ItemBuilder builder = new ItemBuilder(new ItemStack(Material.EMERALD))
@@ -251,6 +254,7 @@ public final class MarketGUIItems {
                 .build();
     }
     
+    // TODO: Redo
     public static ItemStack getSellButton(UUID playerUUID, OrderItem item, int num) {
         OrderBook book = OrderBook.get(item);
         ItemBuilder builder = new ItemBuilder(new ItemStack(Material.GOLD_INGOT))
@@ -266,6 +270,7 @@ public final class MarketGUIItems {
                 .build();
     }
     
+    // TODO: Redo
     public static ItemStack getBestPriceButton(UUID playerUUID, OrderItem item, Order.Type type, int amount) {
         OrderBook book = OrderBook.get(item);
         return new ItemBuilder(new ItemStack(item.getMaterial()))
@@ -283,6 +288,7 @@ public final class MarketGUIItems {
                 .build();
     }
     
+    // TODO: Redo
     public static ItemStack getChangedPriceButton(UUID playerUUID, OrderItem item, Order.Type type, int amount) {
         OrderBook book = OrderBook.get(item);
         return new ItemBuilder(new ItemStack(Material.GOLD_NUGGET))

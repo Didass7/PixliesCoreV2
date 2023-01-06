@@ -7,7 +7,6 @@ import net.pixlies.business.guis.OrderItemGUI;
 import net.pixlies.business.items.MarketGUIItems;
 import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.business.market.orders.OrderItem;
-import net.pixlies.business.market.profiles.OrderProfile;
 import net.pixlies.core.utils.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -26,7 +25,7 @@ public class MarketPane extends StaticPane {
         items = new HashMap<>(length * height);
     }
     
-    public void loadPage(MarketInitialGUI.Selection page, UUID uuid, OrderProfile profile) {
+    public void loadPage(MarketInitialGUI.Selection page, UUID uuid) {
         fillWith(MarketGUIItems.getEmptyItem());
     
         if (page == MarketInitialGUI.Selection.GOLD_STANDARD) {
@@ -56,7 +55,7 @@ public class MarketPane extends StaticPane {
                     .addLoreLine(" ")
                     .addLoreLine("§eClick to buy or sell!");
             GuiItem guiItem = new GuiItem(builder.build());
-            guiItem.setAction(event -> OrderItemGUI.open(profile, item));
+            guiItem.setAction(event -> OrderItemGUI.open(uuid, item));
             addItem(guiItem, item.getPosX(), item.getPosY());
         }
     }
