@@ -34,9 +34,9 @@ public class CommandPreconditions {
             return true;
       }
       
-      public static boolean doesPlayerExist(Player player, String name) {
-            if (Bukkit.getPlayerExact(name) == null) {
-                  MarketLang.PLAYER_DOES_NOT_EXIST.send(player);
+      public static boolean playerHasEnoughMoney(Player player, double amount) {
+            if (NationProfile.get(player.getUniqueId()).getBalance() < amount) {
+                  MarketLang.GENERAL_NOT_ENOUGH_MONEY.send(player);
                   SoundUtil.error(player);
                   return false;
             }

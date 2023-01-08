@@ -35,7 +35,7 @@ public class EconomyCommand extends BaseCommand {
             
             if (offlineTarget.isOnline()) {
                   Player target = offlineTarget.getPlayer();
-                  MarketLang.BALANCE_ADDED_SENDER.send(target, "%COINS%;" + strAmount, "%PLAYER%;" + player.getName());
+                  MarketLang.BALANCE_ADDED_TARGET.send(target, "%COINS%;" + strAmount);
                   SoundUtil.success(target);
             }
       }
