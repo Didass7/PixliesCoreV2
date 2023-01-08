@@ -8,5 +8,6 @@ import java.util.UUID;
 public class OrderConfirmGUI {
       public static void open(UUID uuid, Order.Type type, OrderItem item, int amount, double price) {
             // TODO
+            // personal note-- don't forget taxes!!!
       }
 }

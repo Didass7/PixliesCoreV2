@@ -156,7 +156,7 @@ public class OrderProfile {
         } else {
             // TODO: add coins to wallet
             user.save();
-            MarketLang.ORDER_COINS_REFUNDED.send(player, "%COINS%" + (order.getVolume() * order.getPrice()));
+            MarketLang.ORDER_COINS_REFUNDED.send(player, "%COINS%" + (order.getVolume() * order.getTaxedPrice()));
         }
         player.playSound(player.getLocation(), "entity.experience_orb.pickup", 100, 1);
     }

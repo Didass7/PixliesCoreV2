@@ -9,8 +9,6 @@ import net.pixlies.business.market.profiles.MarketProfile;
 import net.pixlies.business.util.MarketUtil;
 import net.pixlies.core.utils.ItemBuilder;
 import net.pixlies.core.utils.PlayerUtils;
-import net.pixlies.nations.nations.Nation;
-import net.pixlies.nations.nations.interfaces.NationProfile;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -167,10 +165,7 @@ public final class MarketGUIItems {
         }
         
         // Price with sales taxes
-        Nation nation = NationProfile.get(order.getPlayerUUID()).getNation();
-        double tax = nation.getTaxRate();
-        double price = (order.getPrice() * order.getAmount() * (1 + tax));
-        builder.addLoreLine("§7§lTotal price: §f" + maxOrMin + " §6" + price + " coins")
+        builder.addLoreLine("§7§lTotal price: §f" + maxOrMin + " §6" + order.getTaxedPrice() + " coins")
                 .addLoreLine(" ");
         
         // If there are no trades, build the ItemStack and return
@@ -208,46 +203,56 @@ public final class MarketGUIItems {
                 .build();
     }
     
-    // TODO: Redo
     public static ItemStack getCancelOrderButton(Order order) {
+        String itemName = OrderItem.valueOf(order.getBookItem()).getName();
+        
         ItemBuilder builder = new ItemBuilder(new ItemStack(Material.RED_TERRACOTTA))
                 .setDisplayName("§cCancel order")
                 .addLoreLine(" ");
-        if (order.getType() == Order.Type.BUY) {
-            builder.addLoreLine("§7You will be refunded §6" + (order.getVolume() * order.getPrice()) + " coins" +
-                    "§7.");
-        } else {
-            builder.addLoreLine("§7You will be refunded §a" + order.getVolume() + "§8x §7items.");
+        
+        // Give back non-accounted-for items
+        switch (order.getType()) {
+            case BUY -> builder.addLoreLine("§7You will be refunded §6" +
+                    (order.getVolume() * order.getTaxedPrice()) + " coins§7.");
+            case SELL -> builder.addLoreLine("§7You will be refunded §a" +
+                    order.getVolume() + "§8x §f" + itemName + "§7.");
         }
-        return builder.addLoreLine(" ").addLoreLine("§eClick to cancel!").build();
+
+        return builder.addLoreLine(" ")
+                .addLoreLine("§eClick to cancel!")
+                .build();
     }
     
-    // TODO: Redo
     public static ItemStack getConfirmOrderButton(Order order, double tax) {
         OrderItem item = OrderBook.get(order.getBookItem()).getItem();
         return new ItemBuilder(new ItemStack(item.getMaterial()))
                 .setDisplayName(order.getType() == Order.Type.BUY ?
                         "§aConfirm order §8(§a§lBUY§r§8)" :
                         "§aConfirm order §8(§6§lSELL§r§8)")
-                .addLoreLine("§8>> §b" + order.getAmount() + "§8x §b" + item.getName())
+                .addLoreLine("§8» §b" + order.getAmount() + "§8x §f" + item.getName())
                 .addLoreLine(" ")
                 .addLoreLine("§7Price per unit: §6" + order.getPrice() + " coins")
                 .addLoreLine("§7Tax: §c" + (tax * 100) + "%")
-                .addLoreLine("§7§lTotal price: §6" + (order.getPrice() * order.getAmount() * (1 + tax)) + " coins")
+                .addLoreLine("§7§lMax. total price: §6" + order.getTaxedPrice() * order.getAmount() + " coins")
                 .addLoreLine(" ")
                 .addLoreLine("§8ID: " + order.getOrderId())
                 .addLoreLine("§eClick to confirm order!")
                 .build();
     }
     
-    // TODO: Redo
     public static ItemStack getBuyButton(UUID playerUUID, OrderItem item) {
         OrderBook book = OrderBook.get(item);
+        
         ItemBuilder builder = new ItemBuilder(new ItemStack(Material.EMERALD))
                 .setDisplayName("§aBuy Order")
                 .addLoreLine("§7Best price per unit: §6" + book.getLowestBuyPrice(playerUUID))
                 .addLoreLine(" ");
-        for (String s : book.getRecentOrders(Order.Type.BUY, item, playerUUID)) builder.addLoreLine(s);
+        
+        // Get 8 most recent orders
+        for (String order : book.getRecentOrders(playerUUID)) {
+            builder.addLoreLine(order);
+        }
+        
         return builder.addLoreLine(" ")
                 .addLoreLine("§8This is a limit order.")
                 .addLoreLine("§eClick to create!")
@@ -263,7 +268,7 @@ public final class MarketGUIItems {
                 .addLoreLine("§7Inventory: §a" + num + " items")
                 .addLoreLine("§7Best total price: §d" + (book.getHighestSellPrice(playerUUID) * num))
                 .addLoreLine(" ");
-        for (String s : book.getRecentOrders(Order.Type.SELL, item, playerUUID)) builder.addLoreLine(s);
+        for (String s : book.getRecentOrders(playerUUID)) builder.addLoreLine(s);
         return builder.addLoreLine(" ")
                 .addLoreLine("§8This is a limit order.")
                 .addLoreLine("§eClick to create!")

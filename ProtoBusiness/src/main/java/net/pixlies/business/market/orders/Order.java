@@ -9,6 +9,7 @@ import net.pixlies.business.market.nations.Tariff;
 import net.pixlies.core.utils.TextUtils;
 import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.interfaces.NationProfile;
+import org.bukkit.Bukkit;
 
 import java.util.*;
 
@@ -56,21 +57,46 @@ public class Order {
         refunds = new HashMap<>();
     }
     
+    // Used to display price for order items
+    public double getTaxedPrice() {
+        NationProfile profile = NationProfile.get(playerUUID);
+        Nation nation = Nation.getFromId(profile.getNationId());
+        return price * (1 + nation.getTaxRate());
+    }
+    
+    // Used to display price for recent orders and refunds
+    public double getTariffedPrice(UUID matchingUUID) {
+        String initId = NationProfile.get(playerUUID).getNationId();
+        String matchId = NationProfile.get(matchingUUID).getNationId();
+    
+        if (playerUUID == matchingUUID)
+            return price;
+    
+        for (Tariff tariff : Tariff.getAll()) {
+            if (Objects.equals(tariff.getInitId(), initId) && Objects.equals(tariff.getTargetId(), matchId)) {
+                return price * (1 + tariff.getRate());
+            }
+        }
+    
+        return price;
+    }
+    
     /**
      * Best shit you've ever seen.
      * Զըխխը՛մ։
      */
-    public double getRelativePrice(UUID matchingUUID) {
-        if (playerUUID == matchingUUID) return price;
-        
+    // Used to display price for trades
+    public double getTaxedTariffedPrice(UUID matchingUUID) {
         String initId = NationProfile.get(playerUUID).getNationId();
         String matchId = NationProfile.get(matchingUUID).getNationId();
-        
-        double rate = Nation.getFromId(initId).getTaxRate();
-        
+        double taxRate = Nation.getFromId(initId).getTaxRate();
+    
+        if (playerUUID == matchingUUID)
+            return price;
+    
         for (Tariff tariff : Tariff.getAll()) {
             if (Objects.equals(tariff.getInitId(), initId) && Objects.equals(tariff.getTargetId(), matchId)) {
-                return price * (1 + rate + tariff.getRate());
+                return price * (1 + taxRate + tariff.getRate());
             }
         }
         
@@ -145,6 +171,15 @@ public class Order {
         book.save();
     
         instance.logInfo("Saved order " + orderId + " to the CACHE.");
+    }
+    
+    // Աստուծոյ սիրոյն, աշխատի՛ր։
+    // Վա՜յ անասուն, վա՜յ։
+    public String toString(UUID initialUUID) {
+        String playerName = Objects.requireNonNull(Bukkit.getPlayer(playerUUID)).getName();
+        String prefix = type == Order.Type.BUY ? "§a§lBUY" : "§6§lSELL";
+        double price = getTariffedPrice(initialUUID);
+        return " §8» " + prefix + " §r§a" + amount + "§8x §7@ §6" + price + "§7 each from §b" + playerName;
     }
     
     // --------------------------------------------------------------------------------------------

@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.market.profiles.MarketProfile;
-import org.apache.commons.lang.WordUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -37,25 +35,25 @@ public class OrderBook {
         sellOrders = new ArrayList<>();
     }
     
-    // --------------------------------------------------------------------------------------------
-    
     public String getItemName() {
-        return WordUtils.capitalize(item.getName().toLowerCase());
+        return item.getName();
     }
     
-    public List<String> getRecentOrders(Order.Type type, OrderItem item, UUID uuid) {
+    public List<String> getRecentOrders(UUID initialUUID) {
         List<String> list = new ArrayList<>();
-        OrderBook book = item.getBook();
-        assert book != null;
         
-        List<Order> orders;
-        if (type == Order.Type.BUY) orders = book.getBuyOrders();
-        else orders = book.getSellOrders();
+        int buyIndex = 0;
+        for (Order order : buyOrders) {
+            if (buyIndex == 4) break;
+            list.add(order.toString(initialUUID));
+            buyIndex++;
+        }
         
-        for (Order o : orders) {
-            if (list.size() == 8) break;
-            String playerName = Objects.requireNonNull(Bukkit.getPlayer(o.getPlayerUUID())).getName();
-            list.add("§8- §a" + o.getAmount() + "§8x§7 at §6" + o.getRelativePrice(uuid) + "§7 each from §b" + playerName);
+        int sellIndex = 0;
+        for (Order order : sellOrders) {
+            if (sellIndex == 4) break;
+            list.add(order.toString(initialUUID));
+            sellIndex++;
         }
         
         return list;
@@ -63,14 +61,14 @@ public class OrderBook {
     
     public double getLowestBuyPrice(UUID matching) {
         List<Double> prices = new ArrayList<>();
-        buyOrders.forEach(order -> prices.add(order.getRelativePrice(matching)));
+        buyOrders.forEach(order -> prices.add(order.getTaxedTariffedPrice(matching)));
         if (prices.isEmpty()) return 0;
         else return Collections.min(prices);
     }
     
     public double getHighestSellPrice(UUID matching) {
         List<Double> prices = new ArrayList<>();
-        sellOrders.forEach(order -> prices.add(order.getRelativePrice(matching)));
+        sellOrders.forEach(order -> prices.add(order.getTaxedTariffedPrice(matching)));
         if (prices.isEmpty()) return 0;
         else return Collections.max(prices);
     }
@@ -109,8 +107,8 @@ public class OrderBook {
                 continue;
             
             // Get relative prices
-            double initialPrice = initialOrder.getRelativePrice(matchingOrder.getPlayerUUID());
-            double matchingPrice = matchingOrder.getRelativePrice(initialOrder.getPlayerUUID());
+            double initialPrice = initialOrder.getTaxedTariffedPrice(matchingOrder.getPlayerUUID());
+            double matchingPrice = matchingOrder.getTaxedTariffedPrice(initialOrder.getPlayerUUID());
             
             boolean buyCondition = type == Order.Type.BUY && matchingPrice <= initialPrice;
             boolean sellCondition = type == Order.Type.SELL && matchingPrice >= initialPrice;
@@ -139,19 +137,19 @@ public class OrderBook {
     
     private void addTrade(Order initialOrder, Order matchingOrder, int traded) {
         Order.Type type = initialOrder.getType();
-        double price = matchingOrder.getRelativePrice(initialOrder.getPlayerUUID());
+        double price = matchingOrder.getTaxedTariffedPrice(initialOrder.getPlayerUUID());
         double total = price * traded;
         
         // Refunds
         double refund;
         if (type == Order.Type.BUY) {
-            refund = initialOrder.getPrice() - initialOrder.getRelativePrice(matchingOrder.getPlayerUUID());
+            refund = initialOrder.getPrice() - initialOrder.getTariffedPrice(matchingOrder.getPlayerUUID());
             if (refund != 0) {
                 initialOrder.getRefunds().put(refund, false);
                 initialOrder.save();
             }
         } else {
-            refund = matchingOrder.getPrice() - matchingOrder.getRelativePrice(initialOrder.getPlayerUUID());
+            refund = matchingOrder.getPrice() - matchingOrder.getTariffedPrice(initialOrder.getPlayerUUID());
             if (refund != 0) {
                 matchingOrder.getRefunds().put(refund, false);
                 matchingOrder.save();
