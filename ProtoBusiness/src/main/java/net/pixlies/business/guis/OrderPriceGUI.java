@@ -4,6 +4,8 @@ import com.github.stefvanschie.inventoryframework.gui.GuiItem;
 import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
+import net.pixlies.business.ProtoBusiness;
+import net.pixlies.business.conversations.CustomPricePrompt;
 import net.pixlies.business.items.MarketGUIItems;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.orders.Order;
@@ -11,12 +13,16 @@ import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.business.market.orders.OrderItem;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.conversations.Conversation;
+import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
 
 public class OrderPriceGUI {
+      private static final ProtoBusiness instance = ProtoBusiness.getInstance();
+      
       public static void open(UUID uuid, Order.Type type, OrderItem item, int amount) {
             Player player = Bukkit.getPlayer(uuid);
             assert player != null;
@@ -46,7 +52,18 @@ public class OrderPriceGUI {
                   player.closeInventory();
       
                   // Start a chat conversation for the transaction unit price
-                  // TODO: open chat conversation asking for custom price
+                  ConversationFactory factory = new ConversationFactory(instance)
+                          .withModality(true)
+                          .withFirstPrompt(new CustomPricePrompt())
+                          .withEscapeSequence("/quit")
+                          .withTimeout(20)
+                          .thatExcludesNonPlayersWithMessage("Go away evil console!");
+                  Conversation conversation = factory.buildConversation(player);
+                  conversation.getContext().setSessionData("uuid", player.getUniqueId());
+                  conversation.getContext().setSessionData("type", type);
+                  conversation.getContext().setSessionData("item", item.name());
+                  conversation.getContext().setSessionData("amount", amount);
+                  conversation.begin();
             });
       
             // Check if we should put market price options

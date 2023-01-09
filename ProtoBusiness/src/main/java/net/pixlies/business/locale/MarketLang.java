@@ -49,6 +49,7 @@ public enum MarketLang {
     PRICE_NOT_HOLDING_AN_ITEM(MarketLang.MARKET),
     
     ENTER_AN_AMOUNT(MarketLang.MARKET),
+    ENTER_A_CUSTOM_PRICE(MarketLang.MARKET),
     THIS_IS_NOT_A_POSITIVE_INTEGER(MarketLang.MARKET),
     
     // CHALLENGES [PROTOBUSINESS]

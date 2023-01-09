@@ -2,12 +2,20 @@ package net.pixlies.business.util;
 
 import net.pixlies.business.market.orders.Order;
 import net.pixlies.business.market.orders.OrderBook;
+import net.pixlies.nations.nations.Nation;
+import net.pixlies.nations.nations.interfaces.NationProfile;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
 public class MarketUtil {
+      public static double getTaxedPrice(UUID playerUUID, double price) {
+            NationProfile profile = NationProfile.get(playerUUID);
+            Nation nation = Nation.getFromId(profile.getNationId());
+            return price * (1 + nation.getTaxRate());
+      }
+      
       public static List<Order> getPlayerBuyOrders(UUID uuid) {
             List<Order> list = new LinkedList<>();
             for (OrderBook book : OrderBook.getAll()) {
