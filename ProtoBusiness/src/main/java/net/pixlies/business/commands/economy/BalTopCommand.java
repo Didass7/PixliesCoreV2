@@ -24,7 +24,7 @@ public class BalTopCommand extends BaseCommand {
             PrettyTime prettyTime = new PrettyTime();
             Set<Map.Entry<String, Double>> entries;
       
-            if (nations.equalsIgnoreCase("nations")) {
+            if (nations != null && nations.equalsIgnoreCase("nations")) {
                   MarketLang.BALTOP_NATIONS_HEADER.send(sender);
                   MarketLang.BALTOP_LAST_UPDATED.send(
                           sender,

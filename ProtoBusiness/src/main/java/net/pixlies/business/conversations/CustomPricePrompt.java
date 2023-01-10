@@ -43,6 +43,6 @@ public class CustomPricePrompt extends NumericPrompt {
       @Override
       public @NotNull String getPromptText(@NotNull ConversationContext context) {
             UUID uuid = (UUID) context.getSessionData("uuid");
-            return MarketLang.ENTER_AN_AMOUNT.get(Bukkit.getPlayer(uuid));
+            return MarketLang.ENTER_A_CUSTOM_PRICE.get(Bukkit.getPlayer(uuid));
       }
 }
