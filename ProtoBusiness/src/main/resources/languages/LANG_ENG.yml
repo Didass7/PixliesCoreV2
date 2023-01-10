@@ -11,8 +11,7 @@ MARKET_IS_CLOSED: "§cThe market is closed. Please wait a few business days!"
 MARKET_STATISTICS_RESET: "§7Market statistics have been §creset§7."
 MARKET_PLAYER_STATISTICS_RESET: "§7Market statistics for §6%PLAYER%§7 have been §creset§7 by §6%SENDER§7."
 
-BUY_ORDER_CREATED: "§7You created a §abuy §7order for §a%AMOUNT%§8x §f%ITEM%§7."
-SELL_ORDER_CREATED: "§7You created a §6sell §7order for §a%AMOUNT%§8x §f%ITEM%§7."
+NEW_ORDER_CREATED: "§7New order created: §r%ORDER%"
 
 ORDER_CANCELLED: "§7Your order for §a%AMOUNT%§8x §6%ITEM% §7was §ccancelled§7."
 ORDER_ITEMS_REFUNDED: "§7You were refunded §a%AMOUNT%§8x §f%ITEM%§7."

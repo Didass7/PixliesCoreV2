@@ -75,7 +75,7 @@ public class OrdersListGUI {
                         if (order.isCancellable()) {
                               OrderCancelGUI.open(uuid, order);
                         } else {
-                              // Move this method somewhere else
+                              // TODO: Move this method somewhere else
                               // profile.claimGoods(order);
                         }
                   });

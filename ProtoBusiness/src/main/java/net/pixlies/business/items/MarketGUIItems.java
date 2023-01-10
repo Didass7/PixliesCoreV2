@@ -225,16 +225,23 @@ public final class MarketGUIItems {
     
     public static ItemStack getConfirmOrderButton(Order order, double tax) {
         OrderItem item = OrderBook.get(order.getBookItem()).getItem();
-        return new ItemBuilder(new ItemStack(item.getMaterial()))
+        ItemBuilder builder =  new ItemBuilder(new ItemStack(item.getMaterial()))
                 .setDisplayName(order.getType() == Order.Type.BUY ?
                         "§aConfirm order §8(§a§lBUY§r§8)" :
                         "§aConfirm order §8(§6§lSELL§r§8)")
-                .addLoreLine("§8» §b" + order.getAmount() + "§8x §f" + item.getName())
+                .addLoreLine("§b" + order.getAmount() + "§8x §f" + item.getName())
                 .addLoreLine(" ")
-                .addLoreLine("§7Price per unit: §6" + order.getPrice() + " coins")
-                .addLoreLine("§7Tax: §c" + (tax * 100) + "%")
-                .addLoreLine("§7§lMax. total price: §6" + order.getTaxedPrice() * order.getAmount() + " coins")
-                .addLoreLine(" ")
+                .addLoreLine("§7Price per unit: §6" + order.getPrice() + " coins");
+        
+        // Taxes
+        if (order.getType() == Order.Type.BUY) {
+            builder.addLoreLine("§7Tax: §c" + (tax * 100) + "%")
+                    .addLoreLine("§7§lMax. total price: §6" + order.getTaxedPrice() * order.getAmount() + " coins");
+        } else {
+            builder.addLoreLine("§7§lMax. total price: §6" + order.getPrice() * order.getAmount() + " coins");
+        }
+
+        return builder.addLoreLine(" ")
                 .addLoreLine("§8ID: " + order.getOrderId())
                 .addLoreLine("§eClick to confirm order!")
                 .build();

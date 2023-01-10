@@ -41,7 +41,7 @@ public class OrderCancelGUI {
                   MarketLang.ORDER_CANCELLED.send(player, "%AMOUNT%;" + order.getAmount(),
                           "%ITEM%;" + book.getItem().getName());
       
-                  // Move this method somewhere else
+                  // TODO: Move this method somewhere else
                   // profile.refundGoods(order);
                   player.closeInventory();
             });

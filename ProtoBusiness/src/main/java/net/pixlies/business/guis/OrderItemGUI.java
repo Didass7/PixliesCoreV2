@@ -12,7 +12,7 @@ import net.pixlies.business.items.MarketGUIItems;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.orders.Order;
 import net.pixlies.business.market.orders.OrderItem;
-import net.pixlies.business.market.profiles.OrderProfile;
+import net.pixlies.business.util.InventoryUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.conversations.Conversation;
@@ -93,13 +93,14 @@ public class OrderItemGUI {
             private final int y;
             
             public GuiItem getGuiItem(Player player, OrderItem item) {
-                  OrderProfile profile = OrderProfile.get(player.getUniqueId());
                   if (this == BUY) {
                         return new GuiItem(MarketGUIItems.getBuyButton(player.getUniqueId(), item));
                   } else {
-                        assert profile != null;
-                        return new GuiItem(MarketGUIItems.getSellButton(player.getUniqueId(), item,
-                                profile.getItemAmount(item)));
+                        return new GuiItem(MarketGUIItems.getSellButton(
+                                player.getUniqueId(),
+                                item,
+                                InventoryUtil.getItemAmount(player.getUniqueId(), item)
+                        ));
                   }
             }
       }
