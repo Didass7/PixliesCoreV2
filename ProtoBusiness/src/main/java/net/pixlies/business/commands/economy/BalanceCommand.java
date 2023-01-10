@@ -3,7 +3,7 @@ package net.pixlies.business.commands.economy;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import net.pixlies.business.locale.MarketLang;
-import net.pixlies.business.util.CommandPreconditions;
+import net.pixlies.business.util.preconditions.CommandPreconditions;
 import net.pixlies.nations.nations.interfaces.NationProfile;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;

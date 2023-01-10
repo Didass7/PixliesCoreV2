@@ -282,7 +282,7 @@ public final class MarketGUIItems {
                 .build();
     }
     
-    // TODO: Redo
+    // TODO: what to do if there are no orders?
     public static ItemStack getBestPriceButton(UUID playerUUID, OrderItem item, Order.Type type, int amount) {
         OrderBook book = OrderBook.get(item);
         return new ItemBuilder(new ItemStack(item.getMaterial()))
@@ -300,7 +300,7 @@ public final class MarketGUIItems {
                 .build();
     }
     
-    // TODO: Redo
+    // TODO: what to do if there are no orders?
     public static ItemStack getChangedPriceButton(UUID playerUUID, OrderItem item, Order.Type type, int amount) {
         OrderBook book = OrderBook.get(item);
         return new ItemBuilder(new ItemStack(Material.GOLD_NUGGET))

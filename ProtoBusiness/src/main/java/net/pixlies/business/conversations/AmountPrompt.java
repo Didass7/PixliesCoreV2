@@ -4,7 +4,7 @@ import net.pixlies.business.guis.OrderPriceGUI;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.orders.Order;
 import net.pixlies.business.market.orders.OrderItem;
-import net.pixlies.business.util.ConversationPreconditions;
+import net.pixlies.business.util.preconditions.ConversationPreconditions;
 import org.bukkit.Bukkit;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.NumericPrompt;

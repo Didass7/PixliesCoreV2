@@ -9,7 +9,7 @@ import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.business.market.orders.OrderItem;
-import net.pixlies.business.util.CommandPreconditions;
+import net.pixlies.business.util.preconditions.CommandPreconditions;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
