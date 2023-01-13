@@ -7,6 +7,7 @@ import net.pixlies.business.commands.economy.BalanceCommand;
 import net.pixlies.business.commands.economy.EconomyCommand;
 import net.pixlies.business.commands.economy.PayCommand;
 import net.pixlies.business.commands.market.*;
+import net.pixlies.business.commands.nations.TariffCommand;
 import net.pixlies.core.Main;
 
 public class CommandManager {

@@ -1,4 +1,4 @@
-package net.pixlies.business.commands.market;
+package net.pixlies.business.commands.nations;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;
