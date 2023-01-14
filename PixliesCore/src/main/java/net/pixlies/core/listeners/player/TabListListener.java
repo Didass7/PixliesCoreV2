@@ -5,6 +5,8 @@ import net.pixlies.core.handlers.impl.TabListHandler;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 public class TabListListener implements Listener {
 
@@ -15,8 +17,13 @@ public class TabListListener implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         if (!handler.isLoaded()) return;
         handler.formatTabListFor(event.getPlayer());
-        handler.updateDisplayNames();
         handler.sortTabList();
+    }
+
+    @EventHandler
+    public void onLogin(PlayerLoginEvent event) {
+        if (!handler.isLoaded()) return;
+        handler.updateDisplayNames();
     }
 
 }

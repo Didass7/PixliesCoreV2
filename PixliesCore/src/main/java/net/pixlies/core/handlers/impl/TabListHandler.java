@@ -8,15 +8,19 @@ import net.pixlies.core.Main;
 import net.pixlies.core.configuration.Config;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.handlers.Handler;
+import net.pixlies.core.lib.io.github.thatkawaiisam.assemble.AssembleBoard;
 import net.pixlies.core.ranks.Rank;
 import net.pixlies.core.scoreboard.PixliesTabAdapter;
 import net.pixlies.core.utils.CC;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringJoiner;
@@ -75,43 +79,36 @@ public class TabListHandler implements Handler {
     }
 
     public void sortTabList() {
-
-        ConfigurationSection section = config.getConfigurationSection("tablist.ranks");
-        if (section == null) return;
-
-        Map<String, String> ranks = new HashMap<>();
-        for (String rankName : section.getKeys(false)) {
-            String rankOrder = section.getString(rankName + ".order", "");
-            ranks.put(rankName, rankOrder);
-        }
-
         for (Player player : instance.getServer().getOnlinePlayers()) {
-            final Scoreboard scoreboard = player.getScoreboard();
+            sortTabListForPlayer(player);
+        }
+    }
 
-            scoreboard.getTeams().forEach(team -> {
-                if (team.getName().startsWith("tab_")) {
-                    for (Player target : instance.getServer().getOnlinePlayers()) {
-                        team.removePlayer(target);
-                    }
-                }
-            });
+    public void sortTabListForPlayer(Player player) {
+//        final Scoreboard scoreboard = player.getScoreboard();
+        AssembleBoard board = instance.getHandlerManager().getHandler(ScoreboardHandler.class).getAssemble().getBoards().get(player.getUniqueId());
+        Scoreboard scoreboard = board == null ? instance.getServer().getScoreboardManager().getNewScoreboard() : board.getScoreboard();
 
-            for (Player target : instance.getServer().getOnlinePlayers()) {
-                String group = PlaceholderAPI.setPlaceholders(target, "%luckperms_primary_group_name%");
-                String teamName = "tab_" + ranks.getOrDefault(group, "");
+        for (Player onlinePlayer : instance.getServer().getOnlinePlayers()) {
+            Rank onlinePlayerRank = Rank.getRank(onlinePlayer.getUniqueId());
 
-                Team team = scoreboard.getTeam(teamName);
-                if (team == null) {
-                    team = scoreboard.registerNewTeam(teamName);
-                }
-
-                if (!team.hasPlayer(player)) {
-                    team.addPlayer(player);
-                }
-
+            Team team = scoreboard.getTeam("tab_" + onlinePlayerRank.getTabListPriority());
+            if (team == null) {
+                team = scoreboard.registerNewTeam("tab_" + onlinePlayerRank.getTabListPriority());
             }
+            team.setPrefix(onlinePlayerRank.getChatPrefix());
+            team.setSuffix(onlinePlayerRank.getChatSuffix());
+
+            team.addEntry(onlinePlayer.getName());
+
+            for (Team oldTeam : scoreboard.getTeams()) {
+                if (oldTeam.equals(team)) return;
+                oldTeam.removeEntries(onlinePlayer.getName());
+            }
+
             player.setScoreboard(scoreboard);
         }
+
     }
 
     public String getTabListPrefix(Player player, boolean isStaff) {

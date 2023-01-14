@@ -83,6 +83,8 @@ tablist:
         dev:
             order: 1010
         manager:
+            order: 1005
+        owner:
             order: 1000
 
 combat:
