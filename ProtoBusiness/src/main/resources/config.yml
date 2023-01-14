@@ -1,6 +1,18 @@
-# Configuration for ProtoBusiness
+# միայն զէնքով կայ հայոց փրկութիւն
 
+# -------------------------------------------------------------------------------
+# CONFIGURATION FOR PROTOBUSINESS
+# -------------------------------------------------------------------------------
+
+# Maximum decimal rate for tariffs (example: 0.20 = 20%)
+# By default, this number is set to 0.20
 tariffMaxRate: 0.20
-# as in 20%
 
+# Is the market currently open?
+# This is a boolean value, only accepting "true" and "false"
 marketOpen: true
+
+# Current conversion rates from gold to coins
+# Example: 5.0 means 1 gold ingot = 5.0 coins, and vice versa
+# By default, this number is set to 5.0
+goldStandard: 5.0

@@ -3,7 +3,6 @@ package net.pixlies.business.commands.market;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
-import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.profiles.MarketProfile;
 import net.pixlies.business.util.SoundUtil;
@@ -28,8 +27,6 @@ import java.util.UUID;
 @CommandAlias("tradeblock")
 @CommandPermission("pixlies.business.tradeblock")
 public class TradeBlockCommand extends BaseCommand {
-      private static final ProtoBusiness instance = ProtoBusiness.getInstance();
-      
       @Subcommand("list")
       @Description("View who you have blocked")
       public void onTradeBlockList(Player player) {

@@ -27,10 +27,6 @@ public class MarketPane extends StaticPane {
     
     public void loadPage(MarketInitialGUI.Selection page, UUID uuid) {
         fillWith(MarketGUIItems.getEmptyItem());
-    
-        if (page == MarketInitialGUI.Selection.GOLD_STANDARD) {
-            return;
-        }
         
         if (!page.hasFourthRow()) {
             for (int x = 0; x < 7; x++) addItem(new GuiItem(MarketGUIItems.getEmptyItem()), x, 3);

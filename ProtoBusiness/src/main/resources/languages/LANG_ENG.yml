@@ -114,5 +114,7 @@ BALANCE_REMOVED_TARGET: "§7You lost §6%COINS% coins §7in your bank account du
 GENERAL_NOT_ENOUGH_MONEY: "§cYou do not have that much money!"
 MARKET_NOT_ENOUGH_MONEY: "§cYou do not have that much money!"
 
+GOLD_STANDARD: "§7Currently, §6one gold ingot §7is the equivalent of §6§l%RATE% coins§r§7."
+
 PLAYER_DOES_NOT_EXIST: "§cThis player does not exist!"
 PLAYER_HAS_NEVER_JOINED: "§cThis player has never joined the server, therefore we are unable to run this operation on them."

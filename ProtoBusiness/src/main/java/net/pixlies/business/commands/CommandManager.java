@@ -21,7 +21,8 @@ public class CommandManager {
               new BalanceCommand(),
               new BalTopCommand(),
               new EconomyCommand(),
-              new PayCommand()
+              new PayCommand(),
+              new GoldStandardCommand()
       );
       
       public void registerAllCommands() {

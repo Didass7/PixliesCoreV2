@@ -5,7 +5,6 @@ import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Description;
-import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.orders.OrderBook;
 import net.pixlies.business.market.orders.OrderItem;
@@ -21,8 +20,6 @@ import org.bukkit.entity.Player;
 @CommandAlias("price|prix")
 @CommandPermission("pixlies.business.price")
 public class PriceCommand extends BaseCommand {
-      private static final ProtoBusiness instance = ProtoBusiness.getInstance();
-      
       @Default
       @Description("Retrieve the best prices of the held item")
       public void onPrice(Player player) {

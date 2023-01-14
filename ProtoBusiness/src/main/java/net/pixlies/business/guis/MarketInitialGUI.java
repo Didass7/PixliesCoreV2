@@ -135,8 +135,7 @@ public class MarketInitialGUI {
             FOODSTUFFS_AND_PLANTS(Material.GOLDEN_HOE, "§e", true, true, true),
             BLOCKS(Material.IRON_SHOVEL, "§d", true, true, true),
             MOB_DROPS(Material.NETHERITE_SWORD, "§c", false, true, false),
-            MISCELLANEOUS(Material.ARROW, "§9", false, false, false),
-            GOLD_STANDARD(Material.GOLD_INGOT, "§6", false, false, false);
+            MISCELLANEOUS(Material.ARROW, "§9", false, false, false);
       
             private final Material material;
             private final String color;

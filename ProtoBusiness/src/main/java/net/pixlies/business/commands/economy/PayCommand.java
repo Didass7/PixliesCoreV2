@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 public class PayCommand extends BaseCommand {
       @CommandCompletion("@players")
       @Syntax("<player> <amount>")
+      @Default
       public void onPay(Player player, String strArgs) {
             if (!CommandPreconditions.economy(player, strArgs))
                   return;
