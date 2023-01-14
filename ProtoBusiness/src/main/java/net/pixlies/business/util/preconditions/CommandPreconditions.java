@@ -39,7 +39,7 @@ public class CommandPreconditions {
       public static boolean playerHasEnoughItems(Player player, OrderItem item, int amount) {
             if (amount > InventoryUtil.getItemAmount(player.getUniqueId(), item)) {
                   MarketLang.MARKET_NOT_ENOUGH_ITEMS.send(player);
-                  SoundUtil.cancelledOrder(player);
+                  SoundUtil.error(player);
                   return false;
             }
             return true;
