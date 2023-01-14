@@ -18,12 +18,12 @@ import org.bukkit.entity.Player;
  */
 @CommandAlias("challenge|challenges")
 @CommandPermission("pixlies.business.challenge")
+@Description("Get a list of all market challenges")
 public class ChallengeCommand extends BaseCommand {
       private static final ProtoBusiness instance = ProtoBusiness.getInstance();
       private final MarketHandler marketHandler = instance.getHandlerManager().getHandler(MarketHandler.class);
       
       @Default
-      @Description("Gets a list of all market challenges")
       public void onChallenge(Player player) {
             MarketLang.CHALLENGE_LIST.send(player);
             for (Challenge c : Challenge.values()) {

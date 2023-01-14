@@ -121,6 +121,8 @@ public enum MarketLang {
     MARKET_NOT_ENOUGH_MONEY(MarketLang.MARKET),
     
     GOLD_STANDARD(MarketLang.MARKET),
+    CONVERTED_COINS_TO_GOLD(MarketLang.MARKET),
+    CONVERTED_GOLD_TO_COINS(MarketLang.MARKET),
     
     // OTHER
     PLAYER_DOES_NOT_EXIST(Lang.PIXLIES),

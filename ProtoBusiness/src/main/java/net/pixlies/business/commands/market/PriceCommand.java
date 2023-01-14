@@ -19,9 +19,9 @@ import org.bukkit.entity.Player;
  */
 @CommandAlias("price|prix")
 @CommandPermission("pixlies.business.price")
+@Description("Retrieve the best prices of the held item")
 public class PriceCommand extends BaseCommand {
       @Default
-      @Description("Retrieve the best prices of the held item")
       public void onPrice(Player player) {
             Material mat = player.getInventory().getItemInMainHand().getType();
             

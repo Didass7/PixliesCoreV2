@@ -45,7 +45,7 @@ public class ScoreboardAdapter implements AssembleAdapter {
 
         // LINES
         lines.add("&3&l" + player.getName());
-        lines.add("&bBalance&7: "); // todo
+        lines.add("&bBalance&7: &6" + profile.getBalance() + " coins");
 
         if (profile.isInNation() && profile.getNation() != null) {
             Nation nation = profile.getNation();

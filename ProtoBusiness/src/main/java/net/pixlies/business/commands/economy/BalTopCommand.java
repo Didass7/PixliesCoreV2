@@ -16,7 +16,7 @@ import java.util.UUID;
 
 @CommandAlias("balancetop|baltop")
 @CommandPermission("pixlies.business.balancetop")
-@Description("Check the top 10 players' balance")
+@Description("Check the top 10 players' (or nations') balance")
 public class BalTopCommand extends BaseCommand {
       @Default
       @Syntax("[nations]")

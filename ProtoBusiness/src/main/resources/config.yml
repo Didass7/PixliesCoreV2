@@ -13,6 +13,7 @@ tariffMaxRate: 0.20
 marketOpen: true
 
 # Current conversion rates from gold to coins
-# Example: 5.0 means 1 gold ingot = 5.0 coins, and vice versa
-# By default, this number is set to 5.0
-goldStandard: 5.0
+# Example: 5 means 1 gold ingot = 5 coins, and vice versa
+# By default, this number is set to 5
+# THIS MUST BE AN INTEGER VALUE (NO DECIMALS)
+goldStandard: 5

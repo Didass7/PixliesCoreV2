@@ -5,6 +5,7 @@ import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.nations.Tariff;
 import net.pixlies.business.market.orders.OrderItem;
 import net.pixlies.business.market.profiles.MarketProfile;
+import net.pixlies.business.util.InventoryUtil;
 import net.pixlies.business.util.SoundUtil;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.nations.locale.NationsLang;
@@ -35,8 +36,18 @@ public class CommandPreconditions {
             return true;
       }
       
+      public static boolean playerHasEnoughItems(Player player, OrderItem item, int amount) {
+            if (amount > InventoryUtil.getItemAmount(player.getUniqueId(), item)) {
+                  MarketLang.MARKET_NOT_ENOUGH_ITEMS.send(player);
+                  SoundUtil.cancelledOrder(player);
+                  return false;
+            }
+            return true;
+      }
+      
       public static boolean playerHasEnoughMoney(Player player, double amount) {
-            if (NationProfile.get(player.getUniqueId()).getBalance() < amount) {
+            double balance = NationProfile.get(player.getUniqueId()).getBalance();
+            if (balance < amount || balance < 0) {
                   MarketLang.GENERAL_NOT_ENOUGH_MONEY.send(player);
                   SoundUtil.error(player);
                   return false;

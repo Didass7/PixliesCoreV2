@@ -2,10 +2,7 @@ package net.pixlies.business.commands;
 
 import co.aikar.commands.BaseCommand;
 import com.google.common.collect.ImmutableList;
-import net.pixlies.business.commands.economy.BalTopCommand;
-import net.pixlies.business.commands.economy.BalanceCommand;
-import net.pixlies.business.commands.economy.EconomyCommand;
-import net.pixlies.business.commands.economy.PayCommand;
+import net.pixlies.business.commands.economy.*;
 import net.pixlies.business.commands.market.*;
 import net.pixlies.business.commands.nations.TariffCommand;
 import net.pixlies.core.Main;
@@ -22,7 +19,9 @@ public class CommandManager {
               new BalTopCommand(),
               new EconomyCommand(),
               new PayCommand(),
-              new GoldStandardCommand()
+              new GoldStandardCommand(),
+              new ConvertCoinsCommand(),
+              new ConvertGoldCommand()
       );
       
       public void registerAllCommands() {

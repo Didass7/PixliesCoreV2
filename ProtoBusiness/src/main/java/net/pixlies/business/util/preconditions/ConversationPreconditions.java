@@ -7,6 +7,7 @@ import net.pixlies.business.util.SoundUtil;
 import net.pixlies.nations.nations.interfaces.NationProfile;
 import org.bukkit.entity.Player;
 
+@SuppressWarnings("BooleanMethodIsAlwaysInverted")
 public class ConversationPreconditions {
       public static boolean playerHasEnoughMoney(Player player, double amount) {
             if (NationProfile.get(player.getUniqueId()).getBalance() < amount) {

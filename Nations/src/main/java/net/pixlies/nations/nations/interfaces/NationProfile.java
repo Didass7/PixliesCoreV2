@@ -222,10 +222,8 @@ public class NationProfile {
         balance += amount;
     }
     
-    public boolean removeBalance(double amount) {
-        if (balance < 0) return false;
+    public void removeBalance(double amount) {
         balance -= amount;
-        return true;
     }
 
     /**
