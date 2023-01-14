@@ -4,7 +4,7 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.locale.MarketLang;
-import net.pixlies.business.market.orders.OrderItem;
+import net.pixlies.business.market.OrderItem;
 import net.pixlies.business.util.SoundUtil;
 import net.pixlies.business.util.preconditions.CommandPreconditions;
 import net.pixlies.nations.nations.interfaces.NationProfile;

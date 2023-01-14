@@ -6,7 +6,7 @@ import co.aikar.commands.annotation.*;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.guis.MarketInitialGUI;
 import net.pixlies.business.locale.MarketLang;
-import net.pixlies.business.market.orders.OrderBook;
+import net.pixlies.business.market.OrderBook;
 import net.pixlies.business.market.profiles.MarketProfile;
 import net.pixlies.business.util.MarketRestrictUtil;
 import net.pixlies.business.util.SoundUtil;

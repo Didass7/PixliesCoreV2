@@ -1,4 +1,4 @@
-package net.pixlies.business.market.orders;
+package net.pixlies.business.market;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

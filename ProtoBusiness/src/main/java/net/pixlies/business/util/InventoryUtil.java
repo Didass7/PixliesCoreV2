@@ -1,6 +1,6 @@
 package net.pixlies.business.util;
 
-import net.pixlies.business.market.orders.OrderItem;
+import net.pixlies.business.market.OrderItem;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;

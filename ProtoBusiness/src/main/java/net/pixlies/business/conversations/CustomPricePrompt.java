@@ -2,8 +2,8 @@ package net.pixlies.business.conversations;
 
 import net.pixlies.business.guis.OrderConfirmGUI;
 import net.pixlies.business.locale.MarketLang;
-import net.pixlies.business.market.orders.Order;
-import net.pixlies.business.market.orders.OrderItem;
+import net.pixlies.business.market.Order;
+import net.pixlies.business.market.OrderItem;
 import net.pixlies.business.util.MarketUtil;
 import net.pixlies.business.util.preconditions.ConversationPreconditions;
 import org.bukkit.Bukkit;

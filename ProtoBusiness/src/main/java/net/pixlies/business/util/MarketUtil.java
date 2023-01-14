@@ -1,7 +1,7 @@
 package net.pixlies.business.util;
 
-import net.pixlies.business.market.orders.Order;
-import net.pixlies.business.market.orders.OrderBook;
+import net.pixlies.business.market.Order;
+import net.pixlies.business.market.OrderBook;
 import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.interfaces.NationProfile;
 
