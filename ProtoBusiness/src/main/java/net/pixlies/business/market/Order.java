@@ -61,6 +61,8 @@ public class Order {
     public double getTaxedPrice() {
         NationProfile profile = NationProfile.get(playerUUID);
         Nation nation = Nation.getFromId(profile.getNationId());
+        if (nation == null)
+            return price;
         return price * (1 + nation.getTaxRate());
     }
     
@@ -82,13 +84,15 @@ public class Order {
     }
     
     /**
-     * Best shit you've ever seen.
      * Զըխխը՛մ։
      */
     // Used to display price for trades
     public double getTaxedTariffedPrice(UUID matchingUUID) {
         String initId = NationProfile.get(playerUUID).getNationId();
         String matchId = NationProfile.get(matchingUUID).getNationId();
+        
+        if (Nation.getFromId(initId) == null)
+            return price;
         double taxRate = Nation.getFromId(initId).getTaxRate();
     
         if (playerUUID == matchingUUID)

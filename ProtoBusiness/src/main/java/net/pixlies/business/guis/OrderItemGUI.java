@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.conversations.AmountPrompt;
-import net.pixlies.business.items.MarketGUIItems;
+import net.pixlies.business.guis.items.MarketGUIItems;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.Order;
 import net.pixlies.business.market.OrderItem;
@@ -51,10 +51,11 @@ public class OrderItemGUI {
                         
                         // Start a chat conversation for the transaction item amount
                         ConversationFactory factory = new ConversationFactory(instance)
-                                .withModality(true)
+                                // .withModality(true)
                                 .withFirstPrompt(new AmountPrompt())
-                                .withEscapeSequence("/quit")
+                                .withEscapeSequence("quit")
                                 .withTimeout(20)
+                                .withLocalEcho(false)
                                 .thatExcludesNonPlayersWithMessage("Go away evil console!");
                         Conversation conversation = factory.buildConversation(player);
                         conversation.getContext().setSessionData("uuid", player.getUniqueId());

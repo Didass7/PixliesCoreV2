@@ -4,7 +4,7 @@ import com.github.stefvanschie.inventoryframework.gui.GuiItem;
 import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
-import net.pixlies.business.items.MarketGUIItems;
+import net.pixlies.business.guis.items.MarketGUIItems;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.Order;
 import net.pixlies.business.market.OrderBook;

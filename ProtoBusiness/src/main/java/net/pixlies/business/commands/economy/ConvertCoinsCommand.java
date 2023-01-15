@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Map;
 
-@CommandAlias("convertcoins")
+@CommandAlias("convertcoins|cc")
 @CommandPermission("pixlies.business.convertcoins")
 @Description("Convert some coins into gold ingots")
 public class ConvertCoinsCommand extends BaseCommand {

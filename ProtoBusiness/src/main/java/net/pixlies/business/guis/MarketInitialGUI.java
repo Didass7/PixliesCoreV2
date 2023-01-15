@@ -7,7 +7,7 @@ import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.pixlies.business.guis.panes.MarketPane;
-import net.pixlies.business.items.MarketGUIItems;
+import net.pixlies.business.guis.items.MarketGUIItems;
 import net.pixlies.business.locale.MarketLang;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;

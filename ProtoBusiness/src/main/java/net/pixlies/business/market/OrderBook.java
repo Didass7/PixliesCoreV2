@@ -123,6 +123,9 @@ public class OrderBook {
             // Check if the price matches
             if (buyCondition || sellCondition) {
                 int traded = Math.min(initialOrder.getVolume(), matchingOrder.getVolume());
+                if (traded == 0)
+                    continue;
+                
                 initialOrder.decreaseVolume(traded);
                 matchingOrder.decreaseVolume(traded);
                 addTrade(initialOrder, matchingOrder, traded);
@@ -192,8 +195,8 @@ public class OrderBook {
     }
     
     private void cleanUp() {
-        buyOrders.removeIf(order -> order.getVolume() == 0);
-        sellOrders.removeIf(order -> order.getVolume() == 0);
+        buyOrders.removeIf(order -> order.getVolume() == 0 && order.isCancellable());
+        sellOrders.removeIf(order -> order.getVolume() == 0 && order.isCancellable());
     }
     
     public void remove(Order order) {

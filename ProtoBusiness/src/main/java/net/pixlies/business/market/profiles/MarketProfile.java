@@ -144,7 +144,7 @@ public class MarketProfile {
                   instance.getLogger().log(Level.SEVERE, "Unable to save MarketProfile of " + uuid + ".");
             }
       
-            String playerName = Objects.requireNonNull(Bukkit.getPlayer(uuid)).getName();
+            String playerName = Bukkit.getOfflinePlayer(uuid).getName();
             instance.logInfo("The MarketProfile of " + playerName + " has been backed up to the files.");
       }
       

@@ -13,16 +13,17 @@ public class MarketUtil {
       public static double getTaxedPrice(UUID playerUUID, double price) {
             NationProfile profile = NationProfile.get(playerUUID);
             Nation nation = Nation.getFromId(profile.getNationId());
+            if (nation == null)
+                  return price;
             return price * (1 + nation.getTaxRate());
       }
       
       public static List<Order> getPlayerBuyOrders(UUID uuid) {
             List<Order> list = new LinkedList<>();
             for (OrderBook book : OrderBook.getAll()) {
-                  if (book.getBuyOrders() != null) {
-                        for (Order order : book.getBuyOrders()) {
-                              if (order.getPlayerUUID() == uuid) list.add(order);
-                        }
+                  if (book.getBuyOrders() == null) continue;
+                  for (Order order : book.getBuyOrders()) {
+                        if (order.getPlayerUUID() == uuid) list.add(order);
                   }
             }
             return list;
@@ -31,10 +32,9 @@ public class MarketUtil {
       public static List<Order> getPlayerSellOrders(UUID uuid) {
             List<Order> list = new LinkedList<>();
             for (OrderBook book : OrderBook.getAll()) {
-                  if (book.getSellOrders() != null) {
-                        for (Order order : book.getSellOrders()) {
-                              if (order.getPlayerUUID() == uuid) list.add(order);
-                        }
+                  if (book.getSellOrders() == null) continue;
+                  for (Order order : book.getSellOrders()) {
+                        if (order.getPlayerUUID() == uuid) list.add(order);
                   }
             }
             return list;

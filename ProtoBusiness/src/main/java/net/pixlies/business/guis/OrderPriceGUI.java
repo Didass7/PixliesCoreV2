@@ -6,7 +6,7 @@ import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.conversations.CustomPricePrompt;
-import net.pixlies.business.items.MarketGUIItems;
+import net.pixlies.business.guis.items.MarketGUIItems;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.Order;
 import net.pixlies.business.market.OrderBook;
@@ -41,7 +41,7 @@ public class OrderPriceGUI {
             background.fillWith(new ItemStack(Material.BLACK_STAINED_GLASS_PANE));
       
             // Prices pane
-            StaticPane pricesPane = new StaticPane(2, 1, 5, 0);
+            StaticPane pricesPane = new StaticPane(2, 1, 5, 1);
       
             boolean emptyBuyCondition = type == Order.Type.BUY && book.getBuyOrders().isEmpty();
             boolean emptySellCondition = type == Order.Type.SELL && book.getSellOrders().isEmpty();
@@ -53,10 +53,11 @@ public class OrderPriceGUI {
       
                   // Start a chat conversation for the transaction unit price
                   ConversationFactory factory = new ConversationFactory(instance)
-                          .withModality(true)
+                          // .withModality(true)
                           .withFirstPrompt(new CustomPricePrompt())
-                          .withEscapeSequence("/quit")
+                          .withEscapeSequence("quit")
                           .withTimeout(20)
+                          .withLocalEcho(false)
                           .thatExcludesNonPlayersWithMessage("Go away evil console!");
                   Conversation conversation = factory.buildConversation(player);
                   conversation.getContext().setSessionData("uuid", player.getUniqueId());

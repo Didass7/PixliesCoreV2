@@ -4,7 +4,7 @@ import com.github.stefvanschie.inventoryframework.gui.GuiItem;
 import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
-import net.pixlies.business.items.MarketGUIItems;
+import net.pixlies.business.guis.items.MarketGUIItems;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.Order;
 import net.pixlies.business.market.OrderBook;
@@ -24,11 +24,13 @@ public class OrderConfirmGUI {
             assert player != null;
       
             OrderBook book = OrderBook.get(item);
-            String itemName = book.getItem().getName();
             
             NationProfile profile = NationProfile.get(player.getUniqueId());
-            double tax = profile.getNation().getTaxRate();
-      
+            double tax = 0;
+            if (profile.getNation() != null) {
+                  tax = profile.getNation().getTaxRate();
+            }
+            
             // Create GUI
             ChestGui gui = new ChestGui(4, MarketLang.MARKET + "§8Confirm Order");
             gui.setOnGlobalClick(event -> event.setCancelled(true));
@@ -38,7 +40,7 @@ public class OrderConfirmGUI {
             background.fillWith(new ItemStack(Material.BLACK_STAINED_GLASS_PANE));
             
             // Order
-            Order order = new Order(type, itemName, System.currentTimeMillis(), uuid, price, amount);
+            Order order = new Order(type, book.getItem().name(), System.currentTimeMillis(), uuid, price, amount);
       
             // Confirm pane
             StaticPane confirmPane = new StaticPane(4, 1, 1, 1);

@@ -34,6 +34,7 @@ public class AmountPrompt extends NumericPrompt {
             if (type == Order.Type.SELL && !ConversationPreconditions.playerHasEnoughItems(player, item, amount))
                   return Prompt.END_OF_CONVERSATION;
             
+            MarketLang.ENTERED_AN_AMOUNT.send(player, "%AMOUNT%;" + amount);
             OrderPriceGUI.open(uuid, type, item, amount);
             return Prompt.END_OF_CONVERSATION;
       }

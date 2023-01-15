@@ -36,6 +36,7 @@ public class CustomPricePrompt extends NumericPrompt {
             if (!ConversationPreconditions.playerHasEnoughMoney(player, totalPrice))
                   return Prompt.END_OF_CONVERSATION;
       
+            MarketLang.ENTERED_A_PRICE.send(player, "%PRICE%;" + input.doubleValue());
             OrderConfirmGUI.open(uuid, type, item, amount, totalPrice);
             return Prompt.END_OF_CONVERSATION;
       }

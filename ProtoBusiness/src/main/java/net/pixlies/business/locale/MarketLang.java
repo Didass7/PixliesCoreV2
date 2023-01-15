@@ -50,6 +50,8 @@ public enum MarketLang {
     ENTER_AN_AMOUNT(MarketLang.MARKET),
     ENTER_A_CUSTOM_PRICE(MarketLang.MARKET),
     THIS_IS_NOT_A_POSITIVE_INTEGER(MarketLang.MARKET),
+    ENTERED_AN_AMOUNT(MarketLang.MARKET),
+    ENTERED_A_PRICE(MarketLang.MARKET),
     
     // CHALLENGES [PROTOBUSINESS]
     BUY_ORDER(""),

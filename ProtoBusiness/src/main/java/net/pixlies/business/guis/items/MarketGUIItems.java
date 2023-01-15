@@ -1,4 +1,4 @@
-package net.pixlies.business.items;
+package net.pixlies.business.guis.items;
 
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.guis.MarketInitialGUI;
@@ -238,7 +238,7 @@ public final class MarketGUIItems {
             builder.addLoreLine("§7Tax: §c" + (tax * 100) + "%")
                     .addLoreLine("§7§lMax. total price: §6" + order.getTaxedPrice() * order.getAmount() + " coins");
         } else {
-            builder.addLoreLine("§7§lMax. total price: §6" + order.getPrice() * order.getAmount() + " coins");
+            builder.addLoreLine("§3Max. total price: §6" + order.getPrice() * order.getAmount() + " coins");
         }
 
         return builder.addLoreLine(" ")
@@ -252,7 +252,7 @@ public final class MarketGUIItems {
         
         ItemBuilder builder = new ItemBuilder(new ItemStack(Material.EMERALD))
                 .setDisplayName("§aBuy Order")
-                .addLoreLine("§7Best price per unit: §6" + book.getLowestBuyPrice(playerUUID))
+                .addLoreLine("§7Best price per unit: §6" + book.getLowestBuyPrice(playerUUID) + " coins")
                 .addLoreLine(" ");
         
         // Get 8 most recent orders
@@ -266,14 +266,13 @@ public final class MarketGUIItems {
                 .build();
     }
     
-    // TODO: Redo
     public static ItemStack getSellButton(UUID playerUUID, OrderItem item, int num) {
         OrderBook book = OrderBook.get(item);
         ItemBuilder builder = new ItemBuilder(new ItemStack(Material.GOLD_INGOT))
                 .setDisplayName("§6Sell Order")
-                .addLoreLine("§7Best price per unit: §6" + book.getHighestSellPrice(playerUUID))
+                .addLoreLine("§7Best price per unit: §6" + book.getHighestSellPrice(playerUUID) + " coins")
                 .addLoreLine("§7Inventory: §a" + num + " items")
-                .addLoreLine("§7Best total price: §d" + (book.getHighestSellPrice(playerUUID) * num))
+                .addLoreLine("§7Best total price: §d" + (book.getHighestSellPrice(playerUUID) * num) + " coins")
                 .addLoreLine(" ");
         for (String s : book.getRecentOrders(playerUUID)) builder.addLoreLine(s);
         return builder.addLoreLine(" ")

@@ -12,7 +12,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-@CommandAlias("convertgold")
+@CommandAlias("convertgold|cg")
 @CommandPermission("pixlies.business.convertgold")
 @Description("Convert some gold ingots into coins")
 public class ConvertGoldCommand extends BaseCommand {

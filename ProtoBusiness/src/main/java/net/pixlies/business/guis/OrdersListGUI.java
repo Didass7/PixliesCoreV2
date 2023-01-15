@@ -5,7 +5,7 @@ import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
-import net.pixlies.business.items.MarketGUIItems;
+import net.pixlies.business.guis.items.MarketGUIItems;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.Order;
 import net.pixlies.business.market.OrderBook;
@@ -32,18 +32,19 @@ public class OrdersListGUI {
             // Get number of rows
             List<Order> buys = MarketUtil.getPlayerBuyOrders(player.getUniqueId());
             List<Order> sells = MarketUtil.getPlayerSellOrders(player.getUniqueId());
-            int rows = (int) Math.ceil(((buys.size() + sells.size()) / 7.0));
+            int rows = (int) Math.ceil(((double) buys.size() + (double) sells.size()) / 7.0);
       
             // Get all orders
             List<Order> orders;
             orders = buys;
             orders.addAll(sells);
+      
+            // Create GUI
+            ChestGui gui = new ChestGui(rows + 2, MarketLang.MARKET + "§8Placed Orders");
+            gui.setOnGlobalClick(event -> event.setCancelled(true));
             
             // Separate GUI
             if (rows == 0) {
-                  ChestGui gui = new ChestGui(1, MarketLang.MARKET + "§8Placed Orders - None");
-                  gui.setOnGlobalClick(event -> event.setCancelled(true));
-      
                   StaticPane pane = new StaticPane(0, 0, 9, 1, Pane.Priority.LOWEST);
                   pane.fillWith(new ItemStack(Material.BLACK_STAINED_GLASS_PANE));
       
@@ -55,10 +56,6 @@ public class OrdersListGUI {
                   gui.show(player);
                   gui.update();
             }
-      
-            // Create GUI
-            ChestGui gui = new ChestGui(rows + 2, MarketLang.MARKET + "§8Placed Orders");
-            gui.setOnGlobalClick(event -> event.setCancelled(true));
       
             // Background pane
             StaticPane background = new StaticPane(0, 0, 9, rows + 2, Pane.Priority.LOWEST);
