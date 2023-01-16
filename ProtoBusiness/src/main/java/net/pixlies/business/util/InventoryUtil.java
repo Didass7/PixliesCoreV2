@@ -2,9 +2,13 @@ package net.pixlies.business.util;
 
 import net.pixlies.business.market.OrderItem;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -21,5 +25,15 @@ public class InventoryUtil {
                   }
             }
             return num;
+      }
+      
+      public static void addItemsToInventory(Player player, ItemStack itemStack) {
+            Map<Integer, ItemStack> map = player.getInventory().addItem(itemStack);
+            player.updateInventory();
+            for (Map.Entry<Integer, ItemStack> entry : map.entrySet()) {
+                  World world = player.getWorld();
+                  Location location = player.getLocation();
+                  world.dropItemNaturally(location, entry.getValue());
+            }
       }
 }

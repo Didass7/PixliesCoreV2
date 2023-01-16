@@ -193,7 +193,7 @@ public final class MarketGUIItems {
             builder.addLoreLine(" ")
                     .addLoreLine("§aYou have §2" + order.getItemsToClaim() + " items §ato claim!");
         } else {
-            double coinsToClaim = order.getRefundableCoins() + order.getCoinsToClaim();
+            double coinsToClaim = order.getCoinsToClaim();
             builder.addLoreLine(" ")
                     .addLoreLine("§eYou have §6" + coinsToClaim + " coins §eto claim!");
         }
@@ -282,7 +282,6 @@ public final class MarketGUIItems {
                 .build();
     }
     
-    // TODO: what to do if there are no orders?
     public static ItemStack getBestPriceButton(UUID playerUUID, OrderItem item, Order.Type type, int amount) {
         OrderBook book = OrderBook.get(item);
         return new ItemBuilder(new ItemStack(item.getMaterial()))
@@ -300,7 +299,6 @@ public final class MarketGUIItems {
                 .build();
     }
     
-    // TODO: what to do if there are no orders?
     public static ItemStack getChangedPriceButton(UUID playerUUID, OrderItem item, Order.Type type, int amount) {
         OrderBook book = OrderBook.get(item);
         return new ItemBuilder(new ItemStack(Material.GOLD_NUGGET))

@@ -4,16 +4,13 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.locale.MarketLang;
+import net.pixlies.business.util.InventoryUtil;
 import net.pixlies.business.util.SoundUtil;
 import net.pixlies.business.util.preconditions.CommandPreconditions;
 import net.pixlies.nations.nations.interfaces.NationProfile;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.Map;
 
 @CommandAlias("convertcoins|cc")
 @CommandPermission("pixlies.business.convertcoins")
@@ -33,16 +30,8 @@ public class ConvertCoinsCommand extends BaseCommand {
             double coins = amount - remainder;
             int gold = (int) Math.floor(coins / conversionRate);
             
-            // Add items
-            Map<Integer, ItemStack> map = player.getInventory().addItem(new ItemStack(Material.GOLD_INGOT, gold));
-            player.updateInventory();
-            
-            // Drop items which were unable to be added
-            for (Map.Entry<Integer, ItemStack> entry : map.entrySet()) {
-                  World world = player.getWorld();
-                  Location location = player.getLocation();
-                  world.dropItemNaturally(location, entry.getValue());
-            }
+            // Add items to inventory
+            InventoryUtil.addItemsToInventory(player, new ItemStack(Material.GOLD_INGOT, gold));
             
             // Take coins from wallet
             NationProfile profile = NationProfile.get(player.getUniqueId());

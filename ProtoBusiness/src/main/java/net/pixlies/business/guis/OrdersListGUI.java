@@ -10,6 +10,7 @@ import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.Order;
 import net.pixlies.business.market.OrderBook;
 import net.pixlies.business.util.MarketUtil;
+import net.pixlies.business.util.SoundUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -61,6 +62,7 @@ public class OrdersListGUI {
                         } else {
                               // TODO: Move this method somewhere else
                               // profile.claimGoods(order);
+                              SoundUtil.littleSuccess(player);
                         }
                   });
                   ordersPane.addItem(item);

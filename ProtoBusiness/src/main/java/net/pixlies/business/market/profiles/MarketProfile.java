@@ -5,10 +5,17 @@ import lombok.Getter;
 import lombok.Setter;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.locale.MarketLang;
+import net.pixlies.business.market.Order;
+import net.pixlies.business.market.OrderBook;
+import net.pixlies.business.market.Trade;
+import net.pixlies.business.util.InventoryUtil;
+import net.pixlies.nations.nations.interfaces.NationProfile;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.io.IOException;
@@ -107,6 +114,91 @@ public class MarketProfile {
       
       public void addItemsBought(int items) {
             itemsBought += items;
+      }
+      
+      // Will give all non-claimed goods and refund excess money on order claim
+      public void claimGoods(Order order) {
+            NationProfile profile = NationProfile.get(uuid);
+            Player player = Bukkit.getPlayer(uuid);
+            assert player != null;
+            
+            OrderBook book = OrderBook.get(order.getBookItem());
+            Material material = book.getItem().getMaterial();
+      
+            // Buy orders
+            if (order.getType() == Order.Type.BUY) {
+                  int amount = 0;
+                  
+                  // Get amount of items
+                  for (Trade trade : order.getTrades()) {
+                        if (trade.isClaimed()) continue;
+                        amount += trade.getAmount();
+                        trade.claim();
+                        trade.save();
+                  }
+      
+                  // Add items to inventory
+                  InventoryUtil.addItemsToInventory(player, new ItemStack(material, amount));
+                  
+                  // Refunds
+                  order.refundPlayer();
+                  
+                  // Send message
+                  MarketLang.ORDER_ITEMS_CLAIMED.send(player, "%AMOUNT%;" + amount, "%ITEM%;" + book.getItem().getName());
+                  MarketLang.ORDER_UNUSED_COINS_REFUNDED.send(player, "%COINS%;" + order.getRefundableCoins());
+                  return;
+            }
+      
+            // Sell orders
+            int coins = 0;
+            
+            // Get amount of coins
+            for (Trade trade : order.getTrades()) {
+                  if (trade.isClaimed()) continue;
+                  coins += trade.getAmount() * trade.getPrice();
+                  trade.claim();
+                  trade.save();
+            }
+      
+            // Add coins to wallet
+            profile.addBalance(coins);
+            profile.save();
+      
+            // Send message
+            MarketLang.ORDER_ITEMS_CLAIMED.send(player, "%COINS%" + coins);
+      }
+      
+      // Will refund all non-sold / non-bought goods on cancellation
+      public void refundGoods(Order order) {
+            NationProfile profile = NationProfile.get(uuid);
+            Player player = Bukkit.getPlayer(uuid);
+            assert player != null;
+            
+            // Buy orders
+            if (order.getType() == Order.Type.BUY) {
+                  // Get taxed amount
+                  double amount = order.getVolume() * order.getTaxedPrice();
+                  
+                  // Add balance, send message
+                  profile.addBalance(amount);
+                  profile.save();
+                  MarketLang.ORDER_COINS_REFUNDED.send(player, "%COINS%" + amount);
+                  return;
+            }
+            
+            // Sell orders
+            OrderBook book = OrderBook.get(order.getBookItem());
+            Material material = book.getItem().getMaterial();
+      
+            // Add items to inventory
+            InventoryUtil.addItemsToInventory(player, new ItemStack(material, order.getVolume()));
+      
+            // Send message
+            MarketLang.ORDER_ITEMS_REFUNDED.send(
+                    player,
+                    "%AMOUNT%;" + order.getVolume(),
+                    "%ITEM%;" + book.getItem().getName()
+            );
       }
       
       public void save() {

@@ -149,6 +149,17 @@ public class Order {
         return claimableRefunds;
     }
     
+    public void refundPlayer() {
+        NationProfile profile = NationProfile.get(playerUUID);
+        for (Map.Entry<Double, Boolean> entry : refunds.entrySet()) {
+            if (entry.getValue()) continue;
+            profile.addBalance(entry.getKey());
+            refunds.put(entry.getKey(), true);
+        }
+        profile.save();
+        save();
+    }
+    
     public void decreaseVolume(int amount) {
         volume -= amount;
     }

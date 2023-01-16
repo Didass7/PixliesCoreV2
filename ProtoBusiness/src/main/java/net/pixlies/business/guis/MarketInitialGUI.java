@@ -63,8 +63,6 @@ public class MarketInitialGUI {
                   Consumer<InventoryClickEvent> selectionClick = new Consumer<>() {
                         @Override
                         public void accept(InventoryClickEvent inventoryClickEvent) {
-                              // TODO: Gold standard menu
-                              
                               if (selection == viewing[0]) return;
                               
                               viewing[1] = viewing[0];
