@@ -32,30 +32,17 @@ public class OrdersListGUI {
             // Get number of rows
             List<Order> buys = MarketUtil.getPlayerBuyOrders(player.getUniqueId());
             List<Order> sells = MarketUtil.getPlayerSellOrders(player.getUniqueId());
-            int rows = (int) Math.ceil(((double) buys.size() + (double) sells.size()) / 7.0);
+            int totalSize = buys.size() + sells.size();
+            int rows = (int) Math.floor(Math.incrementExact(totalSize / 7));
       
             // Get all orders
             List<Order> orders;
             orders = buys;
             orders.addAll(sells);
-      
+            
             // Create GUI
             ChestGui gui = new ChestGui(rows + 2, MarketLang.MARKET + "§8Placed Orders");
             gui.setOnGlobalClick(event -> event.setCancelled(true));
-            
-            // Separate GUI
-            if (rows == 0) {
-                  StaticPane pane = new StaticPane(0, 0, 9, 1, Pane.Priority.LOWEST);
-                  pane.fillWith(new ItemStack(Material.BLACK_STAINED_GLASS_PANE));
-      
-                  GuiItem goBack = new GuiItem(MarketGUIItems.getBackArrow("Market"));
-                  goBack.setAction(event -> MarketInitialGUI.open(uuid));
-                  pane.addItem(goBack, 4, 0);
-                  
-                  gui.addPane(pane);
-                  gui.show(player);
-                  gui.update();
-            }
       
             // Background pane
             StaticPane background = new StaticPane(0, 0, 9, rows + 2, Pane.Priority.LOWEST);

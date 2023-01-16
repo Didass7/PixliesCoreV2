@@ -181,15 +181,15 @@ public class Order {
     // Վա՜յ անասուն, վա՜յ։
     public String toString(UUID initialUUID) {
         String playerName = Objects.requireNonNull(Bukkit.getPlayer(playerUUID)).getName();
-        String prefix = type == Order.Type.BUY ? "§a§lBUY" : "§6§lSELL";
+        String prefix = type == Order.Type.BUY ? "§a§lBUY §r§a" : "§6§lSELL §r§6";
         double price = getTariffedPrice(initialUUID);
-        return " §8» " + prefix + " §r§a" + amount + "§8x §7@ §6" + price + "§7 each from §b" + playerName;
+        return " §8» " + prefix + amount + "§8x §7@ §6" + price + "§7 each from §b" + playerName;
     }
     
     @Override
     public String toString() {
-        String prefix = type == Order.Type.BUY ? "§a§lBUY" : "§6§lSELL";
-        return " §8» " + prefix + " §r§a" + amount + "§8x §7@ §6" + getTaxedPrice() + "§7 each §8(with tax)";
+        String prefix = type == Order.Type.BUY ? "§a§lBUY §r§a" : "§6§lSELL §r§6";
+        return " §8» " + prefix + amount + "§8x §7@ §6" + getTaxedPrice() + "§7 each §8(with tax)";
     }
     
     // --------------------------------------------------------------------------------------------

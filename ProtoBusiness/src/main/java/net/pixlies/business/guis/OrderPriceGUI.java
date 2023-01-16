@@ -53,7 +53,6 @@ public class OrderPriceGUI {
       
                   // Start a chat conversation for the transaction unit price
                   ConversationFactory factory = new ConversationFactory(instance)
-                          // .withModality(true)
                           .withFirstPrompt(new CustomPricePrompt())
                           .withEscapeSequence("quit")
                           .withTimeout(20)

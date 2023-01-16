@@ -51,7 +51,6 @@ public class OrderItemGUI {
                         
                         // Start a chat conversation for the transaction item amount
                         ConversationFactory factory = new ConversationFactory(instance)
-                                // .withModality(true)
                                 .withFirstPrompt(new AmountPrompt())
                                 .withEscapeSequence("quit")
                                 .withTimeout(20)

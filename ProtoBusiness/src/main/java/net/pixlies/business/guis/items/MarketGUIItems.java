@@ -31,7 +31,7 @@ public final class MarketGUIItems {
     public static ItemStack getBackArrow(String text) {
         return new ItemBuilder(new ItemStack(Material.ARROW))
                 .setDisplayName("§aGo back")
-                .addLoreLine("§8[" + text + "§8]")
+                .addLoreLine("§7[" + text + "]")
                 .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
                 .build();
     }
@@ -142,7 +142,7 @@ public final class MarketGUIItems {
     // --------------------------------------------------------------------------------------------
     
     public static ItemStack getOrderItem(Material material, Order order) {
-        String name = OrderBook.get(order.getBookItem()).getItem().name();
+        String name = OrderBook.get(order.getBookItem()).getItem().getName();
         Order.Type type = order.getType();
         String maxOrMin = type == Order.Type.BUY ? "max." : "min.";
     
@@ -151,7 +151,7 @@ public final class MarketGUIItems {
                 .setDisplayName((type == Order.Type.BUY ? "§a§lBUY" : "§6§lSELL") + "§r§7: §b" +
                                 order.getAmount() + "§8x §f" + name)
                 .addLoreLine(" ")
-                .addLoreLine("§7Price per unit: §f" + maxOrMin + " §6" + order.getPrice() + " coins");
+                .addLoreLine("§7Price per unit: §8" + maxOrMin + " §6" + order.getPrice() + " coins");
         
         // Percentage of the order that is filled
         if (order.getVolume() != order.getAmount()) {
@@ -165,7 +165,7 @@ public final class MarketGUIItems {
         }
         
         // Price with sales taxes
-        builder.addLoreLine("§7§lTotal price: §f" + maxOrMin + " §6" + order.getTaxedPrice() + " coins")
+        builder.addLoreLine("§3Total price: §8" + maxOrMin + " §6" + order.getTaxedPrice() + " coins")
                 .addLoreLine(" ");
         
         // If there are no trades, build the ItemStack and return
@@ -199,6 +199,7 @@ public final class MarketGUIItems {
         }
         
         return builder.addLoreLine(" ")
+                .addLoreLine("§8Order ID: " + order.getOrderId())
                 .addLoreLine("§eClick to claim!")
                 .build();
     }
