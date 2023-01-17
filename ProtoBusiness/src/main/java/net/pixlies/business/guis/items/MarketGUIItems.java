@@ -165,7 +165,7 @@ public final class MarketGUIItems {
         }
         
         // Price with sales taxes
-        builder.addLoreLine("§3Total price: §8" + maxOrMin + " §6" + order.getTaxedPrice() + " coins")
+        builder.addLoreLine("§3Total price: §8" + maxOrMin + " §6" + order.getTaxedPrice() * order.getAmount() + " coins")
                 .addLoreLine(" ");
         
         // If there are no trades, build the ItemStack and return
@@ -237,7 +237,7 @@ public final class MarketGUIItems {
         // Taxes
         if (order.getType() == Order.Type.BUY) {
             builder.addLoreLine("§7Tax: §c" + (tax * 100) + "%")
-                    .addLoreLine("§7§lMax. total price: §6" + order.getTaxedPrice() * order.getAmount() + " coins");
+                    .addLoreLine("§3Max. total price: §6" + order.getTaxedPrice() * order.getAmount() + " coins");
         } else {
             builder.addLoreLine("§3Max. total price: §6" + order.getPrice() * order.getAmount() + " coins");
         }
@@ -290,10 +290,10 @@ public final class MarketGUIItems {
                         "§7Price: §6" + book.getLowestBuyPrice(playerUUID) + " coins" :
                         "§7Price: §6" + book.getHighestSellPrice(playerUUID) + " coins")
                 .addLoreLine(" ")
-                .addLoreLine("§7Selling: §a" + amount + "§8x")
+                .addLoreLine(type == Order.Type.BUY ? "§7Buying: §a" + amount + "§8x" : "§7Selling: §a" + amount + "§8x")
                 .addLoreLine(type == Order.Type.BUY ?
-                        "§7§lTotal price: §6" + (book.getLowestBuyPrice(playerUUID) * amount) + " coins" :
-                        "§7§lTotal price: §6" + (book.getHighestSellPrice(playerUUID) * amount) + " coins")
+                        "§3Total price: §6" + (book.getLowestBuyPrice(playerUUID) * amount) + " coins" :
+                        "§3Total price: §6" + (book.getHighestSellPrice(playerUUID) * amount) + " coins")
                 .addLoreLine(" ")
                 .addLoreLine("§eClick to set!")
                 .build();
@@ -309,9 +309,10 @@ public final class MarketGUIItems {
                         "§7Price: §6" + (book.getLowestBuyPrice(playerUUID) + 0.1) + " coins" :
                         "§7Price: §6" + (book.getHighestSellPrice(playerUUID) - 0.1) + " coins")
                 .addLoreLine(" ")
+                .addLoreLine(type == Order.Type.BUY ? "§7Buying: §a" + amount + "§8x" : "§7Selling: §a" + amount + "§8x")
                 .addLoreLine(type == Order.Type.BUY ?
-                        "§7§lTotal price: §6" + ((book.getLowestBuyPrice(playerUUID) + 0.1) * amount) + " coins" :
-                        "§7§lTotal price: §6" + ((book.getHighestSellPrice(playerUUID) - 0.1) * amount) + " coins")
+                        "§3Total price: §6" + ((book.getLowestBuyPrice(playerUUID) + 0.1) * amount) + " coins" :
+                        "§3Total price: §6" + ((book.getHighestSellPrice(playerUUID) - 0.1) * amount) + " coins")
                 .addLoreLine(" ")
                 .addLoreLine("§eClick to set!")
                 .build();

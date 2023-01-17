@@ -100,7 +100,7 @@ public class OrderPriceGUI {
       
             // Bottom pane
             StaticPane bottomPane = new StaticPane(4, 3, 1, 1);
-            GuiItem goBack = new GuiItem(MarketGUIItems.getBackArrow(item.name()));
+            GuiItem goBack = new GuiItem(MarketGUIItems.getBackArrow(item.getName()));
             goBack.setAction(event -> OrderItemGUI.open(uuid, item));
             bottomPane.addItem(goBack, 0, 0);
       

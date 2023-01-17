@@ -9,6 +9,7 @@ import net.pixlies.business.guis.items.MarketGUIItems;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.Order;
 import net.pixlies.business.market.OrderBook;
+import net.pixlies.business.market.profiles.MarketProfile;
 import net.pixlies.business.util.MarketUtil;
 import net.pixlies.business.util.SoundUtil;
 import org.bukkit.Bukkit;
@@ -60,8 +61,7 @@ public class OrdersListGUI {
                         if (order.isCancellable()) {
                               OrderCancelGUI.open(uuid, order);
                         } else {
-                              // TODO: Move this method somewhere else
-                              // profile.claimGoods(order);
+                              MarketProfile.get(uuid).claimGoods(order);
                               SoundUtil.littleSuccess(player);
                         }
                   });

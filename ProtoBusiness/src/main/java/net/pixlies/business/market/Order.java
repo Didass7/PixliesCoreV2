@@ -107,6 +107,15 @@ public class Order {
         return price;
     }
     
+    public void cancel() {
+        OrderBook book = OrderBook.get(bookItem);
+        switch (type) {
+            case BUY -> book.getBuyOrders().remove(this);
+            case SELL -> book.getSellOrders().remove(this);
+        }
+        book.save();
+    }
+    
     public boolean isCancellable() {
         for (Trade trade : trades) {
             if (!trade.isClaimed()) return false;
