@@ -1,4 +1,4 @@
-package net.pixlies.business.market.challenges;
+package net.pixlies.business.market;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,6 +39,7 @@ public enum Challenge {
         return message.get(player);
     }
     
+    // TODO: Move to MarketProfile
     public void complete(Player player) {
         // TITLE
         TextComponent titleText = Component.text("Challenge complete!", NamedTextColor.GREEN, TextDecoration.BOLD);

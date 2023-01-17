@@ -8,7 +8,7 @@ import net.pixlies.business.guis.items.MarketGUIItems;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.Order;
 import net.pixlies.business.market.OrderBook;
-import net.pixlies.business.market.profiles.MarketProfile;
+import net.pixlies.business.market.MarketProfile;
 import net.pixlies.business.util.SoundUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -42,9 +42,9 @@ public class OrderCancelGUI {
                   MarketLang.ORDER_CANCELLED.send(player, "%AMOUNT%;" + order.getAmount(),
                           "%ITEM%;" + book.getItem().getName());
       
-                  MarketProfile.get(uuid).refundGoods(order);
                   order.cancel();
                   player.closeInventory();
+                  MarketProfile.get(uuid).refundGoods(order);
             });
             cancelPane.addItem(cancel, 0, 0);
       

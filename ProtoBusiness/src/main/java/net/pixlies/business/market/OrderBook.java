@@ -3,7 +3,6 @@ package net.pixlies.business.market;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.pixlies.business.ProtoBusiness;
-import net.pixlies.business.market.profiles.MarketProfile;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -212,6 +211,20 @@ public class OrderBook {
     
     public void backup() {
         String filename = item.name() + ".yml";
+        File file = new File(BOOKS_PATH + filename);
+        YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
+        
+        for (String key : yaml.getKeys(false)) {
+            yaml.set(key, null);
+        }
+        
+        try {
+            yaml.save(file);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            instance.getLogger().log(Level.SEVERE, "This is an issue.");
+        }
+        
         for (Order order : buyOrders) {
             writeInFile(filename, order, "buys");
         }

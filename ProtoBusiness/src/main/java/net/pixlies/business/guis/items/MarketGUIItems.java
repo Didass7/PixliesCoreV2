@@ -5,7 +5,7 @@ import net.pixlies.business.guis.MarketInitialGUI;
 import net.pixlies.business.market.Order;
 import net.pixlies.business.market.OrderBook;
 import net.pixlies.business.market.OrderItem;
-import net.pixlies.business.market.profiles.MarketProfile;
+import net.pixlies.business.market.MarketProfile;
 import net.pixlies.business.util.MarketUtil;
 import net.pixlies.core.utils.ItemBuilder;
 import net.pixlies.core.utils.PlayerUtils;
@@ -250,7 +250,6 @@ public final class MarketGUIItems {
     
     public static ItemStack getBuyButton(UUID playerUUID, OrderItem item) {
         OrderBook book = OrderBook.get(item);
-        
         ItemBuilder builder = new ItemBuilder(new ItemStack(Material.EMERALD))
                 .setDisplayName("§aBuy Order")
                 .addLoreLine("§7Best price per unit: §6" + book.getLowestBuyPrice(playerUUID) + " coins")
@@ -262,6 +261,7 @@ public final class MarketGUIItems {
         }
         
         return builder.addLoreLine(" ")
+                .addLoreLine("§8The above prices include tariffs.")
                 .addLoreLine("§8This is a limit order.")
                 .addLoreLine("§eClick to create!")
                 .build();
@@ -275,8 +275,14 @@ public final class MarketGUIItems {
                 .addLoreLine("§7Inventory: §a" + num + " items")
                 .addLoreLine("§7Best total price: §d" + (book.getHighestSellPrice(playerUUID) * num) + " coins")
                 .addLoreLine(" ");
-        for (String s : book.getRecentOrders(playerUUID)) builder.addLoreLine(s);
+    
+        // Get 8 most recent orders
+        for (String order : book.getRecentOrders(playerUUID)) {
+            builder.addLoreLine(order);
+        }
+        
         return builder.addLoreLine(" ")
+                .addLoreLine("§8The above prices include tariffs.")
                 .addLoreLine("§8This is a limit order.")
                 .addLoreLine("§eClick to create!")
                 .build();

@@ -6,7 +6,7 @@ import net.pixlies.business.handlers.HandlerManager;
 import net.pixlies.business.listeners.ListenerManager;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.OrderBook;
-import net.pixlies.business.market.profiles.MarketProfile;
+import net.pixlies.business.market.MarketProfile;
 import net.pixlies.business.threads.BalTopThread;
 import net.pixlies.core.modules.Module;
 import net.pixlies.core.modules.configuration.ModuleConfig;

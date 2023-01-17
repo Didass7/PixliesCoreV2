@@ -37,7 +37,7 @@ public class CustomPricePrompt extends NumericPrompt {
                   return Prompt.END_OF_CONVERSATION;
       
             MarketLang.ENTERED_A_PRICE.send(player, "%PRICE%;" + input.doubleValue());
-            OrderConfirmGUI.open(uuid, type, item, amount, totalPrice);
+            OrderConfirmGUI.open(uuid, type, item, amount, input.doubleValue());
             return Prompt.END_OF_CONVERSATION;
       }
       

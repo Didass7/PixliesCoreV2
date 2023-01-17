@@ -5,7 +5,7 @@ import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.locale.MarketLang;
-import net.pixlies.business.market.nations.Tariff;
+import net.pixlies.business.market.Tariff;
 import net.pixlies.business.util.preconditions.CommandPreconditions;
 import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.interfaces.NationProfile;
