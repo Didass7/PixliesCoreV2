@@ -143,6 +143,7 @@ public class OrderBook {
         double total = price * traded;
         
         // Refunds
+        // TODO: make sure this includes the price diff without the tariff (limit orders, buying cheap option)
         double refund;
         if (type == Order.Type.BUY) {
             refund = initialOrder.getPrice() - initialOrder.getTariffedPrice(matchingOrder.getPlayerUUID());
@@ -165,7 +166,8 @@ public class OrderBook {
         initial.addTrade();
         match.addTrade();
         
-        Trade trade = new Trade(item.name(), System.currentTimeMillis(), price, traded,
+        // todo: store buyorder id and sellorder id
+        Trade trade = new Trade(initialOrder.getOrderId(), System.currentTimeMillis(), price, traded,
                 initialOrder.getPlayerUUID(), matchingOrder.getPlayerUUID(), false);
         
         switch (type) {
