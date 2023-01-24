@@ -1,0 +1,9 @@
+name: PixliesEconomy
+version: 1.0
+description: Economy Plugin for the all new Pixlies
+api-version: 1.19
+depend: [PixliesCore, Nations]
+authors: [vyketype, MickMMars, Dynmie]
+website: https://pixlies.net/discord
+main: net.pixlies.business.PixliesEconomy
+prefix: Economy

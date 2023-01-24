@@ -19,9 +19,12 @@ import net.pixlies.core.packets.PacketAdapterManager;
 import net.pixlies.core.runnables.RunnableManager;
 import net.pixlies.core.runnables.RunnableRegisterManager;
 import net.pixlies.core.servers.ServerDataManager;
+import net.pixlies.core.utils.UtilList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.List;
+import java.util.Map;
 
 import static net.pixlies.core.utils.FileUtils.saveIfNotExists;
 
@@ -36,6 +39,7 @@ public class Main extends JavaPlugin {
     @Getter private PixliesCommandManager commandManager;
     @Getter private RunnableManager runnableManager;
     @Getter private PixliesCalendar calendar;
+    @Getter private UtilList utilLists;
 
     @Getter private Config config;
     @Getter private Config staffModeConfig;
