@@ -20,6 +20,12 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Անկեղծ ասած՝ դու բնավ էլ ա՛յն չես եղել
+ * Ա՛յն չես եղել, ինչ որ ես եմ կարծել երկար։
+ *
+ * @author պարոյր սեւակ
+ */
 public class OrdersListGUI {
       public static void open(UUID uuid) {
             Player player = Bukkit.getPlayer(uuid);

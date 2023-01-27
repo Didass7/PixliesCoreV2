@@ -4,7 +4,7 @@ import com.github.stefvanschie.inventoryframework.gui.GuiItem;
 import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
-import net.pixlies.business.PixliesEconomy;
+import net.pixlies.business.ProtoBusinesss;
 import net.pixlies.business.conversations.CustomPricePrompt;
 import net.pixlies.business.guis.items.MarketGUIItems;
 import net.pixlies.business.locale.MarketLang;
@@ -21,7 +21,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.UUID;
 
 public class OrderPriceGUI {
-      private static final PixliesEconomy instance = PixliesEconomy.getInstance();
+      private static final ProtoBusinesss instance = ProtoBusinesss.getInstance();
       
       public static void open(UUID uuid, Order.Type type, OrderItem item, int amount) {
             Player player = Bukkit.getPlayer(uuid);

@@ -8,7 +8,7 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.title.Title;
-import net.pixlies.business.PixliesEconomy;
+import net.pixlies.business.ProtoBusinesss;
 import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.util.SoundUtil;
@@ -32,7 +32,7 @@ public enum Challenge {
     private final @Getter
     int xpGained;
     
-    private static final PixliesEconomy instance = PixliesEconomy.getInstance();
+    private static final ProtoBusinesss instance = ProtoBusinesss.getInstance();
     private static final MarketHandler marketHandler = instance.getHandlerManager().getHandler(MarketHandler.class);
     
     public String getMessage(Player player) {

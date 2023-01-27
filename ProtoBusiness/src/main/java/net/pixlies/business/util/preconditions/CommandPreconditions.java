@@ -1,6 +1,6 @@
 package net.pixlies.business.util.preconditions;
 
-import net.pixlies.business.PixliesEconomy;
+import net.pixlies.business.ProtoBusinesss;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.OrderItem;
 import net.pixlies.business.market.Tariff;
@@ -25,7 +25,7 @@ import java.util.UUID;
 
 @SuppressWarnings("BooleanMethodIsAlwaysInverted")
 public class CommandPreconditions {
-      private static final PixliesEconomy instance = PixliesEconomy.getInstance();
+      private static final ProtoBusinesss instance = ProtoBusinesss.getInstance();
       
       public static boolean doesPageExist(Player player, int page, int pages) {
             if (page > pages || page < 1) {

@@ -16,9 +16,9 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 
 @Getter
-public class PixliesEconomy extends JavaPlugin implements Module {
+public class ProtoBusinesss extends JavaPlugin implements Module {
     @Getter
-    private static PixliesEconomy instance;
+    private static ProtoBusinesss instance;
     
     private ModuleConfig config;
     private ModuleConfig stats;

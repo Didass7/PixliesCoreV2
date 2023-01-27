@@ -1,9 +1,9 @@
-name: PixliesEconomy
-version: 1.0
-description: Economy Plugin for the all new Pixlies
+name: ProtoBusiness
+version: 1.0.0
+description: Me and missy is so very busy busy making money
 api-version: 1.19
 depend: [PixliesCore, Nations]
-authors: [vyketype, MickMMars, Dynmie]
-website: https://pixlies.net/discord
-main: net.pixlies.business.PixliesEconomy
-prefix: Economy
+authors: [vyketype]
+website: https://pixlies.net/discord # although, we should make a GitHub pages...
+main: net.pixlies.business.ProtoBusiness
+prefix: ProtoBusiness

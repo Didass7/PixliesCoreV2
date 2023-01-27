@@ -2,7 +2,7 @@ package net.pixlies.business.market;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import net.pixlies.business.PixliesEconomy;
+import net.pixlies.business.ProtoBusinesss;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -19,7 +19,7 @@ import java.util.logging.Level;
 @Getter
 @AllArgsConstructor
 public class OrderBook {
-    private static final PixliesEconomy instance = PixliesEconomy.getInstance();
+    private static final ProtoBusinesss instance = ProtoBusinesss.getInstance();
     private static final String BOOKS_PATH = instance.getDataFolder().getAbsolutePath() + "/orderbooks/";
     private static final Map<String, OrderBook> CACHE = new HashMap<>();
     
@@ -143,6 +143,7 @@ public class OrderBook {
         double total = price * traded;
         
         // Refunds
+        // TODO: make sure this includes the price diff without the tariff (limit orders, buying cheap option)
         double refund;
         if (type == Order.Type.BUY) {
             refund = initialOrder.getPrice() - initialOrder.getTariffedPrice(matchingOrder.getPlayerUUID());
@@ -165,7 +166,8 @@ public class OrderBook {
         initial.addTrade();
         match.addTrade();
         
-        Trade trade = new Trade(item.name(), System.currentTimeMillis(), price, traded,
+        // todo: store buyorder id and sellorder id
+        Trade trade = new Trade(initialOrder.getOrderId(), System.currentTimeMillis(), price, traded,
                 initialOrder.getPlayerUUID(), matchingOrder.getPlayerUUID(), false);
         
         switch (type) {

@@ -6,7 +6,7 @@ import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import net.pixlies.business.PixliesEconomy;
+import net.pixlies.business.ProtoBusinesss;
 import net.pixlies.business.conversations.AmountPrompt;
 import net.pixlies.business.guis.items.MarketGUIItems;
 import net.pixlies.business.locale.MarketLang;
@@ -23,7 +23,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.UUID;
 
 public class OrderItemGUI {
-      private static final PixliesEconomy instance = PixliesEconomy.getInstance();
+      private static final ProtoBusinesss instance = ProtoBusinesss.getInstance();
       
       public static void open(UUID uuid, OrderItem item) {
             Player player = Bukkit.getPlayer(uuid);

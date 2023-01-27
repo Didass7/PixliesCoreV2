@@ -2,7 +2,7 @@ package net.pixlies.business.commands.economy;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
-import net.pixlies.business.PixliesEconomy;
+import net.pixlies.business.ProtoBusinesss;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.util.InventoryUtil;
 import net.pixlies.business.util.SoundUtil;
@@ -16,7 +16,7 @@ import org.bukkit.inventory.ItemStack;
 @CommandPermission("pixlies.business.convertcoins")
 @Description("Convert some coins into gold ingots")
 public class ConvertCoinsCommand extends BaseCommand {
-      private static final PixliesEconomy instance = PixliesEconomy.getInstance();
+      private static final ProtoBusinesss instance = ProtoBusinesss.getInstance();
       
       @Default
       @Syntax("<coins>")
