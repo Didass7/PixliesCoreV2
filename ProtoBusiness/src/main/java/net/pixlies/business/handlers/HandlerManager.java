@@ -1,14 +1,14 @@
 package net.pixlies.business.handlers;
 
 import com.google.common.collect.ImmutableList;
-import net.pixlies.business.PixliesEconomy;
+import net.pixlies.business.ProtoBusinesss;
 import net.pixlies.business.handlers.impl.MarketHandler;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class HandlerManager {
-    private static final PixliesEconomy instance = PixliesEconomy.getInstance();
+    private static final ProtoBusinesss instance = ProtoBusinesss.getInstance();
     
     private final Map<Class<? extends Handler>, Handler> handlers = new HashMap<>();
     private final ImmutableList<Class<? extends Handler>> handlerList = ImmutableList.of(

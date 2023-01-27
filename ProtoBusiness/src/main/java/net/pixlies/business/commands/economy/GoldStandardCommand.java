@@ -5,7 +5,7 @@ import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Description;
-import net.pixlies.business.PixliesEconomy;
+import net.pixlies.business.ProtoBusinesss;
 import net.pixlies.business.locale.MarketLang;
 import org.bukkit.command.CommandSender;
 
@@ -13,7 +13,7 @@ import org.bukkit.command.CommandSender;
 @CommandPermission("pixlies.business.goldstandard")
 @Description("See the current gold conversion rates")
 public class GoldStandardCommand extends BaseCommand {
-      private static final PixliesEconomy instance = PixliesEconomy.getInstance();
+      private static final ProtoBusinesss instance = ProtoBusinesss.getInstance();
       
       @Default
       public void onGoldStandard(CommandSender sender) {

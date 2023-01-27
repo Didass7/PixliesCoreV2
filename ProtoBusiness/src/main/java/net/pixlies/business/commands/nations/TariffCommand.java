@@ -3,7 +3,7 @@ package net.pixlies.business.commands.nations;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
-import net.pixlies.business.PixliesEconomy;
+import net.pixlies.business.ProtoBusinesss;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.Tariff;
 import net.pixlies.business.util.preconditions.CommandPreconditions;
@@ -27,7 +27,7 @@ import java.util.UUID;
 @CommandAlias("tariff|tariffs")
 @CommandPermission("pixlies.business.tariff")
 public class TariffCommand extends BaseCommand {
-      private static final PixliesEconomy instance = PixliesEconomy.getInstance();
+      private static final ProtoBusinesss instance = ProtoBusinesss.getInstance();
       
       @Subcommand("local")
       @Description("Retrieve the list of incoming and outgoing tariffs for your nation")

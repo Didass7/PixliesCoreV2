@@ -2,7 +2,7 @@ package net.pixlies.business.market;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import net.pixlies.business.PixliesEconomy;
+import net.pixlies.business.ProtoBusinesss;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Material;
 
@@ -170,7 +170,7 @@ public enum OrderItem {
     TURTLE_EGG(Material.TURTLE_EGG, 4, 4, 2),
     NETHER_STAR(Material.NETHER_STAR, 4, 5, 2);
     
-    private static final PixliesEconomy instance = PixliesEconomy.getInstance();
+    private static final ProtoBusinesss instance = ProtoBusinesss.getInstance();
     
     /**
      * Material of the item

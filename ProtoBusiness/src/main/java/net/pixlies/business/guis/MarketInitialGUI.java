@@ -19,6 +19,11 @@ import org.bukkit.inventory.ItemStack;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+/**
+ * Լաց վերջին լացըդ, սիրտ իմ մենավոր։
+ *
+ * @author վահան դերյան
+ */
 public class MarketInitialGUI {
       public static void open(UUID uuid) {
             Player player = Bukkit.getPlayer(uuid);

@@ -5,7 +5,7 @@ import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Description;
-import net.pixlies.business.PixliesEconomy;
+import net.pixlies.business.ProtoBusinesss;
 import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.Challenge;
@@ -20,7 +20,7 @@ import org.bukkit.entity.Player;
 @CommandPermission("pixlies.business.challenge")
 @Description("Get a list of all market challenges")
 public class ChallengeCommand extends BaseCommand {
-      private static final PixliesEconomy instance = PixliesEconomy.getInstance();
+      private static final ProtoBusinesss instance = ProtoBusinesss.getInstance();
       private final MarketHandler marketHandler = instance.getHandlerManager().getHandler(MarketHandler.class);
       
       @Default
