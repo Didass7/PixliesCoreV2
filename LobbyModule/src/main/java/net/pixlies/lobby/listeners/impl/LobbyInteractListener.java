@@ -6,6 +6,7 @@ import io.papermc.paper.event.player.PlayerItemFrameChangeEvent;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.entity.user.timers.impl.RightClickDelayTimer;
 import net.pixlies.lobby.Lobby;
+import net.pixlies.lobby.entity.LobbySpawn;
 import net.pixlies.lobby.managers.GrapplingHookManager;
 import net.pixlies.lobby.managers.JumpPadManager;
 import net.pixlies.lobby.managers.LobbyManager;
@@ -29,6 +30,7 @@ import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
@@ -155,6 +157,11 @@ public class LobbyInteractListener implements Listener {
     public void onClick(InventoryClickEvent event) {
         HumanEntity player = event.getWhoClicked();
         if (lobbyManager.isInBuildMode(player.getUniqueId())) return;
+
+        if (!player.getInventory().equals(event.getClickedInventory())) {
+            return;
+        }
+
         event.setCancelled(true);
     }
 
@@ -212,7 +219,8 @@ public class LobbyInteractListener implements Listener {
         LobbyUtils.resetPlayer(player);
     }
 
-    /* DISABLED FOR NOW -- WHAT WAS THE POINT OF THIS?
+    // Fix player if they fall below a certain point
+    // so they can actually respawn and not fall forever
     @EventHandler
     public void onMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
@@ -229,8 +237,6 @@ public class LobbyInteractListener implements Listener {
 
         LobbyUtils.resetPlayer(player);
     }
-    
-     */
 
     @EventHandler
     public void onHungerChange(FoodLevelChangeEvent event) {
