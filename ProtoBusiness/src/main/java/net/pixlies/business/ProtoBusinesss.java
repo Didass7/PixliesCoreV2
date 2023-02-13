@@ -8,6 +8,7 @@ import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.OrderBook;
 import net.pixlies.business.market.MarketProfile;
 import net.pixlies.business.threads.BalTopThread;
+import net.pixlies.business.threads.EmbargoExpirationThread;
 import net.pixlies.core.modules.Module;
 import net.pixlies.core.modules.configuration.ModuleConfig;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -28,6 +29,7 @@ public class ProtoBusinesss extends JavaPlugin implements Module {
     private ListenerManager listenerManager;
     
     private BalTopThread balTopThread;
+    private EmbargoExpirationThread embargoExpirationThread;
     
     @Override
     public void onEnable() {
@@ -41,6 +43,9 @@ public class ProtoBusinesss extends JavaPlugin implements Module {
         
         balTopThread = new BalTopThread();
         balTopThread.startThread();
+    
+        embargoExpirationThread = new EmbargoExpirationThread();
+        embargoExpirationThread.startThread();
         
         handlerManager = new HandlerManager();
         handlerManager.registerAllHandlers();

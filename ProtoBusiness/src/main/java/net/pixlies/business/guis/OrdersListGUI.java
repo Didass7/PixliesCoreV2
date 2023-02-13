@@ -24,7 +24,8 @@ import java.util.UUID;
  * Անկեղծ ասած՝ դու բնավ էլ ա՛յն չես եղել
  * Ա՛յն չես եղել, ինչ որ ես եմ կարծել երկար։
  *
- * @author պարոյր սեւակ
+ * — պարոյր սեւակ
+ * @author vyketype
  */
 public class OrdersListGUI {
       public static void open(UUID uuid) {

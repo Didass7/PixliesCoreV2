@@ -4,6 +4,7 @@ import co.aikar.commands.BaseCommand;
 import com.google.common.collect.ImmutableList;
 import net.pixlies.business.commands.economy.*;
 import net.pixlies.business.commands.market.*;
+import net.pixlies.business.commands.nations.EmbargoCommand;
 import net.pixlies.business.commands.nations.TariffCommand;
 import net.pixlies.core.Main;
 
@@ -21,7 +22,8 @@ public class CommandManager {
               new PayCommand(),
               new GoldStandardCommand(),
               new ConvertCoinsCommand(),
-              new ConvertGoldCommand()
+              new ConvertGoldCommand(),
+              new EmbargoCommand()
       );
       
       public void registerAllCommands() {

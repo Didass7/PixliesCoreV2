@@ -2,6 +2,7 @@ package net.pixlies.business.util.preconditions;
 
 import net.pixlies.business.ProtoBusinesss;
 import net.pixlies.business.locale.MarketLang;
+import net.pixlies.business.market.Embargo;
 import net.pixlies.business.market.OrderItem;
 import net.pixlies.business.market.Tariff;
 import net.pixlies.business.market.MarketProfile;
@@ -137,6 +138,17 @@ public class CommandPreconditions {
            return false;
      }
      
+     public static int getValidDuration(Player player, String strDuration) {
+           try {
+                 Integer.parseInt(strDuration);
+           } catch (NullPointerException | NumberFormatException e) {
+                 MarketLang.EMBARGO_NOT_VALID_DURATION.send(player);
+                 SoundUtil.error(player);
+                 return -1;
+           }
+           return Integer.parseInt(strDuration);
+     }
+     
      public static boolean isAmountValidNumber(Player player, String amount) {
            try {
                  Double.parseDouble(amount);
@@ -149,13 +161,20 @@ public class CommandPreconditions {
            return true;
      }
      
-     public static boolean tariffGeneral(Player player, String targetNation) {
+     private static boolean nationGeneral(Player player, String targetNation, boolean tariff) {
            User user = User.get(player.getUniqueId());
            NationProfile nationProfile = NationProfile.get(player.getUniqueId());
            @Nullable Nation target = Nation.getFromName(targetNation);
       
            boolean notInNation = !nationProfile.isInNation();
-           boolean noPermission = !NationPermission.MANAGE_TARIFFS.hasPermission(player) && !user.isBypassing();
+           
+           boolean noPermission;
+           if (tariff) {
+                 noPermission = !NationPermission.MANAGE_TARIFFS.hasPermission(player) && !user.isBypassing();
+           } else {
+                 noPermission = !NationPermission.MANAGE_EMBARGOES.hasPermission(player) && !user.isBypassing();
+           }
+           
            boolean nationNull = target == null;
            boolean sameNation = Objects.equals(nationProfile.getNation().getName(), targetNation);
       
@@ -170,9 +189,35 @@ public class CommandPreconditions {
            }
            return true;
      }
+      
+      public static boolean embargoRemove(Player player, String targetNation) {
+            if (!CommandPreconditions.nationGeneral(player, targetNation, false))
+                  return false;
+            
+            NationProfile nationProfile = NationProfile.get(player.getUniqueId());
+            if (Embargo.getEmbargoId(nationProfile.getNation().getName(), targetNation) == null) {
+                  MarketLang.EMBARGO_DOES_NOT_EXIST.send(player);
+                  SoundUtil.error(player);
+            }
+            
+            return true;
+      }
+     
+     public static boolean embargoSet(Player player, String targetNation) {
+           if (!CommandPreconditions.nationGeneral(player, targetNation, false))
+                 return false;
+      
+           NationProfile nationProfile = NationProfile.get(player.getUniqueId());
+           if (Embargo.getEmbargoId(nationProfile.getNation().getName(), targetNation) != null) {
+                 MarketLang.EMBARGO_ALREADY_EXISTS.send(player);
+                 SoundUtil.error(player);
+           }
+           
+           return true;
+     }
      
      public static boolean tariffSet(Player player, String targetNation, String strRate) {
-           if (!CommandPreconditions.tariffGeneral(player, targetNation))
+           if (!CommandPreconditions.nationGeneral(player, targetNation, true))
                  return false;
            
            double maxRate = instance.getConfig().getDouble("tariffMaxRate");
@@ -193,7 +238,7 @@ public class CommandPreconditions {
      }
      
      public static boolean tariffRemove(Player player, String targetNation) {
-           if (!CommandPreconditions.tariffGeneral(player, targetNation))
+           if (!CommandPreconditions.nationGeneral(player, targetNation, true))
                  return false;
            
            NationProfile nationProfile = NationProfile.get(player.getUniqueId());
@@ -206,6 +251,15 @@ public class CommandPreconditions {
            }
            return true;
      }
+      
+      public static boolean isEmbargoDeleteSuccessful(Player player, Embargo embargo) {
+            if (!embargo.delete()) {
+                  MarketLang.EMBARGO_FAILED_TO_REMOVE.send(player);
+                  SoundUtil.error(player);
+                  return false;
+            }
+            return true;
+      }
      
      public static boolean isTariffDeleteSuccessful(Player player, Tariff tariff) {
            if (!tariff.delete()) {
