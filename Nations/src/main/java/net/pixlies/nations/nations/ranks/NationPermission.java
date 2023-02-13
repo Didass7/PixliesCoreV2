@@ -44,7 +44,8 @@ public enum NationPermission {
 
     MANAGE_ELECTIONS,
     MANAGE_TAX,
-    MANAGE_TARIFFS;
+    MANAGE_TARIFFS,
+    MANAGE_EMBARGOES;
 
     public boolean hasPermission(CommandSender sender) {
         if (!(sender instanceof Player player)) return true;

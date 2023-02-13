@@ -23,7 +23,8 @@ import java.util.UUID;
  * Թե մորդ անգամ մտքից հանես,
  * Քո Մայր լեզուն չմոռանա՛ս...
  *
- * @author սիլվա կապուտիկեան
+ * — սիլվա կապուտիկեան
+ * @author vyketype
  */
 public final class MarketGUIItems {
     public static final ProtoBusinesss instance = ProtoBusinesss.getInstance();

@@ -22,7 +22,8 @@ import java.util.function.Consumer;
 /**
  * Լաց վերջին լացըդ, սիրտ իմ մենավոր։
  *
- * @author վահան դերյան
+ * — վահան դերյան
+ * @author vyketype
  */
 public class MarketInitialGUI {
       public static void open(UUID uuid) {

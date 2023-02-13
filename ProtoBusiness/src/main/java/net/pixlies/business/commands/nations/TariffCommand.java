@@ -3,7 +3,6 @@ package net.pixlies.business.commands.nations;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
-import net.pixlies.business.ProtoBusinesss;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.Tariff;
 import net.pixlies.business.util.preconditions.CommandPreconditions;
@@ -22,14 +21,13 @@ import java.util.UUID;
  * Tariff command.
  * Ես իմ անուշ Հայաստանի արեւահամ բարն եմ սիրում։
  *
+ * — եղիշե չարենց
  * @author vyketype
  */
 @CommandAlias("tariff|tariffs")
 @CommandPermission("pixlies.business.tariff")
 public class TariffCommand extends BaseCommand {
-      private static final ProtoBusinesss instance = ProtoBusinesss.getInstance();
-      
-      @Subcommand("local")
+      @Subcommand("listlocal")
       @Description("Retrieve the list of incoming and outgoing tariffs for your nation")
       public void onTariffLocal(Player player) {
             NationProfile profile = NationProfile.get(player.getUniqueId());
@@ -72,7 +70,7 @@ public class TariffCommand extends BaseCommand {
             }
       }
       
-      @Subcommand("global")
+      @Subcommand("listglobal")
       @Description("Retrieve the list of all incoming and outgoing tariffs")
       public void onTariffGlobal(Player player, @Optional Integer page) {
             // If there are no tariffs
