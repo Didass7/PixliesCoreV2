@@ -18,6 +18,7 @@ import org.bukkit.Material;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
@@ -47,7 +48,7 @@ public class OrderItemGUI {
             for (Transactions transaction : Transactions.values()) {
                   GuiItem guiItem = transaction.getGuiItem(player, item);
                   guiItem.setAction(event -> {
-                        player.closeInventory();
+                        player.closeInventory(InventoryCloseEvent.Reason.CANT_USE);
                         
                         // Start a chat conversation for the transaction item amount
                         ConversationFactory factory = new ConversationFactory(instance)

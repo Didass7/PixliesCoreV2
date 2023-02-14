@@ -5,6 +5,7 @@ import lombok.Getter;
 import net.pixlies.business.ProtoBusinesss;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Material;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -231,7 +232,7 @@ public enum OrderItem {
         return list;
     }
     
-    public static OrderItem getFromMaterial(Material mat) {
+    public static @Nullable OrderItem getFromMaterial(Material mat) {
         for (OrderItem i : OrderItem.values()) {
             if (i.getMaterial() == mat) return i;
         }
