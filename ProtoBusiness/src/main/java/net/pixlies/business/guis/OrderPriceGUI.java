@@ -16,6 +16,7 @@ import org.bukkit.Material;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
@@ -49,7 +50,7 @@ public class OrderPriceGUI {
             // Custom price item
             GuiItem customPrice = new GuiItem(MarketGUIItems.getCustomPriceButton());
             customPrice.setAction(event -> {
-                  player.closeInventory();
+                  player.closeInventory(InventoryCloseEvent.Reason.CANT_USE);
       
                   // Start a chat conversation for the transaction unit price
                   ConversationFactory factory = new ConversationFactory(instance)

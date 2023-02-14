@@ -5,6 +5,7 @@ import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import net.pixlies.business.ProtoBusinesss;
 import net.pixlies.business.guis.MarketInitialGUI;
+import net.pixlies.business.listeners.impl.InventoryClickListener;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.OrderBook;
 import net.pixlies.business.market.MarketProfile;
@@ -50,6 +51,9 @@ public class MarketCommand extends BaseCommand {
             // Open the GUI
             UUID uuid = player.getUniqueId();
             MarketInitialGUI.open(uuid);
+            
+            // The player is viewing the market
+            InventoryClickListener.VIEWING_MARKET.add(player.getUniqueId());
       }
       
       @Subcommand("open")
