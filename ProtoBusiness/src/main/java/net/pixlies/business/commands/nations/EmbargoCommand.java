@@ -17,6 +17,8 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -31,7 +33,44 @@ public class EmbargoCommand extends BaseCommand {
       @Subcommand("listlocal")
       @Description("Retrieve the list of embargoes which concern your nation")
       public void onEmbargoLocal(Player player) {
-          // TODO
+            NationProfile profile = NationProfile.get(player.getUniqueId());
+      
+            // If the player is not in a nation
+            if (!CommandPreconditions.isPlayerInNation(player, profile))
+                  return;
+      
+            // Sort through the embargoes
+            String nationsId = profile.getNationId();
+            List<Embargo> incoming = new ArrayList<>();
+            List<Embargo> outgoing = new ArrayList<>();
+            for (Embargo embargo : Embargo.getAll()) {
+                  if (Objects.equals(embargo.targetId(), nationsId))
+                        incoming.add(embargo);
+                  else if (Objects.equals(embargo.initId(), nationsId))
+                        outgoing.add(embargo);
+            }
+      
+            // If there are no embargoes
+            if (CommandPreconditions.ifNoLocalEmbargoes(player, incoming, outgoing))
+                  return;
+      
+            // Show incoming embargoes
+            if (!incoming.isEmpty()) {
+                  MarketLang.EMBARGO_LOCAL_INCOMING.send(player);
+                  incoming.forEach(embargo -> {
+                        String from = Objects.requireNonNull(Nation.getFromId(embargo.initId())).getName();
+                        MarketLang.EMBARGO_LOCAL_FORMAT.send(player, "%NX%;" + from);
+                  });
+            }
+      
+            // Show outgoing embargoes
+            if (!outgoing.isEmpty()) {
+                  MarketLang.EMBARGO_LOCAL_OUTGOING.send(player);
+                  outgoing.forEach(embargo -> {
+                        String to = Objects.requireNonNull(Nation.getFromId(embargo.targetId())).getName();
+                        MarketLang.EMBARGO_LOCAL_FORMAT.send(player, "%NX%;" + to);
+                  });
+            }
       }
       
       @Subcommand("listglobal")

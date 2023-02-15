@@ -93,6 +93,9 @@ EMBARGO_FAILED_TO_REMOVE: "§cFailed to remove embargo. Please contact vyketype#
 EMBARGO_GLOBAL: "§7Here is a list of all §3embargoes§7:"
 EMBARGO_GLOBAL_FORMAT: " §8» §d%NX% §7has embargoed §3%NY%"
 NO_EMBARGOES_FOUND: "§cNo embargoes were found."
+EMBARGO_LOCAL_INCOMING: "§7Here is a list of all §6incoming embargoes §8(applied ON your nation BY another one) §7..."
+EMBARGO_LOCAL_OUTGOING: "§7Here is a list of the §boutgoing tariffs §8(applied BY your nation ON another) §7..."
+EMBARGO_LOCAL_FORMAT: " §8» §3%NX%"
 
 TRADE_BLOCK_LIST_EMPTY: "§7Your trade-block list is §cempty§7."
 TRADE_BLOCK_LIST: "§7Here are the players who you have §cblocked §7trading on the market with: §d%LIST%"

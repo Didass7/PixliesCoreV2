@@ -128,6 +128,15 @@ public class CommandPreconditions {
             }
             return false;
      }
+      
+      public static boolean ifNoLocalEmbargoes(Player player, List<Embargo> incoming, List<Embargo> outgoing) {
+            if (incoming.isEmpty() && outgoing.isEmpty()) {
+                  MarketLang.NO_EMBARGOES_FOUND.send(player);
+                  SoundUtil.error(player);
+                  return true;
+            }
+            return false;
+      }
      
      public static boolean ifNoGlobalTariffs(Player player) {
            if (Tariff.getAll().isEmpty()) {
