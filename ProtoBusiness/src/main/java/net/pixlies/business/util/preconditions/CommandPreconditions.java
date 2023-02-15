@@ -138,6 +138,15 @@ public class CommandPreconditions {
            return false;
      }
      
+      public static boolean ifNoGlobalEmbargoes(Player player) {
+            if (Embargo.getAll().isEmpty()) {
+                  MarketLang.NO_EMBARGOES_FOUND.send(player);
+                  SoundUtil.error(player);
+                  return true;
+            }
+            return false;
+      }
+      
      public static int getValidDuration(Player player, String strDuration) {
            try {
                  Integer.parseInt(strDuration);

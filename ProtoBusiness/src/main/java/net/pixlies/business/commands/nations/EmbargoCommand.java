@@ -6,7 +6,9 @@ import co.aikar.commands.annotation.*;
 import net.pixlies.business.ProtoBusinesss;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.Embargo;
+import net.pixlies.business.market.Tariff;
 import net.pixlies.business.threads.EmbargoExpirationThread;
+import net.pixlies.business.util.ListDisplayUtil;
 import net.pixlies.business.util.preconditions.CommandPreconditions;
 import net.pixlies.core.utils.TextUtils;
 import net.pixlies.nations.nations.Nation;
@@ -35,7 +37,12 @@ public class EmbargoCommand extends BaseCommand {
       @Subcommand("listglobal")
       @Description("Retrieve the list of all embargoes")
       public void onEmbargoGlobal(Player player, @Optional Integer page) {
-          // TODO
+            // If there are no embargoes
+            if (CommandPreconditions.ifNoGlobalEmbargoes(player))
+                  return;
+      
+            int size = Embargo.getAll().size();
+            ListDisplayUtil.displayList(size, page, player, false);
       }
       
       @Subcommand("add")

@@ -5,6 +5,7 @@ import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.Tariff;
+import net.pixlies.business.util.ListDisplayUtil;
 import net.pixlies.business.util.preconditions.CommandPreconditions;
 import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.interfaces.NationProfile;
@@ -78,19 +79,7 @@ public class TariffCommand extends BaseCommand {
                   return;
       
             int size = Tariff.getAll().size();
-            int pages = (int) Math.ceil(size / 7.0);
-            
-            // If the "page" argument is null
-            if (page == null) {
-                  showGlobalListPage(player, 1);
-                  return;
-            }
-      
-            // If the page does not exist
-            if (!CommandPreconditions.doesPageExist(player, page, pages))
-                  return;
-      
-            showGlobalListPage(player, page);
+            ListDisplayUtil.displayList(size, page, player, true);
       }
       
       @Subcommand("set")
@@ -177,26 +166,5 @@ public class TariffCommand extends BaseCommand {
       @HelpCommand
       public void onHelp(CommandHelp help) {
             help.showHelp();
-      }
-      
-      private void showGlobalListPage(Player player, int page) {
-            // Each page will have 7 entries
-            int size = Tariff.getAll().size();
-            int pages = (int) Math.ceil(size / 7.0);
-            int limit = Math.min(7 * page, size);
-      
-            MarketLang.TARIFF_GLOBAL.send(player);
-            for (int i = (page - 1) * 7 + 1; i <= limit; i++) {
-                  Tariff tariff = Tariff.getAll().get(i - 1);
-                  String from = Objects.requireNonNull(Nation.getFromId(tariff.getInitId())).getName();
-                  String to = Objects.requireNonNull(Nation.getFromId(tariff.getTargetId())).getName();
-                  MarketLang.TARIFF_GLOBAL_FORMAT.send(
-                          player,
-                          "%NX%;" + from,
-                          "%NY%;" + to,
-                          "%RATE%;" + tariff.getFormattedRate()
-                  );
-            }
-            MarketLang.PAGE_INDEX.send(player, "%PAGE%;" + page, "%MAX%;" + pages);
       }
 }
