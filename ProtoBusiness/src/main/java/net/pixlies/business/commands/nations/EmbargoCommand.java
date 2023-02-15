@@ -26,8 +26,6 @@ import java.util.UUID;
 @CommandAlias("embargo")
 @CommandPermission("pixlies.business.embargo")
 public class EmbargoCommand extends BaseCommand {
-      private static final ProtoBusinesss instance = ProtoBusinesss.getInstance();
-      
       @Subcommand("listlocal")
       @Description("Retrieve the list of embargoes which concern your nation")
       public void onEmbargoLocal(Player player) {

@@ -66,6 +66,7 @@ public class MarketCommand extends BaseCommand {
             
             // Open the market gates
             instance.getConfig().set("marketOpen", true);
+            instance.getConfig().save();
             MarketLang.MARKET_OPEN.broadcast();
             for (Player p : Bukkit.getOnlinePlayers()) {
                   p.sendTitle(MarketLang.MARKET + "§b§lOpen", "§7Use §a/market §7to access it.");
@@ -83,6 +84,7 @@ public class MarketCommand extends BaseCommand {
             
             // Close the market gates
             instance.getConfig().set("marketOpen", false);
+            instance.getConfig().save();
             MarketLang.MARKET_CLOSED.broadcast();
             for (Player p : Bukkit.getOnlinePlayers()) {
                   p.sendTitle(MarketLang.MARKET + "§c§lClosed", "§7It's just business.");

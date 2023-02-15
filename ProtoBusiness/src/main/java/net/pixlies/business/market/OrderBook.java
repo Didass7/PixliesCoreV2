@@ -3,6 +3,7 @@ package net.pixlies.business.market;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.pixlies.business.ProtoBusinesss;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -78,6 +79,7 @@ public class OrderBook {
         profile.save();
         
         instance.getStats().set("market.buyOrders", instance.getStats().getInt("market.buyOrders") + 1);
+        instance.getStats().save();
         
         buyOrders.add(order);
         save();
@@ -90,7 +92,8 @@ public class OrderBook {
         profile.save();
         
         instance.getStats().set("market.sellOrders", instance.getStats().getInt("market.sellOrders") + 1);
-        
+        instance.getStats().save();
+
         sellOrders.add(order);
         processOrder(order, buyOrders);
     }
@@ -142,6 +145,24 @@ public class OrderBook {
         double price = matchingOrder.getTaxedTariffedPrice(initialOrder.getPlayerUUID());
         double total = price * traded;
         
+        // Update log
+        String[] args = new String[] {
+                Bukkit.getPlayer(initialOrder.getPlayerUUID()).getName(),
+                type == Order.Type.BUY ? initialOrder.getOrderId() : matchingOrder.getOrderId(),
+                Integer.toString(traded),
+                initialOrder.getBookItem(),
+                Double.toString(price),
+                type == Order.Type.BUY ? matchingOrder.getOrderId() : initialOrder.getOrderId()
+        };
+        String action;
+        if (type == Order.Type.BUY) {
+            action = MarketAction.BUY.format(args);
+        } else {
+            action = MarketAction.SELL.format(args);
+        }
+        instance.logInfo(action);
+        MarketAction.updateLog(action);
+        
         // Refunds
         // TODO: make sure this includes the price diff without the tariff (limit orders, buying cheap option)
         double refund;
@@ -187,7 +208,9 @@ public class OrderBook {
         
         instance.getStats().set("market.moneyTraded", instance.getStats().getInt("market.moneyTraded") + total);
         instance.getStats().set("market.itemsTraded", instance.getStats().getInt("market.itemsTraded") + traded);
-        
+    
+        instance.getStats().save();
+    
         initialOrder.getTrades().add(trade);
         matchingOrder.getTrades().add(trade);
         
@@ -358,7 +381,9 @@ public class OrderBook {
         instance.getStats().set("market.trades", 0);
         instance.getStats().set("market.moneyTraded", 0);
         instance.getStats().set("market.itemsTraded", 0);
-        
+    
+        instance.getStats().save();
+    
         // Clear all orders
         for (OrderBook book : getAll()) {
             book.getBuyOrders().clear();

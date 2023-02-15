@@ -23,6 +23,7 @@ public class ProtoBusinesss extends JavaPlugin implements Module {
     
     private ModuleConfig config;
     private ModuleConfig stats;
+    private ModuleConfig log;
     
     private HandlerManager handlerManager;
     private CommandManager commandManager;
@@ -37,6 +38,7 @@ public class ProtoBusinesss extends JavaPlugin implements Module {
         
         config = new ModuleConfig(this, new File(this.getDataFolder(), "config.yml"), "config.yml");
         stats = new ModuleConfig(this, new File(this.getDataFolder(), "stats.yml"), "stats.yml");
+        log = new ModuleConfig(this, new File(this.getDataFolder(), "log.yml"), "log.yml");
         
         this.saveResource("languages/LANG_ENG.yml", true);
         MarketLang.load();

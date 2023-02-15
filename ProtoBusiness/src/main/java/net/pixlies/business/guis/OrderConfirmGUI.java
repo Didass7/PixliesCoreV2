@@ -4,8 +4,10 @@ import com.github.stefvanschie.inventoryframework.gui.GuiItem;
 import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
+import net.pixlies.business.ProtoBusinesss;
 import net.pixlies.business.guis.items.MarketGUIItems;
 import net.pixlies.business.locale.MarketLang;
+import net.pixlies.business.market.MarketAction;
 import net.pixlies.business.market.Order;
 import net.pixlies.business.market.OrderBook;
 import net.pixlies.business.market.OrderItem;
@@ -19,6 +21,8 @@ import org.bukkit.inventory.ItemStack;
 import java.util.UUID;
 
 public class OrderConfirmGUI {
+      private static final ProtoBusinesss instance = ProtoBusinesss.getInstance();
+      
       public static void open(UUID uuid, Order.Type type, OrderItem item, int amount, double price) {
             Player player = Bukkit.getPlayer(uuid);
             assert player != null;
@@ -64,6 +68,18 @@ public class OrderConfirmGUI {
                   // Message and sound
                   MarketLang.NEW_ORDER_CREATED.send(player, "%ORDER%;" + order.toString());
                   SoundUtil.placedOrder(player);
+                  
+                  // Update log
+                  String action = MarketAction.CREATE_ORDER.format(
+                          player.getName(),
+                          order.getType().name().toLowerCase(),
+                          order.getOrderId(),
+                          Integer.toString(order.getAmount()),
+                          order.getBookItem(),
+                          Double.toString(order.getPrice())
+                  );
+                  instance.logInfo(action);
+                  MarketAction.updateLog(action);
                   
                   player.closeInventory();
             });
