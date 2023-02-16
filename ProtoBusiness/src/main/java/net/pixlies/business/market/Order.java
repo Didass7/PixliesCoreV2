@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import net.pixlies.business.ProtoBusinesss;
-import net.pixlies.business.handlers.impl.MarketHandler;
 import net.pixlies.core.utils.TextUtils;
 import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.interfaces.NationProfile;
@@ -21,7 +20,6 @@ import java.util.*;
 @AllArgsConstructor
 public class Order {
     private static final ProtoBusinesss instance = ProtoBusinesss.getInstance();
-    private final MarketHandler marketHandler = instance.getHandlerManager().getHandler(MarketHandler.class);
     
     private final String bookItem;
     private final String orderId;

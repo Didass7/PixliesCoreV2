@@ -3,7 +3,10 @@ package net.pixlies.business.commands;
 import co.aikar.commands.BaseCommand;
 import com.google.common.collect.ImmutableList;
 import net.pixlies.business.commands.economy.*;
-import net.pixlies.business.commands.market.*;
+import net.pixlies.business.commands.market.MarketCommand;
+import net.pixlies.business.commands.market.MarketStatsCommand;
+import net.pixlies.business.commands.market.PriceCommand;
+import net.pixlies.business.commands.market.TradeBlockCommand;
 import net.pixlies.business.commands.nations.EmbargoCommand;
 import net.pixlies.business.commands.nations.TariffCommand;
 import net.pixlies.core.Main;
@@ -13,7 +16,6 @@ public class CommandManager {
               new MarketCommand(),
               new PriceCommand(),
               new TariffCommand(),
-              new ChallengeCommand(),
               new TradeBlockCommand(),
               new MarketStatsCommand(),
               new BalanceCommand(),

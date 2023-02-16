@@ -2,10 +2,10 @@ package net.pixlies.business.guis.items;
 
 import net.pixlies.business.ProtoBusinesss;
 import net.pixlies.business.guis.MarketInitialGUI;
+import net.pixlies.business.market.MarketProfile;
 import net.pixlies.business.market.Order;
 import net.pixlies.business.market.OrderBook;
 import net.pixlies.business.market.OrderItem;
-import net.pixlies.business.market.MarketProfile;
 import net.pixlies.business.util.MarketUtil;
 import net.pixlies.core.utils.ItemBuilder;
 import net.pixlies.core.utils.PlayerUtils;
