@@ -120,6 +120,29 @@ public class CommandPreconditions {
             return true;
       }
       
+      public static boolean doesPlayerHaveTaxPermission(Player player) {
+            User user = User.get(player.getUniqueId());
+            if (!NationPermission.MANAGE_TARIFFS.hasPermission(player) && !user.isBypassing()) {
+                  NationsLang.NATION_NO_PERMISSION.send(player);
+                  SoundUtil.error(player);
+                  return false;
+            }
+            return true;
+      }
+      
+      public static boolean taxSet(Player player, NationProfile profile, String strDecimalRate) {
+            // If the player is not in a nation
+            if (!isPlayerInNation(player, profile))
+                  return false;
+      
+            // If the player does not have permission
+            if (!doesPlayerHaveTaxPermission(player))
+                  return false;
+            
+            // If the rate is not a decimal number
+            return isRateValidDecimal(player, strDecimalRate);
+      }
+      
       public static boolean ifNoLocalTariffs(Player player, List<Tariff> incoming, List<Tariff> outgoing) {
             if (incoming.isEmpty() && outgoing.isEmpty()) {
                   MarketLang.NO_TARIFFS_FOUND.send(player);
@@ -165,6 +188,17 @@ public class CommandPreconditions {
                  return -1;
            }
            return Integer.parseInt(strDuration);
+     }
+     
+     public static boolean isRateValidDecimal(Player player, String strDecimalRate) {
+            try {
+                  Double.parseDouble(strDecimalRate);
+            } catch (NullPointerException | NumberFormatException e) {
+                  MarketLang.MUST_BE_POSITIVE_DECIMAL.send(player);
+                  SoundUtil.error(player);
+                  return false;
+            }
+            return true;
      }
      
      public static boolean isAmountValidNumber(Player player, String amount) {

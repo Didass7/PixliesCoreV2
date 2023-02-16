@@ -9,6 +9,7 @@ import net.pixlies.business.commands.market.PriceCommand;
 import net.pixlies.business.commands.market.TradeBlockCommand;
 import net.pixlies.business.commands.nations.EmbargoCommand;
 import net.pixlies.business.commands.nations.TariffCommand;
+import net.pixlies.business.commands.nations.TaxCommand;
 import net.pixlies.core.Main;
 
 public class CommandManager {
@@ -25,7 +26,8 @@ public class CommandManager {
               new GoldStandardCommand(),
               new ConvertCoinsCommand(),
               new ConvertGoldCommand(),
-              new EmbargoCommand()
+              new EmbargoCommand(),
+              new TaxCommand()
       );
       
       public void registerAllCommands() {

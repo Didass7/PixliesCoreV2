@@ -136,5 +136,12 @@ GOLD_STANDARD: "§7Currently, §6one gold ingot §7is the equivalent of §6%RATE
 CONVERTED_COINS_TO_GOLD: "§7You have converted §o%COINS% coins §r§7to §6%GOLD% gold ingots§7."
 CONVERTED_GOLD_TO_COINS: "§7You have converted §o%GOLD% gold ingots §r§7to §6%COINS% coins§7."
 
+TAX_RATE_ZERO: "§7There are currently zero taxes in your nation."
+TAX_RATE_QUERY: "§7Currently, there is a §c%RATE%% §7sales tax in your nation."
+NEW_TAX_RATE_SET: "§7A new tax rate was set for §c%RATE%%§7."
+CLEARED_TAX_RATE: "§7All taxes in your nation have been cleared."
+
+MUST_BE_A_POSITIVE_DECMIAL: "§cThis number must be a positive decimal!"
+
 PLAYER_DOES_NOT_EXIST: "§cThis player does not exist!"
 PLAYER_HAS_NEVER_JOINED: "§cThis player has never joined the server, therefore we are unable to run this operation on them."

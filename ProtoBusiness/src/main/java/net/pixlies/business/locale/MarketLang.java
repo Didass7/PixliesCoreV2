@@ -142,6 +142,14 @@ public enum MarketLang {
     CONVERTED_COINS_TO_GOLD(MarketLang.MARKET),
     CONVERTED_GOLD_TO_COINS(MarketLang.MARKET),
     
+    // TAX
+    TAX_RATE_ZERO(NationsLang.NATION),
+    TAX_RATE_QUERY(NationsLang.NATION),
+    NEW_TAX_RATE_SET(NationsLang.NATION),
+    CLEARED_TAX_RATE(NationsLang.NATION),
+    
+    MUST_BE_POSITIVE_DECIMAL(NationsLang.NATION),
+    
     // OTHER
     PLAYER_DOES_NOT_EXIST(Lang.PIXLIES),
     PLAYER_HAS_NEVER_JOINED(Lang.PIXLIES);
