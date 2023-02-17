@@ -219,8 +219,10 @@ public class OrderBook {
     }
     
     private void cleanUp() {
-        buyOrders.removeIf(order -> order.getVolume() == 0 && order.isCancellable());
-        sellOrders.removeIf(order -> order.getVolume() == 0 && order.isCancellable());
+        buyOrders.forEach(order -> {
+            if (order.getVolume() == 0 && order.isCancellable())
+                order.cancel();
+        });
     }
     
     public void remove(Order order) {

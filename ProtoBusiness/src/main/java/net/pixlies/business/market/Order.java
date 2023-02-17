@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import net.pixlies.business.ProtoBusinesss;
+import net.pixlies.business.util.DeadOrdersUtil;
 import net.pixlies.core.utils.TextUtils;
 import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.interfaces.NationProfile;
@@ -111,6 +112,7 @@ public class Order {
             case SELL -> book.getSellOrders().remove(this);
         }
         book.save();
+        DeadOrdersUtil.backupDeadOrder(this);
     }
     
     public boolean isCancellable() {
