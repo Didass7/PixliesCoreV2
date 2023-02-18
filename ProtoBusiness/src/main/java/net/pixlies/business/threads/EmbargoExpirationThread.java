@@ -2,6 +2,7 @@ package net.pixlies.business.threads;
 
 import net.pixlies.business.market.Embargo;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Map;
  * @author vyketype
  */
 public class EmbargoExpirationThread extends Thread {
-    public static Map<String, Integer> EMBARGO_EXPIRATIONS;
+    public static Map<String, Integer> EMBARGO_EXPIRATIONS = new HashMap<>();
     
     public boolean running = false;
     
@@ -27,6 +28,9 @@ public class EmbargoExpirationThread extends Thread {
     }
     
     public void tick() {
+        if (EMBARGO_EXPIRATIONS.isEmpty())
+            return;
+        
         for (Map.Entry<String, Integer> entry : EMBARGO_EXPIRATIONS.entrySet()) {
             if (entry.getValue() != 0) {
                 entry.setValue(entry.getValue() - 1);

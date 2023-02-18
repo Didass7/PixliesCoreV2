@@ -25,7 +25,7 @@ import java.util.UUID;
  * — եղիշե չարենց
  * @author vyketype
  */
-@CommandAlias("tariff|tariffs")
+@CommandAlias("tariff")
 @CommandPermission("pixlies.business.tariff")
 public class TariffCommand extends BaseCommand {
       @Subcommand("listlocal")

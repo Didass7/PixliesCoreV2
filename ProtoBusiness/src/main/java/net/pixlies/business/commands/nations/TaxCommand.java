@@ -1,6 +1,7 @@
 package net.pixlies.business.commands.nations;
 
 import co.aikar.commands.BaseCommand;
+import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.util.preconditions.CommandPreconditions;
@@ -49,8 +50,14 @@ public class TaxCommand extends BaseCommand {
                   if (rate == 0) {
                         MarketLang.CLEARED_TAX_RATE.send(citizen);
                   } else {
-                        MarketLang.NEW_TAX_RATE_SET.send(citizen, "%RATE%;" + rate);
+                        MarketLang.NEW_TAX_RATE_SET.send(citizen, "%RATE%;" + rate * 100);
                   }
             }
+      }
+      
+      @Default
+      @HelpCommand
+      public void onHelp(CommandHelp help) {
+            help.showHelp();
       }
 }

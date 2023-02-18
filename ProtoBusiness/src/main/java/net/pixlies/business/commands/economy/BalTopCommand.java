@@ -43,7 +43,7 @@ public class BalTopCommand extends BaseCommand {
             int i = 1;
             for (Map.Entry<String, Double> entry : entries) {
                   String name;
-                  if (nations.equalsIgnoreCase("nations")) {
+                  if (nations != null && nations.equalsIgnoreCase("nations")) {
                         name = Bukkit.getOfflinePlayer(UUID.fromString(entry.getKey())).getName();
                   } else {
                         name = Objects.requireNonNull(Nation.getFromId(entry.getKey())).getName();

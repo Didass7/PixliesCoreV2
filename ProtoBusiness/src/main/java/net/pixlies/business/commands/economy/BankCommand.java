@@ -12,13 +12,37 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
-@CommandAlias("economy|eco")
-public class EconomyCommand extends BaseCommand {
-      @Subcommand("give")
-      @CommandPermission("pixlies.business.economy.give")
+@CommandAlias("economy|eco|bank")
+public class BankCommand extends BaseCommand {
+      @Subcommand("clear")
+      @CommandPermission("pixlies.business.bank.clear")
+      @Description("Clear a player's bank account")
+      @Syntax("<player>")
+      public void onBankClear(Player player, String targetName) {
+            OfflinePlayer offlineTarget = Bukkit.getOfflinePlayer(targetName);
+      
+            // If the player has not joined before
+            if (!CommandPreconditions.hasPlayerEverJoined(player, offlineTarget.getUniqueId()))
+                  return;
+      
+            NationProfile nationProfile = NationProfile.get(offlineTarget.getUniqueId());
+            nationProfile.removeBalance(nationProfile.getBalance());
+            nationProfile.save();
+      
+            MarketLang.BALANCE_CLEARED_SENDER.send(player, "%PLAYER%;" + targetName);
+      
+            if (offlineTarget.isOnline()) {
+                  Player target = offlineTarget.getPlayer();
+                  MarketLang.BALANCE_CLEARED_TARGET.send(target);
+                  SoundUtil.grandError(target);
+            }
+      }
+      
+      @Subcommand("deposit|add|give")
+      @CommandPermission("pixlies.business.bank.give")
       @Description("Give a player some money")
       @Syntax("<player> <amount>")
-      public void onEconomyGive(Player player, String strArgs) {
+      public void onBankDeposit(Player player, String strArgs) {
             if (!CommandPreconditions.economy(player, strArgs))
                   return;
       
@@ -40,11 +64,11 @@ public class EconomyCommand extends BaseCommand {
             }
       }
       
-      @Subcommand("remove")
-      @CommandPermission("pixlies.business.economy.remove")
+      @Subcommand("withdraw|remove|take")
+      @CommandPermission("pixlies.business.bank.remove")
       @Description("Remove some money from a player's bank account")
       @Syntax("<player> <amount>")
-      public void onEconomyRemove(Player player, String strArgs) {
+      public void onBankWithdraw(Player player, String strArgs) {
             if (!CommandPreconditions.economy(player, strArgs))
                   return;
       
@@ -61,7 +85,7 @@ public class EconomyCommand extends BaseCommand {
             
             if (offlineTarget.isOnline()) {
                   Player target = offlineTarget.getPlayer();
-                  MarketLang.BALANCE_REMOVED_TARGET.send(target, "%COINS%;" + strAmount, "%PLAYER%;" + player.getName());
+                  MarketLang.BALANCE_REMOVED_TARGET.send(target, "%COINS%;" + strAmount);
                   SoundUtil.grandError(target);
             }
       }

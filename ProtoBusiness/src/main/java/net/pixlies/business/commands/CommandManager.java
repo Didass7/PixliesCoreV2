@@ -21,7 +21,7 @@ public class CommandManager {
               new MarketStatsCommand(),
               new BalanceCommand(),
               new BalTopCommand(),
-              new EconomyCommand(),
+              new BankCommand(),
               new PayCommand(),
               new GoldStandardCommand(),
               new ConvertCoinsCommand(),
