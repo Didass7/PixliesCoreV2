@@ -1,6 +1,6 @@
 package net.pixlies.business.market;
 
-import net.pixlies.business.ProtoBusinesss;
+import net.pixlies.business.ProtoBusiness;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -12,7 +12,7 @@ public enum MarketAction {
       BUY,
       SELL;
       
-      private static final ProtoBusinesss instance = ProtoBusinesss.getInstance();
+      private static final ProtoBusiness instance = ProtoBusiness.getInstance();
       
       public String format(String... args) {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");

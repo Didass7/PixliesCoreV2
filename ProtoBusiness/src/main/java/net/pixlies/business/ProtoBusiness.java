@@ -17,9 +17,9 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 
 @Getter
-public class ProtoBusinesss extends JavaPlugin implements Module {
+public class ProtoBusiness extends JavaPlugin implements Module {
     @Getter
-    private static ProtoBusinesss instance;
+    private static ProtoBusiness instance;
     
     private ModuleConfig config;
     private ModuleConfig stats;

@@ -3,7 +3,7 @@ package net.pixlies.business.market;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import net.pixlies.business.ProtoBusinesss;
+import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.util.DeadOrdersUtil;
 import net.pixlies.core.utils.TextUtils;
 import net.pixlies.nations.nations.Nation;
@@ -20,7 +20,7 @@ import java.util.*;
 @Getter
 @AllArgsConstructor
 public class Order {
-    private static final ProtoBusinesss instance = ProtoBusinesss.getInstance();
+    private static final ProtoBusiness instance = ProtoBusiness.getInstance();
     
     private final String bookItem;
     private final String orderId;

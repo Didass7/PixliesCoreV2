@@ -3,7 +3,7 @@ package net.pixlies.business.commands.market;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
-import net.pixlies.business.ProtoBusinesss;
+import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.guis.MarketInitialGUI;
 import net.pixlies.business.listeners.impl.InventoryClickListener;
 import net.pixlies.business.locale.MarketLang;
@@ -34,7 +34,7 @@ public class MarketCommand extends BaseCommand {
        * - cancelled order: block.netherite_block.place
        */
       
-      private static final ProtoBusinesss instance = ProtoBusinesss.getInstance();
+      private static final ProtoBusiness instance = ProtoBusiness.getInstance();
       
       @Default
       @Description("Opens the market menu")

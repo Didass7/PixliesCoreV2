@@ -4,7 +4,7 @@ import com.github.stefvanschie.inventoryframework.gui.GuiItem;
 import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
-import net.pixlies.business.ProtoBusinesss;
+import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.guis.items.MarketGUIItems;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.MarketAction;
@@ -20,7 +20,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.UUID;
 
 public class OrderCancelGUI {
-      private static final ProtoBusinesss instance = ProtoBusinesss.getInstance();
+      private static final ProtoBusiness instance = ProtoBusiness.getInstance();
       
       public static void open(UUID uuid, Order order) {
             Player player = Bukkit.getPlayer(uuid);

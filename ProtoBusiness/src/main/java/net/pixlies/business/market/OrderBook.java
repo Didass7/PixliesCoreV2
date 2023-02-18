@@ -2,7 +2,7 @@ package net.pixlies.business.market;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import net.pixlies.business.ProtoBusinesss;
+import net.pixlies.business.ProtoBusiness;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -20,7 +20,7 @@ import java.util.logging.Level;
 @Getter
 @AllArgsConstructor
 public class OrderBook {
-    private static final ProtoBusinesss instance = ProtoBusinesss.getInstance();
+    private static final ProtoBusiness instance = ProtoBusiness.getInstance();
     private static final String BOOKS_PATH = instance.getDataFolder().getAbsolutePath() + "/orderbooks/";
     private static final Map<String, OrderBook> CACHE = new HashMap<>();
     

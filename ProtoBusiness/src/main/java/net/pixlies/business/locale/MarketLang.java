@@ -1,7 +1,7 @@
 package net.pixlies.business.locale;
 
 import lombok.Getter;
-import net.pixlies.business.ProtoBusinesss;
+import net.pixlies.business.ProtoBusiness;
 import net.pixlies.core.entity.user.User;
 import net.pixlies.core.localization.Lang;
 import net.pixlies.core.utils.CC;
@@ -246,11 +246,11 @@ public enum MarketLang {
     
     public static void load() {
         int loaded = 0;
-        File folder = new File(ProtoBusinesss.getInstance().getDataFolder().getAbsolutePath() + "/languages/");
+        File folder = new File(ProtoBusiness.getInstance().getDataFolder().getAbsolutePath() + "/languages/");
         
         File[] files = folder.listFiles();
         if (files == null) {
-            ProtoBusinesss.getInstance().getLogger().warning("Failed to load any languages.");
+            ProtoBusiness.getInstance().getLogger().warning("Failed to load any languages.");
             return;
         }
         
@@ -266,6 +266,6 @@ public enum MarketLang {
             }
             loaded++;
         }
-        ProtoBusinesss.getInstance().getLogger().info("[ProtoBusiness] Loaded " + loaded + " languages.");
+        ProtoBusiness.getInstance().getLogger().info("[ProtoBusiness] Loaded " + loaded + " languages.");
     }
 }

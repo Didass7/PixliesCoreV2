@@ -1,6 +1,6 @@
 package net.pixlies.business.util;
 
-import net.pixlies.business.ProtoBusinesss;
+import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.market.Order;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.logging.Level;
 
 public class DeadOrdersUtil {
-      private static final ProtoBusinesss instance = ProtoBusinesss.getInstance();
+      private static final ProtoBusiness instance = ProtoBusiness.getInstance();
       private static final String DEAD_PATH = instance.getDataFolder().getAbsolutePath() + "/dead_orders/";
       
       public static void backupDeadOrder(Order order) {

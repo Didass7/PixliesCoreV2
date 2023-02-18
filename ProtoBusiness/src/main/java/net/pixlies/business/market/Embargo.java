@@ -1,6 +1,6 @@
 package net.pixlies.business.market;
 
-import net.pixlies.business.ProtoBusinesss;
+import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.nations.nations.Nation;
 import org.bukkit.Bukkit;
@@ -21,7 +21,7 @@ import java.util.logging.Level;
  * @author vyketype
  */
 public record Embargo(String embargoId, String initId, String targetId, int duration) {
-    private static final ProtoBusinesss instance = ProtoBusinesss.getInstance();
+    private static final ProtoBusiness instance = ProtoBusiness.getInstance();
     private static final String EMBARGOES_PATH = instance.getDataFolder().getAbsolutePath() + "/embargoes/";
     
     public void save() {

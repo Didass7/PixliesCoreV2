@@ -3,7 +3,7 @@ package net.pixlies.business.market;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import net.pixlies.business.ProtoBusinesss;
+import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.util.InventoryUtil;
 import net.pixlies.nations.nations.interfaces.NationProfile;
@@ -27,7 +27,7 @@ import java.util.logging.Level;
 @Getter
 @Setter
 public class MarketProfile {
-      private static final ProtoBusinesss instance = ProtoBusinesss.getInstance();
+      private static final ProtoBusiness instance = ProtoBusiness.getInstance();
       private static final String PROFILES_PATH = instance.getDataFolder().getAbsolutePath() + "/profiles/";
       private static final Map<UUID, MarketProfile> CACHE = new HashMap<>();
       

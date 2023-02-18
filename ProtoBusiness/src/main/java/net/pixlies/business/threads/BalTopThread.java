@@ -3,7 +3,7 @@ package net.pixlies.business.threads;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Sorts;
-import net.pixlies.business.ProtoBusinesss;
+import net.pixlies.business.ProtoBusiness;
 import net.pixlies.nations.Nations;
 import org.bson.Document;
 
@@ -18,7 +18,7 @@ import java.util.Map;
  * @author vyketype
  */
 public class BalTopThread extends Thread {
-      public static final ProtoBusinesss instance = ProtoBusinesss.getInstance();
+      public static final ProtoBusiness instance = ProtoBusiness.getInstance();
       public static final Nations nations = Nations.getInstance();
       
       public static final Map<String, Double> BALTOP_PLAYERS_MAP = new LinkedHashMap<>();

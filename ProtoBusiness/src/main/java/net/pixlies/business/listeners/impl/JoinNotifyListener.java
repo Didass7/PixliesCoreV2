@@ -1,6 +1,6 @@
 package net.pixlies.business.listeners.impl;
 
-import net.pixlies.business.ProtoBusinesss;
+import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.locale.MarketLang;
 import net.pixlies.business.market.MarketProfile;
 import org.bukkit.entity.Player;
@@ -9,7 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 public class JoinNotifyListener implements Listener {
-    private static final ProtoBusinesss instance = ProtoBusinesss.getInstance();
+    private static final ProtoBusiness instance = ProtoBusiness.getInstance();
     
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {

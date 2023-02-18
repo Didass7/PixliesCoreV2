@@ -2,7 +2,7 @@ package net.pixlies.business.market;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import net.pixlies.business.ProtoBusinesss;
+import net.pixlies.business.ProtoBusiness;
 import net.pixlies.core.utils.TextUtils;
 import net.pixlies.nations.nations.Nation;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -24,7 +24,7 @@ import java.util.logging.Level;
 @Getter
 @AllArgsConstructor
 public class Tariff {
-    private static final ProtoBusinesss instance = ProtoBusinesss.getInstance();
+    private static final ProtoBusiness instance = ProtoBusiness.getInstance();
     private static final String TARIFFS_PATH = instance.getDataFolder().getAbsolutePath() + "/tariffs/";
     
     private final String tariffId;

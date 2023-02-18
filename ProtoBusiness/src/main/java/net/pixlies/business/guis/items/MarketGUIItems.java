@@ -1,6 +1,6 @@
 package net.pixlies.business.guis.items;
 
-import net.pixlies.business.ProtoBusinesss;
+import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.guis.MarketInitialGUI;
 import net.pixlies.business.market.MarketProfile;
 import net.pixlies.business.market.Order;
@@ -27,7 +27,7 @@ import java.util.UUID;
  * @author vyketype
  */
 public final class MarketGUIItems {
-    public static final ProtoBusinesss instance = ProtoBusinesss.getInstance();
+    public static final ProtoBusiness instance = ProtoBusiness.getInstance();
     
     public static ItemStack getBackArrow(String text) {
         return new ItemBuilder(new ItemStack(Material.ARROW))
