@@ -34,7 +34,7 @@ public class StaffModeListener implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (user.isInStaffMode() && player.hasPermission("pixlies.moderation.staffmode")) {
+        if (user.isInStaffMode()) {
             if (player.hasPermission("pixlies.moderation.staffmode")) {
                 staffModeHandler.enableWithoutUpdate(player, User.get(player.getUniqueId()));
                 return;
@@ -47,7 +47,7 @@ public class StaffModeListener implements Listener {
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (!user.isInStaffMode() && player.hasPermission("pixlies.moderation.staffmode")) return;
+        if (!user.isInStaffMode()) return;
         staffModeHandler.disableWithoutUpdate(player, user);
     }
 
@@ -70,7 +70,7 @@ public class StaffModeListener implements Listener {
     public void onCropTrample(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (user.isInStaffMode() && player.hasPermission("pixlies.moderation.staffmode")) return;
+        if (!user.isInStaffMode()) return;
         if (event.getAction() == Action.PHYSICAL) return;
         if (event.getClickedBlock() == null) return;
         if (event.getClickedBlock().getType() != Material.FARMLAND) return;
@@ -81,7 +81,7 @@ public class StaffModeListener implements Listener {
     public void onClick(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player player)) return;
         User user = User.get(player.getUniqueId());
-        if (!user.isInStaffMode() && player.hasPermission("pixlies.moderation.staffmode")) return;
+        if (!user.isInStaffMode()) return;
         event.setCancelled(true);
     }
 
@@ -89,7 +89,7 @@ public class StaffModeListener implements Listener {
     public void onDrop(PlayerDropItemEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (!user.isInStaffMode() && player.hasPermission("pixlies.moderation.staffmode")) return;
+        if (!user.isInStaffMode()) return;
         event.setCancelled(true);
     }
 
@@ -97,7 +97,7 @@ public class StaffModeListener implements Listener {
     public void onBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (!user.isInStaffMode() && player.hasPermission("pixlies.moderation.staffmode")) return;
+        if (!user.isInStaffMode()) return;
         event.setCancelled(true);
     }
 
@@ -105,7 +105,7 @@ public class StaffModeListener implements Listener {
     public void onPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (!user.isInStaffMode() && player.hasPermission("pixlies.moderation.staffmode")) return;
+        if (!user.isInStaffMode()) return;
         event.setCancelled(true);
     }
 
@@ -113,7 +113,7 @@ public class StaffModeListener implements Listener {
     public void onItemPickup(PlayerAttemptPickupItemEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (!user.isInStaffMode() && player.hasPermission("pixlies.moderation.staffmode")) return;
+        if (!user.isInStaffMode()) return;
         event.setCancelled(true);
     }
 
@@ -121,7 +121,7 @@ public class StaffModeListener implements Listener {
     public void onSwapHand(PlayerSwapHandItemsEvent event) {
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (!user.isInStaffMode() && player.hasPermission("pixlies.moderation.staffmode")) return;
+        if (!user.isInStaffMode()) return;
         event.setCancelled(true);
     }
 
@@ -132,7 +132,7 @@ public class StaffModeListener implements Listener {
 
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (!user.isInStaffMode() && player.hasPermission("pixlies.moderation.staffmode")) return;
+        if (!user.isInStaffMode()) return;
         event.setCancelled(true);
 
         if (!RightClickDelayTimer.isExpired(user)) return;
@@ -172,7 +172,7 @@ public class StaffModeListener implements Listener {
 
         Player player = event.getPlayer();
         User user = User.get(player.getUniqueId());
-        if (!user.isInStaffMode() && player.hasPermission("pixlies.moderation.staffmode")) return;
+        if (!user.isInStaffMode()) return;
         event.setCancelled(true);
 
         if (!(event.getRightClicked() instanceof Player target)) return;
