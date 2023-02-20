@@ -4,7 +4,6 @@ import co.aikar.commands.BaseCommand;
 import com.google.common.collect.ImmutableList;
 import net.pixlies.business.commands.economy.*;
 import net.pixlies.business.commands.market.MarketCommand;
-import net.pixlies.business.commands.market.MarketStatsCommand;
 import net.pixlies.business.commands.market.PriceCommand;
 import net.pixlies.business.commands.market.TradeBlockCommand;
 import net.pixlies.business.commands.nations.EmbargoCommand;
@@ -18,7 +17,6 @@ public class CommandManager {
               new PriceCommand(),
               new TariffCommand(),
               new TradeBlockCommand(),
-              new MarketStatsCommand(),
               new BalanceCommand(),
               new BalTopCommand(),
               new BankCommand(),
