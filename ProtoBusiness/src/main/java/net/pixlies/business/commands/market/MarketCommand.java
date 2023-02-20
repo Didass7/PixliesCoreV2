@@ -7,6 +7,7 @@ import net.pixlies.business.ProtoBusiness;
 import net.pixlies.business.guis.MarketInitialGUI;
 import net.pixlies.business.listeners.impl.InventoryClickListener;
 import net.pixlies.business.locale.MarketLang;
+import net.pixlies.business.market.MarketAction;
 import net.pixlies.business.market.MarketProfile;
 import net.pixlies.business.market.OrderBook;
 import net.pixlies.business.util.MarketRestrictUtil;
@@ -99,6 +100,11 @@ public class MarketCommand extends BaseCommand {
             OrderBook.resetAll();
             MarketLang.MARKET_STATISTICS_RESET.broadcast();
             SoundUtil.success(player);
+            
+            // Log market action
+            String action = MarketAction.MARKET_RESET.format(player.getName());
+            instance.logInfo(action);
+            MarketAction.updateLog(action);
       }
       
       @Subcommand("stats")

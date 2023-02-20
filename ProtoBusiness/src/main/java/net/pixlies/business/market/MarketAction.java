@@ -10,7 +10,8 @@ public enum MarketAction {
       CREATE_ORDER,
       DELETE_ORDER,
       BUY,
-      SELL;
+      SELL,
+      MARKET_RESET;
       
       private static final ProtoBusiness instance = ProtoBusiness.getInstance();
       
@@ -33,6 +34,9 @@ public enum MarketAction {
                   case SELL -> {
                         return string + "(\"" + args[1] + "\") sold " + args[2] + "x " + args[3] + " for " +
                                 args[4] + " coins each from order \"" + args[5] + "\"";
+                  }
+                  case MARKET_RESET -> {
+                        return string + "reset the market";
                   }
             }
             return string + "INVALID";
