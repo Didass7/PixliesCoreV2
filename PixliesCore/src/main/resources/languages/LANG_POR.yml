@@ -1,0 +1,282 @@
+FETCHING: "§7Buscando... Por favor espera."
+
+BAN_MESSAGE: |-
+  §cFoste banido do PixliesNet.
+  
+  §7By: §6%EXECUTOR%
+  §7Reason: §c%REASON%
+  §7Duration: §b%DURATION%
+  
+  §9Discord: &7https://pixlies.net/discord
+BLACKLIST_MESSAGE: |-
+  §cFoste colocado na lista negra do PixliesNet.
+  §7Não podes recorrer está punição.
+  
+  §7By: §6%EXECUTOR%
+  §7Reason: §c%REASON%
+  
+  §9Discord: &7https://pixlies.net/discord
+KICK_MESSAGE: |-
+  §cFoste kickado do PixliesNet.
+  
+  §7By: §6%EXECUTOR%
+  §7Reason: §c%REASON%
+  
+  §9Discord: &7https://pixlies.net/discord
+BANNED_PLAYER_TRIED_TO_JOIN: '§c%PLAYER%§7 tentou entrar no servidor §a%SERVER%§7, mas está banido.'
+
+PLAYER_PERMANENTLY_BANNED: '§6%PLAYER%§7 foi permanentemente bannido por §6%EXECUTOR%§7. Razão: §c"%REASON%"§7.'
+PLAYER_UNBANNED: '§6%PLAYER%§7 foi desbanido por §6%EXECUTOR%§7.'
+PLAYER_TEMPORARILY_BANNED: '§6%PLAYER%§7 foi temporariamente banido por §6%EXECUTOR%§7. Razão: §c"%REASON%"§7 durante §c%TIME%.'
+
+PLAYER_BLACKLISTED: '§6%PLAYER%§7 foi colocado permanentemente na lista negra por §6%EXECUTOR%§7. Razão §c"%REASON%"§7.'
+PLAYER_UNBLACKLISTED: '§6%PLAYER%§7 foi removido da lista negra por §6%EXECUTOR%§7.'
+
+PLAYER_KICKED: '§6%PLAYER%§7 foi kickado por §6%EXECUTOR%§7. Razão: §c"%REASON%"§7.'
+
+PLAYER_PROFILE_LOAD: "§7O teu perfil foi carregado com sucesso."
+PLAYER_PROFILE_CREATED: "§7O teu perfil foi criado com sucesso."
+
+PLAYER_PERMANENTLY_MUTED: '§6%PLAYER%§7 foi mutado por §6%EXECUTOR%§7. Razão §c"%REASON%"§7.'
+PLAYER_UNMUTED: '§6%PLAYER%§7 foi desmutado por §6%EXECUTOR%§7.'
+PLAYER_TEMPORARILY_MUTED: '§6%PLAYER%§7 foi mutado por §6%EXECUTOR%§7. Razão: §c"%REASON%"§7 durante §c%TIME%.'
+MUTE_MESSAGE: "§cNão podes falar enquanto mutado."
+MUTED_PLAYER_TRIED_TO_TALK: "§8%PLAYER%§8: %MESSAGE%"
+
+PLAYER_NOT_MUTED: "§7Esse jogador não está mutado."
+PLAYER_NOT_BLACKLISTED: "§7Esse jogador não está na lista negra."
+PLAYER_NOT_BANNED: "§7Esse jogador não está banido."
+
+PLAYER_ALREADY_MUTED: "§7Esse jogador já se encontra mutado."
+PLAYER_ALREADY_BLACKLISTED: "§7Esse jogador já se encontra na lista negra."
+PLAYER_ALREADY_BANNED: "§7Esse jogador já se encontra banido."
+
+SETTING_CHANGED: "§7A defenição %SETTING%§7 é agora %STATE%§7."
+
+NOT_A_DURATION: "§7Essa duração não é válida."
+
+CHAT_CLEARED: "§7O chat foi limpo por §6%PLAYER%§7."
+CHAT_MUTED_FORMAT: "§cO chat está desativado no momento."
+CHAT_MUTED: "§7O chat foi §cdesativado§7 por §6%PLAYER%§7."
+CHAT_UNMUTED: "§7O chat foi §aativo§7 por §6%PLAYER%§7."
+
+NO_ITEMS_FOUND_ON_PLAYER: "§7Nenhum item foi encontrado no inventario de §6%PLAYER%§7."
+
+SLOWMODE_SET: "§7O delay do chat foi setado para §6%VALUE%§7."
+SLOWMODE_GET: "§7O delay do chat foi mudado para §6%VALUE%§7."
+SLOWMODE_OFF: "§7O delay do chat foi §cdesativado§7."
+SLOWMODE_MESSAGE: "§7Podes falar denovo em §6%VALUE%§7 segundos."
+
+PLAYER_DOESNT_EXIST: "§cEste jogador não existe, ou não está online!"
+
+NOT_HOLDING_ANYTHING: "§7Não tens nada na tua mão."
+
+SWEAR_FILTER_ON: "§7O filtro de palavrões foi §aativo§7."
+SWEAR_FILTER_OFF: "§7O filtro de palavrões foi §cdisativado§7."
+
+ADDED_BLOCKED_WORD: ""
+REMOVED_BLOCKED_WORD: ""
+PLAYER_BLOCKED_WORD_DISABLED: "§7Essa palavra está desativada no momento ."
+
+CANNOT_USE_ON_SELF: "§7Não podes usar isso em ti mesmo."
+CANNOT_EDIT_ITEM: "§7Não podes editar esse item."
+
+PLAYER_TELEPORT_NO_PLAYERS: "§7Não há ninguém para te teleportares."
+
+# PLACEHOLDERS: %X%, %Y%, %Z%
+LOCATION_FORMAT: "§dW: %WORLD%, X: %X%, Y: %Y%, Z: %Z%"
+
+# ADMIN
+WIPED_USERS: "§7Limpaste o banco de dados dos usuários."
+
+# TODO: Finish messages and translations
+# STAFF
+STAFF_GOD_ON: "§7God foi ativo."
+STAFF_GOD_OFF: "§7God foi desativo."
+
+STAFF_RANDOM_TELEPORT: "§7Foste teleportado aleatoriamente para §6%TARGET%§7."
+STAFF_RANDOM_TELEPORT_OTHER: "§6%PLAYER%§7 foit teleportado aleatoriamente para §6%TARGET%§7."
+
+STAFF_STAFFMODE_ON: "§7Ativaste o modo de staff."
+STAFF_STAFFMODE_OFF: "§7Desativaste o modo de staff."
+STAFF_STAFFMODE_ON_OTHER: "§6%PLAYER%§7 ativou o modo de staff."
+STAFF_STAFFMODE_OFF_OTHER: "§6%PLAYER%§7 desativou o modo de staff."
+
+STAFF_BYPASS_ON: "§7Ativaste o modo de bypass."
+STAFF_BYPASS_OFF: "§7Desativaste o modo de bypass."
+STAFF_BYPASS_ON_OTHER: "§6%PLAYER%§7 ativou o modo de staff."
+STAFF_BYPASS_OFF_OTHER: "§6%PLAYER%§7 desativou o modo de staff."
+STAFF_BYPASS_ACTIONBAR: "§4No momento estás a dar bypass a todas as proteções."
+
+STAFF_GAMEMODE_CHANGED_SELF: "§7Mudaste o gamemode para %GAMEMODE%§7!"
+STAFF_GAMEMODE_CHANGED_OTHERS: "§6%CHANGER% §7mudou o gamemode de §6%TARGET%§7 para %GAMEMODE%§7!"
+
+STAFF_BREAK_BLOCK_NOT_FOUND: "§7Não estás a olhar para um bloco!"
+STAFF_BREAK_DONE: "§7O bloco foi partido."
+
+STAFF_BROADCAST_MESSAGE: "§6%MESSAGE%"
+
+STAFF_TELEPORT_SELF_TO_TARGET: "§7Foste teleportado para §6%TARGET%§7."
+STAFF_TELEPORT_PLAYER_TO_TARGET: "§6%PLAYER%§7 foi teleportado para §6%TARGET%§7."
+
+STAFF_MODELDATA_SET: "§7Os dados do modelo foram definidos para §d%DATA%§7."
+STAFF_MODELDATA_GET: "§7Os dados do modelo são §6%DATA%§7."
+
+STAFF_SPEED_FLY_GET: "§7A tua velocidade de voo é §6%SPEED%§7."
+STAFF_SPEED_FLY_SET: "§7A tua velocidade de voo mudou para §6%SPEED%§7."
+STAFF_SPEED_FLY_SET_OTHER: "A velocidade de voo de §6%PLAYER%'s§7 mudou para §6%SPEED%§7."
+STAFF_SPEED_FLY_GET_OTHER: "A velocidade de voo de §6%PLAYER%'s§7 é §6%SPEED%§7."
+STAFF_SPEED_WALK_GET: "§7A tua velocidade de caminhada é §6%SPEED%§7."
+STAFF_SPEED_WALK_SET: "§7Your walk speed has been set to §6%SPEED%§7."
+STAFF_SPEED_WALK_SET_OTHER: "§6%PLAYER%'s§7 walk speed has been set to §6%SPEED%§7."
+STAFF_SPEED_WALK_GET_OTHER: "§6%PLAYER%'s§7 walk speed is §6%SPEED%§7."
+STAFF_SPEED_RESET: "§7Your speed has been reset."
+STAFF_SPEED_RESET_OTHER: "§6%PLAYER%§7's speed has been reset."
+
+STAFF_SUDO_COMMAND: "§7You have forced §6%PLAYER%§7 to run §6/%MESSAGE%§7."
+STAFF_SUDO_CHAT: "§7You have forced §6%PLAYER%§7 to say §6%MESSAGE%§7."
+STAFF_SUDO_CANNOT: "§7You cannot sudo that player."
+
+STAFF_CHAT_ENABLED: "§7Staff chat is now enabled."
+STAFF_CHAT_DISABLED: "§7Staff chat is now disabled."
+STAFF_CHAT_FORMAT: "§8(§a%SERVER%§8) §6%PLAYER%§8: §7%MESSAGE%"
+
+STAFF_SERVER_JOIN_FORMAT: "§6%PLAYER%§7 joined §a%SERVER%§7."
+STAFF_SERVER_QUIT_FORMAT: "§6%PLAYER%§7 left §a%SERVER%§7."
+
+STAFF_TIME_SET: "§7The time has been set to §6%TIME%§7 in §6%WORLD%§7."
+
+STAFF_SETSPAWN: "§7The spawn has been set to §6%TARGET%§7."
+
+STAFF_FLY_ENABLED: "§7Flight for §6%PLAYER%§7 has been enabled."
+STAFF_FLY_DISABLED: "§7Flight for §6%PLAYER%§7 has been disabled."
+
+# TELEPORTATION
+RETURNED_TO_PREVIOUS_LOCATION: "§7Returned to your previous location."
+TPBACK_NO_LOCATION: "§7There isn't a location to teleport back to."
+
+# MODERATION
+MODERATION_ISSUED_KICKALL: "§7All online players have been kicked by §6%PLAYER% §7for §6%REASON%§7."
+
+MODERATION_VANISH_ON: "§7You are now vanished."
+MODERATION_VANISH_OFF: "§7You are no longer vanished."
+MODERATION_VANISH_ON_OTHER: "§6%PLAYER%§7 is now vanished."
+MODERATION_VANISH_OFF_OTHER: "§6%PLAYER%§7 is no longer vanished."
+MODERATION_VANISH_NO_ONE_CAN_SEE: "§cNo one can see you."
+MODERATION_VANISH_JOIN_VANISH_ENABLED: "§7You will now be vanished when you join."
+MODERATION_VANISH_JOIN_VANISH_DISABLED: "§7You will now be visible when you join."
+
+MODERATION_COMMANDSPY_ENABLED: "§7You will now see players run commands."
+MODERATION_COMMANDSPY_DISABLED: "§7You will no longer see players run commands."
+MODERATION_COMMANDSPY_FORMAT: "§6%PLAYER%§7: %MESSAGE%"
+
+MODERATION_FREEZE_ON: "§6%PLAYER%§7 is now frozen."
+MODERATION_FREEZE_OFF: "§6%PLAYER%§7 is no longer frozen."
+MODERATION_CANNOT_FREEZE: "§7That player cannot be frozen."
+MODERATION_FREEZE_UNFREEZE: "§7You are no longer frozen."
+MODERATION_FREEZE_FREEZE: "§cYou were frozen by %PLAYER%§c."
+MODERATION_FREEZE_MESSAGE: "§6%PLAYER%§7 was frozen by §6%EXECUTOR%§7."
+MODERATION_FREEZE_ACTIONBAR: "§cYou are currently frozen."
+
+MODERATION_SOCIALSPY_ENABLED: "§7You will now see private messages being sent."
+MODERATION_SOCIALSPY_DISABLED: "§7You will no longer see private messages being sent."
+
+MODERATION_RANK_GRANT: "§a%RANK%§ rank has been granted to §d%PLAYER%§7."
+MODERATION_RANK_NOT_EXIST: "§7That rank does not exist."
+
+# COSMETICS
+COSMETICS_HEALED_SELF: "§7You just healed yourself!"
+COSMETICS_HEALED_OTHERS: "§7You just healed §6%PLAYER%§7!"
+
+COSMETICS_FEED_SELF: "§7Your appetite has been sedated."
+COSMETICS_FEED_OTHERS: "§6%PLAYER%'s§7 appetite has been sedated."
+
+COSMETICS_NIGHTVISION_ON: "§7Your night vision has been enabled."
+COSMETICS_NIGHTVISION_OFF: "§7Your night vision has been disabled."
+COSMETICS_NIGHTVISION_ON_OTHER: "%PLAYER%"
+COSMETICS_NIGHTVISION_OFF_OTHER: "%PLAYER%"
+
+COSMETICS_REPAIR_ITEM: "§7This item has been repaired."
+COSMETICS_ALREADY_REPAIRED: "§7This item is already at max health."
+
+COSMETICS_RENAME_ITEM: "§7This item has been renamed to §6%MESSAGE%§7."
+
+COSMETICS_CANNOT_SIT_HERE: "§7You can't sit here."
+
+COSMETICS_NICKNAME: "§7You have changed your nickname to §6%MESSAGE%§7."
+COSMETICS_NICKNAME_OTHER: "§7You have changed §6%PLAYER%§7's nickname to §6%MESSAGE%§7."
+COSMETICS_CANNOT_NICKNAME: "§7You cannot set this as a nickname."
+
+COSMETICS_HAT_CANNOT_SET: "§7You cannot set this as a hat."
+COSMETICS_HAT_ALREADY_HAVE: "§7You already have something as your hat."
+COSMETICS_HAT_SET: "§7You now have a hat!"
+
+# POLLS
+POLL_ALREADY_STARTED: "The poll has already started."
+POLL_ALREADY_CREATING: "§7You are already creating a poll."
+POLL_NOT_EXIST: "§7There is no active poll right now."
+POLL_CREATED: "§7You have created a poll with the question: §6%QUESTION%"
+POLL_DELETED: "§7The current poll has been deleted."
+POLL_ADD_ANSWER: "§7You have added a poll answer."
+POLL_NOT_ENOUGH_ANSWERS: "§7The poll must have at least 2 answers before starting."
+
+POLL_QUESTION_HEADER: |-
+  §7
+  %PREFIX%§7Question: §6%QUESTION%
+  §7The poll will automatically end in §b30s§7.
+POLL_QUESTION_LINE: " §7 - §f %ANSWER%"
+POLL_QUESTION_FOOTER: |-
+  §7Left click to select an answer.
+  §7
+POLL_OPTION_DOES_NOT_EXIST: "§7There is no poll option with that number."
+POLL_REGISTERED_VOTE: "§7You have voted for option §6#%OPTION%§7."
+POLL_ALREADY_VOTED: "§7You have already voted."
+
+
+POLL_RESULT_HEADER: |-
+  §7
+  %PREFIX%Question: §6%QUESTION%
+  §7Here are the results of the poll:
+POLL_RESULT_LINE: " §7 - §f %ANSWER%§8 (§a%VOTES% votes§8)"
+POLL_RESULT_FOOTER: |-
+  §7Total votes: §d%TOTAL%
+  §7
+# PLAYER
+PLAYER_MESSAGE_FORMAT_TO: "§8(§7To §6%PLAYER%§8) §f%MESSAGE%"
+PLAYER_MESSAGE_FORMAT_FROM: "§8(§7From §6%PLAYER%§8) §f%MESSAGE%"
+PLAYER_MESSAGE_NOONE_TO_MESSAGE: "§cThere is no one to message."
+PLAYER_MESSAGE_SOCIALSPY: "§8(§7To §6%TARGET%§7 from §6%PLAYER%§8) §f%MESSAGE%"
+
+PLAYER_SUICIDE: "§7You committed suicide."
+
+PLAYER_CLEAR: "§7Cleared inventory for §6%PLAYER%§7"
+
+PLAYER_RULES_MESSAGE: "§7View our rules here: §b%MESSAGE%"
+PLAYER_DISCORD_MESSAGE: "§7Join our Discord here: §b%MESSAGE%"
+
+PLAYER_AFK_ON: "§7You are now AFK."
+PLAYER_AFK_OFF: "§7You are no longer AFK."
+PLAYER_AFK_ON_BROADCAST: "§6%PLAYER%§7 is now AFK."
+PLAYER_AFK_OFF_BROADCAST: "§6%PLAYER%§7 is no longer AFK."
+
+PLAYER_PLAYTIME: "§7Your playtime is §6%TIME%§7."
+PLAYER_PLAYTIME_OTHER: "§6%PLAYER%§7's playtime is §6%TIME%§7."
+
+PLAYER_KISS: "§7Mwah, §6%PLAYER%§7 just kissed §6%TARGET%§7!"
+
+PLAYER_WARP: "§7Teleporting to §6%TARGET%§7..."
+PLAYER_WARP_OTHER: "§7Teleporting §6%PLAYER%§7 to §6%TARGET%§7..."
+
+PLAYER_BALANCE: "§7Your balance is %BALANCE%§7."
+PLAYER_BALANCE_OTHER: "§6%PLAYER%§7's balance is %BALANCE%§7."
+
+PLAYER_STATS: |-
+    §b§l%PLAYER%§7's §r§8(§d%HOUSE%§8) §7stats
+    §3⋙ §7Balance: §6%BALANCE%
+    §3⋙ §7PixliesScore: §a%SCORE%
+    
+    §3⋙ §7To view market stats, do §d/market§7 and hover over your head icon.
+    
+    §7§oMember since %JOINED%
+# Lobby
+LOBBY_BUILDMODE_TOGGLE: "§7You just %STATE% §7build-mode."
