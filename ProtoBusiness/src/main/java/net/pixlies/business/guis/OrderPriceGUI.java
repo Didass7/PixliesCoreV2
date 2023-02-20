@@ -76,8 +76,8 @@ public class OrderPriceGUI {
                   marketPrice.setAction(event -> {
                         double price = 0;
                         switch (type) {
-                              case BUY -> price = book.getLowestBuyPrice(uuid);
-                              case SELL -> price = book.getHighestSellPrice(uuid);
+                              case BUY -> price = book.getLowestBuyPrice(uuid).doubleValue();
+                              case SELL -> price = book.getHighestSellPrice(uuid).doubleValue();
                         }
                         OrderConfirmGUI.open(uuid, type, item, amount, price);
                   });
@@ -88,8 +88,8 @@ public class OrderPriceGUI {
                   changedPrice.setAction(event -> {
                         double price = 0;
                         switch (type) {
-                              case BUY -> price = book.getLowestBuyPrice(uuid) + 0.1;
-                              case SELL -> price = book.getHighestSellPrice(uuid) - 0.1;
+                              case BUY -> price = book.getLowestBuyPrice(uuid).doubleValue() + 0.1;
+                              case SELL -> price = book.getHighestSellPrice(uuid).doubleValue() - 0.1;
                         }
                         OrderConfirmGUI.open(uuid, type, item, amount, price);
                   });

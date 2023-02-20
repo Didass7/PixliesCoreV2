@@ -9,6 +9,8 @@ import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.interfaces.NationProfile;
 import org.bukkit.entity.Player;
 
+import java.math.BigDecimal;
+
 @CommandAlias("tax|nationtax")
 public class TaxCommand extends BaseCommand {
       @Subcommand("query")
@@ -21,11 +23,11 @@ public class TaxCommand extends BaseCommand {
             if (!CommandPreconditions.isPlayerInNation(player, profile))
                   return;
       
-            double rate = profile.getNation().getTaxRate() * 100;
-            if (rate == 0) {
+            BigDecimal rate = profile.getNation().getTaxRate().multiply(BigDecimal.valueOf(100));
+            if (rate.equals(BigDecimal.valueOf(0))) {
                   MarketLang.TAX_RATE_ZERO.send(player);
             } else {
-                  MarketLang.TAX_RATE_QUERY.send(player, "%RATE%;" + rate);
+                  MarketLang.TAX_RATE_QUERY.send(player, "%RATE%;" + rate.doubleValue());
             }
       }
       
@@ -40,17 +42,17 @@ public class TaxCommand extends BaseCommand {
             if (!CommandPreconditions.taxSet(player, profile, strRateDecimal))
                   return;
             
-            double rate = Double.parseDouble(strRateDecimal);
+            BigDecimal rate = BigDecimal.valueOf(Double.parseDouble(strRateDecimal));
             
             Nation nation = profile.getNation();
             nation.setTaxRate(rate);
             nation.save();
             
             for (Player citizen : nation.getOnlineMembersAsPlayer()) {
-                  if (rate == 0) {
+                  if (rate.equals(BigDecimal.valueOf(0))) {
                         MarketLang.CLEARED_TAX_RATE.send(citizen);
                   } else {
-                        MarketLang.NEW_TAX_RATE_SET.send(citizen, "%RATE%;" + rate * 100);
+                        MarketLang.NEW_TAX_RATE_SET.send(citizen, "%RATE%;" + rate.multiply(BigDecimal.valueOf(100)));
                   }
             }
       }

@@ -6,17 +6,18 @@ import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.interfaces.NationProfile;
 import org.bukkit.Bukkit;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class MarketUtil {
-      public static double getTaxedPrice(UUID playerUUID, double price) {
+      public static BigDecimal getTaxedPrice(UUID playerUUID, double price) {
             NationProfile profile = NationProfile.get(playerUUID);
             Nation nation = Nation.getFromId(profile.getNationId());
             if (nation == null)
-                  return price;
-            return price * (1 + nation.getTaxRate());
+                  return BigDecimal.valueOf(price);
+            return BigDecimal.valueOf(price).multiply(nation.getTaxRate().add(BigDecimal.valueOf(1)));
       }
       
       public static List<Order> getPlayerBuyOrders(UUID uuid) {

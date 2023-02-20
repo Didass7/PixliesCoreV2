@@ -18,6 +18,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 public class OrderConfirmGUI {
@@ -30,7 +31,7 @@ public class OrderConfirmGUI {
             OrderBook book = OrderBook.get(item);
             
             NationProfile profile = NationProfile.get(player.getUniqueId());
-            double tax = 0;
+            BigDecimal tax = BigDecimal.valueOf(0.0);
             if (profile.getNation() != null) {
                   tax = profile.getNation().getTaxRate();
             }
@@ -44,7 +45,8 @@ public class OrderConfirmGUI {
             background.fillWith(new ItemStack(Material.BLACK_STAINED_GLASS_PANE));
             
             // Order
-            Order order = new Order(type, book.getItem().name(), System.currentTimeMillis(), uuid, price, amount);
+            BigDecimal bigDecimalPrice = BigDecimal.valueOf(price);
+            Order order = new Order(type, book.getItem().name(), System.currentTimeMillis(), uuid, bigDecimalPrice, amount);
       
             // Confirm pane
             StaticPane confirmPane = new StaticPane(4, 1, 1, 1);
@@ -54,7 +56,8 @@ public class OrderConfirmGUI {
                   // Item and money actions
                   switch (order.getType()) {
                         case BUY -> {
-                              profile.removeBalance(order.getTaxedPrice() * order.getAmount());
+                              BigDecimal total = order.getTaxedPrice().multiply(BigDecimal.valueOf(order.getAmount()));
+                              profile.removeBalance(total);
                               profile.save();
                               book.buy(order);
                         }
@@ -76,7 +79,7 @@ public class OrderConfirmGUI {
                           order.getOrderId(),
                           Integer.toString(order.getAmount()),
                           order.getBookItem(),
-                          Double.toString(order.getPrice())
+                          Double.toString(bigDecimalPrice.doubleValue())
                   );
                   instance.logInfo(action);
                   MarketAction.updateLog(action);

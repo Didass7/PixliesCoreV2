@@ -25,6 +25,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -57,13 +58,13 @@ public class Nation {
 
     // DATA
     private @Getter @Setter double politicalPower = 0.0d;
-    private @Getter @Setter double balance = 0.0d;
+    private @Getter @Setter BigDecimal balance = BigDecimal.valueOf(0.0);
 
     /**
      * Tax rate for buy orders.
      * In decimal (ex: 0.05 will be a tax of 5%).
      */
-    private @Getter @Setter double taxRate = 0.0d;
+    private @Getter @Setter BigDecimal taxRate = BigDecimal.valueOf(0.0);
 
     // CUSTOMIZATION
     private GovernmentType governmentType = GovernmentType.UNITARY;
@@ -109,8 +110,8 @@ public class Nation {
                   long created,
                   boolean systemNation,
                   double politicalPower,
-                  double balance,
-                  double taxRate,
+                  BigDecimal balance,
+                  BigDecimal taxRate,
                   GovernmentType governmentType,
                   Ideology ideology,
                   Religion religion,

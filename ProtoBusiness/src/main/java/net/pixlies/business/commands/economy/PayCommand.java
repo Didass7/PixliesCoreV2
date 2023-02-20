@@ -11,6 +11,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+import java.math.BigDecimal;
+
 @CommandAlias("pay")
 @CommandPermission("pixlies.business.pay")
 @Description("Pay another player some money")
@@ -34,12 +36,12 @@ public class PayCommand extends BaseCommand {
       
             // Add money to target
             NationProfile targetProfile = NationProfile.get(offlineTarget.getUniqueId());
-            targetProfile.addBalance(amount);
+            targetProfile.addBalance(BigDecimal.valueOf(amount));
             targetProfile.save();
             
             // Remove money from target
             NationProfile playerProfile = NationProfile.get(player.getUniqueId());
-            playerProfile.removeBalance(amount);
+            playerProfile.removeBalance(BigDecimal.valueOf(amount));
             playerProfile.save();
       
             MarketLang.PAID_SENDER.send(player, "%COINS%;" + strAmount, "%PLAYER%;" + targetName);

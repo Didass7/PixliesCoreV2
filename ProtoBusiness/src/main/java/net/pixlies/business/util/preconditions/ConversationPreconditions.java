@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 @SuppressWarnings("BooleanMethodIsAlwaysInverted")
 public class ConversationPreconditions {
       public static boolean playerHasEnoughMoney(Player player, double amount) {
-            if (NationProfile.get(player.getUniqueId()).getBalance() < amount) {
+            if (NationProfile.get(player.getUniqueId()).getBalance().doubleValue() < amount) {
                   // MarketLang.GENERAL_NOT_ENOUGH_MONEY.send(player);
                   player.sendTitle("§c§lNot enough money!", "§7You're poor.");
                   SoundUtil.error(player);

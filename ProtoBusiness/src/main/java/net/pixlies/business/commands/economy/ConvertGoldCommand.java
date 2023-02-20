@@ -12,6 +12,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.math.BigDecimal;
+
 @CommandAlias("convertgold|cg")
 @CommandPermission("pixlies.business.convertgold")
 @Description("Convert some gold ingots into coins")
@@ -30,7 +32,7 @@ public class ConvertGoldCommand extends BaseCommand {
             
             // Give coins
             NationProfile profile = NationProfile.get(player.getUniqueId());
-            profile.addBalance(coins);
+            profile.addBalance(BigDecimal.valueOf(coins));
             profile.save();
             
             // Take gold ingots from inventory

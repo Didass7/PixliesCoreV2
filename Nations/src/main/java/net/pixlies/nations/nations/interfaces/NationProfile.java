@@ -20,6 +20,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -51,7 +52,8 @@ public class NationProfile {
     private @Getter(AccessLevel.NONE) String profileChatType = ChatType.GLOBAL.name();
 
     // Economy
-    private @Getter @Setter double balance = 0.00;
+    private @Getter @Setter
+    BigDecimal balance = BigDecimal.valueOf(0.00);
     
     // Local
     private @Getter(AccessLevel.NONE) boolean autoClaim = false;
@@ -218,12 +220,12 @@ public class NationProfile {
         return nation.getRelationTo(toMatch);
     }
     
-    public void addBalance(double amount) {
-        balance += amount;
+    public void addBalance(BigDecimal amount) {
+        balance = balance.add(amount);
     }
     
-    public void removeBalance(double amount) {
-        balance -= amount;
+    public void removeBalance(BigDecimal amount) {
+        balance = balance.subtract(amount);
     }
 
     /**
@@ -298,7 +300,7 @@ public class NationProfile {
         nationRank = document.getString("nationRank") == null ? nationRank : document.getString("nationRank");
         profileChatType = document.getString("profileChatType") == null ? profileChatType : document.getString("profileChatType");
 
-        balance = document.get("balance", 0.00);
+        balance = document.get("balance", BigDecimal.valueOf(0.00));
     }
 
     public void load(boolean cache) {

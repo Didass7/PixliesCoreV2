@@ -46,8 +46,8 @@ public class MarketPane extends StaticPane {
             assert book != null;
             ItemBuilder builder = new ItemBuilder(item.getMaterial())
                     .setDisplayName(page.getColor() + item.getName())
-                    .addLoreLine("§7Lowest buy offer: §6" + book.getLowestBuyPrice(uuid) + " coins")
-                    .addLoreLine("§7Highest sell offer: §6" + book.getHighestSellPrice(uuid) + " coins")
+                    .addLoreLine("§7Lowest buy offer: §6" + book.getLowestBuyPrice(uuid).doubleValue() + " coins")
+                    .addLoreLine("§7Highest sell offer: §6" + book.getHighestSellPrice(uuid).doubleValue() + " coins")
                     .addLoreLine(" ")
                     .addLoreLine("§eClick to buy or sell!");
             GuiItem guiItem = new GuiItem(builder.build());

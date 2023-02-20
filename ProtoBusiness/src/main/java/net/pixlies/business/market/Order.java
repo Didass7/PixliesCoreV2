@@ -10,6 +10,7 @@ import net.pixlies.nations.nations.Nation;
 import net.pixlies.nations.nations.interfaces.NationProfile;
 import org.bukkit.Bukkit;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -32,7 +33,7 @@ public class Order {
     private final UUID playerUUID;
     
     @Setter
-    private double price;
+    private BigDecimal price;
     
     @Setter
     private int amount;
@@ -40,9 +41,9 @@ public class Order {
     private int volume;
     
     private final List<Trade> trades;
-    private final Map<Double, Boolean> refunds;
+    private final Map<BigDecimal, Boolean> refunds;
     
-    public Order(Type type, String bookItem, long timestamp, UUID playerUUID, double price, int amount) {
+    public Order(Type type, String bookItem, long timestamp, UUID playerUUID, BigDecimal price, int amount) {
         orderId = TextUtils.generateId(9);
         this.bookItem = bookItem;
         this.type = type;
@@ -56,16 +57,16 @@ public class Order {
     }
     
     // Used to display price for order items
-    public double getTaxedPrice() {
+    public BigDecimal getTaxedPrice() {
         NationProfile profile = NationProfile.get(playerUUID);
         Nation nation = Nation.getFromId(profile.getNationId());
         if (nation == null)
             return price;
-        return price * (1 + nation.getTaxRate());
+        return price.multiply(nation.getTaxRate().add(BigDecimal.valueOf(1)));
     }
     
     // Used to display price for recent orders and refunds
-    public double getTariffedPrice(UUID matchingUUID) {
+    public BigDecimal getTariffedPrice(UUID matchingUUID) {
         String initId = NationProfile.get(playerUUID).getNationId();
         String matchId = NationProfile.get(matchingUUID).getNationId();
     
@@ -74,7 +75,7 @@ public class Order {
     
         for (Tariff tariff : Tariff.getAll()) {
             if (Objects.equals(tariff.getInitId(), initId) && Objects.equals(tariff.getTargetId(), matchId)) {
-                return price * (1 + tariff.getRate());
+                return price.multiply(tariff.getRate().add(BigDecimal.valueOf(1)));
             }
         }
     
@@ -85,20 +86,20 @@ public class Order {
      * Զըխխը՛մ։
      */
     // Used to display price for trades
-    public double getTaxedTariffedPrice(UUID matchingUUID) {
+    public BigDecimal getTaxedTariffedPrice(UUID matchingUUID) {
         String initId = NationProfile.get(playerUUID).getNationId();
         String matchId = NationProfile.get(matchingUUID).getNationId();
         
         if (Nation.getFromId(initId) == null)
             return price;
-        double taxRate = Nation.getFromId(initId).getTaxRate();
+        BigDecimal taxRate = Nation.getFromId(initId).getTaxRate();
     
         if (playerUUID == matchingUUID)
             return price;
     
         for (Tariff tariff : Tariff.getAll()) {
             if (Objects.equals(tariff.getInitId(), initId) && Objects.equals(tariff.getTargetId(), matchId)) {
-                return price * (1 + taxRate + tariff.getRate());
+                return price.multiply((taxRate.add(tariff.getRate()).add(BigDecimal.valueOf(1))));
             }
         }
         
@@ -131,35 +132,35 @@ public class Order {
         return items;
     }
     
-    public double getCoinsToClaim() {
-        double coins = 0;
+    public BigDecimal getCoinsToClaim() {
+        BigDecimal coins = BigDecimal.valueOf(0.0);
         for (Trade trade : trades) {
             if (trade.isClaimed()) continue;
-            coins += trade.getPrice() * trade.getAmount();
+            coins = coins.add(trade.getPrice().multiply(BigDecimal.valueOf(trade.getAmount())));
         }
         return coins;
     }
     
-    public double getTotalRefunds() {
-        double totalRefunds = 0;
-        for (Double value : refunds.keySet()) {
-            totalRefunds += value;
+    public BigDecimal getTotalRefunds() {
+        BigDecimal totalRefunds = BigDecimal.valueOf(0.0);
+        for (BigDecimal value : refunds.keySet()) {
+            totalRefunds = totalRefunds.add(value);
         }
         return totalRefunds;
     }
     
-    public double getRefundableCoins() {
-        double claimableRefunds = 0;
-        for (Map.Entry<Double, Boolean> entry : refunds.entrySet()) {
+    public BigDecimal getRefundableCoins() {
+        BigDecimal claimableRefunds = BigDecimal.valueOf(0.0);
+        for (Map.Entry<BigDecimal, Boolean> entry : refunds.entrySet()) {
             if (entry.getValue()) continue;
-            claimableRefunds += entry.getKey();
+            claimableRefunds = claimableRefunds.add(entry.getKey());
         }
         return claimableRefunds;
     }
     
     public void refundPlayer() {
         NationProfile profile = NationProfile.get(playerUUID);
-        for (Map.Entry<Double, Boolean> entry : refunds.entrySet()) {
+        for (Map.Entry<BigDecimal, Boolean> entry : refunds.entrySet()) {
             if (entry.getValue()) continue;
             profile.addBalance(entry.getKey());
             refunds.put(entry.getKey(), true);
@@ -201,14 +202,14 @@ public class Order {
     public String toString(UUID initialUUID) {
         String playerName = Objects.requireNonNull(Bukkit.getPlayer(playerUUID)).getName();
         String prefix = type == Order.Type.BUY ? "§a§lBUY §r§a" : "§6§lSELL §r§6";
-        double price = getTariffedPrice(initialUUID);
-        return " §8» " + prefix + amount + "§8x §7@ §6" + price + "§7 each from §b" + playerName;
+        BigDecimal price = getTariffedPrice(initialUUID);
+        return " §8» " + prefix + amount + "§8x §7@ §6" + price.doubleValue() + "§7 each from §b" + playerName;
     }
     
     @Override
     public String toString() {
         String prefix = type == Order.Type.BUY ? "§a§lBUY §r§a" : "§6§lSELL §r§6";
-        return " §8» " + prefix + amount + "§8x §7@ §6" + getTaxedPrice() + "§7 each §8(with tax)";
+        return " §8» " + prefix + amount + "§8x §7@ §6" + getTaxedPrice().doubleValue() + "§7 each §8(with tax)";
     }
     
     // --------------------------------------------------------------------------------------------

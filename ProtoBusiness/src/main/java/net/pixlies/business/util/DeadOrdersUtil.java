@@ -6,6 +6,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -33,8 +34,8 @@ public class DeadOrdersUtil {
             }};
             yaml.set("trades", trades);
       
-            for (Map.Entry<Double, Boolean> entry : order.getRefunds().entrySet()) {
-                  yaml.set("refunds." + entry.getKey().toString(), entry.getValue());
+            for (Map.Entry<BigDecimal, Boolean> entry : order.getRefunds().entrySet()) {
+                  yaml.set("refunds." + entry.getKey().doubleValue(), entry.getValue());
             }
       
             try {

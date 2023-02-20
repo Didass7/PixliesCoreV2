@@ -13,6 +13,7 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -102,7 +103,7 @@ public class TariffCommand extends BaseCommand {
             
             String initId = nationProfile.getNationId();
             String targetId = Objects.requireNonNull(Nation.getFromName(targetNation)).getNationId();
-            Tariff tariff = new Tariff(initId, targetId, rate);
+            Tariff tariff = new Tariff(initId, targetId, BigDecimal.valueOf(rate));
             tariff.save();
             
             // Send message to the players of the initial nation

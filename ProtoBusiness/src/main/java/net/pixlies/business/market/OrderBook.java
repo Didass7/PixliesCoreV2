@@ -9,6 +9,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.logging.Level;
 
@@ -59,18 +60,18 @@ public class OrderBook {
         return list;
     }
     
-    public double getLowestBuyPrice(UUID matching) {
+    public BigDecimal getLowestBuyPrice(UUID matching) {
         List<Double> prices = new ArrayList<>();
-        buyOrders.forEach(order -> prices.add(order.getTaxedTariffedPrice(matching)));
-        if (prices.isEmpty()) return 0;
-        else return Collections.min(prices);
+        buyOrders.forEach(order -> prices.add(order.getTaxedTariffedPrice(matching).doubleValue()));
+        if (prices.isEmpty()) return BigDecimal.valueOf(0.0);
+        else return BigDecimal.valueOf(Collections.min(prices));
     }
     
-    public double getHighestSellPrice(UUID matching) {
+    public BigDecimal getHighestSellPrice(UUID matching) {
         List<Double> prices = new ArrayList<>();
-        sellOrders.forEach(order -> prices.add(order.getTaxedTariffedPrice(matching)));
-        if (prices.isEmpty()) return 0;
-        else return Collections.max(prices);
+        sellOrders.forEach(order -> prices.add(order.getTaxedTariffedPrice(matching).doubleValue()));
+        if (prices.isEmpty()) return BigDecimal.valueOf(0.0);
+        else return BigDecimal.valueOf(Collections.max(prices));
     }
     
     public void buy(Order order) {
@@ -109,8 +110,8 @@ public class OrderBook {
                 continue;
             
             // Get relative prices
-            double initialPrice = initialOrder.getTaxedTariffedPrice(matchingOrder.getPlayerUUID());
-            double matchingPrice = matchingOrder.getTaxedTariffedPrice(initialOrder.getPlayerUUID());
+            double initialPrice = initialOrder.getTaxedTariffedPrice(matchingOrder.getPlayerUUID()).doubleValue();
+            double matchingPrice = matchingOrder.getTaxedTariffedPrice(initialOrder.getPlayerUUID()).doubleValue();
             
             boolean buyCondition = type == Order.Type.BUY && matchingPrice <= initialPrice;
             boolean sellCondition = type == Order.Type.SELL && matchingPrice >= initialPrice;
@@ -142,8 +143,8 @@ public class OrderBook {
     
     private void addTrade(Order initialOrder, Order matchingOrder, int traded) {
         Order.Type type = initialOrder.getType();
-        double price = matchingOrder.getTaxedTariffedPrice(initialOrder.getPlayerUUID());
-        double total = price * traded;
+        BigDecimal price = matchingOrder.getTaxedTariffedPrice(initialOrder.getPlayerUUID());
+        BigDecimal total = price.multiply(BigDecimal.valueOf(traded));
         
         // Update log
         String[] args = new String[] {
@@ -151,7 +152,7 @@ public class OrderBook {
                 type == Order.Type.BUY ? initialOrder.getOrderId() : matchingOrder.getOrderId(),
                 Integer.toString(traded),
                 initialOrder.getBookItem(),
-                Double.toString(price),
+                Double.toString(price.doubleValue()),
                 type == Order.Type.BUY ? matchingOrder.getOrderId() : initialOrder.getOrderId()
         };
         String action;
@@ -165,16 +166,16 @@ public class OrderBook {
         
         // Refunds
         // TODO: make sure this includes the price diff without the tariff (limit orders, buying cheap option)
-        double refund;
+        BigDecimal refund;
         if (type == Order.Type.BUY) {
-            refund = initialOrder.getPrice() - initialOrder.getTariffedPrice(matchingOrder.getPlayerUUID());
-            if (refund != 0) {
+            refund = initialOrder.getPrice().subtract(initialOrder.getTariffedPrice(matchingOrder.getPlayerUUID()));
+            if (refund.compareTo(BigDecimal.valueOf(0)) != 0) {
                 initialOrder.getRefunds().put(refund, false);
                 initialOrder.save();
             }
         } else {
-            refund = matchingOrder.getPrice() - matchingOrder.getTariffedPrice(initialOrder.getPlayerUUID());
-            if (refund != 0) {
+            refund = matchingOrder.getPrice().subtract(matchingOrder.getTariffedPrice(initialOrder.getPlayerUUID()));
+            if (refund.compareTo(BigDecimal.valueOf(0)) != 0) {
                 matchingOrder.getRefunds().put(refund, false);
                 matchingOrder.save();
             }
@@ -206,7 +207,10 @@ public class OrderBook {
             }
         }
         
-        instance.getStats().set("market.moneyTraded", instance.getStats().getInt("market.moneyTraded") + total);
+        instance.getStats().set(
+                "market.moneyTraded",
+                instance.getStats().getDouble("market.moneyTraded") + total.doubleValue()
+        );
         instance.getStats().set("market.itemsTraded", instance.getStats().getInt("market.itemsTraded") + traded);
     
         instance.getStats().save();
@@ -280,8 +284,8 @@ public class OrderBook {
         }};
         yaml.set(initPath + "trades", trades);
         
-        for (Map.Entry<Double, Boolean> entry : order.getRefunds().entrySet()) {
-            yaml.set(initPath + "refunds." + entry.getKey().toString(), entry.getValue());
+        for (Map.Entry<BigDecimal, Boolean> entry : order.getRefunds().entrySet()) {
+            yaml.set(initPath + "refunds." + entry.getKey().doubleValue(), entry.getValue());
         }
     
         try {
@@ -340,7 +344,7 @@ public class OrderBook {
         long timestamp = yaml.getLong(initPath + "timestamp");
         Order.Type orderType = Order.Type.valueOf(yaml.getString(initPath + "type"));
         UUID playerUUID = UUID.fromString(Objects.requireNonNull(yaml.getString(initPath + "playerUUID")));
-        double price = yaml.getDouble(initPath + "price");
+        BigDecimal price = BigDecimal.valueOf(yaml.getDouble(initPath + "price"));
         int amount = yaml.getInt(initPath + "amount");
         int volume = yaml.getInt(initPath + "volume");
     
@@ -350,10 +354,10 @@ public class OrderBook {
         }
         
         ConfigurationSection refundsSection = yaml.getConfigurationSection(initPath + "refunds");
-        Map<Double, Boolean> refunds = new HashMap<>();
+        Map<BigDecimal, Boolean> refunds = new HashMap<>();
         if (refundsSection != null) {
             for (String key : refundsSection.getKeys(false)) {
-                refunds.put(Double.parseDouble(key), yaml.getBoolean(initPath + "refunds." + key));
+                refunds.put(BigDecimal.valueOf(Double.parseDouble(key)), yaml.getBoolean(initPath + "refunds." + key));
             }
         }
     

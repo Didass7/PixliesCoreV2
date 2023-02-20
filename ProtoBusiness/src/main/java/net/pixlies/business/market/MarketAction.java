@@ -15,9 +15,9 @@ public enum MarketAction {
       private static final ProtoBusiness instance = ProtoBusiness.getInstance();
       
       public String format(String... args) {
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
             LocalDateTime now = LocalDateTime.now();
-            String string = dtf.format(now) + " " + args[0] + " ";
+            String string = formatter.format(now) + " " + args[0] + " ";
             switch (this) {
                   case CREATE_ORDER -> {
                         return string + "created " + args[1] + " order \"" + args[2] + "\" on " + args[3] + "x " +

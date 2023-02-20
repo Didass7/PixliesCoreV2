@@ -25,8 +25,8 @@ public class MarketStatsCommand extends BaseCommand {
             MarketLang.MARKET_BUYS.send(player, "%X%;" + profile.getBuyOrdersMade());
             MarketLang.MARKET_SELLS.send(player, "%X%;" + profile.getSellOrdersMade());
             MarketLang.MARKET_TRADES.send(player, "%X%;" + profile.getTradesMade());
-            MarketLang.MARKET_MONEY_SPENT.send(player, "%X%;" + profile.getMoneySpent());
-            MarketLang.MARKET_MONEY_GAINED.send(player, "%X%;" + profile.getMoneyGained());
+            MarketLang.MARKET_MONEY_SPENT.send(player, "%X%;" + profile.getMoneySpent().doubleValue());
+            MarketLang.MARKET_MONEY_GAINED.send(player, "%X%;" + profile.getMoneyGained().doubleValue());
             MarketLang.MARKET_SOLD.send(player, "%X%;" + profile.getItemsSold());
             MarketLang.MARKET_BOUGHT.send(player, "%X%;" + profile.getItemsBought());
       }

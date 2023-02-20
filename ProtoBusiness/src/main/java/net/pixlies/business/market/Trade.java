@@ -7,6 +7,7 @@ import net.pixlies.core.ranks.Rank;
 import org.bukkit.Bukkit;
 import org.ocpsoft.prettytime.PrettyTime;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
@@ -24,7 +25,7 @@ public class Trade {
     private String orderId;
     
     private long timestamp;
-    private double price;
+    private BigDecimal price;
     private int amount;
     
     private UUID giver;
@@ -37,7 +38,7 @@ public class Trade {
         
         String[] parts = serialized.split(";");
         timestamp = Long.parseLong(parts[0]);
-        price = Double.parseDouble(parts[1]);
+        price = BigDecimal.valueOf(Double.parseDouble(parts[1]));
         amount = Integer.parseInt(parts[2]);
         giver = UUID.fromString(parts[3]);
         taker = UUID.fromString(parts[4]);
@@ -64,7 +65,7 @@ public class Trade {
             name = Rank.getRank(taker).getColor() + Objects.requireNonNull(Bukkit.getPlayer(taker)).getName();
         }
         
-        return " §8» §a" + amount + "§8x §7@ §6" + price + "$ §8- " + name + " §8" + time;
+        return " §8» §a" + amount + "§8x §7@ §6" + price.doubleValue() + "$ §8- " + name + " §8" + time;
     }
     
     public void save() {
@@ -83,6 +84,7 @@ public class Trade {
     }
     
     public String getSerializedString() {
-        return timestamp + ";" + price + ";" + amount + ";" + giver.toString() + ";" + taker.toString() + ";" + claimed;
+        return timestamp + ";" + price.doubleValue() + ";" + amount + ";" + giver.toString() + ";" +
+                taker.toString() + ";" + claimed;
     }
 }

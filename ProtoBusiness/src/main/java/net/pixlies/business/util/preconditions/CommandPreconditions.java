@@ -47,7 +47,7 @@ public class CommandPreconditions {
       }
       
       public static boolean playerHasEnoughMoney(Player player, double amount) {
-            double balance = NationProfile.get(player.getUniqueId()).getBalance();
+            double balance = NationProfile.get(player.getUniqueId()).getBalance().doubleValue();
             if (balance < amount || balance < 0) {
                   MarketLang.GENERAL_NOT_ENOUGH_MONEY.send(player);
                   SoundUtil.error(player);

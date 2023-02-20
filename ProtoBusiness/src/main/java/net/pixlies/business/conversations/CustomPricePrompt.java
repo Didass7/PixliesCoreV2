@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 public class CustomPricePrompt extends NumericPrompt {
@@ -30,10 +31,10 @@ public class CustomPricePrompt extends NumericPrompt {
             if (!ConversationPreconditions.isPositiveDouble(player, input))
                   return Prompt.END_OF_CONVERSATION;
             
-            double totalPrice = MarketUtil.getTaxedPrice(uuid, input.doubleValue()) * amount;
+            BigDecimal totalPrice = MarketUtil.getTaxedPrice(uuid, input.doubleValue()).multiply(BigDecimal.valueOf(amount));
             
             // If the player does not have enough money
-            if (!ConversationPreconditions.playerHasEnoughMoney(player, totalPrice))
+            if (!ConversationPreconditions.playerHasEnoughMoney(player, totalPrice.doubleValue()))
                   return Prompt.END_OF_CONVERSATION;
       
             MarketLang.ENTERED_A_PRICE.send(player, "%PRICE%;" + input.doubleValue());

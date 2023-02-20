@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -30,9 +31,9 @@ public class Tariff {
     private final String tariffId;
     private final String initId;
     private final String targetId;
-    private final double rate;
+    private final BigDecimal rate;
     
-    public Tariff(String initId, String targetId, double rate) {
+    public Tariff(String initId, String targetId, BigDecimal rate) {
         tariffId = TextUtils.generateId(9);
         this.initId = initId;
         this.targetId = targetId;
@@ -40,7 +41,7 @@ public class Tariff {
     }
 
     public String getFormattedRate() {
-        return (rate * 100) + "%";
+        return (rate.multiply(BigDecimal.valueOf(100))) + "%";
     }
     
     public void save() {
@@ -51,7 +52,7 @@ public class Tariff {
     
         yaml.set("initId", initId);
         yaml.set("targetId", targetId);
-        yaml.set("rate", rate);
+        yaml.set("rate", rate.doubleValue());
         
         try {
             yaml.save(file);
@@ -92,7 +93,7 @@ public class Tariff {
                 tariffId,
                 yaml.getString("initId"),
                 yaml.getString("targetId"),
-                yaml.getDouble("rate")
+                BigDecimal.valueOf(yaml.getDouble("rate"))
         );
     }
     

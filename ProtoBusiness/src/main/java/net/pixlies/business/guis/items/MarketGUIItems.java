@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -55,10 +56,10 @@ public final class MarketGUIItems {
                 .addLoreLine("§7Sell orders made: §b" + profile.getSellOrdersMade())
                 .addLoreLine("§7Trades made: §a" + profile.getTradesMade())
                 .addLoreLine(" ")
-                .addLoreLine("§7Money spent: §6" + profile.getMoneySpent() + " coins")
-                .addLoreLine("§7Money gained: §6" + profile.getMoneyGained() + " coins")
-                .addLoreLine("§7Items sold: §d" + profile.getMoneySpent() + " items")
-                .addLoreLine("§7Items bought: §d" + profile.getMoneyGained() + " items")
+                .addLoreLine("§7Money spent: §6" + profile.getMoneySpent().doubleValue() + " coins")
+                .addLoreLine("§7Money gained: §6" + profile.getMoneyGained().doubleValue() + " coins")
+                .addLoreLine("§7Items sold: §d" + profile.getItemsSold() + " items")
+                .addLoreLine("§7Items bought: §d" + profile.getItemsBought() + " items")
                 .addLoreLine(" ")
                 /*
                 .addLoreLine("§7Item most sold: §3" + a)
@@ -119,6 +120,9 @@ public final class MarketGUIItems {
     
     // --------------------------------------------------------------------------------------------
     
+    /**
+     * @deprecated Subject for removal – creation of new selection interface
+     */
     public static ItemStack getSelectedSelection(MarketInitialGUI.Selection s, String name) {
         return new ItemBuilder(new ItemStack(s.getMaterial()))
                 .setDisplayName(s.getColor() + name)
@@ -130,6 +134,9 @@ public final class MarketGUIItems {
                 .build();
     }
     
+    /**
+     * @deprecated Subject for removal – creation of new selection interface
+     */
     public static ItemStack getUnselectedSelection(MarketInitialGUI.Selection s, String name) {
         return new ItemBuilder(new ItemStack(s.getMaterial()))
                 .setDisplayName(s.getColor() + name)
@@ -152,7 +159,7 @@ public final class MarketGUIItems {
                 .setDisplayName((type == Order.Type.BUY ? "§a§lBUY" : "§6§lSELL") + "§r§7: §b" +
                                 order.getAmount() + "§8x §f" + name)
                 .addLoreLine(" ")
-                .addLoreLine("§7Price per unit: §8" + maxOrMin + " §6" + order.getPrice() + " coins");
+                .addLoreLine("§7Price per unit: §8" + maxOrMin + " §6" + order.getPrice().doubleValue() + " coins");
         
         // Percentage of the order that is filled
         if (order.getVolume() != order.getAmount()) {
@@ -166,7 +173,8 @@ public final class MarketGUIItems {
         }
         
         // Price with sales taxes
-        builder.addLoreLine("§3Total price: §8" + maxOrMin + " §6" + order.getTaxedPrice() * order.getAmount() + " coins")
+        BigDecimal total = order.getTaxedPrice().multiply(BigDecimal.valueOf(order.getAmount()));
+        builder.addLoreLine("§3Total price: §8" + maxOrMin + " §6" + total.doubleValue() + " coins")
                 .addLoreLine(" ");
         
         // If there are no trades, build the ItemStack and return
@@ -180,7 +188,7 @@ public final class MarketGUIItems {
         
         // Refunds
         builder.addLoreLine(" ")
-                .addLoreLine("§8Refunded: §6" + order.getTotalRefunds() + " coins");
+                .addLoreLine("§8Refunded: §6" + order.getTotalRefunds().doubleValue() + " coins");
         
         // Cancel order
         if (order.isCancellable()) {
@@ -194,9 +202,9 @@ public final class MarketGUIItems {
             builder.addLoreLine(" ")
                     .addLoreLine("§aYou have §2" + order.getItemsToClaim() + " items §ato claim!");
         } else {
-            double coinsToClaim = order.getCoinsToClaim();
+            BigDecimal coinsToClaim = order.getCoinsToClaim();
             builder.addLoreLine(" ")
-                    .addLoreLine("§eYou have §6" + coinsToClaim + " coins §eto claim!");
+                    .addLoreLine("§eYou have §6" + coinsToClaim.doubleValue() + " coins §eto claim!");
         }
         
         return builder.addLoreLine(" ")
@@ -215,7 +223,7 @@ public final class MarketGUIItems {
         // Give back non-accounted-for items
         switch (order.getType()) {
             case BUY -> builder.addLoreLine("§7You will be refunded §6" +
-                    (order.getVolume() * order.getTaxedPrice()) + " coins§7.");
+                    (order.getTaxedPrice().multiply(BigDecimal.valueOf(order.getVolume()))).doubleValue() + " coins§7.");
             case SELL -> builder.addLoreLine("§7You will be refunded §a" +
                     order.getVolume() + "§8x §f" + itemName + "§7.");
         }
@@ -225,7 +233,7 @@ public final class MarketGUIItems {
                 .build();
     }
     
-    public static ItemStack getConfirmOrderButton(Order order, double tax) {
+    public static ItemStack getConfirmOrderButton(Order order, BigDecimal tax) {
         OrderItem item = OrderBook.get(order.getBookItem()).getItem();
         ItemBuilder builder =  new ItemBuilder(new ItemStack(item.getMaterial()))
                 .setDisplayName(order.getType() == Order.Type.BUY ?
@@ -233,14 +241,16 @@ public final class MarketGUIItems {
                         "§aConfirm order §8(§6§lSELL§r§8)")
                 .addLoreLine("§b" + order.getAmount() + "§8x §f" + item.getName())
                 .addLoreLine(" ")
-                .addLoreLine("§7Price per unit: §6" + order.getPrice() + " coins");
+                .addLoreLine("§7Price per unit: §6" + order.getPrice().doubleValue() + " coins");
         
         // Taxes
         if (order.getType() == Order.Type.BUY) {
-            builder.addLoreLine("§7Tax: §c" + (tax * 100) + "%")
-                    .addLoreLine("§3Max. total price: §6" + order.getTaxedPrice() * order.getAmount() + " coins");
+            double value = order.getTaxedPrice().multiply(BigDecimal.valueOf(order.getAmount())).doubleValue();
+            builder.addLoreLine("§7Tax: §c" + (tax.multiply(BigDecimal.valueOf(100))) + "%")
+                    .addLoreLine("§3Max. total price: §6" + value + " coins");
         } else {
-            builder.addLoreLine("§3Max. total price: §6" + order.getPrice() * order.getAmount() + " coins");
+            double value = order.getPrice().multiply(BigDecimal.valueOf(order.getAmount())).doubleValue();
+            builder.addLoreLine("§3Max. total price: §6" + value + " coins");
         }
 
         return builder.addLoreLine(" ")
@@ -253,7 +263,7 @@ public final class MarketGUIItems {
         OrderBook book = OrderBook.get(item);
         ItemBuilder builder = new ItemBuilder(new ItemStack(Material.EMERALD))
                 .setDisplayName("§aBuy Order")
-                .addLoreLine("§7Best price per unit: §6" + book.getLowestBuyPrice(playerUUID) + " coins")
+                .addLoreLine("§7Best price per unit: §6" + book.getLowestBuyPrice(playerUUID).doubleValue() + " coins")
                 .addLoreLine(" ");
         
         // Get 8 most recent orders
@@ -270,11 +280,12 @@ public final class MarketGUIItems {
     
     public static ItemStack getSellButton(UUID playerUUID, OrderItem item, int num) {
         OrderBook book = OrderBook.get(item);
+        BigDecimal total = book.getHighestSellPrice(playerUUID).multiply(BigDecimal.valueOf(num));
         ItemBuilder builder = new ItemBuilder(new ItemStack(Material.GOLD_INGOT))
                 .setDisplayName("§6Sell Order")
-                .addLoreLine("§7Best price per unit: §6" + book.getHighestSellPrice(playerUUID) + " coins")
+                .addLoreLine("§7Best price per unit: §6" + book.getHighestSellPrice(playerUUID).doubleValue() + " coins")
                 .addLoreLine("§7Inventory: §a" + num + " items")
-                .addLoreLine("§7Best total price: §d" + (book.getHighestSellPrice(playerUUID) * num) + " coins")
+                .addLoreLine("§7Best total price: §d" + total.doubleValue() + " coins")
                 .addLoreLine(" ");
     
         // Get 8 most recent orders
@@ -294,13 +305,13 @@ public final class MarketGUIItems {
         return new ItemBuilder(new ItemStack(item.getMaterial()))
                 .setDisplayName("§eBest current price")
                 .addLoreLine(type == Order.Type.BUY ?
-                        "§7Price: §6" + book.getLowestBuyPrice(playerUUID) + " coins" :
-                        "§7Price: §6" + book.getHighestSellPrice(playerUUID) + " coins")
+                        "§7Price: §6" + book.getLowestBuyPrice(playerUUID).doubleValue() + " coins" :
+                        "§7Price: §6" + book.getHighestSellPrice(playerUUID).doubleValue() + " coins")
                 .addLoreLine(" ")
                 .addLoreLine(type == Order.Type.BUY ? "§7Buying: §a" + amount + "§8x" : "§7Selling: §a" + amount + "§8x")
                 .addLoreLine(type == Order.Type.BUY ?
-                        "§3Total price: §6" + (book.getLowestBuyPrice(playerUUID) * amount) + " coins" :
-                        "§3Total price: §6" + (book.getHighestSellPrice(playerUUID) * amount) + " coins")
+                        "§3Total price: §6" + (book.getLowestBuyPrice(playerUUID).multiply(BigDecimal.valueOf(amount))).doubleValue() + " coins" :
+                        "§3Total price: §6" + (book.getHighestSellPrice(playerUUID).multiply(BigDecimal.valueOf(amount))).doubleValue() + " coins")
                 .addLoreLine(" ")
                 .addLoreLine("§eClick to set!")
                 .build();
@@ -313,13 +324,13 @@ public final class MarketGUIItems {
                         "§eBest current price +0.1" :
                         "§eBest current price -0.1")
                 .addLoreLine(type == Order.Type.BUY ?
-                        "§7Price: §6" + (book.getLowestBuyPrice(playerUUID) + 0.1) + " coins" :
-                        "§7Price: §6" + (book.getHighestSellPrice(playerUUID) - 0.1) + " coins")
+                        "§7Price: §6" + (book.getLowestBuyPrice(playerUUID).add(BigDecimal.valueOf(0.1))).doubleValue() + " coins" :
+                        "§7Price: §6" + (book.getHighestSellPrice(playerUUID).subtract(BigDecimal.valueOf(0.1))).doubleValue() + " coins")
                 .addLoreLine(" ")
                 .addLoreLine(type == Order.Type.BUY ? "§7Buying: §a" + amount + "§8x" : "§7Selling: §a" + amount + "§8x")
                 .addLoreLine(type == Order.Type.BUY ?
-                        "§3Total price: §6" + ((book.getLowestBuyPrice(playerUUID) + 0.1) * amount) + " coins" :
-                        "§3Total price: §6" + ((book.getHighestSellPrice(playerUUID) - 0.1) * amount) + " coins")
+                        "§3Total price: §6" + (book.getLowestBuyPrice(playerUUID).add(BigDecimal.valueOf(0.1))).multiply(BigDecimal.valueOf(amount)).doubleValue() + " coins" :
+                        "§3Total price: §6" + (book.getHighestSellPrice(playerUUID).subtract(BigDecimal.valueOf(0.1)).multiply(BigDecimal.valueOf(amount)).doubleValue() + " coins"))
                 .addLoreLine(" ")
                 .addLoreLine("§eClick to set!")
                 .build();

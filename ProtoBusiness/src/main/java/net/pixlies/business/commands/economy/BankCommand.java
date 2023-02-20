@@ -12,6 +12,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+import java.math.BigDecimal;
+
 @CommandAlias("economy|eco|bank")
 public class BankCommand extends BaseCommand {
       @Subcommand("clear")
@@ -52,7 +54,7 @@ public class BankCommand extends BaseCommand {
             OfflinePlayer offlineTarget = Bukkit.getOfflinePlayer(targetName);
             
             NationProfile nationProfile = NationProfile.get(offlineTarget.getUniqueId());
-            nationProfile.addBalance(Double.parseDouble(strAmount));
+            nationProfile.addBalance(BigDecimal.valueOf(Double.parseDouble(strAmount)));
             nationProfile.save();
       
             MarketLang.BALANCE_ADDED_SENDER.send(player, "%COINS%;" + strAmount, "%PLAYER%;" + targetName);
@@ -78,7 +80,7 @@ public class BankCommand extends BaseCommand {
             OfflinePlayer offlineTarget = Bukkit.getOfflinePlayer(targetName);
             
             NationProfile nationProfile = NationProfile.get(offlineTarget.getUniqueId());
-            nationProfile.removeBalance(Double.parseDouble(strAmount));
+            nationProfile.removeBalance(BigDecimal.valueOf(Double.parseDouble(strAmount)));
             nationProfile.save();
             
             MarketLang.BALANCE_REMOVED_SENDER.send(player, "%COINS%;" + strAmount, "%PLAYER%;" + targetName);

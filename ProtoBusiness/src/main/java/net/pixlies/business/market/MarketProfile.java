@@ -16,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.logging.Level;
 
@@ -44,8 +45,8 @@ public class MarketProfile {
       private int buyOrdersMade;
       private int sellOrdersMade;
       private int tradesMade;
-      private double moneySpent;
-      private double moneyGained;
+      private BigDecimal moneySpent;
+      private BigDecimal moneyGained;
       private int itemsSold;
       private int itemsBought;
       
@@ -57,8 +58,8 @@ public class MarketProfile {
             buyOrdersMade = 0;
             sellOrdersMade = 0;
             tradesMade = 0;
-            moneySpent = 0;
-            moneyGained = 0;
+            moneySpent = BigDecimal.valueOf(0.0);
+            moneyGained = BigDecimal.valueOf(0.0);
             itemsSold = 0;
             itemsBought = 0;
       }
@@ -87,12 +88,12 @@ public class MarketProfile {
             tradesMade += 1;
       }
       
-      public void addMoneySpent(double money) {
-            moneySpent += money;
+      public void addMoneySpent(BigDecimal money) {
+            moneySpent = moneySpent.add(money);
       }
       
-      public void addMoneyGained(double money) {
-            moneyGained += money;
+      public void addMoneyGained(BigDecimal money) {
+            moneyGained = moneyGained.add(money);
       }
       
       public void addItemsSold(int items) {
@@ -137,10 +138,10 @@ public class MarketProfile {
                   MarketLang.ORDER_ITEMS_CLAIMED.send(player, "%AMOUNT%;" + amount, "%ITEM%;" + book.getItem().getName());
                   MarketLang.ORDER_UNUSED_COINS_REFUNDED.send(player, "%COINS%;" + order.getRefundableCoins());
             } else {
-                  int coins = 0;
+                  BigDecimal coins = BigDecimal.valueOf(0.0);
                   for (Trade trade : order.getTrades()) {
                         if (trade.isClaimed()) continue;
-                        coins += trade.getAmount() * trade.getPrice();
+                        coins = coins.add(trade.getPrice().multiply(BigDecimal.valueOf(trade.getAmount())));
                         trade.claim();
                         trade.save();
                   }
@@ -159,7 +160,7 @@ public class MarketProfile {
             assert player != null;
             
             if (order.getType() == Order.Type.BUY) {
-                  double amount = order.getVolume() * order.getTaxedPrice();
+                  BigDecimal amount = order.getTaxedPrice().multiply(BigDecimal.valueOf(order.getVolume()));
                   MarketLang.ORDER_COINS_REFUNDED.send(player, "%COINS%;" + amount);
                   profile.addBalance(amount);
                   profile.save();
@@ -198,8 +199,8 @@ public class MarketProfile {
             yaml.set("buyOrdersMade", buyOrdersMade);
             yaml.set("sellOrdersMade", sellOrdersMade);
             yaml.set("tradesMade", tradesMade);
-            yaml.set("moneySpent", moneySpent);
-            yaml.set("moneyGained", moneyGained);
+            yaml.set("moneySpent", moneySpent.doubleValue());
+            yaml.set("moneyGained", moneyGained.doubleValue());
             yaml.set("itemsSold", itemsSold);
             yaml.set("itemsBought", itemsBought);
             
@@ -238,8 +239,8 @@ public class MarketProfile {
             profile.setBuyOrdersMade(yaml.getInt("buyOrdersMade"));
             profile.setSellOrdersMade(yaml.getInt("sellOrdersMade"));
             profile.setTradesMade(yaml.getInt("tradesMade"));
-            profile.setMoneySpent(yaml.getDouble("moneySpent"));
-            profile.setMoneyGained(yaml.getDouble("moneyGained"));
+            profile.setMoneySpent(BigDecimal.valueOf(yaml.getDouble("moneySpent")));
+            profile.setMoneyGained(BigDecimal.valueOf(yaml.getDouble("moneyGained")));
             profile.setItemsSold(yaml.getInt("itemsSold"));
             profile.setItemsBought(yaml.getInt("itemsBought"));
             
