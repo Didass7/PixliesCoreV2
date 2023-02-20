@@ -1,0 +1,133 @@
+# -----------------------------------------------------------------
+# PROTOBUSINESS - IDIOMA PORTUGUÊS
+# -----------------------------------------------------------------
+
+MARKET_OPEN: "§7O mercado está agora §aaberto§7 para negócios!"
+MARKET_CLOSED: "§7O mercado agora está §cfechado§7!"
+MARKET_WAS_ALREADY_OPEN: "§cO mercado já está aberto."
+MARKET_WAS_ALREADY_CLOSED: "§cO mercado já está fechado."
+MARKET_IS_CLOSED: "§cO mercado está fechado. Por favor, aguarde alguns dias úteis!"
+
+MARKET_STATISTICS_RESET: "§7As estatísticas de mercado foram §creiniciadas§7."
+MARKET_PLAYER_STATISTICS_RESET: "§7Estatísticas de mercado para §6%PLAYER%§7 foram §creiniciadas§7 por §6%SENDER§7."
+
+NEW_ORDER_CREATED: "§7Novo pedido criado: §r%ORDER%"
+
+ORDER_CANCELLED: "§7O seu pedido por §a%AMOUNT%§8x §b%ITEM% §7foi §ccancelado§7."
+ORDER_ITEMS_REFUNDED: "§7Foste reembolsado §a%AMOUNT%§8x §b%ITEM%§7."
+ORDER_COINS_REFUNDED: "§7Foste reembolsado §6%COINS% moedas§7."
+ORDER_ITEMS_CLAIMED: "§7Reivindicaste §a%AMOUNT%§8x §b%ITEM%§7."
+ORDER_COINS_CLAIMED: "§7Reivindicaste §6%COINS% moedas§7."
+ORDER_UNUSED_COINS_REFUNDED: "§7Também foste reembolsado §6%COINS% moedas §7(Cálculos matemáticos complicados)."
+
+MARKET_NOT_A_VALID_PRICE: "§cEste preço não é válido!"
+MARKET_NOT_A_VALID_AMOUNT: "§cEste valor não é válido!"
+MARKET_NOT_ENOUGH_ITEMS: "§cNão tens estes itens todos!"
+
+MARKET_PLAYER_RESTRICTED_SENDER: "§7O jogador §6%PLAYER%§7 foi §cproibido§7 de acessar o mercado."
+MARKET_PLAYER_RESTRICTED_TARGET: "§7Foste §cproibido§7 de acessar o mercado por §6%PLAYER%§7."
+MARKET_PLAYER_ALLOWED_SENDER: "§7O jogador §6%PLAYER%§7 tem agora §apermissão§7 para acessar o mercado."
+MARKET_PLAYER_ALLOWED_TARGET: "§7Tens permissão de §aacessar§7 o mercado."
+MARKET_PLAYER_IS_RESTRICTED: "§cEstás proibido de acessar o mercado."
+
+ITEM_NOT_ON_MARKET: "§cEste item não está no mercado!"
+
+MARKET_NOTIFICATION: "§7Tu tens §6itens/moedas §7para pegar no §dmercado§7!"
+MARKET_LOGON: "§bAsegura-te de verificar sempre os teus pedidos no mercado.!"
+
+PRICE_SUMMARY: "§7Aqui está o resumo dos preços para §d%ITEM%§7."
+PRICE_BEST_BUY: "§7Melhor oferta de compra: §6%PRICE% moedas §8(%AMOUNT% ofertas)"
+PRICE_BEST_SELL: "§7Melhor oferta de venda: §6%PRICE% moedas §8(%AMOUNT% ofertas)"
+PRICE_NOT_HOLDING_AN_ITEM: "§cNão estás a segurar nenhum objeto na mão!"
+
+ENTER_AN_AMOUNT: "§7Por favor insere um §dvalor§7 válido. §8(Escreve §9desistir §8para cancelar esta operação)"
+ENTER_A_CUSTOM_PRICE: "§7Por favor insere um §dpreço§7 válido. §8(Escreve §9desistir §8para cancelar esta operação)"
+THIS_IS_NOT_A_POSITIVE_INTEGER: "§cEste número não é um inteiro positivo!"
+ENTERED_AN_AMOUNT: "§7Digitas-te o seguinte valor: §a%AMOUNT%§7."
+ENTERED_A_PRICE: "§7Digitas-te o seguinte preço: §6%PRICE%§7."
+
+TARIFF_LOCAL_INCOMING: "§7Aqui está uma lista de todas as §6tarifas de entrada §8(aplicadas na TUA nação POR outro) §7..."
+TARIFF_LOCAL_OUTGOING: "§7Aqui está uma lista de todas as §btarifas de saída§7 §8(aplicadas PELA TUA nação EM outro) §7..."
+TARIFF_GLOBAL: "§7Aqui está uma lista de todas as §6tarifas§7:"
+TARIFF_LOCAL_FORMAT: " §8» §d%NX% §8(§a%RATE%§8)"
+TARIFF_GLOBAL_FORMAT: " §8» §d%NX% §7on §3%NY% §8(§a%RATE%§8)"
+
+INCOMING_TARIFF_SET: "§7Tarifa definida para §6%NATION%§7 a uma taxa de §a%RATE%§7."
+INCOMING_TARIFF_REMOVED: "§7Tarifa removida por §6%NATION%§7."
+OUTGOING_TARIFF_SET: "§6%NATION%§7 adicionou uma tarifa à tua nação a uma taxa de §a%RATE%§7."
+OUTGOING_TARIFF_REMOVED: "§6%NATION%§7 removeu a tarifa da tua nação."
+
+TARIFF_TYPE_NOT_VALID: "§cOs únicos tipos de tarifas válidas são \"exportes\" e \"importes\"."
+TARIFF_ALREADY_EXISTS: "§cTal tarifa pode já existir! Considera removê-la ."
+TARIFF_FAILED_TO_REMOVE: "§cFalha ao remover tarifa. Por favor entre em contato com o vyketype#3472 porcausa deste erro."
+
+TARIFF_DOES_NOT_EXIST: "§7Não existem tarifas da tua nação na nação especificada."
+TARIFF_RATE_NOT_VALID: "§cA taxa deve ser um número decimal variando de 0.01 a %MAX%."
+NO_TARIFFS_FOUND: "§cNenhuma tarifa foi encontrada."
+
+EMBARGO_ALREADY_EXISTS: "§cTal embargo pode já existir! Considera removê-lo."
+EMBARGO_DOES_NOT_EXIST: "§cTal embargo não existe!"
+EMBARGO_NOT_VALID_DURATION: "§cDeves inserir a duração do teu embargo (horas) ou -1 se desejas que não tenha fim."
+INCOMING_EMBARGO_ADDED: "§7Embargo a §6%NATION%§7 adicionado durante §b%DURATION%§7."
+INCOMING_EMBARGO_REMOVED: "§7Embargo a §6%NATION%§7 removido."
+OUTGOING_EMBARGO_ADDED: "§6%NATION%§7 colocou a tua nação sob um embargo comercial durante §b%DURATION%§7."
+OUTGOING_EMBARGO_REMOVED: "§6%NATION%§7 removeu a tua nação sob um embargo comercial."
+EMBARGO_FAILED_TO_REMOVE: "§cFalha ao remover o embargo. Por favor entre em contato com o vyketype#3472 porcausa este erro."
+
+EMBARGO_GLOBAL: "§7Aqui está uma lista de todos os §3embargos§7:"
+EMBARGO_GLOBAL_FORMAT: " §8» §d%NX% §7embargou §3%NY%"
+NO_EMBARGOES_FOUND: "§cNenhum embargo foi encontrado."
+EMBARGO_LOCAL_INCOMING: "§7Aqui está uma lista de todos os §6embargos recebidos §8(aplicadas na TUA nação POR outro) §7..."
+EMBARGO_LOCAL_OUTGOING: "§7Aqui está uma lista de todas as §btarifas de saída §8(aplicadas PELA TUA nação EM outro) §7..."
+EMBARGO_LOCAL_FORMAT: " §8» §3%NX%"
+
+TRADE_BLOCK_LIST_EMPTY: "§7A tua lista de bloqueio comercial está §cvazia§7."
+TRADE_BLOCK_LIST: "§7Aqui estão os jogadores que §cbloqueaste §7de fazer negociações no mercado com: §d%LIST%"
+TRADE_BLOCK_ADDED: "§cBloqueaste §7§d%PLAYER%§7 de negociar ."
+TRADE_BLOCK_REMOVED: "§aDesbloqueaste §7§d%PLAYER%§7 de negociar."
+
+PLAYER_IS_TRADEBLOCKED: "§cEste jogador já está na tua lista de bloqueio comercial."
+PLAYER_IS_NOT_TRADEBLOCKED: "§cEste jogador não está na tua lista de bloqueios comerciais."
+
+MARKET_STATS: "§7Aqui estão as tuas §destatísticas de mercado§7..."
+MARKET_BUYS: " §8» §7Pedido de compra feito: §b%X%"
+MARKET_SELLS: " §8» §7Pedido de venda feito: §b%X%"
+MARKET_TRADED: " §8» §7Trocas feitas: §a%X%"
+MARKET_MONEY_SPENT: " §8» §7Dinheiro gasto: §6%X%$"
+MARKET_MONEY_GAINED: " §8» §7Dinheiro ganho: §6%X%$"
+MARKET_SOLD: " §8» §7Itens vendidos: §d%X%$"
+MARKET_BOUGHT: " §8» §7Itens comprados: §d%X%$"
+
+PAGE_INDEX: "§7Pagina §a%PAGE%§7/%MAX%"
+PAGE_DOES_NOT_EXIST: "§cEsta página não existe!"
+
+BALANCE: "§7 O saldo atual do §d%PLAYER%§7 é de §6%BALANCE% moedas."
+BALTOP_HEADER: "§6§lJOGADORES COM MAIS DINHEIRO §r§7- §bTop 10"
+BALTOP_NATIONS_HEADER: "§a§lNAÇÕES COM MAIS DINHEIRO §r§7- §bTop 10"
+BALTOP_LAST_UPDATED: "§7Último update: §o%TIME%§r§7."
+BALTOP_FORMAT: "§%COLOR%§l%NUMBER%§r§7. §b%NAME%§7: §6%BALANCE% moedas"
+BALANCE_ADDED_SENDER: "§7Adicionaste §6%COINS% moedas §7à conta de §d%PLAYER%§7."
+BALANCE_ADDED_TARGET: "§7Recebeste §6%COINS% moedas §7(ação administrativa)."
+PAID_SENDER: "§7Deste §6%COINS% moedas §7a §d%PLAYER% §7do teu dinheiro."
+PAID_TARGET: "§7Recebest §6%COINS% moedas de §d%PLAYER%§7."
+BALANCE_REMOVED_SENDER: "§7Removeste §6%COINS% moedas §7da conta bancaria de §d%PLAYER%§7."
+BALANCE_REMOVED_TARGET: "§7Perdeste §6%COINS% moedas §7(ação administrativa)."
+BALANCE_CLEARED_SENDER: "§cEsvaziaste §7o dinheiro da conta bancaria de §d%PLAYER%§7."
+BALANCE_CLEARED_TARGET: "§7A tua conta bancaria foi §cesvaziada §7(ação administrativa)."
+
+GENERAL_NOT_ENOUGH_MONEY: "§cNão tens dinheiro suficiente!"
+MARKET_NOT_ENOUGH_MONEY: "§cNão tens dinheiro suficiente!"
+
+GOLD_STANDARD: "§7Atualmente, §6uma barra de ouro §7equivale a §6%RATE% moedas§7."
+CONVERTED_COINS_TO_GOLD: "§7Converteste §o%COINS% moedas §r§7para §6%GOLD% barras de ouro§7."
+CONVERTED_GOLD_TO_COINS: "§7Converteste §o%GOLD% barras de ouro §r§7para §6%COINS% moedas§7."
+
+TAX_RATE_ZERO: "§7Atualmente, não existe imposto de vendas na tua nação."
+TAX_RATE_QUERY: "§7Atualmente, existe uma §5%RATE%% §7de imposto sobre vendas em seu país."
+NEW_TAX_RATE_SET: "§7Foi definida uma nova taxa de imposto sobre vendas para §5%RATE%%§7."
+CLEARED_TAX_RATE: "§7O imposto sobre vendas da tua nação foi removido."
+
+MUST_BE_A_POSITIVE_DECMIAL: "§cEste número tem ser um decimal positivo!"
+
+PLAYER_DOES_NOT_EXIST: "§cEste jogador não existe!"
+PLAYER_HAS_NEVER_JOINED: "§cEste jogador nunca entrou no servidor, portanto, não podemos executar esta operação nele."
