@@ -1,0 +1,63 @@
+NATION_ALREADY_EXISTS: "§cEsta nação já existe."
+NATION_NAME_INVALID: "§cNão podes nomear a tua nação com este nome."
+ALREADY_IN_NATION: "§cJá fazes parte de uma nação. §7Usa /n leave para sair da tua nação."
+NOT_IN_NATION: "§cNão fazes parte de nenhuma nação!"
+NATION_FORMED: "§6%PLAYER% §7acabou de criar §b%NATION%§7, uma nova Era foi criada!"
+NATION_DISBAND_CONFIRM: "§7Tens a §c§lcerteza §7que queres desfazer §b%NATION%§7? Se sim, usa §c/n disband confirm§7 para confirmar. O processo irá ser cancelado em 30 segundos."
+NATION_DISBAND_CANCELLED: "§7Cancelaste o teu pedido para desfazeres a tua nação."
+NATION_DISBANDED: "§7A nação §6%NATION%§7 foi desfeita por §6%PLAYER%§7."
+NATION_RENAME: "§7A nação §6%NATION%§7 foi renomeada §6%NEW%§7 por §6%PLAYER%§7."
+NATION_NO_PERMISSION: "§7A tua posição na tua nação é demasiado baixo para usar este comando."
+NATION_NO_NATION_TO_DISBAND: "§cNão selecionaste uma nação para desfazer."
+NATION_MISSING_ARG: "§7Para processar este comando deves providenciar, §b%X% §7."
+NATION_DOES_NOT_EXIST: "§cEssa nação não existe."
+
+CANNOT_BE_YOUR_NATION: "§cNão podes realizar esta operação na tua nação!"
+
+NATION_PLAYER_CHANGED_DESCRIPTION: "§b%PLAYER%§7 mudou a descrição da tua nação para §e%DESCRIPTION%§7."
+NATION_YOU_CHANGED_DESCRIPTION_BYPASS: "A descrição de &6%NATION%&7 foi mudada para §e%DESCRIPTION%§7."
+
+NATION_WILDERNESS_TITLE: "§cTerritório desprotegido"
+NATION_WILDERNESS_COLOR: "§c"
+NATION_WILDERNESS_SUBTITLE: ""
+
+NATION_SPAWN_TITLE: "§6Spawn"
+NATION_SPAWN_COLOR: "§6"
+NATION_SPAWN_SUBTITLE: "§7Estás protegido aqui."
+
+NATION_WARP_TITLE: "§eWarp"
+NATION_WARP_COLOR: "§e"
+NATION_WARP_SUBTITLE: "§7Deves estar provavelmente seguro aqui."
+
+NATION_WARZONE_TITLE: "§4Zona de PvP"
+NATION_WARZONE_COLOR: "§4"
+NATION_WARZONE_SUBTITLE: "§7Não estás seguro aqui."
+
+NATION_SAME_COLOUR: "§a"
+NATION_ALLY_COLOUR: "§d"
+NATION_OTHER_COLOUR: "§b"
+NATION_SUBTITLE_COLOUR: "§7"
+
+NATION_CLAIM_MESSAGE: "§7Reivindicaste §d%LOCATION%§7 para a nação §b%NATION%§7."
+NATION_CLAIM_MESSAGE_ANNOUNCE: "§6%PLAYER%§7 reivindicou §d%LOCATION%§7 para a nação."
+NATION_CLAIM_ALREADY_CLAIMED: "§7Esta terra já foi reivindicada."
+NATION_CLAIM_AUTO_ENABLED: "Estás a reivindicar automaticamente."
+NATION_CLAIM_AUTO_DISABLED: "Já não estás a reivindicar automaticamente."
+
+NATION_SAME_CHAT_FORMAT: "&6%PLAYER%&7: &f%MESSAGE%"
+NATION_ALLY_CHAT_FORMAT: "§8(§d%NATION%§8)&6 %PLAYER%&7: &f%MESSAGE%"
+
+CHUNK_LOCATION_FORMAT: "§dX: %X%, Z: %Z%"
+
+# TELEPORTATION
+TPA_MESSAGE_SENDER: "§7Enviaste §6%PLAYER%§7 um pedido de teleporte."
+TPA_MESSAGE_TARGET: "§6%PLAYER%§7 enviou-te um pedido de teleporte. Usa §d/tpaccept§7 para aceitar."
+TPA_ACCEPTED_MESSAGE_SENDER: "§6%PLAYER%§7 aceitou o teu pedido de teleporte. Não te movas."
+TPA_ACCEPTED_MESSAGE_TARGET: "§7Aceitaste o pedido de teleporte de §6%PLAYER%§7."
+TPA_EXPIRED: "§7O teu pedido de teleporte expirou."
+TPA_PLAYER_NOT_ONLINE: "§7Esse jogador não está online."
+TP_CANCEL: "§7Teleporte cancelado."
+
+# COMBAT
+COMBAT_TELEPORT: "§7Este comando não pode ser usado em combate."
+COMBAT_HIT: "§7Estás em combate!"
