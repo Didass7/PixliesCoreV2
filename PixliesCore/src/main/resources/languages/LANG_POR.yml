@@ -95,7 +95,7 @@ STAFF_GOD_ON: "§7God foi ativo."
 STAFF_GOD_OFF: "§7God foi desativo."
 
 STAFF_RANDOM_TELEPORT: "§7Foste teleportado aleatoriamente para §6%TARGET%§7."
-STAFF_RANDOM_TELEPORT_OTHER: "§6%PLAYER%§7 foit teleportado aleatoriamente para §6%TARGET%§7."
+STAFF_RANDOM_TELEPORT_OTHER: "§6%PLAYER%§7 foi teleportado aleatoriamente para §6%TARGET%§7."
 
 STAFF_STAFFMODE_ON: "§7Ativaste o modo de staff."
 STAFF_STAFFMODE_OFF: "§7Desativaste o modo de staff."
@@ -126,157 +126,157 @@ STAFF_SPEED_FLY_GET: "§7A tua velocidade de voo é §6%SPEED%§7."
 STAFF_SPEED_FLY_SET: "§7A tua velocidade de voo mudou para §6%SPEED%§7."
 STAFF_SPEED_FLY_SET_OTHER: "A velocidade de voo de §6%PLAYER%'s§7 mudou para §6%SPEED%§7."
 STAFF_SPEED_FLY_GET_OTHER: "A velocidade de voo de §6%PLAYER%'s§7 é §6%SPEED%§7."
-STAFF_SPEED_WALK_GET: "§7A tua velocidade de caminhada é §6%SPEED%§7."
-STAFF_SPEED_WALK_SET: "§7Your walk speed has been set to §6%SPEED%§7."
-STAFF_SPEED_WALK_SET_OTHER: "§6%PLAYER%'s§7 walk speed has been set to §6%SPEED%§7."
-STAFF_SPEED_WALK_GET_OTHER: "§6%PLAYER%'s§7 walk speed is §6%SPEED%§7."
-STAFF_SPEED_RESET: "§7Your speed has been reset."
-STAFF_SPEED_RESET_OTHER: "§6%PLAYER%§7's speed has been reset."
+STAFF_SPEED_WALK_GET: "§7A tua velocidade é §6%SPEED%§7."
+STAFF_SPEED_WALK_SET: "§7A tua velocidade mudou para §6%SPEED%§7."
+STAFF_SPEED_WALK_SET_OTHER: "§7A velocidade do §6%PLAYER%'s§7 mudou para §6%SPEED%§7."
+STAFF_SPEED_WALK_GET_OTHER: "§7A velocidade do §6%PLAYER%'s§7 é §6%SPEED%§7."
+STAFF_SPEED_RESET: "§7A tua velocidade foi resetada."
+STAFF_SPEED_RESET_OTHER: "§7A velocidade do §6%PLAYER%§7 foi resetada."
 
-STAFF_SUDO_COMMAND: "§7You have forced §6%PLAYER%§7 to run §6/%MESSAGE%§7."
-STAFF_SUDO_CHAT: "§7You have forced §6%PLAYER%§7 to say §6%MESSAGE%§7."
-STAFF_SUDO_CANNOT: "§7You cannot sudo that player."
+STAFF_SUDO_COMMAND: "§7Forçaste o §6%PLAYER%§7 a escrever o comando §6/%MESSAGE%§7."
+STAFF_SUDO_CHAT: "§7Forçaste o §6%PLAYER%§7 a escrever §6%MESSAGE%§7."
+STAFF_SUDO_CANNOT: "§7Não podes dar sudo a esse jogador."
 
-STAFF_CHAT_ENABLED: "§7Staff chat is now enabled."
-STAFF_CHAT_DISABLED: "§7Staff chat is now disabled."
+STAFF_CHAT_ENABLED: "§7Chat da Staff foi ativado."
+STAFF_CHAT_DISABLED: "§7Chat da Staff foi desativado."
 STAFF_CHAT_FORMAT: "§8(§a%SERVER%§8) §6%PLAYER%§8: §7%MESSAGE%"
 
-STAFF_SERVER_JOIN_FORMAT: "§6%PLAYER%§7 joined §a%SERVER%§7."
-STAFF_SERVER_QUIT_FORMAT: "§6%PLAYER%§7 left §a%SERVER%§7."
+STAFF_SERVER_JOIN_FORMAT: "§6%PLAYER%§7 entrou no §a%SERVER%§7."
+STAFF_SERVER_QUIT_FORMAT: "§6%PLAYER%§7 saiu do §a%SERVER%§7."
 
-STAFF_TIME_SET: "§7The time has been set to §6%TIME%§7 in §6%WORLD%§7."
+STAFF_TIME_SET: "§7O tempo foi mudado para §6%TIME%§7 no §6%WORLD%§7."
 
-STAFF_SETSPAWN: "§7The spawn has been set to §6%TARGET%§7."
+STAFF_SETSPAWN: "§7O spawn foi mudado para §6%TARGET%§7."
 
-STAFF_FLY_ENABLED: "§7Flight for §6%PLAYER%§7 has been enabled."
-STAFF_FLY_DISABLED: "§7Flight for §6%PLAYER%§7 has been disabled."
+STAFF_FLY_ENABLED: "§7Voo ativado para §6%PLAYER%§7."
+STAFF_FLY_DISABLED: "§7Voo desativado para §6%PLAYER%§7."
 
 # TELEPORTATION
-RETURNED_TO_PREVIOUS_LOCATION: "§7Returned to your previous location."
-TPBACK_NO_LOCATION: "§7There isn't a location to teleport back to."
+RETURNED_TO_PREVIOUS_LOCATION: "§7Voltas-te à tua localização anterior."
+TPBACK_NO_LOCATION: "§7Não existe uma localização para voltares."
 
 # MODERATION
-MODERATION_ISSUED_KICKALL: "§7All online players have been kicked by §6%PLAYER% §7for §6%REASON%§7."
+MODERATION_ISSUED_KICKALL: "§7Todos os jogadores foram kickados por §6%PLAYER% §7por §6%REASON%§7."
 
-MODERATION_VANISH_ON: "§7You are now vanished."
-MODERATION_VANISH_OFF: "§7You are no longer vanished."
-MODERATION_VANISH_ON_OTHER: "§6%PLAYER%§7 is now vanished."
-MODERATION_VANISH_OFF_OTHER: "§6%PLAYER%§7 is no longer vanished."
-MODERATION_VANISH_NO_ONE_CAN_SEE: "§cNo one can see you."
-MODERATION_VANISH_JOIN_VANISH_ENABLED: "§7You will now be vanished when you join."
-MODERATION_VANISH_JOIN_VANISH_DISABLED: "§7You will now be visible when you join."
+MODERATION_VANISH_ON: "§7Estás no modo vanish."
+MODERATION_VANISH_OFF: "§7Saíste do modo vanish."
+MODERATION_VANISH_ON_OTHER: "§6%PLAYER%§7 está no modo vanish."
+MODERATION_VANISH_OFF_OTHER: "§6%PLAYER%§7 saíu do modo vanish."
+MODERATION_VANISH_NO_ONE_CAN_SEE: "§cNinguém consegue te ver."
+MODERATION_VANISH_JOIN_VANISH_ENABLED: "§7Estarás no modo vanish quando entrares."
+MODERATION_VANISH_JOIN_VANISH_DISABLED: "§7Estarás visivel quando entrares."
 
-MODERATION_COMMANDSPY_ENABLED: "§7You will now see players run commands."
-MODERATION_COMMANDSPY_DISABLED: "§7You will no longer see players run commands."
+MODERATION_COMMANDSPY_ENABLED: "§7Vais ver os comandos dos jogadores."
+MODERATION_COMMANDSPY_DISABLED: "§7Não vais ver os comandos dos jogadores."
 MODERATION_COMMANDSPY_FORMAT: "§6%PLAYER%§7: %MESSAGE%"
 
-MODERATION_FREEZE_ON: "§6%PLAYER%§7 is now frozen."
-MODERATION_FREEZE_OFF: "§6%PLAYER%§7 is no longer frozen."
-MODERATION_CANNOT_FREEZE: "§7That player cannot be frozen."
-MODERATION_FREEZE_UNFREEZE: "§7You are no longer frozen."
-MODERATION_FREEZE_FREEZE: "§cYou were frozen by %PLAYER%§c."
-MODERATION_FREEZE_MESSAGE: "§6%PLAYER%§7 was frozen by §6%EXECUTOR%§7."
-MODERATION_FREEZE_ACTIONBAR: "§cYou are currently frozen."
+MODERATION_FREEZE_ON: "§6%PLAYER%§7 está congelado."
+MODERATION_FREEZE_OFF: "§6%PLAYER%§7 já não está congelado."
+MODERATION_CANNOT_FREEZE: "§7Esse jogador não pode ser congelado."
+MODERATION_FREEZE_UNFREEZE: "§7Já não estás congelado."
+MODERATION_FREEZE_FREEZE: "§cFoste congelado pelo %PLAYER%§c."
+MODERATION_FREEZE_MESSAGE: "§6%PLAYER%§7 foi congelado pelo §6%EXECUTOR%§7."
+MODERATION_FREEZE_ACTIONBAR: "§cEstás congelado."
 
-MODERATION_SOCIALSPY_ENABLED: "§7You will now see private messages being sent."
-MODERATION_SOCIALSPY_DISABLED: "§7You will no longer see private messages being sent."
+MODERATION_SOCIALSPY_ENABLED: "§7Irás ver mensagens privadas."
+MODERATION_SOCIALSPY_DISABLED: "§7Não irás ver mensagens privadas."
 
-MODERATION_RANK_GRANT: "§a%RANK%§ rank has been granted to §d%PLAYER%§7."
-MODERATION_RANK_NOT_EXIST: "§7That rank does not exist."
+MODERATION_RANK_GRANT: "§aO rank %RANK%§ foi dado ao §d%PLAYER%§7."
+MODERATION_RANK_NOT_EXIST: "§7Este rank não existe."
 
 # COSMETICS
-COSMETICS_HEALED_SELF: "§7You just healed yourself!"
-COSMETICS_HEALED_OTHERS: "§7You just healed §6%PLAYER%§7!"
+COSMETICS_HEALED_SELF: "§7Curaste-te!"
+COSMETICS_HEALED_OTHERS: "§7Curaste §6%PLAYER%§7!"
 
-COSMETICS_FEED_SELF: "§7Your appetite has been sedated."
-COSMETICS_FEED_OTHERS: "§6%PLAYER%'s§7 appetite has been sedated."
+COSMETICS_FEED_SELF: "§7O teu apetite foi sedado."
+COSMETICS_FEED_OTHERS: "§7O apetite de §6%PLAYER%'s§7 foi sedado."
 
-COSMETICS_NIGHTVISION_ON: "§7Your night vision has been enabled."
-COSMETICS_NIGHTVISION_OFF: "§7Your night vision has been disabled."
+COSMETICS_NIGHTVISION_ON: "§7A tua visão noturna foi ativada."
+COSMETICS_NIGHTVISION_OFF: "§7A tua visão noturna foi desativada."
 COSMETICS_NIGHTVISION_ON_OTHER: "%PLAYER%"
 COSMETICS_NIGHTVISION_OFF_OTHER: "%PLAYER%"
 
-COSMETICS_REPAIR_ITEM: "§7This item has been repaired."
-COSMETICS_ALREADY_REPAIRED: "§7This item is already at max health."
+COSMETICS_REPAIR_ITEM: "§7Este item foi reparado."
+COSMETICS_ALREADY_REPAIRED: "§7Este item já está reparado."
 
-COSMETICS_RENAME_ITEM: "§7This item has been renamed to §6%MESSAGE%§7."
+COSMETICS_RENAME_ITEM: "§7Este item foi renomeado para §6%MESSAGE%§7."
 
-COSMETICS_CANNOT_SIT_HERE: "§7You can't sit here."
+COSMETICS_CANNOT_SIT_HERE: "§7Não te podes sentar aqui."
 
-COSMETICS_NICKNAME: "§7You have changed your nickname to §6%MESSAGE%§7."
-COSMETICS_NICKNAME_OTHER: "§7You have changed §6%PLAYER%§7's nickname to §6%MESSAGE%§7."
-COSMETICS_CANNOT_NICKNAME: "§7You cannot set this as a nickname."
+COSMETICS_NICKNAME: "§7Mudaste o teu nickname para §6%MESSAGE%§7."
+COSMETICS_NICKNAME_OTHER: "§7Mudaste o nickname de §6%PLAYER%§7 para §6%MESSAGE%§7."
+COSMETICS_CANNOT_NICKNAME: "§7Não podes colocar isso como nickname."
 
-COSMETICS_HAT_CANNOT_SET: "§7You cannot set this as a hat."
-COSMETICS_HAT_ALREADY_HAVE: "§7You already have something as your hat."
-COSMETICS_HAT_SET: "§7You now have a hat!"
+COSMETICS_HAT_CANNOT_SET: "§7YNão podes ter isso como um chapeu."
+COSMETICS_HAT_ALREADY_HAVE: "§7Já tens alguma coisa como um chapeu."
+COSMETICS_HAT_SET: "§7Tens um chapeu!"
 
 # POLLS
-POLL_ALREADY_STARTED: "The poll has already started."
-POLL_ALREADY_CREATING: "§7You are already creating a poll."
-POLL_NOT_EXIST: "§7There is no active poll right now."
-POLL_CREATED: "§7You have created a poll with the question: §6%QUESTION%"
-POLL_DELETED: "§7The current poll has been deleted."
-POLL_ADD_ANSWER: "§7You have added a poll answer."
-POLL_NOT_ENOUGH_ANSWERS: "§7The poll must have at least 2 answers before starting."
+POLL_ALREADY_STARTED: "§7A votação já começou."
+POLL_ALREADY_CREATING: "§7Já estás a criar uma votação."
+POLL_NOT_EXIST: "§7Não existe nenhuma votação a decorrer."
+POLL_CREATED: "§7YCriaste uma votação com a pergunta: §6%QUESTION%"
+POLL_DELETED: "§7A votação atual foi removida."
+POLL_ADD_ANSWER: "§7Adicionaste uma resposta à votação."
+POLL_NOT_ENOUGH_ANSWERS: "§7A votação tem de ter pelo menos 2 respostas para começar."
 
 POLL_QUESTION_HEADER: |-
   §7
-  %PREFIX%§7Question: §6%QUESTION%
-  §7The poll will automatically end in §b30s§7.
+  %PREFIX%§7Questão: §6%QUESTION%
+  §7Esta votação vai terminar em §b30s§7.
 POLL_QUESTION_LINE: " §7 - §f %ANSWER%"
 POLL_QUESTION_FOOTER: |-
-  §7Left click to select an answer.
+  §7Clica com o butão esquerdo para votar.
   §7
-POLL_OPTION_DOES_NOT_EXIST: "§7There is no poll option with that number."
-POLL_REGISTERED_VOTE: "§7You have voted for option §6#%OPTION%§7."
-POLL_ALREADY_VOTED: "§7You have already voted."
+POLL_OPTION_DOES_NOT_EXIST: "§7Não existe nenhuma resposta com esse número."
+POLL_REGISTERED_VOTE: "§7Votaste na opção §6#%OPTION%§7."
+POLL_ALREADY_VOTED: "§7Já votaste."
 
 
 POLL_RESULT_HEADER: |-
   §7
-  %PREFIX%Question: §6%QUESTION%
-  §7Here are the results of the poll:
-POLL_RESULT_LINE: " §7 - §f %ANSWER%§8 (§a%VOTES% votes§8)"
+  %PREFIX%Questão: §6%QUESTION%
+  §7Aqui estão os resultados da votação:
+POLL_RESULT_LINE: " §7 - §f %ANSWER%§8 (§a%VOTES% votos§8)"
 POLL_RESULT_FOOTER: |-
-  §7Total votes: §d%TOTAL%
+  §7Votos totais: §d%TOTAL%
   §7
 # PLAYER
-PLAYER_MESSAGE_FORMAT_TO: "§8(§7To §6%PLAYER%§8) §f%MESSAGE%"
-PLAYER_MESSAGE_FORMAT_FROM: "§8(§7From §6%PLAYER%§8) §f%MESSAGE%"
-PLAYER_MESSAGE_NOONE_TO_MESSAGE: "§cThere is no one to message."
-PLAYER_MESSAGE_SOCIALSPY: "§8(§7To §6%TARGET%§7 from §6%PLAYER%§8) §f%MESSAGE%"
+PLAYER_MESSAGE_FORMAT_TO: "§8(§7Para §6%PLAYER%§8) §f%MESSAGE%"
+PLAYER_MESSAGE_FORMAT_FROM: "§8(§7De §6%PLAYER%§8) §f%MESSAGE%"
+PLAYER_MESSAGE_NOONE_TO_MESSAGE: "§cNão existe ninguém para enviar mensagem."
+PLAYER_MESSAGE_SOCIALSPY: "§8(§7Para §6%TARGET%§7 de §6%PLAYER%§8) §f%MESSAGE%"
 
-PLAYER_SUICIDE: "§7You committed suicide."
+PLAYER_SUICIDE: "§7Cometeste suicidio."
 
-PLAYER_CLEAR: "§7Cleared inventory for §6%PLAYER%§7"
+PLAYER_CLEAR: "§7Limpou o inventário de §6%PLAYER%§7"
 
-PLAYER_RULES_MESSAGE: "§7View our rules here: §b%MESSAGE%"
-PLAYER_DISCORD_MESSAGE: "§7Join our Discord here: §b%MESSAGE%"
+PLAYER_RULES_MESSAGE: "§7Vê as nossas regras aqui: §b%MESSAGE%"
+PLAYER_DISCORD_MESSAGE: "§7Entra no nosso discord: §b%MESSAGE%"
 
-PLAYER_AFK_ON: "§7You are now AFK."
-PLAYER_AFK_OFF: "§7You are no longer AFK."
-PLAYER_AFK_ON_BROADCAST: "§6%PLAYER%§7 is now AFK."
-PLAYER_AFK_OFF_BROADCAST: "§6%PLAYER%§7 is no longer AFK."
+PLAYER_AFK_ON: "§7Estás AFK."
+PLAYER_AFK_OFF: "§7Já não estás AFK."
+PLAYER_AFK_ON_BROADCAST: "§6%PLAYER%§7 está AFK."
+PLAYER_AFK_OFF_BROADCAST: "§6%PLAYER%§7 já não está AFK."
 
-PLAYER_PLAYTIME: "§7Your playtime is §6%TIME%§7."
-PLAYER_PLAYTIME_OTHER: "§6%PLAYER%§7's playtime is §6%TIME%§7."
+PLAYER_PLAYTIME: "§7O teu playtime é §6%TIME%§7."
+PLAYER_PLAYTIME_OTHER: "§7O playtime do §6%PLAYER%§7 é §6%TIME%§7."
 
-PLAYER_KISS: "§7Mwah, §6%PLAYER%§7 just kissed §6%TARGET%§7!"
+PLAYER_KISS: "§7Mwah, §6%PLAYER%§7 deu um beijo ao §6%TARGET%§7!"
 
-PLAYER_WARP: "§7Teleporting to §6%TARGET%§7..."
-PLAYER_WARP_OTHER: "§7Teleporting §6%PLAYER%§7 to §6%TARGET%§7..."
+PLAYER_WARP: "§7A teleportar para §6%TARGET%§7..."
+PLAYER_WARP_OTHER: "§7Teleportando §6%PLAYER%§7 para §6%TARGET%§7..."
 
-PLAYER_BALANCE: "§7Your balance is %BALANCE%§7."
-PLAYER_BALANCE_OTHER: "§6%PLAYER%§7's balance is %BALANCE%§7."
+PLAYER_BALANCE: "§7O teu saldo é %BALANCE%§7."
+PLAYER_BALANCE_OTHER: "§7O saldo do §6%PLAYER%§7 é %BALANCE%§7."
 
 PLAYER_STATS: |-
-    §b§l%PLAYER%§7's §r§8(§d%HOUSE%§8) §7stats
-    §3⋙ §7Balance: §6%BALANCE%
+    §7Estatiscas de §b§l%PLAYER%§7 §r§8(§d%HOUSE%§8)
+    §3⋙ §7Saldo: §6%BALANCE%
     §3⋙ §7PixliesScore: §a%SCORE%
     
-    §3⋙ §7To view market stats, do §d/market§7 and hover over your head icon.
+    §3⋙ §7Para ver as estatisticas do mercado, faz §d/market§7 e coloca o teu rato sobre o teu icon.
     
-    §7§oMember since %JOINED%
+    §7§oMembro desde %JOINED%
 # Lobby
-LOBBY_BUILDMODE_TOGGLE: "§7You just %STATE% §7build-mode."
+LOBBY_BUILDMODE_TOGGLE: "§7Acabaste de %STATE% §7build-mode."
