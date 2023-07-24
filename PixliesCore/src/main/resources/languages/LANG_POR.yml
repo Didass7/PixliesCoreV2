@@ -207,9 +207,9 @@ COSMETICS_NICKNAME: "§7Mudaste o teu nickname para §6%MESSAGE%§7."
 COSMETICS_NICKNAME_OTHER: "§7Mudaste o nickname de §6%PLAYER%§7 para §6%MESSAGE%§7."
 COSMETICS_CANNOT_NICKNAME: "§7Não podes colocar isso como nickname."
 
-COSMETICS_HAT_CANNOT_SET: "§7YNão podes ter isso como um chapeu."
-COSMETICS_HAT_ALREADY_HAVE: "§7Já tens alguma coisa como um chapeu."
-COSMETICS_HAT_SET: "§7Tens um chapeu!"
+COSMETICS_HAT_CANNOT_SET: "§7YNão podes ter isso como um chapéu."
+COSMETICS_HAT_ALREADY_HAVE: "§7Já tens alguma coisa como um chapéu."
+COSMETICS_HAT_SET: "§7Tens um chapéu!"
 
 # POLLS
 POLL_ALREADY_STARTED: "§7A votação já começou."
